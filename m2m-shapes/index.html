@@ -1,0 +1,3592 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>M2M Migration — prompt-flow shapes</title>
+    <style>
+      :root {
+        --bg: #f6f8fb;
+        --surface: #ffffff;
+        --surface-2: #f0f3f8;
+        --ink: #0f1a2e;
+        --ink-2: #3a4861;
+        --ink-3: #6b7790;
+        --line: #d6dde8;
+        --line-2: #b8c2d4;
+        --accent: #2c6bed;
+        --accent-soft: #e7efff;
+        --good: #157a4e;
+        --good-soft: #e2f1ea;
+        --warn: #b06b00;
+        --warn-soft: #fbecd2;
+        --bad: #b8351a;
+        --bad-soft: #fbe2db;
+        --shadow:
+          0 1px 2px rgba(15, 26, 46, 0.04), 0 4px 12px rgba(15, 26, 46, 0.05);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        font-size: 15px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      code,
+      pre {
+        font-family: "SF Mono", Menlo, Consolas, monospace;
+        font-size: 13px;
+      }
+      code {
+        background: var(--surface-2);
+        padding: 1px 5px;
+        border-radius: 3px;
+        color: var(--ink);
+      }
+      pre {
+        background: var(--surface-2);
+        padding: 14px 16px;
+        border-radius: 6px;
+        overflow-x: auto;
+        border: 1px solid var(--line);
+      }
+      .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 40px 28px 80px;
+      }
+      header.page {
+        padding-bottom: 28px;
+        border-bottom: 1px solid var(--line);
+        margin-bottom: 32px;
+      }
+      header.page h1 {
+        margin: 0 0 6px;
+        font-size: 28px;
+        letter-spacing: -0.01em;
+      }
+      header.page .sub {
+        color: var(--ink-3);
+        font-size: 14px;
+      }
+      .howto {
+        background: var(--accent-soft);
+        border: 1px solid #cfdcfd;
+        border-radius: 8px;
+        padding: 14px 18px;
+        margin: 18px 0 0;
+        font-size: 14px;
+        color: var(--ink-2);
+      }
+      .howto strong {
+        color: var(--ink);
+      }
+      section {
+        margin: 56px 0 0;
+      }
+      section > h2 {
+        font-size: 22px;
+        letter-spacing: -0.005em;
+        margin: 0 0 4px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid var(--ink);
+        display: inline-block;
+      }
+      section > .kicker {
+        color: var(--ink-3);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin: 0 0 6px;
+        font-weight: 600;
+      }
+      section > p {
+        color: var(--ink-2);
+        margin: 12px 0;
+      }
+      h3 {
+        font-size: 17px;
+        margin: 28px 0 8px;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 18px 20px;
+        margin: 14px 0;
+        box-shadow: var(--shadow);
+      }
+      .card.callout-bad {
+        border-left: 4px solid var(--bad);
+      }
+      .card.callout-warn {
+        border-left: 4px solid var(--warn);
+      }
+      .card.callout-good {
+        border-left: 4px solid var(--good);
+      }
+      .card h3 {
+        margin-top: 0;
+      }
+      .pill {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+      .pill.bad {
+        background: var(--bad-soft);
+        color: var(--bad);
+      }
+      .pill.warn {
+        background: var(--warn-soft);
+        color: var(--warn);
+      }
+      .pill.good {
+        background: var(--good-soft);
+        color: var(--good);
+      }
+      .pill.accent {
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+      .diagram {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 20px;
+        margin: 16px 0;
+        box-shadow: var(--shadow);
+        overflow-x: auto;
+      }
+      .diagram svg {
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+        height: auto;
+      }
+      .legend {
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+        font-size: 12px;
+        color: var(--ink-3);
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid var(--line);
+      }
+      .legend .key {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .legend .swatch {
+        width: 14px;
+        height: 14px;
+        border-radius: 3px;
+        border: 1px solid var(--line-2);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 12px 0;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      th,
+      td {
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid var(--line);
+        font-size: 14px;
+        vertical-align: top;
+      }
+      th {
+        background: var(--surface-2);
+        font-weight: 600;
+        color: var(--ink);
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      td.center,
+      th.center {
+        text-align: center;
+      }
+      td.support {
+        white-space: nowrap;
+        font-size: 18px;
+      }
+      ul.tight {
+        margin: 8px 0;
+        padding-left: 22px;
+      }
+      ul.tight li {
+        margin: 4px 0;
+      }
+      /* GUI */
+      #gui {
+        background: var(--surface);
+        border: 1px solid var(--line-2);
+        border-radius: 10px;
+        padding: 24px;
+        margin: 18px 0;
+        box-shadow: var(--shadow);
+      }
+      .gui-toolbar {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--line);
+        margin-bottom: 16px;
+        align-items: center;
+      }
+      .gui-toolbar .group-label {
+        font-size: 12px;
+        color: var(--ink-3);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin-right: 6px;
+      }
+      .btn {
+        background: var(--surface);
+        color: var(--ink-2);
+        border: 1px solid var(--line-2);
+        padding: 7px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 13px;
+        font-family: inherit;
+        font-weight: 500;
+        transition:
+          background 0.1s,
+          border-color 0.1s;
+      }
+      .btn:hover {
+        background: var(--surface-2);
+        border-color: var(--ink-3);
+      }
+      .btn.primary {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+      .btn.primary:hover {
+        background: #1f54c4;
+        border-color: #1f54c4;
+      }
+      .btn.preset {
+        background: var(--accent-soft);
+        color: var(--accent);
+        border-color: #cfdcfd;
+      }
+      .btn.preset:hover {
+        background: #d8e5fe;
+      }
+      .btn.subtle {
+        background: transparent;
+        border-color: transparent;
+        color: var(--ink-3);
+        padding: 4px 8px;
+        font-size: 12px;
+      }
+      .btn.subtle:hover {
+        background: var(--surface-2);
+        color: var(--ink);
+      }
+      .btn.danger {
+        color: var(--bad);
+      }
+      .btn.danger:hover {
+        background: var(--bad-soft);
+        border-color: var(--bad);
+      }
+      .gui-banner {
+        padding: 10px 14px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+        font-size: 13px;
+        display: none;
+      }
+      .gui-banner.visible {
+        display: block;
+      }
+      .gui-banner.error {
+        background: var(--bad-soft);
+        color: var(--bad);
+        border: 1px solid #f0c2b6;
+      }
+      .gui-banner.success {
+        background: var(--good-soft);
+        color: var(--good);
+        border: 1px solid #b8dfc9;
+      }
+      #steps-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        min-height: 80px;
+      }
+      .step-row {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        margin-bottom: 8px;
+        padding: 12px 14px;
+        display: grid;
+        grid-template-columns: 24px 1fr auto;
+        gap: 12px;
+        align-items: start;
+        cursor: grab;
+      }
+      .step-row.dragging {
+        opacity: 0.4;
+      }
+      .step-row.drop-target {
+        border-top: 3px solid var(--accent);
+      }
+      .step-row.drop-target-after {
+        border-bottom: 3px solid var(--accent);
+      }
+      .step-row .drag-handle {
+        color: var(--line-2);
+        font-size: 16px;
+        cursor: grab;
+        user-select: none;
+        padding-top: 6px;
+        text-align: center;
+      }
+      .step-row .drag-handle:hover {
+        color: var(--ink-3);
+      }
+      .step-fields {
+        display: grid;
+        grid-template-columns: 180px 110px 110px 1fr;
+        gap: 8px;
+        align-items: center;
+      }
+      .step-fields > div.label-row,
+      .step-fields > div.notes-row {
+        grid-column: 1 / -1;
+      }
+      .step-fields label {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        font-size: 11px;
+        color: var(--ink-3);
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+      .step-fields select,
+      .step-fields input[type="text"],
+      .step-fields textarea {
+        font-family: inherit;
+        font-size: 13px;
+        padding: 6px 8px;
+        border: 1px solid var(--line-2);
+        border-radius: 4px;
+        background: var(--surface);
+        color: var(--ink);
+        width: 100%;
+      }
+      .step-fields textarea {
+        resize: vertical;
+        min-height: 38px;
+      }
+      .step-fields select:focus,
+      .step-fields input:focus,
+      .step-fields textarea:focus {
+        outline: 2px solid var(--accent);
+        outline-offset: -1px;
+        border-color: var(--accent);
+      }
+      .step-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        font-size: 11px;
+        color: var(--ink-3);
+      }
+      .step-controls button {
+        background: transparent;
+        border: 1px solid transparent;
+        padding: 4px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        color: var(--ink-2);
+        font-size: 13px;
+      }
+      .step-controls button:hover {
+        background: var(--surface-2);
+        border-color: var(--line);
+      }
+      .step-controls button.del:hover {
+        color: var(--bad);
+        background: var(--bad-soft);
+        border-color: var(--bad);
+      }
+      .add-row {
+        margin-top: 12px;
+      }
+      .export-area {
+        margin-top: 18px;
+      }
+      .export-area textarea {
+        width: 100%;
+        min-height: 220px;
+        font-family: "SF Mono", Menlo, monospace;
+        font-size: 12px;
+        padding: 12px;
+        border: 1px solid var(--line-2);
+        border-radius: 6px;
+        background: var(--surface-2);
+        color: var(--ink);
+      }
+      .step-meta {
+        font-size: 11px;
+        color: var(--ink-3);
+        margin-top: 2px;
+      }
+      .submit-toggle {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+      }
+      .submit-toggle input {
+        margin: 0;
+      }
+      .gap-list {
+        list-style: none;
+        padding: 0;
+        margin: 12px 0;
+      }
+      .gap-list li {
+        background: var(--bad-soft);
+        border-left: 3px solid var(--bad);
+        padding: 10px 14px;
+        margin: 6px 0;
+        border-radius: 0 4px 4px 0;
+        color: var(--ink);
+        font-size: 14px;
+      }
+      .gap-list li.partial {
+        background: var(--warn-soft);
+        border-left-color: var(--warn);
+      }
+      .footnote {
+        font-size: 12px;
+        color: var(--ink-3);
+        margin-top: 14px;
+      }
+      hr.soft {
+        border: none;
+        border-top: 1px solid var(--line);
+        margin: 32px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="page">
+        <h1>M2M Migration — prompt-flow shapes</h1>
+        <div class="sub">
+          What's happening today, two end-state options, and a mini editor to
+          remix them. Built for Matt. <span class="pill accent">v1 spec</span>
+        </div>
+        <div class="howto">
+          <strong>How to use:</strong> Read sections 1&ndash;3 top-to-bottom to
+          see today's Rube Goldberg, the v1 "Parity-Plus" target, and a more
+          ambitious v2 "Next-Gen" target with platform gaps called out. Then in
+          section 4, click a preset (<em>Current</em>, <em>Parity-Plus</em>, or
+          <em>Next-Gen</em>), drag steps to reorder, edit fields,
+          add/remove/duplicate rows, and <strong>Export</strong> to copy a YAML
+          block you can paste back to Claude. Round-trips via
+          <strong>Import</strong>.
+        </div>
+      </header>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 1 — Today -->
+      <!-- ============================================================ -->
+      <section id="s1">
+        <p class="kicker">Section 1</p>
+        <h2>What's happening today (the Rube Goldberg)</h2>
+        <p>
+          To run a mirror-next interview today, the bapps browser builds the
+          system prompt, sends it as a <em>fake user message</em> to a
+          "transcriber" step that copies it verbatim into a context asset, then
+          a second step interpolates that asset back as <em>its</em> system
+          prompt. Report and closing triggers are smuggled in
+          <code>&lt;hidden&gt;...&lt;/hidden&gt;</code>-wrapped user messages.
+          Form data does the same.
+        </p>
+        <p>
+          It works. But it's slow, brittle, and any user with DevTools can read
+          the system prompts because they cross the wire from the browser.
+        </p>
+
+        <div class="diagram">
+          <svg
+            viewBox="0 0 980 460"
+            xmlns="http://www.w3.org/2000/svg"
+            role="img"
+            aria-label="Current shape: bapps browser sends prompts through a transcriber roundtrip, then back through interview step. Hidden tags wrap report triggers."
+          >
+            <defs>
+              <marker
+                id="arrow-ink"
+                viewBox="0 0 10 10"
+                refX="9"
+                refY="5"
+                markerWidth="7"
+                markerHeight="7"
+                orient="auto-start-reverse"
+              >
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#3a4861" />
+              </marker>
+              <marker
+                id="arrow-bad"
+                viewBox="0 0 10 10"
+                refX="9"
+                refY="5"
+                markerWidth="7"
+                markerHeight="7"
+                orient="auto-start-reverse"
+              >
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#b8351a" />
+              </marker>
+            </defs>
+
+            <!-- swimlanes -->
+            <rect
+              x="20"
+              y="10"
+              width="290"
+              height="440"
+              rx="6"
+              fill="#f0f3f8"
+              stroke="#d6dde8"
+            />
+            <rect
+              x="340"
+              y="10"
+              width="620"
+              height="440"
+              rx="6"
+              fill="#fff"
+              stroke="#d6dde8"
+            />
+            <text
+              x="165"
+              y="35"
+              text-anchor="middle"
+              font-size="12"
+              font-weight="600"
+              fill="#6b7790"
+              letter-spacing="0.04em"
+            >
+              BROWSER (visible to DevTools)
+            </text>
+            <text
+              x="650"
+              y="35"
+              text-anchor="middle"
+              font-size="12"
+              font-weight="600"
+              fill="#6b7790"
+              letter-spacing="0.04em"
+            >
+              TWAI PLATFORM (server)
+            </text>
+
+            <!-- Browser side -->
+            <rect
+              x="50"
+              y="60"
+              width="230"
+              height="58"
+              rx="6"
+              fill="#fff"
+              stroke="#b8c2d4"
+            />
+            <text
+              x="165"
+              y="83"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Bapps browser
+            </text>
+            <text
+              x="165"
+              y="102"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              Builds system prompt + form data
+            </text>
+
+            <rect
+              x="50"
+              y="155"
+              width="230"
+              height="58"
+              rx="6"
+              fill="#fbe2db"
+              stroke="#b8351a"
+            />
+            <text
+              x="165"
+              y="178"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Hidden-wrapped user message
+            </text>
+            <text
+              x="165"
+              y="196"
+              text-anchor="middle"
+              font-size="11"
+              fill="#b8351a"
+            >
+              &lt;hidden&gt;...&lt;/hidden&gt; smuggle
+            </text>
+
+            <rect
+              x="50"
+              y="245"
+              width="230"
+              height="58"
+              rx="6"
+              fill="#fbe2db"
+              stroke="#b8351a"
+            />
+            <text
+              x="165"
+              y="268"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Transcription user message
+            </text>
+            <text
+              x="165"
+              y="286"
+              text-anchor="middle"
+              font-size="11"
+              fill="#b8351a"
+            >
+              whole prompt sent as &quot;user said&quot;
+            </text>
+
+            <rect
+              x="50"
+              y="335"
+              width="230"
+              height="58"
+              rx="6"
+              fill="#fbe2db"
+              stroke="#b8351a"
+            />
+            <text
+              x="165"
+              y="358"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Report-trigger user message
+            </text>
+            <text
+              x="165"
+              y="376"
+              text-anchor="middle"
+              font-size="11"
+              fill="#b8351a"
+            >
+              &lt;hidden&gt;/generate-report&lt;/hidden&gt;
+            </text>
+
+            <!-- Platform side -->
+            <rect
+              x="370"
+              y="60"
+              width="240"
+              height="58"
+              rx="6"
+              fill="#fff"
+              stroke="#b8c2d4"
+            />
+            <text
+              x="490"
+              y="83"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              /api/[...path] proxy
+            </text>
+            <text
+              x="490"
+              y="102"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              dumb forwarder, no verification
+            </text>
+
+            <rect
+              x="370"
+              y="155"
+              width="240"
+              height="58"
+              rx="6"
+              fill="#fbe2db"
+              stroke="#b8351a"
+            />
+            <text
+              x="490"
+              y="178"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              context-asset-transcriber step
+            </text>
+            <text
+              x="490"
+              y="196"
+              text-anchor="middle"
+              font-size="11"
+              fill="#b8351a"
+            >
+              copies user msg verbatim into asset
+            </text>
+
+            <rect
+              x="660"
+              y="155"
+              width="280"
+              height="58"
+              rx="6"
+              fill="#fff"
+              stroke="#b8c2d4"
+            />
+            <text
+              x="800"
+              y="178"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Context asset: interview_prompt
+            </text>
+            <text
+              x="800"
+              y="196"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              stored for next step's template
+            </text>
+
+            <rect
+              x="370"
+              y="245"
+              width="240"
+              height="58"
+              rx="6"
+              fill="#fff"
+              stroke="#b8c2d4"
+            />
+            <text
+              x="490"
+              y="268"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Interview step
+            </text>
+            <text
+              x="490"
+              y="286"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              interpolates {{ asset.interview_prompt }}
+            </text>
+
+            <rect
+              x="660"
+              y="245"
+              width="280"
+              height="58"
+              rx="6"
+              fill="#fff"
+              stroke="#b8c2d4"
+            />
+            <text
+              x="800"
+              y="268"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Anthropic / LLM
+            </text>
+            <text
+              x="800"
+              y="286"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              streams JSON {visible_message, data}
+            </text>
+
+            <rect
+              x="370"
+              y="335"
+              width="240"
+              height="58"
+              rx="6"
+              fill="#fff"
+              stroke="#b8c2d4"
+            />
+            <text
+              x="490"
+              y="358"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Same interview step (report mode)
+            </text>
+            <text
+              x="490"
+              y="376"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              AI obeys hidden /generate-report
+            </text>
+
+            <!-- Browser to proxy -->
+            <line
+              x1="280"
+              y1="184"
+              x2="370"
+              y2="184"
+              stroke="#b8351a"
+              stroke-width="2"
+              marker-end="url(#arrow-bad)"
+            />
+            <line
+              x1="280"
+              y1="274"
+              x2="370"
+              y2="274"
+              stroke="#b8351a"
+              stroke-width="2"
+              marker-end="url(#arrow-bad)"
+            />
+            <line
+              x1="280"
+              y1="364"
+              x2="370"
+              y2="364"
+              stroke="#b8351a"
+              stroke-width="2"
+              marker-end="url(#arrow-bad)"
+            />
+
+            <!-- Transcriber to context asset -->
+            <line
+              x1="610"
+              y1="184"
+              x2="660"
+              y2="184"
+              stroke="#3a4861"
+              stroke-width="1.5"
+              marker-end="url(#arrow-ink)"
+            />
+            <!-- Context asset down to interview step (fidelity loop) -->
+            <path
+              d="M 800 213 L 800 230 L 540 230 L 540 245"
+              stroke="#b06b00"
+              stroke-width="1.5"
+              fill="none"
+              stroke-dasharray="4 3"
+              marker-end="url(#arrow-ink)"
+            />
+            <text
+              x="640"
+              y="226"
+              font-size="10"
+              fill="#b06b00"
+              font-style="italic"
+            >
+              fidelity check + interpolation
+            </text>
+
+            <!-- Interview to LLM -->
+            <line
+              x1="610"
+              y1="274"
+              x2="660"
+              y2="274"
+              stroke="#3a4861"
+              stroke-width="1.5"
+              marker-end="url(#arrow-ink)"
+            />
+            <!-- Report path -->
+            <line
+              x1="610"
+              y1="364"
+              x2="660"
+              y2="364"
+              stroke="#3a4861"
+              stroke-width="1.5"
+            />
+            <path
+              d="M 660 364 L 690 364 L 690 303"
+              stroke="#3a4861"
+              stroke-width="1.5"
+              fill="none"
+              marker-end="url(#arrow-ink)"
+            />
+          </svg>
+          <div class="legend">
+            <span class="key"
+              ><span
+                class="swatch"
+                style="background: #fbe2db; border-color: #b8351a"
+              ></span
+              >Problem node: prompt leak, latency, or transport hack</span
+            >
+            <span class="key"
+              ><span
+                class="swatch"
+                style="background: #fff; border-color: #b8c2d4"
+              ></span
+              >Plain hop</span
+            >
+            <span class="key"
+              ><span
+                class="swatch"
+                style="background: #fff; border: 1.5px dashed #b06b00"
+              ></span
+              >Fidelity loop (transcribed text checked against intended
+              prompt)</span
+            >
+          </div>
+        </div>
+
+        <div class="card callout-bad">
+          <h3><span class="pill bad">Three problems baked in</span></h3>
+          <ul class="tight">
+            <li>
+              <strong>Detour through transcriber</strong> &mdash; adds a full
+              round-trip (taskCreate + chatStream + fidelity check, ~3&ndash;6s
+              on the "preparing" screen) before the user can even see the AI's
+              first question. Drifts ~1&ndash;3% on length even when "fidelity
+              ok".
+            </li>
+            <li>
+              <strong><code>&lt;hidden&gt;</code> hack</strong> &mdash; system
+              instructions ride inside user-role messages; the AI has been told
+              to obey them anyway. Same trick for report triggering, closing
+              wrappers, and form-data context. Sanitisation is a moving target
+              (see <code>form-input.ts</code>).
+            </li>
+            <li>
+              <strong>Browser DevTools sees everything</strong> &mdash; the full
+              interview prompt, the report-mode flip, the closing wrapper, and
+              verbatim form data all cross the wire in
+              <code>POST /api/...</code> request bodies. Any user who opens
+              Network can copy the whole IP.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 2 — v1 Parity-Plus -->
+      <!-- ============================================================ -->
+      <section id="s2">
+        <p class="kicker">Section 2 &middot; End shape v1</p>
+        <h2>Parity-Plus &mdash; same product, clean internals</h2>
+        <p>
+          TWAI platform 1.8.0 added a delegated machine-to-machine (M2M)
+          surface: bapps's server can mint a token, call the platform on a
+          user's behalf, and set the system prompt
+          <em>directly on a step</em> via <code>promptOverrides.system</code>.
+          It also added <code>role: system</code> /
+          <code>role: developer</code> chat messages that can be appended
+          mid-conversation (with or without an LLM response).
+        </p>
+        <p>
+          End shape v1 uses those primitives to deliver
+          <strong>identical user-visible behavior</strong> as mirror-next today,
+          with three structural wins: no transcriber detour, no
+          <code>&lt;hidden&gt;</code>, no prompts crossing the browser. The
+          browser sends real user messages; bapps's server holds the system
+          instructions.
+        </p>
+
+        <div class="diagram">
+          <svg
+            viewBox="0 0 980 380"
+            xmlns="http://www.w3.org/2000/svg"
+            role="img"
+            aria-label="Parity-Plus shape: browser sends user-only messages to bapps server route, which verifies Stytch session and calls platform with promptOverrides."
+          >
+            <defs>
+              <marker
+                id="arrow-ink2"
+                viewBox="0 0 10 10"
+                refX="9"
+                refY="5"
+                markerWidth="7"
+                markerHeight="7"
+                orient="auto-start-reverse"
+              >
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#3a4861" />
+              </marker>
+              <marker
+                id="arrow-good"
+                viewBox="0 0 10 10"
+                refX="9"
+                refY="5"
+                markerWidth="7"
+                markerHeight="7"
+                orient="auto-start-reverse"
+              >
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#157a4e" />
+              </marker>
+            </defs>
+
+            <rect
+              x="20"
+              y="10"
+              width="220"
+              height="360"
+              rx="6"
+              fill="#f0f3f8"
+              stroke="#d6dde8"
+            />
+            <rect
+              x="270"
+              y="10"
+              width="340"
+              height="360"
+              rx="6"
+              fill="#fff"
+              stroke="#d6dde8"
+            />
+            <rect
+              x="640"
+              y="10"
+              width="320"
+              height="360"
+              rx="6"
+              fill="#fff"
+              stroke="#d6dde8"
+            />
+            <text
+              x="130"
+              y="35"
+              text-anchor="middle"
+              font-size="12"
+              font-weight="600"
+              fill="#6b7790"
+              letter-spacing="0.04em"
+            >
+              BROWSER
+            </text>
+            <text
+              x="440"
+              y="35"
+              text-anchor="middle"
+              font-size="12"
+              font-weight="600"
+              fill="#6b7790"
+              letter-spacing="0.04em"
+            >
+              BAPPS SERVER (Vercel function)
+            </text>
+            <text
+              x="800"
+              y="35"
+              text-anchor="middle"
+              font-size="12"
+              font-weight="600"
+              fill="#6b7790"
+              letter-spacing="0.04em"
+            >
+              TWAI PLATFORM
+            </text>
+
+            <rect
+              x="40"
+              y="60"
+              width="190"
+              height="58"
+              rx="6"
+              fill="#fff"
+              stroke="#b8c2d4"
+            />
+            <text
+              x="135"
+              y="83"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Bapps browser
+            </text>
+            <text
+              x="135"
+              y="102"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              user-role messages only
+            </text>
+
+            <rect
+              x="40"
+              y="160"
+              width="190"
+              height="58"
+              rx="6"
+              fill="#fff"
+              stroke="#b8c2d4"
+            />
+            <text
+              x="135"
+              y="183"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Stytch session JWT
+            </text>
+            <text
+              x="135"
+              y="202"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              in cookie, not body
+            </text>
+
+            <rect
+              x="290"
+              y="60"
+              width="300"
+              height="58"
+              rx="6"
+              fill="#e2f1ea"
+              stroke="#157a4e"
+            />
+            <text
+              x="440"
+              y="83"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              /api/m2m-chat route
+            </text>
+            <text
+              x="440"
+              y="102"
+              text-anchor="middle"
+              font-size="11"
+              fill="#157a4e"
+            >
+              verifies Stytch session server-side
+            </text>
+
+            <rect
+              x="290"
+              y="160"
+              width="140"
+              height="58"
+              rx="6"
+              fill="#fff"
+              stroke="#b8c2d4"
+            />
+            <text
+              x="360"
+              y="183"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              M2M token
+            </text>
+            <text
+              x="360"
+              y="202"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              client_credentials, cached
+            </text>
+
+            <rect
+              x="450"
+              y="160"
+              width="140"
+              height="58"
+              rx="6"
+              fill="#fff"
+              stroke="#b8c2d4"
+            />
+            <text
+              x="520"
+              y="183"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              org / member
+            </text>
+            <text
+              x="520"
+              y="202"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              from verified JWT
+            </text>
+
+            <rect
+              x="290"
+              y="260"
+              width="300"
+              height="78"
+              rx="6"
+              fill="#fff"
+              stroke="#b8c2d4"
+            />
+            <text
+              x="440"
+              y="282"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Assembles platform request
+            </text>
+            <text
+              x="440"
+              y="300"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              promptOverrides.system = guide + form
+            </text>
+            <text
+              x="440"
+              y="316"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              role: system for report flip (mid-step)
+            </text>
+            <text
+              x="440"
+              y="330"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              X-On-Behalf-Of: org:member
+            </text>
+
+            <rect
+              x="660"
+              y="60"
+              width="280"
+              height="58"
+              rx="6"
+              fill="#fff"
+              stroke="#b8c2d4"
+            />
+            <text
+              x="800"
+              y="83"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Stytch B2B (sessions.authenticate)
+            </text>
+            <text
+              x="800"
+              y="102"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              server-side verify
+            </text>
+
+            <rect
+              x="660"
+              y="160"
+              width="280"
+              height="58"
+              rx="6"
+              fill="#fff"
+              stroke="#b8c2d4"
+            />
+            <text
+              x="800"
+              y="183"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              /api/tasks/{id}/run/{step}/chat
+            </text>
+            <text
+              x="800"
+              y="202"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              role + content + promptOverrides
+            </text>
+
+            <rect
+              x="660"
+              y="260"
+              width="280"
+              height="78"
+              rx="6"
+              fill="#fff"
+              stroke="#b8c2d4"
+            />
+            <text
+              x="800"
+              y="282"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Interview step (no transcriber)
+            </text>
+            <text
+              x="800"
+              y="300"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              layer-4 system prompt from override
+            </text>
+            <text
+              x="800"
+              y="316"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              streams to bapps, bapps streams to UI
+            </text>
+
+            <!-- arrows -->
+            <line
+              x1="230"
+              y1="89"
+              x2="290"
+              y2="89"
+              stroke="#3a4861"
+              stroke-width="1.5"
+              marker-end="url(#arrow-ink2)"
+            />
+            <path
+              d="M 230 189 C 260 189, 260 95, 290 95"
+              stroke="#3a4861"
+              stroke-width="1.5"
+              fill="none"
+              marker-end="url(#arrow-ink2)"
+            />
+            <line
+              x1="590"
+              y1="89"
+              x2="660"
+              y2="89"
+              stroke="#157a4e"
+              stroke-width="1.5"
+              marker-end="url(#arrow-good)"
+            />
+            <line
+              x1="590"
+              y1="189"
+              x2="660"
+              y2="189"
+              stroke="#157a4e"
+              stroke-width="1.5"
+              marker-end="url(#arrow-good)"
+            />
+            <line
+              x1="590"
+              y1="299"
+              x2="660"
+              y2="299"
+              stroke="#3a4861"
+              stroke-width="1.5"
+              marker-end="url(#arrow-ink2)"
+            />
+            <line
+              x1="440"
+              y1="218"
+              x2="440"
+              y2="260"
+              stroke="#3a4861"
+              stroke-width="1.5"
+              marker-end="url(#arrow-ink2)"
+            />
+          </svg>
+          <div class="legend">
+            <span class="key"
+              ><span
+                class="swatch"
+                style="background: #e2f1ea; border-color: #157a4e"
+              ></span
+              >Trust boundary held server-side</span
+            >
+            <span class="key"
+              ><span
+                class="swatch"
+                style="background: #fff; border-color: #b8c2d4"
+              ></span
+              >Plain hop</span
+            >
+          </div>
+        </div>
+
+        <h3>What stays the same vs. what changes</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Function</th>
+              <th>Today (mirror-next)</th>
+              <th>Parity-Plus (v1)</th>
+              <th>User-visible diff</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Interview start</strong></td>
+              <td>Browser→transcriber→context-asset→interview step</td>
+              <td>
+                Browser→/api/m2m-chat→<code>promptOverrides.system</code> on
+                AIStart
+              </td>
+              <td>
+                None &mdash; ~2&ndash;5s faster from form-submit to first AI
+                question
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Form data into prompt</strong></td>
+              <td>
+                <code>&lt;hidden&gt;&lt;user_context&gt;</code> in a
+                browser-issued user message
+              </td>
+              <td>
+                Interpolated into <code>promptOverrides.system</code> Nunjucks
+                template, server-side
+              </td>
+              <td>None &mdash; identical context reaches the model</td>
+            </tr>
+            <tr>
+              <td><strong>Conversation turns</strong></td>
+              <td>Browser→/api/[...path]→chat as bare string</td>
+              <td>
+                Browser→/api/[...path]→chat as
+                <code>{ role: 'user', content }</code>
+              </td>
+              <td>None (post-P0 body-shape cutover)</td>
+            </tr>
+            <tr>
+              <td><strong>Report trigger</strong></td>
+              <td>
+                <code>&lt;hidden&gt;/generate-report&lt;/hidden&gt;</code>
+                browser user-message
+              </td>
+              <td>
+                <code>role: 'system'</code> message appended mid-step from
+                server
+              </td>
+              <td>
+                None &mdash; deliverable still streams as
+                <code>&lt;deliverable&gt;</code>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Closing-questions wrap</strong></td>
+              <td>
+                <code>&lt;hidden&gt;</code>-wrapped questions + answers + output
+                prompt
+              </td>
+              <td>
+                Real user message for answers; server appends developer
+                instruction
+              </td>
+              <td>None</td>
+            </tr>
+            <tr>
+              <td><strong>Meta-progress parsing</strong></td>
+              <td>
+                <code>{# meta:progress=N,ready=...,qn=... #}</code> suffix +
+                reminder hack
+              </td>
+              <td>
+                <strong>Unchanged in v1</strong> &mdash; lives in the override
+                template (kept to minimize surface)
+              </td>
+              <td>None</td>
+            </tr>
+            <tr>
+              <td><strong>Mock mode / render-smoke</strong></td>
+              <td>Mocks the legacy chat-stream + transcriber</td>
+              <td>Mocks /api/m2m-chat + new body shape; render-smoke parity</td>
+              <td>None</td>
+            </tr>
+            <tr>
+              <td><strong>Prompt visibility</strong></td>
+              <td>All prompts visible in DevTools Network panel</td>
+              <td>
+                Nothing prompt-related leaves bapps server &mdash; only user
+                text + AI responses
+              </td>
+              <td>None (positive: IP not leaked)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="card callout-good">
+          <h3><span class="pill good">Why this is the right v1</span></h3>
+          <p>
+            Identical product behavior. Three eliminations (transcriber,
+            <code>&lt;hidden&gt;</code>, browser-side prompts). One new route
+            (<code>/api/m2m-chat</code>), one new auth helper (server-side
+            <code>sessions.authenticate</code>), one new token cache. No new
+            platform asks beyond <em>provisioning</em> the M2M client on
+            usertests' Stytch project &mdash; the capabilities are already
+            shipped. Risk is bounded; the cutover is what the migration plan
+            calls "synchronized" (the chat-body shape change must merge the day
+            usertests goes &ge;1.8.0).
+          </p>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 3 — v2 Next-Gen -->
+      <!-- ============================================================ -->
+      <section id="s3">
+        <p class="kicker">Section 3 &middot; End shape v2</p>
+        <h2>Next-Gen &mdash; first-principles, agentic</h2>
+        <p>
+          If you start from the business outcome &mdash;
+          <em
+            >"interview a stakeholder in a way that feels human, drives complete
+            coverage of the topic guide, and produces sharp, structured insights
+            with minimal effort"</em
+          >
+          &mdash; the shape stops looking like a single chat with a system
+          prompt. It looks like a small team of cooperating agents, each with a
+          narrow job, sharing typed state in context assets.
+        </p>
+        <p>
+          This section proposes seven moves, scores each against what the
+          platform supports today, and is honest about the gaps. A few are hard
+          <span class="pill bad">no</span>s &mdash; those are the exec signal
+          for what to ask the platform team to build next.
+        </p>
+
+        <h3>The seven moves</h3>
+
+        <div class="card">
+          <h3>
+            1. Multi-agent decomposition: Interviewer + Quality Observer +
+            Synthesis
+          </h3>
+          <p>
+            Today one prompt does three jobs: drive rapport, track coverage, and
+            eventually write the report. Split them.
+            <strong>Interviewer</strong> talks to the user (warm, curious,
+            follow-ups). <strong>Quality Observer</strong> watches the
+            transcript in the background, scoring coverage of each
+            interview-guide bucket; when a bucket looks thin, it appends a
+            <code>role: developer</code> nudge to the Interviewer's history
+            ("the user hasn't grounded their AI friction in a concrete example
+            yet &mdash; ask for one"). <strong>Synthesis</strong> drafts insight
+            fragments <em>as the interview progresses</em>, not at the end
+            &mdash; so when the user hits "wrap it up", the report is already
+            80% written and just needs final assembly.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>2. Structured-output extraction in-flight</h3>
+          <p>
+            The platform's chat response already returns
+            <code>{visible_message, data}</code> with
+            <code>additionalProperties: true</code>. Use the
+            <code>data</code> field every turn to emit typed fragments &mdash;
+            <code
+              >{goals: ["..."], pains: [{description, evidence}],
+              decision_criteria: [...], confidence: 0.7}</code
+            >. Bapps accumulates these in a typed insight store; the
+            report-generation step doesn't re-extract anything, it just composes
+            what's already there.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>3. Append-without-submit for rolling interview state</h3>
+          <p>
+            Replace the
+            <code>{# meta:progress=N,ready=...,qn=... #}</code> suffix-parsing
+            hack with periodic <code>role: developer</code> messages the user
+            never sees, summarizing where the conversation is ("covered: goals,
+            current_workflow. uncovered: success_metrics, blockers.
+            emotional_register: pragmatic. proceed to: blockers"). The model
+            references these naturally in the next turn. No regex, no leaky
+            tags.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>4. Context-asset memory across sessions</h3>
+          <p>
+            Persist long-form discoveries (the user's stated 12-month goals, the
+            named friction with their current AI tool, their decision-criteria
+            for a vendor) as named context assets at
+            <code>scope: user</code> via the new
+            <code>/api/context-assets</code> M2M endpoints. A follow-up
+            interview six months later can read them back, ask "are these still
+            the goals?", and pick up where we left off. Today everything is lost
+            the moment the task finishes.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>
+            5. Mid-interview pivot: Quality Observer can re-steer the
+            Interviewer
+          </h3>
+          <p>
+            If the conversation drifts (user is venting, or has flipped from "AI
+            is fascinating" to "AI is a threat"), the Quality Observer should be
+            able to rewrite the Interviewer's instructions: e.g. "switch from
+            open-curiosity stance to validating + grounding stance". Today
+            <code>promptOverrides.system</code> is the only way to set a full
+            system prompt, and it's accepted
+            <em>only on the first request of the session</em> &mdash; so the
+            alternative is to append a strong
+            <code>role: system</code> mid-conversation. Workable, but
+            stylistically narrower than "swap personas".
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>
+            6. Tool-call hooks: AI requests file upload, calendar, schedule
+            follow-up
+          </h3>
+          <p>
+            A great interviewer can say "can you share the deck you mentioned?"
+            and the UI surfaces a file picker; or "want to schedule the next
+            session?" and a calendar widget appears. The platform's chat
+            endpoint doesn't expose tool/function-calling. Today this would be
+            faked client-side by parsing trigger strings out of the assistant
+            message &mdash; a regression to the
+            <code>&lt;hidden&gt;</code> pattern we're trying to kill.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>
+            7. Voice-first cues: pacing, interruption, prosodic "I'm thinking"
+          </h3>
+          <p>
+            The interview is the product. A real interviewer pauses, mhms,
+            leaves space. The platform mints a Deepgram token
+            (<code>/api/voice/token</code>), so transcription/TTS is unblocked,
+            but the conversational pacing &mdash; interruption handling,
+            mid-utterance "let me think", barge-in &mdash; is all client-side
+            and outside the prompt-flow shape.
+          </p>
+        </div>
+
+        <h3>Capability matrix</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Capability</th>
+              <th>Why it matters</th>
+              <th class="center">Supported today?</th>
+              <th>Evidence</th>
+              <th>Gap if any</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Multi-agent orchestration</strong></td>
+              <td>
+                One prompt can't be warm, accountable, and analytical at once
+              </td>
+              <td class="center support" style="color: var(--bad)">&#10006;</td>
+              <td>
+                No platform primitive for parallel agents on one task; bapps
+                would have to fan out N <code>taskStepChat</code> calls and
+                merge results itself
+              </td>
+              <td>
+                No first-class "agent" or "sub-task" concept on the task model.
+                Coordination, state-sharing, and ordering are bapps's problem.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Tool / function calling</strong></td>
+              <td>AI requests file upload, calendar, schedule next session</td>
+              <td class="center support" style="color: var(--bad)">&#10006;</td>
+              <td>
+                <code>TaskStepChatRequest</code> has no
+                <code>tools</code> field; response <code>data</code> is freeform
+                but no protocol for tool calls
+                (<code>openapi.yaml:2414-2435</code>)
+              </td>
+              <td>
+                Hard gap. Would need a <code>tools</code> input on chat + a
+                <code>tool_calls</code> output channel + a
+                <code>role: tool</code> response message type.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Mid-stream system-prompt rewrite</strong></td>
+              <td>
+                Pivot the Interviewer's persona when the user's affect flips
+              </td>
+              <td class="center support" style="color: var(--bad)">&#10006;</td>
+              <td>
+                <code>promptOverrides</code> "only on the first request of a
+                session" &mdash; per migration plan change #3,
+                implementation-guide §4 "Timing"
+              </td>
+              <td>
+                Can approximate with strong <code>role: system</code> append,
+                but cannot replace the layer-4 override mid-session. Ask: relax
+                timing to "any request before submitToLlm=true".
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Structured output in-flight</strong></td>
+              <td>
+                Extract typed insight fragments every turn, not just at the end
+              </td>
+              <td class="center support" style="color: var(--good)">
+                &#10004;
+              </td>
+              <td>
+                <code>data</code> object is
+                <code>additionalProperties: true</code> &mdash; migration plan
+                change #5; chat endpoint <code>200</code> response shape
+                (<code>openapi.yaml:2141-2162</code>)
+              </td>
+              <td>
+                None. Schema discipline is bapps's job (recommend Zod on the
+                bapps side).
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Append-without-submit state</strong></td>
+              <td>
+                Rolling developer-role state messages, invisible to the user,
+                steer the next turn
+              </td>
+              <td class="center support" style="color: var(--good)">
+                &#10004;
+              </td>
+              <td>
+                1.8.0 Feature A &mdash;
+                <code>{role: 'system'|'developer', submitToLlm: false}</code> =
+                appended, empty 200 (<code>openapi.yaml:2429-2435</code>)
+              </td>
+              <td>
+                None. Migration plan open-question 7 (ordering guarantee that
+                appended message lands before next user turn) is unresolved
+                &mdash; minor, easily testable.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Context-asset memory across sessions</strong></td>
+              <td>Pick up where we left off six months later</td>
+              <td class="center support" style="color: var(--good)">
+                &#10004;
+              </td>
+              <td>
+                1.8.0 added
+                <code>POST /api/context-assets</code>
+                (<code>m2m:write:context-assets</code>) +
+                <code>GET</code> (<code>m2m:read:context-assets</code>) &mdash;
+                <code>openapi.yaml:1542-1740</code>
+              </td>
+              <td>
+                None on the API. Open: do we want to expose to the user ("here's
+                what I remember about you") &mdash; product question, not
+                platform.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Quality Observer agent</strong></td>
+              <td>
+                Coverage tracking + Interviewer nudge without breaking the
+                rapport
+              </td>
+              <td class="center support" style="color: var(--warn)">&#9888;</td>
+              <td>
+                Buildable from primitives (2nd taskStep + append-without-submit)
+                but no platform "observer" or "side-channel agent" notion. Bapps
+                fans out + merges.
+              </td>
+              <td>
+                No primitive support &mdash; pure orchestration on bapps.
+                Workable; ugly.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Voice-first conversational cues</strong></td>
+              <td>
+                Pacing, mhms, interruption, barge-in &mdash; "feels human"
+              </td>
+              <td class="center support" style="color: var(--warn)">&#9888;</td>
+              <td>
+                <code>POST /api/voice/token</code> mints Deepgram JWT
+                (<code>openapi.yaml:2269+</code>); transcription/TTS unblocked.
+              </td>
+              <td>
+                Conversational pacing/interruption/prosody are entirely
+                client-side. Platform doesn't help or hurt &mdash; out of scope
+                of prompt-flow shape.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Inter-step context flow</strong></td>
+              <td>Synthesis agent reads what Interviewer accumulated</td>
+              <td class="center support" style="color: var(--good)">
+                &#10004;
+              </td>
+              <td>
+                Context assets scoped <code>task</code> live across steps in a
+                task (<code>openapi.yaml:1670-1740</code>)
+              </td>
+              <td>None.</td>
+            </tr>
+            <tr>
+              <td><strong>Structured-output schema enforcement</strong></td>
+              <td>
+                Reject malformed <code>data</code> objects at the boundary, not
+                in bapps
+              </td>
+              <td class="center support" style="color: var(--warn)">&#9888;</td>
+              <td>
+                <code>structuredChat</code> uses Zod but task-step
+                <code>data</code> field is freeform;
+                <code>additionalProperties: true</code>
+              </td>
+              <td>
+                Platform doesn't enforce a caller-supplied JSON schema on
+                task-step chat. Bapps validates after the fact. Ask: per-step
+                JSON-schema attached to taskStep, rejected if response doesn't
+                conform.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Where the platform needs to grow (the v2 ask list)</h3>
+        <ul class="gap-list">
+          <li>
+            <strong>Tool calling</strong> &mdash; first-class support for
+            <code>tools</code> input on <code>taskStepChat</code> +
+            <code>tool_calls</code> output channel +
+            <code>role: tool</code> response messages. Without this, every "AI
+            asks for a file" interaction is a regex on a string. This is the
+            single biggest agentic-UX gap.
+          </li>
+          <li>
+            <strong>Mid-session prompt-override</strong> &mdash; relax the "only
+            first request" constraint on <code>promptOverrides.system</code>.
+            Today's append-only <code>role: system</code> doesn't replace the
+            layer-4 template, only stacks on top of it. The Quality Observer can
+            nudge but can't pivot persona.
+          </li>
+          <li>
+            <strong>Per-step JSON-schema enforcement</strong> &mdash; let bapps
+            attach a Zod-equivalent schema to the step; platform 400s if
+            <code>data</code> doesn't conform. Today the schema lives in our
+            client and a drift goes silent.
+          </li>
+          <li class="partial">
+            <strong>Multi-agent / sub-task primitive</strong> &mdash; partial
+            workaround exists (separate task steps, append-without-submit), but
+            a real "spawn observer on this transcript" concept would simplify
+            the orchestration enormously and unlock concurrent observer +
+            interviewer.
+          </li>
+          <li class="partial">
+            <strong>Streaming partial structured output</strong> &mdash; verify
+            that <code>data</code> partials stream as the assistant generates,
+            not only when the message is complete. The exec value is the UI
+            being able to highlight extracted insights live.
+          </li>
+        </ul>
+
+        <div class="diagram">
+          <svg
+            viewBox="0 0 980 420"
+            xmlns="http://www.w3.org/2000/svg"
+            role="img"
+            aria-label="Next-Gen shape: Interviewer + Quality Observer + Synthesis agents share context assets, each calling the platform separately."
+          >
+            <defs>
+              <marker
+                id="arrow-ink3"
+                viewBox="0 0 10 10"
+                refX="9"
+                refY="5"
+                markerWidth="7"
+                markerHeight="7"
+                orient="auto-start-reverse"
+              >
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#3a4861" />
+              </marker>
+              <marker
+                id="arrow-accent"
+                viewBox="0 0 10 10"
+                refX="9"
+                refY="5"
+                markerWidth="7"
+                markerHeight="7"
+                orient="auto-start-reverse"
+              >
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2c6bed" />
+              </marker>
+            </defs>
+
+            <rect
+              x="20"
+              y="10"
+              width="180"
+              height="400"
+              rx="6"
+              fill="#f0f3f8"
+              stroke="#d6dde8"
+            />
+            <rect
+              x="220"
+              y="10"
+              width="430"
+              height="400"
+              rx="6"
+              fill="#fff"
+              stroke="#d6dde8"
+            />
+            <rect
+              x="670"
+              y="10"
+              width="290"
+              height="400"
+              rx="6"
+              fill="#fff"
+              stroke="#d6dde8"
+            />
+            <text
+              x="110"
+              y="35"
+              text-anchor="middle"
+              font-size="12"
+              font-weight="600"
+              fill="#6b7790"
+              letter-spacing="0.04em"
+            >
+              BROWSER
+            </text>
+            <text
+              x="435"
+              y="35"
+              text-anchor="middle"
+              font-size="12"
+              font-weight="600"
+              fill="#6b7790"
+              letter-spacing="0.04em"
+            >
+              BAPPS SERVER ORCHESTRATOR
+            </text>
+            <text
+              x="815"
+              y="35"
+              text-anchor="middle"
+              font-size="12"
+              font-weight="600"
+              fill="#6b7790"
+              letter-spacing="0.04em"
+            >
+              TWAI PLATFORM
+            </text>
+
+            <!-- Browser -->
+            <rect
+              x="40"
+              y="60"
+              width="140"
+              height="58"
+              rx="6"
+              fill="#fff"
+              stroke="#b8c2d4"
+            />
+            <text
+              x="110"
+              y="83"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Voice + text UI
+            </text>
+            <text
+              x="110"
+              y="102"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              user turns only
+            </text>
+
+            <rect
+              x="40"
+              y="170"
+              width="140"
+              height="44"
+              rx="6"
+              fill="#fff"
+              stroke="#b8c2d4"
+            />
+            <text
+              x="110"
+              y="194"
+              text-anchor="middle"
+              font-size="12"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Live insights panel
+            </text>
+
+            <!-- Orchestrator agents -->
+            <rect
+              x="240"
+              y="60"
+              width="180"
+              height="58"
+              rx="6"
+              fill="#e7efff"
+              stroke="#2c6bed"
+            />
+            <text
+              x="330"
+              y="82"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Interviewer agent
+            </text>
+            <text
+              x="330"
+              y="100"
+              text-anchor="middle"
+              font-size="11"
+              fill="#2c6bed"
+            >
+              rapport + follow-ups
+            </text>
+
+            <rect
+              x="440"
+              y="60"
+              width="180"
+              height="58"
+              rx="6"
+              fill="#e7efff"
+              stroke="#2c6bed"
+            />
+            <text
+              x="530"
+              y="82"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Quality Observer
+            </text>
+            <text
+              x="530"
+              y="100"
+              text-anchor="middle"
+              font-size="11"
+              fill="#2c6bed"
+            >
+              coverage + nudges
+            </text>
+
+            <rect
+              x="340"
+              y="155"
+              width="180"
+              height="58"
+              rx="6"
+              fill="#e7efff"
+              stroke="#2c6bed"
+            />
+            <text
+              x="430"
+              y="177"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Synthesis agent
+            </text>
+            <text
+              x="430"
+              y="195"
+              text-anchor="middle"
+              font-size="11"
+              fill="#2c6bed"
+            >
+              accrues report fragments
+            </text>
+
+            <rect
+              x="240"
+              y="240"
+              width="380"
+              height="58"
+              rx="6"
+              fill="#fff"
+              stroke="#b8c2d4"
+            />
+            <text
+              x="430"
+              y="262"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Insight store (typed)
+            </text>
+            <text
+              x="430"
+              y="280"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              goals / pains / decision-criteria / coverage
+            </text>
+
+            <rect
+              x="240"
+              y="325"
+              width="380"
+              height="58"
+              rx="6"
+              fill="#e2f1ea"
+              stroke="#157a4e"
+            />
+            <text
+              x="430"
+              y="347"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Server-verified Stytch session + M2M token
+            </text>
+            <text
+              x="430"
+              y="365"
+              text-anchor="middle"
+              font-size="11"
+              fill="#157a4e"
+            >
+              all 3 agents act on behalf of the same user
+            </text>
+
+            <!-- Platform -->
+            <rect
+              x="690"
+              y="60"
+              width="250"
+              height="58"
+              rx="6"
+              fill="#fff"
+              stroke="#b8c2d4"
+            />
+            <text
+              x="815"
+              y="82"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              taskStep: interview
+            </text>
+            <text
+              x="815"
+              y="100"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              streams {visible_message, data}
+            </text>
+
+            <rect
+              x="690"
+              y="155"
+              width="250"
+              height="58"
+              rx="6"
+              fill="#fff"
+              stroke="#b8c2d4"
+            />
+            <text
+              x="815"
+              y="177"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              taskStep: synthesize
+            </text>
+            <text
+              x="815"
+              y="195"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              composes report from store
+            </text>
+
+            <rect
+              x="690"
+              y="240"
+              width="250"
+              height="58"
+              rx="6"
+              fill="#fff"
+              stroke="#b8c2d4"
+            />
+            <text
+              x="815"
+              y="262"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Context assets API
+            </text>
+            <text
+              x="815"
+              y="280"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              scope: task &amp; user
+            </text>
+
+            <rect
+              x="690"
+              y="325"
+              width="250"
+              height="58"
+              rx="6"
+              fill="#fff"
+              stroke="#b8c2d4"
+            />
+            <text
+              x="815"
+              y="347"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="600"
+              fill="#0f1a2e"
+            >
+              Voice token (Deepgram)
+            </text>
+            <text
+              x="815"
+              y="365"
+              text-anchor="middle"
+              font-size="11"
+              fill="#6b7790"
+            >
+              client connects directly
+            </text>
+
+            <!-- arrows -->
+            <line
+              x1="180"
+              y1="89"
+              x2="240"
+              y2="89"
+              stroke="#3a4861"
+              stroke-width="1.5"
+              marker-end="url(#arrow-ink3)"
+            />
+            <line
+              x1="420"
+              y1="89"
+              x2="440"
+              y2="89"
+              stroke="#2c6bed"
+              stroke-width="1.5"
+              stroke-dasharray="3 3"
+              marker-end="url(#arrow-accent)"
+            />
+            <line
+              x1="330"
+              y1="118"
+              x2="370"
+              y2="155"
+              stroke="#2c6bed"
+              stroke-width="1.5"
+              marker-end="url(#arrow-accent)"
+            />
+            <line
+              x1="530"
+              y1="118"
+              x2="490"
+              y2="155"
+              stroke="#2c6bed"
+              stroke-width="1.5"
+              marker-end="url(#arrow-accent)"
+            />
+            <line
+              x1="430"
+              y1="213"
+              x2="430"
+              y2="240"
+              stroke="#2c6bed"
+              stroke-width="1.5"
+              marker-end="url(#arrow-accent)"
+            />
+            <line
+              x1="620"
+              y1="89"
+              x2="690"
+              y2="89"
+              stroke="#3a4861"
+              stroke-width="1.5"
+              marker-end="url(#arrow-ink3)"
+            />
+            <line
+              x1="520"
+              y1="184"
+              x2="690"
+              y2="184"
+              stroke="#3a4861"
+              stroke-width="1.5"
+              marker-end="url(#arrow-ink3)"
+            />
+            <line
+              x1="620"
+              y1="269"
+              x2="690"
+              y2="269"
+              stroke="#3a4861"
+              stroke-width="1.5"
+              stroke-dasharray="3 3"
+              marker-end="url(#arrow-ink3)"
+            />
+            <line
+              x1="180"
+              y1="192"
+              x2="240"
+              y2="265"
+              stroke="#3a4861"
+              stroke-width="1"
+              stroke-dasharray="2 3"
+            />
+          </svg>
+          <div class="legend">
+            <span class="key"
+              ><span
+                class="swatch"
+                style="background: #e7efff; border-color: #2c6bed"
+              ></span
+              >Bapps-orchestrated agent</span
+            >
+            <span class="key"
+              ><span
+                class="swatch"
+                style="background: #e2f1ea; border-color: #157a4e"
+              ></span
+              >Shared server-side trust boundary</span
+            >
+            <span class="key"
+              ><span
+                class="swatch"
+                style="background: #fff; border-color: #b8c2d4"
+              ></span
+              >Platform endpoint</span
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 4 — GUI -->
+      <!-- ============================================================ -->
+      <section id="s4">
+        <p class="kicker">Section 4</p>
+        <h2>Pick a shape (remix)</h2>
+        <p>
+          Click a preset to load it. Drag the &#8645; handle to reorder. Edit
+          any field. Use &#43; on the bottom to add a step, or the per-row
+          controls to duplicate / delete. Click <strong>Export</strong> to see
+          the YAML; paste back into Claude. <strong>Import</strong> reads the
+          same YAML so you can iterate.
+        </p>
+
+        <div id="gui">
+          <div class="gui-toolbar">
+            <span class="group-label">Presets</span>
+            <button class="btn preset" data-preset="current">Current</button>
+            <button class="btn preset" data-preset="parity-plus">
+              Parity-Plus (v1)
+            </button>
+            <button class="btn preset" data-preset="next-gen">
+              Next-Gen (v2)
+            </button>
+            <span style="flex: 1"></span>
+            <button class="btn" id="btn-clear">Clear</button>
+            <button class="btn primary" id="btn-export">Export &darr;</button>
+            <button class="btn" id="btn-import">Import &uarr;</button>
+          </div>
+
+          <div class="gui-banner" id="banner"></div>
+
+          <ul id="steps-list"></ul>
+
+          <div class="add-row">
+            <button class="btn" id="btn-add">&#43; Add step</button>
+            <span class="footnote" id="variant-label"></span>
+          </div>
+
+          <div class="export-area" id="export-area" style="display: none">
+            <textarea
+              id="export-yaml"
+              spellcheck="false"
+              aria-label="Exported YAML"
+            ></textarea>
+            <div style="margin-top: 8px; display: flex; gap: 8px">
+              <button class="btn primary" id="btn-copy">
+                Copy to clipboard
+              </button>
+              <button class="btn" id="btn-close-export">Close</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 5 — What I'd need from Luc -->
+      <!-- ============================================================ -->
+      <section id="s5">
+        <p class="kicker">Section 5</p>
+        <h2>What I&rsquo;d need from Luc to fully test each shape</h2>
+
+        <h3>For v1 (Parity-Plus)</h3>
+        <ul class="tight">
+          <li>
+            Confirm <strong>usertests is on TWAI 1.8.0+</strong> (currently
+            inferred ~1.7.0; the 1.8.0 chat-body shape change won't work until
+            usertests upgrades). This is the trigger event for the P0 cutover.
+          </li>
+          <li>
+            Register a
+            <strong
+              >brilliant-apps M2M client in usertests' live Stytch
+              project</strong
+            >
+            and add its client ID to usertests'
+            <code>STYTCH_M2M_ALLOWED_CLIENT_IDS</code>. Give Matt the four env
+            vars (<code>STYTCH_M2M_CLIENT_ID</code>,
+            <code>STYTCH_M2M_SECRET</code>, <code>STYTCH_PROJECT_ID</code>,
+            <code>STYTCH_SECRET</code>) for the
+            <code>development-brilliant-apps</code> Vercel project.
+          </li>
+          <li>
+            Confirm the <strong>Stytch M2M token endpoint host</strong>:
+            <code
+              >https://api.stytch.com/v1/public/&lt;project&gt;/oauth2/token</code
+            >
+            for the usertests live project; <code>client_credentials</code> is
+            the right grant; <code>m2m:inject:task-step-chat</code> scope only.
+          </li>
+          <li>
+            Decide whether the mirror-next task template carries a
+            <strong>separate report step</strong>: drives whether report-trigger
+            uses <code>promptOverrides.system</code> on a new step or a
+            <code>role: system</code> append on the existing one.
+          </li>
+          <li>
+            Confirm
+            <strong>mid-step <code>role: system</code> ordering</strong>: an
+            appended system message must land before the next user turn in
+            history to actually steer that turn (migration plan open-question
+            7).
+          </li>
+        </ul>
+
+        <h3>For v2 (Next-Gen)</h3>
+        <p>
+          Everything above, plus net-new platform asks &mdash; ranked by exec
+          value:
+        </p>
+        <ul class="tight">
+          <li>
+            <strong>Tool / function calling</strong> on
+            <code>taskStepChat</code> &mdash; add a <code>tools</code> input
+            field, a <code>tool_calls</code> output channel in the response, and
+            accept <code>role: tool</code> as a result-of-tool-call message.
+            Without this, no in-conversation file upload, calendar, or follow-up
+            scheduling without a regex-on-string regression.
+          </li>
+          <li>
+            <strong>Relax <code>promptOverrides</code> timing</strong> to allow
+            mid-session overrides (today rejected after first request). Enables
+            Quality Observer to pivot the Interviewer's persona, not just nudge
+            it.
+          </li>
+          <li>
+            <strong>Per-step JSON-schema enforcement</strong> &mdash; let bapps
+            attach a schema to a step; platform rejects responses whose
+            <code>data</code> doesn't conform. Today schema drift is silent.
+          </li>
+          <li>
+            <strong>Streaming partial structured output</strong> &mdash; confirm
+            (or implement) that the <code>data</code> object streams partials
+            during generation, not only at end-of-message, so the live insights
+            panel updates as the AI talks.
+          </li>
+          <li>
+            <strong>Multi-agent primitive</strong> (nice-to-have) &mdash; a way
+            to spawn an observer / side-agent on an existing task-step's
+            transcript without bapps fanning out its own taskStep calls. Not a
+            blocker; would simplify orchestration.
+          </li>
+          <li>
+            <strong>Voice pacing / interruption helpers</strong> are out of
+            scope of prompt-flow shape &mdash; client-side problem with Deepgram
+            + a state machine. No platform ask.
+          </li>
+        </ul>
+
+        <div class="card callout-warn">
+          <h3><span class="pill warn">Honest read</span></h3>
+          <p>
+            v1 is ~all bapps work plus a provisioning ask. v2 is partly bapps
+            orchestration we can do today (multi-agent via fan-out, structured
+            output, context-asset memory, append-without-submit state) and
+            partly platform features that don't exist yet (tool-calling,
+            mid-session prompt-override, schema enforcement). A pragmatic path:
+            ship v1 first, then build a "v1.5" that adopts the v2 capabilities
+            the platform already supports (especially structured-output
+            extraction and context-asset memory), and queue the platform asks
+            for genuine agentic behavior.
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      "use strict";
+
+      // ============================================================
+      // STEP-TYPE METADATA
+      // ============================================================
+      const STEP_TYPES = [
+        {
+          value: "system-prompt-override",
+          label: "system-prompt-override",
+          defaultRole: "system",
+          submitApplies: false,
+          legacy: false,
+        },
+        {
+          value: "user-message",
+          label: "user-message",
+          defaultRole: "user",
+          submitApplies: false,
+          legacy: false,
+        },
+        {
+          value: "assistant-response",
+          label: "assistant-response",
+          defaultRole: "",
+          submitApplies: false,
+          legacy: false,
+        },
+        {
+          value: "developer-instruction-append",
+          label: "developer-instruction-append",
+          defaultRole: "developer",
+          submitApplies: true,
+          legacy: false,
+        },
+        {
+          value: "system-message-append",
+          label: "system-message-append",
+          defaultRole: "system",
+          submitApplies: true,
+          legacy: false,
+        },
+        {
+          value: "structured-output-extract",
+          label: "structured-output-extract",
+          defaultRole: "",
+          submitApplies: false,
+          legacy: false,
+        },
+        {
+          value: "context-asset-write",
+          label: "context-asset-write",
+          defaultRole: "",
+          submitApplies: false,
+          legacy: false,
+        },
+        {
+          value: "context-asset-read",
+          label: "context-asset-read",
+          defaultRole: "",
+          submitApplies: false,
+          legacy: false,
+        },
+        {
+          value: "tool-call",
+          label: "tool-call",
+          defaultRole: "tool",
+          submitApplies: false,
+          legacy: false,
+        },
+        {
+          value: "agent-handoff",
+          label: "agent-handoff",
+          defaultRole: "",
+          submitApplies: false,
+          legacy: false,
+        },
+        {
+          value: "hidden-injection",
+          label: "hidden-injection (legacy)",
+          defaultRole: "user",
+          submitApplies: false,
+          legacy: true,
+        },
+        {
+          value: "transcriber-roundtrip",
+          label: "transcriber-roundtrip (legacy)",
+          defaultRole: "",
+          submitApplies: false,
+          legacy: true,
+        },
+      ];
+      const ROLE_OPTIONS = ["", "user", "system", "developer", "tool"];
+
+      function typeMeta(typeValue) {
+        return STEP_TYPES.find((t) => t.value === typeValue) || STEP_TYPES[0];
+      }
+
+      // ============================================================
+      // PRESETS — the three shape narratives, encoded
+      // ============================================================
+      const PRESETS = {
+        current: {
+          variant: "current",
+          steps: [
+            {
+              type: "transcriber-roundtrip",
+              role: "",
+              label: "Transcribe combined prompt into interview_prompt asset",
+              notes:
+                "buildCombinedPrompt() built client-side. Sent as a user message to context-asset-transcriber step. Platform copies verbatim into the asset. Fidelity check loops if drift > 8%.",
+            },
+            {
+              type: "hidden-injection",
+              role: "user",
+              label: "Hidden <user_context> form data on first turn",
+              notes:
+                "buildFormInputMessage() splices sanitised form fields into <hidden><user_context>...</user_context></hidden>. Browser-visible.",
+            },
+            {
+              type: "user-message",
+              role: "user",
+              label: "AISTART trigger",
+              notes:
+                "content = __AISTART__ — kicks off the AI's opening turn against the interpolated interview_prompt asset.",
+            },
+            {
+              type: "assistant-response",
+              role: "",
+              label: "Opening question",
+              notes: "Streamed JSON {visible_message, data}.",
+            },
+            {
+              type: "user-message",
+              role: "user",
+              label: "Stakeholder answer",
+              notes: "Real user turn.",
+            },
+            {
+              type: "assistant-response",
+              role: "",
+              label: "Follow-up turn (looped to coverage)",
+              notes:
+                "Engine may prepend META_REMINDER_MESSAGE (also <hidden>) up to 3x if the {# meta:progress #} suffix drops.",
+            },
+            {
+              type: "hidden-injection",
+              role: "user",
+              label: "Closing-questions wrap",
+              notes:
+                "buildClosingMessage() — questions, user response, and the output prompt all inside <hidden>.",
+            },
+            {
+              type: "hidden-injection",
+              role: "user",
+              label: "Report trigger (<hidden>/generate-report)",
+              notes:
+                "buildDeliverableMsg() wraps /generate-report + prompt + EXECUTION block in <hidden>. Flips AI to deliverable mode.",
+            },
+            {
+              type: "assistant-response",
+              role: "",
+              label: "Deliverable streams as <deliverable>",
+              notes: "Same interview step; AI obeys hidden trigger.",
+            },
+          ],
+        },
+        "parity-plus": {
+          variant: "parity-plus",
+          steps: [
+            {
+              type: "system-prompt-override",
+              role: "system",
+              label: "Interviewer persona + interview guide + form context",
+              notes:
+                "promptOverrides.system on the interview step's __AISTART__ call. Form data interpolated server-side via Nunjucks. Replaces transcriber roundtrip AND the <hidden><user_context> form-input.",
+            },
+            {
+              type: "user-message",
+              role: "user",
+              label: "AISTART trigger",
+              notes:
+                "content = __AISTART__. Sent via /api/m2m-chat (server-verified Stytch session derives X-On-Behalf-Of).",
+            },
+            { type: "assistant-response", role: "", label: "Opening question" },
+            { type: "user-message", role: "user", label: "Stakeholder answer" },
+            {
+              type: "assistant-response",
+              role: "",
+              label: "Follow-up turn (looped to coverage)",
+              notes:
+                "{# meta:progress #} suffix still used in v1 (minimal-change). The reminder hack is no longer needed because the system prompt is layer-4 not asset-interpolated.",
+            },
+            {
+              type: "developer-instruction-append",
+              role: "developer",
+              submitToLlm: false,
+              label: "Closing-questions context",
+              notes:
+                "Append the closing questions + user's answers as a developer message; submitToLlm: false so no AI turn fires. The next user message (or system flip) triggers the next response.",
+            },
+            {
+              type: "system-message-append",
+              role: "system",
+              submitToLlm: true,
+              label: "Report-mode flip",
+              notes:
+                "Server-side system message instructs AI to switch to deliverable mode and emit <deliverable> immediately. submitToLlm: true so the deliverable streams as the response to this message. Replaces /generate-report <hidden> hack.",
+            },
+            {
+              type: "assistant-response",
+              role: "",
+              label: "Deliverable streams as <deliverable>",
+            },
+          ],
+        },
+        "next-gen": {
+          variant: "next-gen",
+          steps: [
+            {
+              type: "system-prompt-override",
+              role: "system",
+              label: "Interviewer agent: rapport + topic guide",
+              notes:
+                "promptOverrides.system on interview step. Narrow job: conduct the interview. Form context interpolated server-side. Knows about the Insight Store but doesn't write directly.",
+            },
+            {
+              type: "context-asset-read",
+              role: "",
+              label: "Read prior-session memory (if any)",
+              notes:
+                "GET /api/context-assets scope=user — pulls named long-form memories from earlier sessions so the Interviewer can ask 'are these still your goals?'",
+            },
+            { type: "user-message", role: "user", label: "AISTART trigger" },
+            {
+              type: "assistant-response",
+              role: "",
+              label: "Opening turn (with data fragments)",
+              notes:
+                "data object emits typed fragments every turn: {coverage: {...}, goals: [...], pains: [...], emotional_register: '...'}",
+            },
+            {
+              type: "structured-output-extract",
+              role: "",
+              label: "Bapps extracts typed fragments → Insight Store",
+              notes:
+                "Server-side: parse data object with Zod schema. Accumulate into typed store keyed by topic-guide bucket.",
+            },
+            { type: "user-message", role: "user", label: "Stakeholder answer" },
+            { type: "assistant-response", role: "", label: "Follow-up turn" },
+            {
+              type: "structured-output-extract",
+              role: "",
+              label: "Insight Store updated",
+            },
+            {
+              type: "agent-handoff",
+              role: "",
+              label: "Quality Observer reviews transcript",
+              notes:
+                "Bapps fans out a second taskStep call against the transcript snapshot. Observer prompt: score coverage of each bucket; emit nudges if thin.",
+            },
+            {
+              type: "developer-instruction-append",
+              role: "developer",
+              submitToLlm: false,
+              label: "Observer nudge to Interviewer",
+              notes:
+                "Appended to Interviewer's history with submitToLlm: false. Steers the Interviewer's next turn invisibly. Replaces the meta-progress hack.",
+            },
+            {
+              type: "user-message",
+              role: "user",
+              label: "Stakeholder answer (post-nudge topic)",
+            },
+            {
+              type: "assistant-response",
+              role: "",
+              label: "Follow-up turn aimed at thin bucket",
+            },
+            {
+              type: "tool-call",
+              role: "tool",
+              label: "AI requests file upload (platform gap)",
+              notes:
+                "v2 capability — not supported by platform today. Today this would require regex on assistant message; flagged as a hard gap.",
+            },
+            {
+              type: "agent-handoff",
+              role: "",
+              label: "Synthesis agent composes report from store",
+              notes:
+                "Separate taskStep with promptOverrides.system that reads from Insight Store. Doesn't re-extract — composes.",
+            },
+            {
+              type: "context-asset-write",
+              role: "",
+              label: "Persist long-form memory for next session",
+              notes:
+                "POST /api/context-assets scope=user — durable goals, named friction, decision criteria. Future sessions read them back.",
+            },
+            {
+              type: "assistant-response",
+              role: "",
+              label: "Final report streams as <deliverable>",
+            },
+          ],
+        },
+      };
+
+      // ============================================================
+      // STATE
+      // ============================================================
+      let state = { variant: "custom", steps: [] };
+
+      // ============================================================
+      // RENDERING
+      // ============================================================
+      const stepsListEl = document.getElementById("steps-list");
+      const bannerEl = document.getElementById("banner");
+      const variantLabelEl = document.getElementById("variant-label");
+
+      function showBanner(msg, kind) {
+        bannerEl.textContent = msg;
+        bannerEl.className = "gui-banner visible " + (kind || "success");
+        setTimeout(() => {
+          bannerEl.className = "gui-banner";
+        }, 4500);
+      }
+
+      function escapeAttr(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+      function escapeHtml(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+
+      function render() {
+        variantLabelEl.textContent =
+          " — variant: " +
+          state.variant +
+          " (" +
+          state.steps.length +
+          " steps)";
+        stepsListEl.innerHTML = "";
+        state.steps.forEach((step, idx) => {
+          const meta = typeMeta(step.type);
+          const li = document.createElement("li");
+          li.className = "step-row";
+          li.draggable = true;
+          li.dataset.idx = idx;
+
+          const handle = document.createElement("div");
+          handle.className = "drag-handle";
+          handle.textContent = "☰";
+          handle.title = "Drag to reorder";
+          li.appendChild(handle);
+
+          const fields = document.createElement("div");
+          fields.className = "step-fields";
+
+          // type
+          let html = "";
+          html += '<label>Type<select data-field="type">';
+          STEP_TYPES.forEach((t) => {
+            html +=
+              '<option value="' +
+              escapeAttr(t.value) +
+              '"' +
+              (t.value === step.type ? " selected" : "") +
+              ">" +
+              escapeHtml(t.label) +
+              "</option>";
+          });
+          html += "</select></label>";
+
+          // role
+          html += '<label>Role<select data-field="role">';
+          ROLE_OPTIONS.forEach((r) => {
+            const lbl = r === "" ? "(none)" : r;
+            html +=
+              '<option value="' +
+              escapeAttr(r) +
+              '"' +
+              (r === (step.role || "") ? " selected" : "") +
+              ">" +
+              escapeHtml(lbl) +
+              "</option>";
+          });
+          html += "</select></label>";
+
+          // submitToLlm
+          html += "<label>Submit to LLM";
+          if (meta.submitApplies) {
+            html += '<select data-field="submitToLlm">';
+            html +=
+              '<option value=""' +
+              (step.submitToLlm == null ? " selected" : "") +
+              ">(default)</option>";
+            html +=
+              '<option value="true"' +
+              (step.submitToLlm === true ? " selected" : "") +
+              ">true</option>";
+            html +=
+              '<option value="false"' +
+              (step.submitToLlm === false ? " selected" : "") +
+              ">false</option>";
+            html += "</select>";
+          } else {
+            html +=
+              '<select data-field="submitToLlm" disabled><option>n/a</option></select>';
+          }
+          html += "</label>";
+
+          // legacy/role notes (auto-fill cell)
+          html +=
+            '<div class="step-meta">' +
+            (meta.legacy ? '<span class="pill bad">legacy</span> ' : "") +
+            '<span style="color:var(--ink-3)">' +
+            escapeHtml(meta.value) +
+            "</span></div>";
+
+          // label
+          html +=
+            '<div class="label-row"><label>Label<input type="text" data-field="label" value="' +
+            escapeAttr(step.label || "") +
+            '" maxlength="120" /></label></div>';
+
+          // notes
+          html +=
+            '<div class="notes-row"><label>Notes<textarea data-field="notes" rows="2">' +
+            escapeHtml(step.notes || "") +
+            "</textarea></label></div>";
+
+          fields.innerHTML = html;
+          li.appendChild(fields);
+
+          const controls = document.createElement("div");
+          controls.className = "step-controls";
+          controls.innerHTML =
+            '<button data-act="up" title="Move up">&uarr;</button>' +
+            '<button data-act="down" title="Move down">&darr;</button>' +
+            '<button data-act="dup" title="Duplicate">&#x2398;</button>' +
+            '<button data-act="del" class="del" title="Delete">&#x2715;</button>';
+          li.appendChild(controls);
+
+          stepsListEl.appendChild(li);
+        });
+      }
+
+      // ============================================================
+      // EVENT WIRING
+      // ============================================================
+      stepsListEl.addEventListener("change", function (e) {
+        const row = e.target.closest(".step-row");
+        if (!row) return;
+        const idx = Number(row.dataset.idx);
+        const field = e.target.dataset.field;
+        if (!field) return;
+        const step = state.steps[idx];
+        if (field === "submitToLlm") {
+          if (e.target.value === "") delete step.submitToLlm;
+          else if (e.target.value === "true") step.submitToLlm = true;
+          else step.submitToLlm = false;
+        } else if (field === "type") {
+          step.type = e.target.value;
+          const meta = typeMeta(step.type);
+          if (meta.defaultRole && !step.role) step.role = meta.defaultRole;
+          if (!meta.submitApplies) delete step.submitToLlm;
+        } else if (field === "role") {
+          if (e.target.value === "") delete step.role;
+          else step.role = e.target.value;
+        } else {
+          step[field] = e.target.value;
+        }
+        if (state.variant !== "custom") {
+          state.variant = "custom";
+        }
+        render();
+      });
+
+      stepsListEl.addEventListener("input", function (e) {
+        // Capture text inputs without rerendering (to preserve cursor)
+        const row = e.target.closest(".step-row");
+        if (!row) return;
+        const idx = Number(row.dataset.idx);
+        const field = e.target.dataset.field;
+        if (field !== "label" && field !== "notes") return;
+        state.steps[idx][field] = e.target.value;
+        if (state.variant !== "custom") {
+          state.variant = "custom";
+          variantLabelEl.textContent =
+            " — variant: custom (" + state.steps.length + " steps)";
+        }
+      });
+
+      stepsListEl.addEventListener("click", function (e) {
+        if (e.target.tagName !== "BUTTON") return;
+        const act = e.target.dataset.act;
+        if (!act) return;
+        const row = e.target.closest(".step-row");
+        if (!row) return;
+        const idx = Number(row.dataset.idx);
+        if (act === "up" && idx > 0) {
+          const t = state.steps[idx - 1];
+          state.steps[idx - 1] = state.steps[idx];
+          state.steps[idx] = t;
+        } else if (act === "down" && idx < state.steps.length - 1) {
+          const t = state.steps[idx + 1];
+          state.steps[idx + 1] = state.steps[idx];
+          state.steps[idx] = t;
+        } else if (act === "dup") {
+          state.steps.splice(
+            idx + 1,
+            0,
+            JSON.parse(JSON.stringify(state.steps[idx])),
+          );
+        } else if (act === "del") {
+          state.steps.splice(idx, 1);
+        } else {
+          return;
+        }
+        state.variant = "custom";
+        render();
+      });
+
+      // Drag & drop
+      let dragIdx = null;
+      stepsListEl.addEventListener("dragstart", function (e) {
+        const row = e.target.closest(".step-row");
+        if (!row) return;
+        dragIdx = Number(row.dataset.idx);
+        row.classList.add("dragging");
+        e.dataTransfer.effectAllowed = "move";
+        e.dataTransfer.setData("text/plain", String(dragIdx));
+      });
+      stepsListEl.addEventListener("dragend", function (e) {
+        document.querySelectorAll(".step-row").forEach((r) => {
+          r.classList.remove("dragging", "drop-target", "drop-target-after");
+        });
+        dragIdx = null;
+      });
+      stepsListEl.addEventListener("dragover", function (e) {
+        e.preventDefault();
+        const row = e.target.closest(".step-row");
+        if (!row) return;
+        document
+          .querySelectorAll(".step-row")
+          .forEach((r) =>
+            r.classList.remove("drop-target", "drop-target-after"),
+          );
+        const rect = row.getBoundingClientRect();
+        const after = e.clientY - rect.top > rect.height / 2;
+        row.classList.add(after ? "drop-target-after" : "drop-target");
+      });
+      stepsListEl.addEventListener("drop", function (e) {
+        e.preventDefault();
+        const row = e.target.closest(".step-row");
+        if (!row || dragIdx == null) return;
+        let targetIdx = Number(row.dataset.idx);
+        const rect = row.getBoundingClientRect();
+        const after = e.clientY - rect.top > rect.height / 2;
+        let insertAt = after ? targetIdx + 1 : targetIdx;
+        const moving = state.steps.splice(dragIdx, 1)[0];
+        if (dragIdx < insertAt) insertAt -= 1;
+        state.steps.splice(insertAt, 0, moving);
+        state.variant = "custom";
+        render();
+      });
+
+      // Presets
+      document.querySelectorAll(".btn.preset").forEach((b) => {
+        b.addEventListener("click", function () {
+          const key = this.dataset.preset;
+          const preset = PRESETS[key];
+          if (!preset) return;
+          state = {
+            variant: preset.variant,
+            steps: JSON.parse(JSON.stringify(preset.steps)),
+          };
+          render();
+        });
+      });
+
+      document
+        .getElementById("btn-clear")
+        .addEventListener("click", function () {
+          if (state.steps.length === 0) return;
+          state = { variant: "custom", steps: [] };
+          render();
+        });
+
+      document.getElementById("btn-add").addEventListener("click", function () {
+        state.steps.push({
+          type: "user-message",
+          role: "user",
+          label: "New step",
+          notes: "",
+        });
+        state.variant = "custom";
+        render();
+      });
+
+      // ============================================================
+      // EXPORT / IMPORT
+      // ============================================================
+      function yamlEscape(s) {
+        if (s == null) return '""';
+        s = String(s);
+        // Use block scalar for multi-line
+        if (s.indexOf("\n") !== -1) {
+          const lines = s
+            .split("\n")
+            .map((l) => "      " + l)
+            .join("\n");
+          return "|\n" + lines;
+        }
+        // Quote if contains characters that confuse a naive parser
+        if (
+          /["\\:#&*!|>'%@`{}\[\]?,]/.test(s) ||
+          /^[\s-]/.test(s) ||
+          /\s$/.test(s) ||
+          s === "" ||
+          /^(yes|no|true|false|null|on|off)$/i.test(s)
+        ) {
+          return '"' + s.replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"';
+        }
+        return s;
+      }
+
+      function exportYaml() {
+        const lines = [];
+        lines.push("# m2m-shape-export");
+        lines.push("# version: 1");
+        lines.push("# variant: " + state.variant);
+        lines.push("steps:");
+        state.steps.forEach((step) => {
+          lines.push("  - type: " + step.type);
+          if (step.role) lines.push("    role: " + step.role);
+          if (typeof step.submitToLlm === "boolean")
+            lines.push(
+              "    submitToLlm: " + (step.submitToLlm ? "true" : "false"),
+            );
+          lines.push("    label: " + yamlEscape(step.label || ""));
+          if (step.notes && step.notes.trim()) {
+            const noteVal = yamlEscape(step.notes);
+            if (noteVal.startsWith("|")) {
+              lines.push("    notes: " + noteVal);
+            } else {
+              lines.push("    notes: " + noteVal);
+            }
+          }
+        });
+        return lines.join("\n") + "\n";
+      }
+
+      document
+        .getElementById("btn-export")
+        .addEventListener("click", function () {
+          const yaml = exportYaml();
+          const area = document.getElementById("export-area");
+          const ta = document.getElementById("export-yaml");
+          ta.value = yaml;
+          area.style.display = "block";
+          ta.focus();
+          ta.select();
+        });
+
+      document
+        .getElementById("btn-close-export")
+        .addEventListener("click", function () {
+          document.getElementById("export-area").style.display = "none";
+        });
+
+      document
+        .getElementById("btn-copy")
+        .addEventListener("click", function () {
+          const ta = document.getElementById("export-yaml");
+          ta.select();
+          try {
+            document.execCommand("copy");
+            showBanner("Copied to clipboard.", "success");
+          } catch (e) {
+            showBanner("Could not copy. Select the text and Cmd+C.", "error");
+          }
+        });
+
+      // Minimal, tolerant YAML parser for this exact schema.
+      // Handles: # header comments for version/variant, "steps:" list,
+      // "  - key: value" rows, scalar values, double-quoted strings, and
+      // pipe block-scalars (`|`).
+      function parseExport(text) {
+        const lines = text.split(/\r?\n/);
+        let variant = "custom";
+        let version = null;
+        let i = 0;
+
+        // Read header comments
+        for (; i < lines.length; i++) {
+          const line = lines[i].trim();
+          if (line === "") continue;
+          if (!line.startsWith("#")) break;
+          const m = line.match(/^#\s*(version|variant)\s*:\s*(.+?)\s*$/i);
+          if (m) {
+            if (m[1].toLowerCase() === "version") version = m[2].trim();
+            else variant = m[2].trim();
+          }
+        }
+        if (version !== "1") {
+          throw new Error(
+            "Unsupported or missing version (expected 1, got " + version + ")",
+          );
+        }
+
+        // Find "steps:"
+        for (; i < lines.length; i++) {
+          if (/^\s*steps\s*:\s*$/.test(lines[i])) {
+            i++;
+            break;
+          }
+        }
+
+        const steps = [];
+        let current = null;
+
+        function unquote(v) {
+          v = v.trim();
+          if (v.startsWith('"') && v.endsWith('"')) {
+            return v.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, "\\");
+          }
+          return v;
+        }
+
+        while (i < lines.length) {
+          const raw = lines[i];
+          const stripped = raw.replace(/\s+$/, "");
+          if (stripped === "") {
+            i++;
+            continue;
+          }
+          // New step
+          const itemMatch = raw.match(/^\s*-\s+(\w+)\s*:\s*(.*)$/);
+          const fieldMatch = raw.match(/^\s{4,}(\w+)\s*:\s*(.*)$/);
+          if (itemMatch) {
+            if (current) steps.push(current);
+            current = {};
+            const key = itemMatch[1];
+            const val = itemMatch[2];
+            current[key] = parseScalar(val, lines, i);
+            if (
+              typeof current[key] === "object" &&
+              current[key].__blockEnd != null
+            ) {
+              i = current[key].__blockEnd;
+              current[key] = current[key].value;
+            } else {
+              i++;
+            }
+            continue;
+          }
+          if (fieldMatch && current) {
+            const key = fieldMatch[1];
+            const val = fieldMatch[2];
+            const parsed = parseScalar(val, lines, i);
+            if (typeof parsed === "object" && parsed.__blockEnd != null) {
+              current[key] = parsed.value;
+              i = parsed.__blockEnd;
+            } else {
+              current[key] = parsed;
+              i++;
+            }
+            continue;
+          }
+          // Unknown line — skip
+          i++;
+        }
+        if (current) steps.push(current);
+
+        // Normalize types
+        const normalized = steps.map((s) => {
+          const out = { type: s.type, label: s.label != null ? s.label : "" };
+          if (s.role) out.role = s.role;
+          if (s.submitToLlm === "true" || s.submitToLlm === true)
+            out.submitToLlm = true;
+          else if (s.submitToLlm === "false" || s.submitToLlm === false)
+            out.submitToLlm = false;
+          if (s.notes) out.notes = s.notes;
+          return out;
+        });
+
+        return { variant: variant, steps: normalized };
+      }
+
+      function parseScalar(val, lines, idx) {
+        val = val.trim();
+        if (val === "|" || val === "|-") {
+          // Block scalar — collect indented lines below
+          const collected = [];
+          let j = idx + 1;
+          let baseIndent = null;
+          while (j < lines.length) {
+            const ln = lines[j];
+            if (/^\s*-\s+\w+\s*:/.test(ln)) break; // next item
+            if (/^\s{0,3}\w+\s*:/.test(ln) && !/^\s{4,}/.test(ln)) break;
+            const indentMatch = ln.match(/^(\s*)(\S.*)?$/);
+            const indent = indentMatch ? indentMatch[1].length : 0;
+            if (ln.trim() === "") {
+              collected.push("");
+              j++;
+              continue;
+            }
+            if (baseIndent === null) baseIndent = indent;
+            if (indent < baseIndent) break;
+            collected.push(ln.slice(baseIndent));
+            j++;
+          }
+          return {
+            value: collected.join("\n").replace(/\s+$/, ""),
+            __blockEnd: j,
+          };
+        }
+        if (val === "") return "";
+        if (val.startsWith('"')) {
+          // Strip surrounding quotes
+          const m = val.match(/^"((?:[^"\\]|\\.)*)"\s*$/);
+          if (m) return m[1].replace(/\\"/g, '"').replace(/\\\\/g, "\\");
+        }
+        if (val === "true") return "true";
+        if (val === "false") return "false";
+        return val;
+      }
+
+      document
+        .getElementById("btn-import")
+        .addEventListener("click", function () {
+          const area = document.getElementById("export-area");
+          const ta = document.getElementById("export-yaml");
+          if (area.style.display === "none") {
+            area.style.display = "block";
+            ta.value = "";
+            ta.focus();
+            showBanner(
+              "Paste a m2m-shape-export YAML into the textarea, then click Import again.",
+              "success",
+            );
+            return;
+          }
+          const text = ta.value.trim();
+          if (!text) {
+            showBanner(
+              "Nothing to import — paste YAML into the textarea first.",
+              "error",
+            );
+            return;
+          }
+          try {
+            const parsed = parseExport(text);
+            state = {
+              variant: parsed.variant || "custom",
+              steps: parsed.steps,
+            };
+            render();
+            showBanner(
+              "Imported " +
+                state.steps.length +
+                " step(s). Variant: " +
+                state.variant +
+                ".",
+              "success",
+            );
+          } catch (err) {
+            showBanner("Import failed: " + (err.message || err), "error");
+          }
+        });
+
+      // ============================================================
+      // INIT
+      // ============================================================
+      state = {
+        variant: "parity-plus",
+        steps: JSON.parse(JSON.stringify(PRESETS["parity-plus"].steps)),
+      };
+      render();
+    </script>
+  </body>
+</html>

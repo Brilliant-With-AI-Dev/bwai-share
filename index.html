@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brilliant With AI — Shared Artifacts</title>
+    <style>
+      :root {
+        --bg: #f6f8fb;
+        --surface: #ffffff;
+        --ink: #0f1a2e;
+        --ink-2: #3a4861;
+        --ink-3: #6b7790;
+        --line: #d6dde8;
+        --accent: #2c6bed;
+        --accent-soft: #e7efff;
+        --shadow:
+          0 1px 2px rgba(15, 26, 46, 0.04), 0 4px 12px rgba(15, 26, 46, 0.06);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 80px 32px 64px;
+      }
+      header {
+        margin-bottom: 48px;
+      }
+      h1 {
+        font-size: 28px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        margin: 0 0 8px;
+        color: var(--ink);
+      }
+      header p {
+        margin: 0;
+        color: var(--ink-3);
+        font-size: 15px;
+      }
+      h2 {
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-3);
+        margin: 0 0 16px;
+      }
+      ul.artifacts {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      ul.artifacts li {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        transition:
+          border-color 0.15s ease,
+          transform 0.15s ease;
+      }
+      ul.artifacts li:hover {
+        border-color: var(--accent);
+        transform: translateY(-1px);
+      }
+      ul.artifacts a {
+        display: block;
+        padding: 18px 22px;
+        text-decoration: none;
+        color: inherit;
+      }
+      ul.artifacts .title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--accent);
+        margin: 0 0 4px;
+      }
+      ul.artifacts .meta {
+        font-size: 13px;
+        color: var(--ink-3);
+        margin: 0;
+      }
+      footer {
+        margin-top: 56px;
+        padding-top: 24px;
+        border-top: 1px solid var(--line);
+        font-size: 12px;
+        color: var(--ink-3);
+      }
+      footer a {
+        color: var(--ink-2);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>Brilliant With AI — Shared Artifacts</h1>
+        <p>
+          Static HTML artifacts shared from Claude Code sessions for review.
+        </p>
+      </header>
+
+      <section>
+        <h2>Artifacts</h2>
+        <ul class="artifacts">
+          <li>
+            <a href="m2m-shapes/">
+              <p class="title">M2M migration shapes — explainer + GUI</p>
+              <p class="meta">
+                2026-05-12 — interactive walkthrough of the m2m export schema
+                and migration shapes.
+              </p>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <footer>
+        Drop a directory with <code>index.html</code> and push to
+        <code>main</code> to add a new artifact.
+      </footer>
+    </div>
+  </body>
+</html>
