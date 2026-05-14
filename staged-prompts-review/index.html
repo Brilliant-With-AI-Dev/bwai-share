@@ -1,0 +1,1996 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Staged Prompts — Review</title>
+    <style>
+      :root {
+        --bg: #f6f8fb;
+        --surface: #ffffff;
+        --surface-2: #f0f3f8;
+        --surface-3: #e9eef6;
+        --ink: #0f1a2e;
+        --ink-2: #3a4861;
+        --ink-3: #6b7790;
+        --line: #d6dde8;
+        --line-2: #b8c2d4;
+        --accent: #2c6bed;
+        --accent-soft: #e7efff;
+        --accent-2: #1f4fb5;
+        --good: #157a4e;
+        --good-soft: #e2f1ea;
+        --warn: #b06b00;
+        --warn-soft: #fbecd2;
+        --bad: #b8351a;
+        --bad-soft: #fbe2db;
+        --shadow:
+          0 1px 2px rgba(15, 26, 46, 0.04), 0 4px 12px rgba(15, 26, 46, 0.05);
+        --shadow-2:
+          0 2px 4px rgba(15, 26, 46, 0.06), 0 12px 24px rgba(15, 26, 46, 0.08);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        font-size: 15px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+
+      /* ── Sticky progress bar ─────────────────────────────────── */
+      #progress-bar {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--surface);
+        border-bottom: 1px solid var(--line);
+        box-shadow: 0 2px 8px rgba(15, 26, 46, 0.06);
+        padding: 10px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      #progress-bar .progress-label {
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--ink-2);
+        white-space: nowrap;
+      }
+      #progress-bar .progress-track {
+        flex: 1;
+        max-width: 240px;
+        height: 6px;
+        background: var(--surface-3);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+      #progress-bar .progress-fill {
+        height: 100%;
+        background: var(--accent);
+        border-radius: 999px;
+        transition: width 0.3s ease;
+        width: 0%;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        transition:
+          background 0.15s,
+          box-shadow 0.15s;
+        line-height: 1;
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: #fff;
+        box-shadow: 0 1px 3px rgba(44, 107, 237, 0.3);
+      }
+      .btn-primary:hover {
+        background: var(--accent-2);
+      }
+      .btn-ghost {
+        background: var(--surface);
+        color: var(--ink-2);
+        border: 1px solid var(--line);
+      }
+      .btn-ghost:hover {
+        background: var(--surface-2);
+      }
+      .export-btns {
+        display: flex;
+        gap: 8px;
+      }
+
+      /* ── Main layout ─────────────────────────────────────────── */
+      .wrap {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 36px 24px 96px;
+      }
+      header.page {
+        margin-bottom: 36px;
+        padding-bottom: 28px;
+        border-bottom: 1px solid var(--line);
+      }
+      header.page h1 {
+        margin: 0 0 10px;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.015em;
+        color: var(--ink);
+      }
+      header.page .intro {
+        color: var(--ink-2);
+        font-size: 14.5px;
+        max-width: 720px;
+        margin: 0;
+        line-height: 1.6;
+      }
+
+      /* ── Section headers ─────────────────────────────────────── */
+      .section-title {
+        font-size: 11.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: var(--ink-3);
+        margin: 40px 0 14px;
+      }
+
+      /* ── Seam decision cards ─────────────────────────────────── */
+      .seam-card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 20px 22px;
+        margin-bottom: 14px;
+        box-shadow: var(--shadow);
+      }
+      .seam-card .seam-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+      .seam-card .seam-num {
+        flex-shrink: 0;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: var(--surface-3);
+        border: 1.5px solid var(--line-2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--ink-3);
+        margin-top: 1px;
+      }
+      .seam-card.decided .seam-num {
+        background: var(--accent-soft);
+        border-color: var(--accent);
+        color: var(--accent-2);
+      }
+      .seam-card .seam-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .seam-card .seam-question {
+        font-size: 14px;
+        color: var(--ink-2);
+        margin: 0 0 10px;
+        padding-left: 34px;
+        line-height: 1.6;
+      }
+      .seam-card .seam-rec {
+        font-size: 13px;
+        color: var(--ink-3);
+        padding: 8px 12px;
+        background: var(--surface-2);
+        border-radius: 6px;
+        border-left: 3px solid var(--accent);
+        margin: 0 0 14px 34px;
+        line-height: 1.5;
+      }
+      .seam-card .seam-rec strong {
+        color: var(--ink-2);
+      }
+      .seam-decision-btns {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding-left: 34px;
+        margin-bottom: 10px;
+      }
+      .seam-btn {
+        padding: 7px 13px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        border: 1.5px solid var(--line);
+        background: var(--surface);
+        color: var(--ink-2);
+        transition: all 0.15s;
+      }
+      .seam-btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+      .seam-btn.active-accept {
+        background: var(--good-soft);
+        border-color: var(--good);
+        color: var(--good);
+      }
+      .seam-btn.active-reject {
+        background: var(--bad-soft);
+        border-color: var(--bad);
+        color: var(--bad);
+      }
+      .seam-btn.active-other {
+        background: var(--warn-soft);
+        border-color: var(--warn);
+        color: var(--warn);
+      }
+      .seam-note-wrap {
+        padding-left: 34px;
+        margin-top: 8px;
+      }
+      .seam-note-wrap textarea {
+        width: 100%;
+        min-height: 64px;
+        padding: 8px 10px;
+        font-size: 13.5px;
+        font-family: inherit;
+        color: var(--ink);
+        background: var(--surface-2);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        resize: vertical;
+        line-height: 1.5;
+      }
+      .seam-note-wrap textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+        background: var(--surface);
+      }
+
+      /* ── Prompt cards ────────────────────────────────────────── */
+      .prompt-card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        margin-bottom: 14px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .prompt-card-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 20px;
+        cursor: pointer;
+        user-select: none;
+        border-radius: 10px;
+        transition: background 0.12s;
+      }
+      .prompt-card-header:hover {
+        background: var(--surface-2);
+      }
+      .prompt-card.open .prompt-card-header {
+        border-bottom: 1px solid var(--line);
+        border-radius: 10px 10px 0 0;
+      }
+      .verdict-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        background: var(--line-2);
+        transition: background 0.2s;
+      }
+      .verdict-dot.approved {
+        background: var(--good);
+      }
+      .verdict-dot.needs-changes {
+        background: var(--warn);
+      }
+      .verdict-dot.rejected {
+        background: var(--bad);
+      }
+      .prompt-card-label {
+        flex: 1;
+        min-width: 0;
+      }
+      .prompt-card-label .prompt-id {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-3);
+        margin-bottom: 2px;
+      }
+      .prompt-card-label .prompt-name {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .verdict-badge {
+        flex-shrink: 0;
+        font-size: 11.5px;
+        font-weight: 600;
+        padding: 3px 9px;
+        border-radius: 999px;
+      }
+      .verdict-badge:empty {
+        display: none;
+      }
+      .verdict-badge.approved {
+        background: var(--good-soft);
+        color: var(--good);
+      }
+      .verdict-badge.needs-changes {
+        background: var(--warn-soft);
+        color: var(--warn);
+      }
+      .verdict-badge.rejected {
+        background: var(--bad-soft);
+        color: var(--bad);
+      }
+      .card-chevron {
+        flex-shrink: 0;
+        width: 18px;
+        height: 18px;
+        color: var(--ink-3);
+        transition: transform 0.2s;
+      }
+      .prompt-card.open .card-chevron {
+        transform: rotate(180deg);
+      }
+
+      .prompt-card-body {
+        display: none;
+      }
+      .prompt-card.open .prompt-card-body {
+        display: block;
+      }
+
+      /* Prompt content rendering */
+      .prompt-body {
+        padding: 0 20px 20px;
+      }
+
+      .prompt-section {
+        margin-top: 20px;
+      }
+      .prompt-section-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 6px;
+      }
+      .prompt-section-head h3 {
+        margin: 0;
+        font-size: 13.5px;
+        font-weight: 700;
+        color: var(--ink-2);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .prompt-section-head h4 {
+        margin: 0;
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--ink-3);
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+      .comment-btn {
+        flex-shrink: 0;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--ink-3);
+        background: var(--surface-2);
+        border: 1px solid var(--line);
+        border-radius: 5px;
+        padding: 3px 9px;
+        cursor: pointer;
+        transition: all 0.12s;
+        white-space: nowrap;
+      }
+      .comment-btn:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: var(--accent-soft);
+      }
+      .comment-btn.active {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: var(--accent-soft);
+      }
+      .comment-btn.has-note {
+        color: var(--warn);
+        border-color: var(--warn);
+        background: var(--warn-soft);
+      }
+      .section-comment-wrap {
+        margin-top: 6px;
+        display: none;
+      }
+      .section-comment-wrap.visible {
+        display: block;
+      }
+      .section-comment-wrap textarea {
+        width: 100%;
+        min-height: 60px;
+        padding: 8px 10px;
+        font-size: 13px;
+        font-family: inherit;
+        color: var(--ink);
+        background: var(--accent-soft);
+        border: 1px solid var(--accent);
+        border-radius: 6px;
+        resize: vertical;
+        line-height: 1.5;
+      }
+      .section-comment-wrap textarea:focus {
+        outline: none;
+      }
+
+      .prompt-text-block {
+        background: var(--surface-2);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 12px 14px;
+        margin: 6px 0 0;
+        font-family: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+        font-size: 12.5px;
+        line-height: 1.65;
+        color: var(--ink);
+        white-space: pre-wrap;
+        word-break: break-word;
+        overflow-x: auto;
+      }
+
+      /* Preamble metadata */
+      .prompt-preamble {
+        margin: 16px 0 0;
+        padding: 8px 12px;
+        background: var(--surface-3);
+        border-radius: 6px;
+        font-size: 12.5px;
+        color: var(--ink-3);
+        font-style: italic;
+        border-left: 3px solid var(--line-2);
+      }
+
+      /* Verdict + overall comment */
+      .prompt-verdict-row {
+        margin-top: 24px;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+      }
+      .verdict-label {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-3);
+        margin-bottom: 10px;
+      }
+      .verdict-btns {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+      }
+      .verdict-radio {
+        padding: 8px 15px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        border: 1.5px solid var(--line);
+        background: var(--surface);
+        color: var(--ink-2);
+        transition: all 0.15s;
+      }
+      .verdict-radio:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+      .verdict-radio.active-approve {
+        background: var(--good-soft);
+        border-color: var(--good);
+        color: var(--good);
+        font-weight: 600;
+      }
+      .verdict-radio.active-needs-changes {
+        background: var(--warn-soft);
+        border-color: var(--warn);
+        color: var(--warn);
+        font-weight: 600;
+      }
+      .verdict-radio.active-reject {
+        background: var(--bad-soft);
+        border-color: var(--bad);
+        color: var(--bad);
+        font-weight: 600;
+      }
+
+      .overall-comment-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--ink-3);
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .overall-comment-wrap textarea {
+        width: 100%;
+        min-height: 72px;
+        padding: 9px 11px;
+        font-size: 13.5px;
+        font-family: inherit;
+        color: var(--ink);
+        background: var(--surface-2);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        resize: vertical;
+        line-height: 1.5;
+      }
+      .overall-comment-wrap textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+        background: var(--surface);
+      }
+
+      /* ── Modal ───────────────────────────────────────────────── */
+      #modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 26, 46, 0.45);
+        z-index: 200;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+      #modal-overlay.visible {
+        display: flex;
+      }
+      #modal-box {
+        background: var(--surface);
+        border-radius: 12px;
+        box-shadow: var(--shadow-2);
+        max-width: 680px;
+        width: 100%;
+        max-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      #modal-header {
+        padding: 18px 22px 14px;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      #modal-header h2 {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 700;
+      }
+      #modal-close {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--ink-3);
+        font-size: 20px;
+        padding: 0;
+        line-height: 1;
+      }
+      #modal-close:hover {
+        color: var(--ink);
+      }
+      #modal-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 16px 22px;
+      }
+      #modal-yaml {
+        background: var(--surface-2);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 14px 16px;
+        font-family: "SF Mono", Menlo, Consolas, monospace;
+        font-size: 12.5px;
+        line-height: 1.6;
+        color: var(--ink);
+        white-space: pre;
+        overflow-x: auto;
+        margin: 0;
+      }
+      #modal-footer {
+        padding: 14px 22px;
+        border-top: 1px solid var(--line);
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      #copy-feedback {
+        font-size: 13px;
+        color: var(--good);
+        font-weight: 500;
+        display: none;
+      }
+
+      /* ── Footer ──────────────────────────────────────────────── */
+      footer.page {
+        text-align: center;
+        color: var(--ink-3);
+        font-size: 12px;
+        padding: 32px 24px 56px;
+        border-top: 1px solid var(--line);
+        margin-top: 20px;
+      }
+
+      /* ── Responsive ──────────────────────────────────────────── */
+      @media (max-width: 600px) {
+        .wrap {
+          padding: 24px 14px 80px;
+        }
+        #progress-bar {
+          padding: 10px 14px;
+          gap: 10px;
+        }
+        #progress-bar .progress-track {
+          max-width: 100px;
+        }
+        .export-btns {
+          gap: 6px;
+        }
+        .btn {
+          padding: 7px 10px;
+          font-size: 12px;
+        }
+        .seam-decision-btns,
+        .seam-note-wrap,
+        .seam-card .seam-question,
+        .seam-card .seam-rec {
+          padding-left: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ── Sticky progress strip ──────────────────────────────────── -->
+    <div id="progress-bar">
+      <span class="progress-label"
+        ><span id="reviewed-count">0</span> / 8 reviewed</span
+      >
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <div class="export-btns">
+        <button class="btn btn-ghost" id="btn-download">Download YAML</button>
+        <button class="btn btn-primary" id="btn-export">Export comments</button>
+      </div>
+    </div>
+
+    <!-- ── Main content ───────────────────────────────────────────── -->
+    <div class="wrap">
+      <header class="page">
+        <h1>Staged Prompts &mdash; Review</h1>
+        <p class="intro">
+          Read each of the 8 staged-prompt drafts, drop inline comments on any
+          section, set a verdict per prompt, and click "Export comments" to
+          produce structured YAML you can paste back into chat. Work is
+          auto-saved and survives a page reload.
+        </p>
+      </header>
+
+      <div class="section-title">Seams requiring a decision</div>
+      <p
+        style="
+          font-size: 13.5px;
+          color: var(--ink-3);
+          margin: 0 0 18px;
+          max-width: 720px;
+        "
+      >
+        Four unresolved architectural questions. Resolve all of these before
+        signing off on the prompts. They will appear in the YAML export.
+      </p>
+      <div id="seams-container"></div>
+
+      <div class="section-title" style="margin-top: 48px">
+        Eight prompt drafts
+      </div>
+      <div id="prompts-container"></div>
+    </div>
+
+    <footer class="page">
+      Source:
+      <a
+        href="https://github.com/alignmktg/brilliant-apps/blob/dev/docs/specs/staged-prompts-drafts-2026-05-13.md"
+        ><code>docs/specs/staged-prompts-drafts-2026-05-13.md</code></a
+      >
+    </footer>
+
+    <!-- ── Export modal ───────────────────────────────────────────── -->
+    <div id="modal-overlay">
+      <div id="modal-box">
+        <div id="modal-header">
+          <h2>Export YAML</h2>
+          <button id="modal-close">&#x2715;</button>
+        </div>
+        <div id="modal-body">
+          <pre id="modal-yaml"></pre>
+        </div>
+        <div id="modal-footer">
+          <button class="btn btn-primary" id="btn-copy">
+            Copy to clipboard
+          </button>
+          <button class="btn btn-ghost" id="btn-modal-download">
+            Download YAML
+          </button>
+          <button class="btn btn-ghost" id="btn-modal-close">Close</button>
+          <span id="copy-feedback">Copied!</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Inlined prompt content (raw text, not parsed at runtime) ── -->
+    <!--
+  Each <script type="text/plain"> block holds one prompt's verbatim text.
+  Nested ``` fences are safe here — the only unsafe sequence would be </script>,
+  which none of the prompts contain.
+-->
+
+    <script type="text/plain" id="raw-prompt-1">
+      [PROMPT_VERSION:v2026-05-13-staged-1]
+
+      ## Your Role
+
+      You are a master context elicitor and synthesist performing an AI Intelligence X-Ray. You are the same voice throughout the engagement — the interviewer who comes to know enough to write the report.
+
+      <meta_definition>
+      Append to visible_message:
+        {# meta:progress=N,ready=TRUE|FALSE,qn=QN #}
+      - progress (0-100): interview coverage. 0 at start, rises as you gather depth across all domains.
+      - ready: TRUE only when coverage is sufficient for output generation. Default FALSE.
+      - qn: Q1, Q2, Q3, ... sequential question number. Never reset, never repeat.
+      </meta_definition>
+
+      ## Your Voice & Style
+
+      Blend the interviewing styles of **Terry Gross** (disarming curiosity), **Krista Tippett** (reflective depth), and **Anthony Bourdain** (grit, truth-seeking, zero tolerance for corporate sanitization).
+
+      ### No Corporate Filter
+
+      - Speak like you've been in the trenches. Use trade language (KPIs, friction, bottlenecks) without HR spin.
+      - No "AI" disclaimers, no "Great question" filler. Get straight to the point.
+      - You have permission to be provocative. If an answer feels like a corporate line, punch through it to find the lived reality.
+
+      ### Exemplars
+
+      Emulate:
+      - "'Experimenting' with AI usually means a few people are playing with ChatGPT on the side. Is that the reality, or is something more formal actually happening?"
+      - "Forget the strategy decks for a second. What's the one metric that actually tells you, personally, if you're winning or losing?"
+      - "Who's the person actually making AI fly while everyone else is still stuck at the gate, flapping their arms?"
+      - "If I asked your team what the biggest waste of time is right now—and they didn't have to worry about being 'professional'—what would they say?"
+
+      ## Rules
+
+      - Ask only one question at a time.
+      - Minimize cognitive load: craft questions to be clear, direct, and easy to answer.
+      - Anti-drill: max 2 follow-ups on any single topic. If the answer stays thin, pivot.
+      - No "X-rays": capture the pain, do not attempt to fix or diagnose it.
+      - Adapt: do not ask for information you already have. Reference context naturally.
+      - Build on everything said. Never re-ask. Reference prior answers explicitly.
+      - Follow interesting threads over the outline. Best insights surface in tangents.
+      - **Never reuse a topic framing.** Every question headline must be distinct. If you asked about "AI reality" once, that topic is closed — move to a different domain.
+        - WRONG: Q3 "The AI Reality Check" → Q5 "The Unofficial AI Reality" → Q6 "Official vs. Actual" (same theme, three times)
+        - RIGHT: Q3 "The AI Reality Check" → Q4 "Team Dynamics" → Q5 "Governance & Guardrails" → Q6 "What Keeps You Up"
+      - **"Infer" / "best guess" requests:** When the user asks you to infer, guess, or fill in an answer yourself, present your best guess and then ask ONLY whether they want to approve it as-is or amend it. Do NOT follow up with another interview question in the same response. Do NOT reuse the same question number. The next question comes in your NEXT response after they confirm or correct.
+
+      ## Response Formatting
+
+      Your message field is rendered as Markdown. Use blank lines to separate paragraphs.
+      Use --- on its own line (with blank lines above and below) for a horizontal rule.
+      In JSON: use \n\n for paragraph breaks, \n\n---\n\n for horizontal rules.
+    </script>
+
+    <script type="text/plain" id="raw-prompt-2">
+      You are now beginning the Interview stage. Your identity, voice, and rules remain unchanged from the earlier instructions.
+
+      This is a 20-minute strategic discovery conversation. Not a survey, not a form, not a checklist.
+
+      ## Three-Phase Arc
+
+      ### Phase 1 — Foundation (0-25%)
+
+      Greet by name, reference role/company, set the 20-minute frame. Start with outcomes. Find what they're accountable for and their "tribe signals" (who they admire/distrust in the industry).
+
+      **Early discovery targets** — these topics were NOT collected in the form. You MUST explore them conversationally in Phase 1 or early Phase 2. Weave them naturally into the conversation — do not present them as a checklist:
+      - **Team structure**: How big is their team? What functions? Where do they sit in the org?
+      - **Manager's AI priorities**: What has leadership said about AI? Any mandates or expectations?
+      - **Manager's other priorities**: Beyond AI, what keeps their boss up at night?
+      - **AI vibe**: What's the general feeling about AI on the team — excitement, skepticism, overwhelm?
+      - **Personal AI wins**: What has the interviewee personally found AI useful for?
+      - **Abandoned tools**: Any AI tools they've tried and dropped? Why?
+      - **Tool/workflow notes**: Anything notable about how their team actually works day-to-day?
+
+      If the form context already includes some of this information (e.g. from a pasted bio or background), skip those topics and move to unexplored ones.
+
+      ### Phase 2 — Discovery (25-75%)
+
+      Probe AI reality across the schema: use cases, people dynamics, investment climate, governance. Each question should open a NEW domain — do not circle back to a domain you've already explored. If an answer reveals a gap between rhetoric and reality, note it and move on. Do not ask multiple questions about the same gap.
+
+      ### Phase 3 — Friction (75-95%)
+
+      Identify bottlenecks, nightmare scenarios, and personal decision style. Close with: "What's the one thing about your team's AI situation that keeps you up at night?" Signal ready after closing.
+
+      ## Opening Message Structure
+
+      Opening message (Q1 only): Skip recap. Greeting → frame → Q1.
+
+      Example structure:
+
+      ```
+      Hi [Name] — [greeting, reference role/company]. [Frame-setting sentence.]
+
+      [Frame continuation — what we'll cover.]
+
+      ---
+
+      **Q1: What You're Accountable For**
+
+      [The actual question]
+      ```
+
+      All subsequent messages:
+
+      ```
+      [1-3 sentence recap/acknowledgment of what they just shared]
+
+      ---
+
+      **Q2: [Topic Stub]**
+
+      [The actual question]
+      ```
+
+      Response rules:
+      - Every response uses this two-block structure: recap block, then --- separator, then question block.
+      - DO NOT begin your visible message with a horizontal rule. The first line of every visible message MUST be text content — greeting (Q1) or recap. Use --- only as a mid-response separator after at least one paragraph of text.
+      - Question number: increment by 1 each turn. Q1 is the opening question, Q2 is your second question, Q3 is your third, and so on. Never repeat or skip a number.
+      - Bold stub headline that IS the question — do not restate or paraphrase it in a separate line below.
+
+      ## Stakeholder intake responses
+
+      The stakeholder completed an intake form before this conversation. Treat the following as priors — do not re-ask any of it; reference it naturally when relevant.
+
+      [FORM_CONTEXT]
+
+      ## Target Schema
+
+      Use this schema as the coverage map for the Discovery and Friction phases. Mark `ready=TRUE` only when you have meaningful signal across the schema's domains.
+
+      [HYDRATE]
+
+      Begin with Q1 now.
+    </script>
+
+    <script type="text/plain" id="raw-prompt-3">
+      The interview is complete. Your identity, voice, and rules persist. You are now generating the AI Compass Report — a personal letter to the stakeholder based on the conversation that just happened.
+
+      ## WHAT THIS IS
+
+      A letter — direct, personal, uncomfortable in places, and impossible to stop reading. Written by a brilliant, caring mentor with the analytical mind of a McKinsey partner and the prose of a war correspondent.
+
+      Also: a letter that respects the reader's time. Every section leads with its point. A busy exec who reads only the bolded leads and the executive summary should still walk away with 80% of the value. The narrative earns the remaining 20% — it deepens, it challenges, it makes it stick. But it never buries the signal.
+
+      The reader should feel:
+      - Seen ("they actually understand my situation")
+      - Exposed ("I didn't realize I was doing that")
+      - Challenged ("that's hard to read but they're right")
+      - Energized ("I can actually do something about this")
+      - Compelled to act ("I need to talk to these people")
+
+      If they could swap their name for someone else's and it would still work, you failed. If the takeaways require reading every paragraph to extract, you failed.
+
+      ## Voice (for this deliverable)
+
+      The interviewer voice steps aside for the report voice. Write like a concerned parent talking to their brilliant adult child who is wasting their potential. Tough but supportive. Direct but caring. The love is in the honesty.
+
+      Specific voice rules:
+      - Second person throughout. Address them by first name.
+      - **NEVER use first person ("I", "me", "my", "I'm").** The report does not have a narrator identity. It speaks as an omniscient, authoritative voice — like a book that knows you. Not "I respect that" but "That takes a particular kind of stubbornness."
+      - Quote their exact words back at them — their phrases, their metaphors, their hedges.
+      - Name their contradictions explicitly.
+      - Use vivid, unexpected metaphors. Not corporate language. Not AI jargon. Human language.
+      - Vary sentence length dramatically. Short punches. Then longer, building sentences that don't let go until the final clause lands.
+      - Swear sparingly but effectively. One or two instances max.
+      - Never use: "leverage" (as a verb), "stakeholder alignment", "digital transformation", "best practices", "synergies", or any phrase that could appear in a McKinsey deck unironically.
+
+      ## Structure
+
+      Target: 2000-3000 words total. Thirteen sections, every word earning its place.
+
+      ### Formatting & readability
+
+      - Every section (except Title, CTA, and Executive Summary) opens with a bolded 1-2 sentence lead — the insight itself, not a topic sentence.
+      - 2-4 blockquote pull quotes across the whole report, placed where they hit hardest.
+      - Horizontal rules (---) at major emotional transitions (after Mirror, after Blind Spots, after What You Have, before The Last Thing).
+      - Short paragraphs (2-4 sentences). Single-sentence paragraphs for emphasis are encouraged.
+      - No tables, no code blocks, no emoji, no nested bullets, no bolded paragraphs.
+
+      ### 1. The Title
+      Format: "A Letter to [Full Name], Who Is [uncomfortable truth about their situation]"
+      Subtitle must name a specific, accurate tension from the interview.
+      Follow with: *This is not a report. This is a mirror. Some of what you see will be uncomfortable. Read it anyway.*
+
+      ### 2. Executive Summary
+      3-4 bullets in a blockquote, no preamble:
+      > **The truth:** [single most important insight]
+      > **Do this now:** [this-week action]
+      > **Do this next:** [this-quarter action]
+      > **Do this before it's too late:** [strategic/identity move]
+
+      Each bullet must reference their actual tools, problems, role.
+
+      ### 3. The Mirror
+      2-3 paragraphs max. Compressed recognition + the thing beneath the thing. End with the single insight they didn't have.
+
+      ### 4. The Lie
+      2-3 rationalizations. Each gets ONE paragraph: bold headline (their words or paraphrase) → quote → why it's a rationalization → what it's costing them.
+
+      ### 5. The Blind Spots
+      Three numbered blind spots. Each = ONE paragraph + closing question. Escalate intensity; the third targets identity/role obsolescence.
+
+      ### 6. The Story
+      2 paragraphs max. Name the gap between what they say they want and what they're doing. Advance the narrative — don't rehash.
+
+      ### 7. What You Have That Most People Don't
+      2-3 paragraphs. Name their unusual combination concretely. End with a short architectural directive.
+
+      ### 8. Tough Questions, Tougher Answers
+      Three bold numbered questions + 2-3 sentences of context each. Altitudes: NOW work → ROLE evolution → IDENTITY. No answers.
+
+      ### 9. The Question Behind All the Other Questions
+      The one question the report has been circling. Then three woven scenarios (Staying / Going / Building) — short paragraphs, some one sentence. Close: none of these paths are wrong; refusing to acknowledge the choice is the problem. ~300-400 words.
+
+      ### 10. The Compass Heading
+      Three altitude levels, 2-3 bullets each:
+      - **Ground level (this week):** specific, immediate.
+      - **At altitude (this quarter):** strategic repositioning.
+      - **At the horizon (this year):** role evolution, identity.
+      Each action references something specific from the interview.
+
+      ### 11. Three Things That Could Be Real
+      For each of 3 items from the interview: what it does (1-2 sentences) → why it matters (1 sentence) → how fast it could exist (1 sentence). ~200-250 words total. No spec language.
+
+      ### 12. The Last Thing
+      3-4 paragraphs. Acknowledge urgency's half-life → affirm what they knew → close with a single line specific to this person.
+
+      ### 13. The CTA
+      Italicized, personal:
+      *When you're ready to make this real — not theoretical, not "someday," but real and starting this month — [talk to BrilliantWith.ai](https://cal.com/team/brilliant-with-ai/ai-intelligence-report). [Specific builds from section 11]. [What they're already carrying.]*
+
+      *[Person-specific closing line tied to the report's central tension.]*
+
+      ## Critical rules
+
+      1. Every section references specific things from the interview. If you can't tie it back, cut it.
+      2. No filler paragraphs.
+      3. Executive summary + bolded leads must stand alone.
+      4. Anti-patterns to weave in naturally: stop consuming AI news; pick one tool and master it; play your own game; stop confusing caution with strategy.
+      5. 2000-3000 words. Cut until it fits.
+      6. Wrap the entire output in deliverable tags: `<deliverable name="compass-report" version="2.0">...report markdown...</deliverable>`
+      7. Do NOT interpret interview mechanics as personality data. Short answers / skipped topics = feedback about the interview, not a character insight.
+
+      Generate the report now.
+    </script>
+
+    <script type="text/plain" id="raw-prompt-4">
+      Insights are complete. You are now generating the full AI Mirror Report — a structured intelligence brief that pairs with the Compass letter.
+
+      ## Role
+
+      Senior organizational strategist specializing in AI readiness assessments. Synthesize the interview conversation into an intelligence brief that surfaces what the user cannot see on their own — blind spots, hidden patterns, and specific ideas they can bring to their team.
+
+      ## Voice & Style (for this deliverable)
+
+      The interviewer voice steps aside for the analyst voice.
+
+      - Write at a 10th grade reading level. No jargon.
+      - Direct, clear, specific. Every sentence says something the reader didn't already know.
+      - Keep paragraphs short — 2-3 sentences max everywhere. If a paragraph runs longer, split it.
+      - Surface contradictions explicitly when present.
+      - Selectively quote the user's own words at key insight moments — sparingly (2-4 times total). As evidence, not recap.
+      - Frame all observations as positions on a journey, not as problems.
+      - Be explicit about whether an observation applies to the person, the company, or both.
+
+      ## Constraints
+
+      - Your job is NOT to summarize what the user told you. Generate insights, identify patterns they may not see, and propose specific ideas.
+      - Do not invent or extrapolate beyond what the evidence supports. If implied but unstated, flag as observation, not fact.
+      - No preamble or meta-commentary. Start with first heading, end with last section.
+      - Minimize repetition between the Personal Mirror and Company Mirror sections. Personal = individual leverage, growth edge, capabilities. Company = structural dynamics, adoption patterns, governance.
+
+      ## Goal
+
+      Produce a personal readout (~1500-2000 words) that surfaces what the user can't see on their own and gives them ideas they'd be excited to bring to their team.
+
+      They should walk away with: (1) a clear picture of where they and their org stand, quantified, (2) concrete ideas they can bring to their team or boss, and (3) a strong pull to go deeper on the blind spots you surface.
+
+      ## Scoring Rubric (internal — not shown to user)
+
+      Two scores, each out of 10. HIGH = untapped opportunity. LOW = most value captured (rare) or foundational pieces missing.
+
+      **Personal AI Potential Score** — usage breadth/depth, skill relative to role, workflow integration, ability to level up. Under 5: frame path forward as leadership opportunity (scaling through others).
+
+      **Organizational AI Potential Score** — team adoption evenness, governance maturity, whether wins are isolated or compounding, structural opportunity.
+
+      Score ranges:
+      - **8-9/10:** "Wide Open" — significant untapped potential
+      - **6-7/10:** "Building Momentum" — real value captured, clear next moves
+      - **4-5/10:** "Structured Adopter" — remaining gains need strategic moves
+      - **2-3/10:** "Needs Foundation" or "Well-Optimized"
+
+      Personal profile labels: push for specific mini-diagnosis, not generic stage. Examples: "Power User Without a System," "Structured but Solo."
+
+      ## Use Case Writing Guidance
+
+      Self-contained — someone could copy-paste one into Slack and it makes sense. Be explicit: personal productivity idea or team/org suggestion. No meta-commentary.
+
+      ## Blind Spot Writing Guidance
+
+      Order by impact and novelty. First = most genuinely surprising. Push hard for novel pattern recognition.
+
+      ## Output Template
+
+      Wrap the entire output in deliverable tags: `<deliverable name="xray-report" version="1.0">...report markdown...</deliverable>`
+
+      # AI Mirror Report: {Full Name} — {Company Name}
+
+      > **Important note:** This report is based on your responses alone. For a deeper, cross-functional readout that includes perspectives from across your team, visit the [full AI Intelligence Report](https://ai-intelligence-report-landing-page-tau.vercel.app/).
+
+      ---
+
+      ## Personal Mirror: {Full Name}
+
+      **AI Potential** `{X}/10` | **AI Profile** `{Descriptive AI Profile Label}`
+
+         - {1-2 sentence chunk — score + profile story. Where they stand and why.}
+         - {1-2 sentence chunk — growth edge, distinguishing situation.}
+         - {Optional: 1 more sub-bullet. 2-3 total.}
+
+      ALL content in sub-bullets. Focus on the INDIVIDUAL.
+
+      ---
+
+      ## Company Mirror: {Company Name}
+
+      **AI Potential** `{X}/10` | **AI Profile** `{AI Profile Label}`
+
+         - {1-2 sentence chunk — score + profile story for the org.}
+         - {1-2 sentence chunk — structural dynamics, adoption, governance.}
+         - {Optional: 1 more sub-bullet.}
+
+      ALL content in sub-bullets. Third person. Focus on the ORG.
+
+      ---
+
+      ## Ideas & Use Cases to Consider
+
+      {1-2 sentences framing as starting points.}
+
+      1. **{Idea 1}:** {description. Personal or team/org.}
+         - {Key consideration, max 3}
+      2. **{Idea 2}:** {description}
+         - {Key considerations}
+      3. **{Idea 3}:** {description}
+         - {Key considerations}
+      4. **{Idea 4}:** {description}
+         - {Key considerations}
+      5. **{Idea 5}:** {description}
+         - {Key considerations}
+
+      Cover: personal productivity, process improvement, team enablement, AI fluency. Accessible → ambitious.
+
+      ---
+
+      ## What You Might Be Missing
+
+      Patterns that point to something underneath the surface.
+
+      ### Blindspot #1: {pattern they haven't named}
+
+      {2-3 sentences. Quote once if it strengthens.}
+
+      - **Evidence:** {what they said/implied}
+      - **What to check:** {specific validation step}
+      - **Do next:** {one concrete action}
+
+      ### Blindspot #2: {another pattern}
+
+      {Same structure.}
+
+      ### Blindspot #3: {another pattern}
+
+      {Same structure.}
+
+      ---
+
+      ## What's Next
+
+      These scores are based on a single conversation — a starting point. A [team-wide assessment](https://ai-intelligence-report-landing-page-tau.vercel.app/) would sharpen both numbers.
+
+      [Book a free session to review your AI Mirror results](https://cal.com/team/brilliant-with-ai/review-your-ai-report)
+
+      Generate the report now.
+    </script>
+
+    <script type="text/plain" id="raw-prompt-5">
+      You are Captain Bones, a salty pirate scribe running a quick smoke test.
+
+      Voice rules — every visible message:
+      - Speak in pirate. "Ahoy", "matey", "yer", "the seven seas". Lean in.
+      - Stay friendly. No menace.
+      - One question at a time. Never two.
+
+      Append to every visible message:
+      {# meta:progress=N,ready=TRUE|FALSE,qn=QN #}
+
+      That's it. Stages 2-4 will tell ye what to do at each step of the voyage.
+    </script>
+
+    <script type="text/plain" id="raw-prompt-6">
+      Interview stage begins. Identity and voice unchanged.
+
+      Two visible turns. No more.
+
+      Q1: Greet the user by first name (from the intake form below) and ask: "What's yer favorite color, matey?"
+         Meta: progress=50, ready=FALSE, qn=1.
+
+      Q2 (after their reply): One short pirate-voice sentence acknowledging the color.
+         Meta: progress=100, ready=TRUE, qn=2.
+
+      If they keep talking, stay friendly, stay in voice, keep ready=TRUE — but never ask a third question.
+
+      ## Stakeholder intake responses
+
+      [FORM_CONTEXT]
+
+      ## Target Schema
+
+      [HYDRATE]
+
+      Begin with Q1 now.
+    </script>
+
+    <script type="text/plain" id="raw-prompt-7">
+      Interview's done, matey. Identity and voice unchanged.
+
+      Write ONE pirate-themed sentence reflecting on the color they shared. No preamble, no deliverable tags — just the sentence. This is the insights stream.
+    </script>
+
+    <script type="text/plain" id="raw-prompt-8">
+      Insights done. Identity and voice unchanged. Time for the smoke letter.
+
+      Write 2-3 sentences in pirate voice. Include the user's first name and the favorite color they shared. Short, friendly, unmistakably a smoke-test confirmation.
+
+      Wrap the output in deliverable tags exactly:
+
+      &lt;deliverable name="smoke-letter" version="1.0"&gt;
+      [2-3 pirate sentences using the user's first name and favorite color]
+      &lt;/deliverable&gt;
+
+      No preamble, no meta-commentary, no acknowledgment of this command. Begin directly with the deliverable tag.
+
+      Example:
+
+      &lt;deliverable name="smoke-letter" version="1.0"&gt;
+      Ahoy, Matt! Yer favorite color be blue, the very shade of the open sea on a fair morning. May yer flag fly blue forevermore — the smoke test be passed, matey.
+      &lt;/deliverable&gt;
+    </script>
+
+    <!-- ── Main JS ─────────────────────────────────────────────────── -->
+    <script>
+      (function () {
+        "use strict";
+
+        var LS_PREFIX = "staged-prompts-review:v1:";
+
+        /* ── Data definitions ────────────────────────────────────────── */
+
+        var SEAMS = [
+          {
+            id: "meta-definition-placement",
+            title: "meta_definition placement",
+            question:
+              "The meta block (qn=, progress=, ready=) is in Stage 1 but is only used during Stage 2 interview turns. Stages 3 and 4 inherit it and may emit meta tokens while writing the report.",
+            rec: "Move meta_definition from Stage 1 to Stage 2 only. It is interview machinery, not identity.",
+            options: [
+              { label: "Accept recommendation", val: "accept" },
+              { label: "Reject — specify alternative", val: "reject" },
+            ],
+          },
+          {
+            id: "response-formatting-split",
+            title: "Response Formatting split",
+            question:
+              'The monolithic prompt had one contiguous "Response Formatting" section. The split moves generic markdown rules (paragraph breaks, --- syntax, JSON escaping) to Stage 1, and the Q1/Q2 recap-then-question structure to Stage 2.',
+            rec: "Keep the split. Generic formatting belongs in Identity; interview-specific formatting belongs in Stage 2.",
+            options: [
+              { label: "Accept recommendation", val: "accept" },
+              { label: "Reject — keep together in Stage 1", val: "reject" },
+              { label: "Reject — keep together in Stage 2", val: "other" },
+            ],
+          },
+          {
+            id: "voice-handoff-stages-3-4",
+            title: "Voice handoff for Stages 3 and 4",
+            question:
+              'Identity sets Terry Gross / Krista Tippett / Anthony Bourdain. Stage 3 (Compass) needs "concerned parent / war correspondent" and Stage 4 (Mirror) needs "senior analyst, 10th-grade reading level." All three are deliberately different voices. The current drafts have Stage 3 and 4 explicitly say "the interviewer voice steps aside" and carry their own voice blocks.',
+            rec: "Keep the handoff as drafted. The report voices are well-tested; stripping them would degrade the deliverables.",
+            options: [
+              { label: "Accept recommendation", val: "accept" },
+              { label: "Reject — specify alternative", val: "reject" },
+            ],
+          },
+          {
+            id: "smoke-architecture",
+            title: "Smoke architecture",
+            question:
+              "The old smoke design kept the pirate persona out of the system prompt and injected it via user_context — testing dual-channel delivery. The new staged smoke puts the pirate identity directly in Stage 1, eliminating that check.",
+            rec: "Drop the dual-channel check. The staged-prompts smoke is cleaner and the transport assumption no longer needs per-deploy validation.",
+            options: [
+              { label: "Accept recommendation", val: "accept" },
+              { label: "Reject — restore dual-channel check", val: "reject" },
+            ],
+          },
+        ];
+
+        var PROMPTS = [
+          {
+            id: "production-stage-1-identity",
+            num: 1,
+            label: "Production Stage 1",
+            name: "Identity",
+            preamble:
+              "Sent as promptOverrides.system on the first request. Immutable for the rest of the conversation.",
+          },
+          {
+            id: "production-stage-2-interview",
+            num: 2,
+            label: "Production Stage 2",
+            name: "Interview",
+            preamble:
+              "Sent at InterviewStep mount via role: 'system' + submitToLlm: true. Triggers the AI's opening greeting.",
+          },
+          {
+            id: "production-stage-3-insights",
+            num: 3,
+            label: "Production Stage 3",
+            name: "Insights",
+            preamble:
+              "Sent at InsightsStep mount via role: 'system' + submitToLlm: true. Triggers insights generation.",
+          },
+          {
+            id: "production-stage-4-generating",
+            num: 4,
+            label: "Production Stage 4",
+            name: "Generating",
+            preamble:
+              "Sent at GeneratingStep mount (after Insights stream completes) via role: 'system' + submitToLlm: true. Triggers full X-Ray report.",
+          },
+          {
+            id: "smoke-stage-1-identity",
+            num: 5,
+            label: "Smoke Stage 1",
+            name: "Identity (Captain Bones)",
+            preamble:
+              "Sent as promptOverrides.system on the first request. Immutable for the rest of the conversation.",
+          },
+          {
+            id: "smoke-stage-2-interview",
+            num: 6,
+            label: "Smoke Stage 2",
+            name: "Interview",
+            preamble:
+              "Sent at InterviewStep mount via role: 'system' + submitToLlm: true. Triggers the AI's opening greeting.",
+          },
+          {
+            id: "smoke-stage-3-insights",
+            num: 7,
+            label: "Smoke Stage 3",
+            name: "Insights",
+            preamble:
+              "Sent at InsightsStep mount via role: 'system' + submitToLlm: true. Triggers insights generation.",
+          },
+          {
+            id: "smoke-stage-4-generating",
+            num: 8,
+            label: "Smoke Stage 4",
+            name: "Generating",
+            preamble:
+              "Sent at GeneratingStep mount (after Insights stream completes) via role: 'system' + submitToLlm: true. Triggers the smoke letter.",
+          },
+        ];
+
+        /* ── localStorage helpers ────────────────────────────────────── */
+
+        function lsGet(key) {
+          try {
+            return localStorage.getItem(LS_PREFIX + key);
+          } catch (e) {
+            return null;
+          }
+        }
+        function lsSet(key, val) {
+          try {
+            localStorage.setItem(LS_PREFIX + key, val);
+          } catch (e) {}
+        }
+
+        /* ── Slug ────────────────────────────────────────────────────── */
+
+        function slugify(text) {
+          return text
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-|-$/g, "");
+        }
+
+        /* ── HTML escape ─────────────────────────────────────────────── */
+
+        function esc(s) {
+          if (!s) return "";
+          return s
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+        }
+
+        /* ── Parse prompt text into sections (fence-aware) ───────────── */
+
+        function parseSections(text) {
+          var lines = text.split("\n");
+          var sections = [];
+          var currentHeading = null;
+          var currentIsH3 = false;
+          var currentBody = [];
+          var fenceDepth = 0;
+
+          function flush() {
+            var body = currentBody.join("\n").trimEnd();
+            if (currentHeading !== null || body) {
+              sections.push({
+                heading: currentHeading,
+                isH3: currentIsH3,
+                body: body,
+              });
+            }
+            currentBody = [];
+          }
+
+          for (var i = 0; i < lines.length; i++) {
+            var line = lines[i];
+            if (/^```/.test(line)) {
+              fenceDepth = fenceDepth === 0 ? 1 : 0;
+            }
+            if (fenceDepth === 0 && /^#{2,3} /.test(line)) {
+              flush();
+              var isH3 = /^### /.test(line);
+              currentHeading = line.replace(/^#+\s+/, "").trim();
+              currentIsH3 = isH3;
+            } else {
+              currentBody.push(line);
+            }
+          }
+          flush();
+          return sections;
+        }
+
+        /* ── Render seam cards ───────────────────────────────────────── */
+
+        function renderSeams() {
+          var container = document.getElementById("seams-container");
+          SEAMS.forEach(function (seam, idx) {
+            var savedDecision = lsGet("seam:" + seam.id + ":decision") || "";
+            var savedNote = lsGet("seam:" + seam.id + ":note") || "";
+
+            var card = document.createElement("div");
+            card.className = "seam-card" + (savedDecision ? " decided" : "");
+            card.id = "seam-" + seam.id;
+
+            var optionBtns = seam.options
+              .map(function (opt) {
+                var ac = savedDecision === opt.val ? " active-" + opt.val : "";
+                return (
+                  '<button class="seam-btn' +
+                  ac +
+                  '" data-val="' +
+                  opt.val +
+                  '">' +
+                  esc(opt.label) +
+                  "</button>"
+                );
+              })
+              .join("");
+
+            var noteDisplay =
+              savedDecision === "reject" ||
+              savedDecision === "other" ||
+              savedNote
+                ? "block"
+                : "none";
+
+            card.innerHTML =
+              '<div class="seam-header">' +
+              '<div class="seam-num">' +
+              (idx + 1) +
+              "</div>" +
+              '<div class="seam-title">Seam ' +
+              (idx + 1) +
+              ": " +
+              esc(seam.title) +
+              "</div>" +
+              "</div>" +
+              '<p class="seam-question">' +
+              esc(seam.question) +
+              "</p>" +
+              '<div class="seam-rec"><strong>Recommendation:</strong> ' +
+              esc(seam.rec) +
+              "</div>" +
+              '<div class="seam-decision-btns">' +
+              optionBtns +
+              "</div>" +
+              '<div class="seam-note-wrap" id="seam-note-wrap-' +
+              seam.id +
+              '" style="display:' +
+              noteDisplay +
+              '">' +
+              '<textarea placeholder="Specify your alternative or add a note…">' +
+              esc(savedNote) +
+              "</textarea>" +
+              "</div>";
+
+            container.appendChild(card);
+
+            card.querySelectorAll(".seam-btn").forEach(function (btn) {
+              btn.addEventListener("click", function () {
+                var val = btn.dataset.val;
+                var current = lsGet("seam:" + seam.id + ":decision") || "";
+                var newVal = current === val ? "" : val;
+                card.querySelectorAll(".seam-btn").forEach(function (b) {
+                  b.className = "seam-btn";
+                });
+                if (newVal) btn.classList.add("active-" + newVal);
+                lsSet("seam:" + seam.id + ":decision", newVal);
+                var noteWrap = document.getElementById(
+                  "seam-note-wrap-" + seam.id,
+                );
+                if (newVal === "reject" || newVal === "other") {
+                  noteWrap.style.display = "block";
+                } else if (!(lsGet("seam:" + seam.id + ":note") || "").trim()) {
+                  noteWrap.style.display = "none";
+                }
+                card.classList.toggle("decided", !!newVal);
+              });
+            });
+
+            var noteArea = card.querySelector("textarea");
+            if (noteArea) {
+              noteArea.addEventListener("input", function () {
+                lsSet("seam:" + seam.id + ":note", noteArea.value);
+              });
+            }
+          });
+        }
+
+        /* ── Render prompt cards ─────────────────────────────────────── */
+
+        function renderPrompts() {
+          var container = document.getElementById("prompts-container");
+
+          PROMPTS.forEach(function (p) {
+            var rawEl = document.getElementById("raw-prompt-" + p.num);
+            var rawText = rawEl ? rawEl.textContent.trim() : "";
+            var sections = parseSections(rawText);
+
+            var savedVerdict = lsGet("prompt:" + p.id + ":verdict") || "";
+            var savedOverall = lsGet("prompt:" + p.id + ":overall") || "";
+
+            var card = document.createElement("div");
+            card.className = "prompt-card";
+            card.id = "prompt-" + p.id;
+
+            var dotClass =
+              savedVerdict === "approve"
+                ? " approved"
+                : savedVerdict === "needs-changes"
+                  ? " needs-changes"
+                  : savedVerdict === "reject"
+                    ? " rejected"
+                    : "";
+            var badgeLabel =
+              savedVerdict === "approve"
+                ? "Approved"
+                : savedVerdict === "needs-changes"
+                  ? "Needs changes"
+                  : savedVerdict === "reject"
+                    ? "Rejected"
+                    : "";
+            var badgeClass =
+              savedVerdict === "approve"
+                ? " approved"
+                : savedVerdict === "needs-changes"
+                  ? " needs-changes"
+                  : savedVerdict === "reject"
+                    ? " rejected"
+                    : "";
+
+            // Build sections HTML
+            var sectionsHtml = "";
+            var secSlugs = [];
+            sections.forEach(function (sec, si) {
+              var secSlug = sec.heading
+                ? slugify(sec.heading)
+                : "preamble-" + si;
+              // Deduplicate slugs
+              var baseSlug = secSlug;
+              var count = 0;
+              while (secSlugs.indexOf(secSlug) !== -1) {
+                count++;
+                secSlug = baseSlug + "-" + count;
+              }
+              secSlugs.push(secSlug);
+
+              var savedSecNote =
+                lsGet("prompt:" + p.id + ":sec:" + secSlug) || "";
+              var secNoteVisible = savedSecNote ? " visible" : "";
+              var hasNoteClass = savedSecNote ? " has-note" : "";
+
+              var headHtml = "";
+              if (sec.heading) {
+                var tag = sec.isH3 ? "h4" : "h3";
+                headHtml =
+                  '<div class="prompt-section-head">' +
+                  "<" +
+                  tag +
+                  ">" +
+                  esc(sec.heading) +
+                  "</" +
+                  tag +
+                  ">" +
+                  '<button class="comment-btn' +
+                  hasNoteClass +
+                  '" data-sec-slug="' +
+                  esc(secSlug) +
+                  '">Comment</button>' +
+                  "</div>";
+              }
+
+              sectionsHtml +=
+                '<div class="prompt-section" data-sec-slug="' +
+                esc(secSlug) +
+                '">' +
+                headHtml +
+                '<pre class="prompt-text-block">' +
+                esc(sec.body) +
+                "</pre>" +
+                '<div class="section-comment-wrap' +
+                secNoteVisible +
+                '">' +
+                '<textarea placeholder="Comment on this section…" data-sec-slug="' +
+                esc(secSlug) +
+                '">' +
+                esc(savedSecNote) +
+                "</textarea>" +
+                "</div>" +
+                "</div>";
+            });
+
+            var vBtns = ["approve", "needs-changes", "reject"]
+              .map(function (v) {
+                var label =
+                  v === "approve"
+                    ? "Approve"
+                    : v === "needs-changes"
+                      ? "Needs changes"
+                      : "Reject";
+                var ac = savedVerdict === v ? " active-" + v : "";
+                return (
+                  '<button class="verdict-radio' +
+                  ac +
+                  '" data-verdict="' +
+                  v +
+                  '">' +
+                  label +
+                  "</button>"
+                );
+              })
+              .join("");
+
+            card.innerHTML =
+              '<div class="prompt-card-header" role="button" tabindex="0" aria-expanded="false">' +
+              '<div class="verdict-dot' +
+              dotClass +
+              '"></div>' +
+              '<div class="prompt-card-label">' +
+              '<div class="prompt-id">' +
+              esc(p.label) +
+              "</div>" +
+              '<div class="prompt-name">' +
+              esc(p.name) +
+              "</div>" +
+              "</div>" +
+              '<span class="verdict-badge' +
+              badgeClass +
+              '">' +
+              badgeLabel +
+              "</span>" +
+              '<svg class="card-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>' +
+              "</div>" +
+              '<div class="prompt-card-body">' +
+              '<div class="prompt-body">' +
+              '<div class="prompt-preamble">' +
+              esc(p.preamble) +
+              "</div>" +
+              sectionsHtml +
+              '<div class="prompt-verdict-row">' +
+              '<div class="verdict-label">Verdict</div>' +
+              '<div class="verdict-btns">' +
+              vBtns +
+              "</div>" +
+              '<div class="overall-comment-label">Overall comment</div>' +
+              '<div class="overall-comment-wrap"><textarea placeholder="Overall notes on this prompt…">' +
+              esc(savedOverall) +
+              "</textarea></div>" +
+              "</div>" +
+              "</div>" +
+              "</div>";
+
+            container.appendChild(card);
+
+            // Toggle open/close
+            var header = card.querySelector(".prompt-card-header");
+            function toggleCard() {
+              var isOpen = card.classList.contains("open");
+              card.classList.toggle("open", !isOpen);
+              header.setAttribute("aria-expanded", String(!isOpen));
+            }
+            header.addEventListener("click", toggleCard);
+            header.addEventListener("keydown", function (e) {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                toggleCard();
+              }
+            });
+
+            // Section comment buttons — match by slug
+            card.querySelectorAll(".comment-btn").forEach(function (btn) {
+              btn.addEventListener("click", function (e) {
+                e.stopPropagation();
+                var slug = btn.dataset.secSlug;
+                var section = card.querySelector(
+                  '.prompt-section[data-sec-slug="' + slug + '"]',
+                );
+                if (!section) return;
+                var wrap = section.querySelector(".section-comment-wrap");
+                if (!wrap) return;
+                wrap.classList.toggle("visible");
+                btn.classList.toggle(
+                  "active",
+                  wrap.classList.contains("visible"),
+                );
+                if (wrap.classList.contains("visible"))
+                  wrap.querySelector("textarea").focus();
+              });
+            });
+
+            // Section textarea autosave
+            card
+              .querySelectorAll(".section-comment-wrap textarea")
+              .forEach(function (ta) {
+                ta.addEventListener("input", function () {
+                  var slug = ta.dataset.secSlug;
+                  lsSet("prompt:" + p.id + ":sec:" + slug, ta.value);
+                  // Update comment button
+                  var btn = card.querySelector(
+                    '.comment-btn[data-sec-slug="' + slug + '"]',
+                  );
+                  if (btn) {
+                    btn.classList.toggle(
+                      "has-note",
+                      ta.value.trim().length > 0,
+                    );
+                  }
+                });
+              });
+
+            // Verdict buttons
+            card.querySelectorAll(".verdict-radio").forEach(function (btn) {
+              btn.addEventListener("click", function () {
+                var v = btn.dataset.verdict;
+                var current = lsGet("prompt:" + p.id + ":verdict") || "";
+                var newV = current === v ? "" : v;
+                card.querySelectorAll(".verdict-radio").forEach(function (b) {
+                  b.className = "verdict-radio";
+                });
+                if (newV) btn.classList.add("active-" + newV);
+                lsSet("prompt:" + p.id + ":verdict", newV);
+                // Update dot + badge
+                var dot = card.querySelector(".verdict-dot");
+                var badge = card.querySelector(".verdict-badge");
+                dot.className =
+                  "verdict-dot" +
+                  (newV === "approve"
+                    ? " approved"
+                    : newV === "needs-changes"
+                      ? " needs-changes"
+                      : newV === "reject"
+                        ? " rejected"
+                        : "");
+                badge.className =
+                  "verdict-badge" +
+                  (newV === "approve"
+                    ? " approved"
+                    : newV === "needs-changes"
+                      ? " needs-changes"
+                      : newV === "reject"
+                        ? " rejected"
+                        : "");
+                badge.textContent =
+                  newV === "approve"
+                    ? "Approved"
+                    : newV === "needs-changes"
+                      ? "Needs changes"
+                      : newV === "reject"
+                        ? "Rejected"
+                        : "";
+                updateProgress();
+              });
+            });
+
+            // Overall textarea autosave
+            var overallTa = card.querySelector(
+              ".overall-comment-wrap textarea",
+            );
+            if (overallTa) {
+              overallTa.addEventListener("input", function () {
+                lsSet("prompt:" + p.id + ":overall", overallTa.value);
+              });
+            }
+          });
+        }
+
+        /* ── Progress ────────────────────────────────────────────────── */
+
+        function updateProgress() {
+          var count = 0;
+          PROMPTS.forEach(function (p) {
+            if (lsGet("prompt:" + p.id + ":verdict")) count++;
+          });
+          document.getElementById("reviewed-count").textContent = count;
+          document.getElementById("progress-fill").style.width =
+            (count / 8) * 100 + "%";
+        }
+
+        /* ── YAML export ─────────────────────────────────────────────── */
+
+        function yamlScalar(s) {
+          if (!s) return "null";
+          // Use literal block scalar if multiline or contains special chars that need quoting
+          if (
+            s.indexOf("\n") !== -1 ||
+            s.indexOf('"') !== -1 ||
+            s.indexOf("\\") !== -1 ||
+            /^[\s>|*&!%@`]/.test(s) ||
+            s.indexOf(": ") !== -1
+          ) {
+            var indented = s
+              .split("\n")
+              .map(function (l) {
+                return "    " + l;
+              })
+              .join("\n");
+            return "|-\n" + indented;
+          }
+          return '"' + s.replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"';
+        }
+
+        function buildYaml() {
+          var today = new Date().toISOString().slice(0, 10);
+          var out = "review_date: " + today + "\n";
+
+          out += "seams:\n";
+          var hasSeam = false;
+          SEAMS.forEach(function (seam) {
+            var decision = lsGet("seam:" + seam.id + ":decision") || "";
+            var note = (lsGet("seam:" + seam.id + ":note") || "").trim();
+            if (!decision && !note) return;
+            hasSeam = true;
+            out += "  - id: " + seam.id + "\n";
+            out += "    decision: " + (decision || "unset") + "\n";
+            if (note) out += "    note: " + yamlScalar(note) + "\n";
+          });
+          if (!hasSeam) out += "  []\n";
+
+          out += "prompts:\n";
+          var hasPrompt = false;
+          PROMPTS.forEach(function (p) {
+            var verdict = lsGet("prompt:" + p.id + ":verdict") || "";
+            var overall = (lsGet("prompt:" + p.id + ":overall") || "").trim();
+
+            var rawEl = document.getElementById("raw-prompt-" + p.num);
+            var rawText = rawEl ? rawEl.textContent.trim() : "";
+            var sections = parseSections(rawText);
+            var secSlugs = [];
+            var secComments = [];
+            sections.forEach(function (sec, si) {
+              if (!sec.heading) return;
+              var secSlug = slugify(sec.heading);
+              var baseSlug = secSlug;
+              var count = 0;
+              while (secSlugs.indexOf(secSlug) !== -1) {
+                count++;
+                secSlug = baseSlug + "-" + count;
+              }
+              secSlugs.push(secSlug);
+              var note = (
+                lsGet("prompt:" + p.id + ":sec:" + secSlug) || ""
+              ).trim();
+              if (note) secComments.push({ section: sec.heading, note: note });
+            });
+
+            if (!verdict && !overall && secComments.length === 0) return;
+            hasPrompt = true;
+            out += "  - id: " + p.id + "\n";
+            if (verdict) out += "    verdict: " + verdict + "\n";
+            if (overall)
+              out += "    overall_note: " + yamlScalar(overall) + "\n";
+            if (secComments.length > 0) {
+              out += "    section_comments:\n";
+              secComments.forEach(function (sc) {
+                out += "      - section: " + yamlScalar(sc.section) + "\n";
+                out += "        note: " + yamlScalar(sc.note) + "\n";
+              });
+            }
+          });
+          if (!hasPrompt) out += "  []\n";
+
+          return out;
+        }
+
+        /* ── Modal + export buttons ──────────────────────────────────── */
+
+        function showModal() {
+          document.getElementById("modal-yaml").textContent = buildYaml();
+          document.getElementById("modal-overlay").classList.add("visible");
+          document.getElementById("copy-feedback").style.display = "none";
+        }
+
+        function downloadYaml() {
+          var yaml = buildYaml();
+          var ts = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
+          var blob = new Blob([yaml], { type: "text/yaml" });
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement("a");
+          a.href = url;
+          a.download = "staged-prompts-review-comments-" + ts + ".yaml";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }
+
+        document
+          .getElementById("btn-export")
+          .addEventListener("click", showModal);
+        document
+          .getElementById("btn-download")
+          .addEventListener("click", downloadYaml);
+        document
+          .getElementById("modal-close")
+          .addEventListener("click", function () {
+            document
+              .getElementById("modal-overlay")
+              .classList.remove("visible");
+          });
+        document
+          .getElementById("btn-modal-close")
+          .addEventListener("click", function () {
+            document
+              .getElementById("modal-overlay")
+              .classList.remove("visible");
+          });
+        document
+          .getElementById("btn-modal-download")
+          .addEventListener("click", downloadYaml);
+
+        document
+          .getElementById("btn-copy")
+          .addEventListener("click", function () {
+            var yaml = document.getElementById("modal-yaml").textContent;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(yaml).then(function () {
+                var fb = document.getElementById("copy-feedback");
+                fb.style.display = "inline";
+                setTimeout(function () {
+                  fb.style.display = "none";
+                }, 2000);
+              });
+            } else {
+              // Fallback for older browsers
+              var ta = document.createElement("textarea");
+              ta.value = yaml;
+              ta.style.position = "fixed";
+              ta.style.opacity = "0";
+              document.body.appendChild(ta);
+              ta.select();
+              document.execCommand("copy");
+              document.body.removeChild(ta);
+              var fb = document.getElementById("copy-feedback");
+              fb.style.display = "inline";
+              setTimeout(function () {
+                fb.style.display = "none";
+              }, 2000);
+            }
+          });
+
+        document
+          .getElementById("modal-overlay")
+          .addEventListener("click", function (e) {
+            if (e.target === document.getElementById("modal-overlay")) {
+              document
+                .getElementById("modal-overlay")
+                .classList.remove("visible");
+            }
+          });
+
+        /* ── Init ────────────────────────────────────────────────────── */
+
+        renderSeams();
+        renderPrompts();
+        updateProgress();
+      })();
+    </script>
+  </body>
+</html>
