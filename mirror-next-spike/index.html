@@ -524,10 +524,10 @@
         <p class="eyebrow">Mirror-next · Slice 0 spike</p>
         <h1>The interview, working end-to-end, on an alternate stack.</h1>
         <p class="lede">
-          A scripted walk through the mirror-next interview experience — from
-          the opening question to the Insights Snapshot — built as a live
-          sandbox so we can look at the interaction shape before we commit
-          engineering to it.
+          Proof-of-concept for the mirror-next rebuild. The existing mirror
+          interview, running end-to-end on a new stack — assistant-ui + Vercel
+          AI SDK + AI Gateway — so we can decide whether the migration is viable
+          before committing engineering to it.
         </p>
         <p class="meta">
           <span>Branch: <strong>feat/mirror-next-spike-0</strong></span>
@@ -551,63 +551,72 @@
       <section class="preface">
         <h2>What this is</h2>
         <p>
-          A working sandbox of the mirror-next interview flow. Real chat
-          scaffold, real streaming, real on-brand styling. The conversation is
-          driven by a fixed script (mock LLM, hand-written replies) so the demo
-          is deterministic and reviewable. The user composer is pre-populated
-          each turn with the answer a real subject would give, then locked
-          read-only — reviewers see the intended arc play out without typing a
-          word.
+          Mirror is the existing product — an AI-driven interview that produces
+          an Insights Snapshot. It's been running in production on the ThinkWAI
+          platform for months. This walkthrough is the spike that asks whether
+          we can rebuild it on a new stack: assistant-ui as the chat surface,
+          Vercel AI SDK + AI Gateway as the runtime, no platform calls.
+        </p>
+        <p>
+          The sandbox renders the existing interview, end-to-end. The
+          conversation is driven by a fixed script (mock LLM, hand-written
+          replies) so the demo is deterministic — the same script plays every
+          time. The user composer is pre-populated each turn with the answer a
+          real subject would give, then locked read-only, so reviewers see the
+          existing arc play out without typing a word.
         </p>
 
         <h2>Why we built it</h2>
         <p>
-          Before we sink engineering hours into the rebuild, we wanted to see
-          the interaction shape running in front of us. The questions we needed
-          answers to:
+          Before we commit engineering hours to a full rebuild, the cheapest way
+          to find out if the new stack can actually host the existing product is
+          to run a one-week internal spike. The questions the spike needed to
+          answer:
         </p>
         <ul>
           <li>
-            Does the structured Q1–Q4 interview cadence feel right, or does it
-            read as cold and mechanical?
+            Can assistant-ui's chat scaffold be brought on-brand with our
+            existing design tokens, without forking the package or rewriting the
+            scaffolded components?
           </li>
           <li>
-            Does a sidecar pane showing "working notes" as the interview
-            progresses add signal, or just clutter?
+            Can the conversation be driven entirely from the Vercel AI SDK + AI
+            Gateway path, with zero calls to the ThinkWAI platform we run on
+            today?
           </li>
           <li>
-            Is the Insights Snapshot a strong-enough payoff to justify the wait,
-            with the cuts landing the way the prompt intends?
+            Does assistant-ui's artifact pattern hold up for the Insights
+            Snapshot — our mid-interview right-pane payoff — without breaking
+            the message-stream model?
           </li>
           <li>
-            What does the user actually do with the snapshot once it arrives —
-            read, save, print, share?
+            Can the read-only-script + Print / Copy / Download affordances we'd
+            need for stakeholder reviews be added without touching scaffold
+            internals?
           </li>
         </ul>
         <p>
           The arc below is the answer. Skip to
-          <a href="#outro">What this proves</a> if you want the takeaways first.
+          <a href="#outro">What this proves</a> for the takeaways first.
         </p>
 
         <h2>Why assistant-ui — and what we're not locked into</h2>
         <p>
-          The sandbox uses
-          <a href="https://www.assistant-ui.com/">assistant-ui</a>, an
-          open-source React chat scaffold. We get the entire conversation
-          surface — message stream, composer, dictation hook, accessibility,
-          mobile behaviour — for free, branded against our own design tokens.
-          What would have taken a day or two to hand-build took a handful of
-          hours.
+          <a href="https://www.assistant-ui.com/">assistant-ui</a> is an
+          open-source React chat scaffold. Adopting it for the rebuild gets us
+          message stream, composer, dictation hook, accessibility, and mobile
+          behaviour for free, branded against our own design tokens. What would
+          have taken a day or two of hand-building took a handful of hours.
         </p>
         <p>
-          This is also a proof-of-concept of running on an alternate stack: the
-          sandbox uses Vercel AI SDK + AI Gateway and makes zero calls to our
-          current ThinkWAI platform.
           <strong
             >Adopting assistant-ui gets us shipping faster; replacing it later
             is a straightforward swap.</strong
           >
-          Every UX concept here is framework-agnostic.
+          Every UX element in this walkthrough is framework-agnostic. If we ever
+          outgrow the scaffold we can rebuild the same surface inside our own
+          packages. assistant-ui is a velocity choice, not an architectural
+          commitment.
         </p>
       </section>
 
@@ -891,23 +900,30 @@
           role="region"
           aria-labelledby="outro-trigger"
         >
-          <p>In order of how much each matters for the next conversation:</p>
+          <p>
+            All four spike questions answered yes. In order of how much each
+            matters for the next conversation:
+          </p>
           <ul>
             <li>
-              <strong>The interaction shape works.</strong> The
-              interview-plus-sidecar-plus-payoff structure reads as intentional
-              and earns its real estate.
+              <strong
+                >assistant-ui can be brought on-brand without forking.</strong
+              >
+              Three documented deviations (a CSS-variable remap, a dictation
+              adapter, a server route) were enough to make the scaffold look
+              like our product. No JSX edits to the scaffolded components.
             </li>
             <li>
-              <strong>Brand and product feel intact</strong> on an alternate
-              stack we don't fully control — no compromises in voice,
-              typography, or pacing.
+              <strong
+                >The alternate stack runs the interview end-to-end.</strong
+              >
+              Vercel AI SDK + AI Gateway, zero calls to the ThinkWAI platform.
+              The runtime path is viable for the rebuild.
             </li>
             <li>
-              <strong>The alternate stack is viable, with no lock-in.</strong>
-              The sandbox runs entirely on Vercel AI SDK + AI Gateway, with zero
-              calls to the ThinkWAI platform. assistant-ui buys us velocity now;
-              every concept here is framework-agnostic and swappable later.
+              <strong>The artifact pattern fits our snapshot.</strong>
+              The right-pane Insights Snapshot streams in cleanly, alongside the
+              chat, without breaking the scaffold's message-stream model.
             </li>
             <li>
               <strong
