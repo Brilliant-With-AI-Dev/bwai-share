@@ -522,12 +522,15 @@
       <!-- ─── Hero ───────────────────────────────────────────────── -->
       <header class="hero">
         <p class="eyebrow">Mirror-next · Slice 0 spike</p>
-        <h1>The interview, working end-to-end, on an alternate stack.</h1>
+        <h1>A two-question experiment for the rebuild.</h1>
         <p class="lede">
-          Proof-of-concept for the mirror-next rebuild. The existing mirror
-          interview, running end-to-end on a new stack — assistant-ui + Vercel
-          AI SDK + AI Gateway — so we can decide whether the migration is viable
-          before committing engineering to it.
+          The mirror-next spike asks two parallel questions before we commit
+          engineering to the rebuild. <strong>Stack:</strong> can we run on
+          assistant-ui + Vercel AI SDK + AI Gateway instead of the ThinkWAI
+          platform we use today? <strong>Surface:</strong>
+          is a live side-by-side chat-plus-artifact layout the right shape for
+          the rebuilt interview, or should we stay closer to mirror's existing
+          single-column flow?
         </p>
         <p class="meta">
           <span>Branch: <strong>feat/mirror-next-spike-0</strong></span>
@@ -553,26 +556,27 @@
         <p>
           Mirror is the existing product — an AI-driven interview that produces
           an Insights Snapshot. It's been running in production on the ThinkWAI
-          platform for months. This walkthrough is the spike that asks whether
-          we can rebuild it on a new stack: assistant-ui as the chat surface,
-          Vercel AI SDK + AI Gateway as the runtime, no platform calls.
+          platform for months, in a single-column chat flow that hands off to a
+          separate report page at the end.
         </p>
         <p>
-          The sandbox renders the existing interview, end-to-end. The
-          conversation is driven by a fixed script (mock LLM, hand-written
-          replies) so the demo is deterministic — the same script plays every
-          time. The user composer is pre-populated each turn with the answer a
-          real subject would give, then locked read-only, so reviewers see the
-          existing arc play out without typing a word.
+          This walkthrough is a one-week internal spike for the rebuild. It runs
+          the existing interview, end-to-end, on a candidate new stack
+          (assistant-ui + Vercel AI SDK + AI Gateway), inside a candidate new
+          layout (live chat on the left, artifact pane on the right). The
+          conversation is scripted — mock LLM, hand-written replies, composer
+          pre-filled and locked read-only — so the demo is deterministic and
+          reviewable.
         </p>
 
         <h2>Why we built it</h2>
         <p>
-          Before we commit engineering hours to a full rebuild, the cheapest way
-          to find out if the new stack can actually host the existing product is
-          to run a one-week internal spike. The questions the spike needed to
-          answer:
+          Two parallel decisions are coming up: what we build the rebuild
+          <em>on</em>, and what shape we build the rebuild <em>into</em>. The
+          spike was the cheapest way to look at both at once, on the same
+          surface.
         </p>
+        <p><strong>Stack comparison.</strong></p>
         <ul>
           <li>
             Can assistant-ui's chat scaffold be brought on-brand with our
@@ -585,37 +589,54 @@
             today?
           </li>
           <li>
-            Does assistant-ui's artifact pattern hold up for the Insights
-            Snapshot — our mid-interview right-pane payoff — without breaking
-            the message-stream model?
-          </li>
-          <li>
-            Can the read-only-script + Print / Copy / Download affordances we'd
-            need for stakeholder reviews be added without touching scaffold
-            internals?
+            What deviations from upstream assistant-ui are unavoidable — and are
+            they small enough to maintain?
           </li>
         </ul>
         <p>
-          The arc below is the answer. Skip to
+          <strong>UI exploration — side-by-side chat + artifact.</strong>
+        </p>
+        <ul>
+          <li>
+            Does a live sidecar artifact pane next to the interview earn its
+            space, or does it pull attention away from the conversation?
+          </li>
+          <li>
+            Does showing "working notes" accumulate as the interview progresses
+            help the subject feel heard, or read as surveillance?
+          </li>
+          <li>
+            When the Insights Snapshot lands in the same pane instead of on a
+            separate report page, does it preserve or weaken the payoff?
+          </li>
+          <li>
+            Do Copy / Download / Print affordances feel right inline on the
+            artifact, or should they remain a separate step?
+          </li>
+        </ul>
+        <p>
+          The arc below is the spike playing through. Skip to
           <a href="#outro">What this proves</a> for the takeaways first.
         </p>
 
         <h2>Why assistant-ui — and what we're not locked into</h2>
         <p>
           <a href="https://www.assistant-ui.com/">assistant-ui</a> is an
-          open-source React chat scaffold. Adopting it for the rebuild gets us
-          message stream, composer, dictation hook, accessibility, and mobile
-          behaviour for free, branded against our own design tokens. What would
-          have taken a day or two of hand-building took a handful of hours.
+          open-source React chat scaffold. Picking it up for the spike gave us
+          the entire conversation surface — message stream, composer, dictation
+          hook, accessibility, mobile behaviour — branded against our own design
+          tokens, in hours rather than the day or two it would have taken to
+          hand-build.
         </p>
         <p>
           <strong
-            >Adopting assistant-ui gets us shipping faster; replacing it later
+            >Even if we adopt assistant-ui for the rebuild, replacing it later
             is a straightforward swap.</strong
           >
-          Every UX element in this walkthrough is framework-agnostic. If we ever
+          Every UI element in this walkthrough is framework-agnostic. If we
           outgrow the scaffold we can rebuild the same surface inside our own
-          packages. assistant-ui is a velocity choice, not an architectural
+          packages without re-asking the layout question. assistant-ui is a
+          velocity choice for shipping the rebuild, not an architectural
           commitment.
         </p>
       </section>
@@ -891,7 +912,7 @@
           id="outro-trigger"
         >
           <h2>What this proves</h2>
-          <span class="outro-summary">The four takeaways from the spike.</span>
+          <span class="outro-summary">Takeaways, by axis.</span>
           <span class="caret" aria-hidden="true">▾</span>
         </button>
         <div
@@ -901,9 +922,11 @@
           aria-labelledby="outro-trigger"
         >
           <p>
-            All four spike questions answered yes. In order of how much each
-            matters for the next conversation:
+            The spike's findings, split by the two questions it set out to
+            answer.
           </p>
+
+          <p><strong>Stack — the new runtime works.</strong></p>
           <ul>
             <li>
               <strong
@@ -915,25 +938,53 @@
             </li>
             <li>
               <strong
-                >The alternate stack runs the interview end-to-end.</strong
+                >The new runtime path runs the interview end-to-end.</strong
               >
               Vercel AI SDK + AI Gateway, zero calls to the ThinkWAI platform.
-              The runtime path is viable for the rebuild.
+              Adopting it for the rebuild buys speed today and doesn't lock us
+              in — the layout we built sits on top and would survive a future
+              swap.
+            </li>
+          </ul>
+
+          <p>
+            <strong>Surface — the side-by-side layout earns its space.</strong>
+          </p>
+          <ul>
+            <li>
+              <strong
+                >Working notes accumulating in the right pane add
+                signal.</strong
+              >
+              The subject can see they're being heard while the interview is
+              still going. The notes pace the conversation without interrupting
+              it.
             </li>
             <li>
-              <strong>The artifact pattern fits our snapshot.</strong>
-              The right-pane Insights Snapshot streams in cleanly, alongside the
-              chat, without breaking the scaffold's message-stream model.
+              <strong>The in-pane snapshot reveal holds up.</strong>
+              Landing the Insights Snapshot inside the artifact pane — instead
+              of on a separate report page — preserves the payoff and removes a
+              navigation step. The "synthesizing" beat before it lands gives the
+              reveal weight.
             </li>
             <li>
               <strong
-                >Print / Copy / Download for the snapshot is essentially
-                free</strong
+                >Inline Copy / Download / Print on the artifact felt
+                right.</strong
               >
-              because the artifact lives in our component, not in the scaffold's
-              message stream.
+              The subject can act on the snapshot the moment it lands.
+              Implementation-wise the actions are essentially free because the
+              artifact lives in our component, not in the scaffold's message
+              stream.
             </li>
           </ul>
+
+          <p>
+            <strong>Open call:</strong> the side-by-side layout is the
+            recommended direction for the mirror-next rebuild. If the team
+            disagrees on any of the surface findings, that's the conversation
+            worth having before engineering kicks off.
+          </p>
         </div>
       </footer>
     </main>
