@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Prompt Upgrader — spike walkthrough</title>
+    <title>Prompt Upgrader — spike</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,7 +15,6 @@
         --navy: #0a1628;
         --navy-70: rgba(10, 22, 40, 0.72);
         --navy-50: rgba(10, 22, 40, 0.5);
-        --navy-30: rgba(10, 22, 40, 0.3);
         --navy-10: rgba(10, 22, 40, 0.1);
         --navy-05: rgba(10, 22, 40, 0.05);
         --off-white: #fafaf7;
@@ -35,9 +34,6 @@
       *::after {
         box-sizing: border-box;
       }
-      html {
-        scroll-behavior: smooth;
-      }
       html,
       body {
         margin: 0;
@@ -50,14 +46,13 @@
         -webkit-font-smoothing: antialiased;
       }
       main {
-        max-width: 980px;
+        max-width: 720px;
         margin: 0 auto;
-        padding: 56px 28px 96px;
+        padding: 56px 28px 80px;
         background: var(--off-white);
       }
       .eyebrow {
         margin: 0 0 12px;
-        font-family: var(--font-body);
         font-size: 12px;
         font-weight: 600;
         letter-spacing: 0.14em;
@@ -68,25 +63,17 @@
         margin: 0 0 18px;
         font-family: var(--font-display);
         font-weight: 500;
-        font-size: 44px;
+        font-size: 42px;
         line-height: 1.1;
         letter-spacing: -0.01em;
         color: var(--navy);
       }
       h2 {
-        margin: 56px 0 16px;
+        margin: 40px 0 14px;
         font-family: var(--font-display);
         font-weight: 500;
-        font-size: 28px;
+        font-size: 24px;
         line-height: 1.2;
-        letter-spacing: -0.005em;
-        color: var(--navy);
-      }
-      h3 {
-        margin: 30px 0 10px;
-        font-family: var(--font-body);
-        font-weight: 600;
-        font-size: 18px;
         color: var(--navy);
       }
       p {
@@ -98,8 +85,7 @@
         font-size: 19px;
         color: var(--navy-70);
         line-height: 1.5;
-        margin: 0 0 36px;
-        max-width: 720px;
+        margin: 0 0 28px;
       }
       a {
         color: var(--accent);
@@ -110,505 +96,159 @@
         color: var(--accent-bright);
       }
       ul {
-        margin: 0 0 14px;
+        margin: 0 0 16px;
         padding-left: 22px;
       }
       ul li {
-        margin-bottom: 6px;
+        margin-bottom: 8px;
         color: var(--navy-70);
       }
       ul li strong {
         color: var(--navy);
       }
-      .meta-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 16px 28px;
-        margin: 18px 0 30px;
-        font-size: 14px;
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin: 16px 0 6px;
+        padding: 14px 24px;
+        background: var(--accent);
+        color: #fff;
+        font-weight: 600;
+        font-size: 17px;
+        border-radius: 8px;
+        text-decoration: none;
+        box-shadow: 0 6px 18px rgba(21, 122, 78, 0.22);
+        transition:
+          background 0.15s,
+          transform 0.15s;
+      }
+      .cta:hover {
+        background: var(--accent-bright);
+        color: #fff;
+        transform: translateY(-1px);
+      }
+      .cta .arrow {
+        font-size: 18px;
+      }
+      .cta-meta {
+        margin: 8px 0 0;
+        font-size: 13px;
         color: var(--navy-50);
       }
-      .meta-row strong {
-        color: var(--navy);
-        font-weight: 600;
-      }
-      .callout {
-        margin: 28px 0;
-        padding: 22px 24px;
-        background: #fff;
-        border: 1px solid var(--accent-glow);
-        border-radius: 10px;
-        box-shadow: 0 4px 14px rgba(21, 122, 78, 0.08);
-      }
-      .callout .eyebrow {
-        margin-bottom: 4px;
-      }
-      .callout h3 {
-        margin-top: 0;
-        font-family: var(--font-display);
-        font-weight: 500;
-        font-size: 22px;
-      }
       .warn {
-        margin: 24px 0;
+        margin: 28px 0 0;
         padding: 14px 18px;
         background: var(--warn-bg);
         border-left: 4px solid var(--warn-border);
         border-radius: 4px;
         color: var(--warn-text);
-        font-size: 15px;
+        font-size: 14.5px;
       }
       .warn strong {
         font-weight: 600;
       }
-      .figure {
-        margin: 22px 0 30px;
-      }
-      .figure img {
-        display: block;
-        width: 100%;
-        height: auto;
-        border: 1px solid var(--navy-10);
-        border-radius: 10px;
-        box-shadow: 0 4px 16px rgba(10, 22, 40, 0.08);
-      }
-      .figure figcaption {
-        margin-top: 10px;
-        font-size: 14px;
-        color: var(--navy-50);
-        font-style: italic;
-      }
-      .grid-2 {
-        display: grid;
-        gap: 24px;
-        grid-template-columns: 1fr 1fr;
-      }
-      @media (max-width: 720px) {
-        main {
-          padding: 36px 18px 64px;
-        }
-        h1 {
-          font-size: 34px;
-        }
-        h2 {
-          font-size: 24px;
-        }
-        .grid-2 {
-          grid-template-columns: 1fr;
-        }
-      }
-      .toggle-row {
-        display: flex;
-        align-items: baseline;
-        gap: 12px;
-        padding: 10px 0;
-        border-bottom: 1px solid var(--navy-05);
-      }
-      .toggle-row:last-child {
-        border-bottom: none;
-      }
-      .toggle-row .name {
-        font-weight: 600;
-        color: var(--navy);
-        min-width: 96px;
-        font-size: 15px;
-      }
-      .toggle-row .opts {
-        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-        font-size: 13px;
-        background: var(--navy-05);
-        padding: 2px 8px;
-        border-radius: 4px;
-        color: var(--navy-70);
-        white-space: nowrap;
-      }
-      .toggle-row .blurb {
-        color: var(--navy-70);
-        font-size: 15px;
-        flex: 1;
-      }
-      .pill {
-        display: inline-block;
-        padding: 3px 10px;
-        font-size: 12px;
-        font-weight: 600;
-        border-radius: 999px;
-        margin-right: 6px;
-      }
-      .pill--green {
-        background: var(--accent-bg);
-        color: var(--accent);
-      }
-      .pill--gray {
-        background: var(--navy-05);
-        color: var(--navy-70);
-      }
-      .iphone-row {
-        display: grid;
-        gap: 24px;
-        grid-template-columns: 1fr 1fr;
-        max-width: 720px;
-      }
-      .iphone-row img {
-        border-radius: 18px;
-      }
-      hr {
-        border: none;
-        border-top: 1px solid var(--navy-10);
-        margin: 56px 0;
-      }
       footer {
-        margin-top: 56px;
-        padding-top: 22px;
+        margin-top: 48px;
+        padding-top: 18px;
         border-top: 1px solid var(--navy-10);
-        font-size: 14px;
+        font-size: 13px;
         color: var(--navy-50);
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 13.5px;
+        background: var(--navy-05);
+        padding: 1px 6px;
+        border-radius: 4px;
       }
     </style>
   </head>
   <body>
     <main>
       <p class="eyebrow">Brilliant Apps · sandbox spike</p>
-      <h1>Prompt Upgrader — v1 walkthrough</h1>
+      <h1>Prompt Upgrader — v1 spike</h1>
       <p class="lede">
-        A high-fidelity, non-functional walkthrough of the Prompt Upgrader
-        product. Stakeholders click around to give feedback on shape, copy, and
-        flow — not on data or models. Mocked state only: no persistence, no
-        inference, no auth.
+        A high-fidelity, clickable mock of the v1 Prompt Upgrader. Walk it
+        yourself, push back on shape and copy, ignore the data and the model.
+        Mocked everything: no persistence, no inference, no auth.
       </p>
 
-      <div class="meta-row">
-        <span
-          ><strong>Substrate:</strong> Next.js 16, React 19, Tailwind v4,
-          assistant-ui v0.14</span
-        >
-        <span><strong>Status:</strong> spike → review</span>
-        <span
-          ><strong>ADR:</strong> 2026-05-18 (items abstraction +
-          persistent-artifact UX)</span
-        >
-      </div>
-
-      <div class="warn">
-        <strong>Static walkthrough.</strong> Screenshots only on this page. For
-        the clickable spike, run the dev server in <code>apps/web/</code> and
-        visit <code>/sandbox/prompt-upgrader-spike</code>, or wait for the
-        Vercel preview URL on the spike PR.
-      </div>
+      <a
+        class="cta"
+        href="https://brilliant-apps-git-feat-prompt-upgra-f09d2b-alignmktgs-projects.vercel.app/sandbox/prompt-upgrader-spike"
+      >
+        Open the spike <span class="arrow">→</span>
+      </a>
+      <p class="cta-meta">
+        Preview URL (lives with PR
+        <a href="https://github.com/alignmktg/brilliant-apps/pull/331">#331</a
+        >). On merge, moves to
+        <code
+          >staging-brilliant-apps.vercel.app/sandbox/prompt-upgrader-spike</code
+        >.
+      </p>
 
       <h2>What it is</h2>
       <p>
         Prompt Upgrader is the first Brilliant product where the user
         <em>keeps</em> the artifact across sessions — a stored, versioned prompt
         that an AI interviewer helps the user sharpen over time. The spike
-        implements the v1 UX patterns end-to-end with mock state, so
-        stakeholders can react to the surface before any persistence work ships.
+        implements the v1 UX with mock state so we can react to the surface
+        before any persistence work ships.
       </p>
+
+      <h2>What to poke at</h2>
       <ul>
         <li>
-          <strong>Library</strong> — grid of saved prompts with filters and
-          status badges.
+          <strong>The dev panel (⚙ bottom-left).</strong> Flip Library /
+          Versions / Chat / Label gen / Intake / Artifact to see every state of
+          every route. The on-page guide explains each option.
         </li>
         <li>
-          <strong>New prompt</strong> — intake page with mock "Drawing from"
-          context and a required one-off vs. reusable-template choice.
-        </li>
-        <li>
-          <strong>Workspace</strong> — chat thread on the left, read-only
-          artifact panel on the right. Improve / Tailor / Clone actions, version
-          history, copy modes.
-        </li>
-      </ul>
-
-      <div class="callout">
-        <p class="eyebrow">
-          Start here · the dev panel is the spike's superpower
-        </p>
-        <h3>The ⚙ dev panel (bottom-left) flips every state</h3>
-        <p>
-          Six toggles let you swap the spike between empty / mid / max states
-          without reloading. Each setting persists in localStorage so the next
-          route picks up the same configuration.
-        </p>
-        <div class="figure" style="margin: 18px 0 6px; max-width: 320px">
-          <img src="11-dev-panel.png" alt="Dev panel with six toggle rows" />
-        </div>
-        <div style="margin-top: 16px">
-          <div class="toggle-row">
-            <span class="name">Library</span>
-            <span class="opts">0 / 5 / 50</span>
-            <span class="blurb"
-              >How many mock prompts the library shows. 0 reveals the empty
-              state; 50 stress-tests the grid + filters.</span
-            >
-          </div>
-          <div class="toggle-row">
-            <span class="name">Versions</span>
-            <span class="opts">4 / 20 / 200</span>
-            <span class="blurb"
-              >How many versions seed the artifact's version history. Use 200 to
-              test scrolling + dense lists.</span
-            >
-          </div>
-          <div class="toggle-row">
-            <span class="name">Chat</span>
-            <span class="opts">empty / mid / long</span>
-            <span class="blurb"
-              >How much chat history is preloaded in the workspace. Empty =
-              pre-conversation; long = scrollable transcript.</span
-            >
-          </div>
-          <div class="toggle-row">
-            <span class="name">Label gen</span>
-            <span class="opts">success / failure</span>
-            <span class="blurb"
-              >Whether AI auto-labeling "works". Failure shows the fallback
-              "Untitled save at HH:MM" labels per ADR-002 §3.</span
-            >
-          </div>
-          <div class="toggle-row">
-            <span class="name">Intake</span>
-            <span class="opts">empty / prefilled</span>
-            <span class="blurb"
-              >Whether the New-prompt page starts blank or prefilled with a
-              sample goal.</span
-            >
-          </div>
-          <div class="toggle-row">
-            <span class="name">Artifact</span>
-            <span class="opts">none / exists</span>
-            <span class="blurb"
-              >Switches the workspace between the "no draft yet" placeholder and
-              a fully-populated artifact. Drives the pane-priority layout
-              flip.</span
-            >
-          </div>
-        </div>
-      </div>
-
-      <hr />
-
-      <h2>Walk the flow</h2>
-
-      <h3>1 · Landing</h3>
-      <p>
-        Entry surface for the spike. Surfaces the dev-panel call-to-action and
-        links to the three routes.
-      </p>
-      <figure class="figure">
-        <img
-          src="01-landing.png"
-          alt="Spike landing page with dev panel callout"
-        />
-      </figure>
-
-      <h3>2 · Library</h3>
-      <p>
-        Grid of mock prompts. Cards show title, description, tags, status, and
-        last-updated relative time. Search + status filter + sort controls live
-        in the header. Empty state surfaces when the dev panel sets Library to
-        0.
-      </p>
-      <figure class="figure">
-        <img src="02-library.png" alt="Library route with 5 mock prompts" />
-      </figure>
-
-      <h3>3 · New prompt (intake)</h3>
-      <p>
-        Intentional intake — not a generic form. The "Drawing from" panel shows
-        the mocked prior prompts and profile snippet that will shape the first
-        draft. The one-off vs. reusable-template choice is required; optional
-        context fields sit behind disclosure. Submit opens the workspace.
-      </p>
-      <figure class="figure">
-        <img
-          src="03-intake.png"
-          alt="Intake page with Drawing-from panel, textarea, and one-off/template choice"
-        />
-      </figure>
-
-      <h3>4 · Workspace — post-artifact layout</h3>
-      <p>
-        Default state when the artifact exists. The artifact panel takes
-        priority on the right; the chat docks on the left at 360px and can be
-        collapsed via the chevron. Above the prompt: eyebrow, title,
-        description, action row (Improve · Tailor · Clone), and copy modes.
-      </p>
-      <figure class="figure">
-        <img
-          src="04-workspace-post.png"
-          alt="Workspace post-artifact layout — chat docked, artifact wide"
-        />
-      </figure>
-
-      <h3>5 · Metadata (expanded)</h3>
-      <p>
-        Metadata is collapsed by default; the summary line shows status, tag
-        count, and minimum model recommendation. Expanded, the user can edit
-        title, description, status, and tags inline (via the assistant-ui
-        Interactables pattern in v1; mocked here).
-      </p>
-      <figure class="figure">
-        <img
-          src="05-metadata-open.png"
-          alt="Workspace with metadata expanded — title, description, status, tags"
-        />
-      </figure>
-
-      <h3>6 · Improve — choose Auto or Guided</h3>
-      <p>
-        Improve opens a chooser. Auto runs the interviewer's own judgment in one
-        click. Guided lets the user supply a direction plus optional common
-        levers (tighten constraints, add a few-shot, etc.).
-      </p>
-      <div class="grid-2">
-        <figure class="figure">
-          <img
-            src="06-improve-choose.png"
-            alt="Improve modal — Auto / Guided chooser"
-          />
-          <figcaption>Chooser</figcaption>
-        </figure>
-        <figure class="figure">
-          <img
-            src="07-improve-guided.png"
-            alt="Improve modal — Guided form with textarea and lever chips"
-          />
-          <figcaption>Guided form</figcaption>
-        </figure>
-      </div>
-
-      <h3>7 · Tailor for a use-case</h3>
-      <p>
-        Tailor opens a form that adapts the current prompt for a specific
-        use-case. Saves as a new version labeled
-        <code>Tailored for &lt;use-case&gt;</code>.
-      </p>
-      <figure class="figure">
-        <img src="08-tailor.png" alt="Tailor modal with use-case input" />
-      </figure>
-
-      <h3>8 · Restore a version</h3>
-      <p>
-        Each version row offers a star (pin) and a Restore. Restore opens a
-        confirmation modal and, on confirm, creates a new version with the
-        chosen text — the current state is preserved as a separate history
-        entry.
-      </p>
-      <figure class="figure">
-        <img
-          src="09-restore.png"
-          alt="Restore modal confirming a version restore"
-        />
-      </figure>
-
-      <h3>9 · Pre-artifact layout</h3>
-      <p>
-        When the artifact doesn't exist yet (Artifact toggle = none), the chat
-        becomes primary (wide, centered) and the artifact panel collapses to a
-        slim placeholder. The layout flips automatically once the interviewer
-        drafts a v1 prompt.
-      </p>
-      <figure class="figure">
-        <img
-          src="10-workspace-pre.png"
-          alt="Workspace pre-artifact layout — chat primary, artifact slim placeholder"
-        />
-      </figure>
-
-      <h3>10 · Mobile (iPhone Safari)</h3>
-      <p>
-        On narrow viewports the workspace switches to a Chat / Artifact tab
-        switcher. Chat collapse toggle hides on mobile; the dev panel sits
-        bottom-left so it doesn't fight the composer.
-      </p>
-      <div class="iphone-row">
-        <figure class="figure">
-          <img src="12-iphone-chat.png" alt="iPhone Safari — chat tab active" />
-          <figcaption>Chat tab</figcaption>
-        </figure>
-        <figure class="figure">
-          <img
-            src="13-iphone-artifact.png"
-            alt="iPhone Safari — artifact tab with markdown-rendered prompt"
-          />
-          <figcaption>Artifact tab</figcaption>
-        </figure>
-      </div>
-
-      <hr />
-
-      <h2>Design choices that may surprise reviewers</h2>
-      <ul>
-        <li>
-          <strong>Artifact panel is read-only.</strong> v1 trade per ADR-002 §1.
-          Edit the prompt by asking the chat, or by using Improve / Tailor.
-          Bidirectional canvas-style editing (Claude Artifacts / ChatGPT Canvas)
-          is custom work over assistant-ui and explicitly deferred.
-        </li>
-        <li>
-          <strong>No persistent sidebar in the workspace.</strong> Library is
-          the single navigational surface. Back-to-Library lives in the top bar.
-        </li>
-        <li>
-          <strong>Versioning is linear, not branched.</strong> Every save
-          appends a version; Restore creates a new entry rather than reverting
-          in place. Star pins a version so future archive sweeps don't drop it.
-        </li>
-        <li>
-          <strong>Substrate is assistant-ui v0.14 + react-ai-sdk.</strong>
-          The build verifies the spike-gate from ADR-002. Re-skinning happens
-          via CSS variables in <code>apps/web/app/globals.css</code>, not via
-          forking scaffolded files.
-        </li>
-        <li>
-          <strong>Last-write-wins, on purpose.</strong> Persistence on the
-          context-asset substrate has no optimistic locking. v1 accepts that and
-          instruments divergence. Real reviews of this will land on the real
-          PRD, not the spike.
-        </li>
-      </ul>
-
-      <h2>What's deferred</h2>
-      <ul>
-        <li>
-          Bidirectional artifact editor (Monaco / CodeMirror over
-          Interactables).
-        </li>
-        <li>Foldering, sharing, full-text + semantic search.</li>
-        <li>Real-time multi-user collaboration.</li>
-        <li>
-          Neon-backed persistence (interim path: context assets per ADR-002 §3).
-        </li>
-      </ul>
-
-      <h2>How to give feedback</h2>
-      <ul>
-        <li>
-          Walk the live spike on the running dev server or the Vercel preview;
-          flip the dev-panel toggles to see every state.
-        </li>
-        <li>
-          Comment on shape, copy, and flow. Skip data / model questions —
-          everything here is mocked.
-        </li>
-        <li>
-          Surprises and "this should be different" reactions are the most useful
-          input. The Improve / Tailor / Clone actions and the one-off/template
-          choice on intake are the freshest patterns and the best places to push
+          <strong>Improve / Tailor / Clone.</strong> These three action surfaces
+          on the workspace are the freshest patterns and the best places to push
           back.
         </li>
+        <li>
+          <strong>One-off vs. reusable template</strong> on the New-prompt page.
+          Required choice. Does the framing land?
+        </li>
+        <li>
+          <strong>The two layouts.</strong> Set Artifact to <code>none</code> in
+          the dev panel — chat goes wide. Flip to <code>exists</code> — the
+          artifact takes priority and the chat docks. Does the flip feel right?
+        </li>
+        <li>
+          <strong>Mobile.</strong> Open the workspace on a phone. Chat /
+          Artifact tabs replace the two-pane split.
+        </li>
       </ul>
 
+      <h2>What not to react to</h2>
+      <ul>
+        <li>Specific prompt copy — it's placeholder.</li>
+        <li>The model name in metadata — placeholder.</li>
+        <li>
+          Anything implying real persistence — the artifact panel is read-only
+          by design (v1 trade per ADR-002 §1).
+        </li>
+        <li>Specific colors and density — the design system pass is later.</li>
+      </ul>
+
+      <div class="warn">
+        <strong>Spike, not product.</strong> The whole point is to expose v1 UX
+        decisions cheaply. Bidirectional canvas editing, foldering, sharing,
+        search, and Neon-backed persistence are all explicitly deferred.
+      </div>
+
       <footer>
-        <p>
-          Repo:
-          <a href="https://github.com/alignmktg/brilliant-apps"
-            >alignmktg/brilliant-apps</a
-          >
-          · Branch: <code>feat/prompt-upgrader-spike</code>
-          · Captured 2026-05-18
-        </p>
+        Repo:
+        <a href="https://github.com/alignmktg/brilliant-apps"
+          >alignmktg/brilliant-apps</a
+        >
+        · Branch: <code>feat/prompt-upgrader-spike</code>
+        · Captured 2026-05-18
       </footer>
     </main>
   </body>
