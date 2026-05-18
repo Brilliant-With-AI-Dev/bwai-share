@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Email architecture — options &amp; recommendation</title>
+    <title>How BWAI should send email — options &amp; recommendation</title>
     <style>
       :root {
         --bg: #f6f8fb;
@@ -56,15 +56,6 @@
       a:hover {
         text-decoration: underline;
       }
-      code {
-        font-family:
-          ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-        font-size: 0.88em;
-        background: var(--surface-3);
-        padding: 1px 6px;
-        border-radius: 4px;
-        color: var(--ink-2);
-      }
 
       .wrap {
         max-width: 880px;
@@ -86,18 +77,19 @@
         font-weight: 700;
         letter-spacing: -0.012em;
         margin: 0 0 12px;
+        line-height: 1.25;
       }
       .lede {
         font-size: 17px;
         color: var(--ink-2);
-        margin: 0 0 28px;
+        margin: 0 0 12px;
         max-width: 64ch;
       }
       .meta-row {
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
-        margin-bottom: 40px;
+        margin: 24px 0 40px;
         font-size: 13px;
         color: var(--ink-3);
       }
@@ -124,6 +116,7 @@
         font-weight: 600;
         margin: 0 0 8px;
         letter-spacing: -0.005em;
+        line-height: 1.3;
       }
 
       .card {
@@ -134,11 +127,24 @@
         padding: 24px 28px;
       }
 
-      /* Context card */
+      .question-card {
+        border-left: 4px solid var(--accent);
+      }
+      .question-card .q {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0 0 8px;
+        color: var(--ink);
+      }
+      .question-card .a {
+        margin: 0;
+        color: var(--ink-2);
+      }
+
       .context-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 22px;
       }
       .context-grid .item .label {
         font-size: 11px;
@@ -153,12 +159,14 @@
         color: var(--ink);
         margin: 0;
       }
+      .context-grid .item .val strong {
+        color: var(--ink);
+      }
 
-      /* Recommendation cards */
       .reco-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 20px;
+        gap: 24px;
       }
       @media (max-width: 720px) {
         .reco-grid {
@@ -171,10 +179,13 @@
         transition:
           border-color 0.15s ease,
           transform 0.15s ease;
+        display: block;
+        color: inherit;
       }
       .reco:hover {
         border-color: var(--accent);
         transform: translateY(-1px);
+        text-decoration: none;
       }
       .reco .badge {
         position: absolute;
@@ -198,15 +209,15 @@
         border: 1px solid var(--line-2);
       }
       .reco h3 {
-        margin: 8px 0 6px;
+        margin: 10px 0 8px;
       }
       .reco .tagline {
         font-size: 14px;
         color: var(--ink-3);
-        margin: 0 0 12px;
+        margin: 0 0 14px;
       }
       .reco .why {
-        font-size: 14px;
+        font-size: 14.5px;
         color: var(--ink-2);
         margin: 0;
       }
@@ -218,7 +229,6 @@
         font-weight: 600;
       }
 
-      /* Tabs */
       .tabs {
         display: flex;
         gap: 4px;
@@ -261,12 +271,11 @@
         display: block;
       }
 
-      /* Pros / cons */
       .pc {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 20px;
-        margin: 16px 0 0;
+        margin: 20px 0 0;
       }
       @media (max-width: 600px) {
         .pc {
@@ -306,13 +315,86 @@
         color: var(--ink);
       }
       .pc li {
-        margin-bottom: 6px;
+        margin-bottom: 8px;
       }
       .pc li:last-child {
         margin-bottom: 0;
       }
 
-      /* Comparison table */
+      .mock {
+        background: var(--surface-2);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 16px 20px;
+        margin: 16px 0 0;
+        font-size: 14px;
+        color: var(--ink-2);
+      }
+      .mock .mock-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-3);
+        margin: 0 0 8px;
+      }
+      .mock .step {
+        margin: 0 0 6px;
+        padding-left: 22px;
+        position: relative;
+      }
+      .mock .step:before {
+        content: "→";
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+        font-weight: 700;
+      }
+
+      details.tech {
+        margin: 20px 0 0;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: var(--surface-2);
+        padding: 0;
+      }
+      details.tech summary {
+        cursor: pointer;
+        padding: 14px 18px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ink-3);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        user-select: none;
+      }
+      details.tech summary::-webkit-details-marker {
+        display: none;
+      }
+      details.tech summary:before {
+        content: "▸";
+        color: var(--ink-3);
+        transition: transform 0.15s ease;
+      }
+      details.tech[open] summary:before {
+        transform: rotate(90deg);
+      }
+      details.tech .tech-body {
+        padding: 0 18px 18px;
+        font-size: 13.5px;
+        color: var(--ink-2);
+      }
+      details.tech .tech-body p {
+        margin: 0 0 8px;
+      }
+      details.tech .tech-body p:last-child {
+        margin-bottom: 0;
+      }
+
       .compare {
         overflow-x: auto;
       }
@@ -327,7 +409,7 @@
       }
       th,
       td {
-        padding: 12px 16px;
+        padding: 13px 16px;
         text-align: left;
         border-bottom: 1px solid var(--line);
         vertical-align: top;
@@ -343,8 +425,9 @@
         color: var(--ink-2);
       }
       th:first-child {
-        width: 28%;
+        width: 32%;
         color: var(--ink-3);
+        font-weight: 600;
       }
       td .pick {
         background: var(--gold-soft);
@@ -358,7 +441,6 @@
         margin-right: 6px;
       }
 
-      /* Volume slider */
       .slider-card {
         text-align: center;
       }
@@ -382,12 +464,12 @@
         border-radius: 10px;
         font-size: 14px;
         color: var(--ink);
+        text-align: left;
       }
       .slider-verdict strong {
         color: var(--accent-2);
       }
 
-      /* Decision needed */
       .decisions {
         list-style: none;
         margin: 0;
@@ -417,7 +499,7 @@
         margin-top: 64px;
         padding-top: 20px;
         border-top: 1px solid var(--line);
-        font-size: 12px;
+        font-size: 12.5px;
         color: var(--ink-3);
       }
     </style>
@@ -426,91 +508,107 @@
     <div class="wrap">
       <p class="crumb"><a href="../">← All artifacts</a></p>
 
-      <h1>Email architecture for BWAI products</h1>
+      <h1>How should BWAI send email?</h1>
       <p class="lede">
-        We need to send email from the BWAI product surface — starting with the
-        Mirror Insights Snapshot and Mirror Report. Two viable architectures.
-        This doc lays out both, plus the recommendation and the runner-up.
+        Mirror produces a personal report for each user. Right now there's no
+        good way to email it. Before we wire anything up, we need to choose what
+        sending looks like. Two real options.
       </p>
       <div class="meta-row">
         <span>2026-05-18</span>
         <span>Owner: Matt</span>
         <span>Audience: BWAI team</span>
-        <span>Decision deadline: TBD</span>
+        <span>Read time: ~5 min</span>
       </div>
 
-      <h2>The context</h2>
+      <h2>The question</h2>
+      <section class="card question-card">
+        <p class="q">
+          When Mirror produces a report, how does it reach the user's inbox?
+        </p>
+        <p class="a">
+          Today: a clunky button that opens the user's own email program with
+          half the report pasted in. Not a real send. We need to replace this,
+          and we need to decide the shape — not just pick a vendor.
+        </p>
+      </section>
+
+      <h2>What we'd be sending</h2>
       <section class="card">
         <div class="context-grid">
           <div class="item">
-            <p class="label">What we'd send first</p>
+            <p class="label">The emails</p>
             <p class="val">
-              Mirror Insights Snapshot (Stage 3) and Mirror Report (Stage 4) —
-              the consulting deliverables, not notifications.
+              Mirror Insights Snapshot and Mirror Report. The consulting
+              deliverables themselves, not "your report is ready" notifications.
             </p>
           </div>
           <div class="item">
-            <p class="label">Volume today</p>
-            <p class="val">~0–10 sends/week. Grows with paid engagements.</p>
-          </div>
-          <div class="item">
-            <p class="label">Personalization</p>
+            <p class="label">How many today</p>
             <p class="val">
-              High. Body is the user's own insights — needs care, not a generic
-              "your report is ready."
+              Maybe 5–10 per week while Mirror is being demoed. Will grow with
+              paid engagements.
             </p>
           </div>
           <div class="item">
-            <p class="label">Sender identity</p>
+            <p class="label">How personal they need to be</p>
             <p class="val">
-              <strong>Always from BWAI</strong> (e.g.
-              <code>hello@brilliantwith.ai</code>). Never from Matt. This is a
-              product, not a founder.
+              Very. The body <em>is</em> the user's own insights. A generic
+              template would undersell what we just produced.
             </p>
           </div>
           <div class="item">
-            <p class="label">Other email types coming</p>
+            <p class="label">Who they're from</p>
             <p class="val">
-              Auth/verification (Stytch backup), ops alerts, future stakeholder
-              invites at scale (Discovery).
+              <strong>Always from BWAI</strong> — never a personal address.
+              Mirror is a product, not a founder side project.
             </p>
           </div>
           <div class="item">
-            <p class="label">Current state in product</p>
+            <p class="label">Other emails coming soon</p>
             <p class="val">
-              <code>/mirror-next</code> ships a <code>mailto:</code> link that
-              opens the user's own email client with a truncated copy. Brittle
-              and off-brand. Replace.
+              Sign-in confirmations, system alerts, maybe stakeholder invites
+              for the next product. We need a plan that doesn't get reworked
+              every time.
+            </p>
+          </div>
+          <div class="item">
+            <p class="label">What's there today</p>
+            <p class="val">
+              Nothing. No email goes out automatically. The current button is
+              cosmetic and the experience is bad.
             </p>
           </div>
         </div>
       </section>
 
-      <h2>The recommendation at a glance</h2>
+      <h2>The recommendation</h2>
       <div class="reco-grid">
-        <a class="reco card gold" href="#opt-resend">
+        <a class="reco card gold" href="#opt-auto">
           <span class="badge">🥇 Recommend</span>
-          <h3>Resend + AI-personalized body</h3>
-          <p class="tagline">One pipe for every email. Scales day one.</p>
+          <h3>AI writes it. The product sends it.</h3>
+          <p class="tagline">No human in the middle. Instant.</p>
           <p class="why">
-            Programmatic transactional infra. Templates leave room for an
-            AI-drafted body so deliverables still feel personal. Optional
-            review-queue UI for high-stakes sends. Covers auth and ops with the
-            same setup.
+            When the user's report finishes, the product writes a short,
+            personal email about it and sends it straight to them. Same
+            machinery handles sign-ins, alerts, and anything else we need to
+            email. If we ever want a teammate to glance at a draft before it
+            goes, we can add that later.
           </p>
-          <span class="jump">Details ↓</span>
+          <span class="jump">See the details ↓</span>
         </a>
-        <a class="reco card silver" href="#opt-hybrid">
+        <a class="reco card silver" href="#opt-human">
           <span class="badge">🥈 Runner-up</span>
-          <h3>Workspace + agent for deliverables</h3>
-          <p class="tagline">Use what we have. Defer Resend until needed.</p>
+          <h3>AI drafts it. A teammate sends it.</h3>
+          <p class="tagline">Every email gets a human glance first.</p>
           <p class="why">
-            Agent drafts each Insights/Report email into a shared BWAI Drafts
-            folder. A human reviews and sends from a Workspace inbox. Zero new
-            infra, free HITL — but bottlenecks on review and doesn't cover
-            transactional email.
+            When the user's report finishes, the product writes a draft and
+            drops it into a shared BWAI inbox. A teammate reads it and clicks
+            send. Slower, friendlier, and we catch anything weird before it
+            leaves. Doesn't help with sign-ins or alerts — those need something
+            else.
           </p>
-          <span class="jump">Details ↓</span>
+          <span class="jump">See the details ↓</span>
         </a>
       </div>
 
@@ -520,173 +618,179 @@
         <button
           role="tab"
           aria-selected="true"
-          aria-controls="opt-resend"
-          data-target="opt-resend"
+          aria-controls="opt-auto"
+          data-target="opt-auto"
         >
-          🥇 Resend + AI body
+          🥇 AI writes and sends
         </button>
         <button
           role="tab"
           aria-selected="false"
-          aria-controls="opt-hybrid"
-          data-target="opt-hybrid"
+          aria-controls="opt-human"
+          data-target="opt-human"
         >
-          🥈 Workspace + agent
-        </button>
-        <button
-          role="tab"
-          aria-selected="false"
-          aria-controls="opt-strict"
-          data-target="opt-strict"
-        >
-          Reference: pure transactional
+          🥈 AI drafts, teammate sends
         </button>
       </div>
 
       <section
-        id="opt-resend"
+        id="opt-auto"
         class="tab-panel card"
         data-active="true"
         role="tabpanel"
       >
-        <h3>🥇 Resend + AI-personalized body</h3>
+        <h3>🥇 AI writes it. The product sends it.</h3>
         <p>
-          Standard transactional infrastructure. Every email — deliverable,
-          auth, ops — flows through one Resend account on a dedicated sending
-          subdomain. Each deliverable template includes a slot for an
-          AI-generated body, so the email reads like a thoughtful note instead
-          of a generic notification. A lightweight review queue can gate
-          high-stakes sends if we want HITL.
+          When the Mirror report finishes, the product writes a short, warm,
+          personal email about it — referencing what the user actually said —
+          and sends it instantly to their inbox. The same sending pipe handles
+          every other email type we'll ever need (sign-ins, alerts, future
+          products).
         </p>
-        <p>
-          <strong>Sender:</strong>
-          <code>hello@mail.brilliantwith.ai</code> (subdomain isolates
-          transactional reputation from the marketing root). From-name:
-          <code>Brilliant With AI</code>. Reply-To: a monitored shared inbox.
-        </p>
-        <p>
-          <strong>Setup cost:</strong> ~½ day. DNS records (SPF / DKIM / DMARC),
-          one API key per environment, React Email templates for each
-          deliverable, send endpoint in the Next.js proxy.
-        </p>
-        <p>
-          <strong>Run cost:</strong> Free up to 3,000 emails/month, then
-          ~$20/mo.
-        </p>
-        <div class="pc">
-          <div class="col pros">
-            <h4>Pros</h4>
-            <ul>
-              <li>
-                One architecture for every email type — deliverable, auth, ops
-              </li>
-              <li>Scales from 10/week to 10k/week with no rework</li>
-              <li>Instant, predictable delivery — no human bottleneck</li>
-              <li>AI-generated body preserves personalization quality</li>
-              <li>Bounce, complaint, and open tracking built in</li>
-              <li>Easy to add a review queue later if HITL becomes desired</li>
-              <li>Works the same in dev / staging / prod</li>
-            </ul>
-          </div>
-          <div class="col cons">
-            <h4>Cons</h4>
-            <ul>
-              <li>DNS setup (~hour) and ongoing reputation hygiene</li>
-              <li>React Email templates to design + maintain</li>
-              <li>
-                HITL is opt-in, not automatic — easier to ship something we'd
-                want to review
-              </li>
-              <li>Resend lock-in (mitigated: it's just an API; portable)</li>
-              <li>
-                Replies don't land in a real inbox unless we wire Reply-To
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
 
-      <section id="opt-hybrid" class="tab-panel card" role="tabpanel">
-        <h3>🥈 Workspace + agent skill for deliverables</h3>
-        <p>
-          Use Google Workspace as the send surface for consulting deliverables.
-          An agent skill ingests the Insights Snapshot or Mirror Report, drafts
-          a personalized email body, and saves it as a draft in a shared BWAI
-          Workspace inbox. A human (any BWAI team member) reviews the draft and
-          sends from Gmail. Transactional email (auth, ops) still requires a
-          provider — defer that decision until it's needed.
-        </p>
-        <p>
-          <strong>Sender:</strong> <code>hello@brilliantwith.ai</code> — a
-          shared Workspace inbox, not a personal account. Replies land in a real
-          inbox and thread normally.
-        </p>
-        <p>
-          <strong>Setup cost:</strong> ~½ day for the agent skill + Workspace
-          MCP wiring. Zero infra. No DNS work.
-        </p>
-        <p>
-          <strong>Run cost:</strong> $0 incremental (Workspace already paid).
-        </p>
+        <div class="mock">
+          <p class="mock-label">What the user experiences</p>
+          <p class="step">Finishes the Mirror interview</p>
+          <p class="step">Sees the insights on screen</p>
+          <p class="step">
+            Email lands in their inbox within seconds, written for them
+            specifically, from <em>Brilliant With AI</em>
+          </p>
+          <p class="step">They can reply; replies go to a shared BWAI inbox</p>
+        </div>
+
         <div class="pc">
           <div class="col pros">
-            <h4>Pros</h4>
+            <h4>What's good</h4>
             <ul>
-              <li>Free HITL by default — Drafts is the review UI</li>
-              <li>Highest-quality output — LLM tailors body per recipient</li>
-              <li>No DNS, no templates, no reputation management</li>
-              <li>Replies thread into a real inbox</li>
+              <li>One system covers every email we'll ever send</li>
+              <li>Instant. No waiting on a person to be at their desk</li>
+              <li>Each email is freshly written for the recipient</li>
+              <li>Works the same at 10 sends a week or 10,000</li>
               <li>
-                Validates whether automated send is even desired before building
-                it
+                Easy to add a "teammate reviews first" step later if we want it
               </li>
             </ul>
           </div>
           <div class="col cons">
-            <h4>Cons</h4>
+            <h4>What's hard</h4>
             <ul>
+              <li>Nobody on the team sees the email before the user does</li>
               <li>
-                Doesn't cover auth, ops, or any non-deliverable email — needs a
-                second system
+                If the AI writes something off, the user sees it before we do
               </li>
+              <li>Some one-time setup (~half a day of engineering)</li>
               <li>
-                Human review is a bottleneck — fine at 10/week, broken at
-                100/week
-              </li>
-              <li>No automation path — can't auto-send on report-ready</li>
-              <li>
-                Workspace API quirks (OAuth refresh, rate limits, scope creep)
-              </li>
-              <li>Multiple humans on the review rota risk inconsistency</li>
-              <li>
-                Migration cost when we eventually flip to Resend — templates
-                have to be rebuilt from agent prompts
+                Small monthly cost once volume grows (~$20/month at scale)
               </li>
             </ul>
           </div>
         </div>
+
+        <details class="tech">
+          <summary>How we'd build it</summary>
+          <div class="tech-body">
+            <p>
+              Use Resend (a transactional email service) on a dedicated sending
+              subdomain, e.g.
+              <em>mail.brilliantwith.ai</em>. The Mirror app generates the email
+              body using the same model that produced the report, then hands it
+              to Resend to deliver. Reply-to points to a real shared inbox so
+              replies thread normally.
+            </p>
+            <p>
+              Setup: about a half-day. DNS records for the subdomain, one
+              account, templates for each email type, a small piece of code that
+              calls the send API when a report finishes.
+            </p>
+            <p>
+              Cost: free up to 3,000 sends per month, ~$20/month above that.
+            </p>
+            <p>
+              Reversible: if we later want a teammate-review step, we add a
+              queue and a simple approval screen. The send pipe doesn't change.
+            </p>
+          </div>
+        </details>
       </section>
 
-      <section id="opt-strict" class="tab-panel card" role="tabpanel">
-        <h3>Reference: pure transactional (no AI personalization)</h3>
+      <section id="opt-human" class="tab-panel card" role="tabpanel">
+        <h3>🥈 AI drafts it. A teammate sends it.</h3>
         <p>
-          For comparison only. Resend with static React Email templates, no
-          AI-drafted body. Same infra as 🥇 but without the personalization
-          layer.
+          When the Mirror report finishes, the product writes a draft and drops
+          it into a shared BWAI inbox. A teammate opens the draft, reads it,
+          tweaks anything that looks off, and clicks send. Slower and more
+          considered. Doesn't cover sign-ins, alerts, or anything else that
+          needs to go out without a human in the loop.
         </p>
-        <p>
-          <strong>Why we'd consider it:</strong> Simpler, no LLM cost or latency
-          in the send path. Plenty good for auth and ops.
-        </p>
-        <p>
-          <strong>Why we wouldn't:</strong> Sterile for deliverables. The
-          Insights Snapshot is the product; sending it under "Your report is
-          ready" undersells what we just produced.
-        </p>
-        <p>
-          <strong>Verdict:</strong> Use this template style for transactional
-          (auth, ops) under 🥇, and use the AI-body variant for deliverables.
-        </p>
+
+        <div class="mock">
+          <p class="mock-label">What the user experiences</p>
+          <p class="step">Finishes the Mirror interview</p>
+          <p class="step">Sees the insights on screen</p>
+          <p class="step">
+            Sees a message like "Your report is on its way — expect it within a
+            day"
+          </p>
+          <p class="step">
+            Email arrives later, after a teammate has reviewed and sent it
+          </p>
+        </div>
+
+        <div class="pc">
+          <div class="col pros">
+            <h4>What's good</h4>
+            <ul>
+              <li>Every email gets a human glance before going out</li>
+              <li>Catches anything weird the AI writes</li>
+              <li>Highest possible quality per email</li>
+              <li>Uses tools we already have and pay for</li>
+              <li>Replies land directly in the same inbox</li>
+            </ul>
+          </div>
+          <div class="col cons">
+            <h4>What's hard</h4>
+            <ul>
+              <li>
+                Someone on the team has to be on the rota to review drafts
+              </li>
+              <li>
+                Breaks down past ~30 sends per week or when reviewers are AFK
+              </li>
+              <li>Can't send instantly — there's always a wait</li>
+              <li>
+                Doesn't cover sign-ins, alerts, or anything automated — we'd
+                still need a second system for those
+              </li>
+              <li>
+                If we later switch to option 🥇, the email templates have to be
+                rebuilt
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="tech">
+          <summary>How we'd build it</summary>
+          <div class="tech-body">
+            <p>
+              Use the existing Google Workspace account. A small piece of code
+              in the Mirror app generates the draft email and pushes it into a
+              shared inbox using Workspace's drafts feature. The teammate opens
+              Gmail, reviews, hits send.
+            </p>
+            <p>
+              Setup: about a half-day. Auth into Workspace, a script that
+              creates drafts, a shared inbox to receive them.
+            </p>
+            <p>Cost: nothing new. Workspace is already paid for.</p>
+            <p>
+              Limitation: this is only good for Mirror's consulting
+              deliverables. Sign-in confirmations and system alerts can't go
+              through this — they'd need option 🥇 anyway, eventually.
+            </p>
+          </div>
+        </details>
       </section>
 
       <h2>Side-by-side</h2>
@@ -694,75 +798,65 @@
         <table>
           <thead>
             <tr>
-              <th>Criterion</th>
-              <th>🥇 Resend + AI body</th>
-              <th>🥈 Workspace + agent</th>
+              <th>What matters</th>
+              <th>🥇 AI writes and sends</th>
+              <th>🥈 AI drafts, teammate sends</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th>Setup effort</th>
-              <td>Half day (DNS + templates + endpoint)</td>
-              <td>Half day (agent skill + MCP wiring)</td>
+              <th>How long the user waits</th>
+              <td><span class="pick">Seconds</span></td>
+              <td>Hours to a day</td>
             </tr>
             <tr>
-              <th>Run cost</th>
-              <td>$0 → ~$20/mo at scale</td>
-              <td>$0 (sunk in Workspace)</td>
+              <th>Who sees the email first</th>
+              <td>The user</td>
+              <td><span class="pick">A teammate</span></td>
             </tr>
             <tr>
-              <th>Sender identity</th>
-              <td><code>hello@mail.brilliantwith.ai</code></td>
-              <td><code>hello@brilliantwith.ai</code> (real inbox)</td>
+              <th>How personal the email feels</th>
+              <td>High — AI writes a fresh note</td>
+              <td>High — AI writes a fresh note</td>
             </tr>
             <tr>
-              <th>HITL</th>
-              <td>Optional, opt-in via review queue</td>
-              <td><span class="pick">Default</span> Free, via Drafts</td>
+              <th>Where replies land</th>
+              <td>A shared BWAI inbox</td>
+              <td><span class="pick">The same shared inbox</span></td>
             </tr>
             <tr>
-              <th>Personalization quality</th>
-              <td><span class="pick">High</span> AI-drafted body</td>
-              <td><span class="pick">High</span> AI-drafted body</td>
-            </tr>
-            <tr>
-              <th>Throughput ceiling</th>
+              <th>How many per week this can handle</th>
               <td><span class="pick">Unlimited</span></td>
-              <td>~30/week before review burns out</td>
+              <td>~30 before someone burns out</td>
             </tr>
             <tr>
-              <th>Auth / ops coverage</th>
-              <td><span class="pick">Yes</span> same pipe</td>
-              <td>No — needs a second system</td>
-            </tr>
-            <tr>
-              <th>Auto-send on report-ready</th>
+              <th>Covers sign-ins, alerts, future products</th>
               <td><span class="pick">Yes</span></td>
-              <td>No — always human-gated</td>
+              <td>No — we'd still need 🥇 too</td>
             </tr>
             <tr>
-              <th>Reply handling</th>
-              <td>Wire Reply-To to inbox</td>
-              <td><span class="pick">Native</span> threads in inbox</td>
+              <th>Setup time</th>
+              <td>~½ day</td>
+              <td>~½ day</td>
             </tr>
             <tr>
-              <th>Deliverability hygiene</th>
-              <td>Subdomain reputation we own</td>
-              <td>Workspace handles it</td>
+              <th>Monthly cost</th>
+              <td>$0, then ~$20 at scale</td>
+              <td><span class="pick">$0</span></td>
             </tr>
             <tr>
-              <th>Migration cost later</th>
-              <td>None — already at endpoint</td>
-              <td>Rebuild templates from agent prompts</td>
+              <th>Cost to switch later</th>
+              <td>Easy — add a review step on top</td>
+              <td>Harder — templates get rebuilt</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <h2>At what volume does each break?</h2>
+      <h2>How volume changes the answer</h2>
       <section class="card slider-card">
         <p style="margin: 0; font-size: 14px; color: var(--ink-3)">
-          Drag to estimate weekly deliverable email volume.
+          Drag the slider to see how the picture changes as we grow.
         </p>
         <p class="read" id="vol-read">10 / week</p>
         <input
@@ -772,6 +866,7 @@
           max="200"
           value="10"
           step="1"
+          aria-label="Weekly email volume"
         />
         <div
           style="
@@ -790,116 +885,100 @@
         <div class="slider-verdict" id="vol-verdict"></div>
       </section>
 
-      <h2>Open questions for the team</h2>
+      <h2>Things we need the team to weigh in on</h2>
       <ul class="decisions">
         <li>
           <p class="q">
-            Is "always from BWAI, never from a person" the right brand posture?
+            Is "always from BWAI, never from a person" the right brand stance?
           </p>
           <p class="h">
-            Recommended yes. Founder-from undermines the product narrative.
+            We think yes. Sending as a person makes Mirror look like a
+            side-project, not a product.
           </p>
         </li>
         <li>
           <p class="q">
-            For deliverables, do we want HITL on every send, or only for paying
-            clients?
+            For the Mirror report itself, do we trust an AI-written email to go
+            out without a human reading it first?
           </p>
           <p class="h">
-            If always: 🥈 has a real edge. If only sometimes: 🥇 with optional
-            review queue wins.
-          </p>
-        </li>
-        <li>
-          <p class="q">Who owns the shared BWAI inbox if we go 🥈?</p>
-          <p class="h">
-            Who reviews drafts, who covers when they're AFK, what's the SLA on
-            send.
+            This is the single biggest fork. Yes → 🥇 wins easily. No → 🥈 wins,
+            and we need a reviewer on the rota.
           </p>
         </li>
         <li>
           <p class="q">
-            Are we OK shipping an AI-drafted body without review for low-stakes
-            sends?
+            If we go 🥈, who owns the shared inbox? Who covers when they're off?
           </p>
           <p class="h">
-            If yes, 🥇 is straightforward. If no, the review queue work goes
-            from "later" to "now."
+            Someone has to read drafts daily, including weekends if reports come
+            in.
           </p>
         </li>
         <li>
           <p class="q">
-            When do we expect the first non-deliverable email need (auth, ops,
-            billing)?
+            When do we expect to need the first non-Mirror email? (Sign-in
+            confirmation, system alert, something else.)
           </p>
           <p class="h">
-            If &lt; 90 days, picking 🥈 means doing Resend work soon anyway —
-            argues for 🥇 now.
+            If within ~3 months, picking 🥈 first means doing 🥇 work soon
+            anyway. Argues for skipping 🥈.
           </p>
         </li>
       </ul>
 
-      <h2>Proposed next step</h2>
+      <h2>If the team agrees</h2>
       <section class="card">
         <p style="margin: 0 0 12px">
-          Pick 🥇 unless the team has a strong opinion on HITL-by-default for
-          deliverables. Spike: stand up Resend on the staging subdomain, ship
-          one AI-bodied template for the Mirror Insights Snapshot, replace the
-          <code>mailto:</code> in <code>/mirror-next</code>. Two days end-to-end
-          including DNS propagation.
+          Build 🥇 first. Ship one email — the Mirror Insights Snapshot — so we
+          can see real sends and judge whether the AI-written body actually
+          feels personal enough. About two days of engineering end to end.
+          Replace today's broken button.
         </p>
-        <p style="margin: 0; color: var(--ink-3); font-size: 13px">
-          The 🥈 path is reversible — if we pick 🥇 and decide later we wanted
-          HITL, add the review queue. If we pick 🥈 first, we still have to
-          build 🥇 anyway for the first auth or ops email.
+        <p style="margin: 0; color: var(--ink-3); font-size: 13.5px">
+          If, after seeing real sends, the team wants a teammate-review step, we
+          add one. The cost of changing our mind later is small. The opposite is
+          not true — starting with 🥈 means rebuilding when we eventually need
+          🥇 anyway.
         </p>
       </section>
 
       <footer>
-        Source issue:
-        <code>.scratch/infra/006-transactional-email-integration.md</code> in
-        <code>brilliant-apps</code>. This doc is for team review before the
-        decision lands as an ADR.
+        Internal source-of-truth: tracked in the
+        <em>brilliant-apps</em> repo under <em>.scratch/infra/006</em>. A formal
+        decision record will follow once the team picks a direction.
       </footer>
     </div>
 
     <script>
-      // Tab switching
       const tabs = document.querySelectorAll(".tabs button");
       const panels = document.querySelectorAll(".tab-panel");
+      function activate(target) {
+        tabs.forEach((t) =>
+          t.setAttribute(
+            "aria-selected",
+            t.dataset.target === target ? "true" : "false",
+          ),
+        );
+        panels.forEach((p) =>
+          p.setAttribute("data-active", p.id === target ? "true" : "false"),
+        );
+      }
       tabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-          const target = tab.dataset.target;
-          tabs.forEach((t) =>
-            t.setAttribute("aria-selected", t === tab ? "true" : "false"),
-          );
-          panels.forEach((p) =>
-            p.setAttribute("data-active", p.id === target ? "true" : "false"),
-          );
-        });
+        tab.addEventListener("click", () => activate(tab.dataset.target));
       });
 
-      // Recommendation card click → switch tab + scroll
       document.querySelectorAll(".reco").forEach((card) => {
         card.addEventListener("click", (e) => {
           e.preventDefault();
           const target = card.getAttribute("href").slice(1);
-          tabs.forEach((t) =>
-            t.setAttribute(
-              "aria-selected",
-              t.dataset.target === target ? "true" : "false",
-            ),
-          );
-          panels.forEach((p) =>
-            p.setAttribute("data-active", p.id === target ? "true" : "false"),
-          );
+          activate(target);
           document
             .getElementById(target)
             .scrollIntoView({ behavior: "smooth", block: "start" });
         });
       });
 
-      // Volume slider verdict
       const slider = document.getElementById("vol-slider");
       const read = document.getElementById("vol-read");
       const verdict = document.getElementById("vol-verdict");
@@ -909,16 +988,16 @@
         let html;
         if (v <= 15) {
           html =
-            "<strong>Either works.</strong> 🥈 (Workspace) is genuinely viable here — human review is fast at this volume and quality is highest. 🥇 is overkill but future-proof.";
+            "<strong>Either one works.</strong> At this volume a teammate can comfortably review every draft. 🥇 still wins on cost-to-switch-later, but 🥈 is genuinely viable.";
         } else if (v <= 40) {
           html =
-            "<strong>🥇 starts pulling ahead.</strong> Review bottleneck on 🥈 becomes real — someone has to be on the rota daily.";
+            "<strong>🥇 starts pulling ahead.</strong> Reviewing every draft becomes a real daily job for someone. 🥈 still works, but it'll feel like work.";
         } else if (v <= 100) {
           html =
-            "<strong>🥇 clearly.</strong> 🥈 needs a dedicated reviewer or quality drops. AI-body templates close the personalization gap.";
+            "<strong>🥇 clearly.</strong> 🥈 needs a dedicated reviewer or quality slips. The AI-written body is good enough that the team will want this anyway.";
         } else {
           html =
-            "<strong>🥇 only.</strong> 🥈 is structurally broken at this volume — no human review can keep up. Auto-send with optional sampling for QA.";
+            "<strong>🥇 only.</strong> 🥈 falls apart at this volume — no team can keep up. We'd want spot-check sampling for quality, not per-email review.";
         }
         verdict.innerHTML = html;
       }
