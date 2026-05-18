@@ -1,0 +1,1031 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mirror-next interview spike — walkthrough</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Outfit:wght@400;500;600&display=swap"
+    />
+    <style>
+      :root {
+        --navy: #0a1628;
+        --navy-70: rgba(10, 22, 40, 0.72);
+        --navy-50: rgba(10, 22, 40, 0.5);
+        --navy-30: rgba(10, 22, 40, 0.3);
+        --navy-10: rgba(10, 22, 40, 0.1);
+        --navy-05: rgba(10, 22, 40, 0.05);
+        --off-white: #fafaf7;
+        --cream: #f4f1ea;
+        --accent: #157a4e;
+        --accent-bg: rgba(21, 122, 78, 0.05);
+        --accent-glow: rgba(21, 122, 78, 0.18);
+        --warn-bg: #fef6e4;
+        --warn-border: #e9c887;
+        --warn-text: #6b4d10;
+        --font-display: "Newsreader", ui-serif, Georgia, serif;
+        --font-body: "Outfit", ui-sans-serif, system-ui, sans-serif;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--cream);
+        color: var(--navy);
+        font-family: var(--font-body);
+        font-size: 16px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      main {
+        max-width: 940px;
+        margin: 0 auto;
+        padding: 64px 36px 96px;
+        background: var(--off-white);
+      }
+
+      /* ── Hero ────────────────────────────────────────────────────── */
+      .hero {
+        margin: 0 0 40px;
+      }
+      .hero .eyebrow {
+        margin: 0 0 12px;
+        font-family: var(--font-body);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      .hero h1 {
+        margin: 0 0 20px;
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: 42px;
+        line-height: 1.12;
+        letter-spacing: -0.01em;
+        color: var(--navy);
+      }
+      .hero p.lede {
+        margin: 0 0 24px;
+        font-family: var(--font-display);
+        font-size: 22px;
+        font-weight: 400;
+        line-height: 1.45;
+        color: var(--navy-70);
+        max-width: 60ch;
+      }
+      .hero .meta {
+        margin: 0 0 28px;
+        font-size: 13px;
+        color: var(--navy-50);
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      .hero .meta a {
+        color: var(--accent);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+      .hero-shot {
+        margin: 0 0 0;
+        border: 1px solid var(--navy-10);
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(10, 22, 40, 0.08);
+      }
+      .hero-shot img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      /* ── Preface (always expanded) ───────────────────────────────── */
+      .preface {
+        margin: 56px 0 40px;
+        padding: 0 0 8px;
+        border-bottom: 1px solid var(--navy-10);
+      }
+      .preface h2 {
+        margin: 32px 0 12px;
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 1.25;
+        letter-spacing: -0.005em;
+        color: var(--navy);
+      }
+      .preface h2:first-child {
+        margin-top: 0;
+      }
+      .preface p {
+        margin: 0 0 14px;
+        font-size: 16px;
+        color: var(--navy-70);
+        max-width: 65ch;
+      }
+      .preface p:last-child {
+        margin-bottom: 24px;
+      }
+      .preface ul {
+        margin: 0 0 14px;
+        padding-left: 22px;
+        color: var(--navy-70);
+        max-width: 65ch;
+      }
+      .preface li {
+        margin: 0 0 6px;
+      }
+
+      /* ── Bug-overlay callout ─────────────────────────────────────── */
+      .callout {
+        margin: 0 0 32px;
+        padding: 16px 20px;
+        background: var(--warn-bg);
+        border: 1px solid var(--warn-border);
+        border-radius: 10px;
+        font-size: 14px;
+        line-height: 1.55;
+        color: var(--warn-text);
+      }
+      .callout strong {
+        color: var(--warn-text);
+        font-weight: 600;
+      }
+
+      /* ── Step strip (thumbnails) ─────────────────────────────────── */
+      .strip-label {
+        margin: 0 0 8px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--navy-50);
+      }
+      .strip-hint {
+        margin: 0 0 16px;
+        font-size: 13px;
+        color: var(--navy-50);
+      }
+      .strip-hint kbd {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 11px;
+        padding: 1px 6px;
+        background: var(--off-white);
+        border: 1px solid var(--navy-10);
+        border-bottom-width: 2px;
+        border-radius: 4px;
+        color: var(--navy-70);
+      }
+      .strip {
+        margin: 0 0 40px;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 12px;
+      }
+      .strip button {
+        appearance: none;
+        cursor: pointer;
+        background: var(--off-white);
+        border: 1px solid var(--navy-10);
+        border-radius: 10px;
+        padding: 8px 8px 10px;
+        text-align: left;
+        font-family: var(--font-body);
+        color: var(--navy);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        transition:
+          border-color 150ms,
+          box-shadow 150ms,
+          transform 150ms;
+      }
+      .strip button:hover {
+        border-color: var(--accent-glow);
+        box-shadow: 0 4px 12px rgba(10, 22, 40, 0.08);
+        transform: translateY(-1px);
+      }
+      .strip button:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+      .strip button[aria-current="true"] {
+        border-color: var(--accent);
+        box-shadow:
+          0 0 0 1px var(--accent),
+          0 4px 12px rgba(10, 22, 40, 0.08);
+      }
+      .strip-thumb {
+        aspect-ratio: 16 / 9;
+        border-radius: 6px;
+        overflow: hidden;
+        background: var(--navy-05);
+        border: 1px solid var(--navy-10);
+      }
+      .strip-thumb img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;
+      }
+      .strip-no {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      .strip-name {
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 1.25;
+        color: var(--navy);
+      }
+      @media (max-width: 720px) {
+        .strip {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      /* ── Accordion ───────────────────────────────────────────────── */
+      .accordion {
+        margin: 0 0 40px;
+      }
+      section.step {
+        border-top: 1px solid var(--navy-10);
+      }
+      section.step:last-child {
+        border-bottom: 1px solid var(--navy-10);
+      }
+      .step-trigger {
+        appearance: none;
+        background: transparent;
+        border: none;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+        padding: 22px 0;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        font-family: var(--font-body);
+        color: var(--navy);
+      }
+      .step-trigger:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 4px;
+        border-radius: 4px;
+      }
+      .step-trigger .progress-chip {
+        flex: 0 0 auto;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent);
+        background: var(--accent-bg);
+        border: 1px solid var(--accent-glow);
+        border-radius: 999px;
+        padding: 5px 12px;
+        line-height: 1.2;
+        white-space: nowrap;
+      }
+      .step-trigger h2 {
+        margin: 0;
+        flex: 1 1 auto;
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: 22px;
+        line-height: 1.3;
+        letter-spacing: -0.005em;
+        color: var(--navy);
+      }
+      .step-trigger .caret {
+        flex: 0 0 auto;
+        width: 22px;
+        height: 22px;
+        display: inline-grid;
+        place-items: center;
+        border-radius: 999px;
+        color: var(--navy-50);
+        transition:
+          transform 200ms ease,
+          color 200ms ease;
+      }
+      .step-trigger[aria-expanded="true"] .caret {
+        transform: rotate(180deg);
+        color: var(--accent);
+      }
+      .step-body {
+        padding: 0 0 28px;
+        animation: fadein 240ms ease;
+      }
+      .step-body[hidden] {
+        display: none;
+      }
+      .step-body .pill-row {
+        margin: 0 0 16px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .step-body .pill {
+        display: inline-block;
+        padding: 3px 10px;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--accent);
+        background: var(--accent-bg);
+        border: 1px solid var(--accent-glow);
+        border-radius: 999px;
+        line-height: 1.4;
+      }
+      .step-body p {
+        margin: 0 0 14px;
+        font-size: 15.5px;
+        color: var(--navy-70);
+        max-width: 65ch;
+      }
+      .step-body .shot {
+        margin-top: 20px;
+        border: 1px solid var(--navy-10);
+        border-radius: 12px;
+        overflow: hidden;
+        background: var(--off-white);
+        box-shadow: 0 6px 20px rgba(10, 22, 40, 0.06);
+      }
+      .step-body .shot img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      @keyframes fadein {
+        from {
+          opacity: 0;
+          transform: translateY(4px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      /* ── Outro (collapsed by default) ────────────────────────────── */
+      footer.outro {
+        margin: 24px 0 0;
+        padding: 0;
+      }
+      .outro-trigger {
+        appearance: none;
+        background: transparent;
+        border: 1px solid var(--navy-10);
+        border-radius: 10px;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+        padding: 18px 22px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        font-family: var(--font-body);
+        color: var(--navy);
+        transition: border-color 150ms;
+      }
+      .outro-trigger:hover {
+        border-color: var(--accent-glow);
+      }
+      .outro-trigger:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+      .outro-trigger h2 {
+        margin: 0;
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: 18px;
+        color: var(--navy);
+      }
+      .outro-trigger .outro-summary {
+        flex: 1 1 auto;
+        font-size: 14px;
+        color: var(--navy-50);
+      }
+      .outro-trigger .caret {
+        width: 22px;
+        height: 22px;
+        color: var(--navy-50);
+        transition:
+          transform 200ms ease,
+          color 200ms ease;
+      }
+      .outro-trigger[aria-expanded="true"] .caret {
+        transform: rotate(180deg);
+        color: var(--accent);
+      }
+      .outro-body {
+        padding: 20px 4px 0;
+      }
+      .outro-body[hidden] {
+        display: none;
+      }
+      .outro-body p {
+        margin: 0 0 12px;
+        font-size: 15px;
+        color: var(--navy-70);
+        max-width: 65ch;
+      }
+      .outro-body ul {
+        margin: 0;
+        padding-left: 22px;
+        color: var(--navy-70);
+        max-width: 65ch;
+      }
+      .outro-body li {
+        margin: 0 0 8px;
+      }
+      .outro-body code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 12px;
+        background: var(--navy-05);
+        padding: 1px 6px;
+        border-radius: 4px;
+      }
+
+      /* Shot-pair grid — used inside the collapsed "Working notes
+         accumulate" step to show two states side-by-side. */
+      .step-body .shot-pair {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .step-body .shot-pair .shot {
+        margin-top: 0;
+      }
+      .step-body .shot-pair .shot-caption {
+        margin: 8px 4px 0;
+        font-size: 12px;
+        color: var(--navy-50);
+        font-style: italic;
+      }
+      @media (max-width: 720px) {
+        .step-body .shot-pair {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .crumb {
+        margin: 0 0 24px;
+        font-size: 13px;
+        color: var(--navy-50);
+      }
+      .crumb a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+        transition: border-color 150ms;
+      }
+      .crumb a:hover {
+        border-bottom-color: var(--accent);
+      }
+
+      strong {
+        font-weight: 600;
+        color: var(--navy);
+      }
+      em {
+        color: var(--accent);
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <!-- ─── Crumb back to artifact index ──────────────────────── -->
+      <p class="crumb"><a href="../">← Artifacts</a></p>
+
+      <!-- ─── Hero ───────────────────────────────────────────────── -->
+      <header class="hero">
+        <p class="eyebrow">Mirror-next · Slice 0 spike</p>
+        <h1>The interview, working end-to-end, on an alternate stack.</h1>
+        <p class="lede">
+          A scripted walk through the mirror-next interview experience — from
+          the opening question to the Insights Snapshot — built as a live
+          sandbox so we can look at the interaction shape before we commit
+          engineering to it.
+        </p>
+        <p class="meta">
+          <span>Branch: <strong>feat/mirror-next-spike-0</strong></span>
+          <span
+            >PR:
+            <a href="https://github.com/alignmktg/brilliant-apps/pull/324"
+              >alignmktg/brilliant-apps#324</a
+            ></span
+          >
+          <span>Captured: 2026-05-18</span>
+        </p>
+        <div class="hero-shot">
+          <img
+            src="wt-04-notes-3-cue.png"
+            alt="Mid-interview state: three working notes accumulated in the right pane, closing-question cue visible, Q4 streaming in the chat"
+          />
+        </div>
+      </header>
+
+      <!-- ─── Preface (always expanded) ──────────────────────────── -->
+      <section class="preface">
+        <h2>What this is</h2>
+        <p>
+          A working sandbox of the mirror-next interview flow. Real chat
+          scaffold, real streaming, real on-brand styling. The conversation is
+          driven by a fixed script (mock LLM, hand-written replies) so the demo
+          is deterministic and reviewable. The user composer is pre-populated
+          each turn with the answer a real subject would give, then locked
+          read-only — reviewers see the intended arc play out without typing a
+          word.
+        </p>
+
+        <h2>Why we built it</h2>
+        <p>
+          Before we sink engineering hours into the rebuild, we wanted to see
+          the interaction shape running in front of us. The questions we needed
+          answers to:
+        </p>
+        <ul>
+          <li>
+            Does the structured Q1–Q4 interview cadence feel right, or does it
+            read as cold and mechanical?
+          </li>
+          <li>
+            Does a sidecar pane showing "working notes" as the interview
+            progresses add signal, or just clutter?
+          </li>
+          <li>
+            Is the Insights Snapshot a strong-enough payoff to justify the wait,
+            with the cuts landing the way the prompt intends?
+          </li>
+          <li>
+            What does the user actually do with the snapshot once it arrives —
+            read, save, print, share?
+          </li>
+        </ul>
+        <p>
+          The arc below is the answer. Skip to
+          <a href="#outro">What this proves</a> if you want the takeaways first.
+        </p>
+
+        <h2>Why assistant-ui — and what we're not locked into</h2>
+        <p>
+          The sandbox uses
+          <a href="https://www.assistant-ui.com/">assistant-ui</a>, an
+          open-source React chat scaffold. We get the entire conversation
+          surface — message stream, composer, dictation hook, accessibility,
+          mobile behaviour — for free, branded against our own design tokens.
+          What would have taken a day or two to hand-build took a handful of
+          hours.
+        </p>
+        <p>
+          This is also a proof-of-concept of running on an alternate stack: the
+          sandbox uses Vercel AI SDK + AI Gateway and makes zero calls to our
+          current ThinkWAI platform.
+          <strong
+            >Adopting assistant-ui gets us shipping faster; replacing it later
+            is a straightforward swap.</strong
+          >
+          Every UX concept here is framework-agnostic.
+        </p>
+      </section>
+
+      <!-- ─── Bug-overlay callout ────────────────────────────────── -->
+      <div class="callout">
+        <strong>One thing to ignore in the screenshots.</strong> The small red
+        <em>"N · Issues"</em> pill in the bottom-left of each frame is the
+        Next.js dev-mode overlay — a developer tool, not part of the product.
+        Skip past it whenever you see it.
+      </div>
+
+      <!-- ─── Step strip (thumbnails) ────────────────────────────── -->
+      <p class="strip-label">The four beats</p>
+      <p class="strip-hint">
+        Click a thumbnail to jump to that step. Or use
+        <kbd>←</kbd>&nbsp;<kbd>→</kbd> to cycle through, <kbd>Esc</kbd>
+        to collapse all.
+      </p>
+      <nav class="strip" aria-label="Walkthrough steps">
+        <button type="button" data-step="0" aria-controls="step-1-body">
+          <span class="strip-thumb">
+            <img src="wt-01-listening.png" alt="" loading="lazy" />
+          </span>
+          <span class="strip-no">Beat 1</span>
+          <span class="strip-name">Listening</span>
+        </button>
+        <button type="button" data-step="1" aria-controls="step-2-body">
+          <span class="strip-thumb">
+            <img src="wt-03-notes-2.png" alt="" loading="lazy" />
+          </span>
+          <span class="strip-no">Beat 2</span>
+          <span class="strip-name">Working notes accumulate</span>
+        </button>
+        <button type="button" data-step="2" aria-controls="step-3-body">
+          <span class="strip-thumb">
+            <img src="wt-04-notes-3-cue.png" alt="" loading="lazy" />
+          </span>
+          <span class="strip-no">Beat 3</span>
+          <span class="strip-name">Closing cue</span>
+        </button>
+        <button type="button" data-step="3" aria-controls="step-4-body">
+          <span class="strip-thumb">
+            <img src="wt-05-snapshot.png" alt="" loading="lazy" />
+          </span>
+          <span class="strip-no">Beat 4</span>
+          <span class="strip-name">Insights Snapshot</span>
+        </button>
+      </nav>
+
+      <!-- ─── Accordion ──────────────────────────────────────────── -->
+      <div class="accordion">
+        <section class="step" data-step="0" data-label="Listening">
+          <button
+            type="button"
+            class="step-trigger"
+            aria-expanded="true"
+            aria-controls="step-1-body"
+            id="step-1-trigger"
+          >
+            <span class="progress-chip">1 of 4 · Listening</span>
+            <h2>Listening — the opening question lands.</h2>
+            <span class="caret" aria-hidden="true">▾</span>
+          </button>
+          <div
+            class="step-body"
+            id="step-1-body"
+            role="region"
+            aria-labelledby="step-1-trigger"
+          >
+            <div class="pill-row">
+              <span class="pill">Right pane: LISTENING</span>
+              <span class="pill">Composer pre-filled, read-only</span>
+              <span class="pill">No notes yet</span>
+            </div>
+            <p>
+              The interviewer opens with a contextualised one-paragraph frame,
+              sets a time expectation (~20 minutes), and asks Q1 — what you are
+              accountable for this quarter and what would count as a win versus
+              a problem. The voice is direct: no warmth, no throat-clearing, no
+              AI-chat tics.
+            </p>
+            <p>
+              The right pane shows a soft "LISTENING" state with a pulse —
+              signalling to the user that the interview is paying attention, and
+              that observations will surface here as the conversation unfolds.
+              The composer at the bottom is already filled in with the expected
+              user reply (italic gray) and locked read-only, so the demo runs on
+              a script and reviewers can see exactly what a real subject would
+              say.
+            </p>
+            <div class="shot">
+              <img
+                src="wt-01-listening.png"
+                alt="Listening state — Q1 visible, prefilled composer"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="1" data-label="First pattern">
+          <button
+            type="button"
+            class="step-trigger"
+            aria-expanded="false"
+            aria-controls="step-2-body"
+            id="step-2-trigger"
+          >
+            <span class="progress-chip">2 of 4 · Working notes</span>
+            <h2>Working notes — patterns accumulate.</h2>
+            <span class="caret" aria-hidden="true">▾</span>
+          </button>
+          <div
+            class="step-body"
+            id="step-2-body"
+            role="region"
+            aria-labelledby="step-2-trigger"
+            hidden
+          >
+            <div class="pill-row">
+              <span class="pill">Right pane: WORKING NOTES · 1 → 2</span>
+              <span class="pill">Q2 then Q3 streamed</span>
+              <span class="pill">Replies auto-prefilled</span>
+            </div>
+            <p>
+              The interviewer asks Q2 (team shape) and then Q3 (AI in the wild).
+              Each answer triggers a working note in the right pane — not a
+              paraphrase of what the user said, but a sharper read of the
+              pattern underneath it. The composer auto-rewrites between turns,
+              keeping the demo on rails.
+            </p>
+            <p>
+              By the second note, the cumulative read is starting to look like a
+              thesis. A stakeholder reading the transcript later can already see
+              where the conversation is heading — without the interviewer ever
+              breaking its neutral-question stance.
+            </p>
+            <div class="shot-pair">
+              <div class="shot">
+                <img
+                  src="wt-02-notes-1.png"
+                  alt="One working note visible, Q2 streaming"
+                  loading="lazy"
+                />
+                <p class="shot-caption">After Q2 — one note surfaces.</p>
+              </div>
+              <div class="shot">
+                <img
+                  src="wt-03-notes-2.png"
+                  alt="Two working notes visible, Q3 streaming"
+                  loading="lazy"
+                />
+                <p class="shot-caption">After Q3 — pattern accumulates.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="2" data-label="Closing cue">
+          <button
+            type="button"
+            class="step-trigger"
+            aria-expanded="false"
+            aria-controls="step-3-body"
+            id="step-3-trigger"
+          >
+            <span class="progress-chip">3 of 4 · Closing cue</span>
+            <h2>Approaching end — the closing-question cue.</h2>
+            <span class="caret" aria-hidden="true">▾</span>
+          </button>
+          <div
+            class="step-body"
+            id="step-3-body"
+            role="region"
+            aria-labelledby="step-3-trigger"
+            hidden
+          >
+            <div class="pill-row">
+              <span class="pill"
+                >Right pane: WORKING NOTES · 3 of 3 · ready</span
+              >
+              <span class="pill">Closing-question cue card</span>
+              <span class="pill">Q4 streamed (CEO translation)</span>
+            </div>
+            <p>
+              All three working notes are now visible. Below them, a soft
+              accent-tinted cue strip reads
+              <em>"One last question, then the report drops"</em> — telling the
+              user the interview is wrapping up before they hear it from the
+              interviewer itself. That parallel signalling is one of the things
+              we wanted to test here: does the sidecar pane carry useful pacing
+              information alongside the chat?
+            </p>
+            <p>
+              In the chat, Q4 is the closing question — what does the CEO
+              actually want from AI in plain English, and how will they judge
+              whether you delivered. The composer is pre-filled with the
+              expected reply.
+            </p>
+            <div class="shot">
+              <img
+                src="wt-04-notes-3-cue.png"
+                alt="Three working notes, closing cue, Q4 streaming"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="3" data-label="Insights Snapshot">
+          <button
+            type="button"
+            class="step-trigger"
+            aria-expanded="false"
+            aria-controls="step-4-body"
+            id="step-4-trigger"
+          >
+            <span class="progress-chip">4 of 4 · Insights Snapshot</span>
+            <h2>Insights Snapshot — the payoff.</h2>
+            <span class="caret" aria-hidden="true">▾</span>
+          </button>
+          <div
+            class="step-body"
+            id="step-4-body"
+            role="region"
+            aria-labelledby="step-4-trigger"
+            hidden
+          >
+            <div class="pill-row">
+              <span class="pill">Right pane: INSIGHTS SNAPSHOT</span>
+              <span class="pill">Copy · Download · Print</span>
+              <span class="pill">TASK → ROLE → IDENTITY escalation</span>
+            </div>
+            <p>
+              After the user's reply to Q4, the interviewer delivers a brief
+              synthesis handoff in the chat —
+              <em>"I have what I need. Drafting your snapshot now."</em>
+              The right pane holds for a short drafting beat (about three
+              seconds of "SYNTHESIZING"), then the Insights Snapshot streams in:
+              a forensic, second-person read structured as a title, a thesis
+              quote, three escalating insights (Task → Role → Identity), each
+              ending in a bolded verdict sentence, and a two-line kicker
+              callback.
+            </p>
+            <p>
+              The voice is the production mirror-next register: cold clarity,
+              surgical, no reassurance. The snapshot is intentionally short
+              enough to read in one sitting and sharp enough to be quotable. The
+              Copy, Download, and Print buttons in the top-right of the pane are
+              all client-only — no scaffold changes were needed. Download writes
+              a timestamped markdown file; Print opens a browser print dialog
+              that shows only the report.
+            </p>
+            <div class="shot">
+              <img
+                src="wt-05-snapshot.png"
+                alt="Insights Snapshot with Copy/Download/Print actions"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ─── Outro (open by default — the takeaways are the point) ─ -->
+      <footer class="outro" id="outro">
+        <button
+          type="button"
+          class="outro-trigger"
+          aria-expanded="true"
+          aria-controls="outro-body"
+          id="outro-trigger"
+        >
+          <h2>What this proves</h2>
+          <span class="outro-summary">The four takeaways from the spike.</span>
+          <span class="caret" aria-hidden="true">▾</span>
+        </button>
+        <div
+          class="outro-body"
+          id="outro-body"
+          role="region"
+          aria-labelledby="outro-trigger"
+        >
+          <p>In order of how much each matters for the next conversation:</p>
+          <ul>
+            <li>
+              <strong>The interaction shape works.</strong> The
+              interview-plus-sidecar-plus-payoff structure reads as intentional
+              and earns its real estate.
+            </li>
+            <li>
+              <strong>Brand and product feel intact</strong> on an alternate
+              stack we don't fully control — no compromises in voice,
+              typography, or pacing.
+            </li>
+            <li>
+              <strong>The alternate stack is viable, with no lock-in.</strong>
+              The sandbox runs entirely on Vercel AI SDK + AI Gateway, with zero
+              calls to the ThinkWAI platform. assistant-ui buys us velocity now;
+              every concept here is framework-agnostic and swappable later.
+            </li>
+            <li>
+              <strong
+                >Print / Copy / Download for the snapshot is essentially
+                free</strong
+              >
+              because the artifact lives in our component, not in the scaffold's
+              message stream.
+            </li>
+          </ul>
+        </div>
+      </footer>
+    </main>
+
+    <script>
+      (function () {
+        const steps = Array.from(document.querySelectorAll("section.step"));
+        const thumbs = Array.from(document.querySelectorAll(".strip button"));
+
+        function setOpen(idx, opts = {}) {
+          const { scroll = false, focusTrigger = false } = opts;
+          steps.forEach((s, i) => {
+            const trigger = s.querySelector(".step-trigger");
+            const body = s.querySelector(".step-body");
+            const open = i === idx;
+            trigger.setAttribute("aria-expanded", String(open));
+            body.hidden = !open;
+            s.classList.toggle("is-open", open);
+          });
+          thumbs.forEach((b, i) => {
+            b.setAttribute("aria-current", i === idx ? "true" : "false");
+          });
+          if (idx >= 0 && scroll) {
+            const t = steps[idx];
+            const rect = t.getBoundingClientRect();
+            // Only scroll if the trigger is out of view (above or near the bottom)
+            if (rect.top < 80 || rect.top > window.innerHeight - 120) {
+              t.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }
+          if (idx >= 0 && focusTrigger) {
+            steps[idx]
+              .querySelector(".step-trigger")
+              .focus({ preventScroll: true });
+          }
+        }
+
+        function closeAll() {
+          steps.forEach((s) => {
+            s.querySelector(".step-trigger").setAttribute(
+              "aria-expanded",
+              "false",
+            );
+            s.querySelector(".step-body").hidden = true;
+            s.classList.remove("is-open");
+          });
+          thumbs.forEach((b) => b.setAttribute("aria-current", "false"));
+        }
+
+        function currentIndex() {
+          return steps.findIndex((s) => s.classList.contains("is-open"));
+        }
+
+        // Step triggers — toggle behaviour: click open one closes the others.
+        steps.forEach((s, i) => {
+          const trigger = s.querySelector(".step-trigger");
+          trigger.addEventListener("click", () => {
+            if (s.classList.contains("is-open")) {
+              closeAll();
+            } else {
+              setOpen(i, { scroll: true });
+            }
+          });
+        });
+
+        // Thumbnail strip — jump to step.
+        thumbs.forEach((b, i) => {
+          b.addEventListener("click", () =>
+            setOpen(i, { scroll: true, focusTrigger: true }),
+          );
+        });
+
+        // Keyboard nav: ← → cycles, Esc collapses all.
+        document.addEventListener("keydown", (e) => {
+          if (e.target.closest("input, textarea, select")) return;
+          if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+          if (e.key === "Escape") {
+            closeAll();
+            e.preventDefault();
+            return;
+          }
+          if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+            const idx = currentIndex();
+            const next = (idx + 1 + steps.length) % steps.length;
+            setOpen(next, { scroll: true, focusTrigger: true });
+            e.preventDefault();
+          }
+          if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+            const idx = currentIndex();
+            const prev = (idx <= 0 ? steps.length : idx) - 1;
+            setOpen(prev, { scroll: true, focusTrigger: true });
+            e.preventDefault();
+          }
+        });
+
+        // Outro toggle.
+        const outroTrigger = document.querySelector(".outro-trigger");
+        const outroBody = document.querySelector(".outro-body");
+        outroTrigger.addEventListener("click", () => {
+          const open = outroTrigger.getAttribute("aria-expanded") === "true";
+          outroTrigger.setAttribute("aria-expanded", String(!open));
+          outroBody.hidden = open;
+        });
+
+        // Initial state: State 1 open, no scroll.
+        setOpen(0, { scroll: false });
+      })();
+    </script>
+  </body>
+</html>
