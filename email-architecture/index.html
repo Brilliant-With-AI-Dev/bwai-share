@@ -1,0 +1,929 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email architecture — options &amp; recommendation</title>
+    <style>
+      :root {
+        --bg: #f6f8fb;
+        --surface: #ffffff;
+        --surface-2: #f0f3f8;
+        --surface-3: #e9eef6;
+        --ink: #0f1a2e;
+        --ink-2: #3a4861;
+        --ink-3: #6b7790;
+        --line: #d6dde8;
+        --line-2: #b8c2d4;
+        --accent: #2c6bed;
+        --accent-soft: #e7efff;
+        --accent-2: #1f4fb5;
+        --good: #157a4e;
+        --good-soft: #e2f1ea;
+        --warn: #b06b00;
+        --warn-soft: #fbecd2;
+        --bad: #b8351a;
+        --bad-soft: #fbe2db;
+        --gold: #b8860b;
+        --gold-soft: #fdf4d3;
+        --silver: #6b7790;
+        --silver-soft: #eef2f8;
+        --shadow:
+          0 1px 2px rgba(15, 26, 46, 0.04), 0 4px 12px rgba(15, 26, 46, 0.05);
+        --shadow-2:
+          0 2px 4px rgba(15, 26, 46, 0.06), 0 12px 24px rgba(15, 26, 46, 0.08);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        font-size: 15px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      code {
+        font-family:
+          ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 0.88em;
+        background: var(--surface-3);
+        padding: 1px 6px;
+        border-radius: 4px;
+        color: var(--ink-2);
+      }
+
+      .wrap {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 56px 32px 96px;
+      }
+
+      .crumb {
+        font-size: 13px;
+        color: var(--ink-3);
+        margin-bottom: 16px;
+      }
+      .crumb a {
+        color: var(--ink-3);
+      }
+
+      h1 {
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: -0.012em;
+        margin: 0 0 12px;
+      }
+      .lede {
+        font-size: 17px;
+        color: var(--ink-2);
+        margin: 0 0 28px;
+        max-width: 64ch;
+      }
+      .meta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 40px;
+        font-size: 13px;
+        color: var(--ink-3);
+      }
+      .meta-row span {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 4px 12px;
+      }
+
+      h2 {
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--ink-3);
+        margin: 48px 0 16px;
+      }
+      h2:first-of-type {
+        margin-top: 0;
+      }
+      h3 {
+        font-size: 20px;
+        font-weight: 600;
+        margin: 0 0 8px;
+        letter-spacing: -0.005em;
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        padding: 24px 28px;
+      }
+
+      /* Context card */
+      .context-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+      }
+      .context-grid .item .label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-3);
+        margin: 0 0 4px;
+      }
+      .context-grid .item .val {
+        font-size: 15px;
+        color: var(--ink);
+        margin: 0;
+      }
+
+      /* Recommendation cards */
+      .reco-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      @media (max-width: 720px) {
+        .reco-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .reco {
+        position: relative;
+        cursor: pointer;
+        transition:
+          border-color 0.15s ease,
+          transform 0.15s ease;
+      }
+      .reco:hover {
+        border-color: var(--accent);
+        transform: translateY(-1px);
+      }
+      .reco .badge {
+        position: absolute;
+        top: -12px;
+        left: 16px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 4px 10px;
+        border-radius: 999px;
+      }
+      .reco.gold .badge {
+        background: var(--gold-soft);
+        color: var(--gold);
+        border: 1px solid var(--gold);
+      }
+      .reco.silver .badge {
+        background: var(--silver-soft);
+        color: var(--silver);
+        border: 1px solid var(--line-2);
+      }
+      .reco h3 {
+        margin: 8px 0 6px;
+      }
+      .reco .tagline {
+        font-size: 14px;
+        color: var(--ink-3);
+        margin: 0 0 12px;
+      }
+      .reco .why {
+        font-size: 14px;
+        color: var(--ink-2);
+        margin: 0;
+      }
+      .reco .jump {
+        display: inline-block;
+        margin-top: 14px;
+        font-size: 13px;
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      /* Tabs */
+      .tabs {
+        display: flex;
+        gap: 4px;
+        background: var(--surface-3);
+        padding: 4px;
+        border-radius: 10px;
+        margin: 0 0 20px;
+        max-width: 100%;
+        overflow-x: auto;
+      }
+      .tabs button {
+        flex: 1;
+        border: 0;
+        background: transparent;
+        font: inherit;
+        color: var(--ink-2);
+        padding: 10px 14px;
+        border-radius: 7px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        white-space: nowrap;
+        transition:
+          background 0.12s ease,
+          color 0.12s ease;
+      }
+      .tabs button:hover {
+        color: var(--ink);
+      }
+      .tabs button[aria-selected="true"] {
+        background: var(--surface);
+        color: var(--ink);
+        font-weight: 600;
+        box-shadow: var(--shadow);
+      }
+      .tab-panel {
+        display: none;
+      }
+      .tab-panel[data-active="true"] {
+        display: block;
+      }
+
+      /* Pros / cons */
+      .pc {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin: 16px 0 0;
+      }
+      @media (max-width: 600px) {
+        .pc {
+          grid-template-columns: 1fr;
+        }
+      }
+      .pc .col {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 16px 18px;
+      }
+      .pc .col.pros {
+        background: var(--good-soft);
+        border-color: var(--good);
+      }
+      .pc .col.cons {
+        background: var(--bad-soft);
+        border-color: var(--bad);
+      }
+      .pc .col h4 {
+        margin: 0 0 10px;
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .pc .col.pros h4 {
+        color: var(--good);
+      }
+      .pc .col.cons h4 {
+        color: var(--bad);
+      }
+      .pc ul {
+        margin: 0;
+        padding-left: 20px;
+        font-size: 14px;
+        color: var(--ink);
+      }
+      .pc li {
+        margin-bottom: 6px;
+      }
+      .pc li:last-child {
+        margin-bottom: 0;
+      }
+
+      /* Comparison table */
+      .compare {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        background: var(--surface);
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+      }
+      th,
+      td {
+        padding: 12px 16px;
+        text-align: left;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+      tr:last-child th,
+      tr:last-child td {
+        border-bottom: 0;
+      }
+      th {
+        background: var(--surface-2);
+        font-weight: 600;
+        font-size: 13px;
+        color: var(--ink-2);
+      }
+      th:first-child {
+        width: 28%;
+        color: var(--ink-3);
+      }
+      td .pick {
+        background: var(--gold-soft);
+        color: var(--gold);
+        font-weight: 700;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 2px 8px;
+        border-radius: 999px;
+        margin-right: 6px;
+      }
+
+      /* Volume slider */
+      .slider-card {
+        text-align: center;
+      }
+      .slider-card .read {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--accent);
+        letter-spacing: -0.01em;
+        margin: 8px 0;
+      }
+      .slider-card input[type="range"] {
+        width: 100%;
+        margin: 12px 0;
+        accent-color: var(--accent);
+      }
+      .slider-verdict {
+        margin: 16px 0 0;
+        padding: 14px 18px;
+        background: var(--accent-soft);
+        border: 1px solid var(--accent);
+        border-radius: 10px;
+        font-size: 14px;
+        color: var(--ink);
+      }
+      .slider-verdict strong {
+        color: var(--accent-2);
+      }
+
+      /* Decision needed */
+      .decisions {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .decisions li {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--accent);
+        border-radius: 8px;
+        padding: 14px 18px;
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+      .decisions .q {
+        font-weight: 600;
+        color: var(--ink);
+        margin: 0 0 4px;
+      }
+      .decisions .h {
+        color: var(--ink-3);
+        margin: 0;
+        font-size: 13px;
+      }
+
+      footer {
+        margin-top: 64px;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+        font-size: 12px;
+        color: var(--ink-3);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <p class="crumb"><a href="../">← All artifacts</a></p>
+
+      <h1>Email architecture for BWAI products</h1>
+      <p class="lede">
+        We need to send email from the BWAI product surface — starting with the
+        Mirror Insights Snapshot and Mirror Report. Two viable architectures.
+        This doc lays out both, plus the recommendation and the runner-up.
+      </p>
+      <div class="meta-row">
+        <span>2026-05-18</span>
+        <span>Owner: Matt</span>
+        <span>Audience: BWAI team</span>
+        <span>Decision deadline: TBD</span>
+      </div>
+
+      <h2>The context</h2>
+      <section class="card">
+        <div class="context-grid">
+          <div class="item">
+            <p class="label">What we'd send first</p>
+            <p class="val">
+              Mirror Insights Snapshot (Stage 3) and Mirror Report (Stage 4) —
+              the consulting deliverables, not notifications.
+            </p>
+          </div>
+          <div class="item">
+            <p class="label">Volume today</p>
+            <p class="val">~0–10 sends/week. Grows with paid engagements.</p>
+          </div>
+          <div class="item">
+            <p class="label">Personalization</p>
+            <p class="val">
+              High. Body is the user's own insights — needs care, not a generic
+              "your report is ready."
+            </p>
+          </div>
+          <div class="item">
+            <p class="label">Sender identity</p>
+            <p class="val">
+              <strong>Always from BWAI</strong> (e.g.
+              <code>hello@brilliantwith.ai</code>). Never from Matt. This is a
+              product, not a founder.
+            </p>
+          </div>
+          <div class="item">
+            <p class="label">Other email types coming</p>
+            <p class="val">
+              Auth/verification (Stytch backup), ops alerts, future stakeholder
+              invites at scale (Discovery).
+            </p>
+          </div>
+          <div class="item">
+            <p class="label">Current state in product</p>
+            <p class="val">
+              <code>/mirror-next</code> ships a <code>mailto:</code> link that
+              opens the user's own email client with a truncated copy. Brittle
+              and off-brand. Replace.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <h2>The recommendation at a glance</h2>
+      <div class="reco-grid">
+        <a class="reco card gold" href="#opt-resend">
+          <span class="badge">🥇 Recommend</span>
+          <h3>Resend + AI-personalized body</h3>
+          <p class="tagline">One pipe for every email. Scales day one.</p>
+          <p class="why">
+            Programmatic transactional infra. Templates leave room for an
+            AI-drafted body so deliverables still feel personal. Optional
+            review-queue UI for high-stakes sends. Covers auth and ops with the
+            same setup.
+          </p>
+          <span class="jump">Details ↓</span>
+        </a>
+        <a class="reco card silver" href="#opt-hybrid">
+          <span class="badge">🥈 Runner-up</span>
+          <h3>Workspace + agent for deliverables</h3>
+          <p class="tagline">Use what we have. Defer Resend until needed.</p>
+          <p class="why">
+            Agent drafts each Insights/Report email into a shared BWAI Drafts
+            folder. A human reviews and sends from a Workspace inbox. Zero new
+            infra, free HITL — but bottlenecks on review and doesn't cover
+            transactional email.
+          </p>
+          <span class="jump">Details ↓</span>
+        </a>
+      </div>
+
+      <h2>The two options in detail</h2>
+
+      <div class="tabs" role="tablist">
+        <button
+          role="tab"
+          aria-selected="true"
+          aria-controls="opt-resend"
+          data-target="opt-resend"
+        >
+          🥇 Resend + AI body
+        </button>
+        <button
+          role="tab"
+          aria-selected="false"
+          aria-controls="opt-hybrid"
+          data-target="opt-hybrid"
+        >
+          🥈 Workspace + agent
+        </button>
+        <button
+          role="tab"
+          aria-selected="false"
+          aria-controls="opt-strict"
+          data-target="opt-strict"
+        >
+          Reference: pure transactional
+        </button>
+      </div>
+
+      <section
+        id="opt-resend"
+        class="tab-panel card"
+        data-active="true"
+        role="tabpanel"
+      >
+        <h3>🥇 Resend + AI-personalized body</h3>
+        <p>
+          Standard transactional infrastructure. Every email — deliverable,
+          auth, ops — flows through one Resend account on a dedicated sending
+          subdomain. Each deliverable template includes a slot for an
+          AI-generated body, so the email reads like a thoughtful note instead
+          of a generic notification. A lightweight review queue can gate
+          high-stakes sends if we want HITL.
+        </p>
+        <p>
+          <strong>Sender:</strong>
+          <code>hello@mail.brilliantwith.ai</code> (subdomain isolates
+          transactional reputation from the marketing root). From-name:
+          <code>Brilliant With AI</code>. Reply-To: a monitored shared inbox.
+        </p>
+        <p>
+          <strong>Setup cost:</strong> ~½ day. DNS records (SPF / DKIM / DMARC),
+          one API key per environment, React Email templates for each
+          deliverable, send endpoint in the Next.js proxy.
+        </p>
+        <p>
+          <strong>Run cost:</strong> Free up to 3,000 emails/month, then
+          ~$20/mo.
+        </p>
+        <div class="pc">
+          <div class="col pros">
+            <h4>Pros</h4>
+            <ul>
+              <li>
+                One architecture for every email type — deliverable, auth, ops
+              </li>
+              <li>Scales from 10/week to 10k/week with no rework</li>
+              <li>Instant, predictable delivery — no human bottleneck</li>
+              <li>AI-generated body preserves personalization quality</li>
+              <li>Bounce, complaint, and open tracking built in</li>
+              <li>Easy to add a review queue later if HITL becomes desired</li>
+              <li>Works the same in dev / staging / prod</li>
+            </ul>
+          </div>
+          <div class="col cons">
+            <h4>Cons</h4>
+            <ul>
+              <li>DNS setup (~hour) and ongoing reputation hygiene</li>
+              <li>React Email templates to design + maintain</li>
+              <li>
+                HITL is opt-in, not automatic — easier to ship something we'd
+                want to review
+              </li>
+              <li>Resend lock-in (mitigated: it's just an API; portable)</li>
+              <li>
+                Replies don't land in a real inbox unless we wire Reply-To
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="opt-hybrid" class="tab-panel card" role="tabpanel">
+        <h3>🥈 Workspace + agent skill for deliverables</h3>
+        <p>
+          Use Google Workspace as the send surface for consulting deliverables.
+          An agent skill ingests the Insights Snapshot or Mirror Report, drafts
+          a personalized email body, and saves it as a draft in a shared BWAI
+          Workspace inbox. A human (any BWAI team member) reviews the draft and
+          sends from Gmail. Transactional email (auth, ops) still requires a
+          provider — defer that decision until it's needed.
+        </p>
+        <p>
+          <strong>Sender:</strong> <code>hello@brilliantwith.ai</code> — a
+          shared Workspace inbox, not a personal account. Replies land in a real
+          inbox and thread normally.
+        </p>
+        <p>
+          <strong>Setup cost:</strong> ~½ day for the agent skill + Workspace
+          MCP wiring. Zero infra. No DNS work.
+        </p>
+        <p>
+          <strong>Run cost:</strong> $0 incremental (Workspace already paid).
+        </p>
+        <div class="pc">
+          <div class="col pros">
+            <h4>Pros</h4>
+            <ul>
+              <li>Free HITL by default — Drafts is the review UI</li>
+              <li>Highest-quality output — LLM tailors body per recipient</li>
+              <li>No DNS, no templates, no reputation management</li>
+              <li>Replies thread into a real inbox</li>
+              <li>
+                Validates whether automated send is even desired before building
+                it
+              </li>
+            </ul>
+          </div>
+          <div class="col cons">
+            <h4>Cons</h4>
+            <ul>
+              <li>
+                Doesn't cover auth, ops, or any non-deliverable email — needs a
+                second system
+              </li>
+              <li>
+                Human review is a bottleneck — fine at 10/week, broken at
+                100/week
+              </li>
+              <li>No automation path — can't auto-send on report-ready</li>
+              <li>
+                Workspace API quirks (OAuth refresh, rate limits, scope creep)
+              </li>
+              <li>Multiple humans on the review rota risk inconsistency</li>
+              <li>
+                Migration cost when we eventually flip to Resend — templates
+                have to be rebuilt from agent prompts
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="opt-strict" class="tab-panel card" role="tabpanel">
+        <h3>Reference: pure transactional (no AI personalization)</h3>
+        <p>
+          For comparison only. Resend with static React Email templates, no
+          AI-drafted body. Same infra as 🥇 but without the personalization
+          layer.
+        </p>
+        <p>
+          <strong>Why we'd consider it:</strong> Simpler, no LLM cost or latency
+          in the send path. Plenty good for auth and ops.
+        </p>
+        <p>
+          <strong>Why we wouldn't:</strong> Sterile for deliverables. The
+          Insights Snapshot is the product; sending it under "Your report is
+          ready" undersells what we just produced.
+        </p>
+        <p>
+          <strong>Verdict:</strong> Use this template style for transactional
+          (auth, ops) under 🥇, and use the AI-body variant for deliverables.
+        </p>
+      </section>
+
+      <h2>Side-by-side</h2>
+      <div class="compare card" style="padding: 0; overflow: hidden">
+        <table>
+          <thead>
+            <tr>
+              <th>Criterion</th>
+              <th>🥇 Resend + AI body</th>
+              <th>🥈 Workspace + agent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>Setup effort</th>
+              <td>Half day (DNS + templates + endpoint)</td>
+              <td>Half day (agent skill + MCP wiring)</td>
+            </tr>
+            <tr>
+              <th>Run cost</th>
+              <td>$0 → ~$20/mo at scale</td>
+              <td>$0 (sunk in Workspace)</td>
+            </tr>
+            <tr>
+              <th>Sender identity</th>
+              <td><code>hello@mail.brilliantwith.ai</code></td>
+              <td><code>hello@brilliantwith.ai</code> (real inbox)</td>
+            </tr>
+            <tr>
+              <th>HITL</th>
+              <td>Optional, opt-in via review queue</td>
+              <td><span class="pick">Default</span> Free, via Drafts</td>
+            </tr>
+            <tr>
+              <th>Personalization quality</th>
+              <td><span class="pick">High</span> AI-drafted body</td>
+              <td><span class="pick">High</span> AI-drafted body</td>
+            </tr>
+            <tr>
+              <th>Throughput ceiling</th>
+              <td><span class="pick">Unlimited</span></td>
+              <td>~30/week before review burns out</td>
+            </tr>
+            <tr>
+              <th>Auth / ops coverage</th>
+              <td><span class="pick">Yes</span> same pipe</td>
+              <td>No — needs a second system</td>
+            </tr>
+            <tr>
+              <th>Auto-send on report-ready</th>
+              <td><span class="pick">Yes</span></td>
+              <td>No — always human-gated</td>
+            </tr>
+            <tr>
+              <th>Reply handling</th>
+              <td>Wire Reply-To to inbox</td>
+              <td><span class="pick">Native</span> threads in inbox</td>
+            </tr>
+            <tr>
+              <th>Deliverability hygiene</th>
+              <td>Subdomain reputation we own</td>
+              <td>Workspace handles it</td>
+            </tr>
+            <tr>
+              <th>Migration cost later</th>
+              <td>None — already at endpoint</td>
+              <td>Rebuild templates from agent prompts</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>At what volume does each break?</h2>
+      <section class="card slider-card">
+        <p style="margin: 0; font-size: 14px; color: var(--ink-3)">
+          Drag to estimate weekly deliverable email volume.
+        </p>
+        <p class="read" id="vol-read">10 / week</p>
+        <input
+          type="range"
+          id="vol-slider"
+          min="1"
+          max="200"
+          value="10"
+          step="1"
+        />
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--ink-3);
+            margin-top: -4px;
+          "
+        >
+          <span>1</span>
+          <span>50</span>
+          <span>100</span>
+          <span>200+</span>
+        </div>
+        <div class="slider-verdict" id="vol-verdict"></div>
+      </section>
+
+      <h2>Open questions for the team</h2>
+      <ul class="decisions">
+        <li>
+          <p class="q">
+            Is "always from BWAI, never from a person" the right brand posture?
+          </p>
+          <p class="h">
+            Recommended yes. Founder-from undermines the product narrative.
+          </p>
+        </li>
+        <li>
+          <p class="q">
+            For deliverables, do we want HITL on every send, or only for paying
+            clients?
+          </p>
+          <p class="h">
+            If always: 🥈 has a real edge. If only sometimes: 🥇 with optional
+            review queue wins.
+          </p>
+        </li>
+        <li>
+          <p class="q">Who owns the shared BWAI inbox if we go 🥈?</p>
+          <p class="h">
+            Who reviews drafts, who covers when they're AFK, what's the SLA on
+            send.
+          </p>
+        </li>
+        <li>
+          <p class="q">
+            Are we OK shipping an AI-drafted body without review for low-stakes
+            sends?
+          </p>
+          <p class="h">
+            If yes, 🥇 is straightforward. If no, the review queue work goes
+            from "later" to "now."
+          </p>
+        </li>
+        <li>
+          <p class="q">
+            When do we expect the first non-deliverable email need (auth, ops,
+            billing)?
+          </p>
+          <p class="h">
+            If &lt; 90 days, picking 🥈 means doing Resend work soon anyway —
+            argues for 🥇 now.
+          </p>
+        </li>
+      </ul>
+
+      <h2>Proposed next step</h2>
+      <section class="card">
+        <p style="margin: 0 0 12px">
+          Pick 🥇 unless the team has a strong opinion on HITL-by-default for
+          deliverables. Spike: stand up Resend on the staging subdomain, ship
+          one AI-bodied template for the Mirror Insights Snapshot, replace the
+          <code>mailto:</code> in <code>/mirror-next</code>. Two days end-to-end
+          including DNS propagation.
+        </p>
+        <p style="margin: 0; color: var(--ink-3); font-size: 13px">
+          The 🥈 path is reversible — if we pick 🥇 and decide later we wanted
+          HITL, add the review queue. If we pick 🥈 first, we still have to
+          build 🥇 anyway for the first auth or ops email.
+        </p>
+      </section>
+
+      <footer>
+        Source issue:
+        <code>.scratch/infra/006-transactional-email-integration.md</code> in
+        <code>brilliant-apps</code>. This doc is for team review before the
+        decision lands as an ADR.
+      </footer>
+    </div>
+
+    <script>
+      // Tab switching
+      const tabs = document.querySelectorAll(".tabs button");
+      const panels = document.querySelectorAll(".tab-panel");
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          const target = tab.dataset.target;
+          tabs.forEach((t) =>
+            t.setAttribute("aria-selected", t === tab ? "true" : "false"),
+          );
+          panels.forEach((p) =>
+            p.setAttribute("data-active", p.id === target ? "true" : "false"),
+          );
+        });
+      });
+
+      // Recommendation card click → switch tab + scroll
+      document.querySelectorAll(".reco").forEach((card) => {
+        card.addEventListener("click", (e) => {
+          e.preventDefault();
+          const target = card.getAttribute("href").slice(1);
+          tabs.forEach((t) =>
+            t.setAttribute(
+              "aria-selected",
+              t.dataset.target === target ? "true" : "false",
+            ),
+          );
+          panels.forEach((p) =>
+            p.setAttribute("data-active", p.id === target ? "true" : "false"),
+          );
+          document
+            .getElementById(target)
+            .scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      });
+
+      // Volume slider verdict
+      const slider = document.getElementById("vol-slider");
+      const read = document.getElementById("vol-read");
+      const verdict = document.getElementById("vol-verdict");
+      function renderVerdict() {
+        const v = parseInt(slider.value, 10);
+        read.textContent = `${v} / week`;
+        let html;
+        if (v <= 15) {
+          html =
+            "<strong>Either works.</strong> 🥈 (Workspace) is genuinely viable here — human review is fast at this volume and quality is highest. 🥇 is overkill but future-proof.";
+        } else if (v <= 40) {
+          html =
+            "<strong>🥇 starts pulling ahead.</strong> Review bottleneck on 🥈 becomes real — someone has to be on the rota daily.";
+        } else if (v <= 100) {
+          html =
+            "<strong>🥇 clearly.</strong> 🥈 needs a dedicated reviewer or quality drops. AI-body templates close the personalization gap.";
+        } else {
+          html =
+            "<strong>🥇 only.</strong> 🥈 is structurally broken at this volume — no human review can keep up. Auto-send with optional sampling for QA.";
+        }
+        verdict.innerHTML = html;
+      }
+      slider.addEventListener("input", renderVerdict);
+      renderVerdict();
+    </script>
+  </body>
+</html>
