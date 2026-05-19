@@ -604,6 +604,70 @@
       }
 
       /* ============================================================== */
+      /* OPEN DECISIONS (MCQ block)                                     */
+      /* ============================================================== */
+      .open-q {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 20px 22px 22px;
+        margin-bottom: 28px;
+        box-shadow: var(--shadow);
+      }
+      .open-q h2 {
+        margin: 0 0 6px;
+        font-size: 16px;
+      }
+      .open-q p.sub {
+        margin: 0 0 18px;
+        color: var(--text-muted);
+        font-size: 13px;
+      }
+      .open-q .q {
+        margin-bottom: 18px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--border);
+      }
+      .open-q .q:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+      }
+      .open-q .q-text {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text);
+        margin: 0 0 10px;
+        line-height: 1.4;
+      }
+      .open-q ul.q-opts {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .open-q ul.q-opts li {
+        font-size: 13.5px;
+        color: var(--text-sub);
+        padding: 6px 10px;
+        background: var(--surface-tint);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        line-height: 1.45;
+      }
+      .open-q .opt-label {
+        font-family: var(--mono);
+        font-weight: 600;
+        color: var(--text);
+        margin-right: 6px;
+      }
+      .open-q .opt-label.gold {
+        color: var(--accent);
+      }
+
+      /* ============================================================== */
       /* MOBILE — iPhone Pro Max and below                              */
       /* ============================================================== */
       @media (max-width: 720px) {
@@ -1203,6 +1267,123 @@
             pop-up questions.
           </li>
         </ol>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- OPEN DECISIONS -->
+      <!-- ============================================================ -->
+      <div class="open-q">
+        <h2>Open decisions</h2>
+        <p class="sub">
+          A is the recommendation. Reply by character — "1A, 2B, 3A…" — or ask
+          for something else.
+        </p>
+
+        <div class="q">
+          <p class="q-text">
+            1. Where should the Save button live on the finished-prompt screen?
+          </p>
+          <ul class="q-opts">
+            <li>
+              <span class="opt-label gold">A. 🥇</span> Sticky bottom-right
+              action — always visible while scrolling, primary color.
+            </li>
+            <li>
+              <span class="opt-label">B. 🥈</span> Wide primary button directly
+              above the Improve box.
+            </li>
+            <li>
+              <span class="opt-label">C.</span> Leave it where it is, next to
+              Copy in the corner.
+            </li>
+          </ul>
+        </div>
+
+        <div class="q">
+          <p class="q-text">
+            2. How does a tester edit the title and description after the first
+            save?
+          </p>
+          <ul class="q-opts">
+            <li>
+              <span class="opt-label gold">A. 🥇</span> Pencil icon next to each
+              — obvious, low-risk.
+            </li>
+            <li>
+              <span class="opt-label">B. 🥈</span> Click anywhere on title or
+              description to edit inline; subtle dotted underline on hover hints
+              at it.
+            </li>
+            <li>
+              <span class="opt-label">C.</span> Through the ⋯ menu → "Rename" /
+              "Edit details".
+            </li>
+          </ul>
+        </div>
+
+        <div class="q">
+          <p class="q-text">3. Where does Delete live?</p>
+          <ul class="q-opts">
+            <li>
+              <span class="opt-label gold">A. 🥇</span> Stays tucked in the ⋯
+              menu (top-right) inside the workspace.
+            </li>
+            <li>
+              <span class="opt-label">B. 🥈</span> Also surfaces on each library
+              card (hover/long-press → delete from the list).
+            </li>
+            <li><span class="opt-label">C.</span> Both.</li>
+          </ul>
+        </div>
+
+        <div class="q">
+          <p class="q-text">
+            4. Should v1 give testers a "start over from scratch" button?
+          </p>
+          <ul class="q-opts">
+            <li>
+              <span class="opt-label gold">A. 🥇</span> No — "← Library" then "+
+              New" is one extra click and zero risk of accidental wipe.
+            </li>
+            <li>
+              <span class="opt-label">B. 🥈</span> Yes — "Start over" in the ⋯
+              menu, with a confirm prompt.
+            </li>
+            <li>
+              <span class="opt-label">C.</span> Yes — visible "Start over" link
+              near the title.
+            </li>
+          </ul>
+        </div>
+
+        <div class="q">
+          <p class="q-text">
+            5. What should the source-of-truth doc be called?
+          </p>
+          <ul class="q-opts">
+            <li>
+              <span class="opt-label gold">A. 🥇</span>
+              <code style="font-family: var(--mono); font-size: 12.5px"
+                >tester-build.md</code
+              >
+              — focuses on what we're shipping.
+            </li>
+            <li>
+              <span class="opt-label">B.</span>
+              <code style="font-family: var(--mono); font-size: 12.5px"
+                >rethink.md</code
+              >
+              — signals "redo of the spike".
+            </li>
+            <li>
+              <span class="opt-label">C.</span>
+              <code style="font-family: var(--mono); font-size: 12.5px"
+                >cut.md</code
+              >
+              — signals the pared-down version.
+            </li>
+          </ul>
+        </div>
       </div>
 
       <footer class="bottom">
