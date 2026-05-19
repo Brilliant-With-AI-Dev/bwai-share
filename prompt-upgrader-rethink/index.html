@@ -611,57 +611,45 @@
         <div class="meta">updated 2026-05-19</div>
       </header>
       <p class="lede">
-        Minimum delightful build for outside testers. Hover any node in the flow
-        to peek the screen mock.
+        The smallest delightful build we can put in front of outside testers.
+        Hover any node below to see the screen.
         <span class="hint">tip · hover a node</span>
-        <br />
-        Source-of-truth markdown:
-        <a href="prompt-upgrader-tester-build.md"
-          >prompt-upgrader-tester-build.md</a
-        >.
       </p>
 
       <!-- ============================================================ -->
       <!-- FLOW DIAGRAM -->
       <!-- ============================================================ -->
       <section class="flow">
-        <p class="flow-title">User flow</p>
+        <p class="flow-title">What a tester sees</p>
         <p class="flow-sub">
-          First-run testers enter at S0. Returning testers loop S1.0 ↔ S3.0b.
+          First-time visitors land on the welcome screen. Returning visitors
+          jump straight to their library.
         </p>
 
         <div class="grid">
           <!-- S0 -->
           <a href="#s0" id="s0" class="node pos-s0" tabindex="0">
             <div class="node-label">S0</div>
-            <div class="node-title">Route check</div>
+            <div class="node-title">Where do they land?</div>
             <div class="node-sub">
-              No UI. Lists the user's
-              <code style="font-family: var(--mono); font-size: 12px"
-                >pu_prompt_meta</code
-              >
-              assets to decide: any saved → S1.0, none → S1.1.
+              When someone opens the app, we check if they have saved prompts.
+              Yes → library. No → welcome.
             </div>
             <div class="node-badges">
               <span class="badge frozen">FROZEN</span>
-              <span class="badge nout">no UI</span>
+              <span class="badge nout">no screen</span>
             </div>
 
             <div class="peek">
               <div class="peek-frame">
-                <span class="brand">S0 · Route check</span>
+                <span class="brand">S0 · Where do they land?</span>
                 <span class="badge frozen">FROZEN</span>
               </div>
               <div class="peek-body">
                 <p style="margin: 0; color: var(--text-sub); font-size: 13px">
-                  On
-                  <code style="font-family: var(--mono)">/prompt-upgrader</code
-                  >, the server lists every
-                  <code style="font-family: var(--mono)">pu_prompt_meta</code>
-                  asset belonging to this user (scope=custom,
-                  customScopeDomain=<code style="font-family: var(--mono)"
-                    >prompt-upgrader.prompt</code
-                  >).
+                  This step has no screen of its own. When a tester opens Prompt
+                  Upgrader, we quickly check whether they've saved any prompts
+                  yet:
                 </p>
                 <ul
                   style="
@@ -671,19 +659,9 @@
                     padding-left: 18px;
                   "
                 >
-                  <li>Empty list → S1.1 (welcome)</li>
-                  <li>Any saved prompts → S1.0 (library)</li>
+                  <li>None yet → Welcome screen (S1.1)</li>
+                  <li>One or more → Library (S1.0)</li>
                 </ul>
-                <p
-                  style="
-                    margin: 12px 0 0;
-                    color: var(--text-muted);
-                    font-size: 11.5px;
-                    font-family: var(--mono);
-                  "
-                >
-                  reads · pu_prompt_meta[]
-                </p>
               </div>
             </div>
           </a>
@@ -691,11 +669,11 @@
           <!-- branch split -->
           <div class="pos-meta branch-split">
             <div class="b">
-              <span class="edge-label">if empty</span>
+              <span class="edge-label">first-time visitor</span>
               <span class="bar"></span>
             </div>
             <div class="b">
-              <span class="edge-label">if populated</span>
+              <span class="edge-label">returning visitor</span>
               <span class="bar"></span>
             </div>
           </div>
@@ -703,9 +681,10 @@
           <!-- S1.1 -->
           <a href="#s1-1" id="s1-1" class="node pos-s11" tabindex="0">
             <div class="node-label">S1.1</div>
-            <div class="node-title">Library — empty / welcome</div>
+            <div class="node-title">Welcome screen</div>
             <div class="node-sub">
-              Single-sentence input + "reusable template" checkbox. Hit Start.
+              One sentence about what they want, plus a checkbox if they want a
+              reusable template. Start.
             </div>
             <div class="node-badges">
               <span class="badge frozen">FROZEN</span>
@@ -722,9 +701,8 @@
                 <div class="pc example">
                   <div class="title">Sysco discovery interview</div>
                   <div class="desc">
-                    One-shot questionnaire for enterprise IT discovery sessions.
-                    Front-loads compliance constraints, then walks the
-                    stakeholder through pain → impact → budget triage in 8–12
+                    A questionnaire for enterprise IT discovery sessions. Walks
+                    the stakeholder through pain → impact → budget in 8–12
                     minutes.
                   </div>
                 </div>
@@ -740,16 +718,6 @@
                   <span>Make this a reusable prompt template</span>
                 </label>
                 <div class="row-end"><span class="btn-mini">Start →</span></div>
-                <p
-                  style="
-                    margin: 12px 0 0;
-                    color: var(--text-muted);
-                    font-size: 11.5px;
-                    font-family: var(--mono);
-                  "
-                >
-                  reads · none (library is empty) · writes · none until Save
-                </p>
               </div>
             </div>
           </a>
@@ -757,9 +725,10 @@
           <!-- S1.0 -->
           <a href="#s1-0" id="s1-0" class="node pos-s10" tabindex="0">
             <div class="node-label">S1.0</div>
-            <div class="node-title">Library — populated</div>
+            <div class="node-title">Library</div>
             <div class="node-sub">
-              Cards stacked, newest first. + New opens an S1.1-shape modal.
+              Saved prompts stacked newest-first. + New opens the same input as
+              the welcome screen.
             </div>
             <div class="node-badges">
               <span class="badge frozen">FROZEN</span>
@@ -778,7 +747,7 @@
                 <div class="pc">
                   <div class="title">Sysco discovery interview</div>
                   <div class="desc">
-                    One-shot questionnaire for enterprise IT discovery sessions.
+                    A questionnaire for enterprise IT discovery sessions.
                   </div>
                   <div class="when">Updated 2h ago</div>
                 </div>
@@ -796,16 +765,6 @@
                   </div>
                   <div class="when">Updated 3d ago</div>
                 </div>
-                <p
-                  style="
-                    margin: 12px 0 0;
-                    color: var(--text-muted);
-                    font-size: 11.5px;
-                    font-family: var(--mono);
-                  "
-                >
-                  reads · pu_prompt_meta[] (title / description / updated_at)
-                </p>
               </div>
             </div>
           </a>
@@ -820,7 +779,7 @@
               gap: 6px;
             "
           >
-            <span class="edge-label">click Start</span>
+            <span class="edge-label">they click Start</span>
             <span class="arrow-down"></span>
           </div>
 
@@ -834,7 +793,7 @@
               gap: 6px;
             "
           >
-            <span class="edge-label">click + New</span>
+            <span class="edge-label">they click + New</span>
             <span class="arrow-down"></span>
           </div>
 
@@ -849,7 +808,7 @@
             "
           >
             <span class="pill-step"
-              >metaprompt fires · one-off OR reusable template</span
+              >we write the prompt for them · one-off OR reusable template</span
             >
             <span class="arrow-down"></span>
           </div>
@@ -863,11 +822,11 @@
             style="width: 340px"
           >
             <div class="node-label">S3.0a</div>
-            <div class="node-title">Workspace — streaming</div>
+            <div class="node-title">Workspace — writing the prompt</div>
             <div class="node-sub">
-              Body streams into the editor. Then up to 3 optional "hardening"
-              questions stream below — answering them lets the LLM strengthen
-              the prompt.
+              The prompt writes itself in the editor. Then up to 3 optional
+              sharpening questions appear — answering any makes the prompt
+              materially better.
             </div>
             <div class="node-badges">
               <span class="badge draft">DRAFT</span>
@@ -891,7 +850,7 @@
 
                 <div class="improve-mini" style="margin-top: 14px">
                   <div class="head">
-                    Strengthen this prompt
+                    Sharpen this prompt
                     <span
                       style="
                         font-weight: 400;
@@ -909,7 +868,7 @@
                     "
                   >
                     Answer any of these to make the prompt materially better —
-                    skip to keep the version above.
+                    or skip and keep the version above.
                   </p>
                   <ol
                     style="
@@ -963,16 +922,6 @@
                 <div class="row-end" style="margin-top: 14px">
                   <span class="btn-mini muted">Save and name</span>
                 </div>
-                <p
-                  style="
-                    margin: 12px 0 0;
-                    color: var(--text-muted);
-                    font-size: 11.5px;
-                    font-family: var(--mono);
-                  "
-                >
-                  reads · none · writes · none until Save
-                </p>
               </div>
             </div>
           </a>
@@ -988,13 +937,11 @@
             "
           >
             <span class="edge-label"
-              >Apply answers (optional, fires once) → re-stream body in
+              >Apply answers (optional, once) → prompt rewrites itself in
               place</span
             >
             <span class="arrow-down"></span>
-            <span class="edge-label" style="margin-top: 6px"
-              >then Save → S3.0b</span
-            >
+            <span class="edge-label" style="margin-top: 6px">then Save</span>
             <span class="arrow-down"></span>
           </div>
 
@@ -1007,10 +954,10 @@
             style="width: 340px"
           >
             <div class="node-label">S3.0b</div>
-            <div class="node-title">Workspace — settled</div>
+            <div class="node-title">Workspace — finished prompt</div>
             <div class="node-sub">
-              Save (1st saves title+desc), Improve (one-shot rewrite + intent),
-              Copy, ⋯ Delete.
+              Save (first save also names it), Improve (tell it what to change),
+              Copy, Delete.
             </div>
             <div class="node-badges">
               <span class="badge draft">DRAFT</span>
@@ -1025,9 +972,9 @@
                 <div class="backlink-mini">← Library</div>
                 <div class="ws-title-mini">Sysco discovery interview</div>
                 <div class="ws-desc-mini">
-                  One-shot questionnaire for enterprise IT discovery sessions.
-                  Walks the stakeholder through pain → impact → budget triage in
-                  8–12 minutes.
+                  A questionnaire for enterprise IT discovery sessions. Walks
+                  the stakeholder through pain → impact → budget in 8–12
+                  minutes.
                 </div>
                 <div class="input-mock body">
                   Role: You are a senior discovery interviewer for enterprise IT
@@ -1059,17 +1006,6 @@
                     <span class="btn-mini">Save</span>
                   </span>
                 </div>
-                <p
-                  style="
-                    margin: 12px 0 0;
-                    color: var(--text-muted);
-                    font-size: 11.5px;
-                    font-family: var(--mono);
-                  "
-                >
-                  reads · pu_prompt_body · writes · pu_prompt_meta +
-                  pu_prompt_body + pu_prompt_versions (on Save)
-                </p>
               </div>
             </div>
           </a>
@@ -1078,7 +1014,8 @@
         <!-- return-loop label -->
         <div style="display: flex; justify-content: center; margin-top: 20px">
           <span class="loop-note"
-            >↰ ← Library or card click loops back to S1.0 / S3.0b</span
+            >↰ "← Library" returns to the library · clicking a card reopens its
+            workspace</span
           >
         </div>
       </section>
@@ -1087,46 +1024,50 @@
       <!-- PINNED DECISIONS -->
       <!-- ============================================================ -->
       <div class="pinned">
-        <h2>Pinned decisions</h2>
-        <p class="sub">Locked-in design calls — flow above honors these.</p>
+        <h2>What's already decided</h2>
+        <p class="sub">
+          Locked-in design calls — the flow above reflects these.
+        </p>
         <ol>
           <li>
-            <strong>Streaming, not interstitial.</strong> Metaprompt output
-            streams into the S3.0 body. No route switch.
+            <strong>The prompt writes itself in front of you.</strong> No
+            loading screen between asking and seeing — the prompt streams into
+            the workspace as it's generated.
           </li>
           <li>
-            <strong>Hardcoded output_templates.</strong> Two skeletons (one-off,
-            reusable) live in code. No editing UI.
+            <strong>Two prompt shapes, fixed.</strong> One for a one-off prompt,
+            one for a reusable template. Testers can't edit those shapes — only
+            what comes out of them.
           </li>
           <li>
-            <strong>user_profile stays Jinja, passes empty.</strong> Profile
-            work deferred to v1.1+.
+            <strong>No user profile in this version.</strong> The system has
+            slots for things like role, tone, audience, but we leave them empty
+            for v1. Wired up in a later version.
           </li>
           <li>
-            <strong>"+ New" opens a modal.</strong> Same sentence + checkbox
-            combo as S1.1. Same metaprompt fires.
+            <strong>"+ New" reuses the welcome input.</strong> Same one sentence
+            + reusable-template checkbox, just inside a small dialog.
+          </li>
+          <li>
+            <strong>Reusable templates tell ChatGPT to ask first.</strong>
+            When a tester copies a reusable template into ChatGPT, the template
+            instructs ChatGPT to ask the user for the missing pieces before
+            producing output.
           </li>
           <li>
             <strong
-              >Templates render plain text + leading fill-in
-              instruction.</strong
+              >Sharpening questions appear once, on first generation.</strong
             >
-            Reusable output_template tells ChatGPT to ask the user for
-            placeholder values before producing output.
-          </li>
-          <li>
-            <strong>Hardening questions are one-shot (S3.0a only).</strong>
-            Initial metaprompt streams the prompt body plus up to 3 optional
-            questions. Answering any and clicking "Apply answers" re-fires the
-            metaprompt once with the answers folded in — body restreams in
-            place, no new questions. After that, only Improve (intent text)
-            edits further. Hardening Q&amp;A doesn't appear in S3.0b.
+            We stream the prompt plus up to 3 optional follow-up questions.
+            Answering any and clicking "Apply answers" rewrites the prompt once.
+            After that, all further edits go through the "Improve" box — no more
+            pop-up questions.
           </li>
         </ol>
       </div>
 
       <footer class="bottom">
-        reload to see proposals &amp; revisions · hover any node to peek
+        reload to see updates · hover any node to see the screen
       </footer>
     </div>
   </body>
