@@ -1,0 +1,1133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Prompt Upgrader — tester build (v1)</title>
+    <style>
+      :root {
+        --bg: #f4f6fa;
+        --surface: #ffffff;
+        --surface-tint: #f8fafc;
+        --border: #e4e7ec;
+        --border-strong: #cbd5e1;
+        --text: #101828;
+        --text-sub: #475467;
+        --text-muted: #98a2b3;
+        --accent: #2563eb;
+        --accent-soft: #eff6ff;
+        --accent-line: #93c5fd;
+        --frozen: #16a34a;
+        --frozen-soft: #ecfdf5;
+        --draft: #d97706;
+        --draft-soft: #fff7ed;
+        --shadow:
+          0 1px 3px rgba(16, 24, 40, 0.06), 0 1px 2px rgba(16, 24, 40, 0.04);
+        --shadow-lg:
+          0 14px 28px rgba(16, 24, 40, 0.1), 0 4px 10px rgba(16, 24, 40, 0.04);
+        --mono:
+          ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font:
+          15px/1.5 -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          "Helvetica Neue",
+          Arial,
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      .page {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 28px 24px 96px;
+      }
+      header.top {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 6px;
+      }
+      header.top h1 {
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        margin: 0;
+      }
+      header.top .meta {
+        color: var(--text-muted);
+        font-size: 13px;
+        font-family: var(--mono);
+      }
+      .lede {
+        color: var(--text-sub);
+        margin: 0 0 24px;
+        font-size: 14px;
+        max-width: 760px;
+      }
+      .lede a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .lede a:hover {
+        text-decoration: underline;
+      }
+      .lede .hint {
+        background: var(--accent-soft);
+        color: var(--accent);
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 500;
+        margin-left: 6px;
+        font-family: var(--mono);
+      }
+
+      /* ============================================================== */
+      /* FLOW DIAGRAM */
+      /* ============================================================== */
+      .flow {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 32px 24px 40px;
+        margin-bottom: 32px;
+        box-shadow: var(--shadow);
+        overflow: visible;
+      }
+      .flow-title {
+        margin: 0 0 6px;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-sub);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .flow-sub {
+        margin: 0 0 24px;
+        font-size: 13px;
+        color: var(--text-muted);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto auto auto auto;
+        gap: 14px 60px;
+        justify-items: center;
+        position: relative;
+      }
+      /* node positions */
+      .pos-s0 {
+        grid-column: 1 / span 2;
+        grid-row: 1;
+      }
+      .pos-meta {
+        grid-column: 1 / span 2;
+        grid-row: 2;
+      }
+      .pos-s11 {
+        grid-column: 1;
+        grid-row: 3;
+      }
+      .pos-s10 {
+        grid-column: 2;
+        grid-row: 3;
+      }
+      .pos-start {
+        grid-column: 1;
+        grid-row: 4;
+      }
+      .pos-mp {
+        grid-column: 1 / span 2;
+        grid-row: 5;
+      }
+      .pos-s3a {
+        grid-column: 1 / span 2;
+        grid-row: 6;
+      }
+      .pos-stream {
+        grid-column: 1 / span 2;
+        grid-row: 7;
+      }
+      .pos-s3b {
+        grid-column: 1 / span 2;
+        grid-row: 8;
+      }
+      .pos-loop {
+        grid-column: 2;
+        grid-row: 4;
+      }
+
+      .node {
+        position: relative;
+        width: 260px;
+        background: #fff;
+        border: 1.5px solid var(--border-strong);
+        border-radius: 14px;
+        padding: 14px 16px 14px;
+        box-shadow: var(--shadow);
+        transition:
+          transform 120ms ease,
+          box-shadow 120ms ease,
+          border-color 120ms ease;
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer;
+      }
+      .node:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--accent);
+        z-index: 5;
+      }
+      .node .node-label {
+        font-family: var(--mono);
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-muted);
+        letter-spacing: 0.04em;
+      }
+      .node .node-title {
+        font-size: 15px;
+        font-weight: 600;
+        margin-top: 2px;
+      }
+      .node .node-sub {
+        font-size: 12.5px;
+        color: var(--text-sub);
+        margin-top: 4px;
+        line-height: 1.4;
+      }
+      .node .node-badges {
+        display: flex;
+        gap: 6px;
+        margin-top: 10px;
+      }
+      .badge {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        font-weight: 600;
+        padding: 2px 6px;
+        border-radius: 999px;
+        letter-spacing: 0.03em;
+      }
+      .badge.frozen {
+        background: var(--frozen-soft);
+        color: var(--frozen);
+      }
+      .badge.draft {
+        background: var(--draft-soft);
+        color: var(--draft);
+      }
+      .badge.nout {
+        background: var(--surface-tint);
+        color: var(--text-muted);
+        border: 1px solid var(--border);
+      }
+
+      /* Diagram chrome: arrows, labels */
+      .arrow-down {
+        width: 2px;
+        height: 28px;
+        background: var(--border-strong);
+        position: relative;
+      }
+      .arrow-down::after {
+        content: "";
+        position: absolute;
+        bottom: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 8px solid var(--border-strong);
+      }
+      .meta-row,
+      .stream-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        color: var(--text-muted);
+        font-size: 12px;
+        font-family: var(--mono);
+      }
+      .branch-split {
+        width: 80%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        color: var(--text-sub);
+        font-size: 12px;
+        font-family: var(--mono);
+        text-align: center;
+      }
+      .branch-split .b {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+      }
+      .branch-split .bar {
+        width: 2px;
+        height: 22px;
+        background: var(--border-strong);
+        position: relative;
+      }
+      .branch-split .bar::after {
+        content: "";
+        position: absolute;
+        bottom: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 8px solid var(--border-strong);
+      }
+      .edge-label {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--text-sub);
+        background: var(--surface);
+        padding: 2px 6px;
+        border-radius: 4px;
+        border: 1px solid var(--border);
+      }
+      .pill-step {
+        background: var(--accent-soft);
+        color: var(--accent);
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 500;
+        border: 1px solid #c7dcfd;
+        font-family: var(--mono);
+      }
+      .loop-note {
+        position: relative;
+        margin-top: -10px;
+        margin-bottom: 4px;
+        background: var(--surface-tint);
+        border: 1px dashed var(--border-strong);
+        border-radius: 999px;
+        padding: 4px 10px;
+        color: var(--text-sub);
+        font-size: 11px;
+        font-family: var(--mono);
+      }
+
+      /* ============================================================== */
+      /* HOVER PREVIEW (floating screen mock) */
+      /* ============================================================== */
+      .node .peek {
+        position: absolute;
+        top: 50%;
+        right: calc(100% + 24px);
+        left: auto;
+        transform: translateY(-50%) translateX(8px);
+        width: 380px;
+        background: linear-gradient(180deg, #fff, #fbfcfe);
+        border: 1px solid var(--border-strong);
+        border-radius: 14px;
+        box-shadow: var(--shadow-lg);
+        padding: 0;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 150ms ease,
+          transform 150ms ease;
+        z-index: 50;
+        cursor: default;
+        text-align: left;
+      }
+      .node:hover .peek {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(-50%) translateX(0);
+      }
+      /* Right-column nodes fly OUT to the right */
+      .pos-s10 .peek,
+      .pos-loop .peek {
+        right: auto;
+        left: calc(100% + 24px);
+        transform: translateY(-50%) translateX(-8px);
+      }
+      .pos-s10:hover .peek,
+      .pos-loop:hover .peek {
+        transform: translateY(-50%) translateX(0);
+      }
+      /* Full-width nodes (S0, S3.0a, S3.0b) fly OUT to the right
+         so they don't cover downstream nodes below */
+      .pos-s0 .peek,
+      .pos-s3a .peek,
+      .pos-s3b .peek {
+        top: 50%;
+        left: calc(100% + 24px);
+        right: auto;
+        transform: translateY(-50%) translateX(-8px);
+      }
+      .pos-s0:hover .peek,
+      .pos-s3a:hover .peek,
+      .pos-s3b:hover .peek {
+        transform: translateY(-50%) translateX(0);
+      }
+      .peek-frame {
+        background: #fff;
+        border-bottom: 1px solid var(--border);
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 14px 14px 0 0;
+        font-size: 13px;
+      }
+      .peek-frame .brand {
+        font-weight: 600;
+      }
+      .peek-body {
+        padding: 16px 16px 18px;
+      }
+      .peek-body p.lead {
+        font-size: 14px;
+        font-weight: 600;
+        margin: 0 0 8px;
+      }
+      .peek-body p.pitch {
+        color: var(--text-sub);
+        font-size: 12.5px;
+        margin: 0 0 10px;
+      }
+
+      /* re-used mock atoms inside .peek-body */
+      .pc {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px 12px;
+        background: #fff;
+        margin-bottom: 8px;
+      }
+      .pc .title {
+        font-weight: 600;
+        font-size: 13px;
+      }
+      .pc .desc {
+        color: var(--text-sub);
+        font-size: 12px;
+        line-height: 1.4;
+        margin-top: 2px;
+      }
+      .pc .when {
+        color: var(--text-muted);
+        font-size: 11px;
+        margin-top: 6px;
+        font-family: var(--mono);
+      }
+      .pc.example {
+        background: var(--accent-soft);
+        border-color: #c7dcfd;
+      }
+      .field-label {
+        color: var(--text-sub);
+        font-size: 12px;
+        margin: 12px 0 6px;
+      }
+      .input-mock {
+        border: 1px solid var(--border-strong);
+        border-radius: 7px;
+        padding: 8px 10px;
+        background: #fff;
+        color: var(--text-muted);
+        font-size: 12.5px;
+        line-height: 1.45;
+        min-height: 40px;
+      }
+      .input-mock.body {
+        color: var(--text);
+        white-space: pre-line;
+        font-family: var(--mono);
+        font-size: 11.5px;
+        min-height: 110px;
+        text-align: left;
+      }
+      .checkbox-mini {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-top: 10px;
+        color: var(--text);
+        font-size: 12.5px;
+      }
+      .checkbox-mini .box {
+        width: 13px;
+        height: 13px;
+        border: 1.5px solid var(--border-strong);
+        border-radius: 3px;
+        display: inline-block;
+      }
+      .btn-mini {
+        background: var(--accent);
+        border: 1px solid var(--accent);
+        color: #fff;
+        border-radius: 7px;
+        padding: 6px 12px;
+        font-size: 12px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .btn-mini.ghost {
+        background: #fff;
+        border-color: var(--border-strong);
+        color: var(--text);
+      }
+      .btn-mini.muted {
+        opacity: 0.4;
+      }
+      .row-end {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 12px;
+      }
+      .row-between {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 12px;
+      }
+      .ws-title-mini {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 2px;
+      }
+      .ws-title-mini.muted {
+        color: var(--text-muted);
+        font-weight: 500;
+      }
+      .ws-desc-mini {
+        color: var(--text-sub);
+        font-size: 12.5px;
+        margin-bottom: 10px;
+      }
+      .ws-desc-mini.muted {
+        color: var(--text-muted);
+      }
+      .backlink-mini {
+        color: var(--text-sub);
+        font-size: 12px;
+        font-weight: 500;
+        margin-bottom: 10px;
+      }
+      .improve-mini {
+        margin-top: 14px;
+        border: 1px dashed var(--border-strong);
+        border-radius: 10px;
+        padding: 10px 12px;
+        background: var(--surface-tint);
+      }
+      .improve-mini .head {
+        font-weight: 600;
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+      .stream-cursor {
+        display: inline-block;
+        width: 6px;
+        height: 12px;
+        background: var(--accent);
+        vertical-align: text-bottom;
+        margin-left: 2px;
+        animation: blink 1s steps(2, start) infinite;
+      }
+      @keyframes blink {
+        to {
+          visibility: hidden;
+        }
+      }
+
+      /* ============================================================== */
+      /* PINNED DECISIONS */
+      /* ============================================================== */
+      .pinned {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 20px 22px 22px;
+        margin-bottom: 28px;
+        box-shadow: var(--shadow);
+      }
+      .pinned h2 {
+        margin: 0 0 6px;
+        font-size: 16px;
+      }
+      .pinned p.sub {
+        margin: 0 0 12px;
+        color: var(--text-muted);
+        font-size: 13px;
+      }
+      .pinned ol {
+        margin: 0;
+        padding-left: 22px;
+        color: var(--text-sub);
+        font-size: 13.5px;
+      }
+      .pinned ol li {
+        margin-bottom: 8px;
+      }
+      .pinned ol li strong {
+        color: var(--text);
+      }
+
+      footer.bottom {
+        color: var(--text-muted);
+        font-size: 12px;
+        margin-top: 36px;
+        text-align: center;
+        font-family: var(--mono);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="top">
+        <h1>Prompt Upgrader — tester build (v1)</h1>
+        <div class="meta">updated 2026-05-19</div>
+      </header>
+      <p class="lede">
+        Minimum delightful build for outside testers. Hover any node in the flow
+        to peek the screen mock.
+        <span class="hint">tip · hover a node</span>
+        <br />
+        Source-of-truth markdown:
+        <a href="prompt-upgrader-tester-build.md"
+          >prompt-upgrader-tester-build.md</a
+        >.
+      </p>
+
+      <!-- ============================================================ -->
+      <!-- FLOW DIAGRAM -->
+      <!-- ============================================================ -->
+      <section class="flow">
+        <p class="flow-title">User flow</p>
+        <p class="flow-sub">
+          First-run testers enter at S0. Returning testers loop S1.0 ↔ S3.0b.
+        </p>
+
+        <div class="grid">
+          <!-- S0 -->
+          <a href="#s0" id="s0" class="node pos-s0" tabindex="0">
+            <div class="node-label">S0</div>
+            <div class="node-title">Route check</div>
+            <div class="node-sub">
+              No UI. Lists the user's
+              <code style="font-family: var(--mono); font-size: 12px"
+                >pu_prompt_meta</code
+              >
+              assets to decide: any saved → S1.0, none → S1.1.
+            </div>
+            <div class="node-badges">
+              <span class="badge frozen">FROZEN</span>
+              <span class="badge nout">no UI</span>
+            </div>
+
+            <div class="peek">
+              <div class="peek-frame">
+                <span class="brand">S0 · Route check</span>
+                <span class="badge frozen">FROZEN</span>
+              </div>
+              <div class="peek-body">
+                <p style="margin: 0; color: var(--text-sub); font-size: 13px">
+                  On
+                  <code style="font-family: var(--mono)">/prompt-upgrader</code
+                  >, the server lists every
+                  <code style="font-family: var(--mono)">pu_prompt_meta</code>
+                  asset belonging to this user (scope=custom,
+                  customScopeDomain=<code style="font-family: var(--mono)"
+                    >prompt-upgrader.prompt</code
+                  >).
+                </p>
+                <ul
+                  style="
+                    color: var(--text-sub);
+                    font-size: 12.5px;
+                    margin: 10px 0 0;
+                    padding-left: 18px;
+                  "
+                >
+                  <li>Empty list → S1.1 (welcome)</li>
+                  <li>Any saved prompts → S1.0 (library)</li>
+                </ul>
+                <p
+                  style="
+                    margin: 12px 0 0;
+                    color: var(--text-muted);
+                    font-size: 11.5px;
+                    font-family: var(--mono);
+                  "
+                >
+                  reads · pu_prompt_meta[]
+                </p>
+              </div>
+            </div>
+          </a>
+
+          <!-- branch split -->
+          <div class="pos-meta branch-split">
+            <div class="b">
+              <span class="edge-label">if empty</span>
+              <span class="bar"></span>
+            </div>
+            <div class="b">
+              <span class="edge-label">if populated</span>
+              <span class="bar"></span>
+            </div>
+          </div>
+
+          <!-- S1.1 -->
+          <a href="#s1-1" id="s1-1" class="node pos-s11" tabindex="0">
+            <div class="node-label">S1.1</div>
+            <div class="node-title">Library — empty / welcome</div>
+            <div class="node-sub">
+              Single-sentence input + "reusable template" checkbox. Hit Start.
+            </div>
+            <div class="node-badges">
+              <span class="badge frozen">FROZEN</span>
+            </div>
+
+            <div class="peek">
+              <div class="peek-frame">
+                <span class="brand">Prompt Upgrader</span>
+                <span class="badge frozen">S1.1</span>
+              </div>
+              <div class="peek-body">
+                <p class="lead">Save, refine, and remix your best prompts.</p>
+                <p class="pitch">One looks like this:</p>
+                <div class="pc example">
+                  <div class="title">Sysco discovery interview</div>
+                  <div class="desc">
+                    One-shot questionnaire for enterprise IT discovery sessions.
+                    Front-loads compliance constraints, then walks the
+                    stakeholder through pain → impact → budget triage in 8–12
+                    minutes.
+                  </div>
+                </div>
+                <div class="field-label">
+                  Tell me what you want yours to do:
+                </div>
+                <div class="input-mock">
+                  e.g. "Help me write follow-ups for a sales call where the
+                  buyer dodged the budget."
+                </div>
+                <label class="checkbox-mini">
+                  <span class="box"></span>
+                  <span>Make this a reusable prompt template</span>
+                </label>
+                <div class="row-end"><span class="btn-mini">Start →</span></div>
+                <p
+                  style="
+                    margin: 12px 0 0;
+                    color: var(--text-muted);
+                    font-size: 11.5px;
+                    font-family: var(--mono);
+                  "
+                >
+                  reads · none (library is empty) · writes · none until Save
+                </p>
+              </div>
+            </div>
+          </a>
+
+          <!-- S1.0 -->
+          <a href="#s1-0" id="s1-0" class="node pos-s10" tabindex="0">
+            <div class="node-label">S1.0</div>
+            <div class="node-title">Library — populated</div>
+            <div class="node-sub">
+              Cards stacked, newest first. + New opens an S1.1-shape modal.
+            </div>
+            <div class="node-badges">
+              <span class="badge frozen">FROZEN</span>
+            </div>
+
+            <div class="peek">
+              <div class="peek-frame">
+                <span class="brand">Prompt Upgrader</span>
+                <span
+                  class="btn-mini"
+                  style="font-size: 11px; padding: 4px 10px"
+                  >+ New</span
+                >
+              </div>
+              <div class="peek-body">
+                <div class="pc">
+                  <div class="title">Sysco discovery interview</div>
+                  <div class="desc">
+                    One-shot questionnaire for enterprise IT discovery sessions.
+                  </div>
+                  <div class="when">Updated 2h ago</div>
+                </div>
+                <div class="pc">
+                  <div class="title">Onboarding rewrite v2</div>
+                  <div class="desc">
+                    Welcome flow for net-new B2B trial users.
+                  </div>
+                  <div class="when">Updated yesterday</div>
+                </div>
+                <div class="pc">
+                  <div class="title">Code reviewer follow-ups</div>
+                  <div class="desc">
+                    Short nudges that get reviewers to dig deeper.
+                  </div>
+                  <div class="when">Updated 3d ago</div>
+                </div>
+                <p
+                  style="
+                    margin: 12px 0 0;
+                    color: var(--text-muted);
+                    font-size: 11.5px;
+                    font-family: var(--mono);
+                  "
+                >
+                  reads · pu_prompt_meta[] (title / description / updated_at)
+                </p>
+              </div>
+            </div>
+          </a>
+
+          <!-- Start arrow -->
+          <div
+            class="pos-start"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 6px;
+            "
+          >
+            <span class="edge-label">click Start</span>
+            <span class="arrow-down"></span>
+          </div>
+
+          <!-- + New arrow (from S1.0) -->
+          <div
+            class="pos-loop"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 6px;
+            "
+          >
+            <span class="edge-label">click + New</span>
+            <span class="arrow-down"></span>
+          </div>
+
+          <!-- metaprompt step -->
+          <div
+            class="pos-mp"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 8px;
+            "
+          >
+            <span class="pill-step"
+              >metaprompt fires · one-off OR reusable template</span
+            >
+            <span class="arrow-down"></span>
+          </div>
+
+          <!-- S3.0a -->
+          <a
+            href="#s3-0a"
+            id="s3-0a"
+            class="node pos-s3a"
+            tabindex="0"
+            style="width: 340px"
+          >
+            <div class="node-label">S3.0a</div>
+            <div class="node-title">Workspace — streaming</div>
+            <div class="node-sub">
+              Body streams into the editor. Then up to 3 optional "hardening"
+              questions stream below — answering them lets the LLM strengthen
+              the prompt.
+            </div>
+            <div class="node-badges">
+              <span class="badge draft">DRAFT</span>
+            </div>
+
+            <div class="peek">
+              <div class="peek-frame">
+                <span class="brand">Prompt Upgrader</span>
+                <span class="badge draft">S3.0a</span>
+              </div>
+              <div class="peek-body">
+                <div class="backlink-mini">← Library</div>
+                <div class="ws-title-mini muted">Untitled</div>
+                <div class="ws-desc-mini muted">Generating…</div>
+                <div class="input-mock body">
+                  Role: You are a senior sales coach helping a founder write a
+                  follow-up to a discovery call. Context: The buyer dodged the
+                  budget question. Task: Draft three follow-up emails that
+                  re-open the budget conversation without souring rapport.
+                </div>
+
+                <div class="improve-mini" style="margin-top: 14px">
+                  <div class="head">
+                    Strengthen this prompt
+                    <span
+                      style="
+                        font-weight: 400;
+                        color: var(--text-muted);
+                        font-size: 11.5px;
+                      "
+                      >· optional</span
+                    >
+                  </div>
+                  <p
+                    style="
+                      margin: 0 0 8px;
+                      color: var(--text-sub);
+                      font-size: 12px;
+                    "
+                  >
+                    Answer any of these to make the prompt materially better —
+                    skip to keep the version above.
+                  </p>
+                  <ol
+                    style="
+                      margin: 0;
+                      padding-left: 18px;
+                      color: var(--text);
+                      font-size: 12.5px;
+                    "
+                  >
+                    <li style="margin-bottom: 6px">
+                      Who's the audience for these emails — exec, IC, or both?
+                      <div
+                        class="input-mock"
+                        style="
+                          min-height: 28px;
+                          font-size: 12px;
+                          margin-top: 4px;
+                        "
+                      ></div>
+                    </li>
+                    <li style="margin-bottom: 6px">
+                      What tone fits — assertive, curious, or warm?
+                      <div
+                        class="input-mock"
+                        style="
+                          min-height: 28px;
+                          font-size: 12px;
+                          margin-top: 4px;
+                        "
+                      ></div>
+                    </li>
+                    <li>
+                      Any specific deal context to reference?<span
+                        class="stream-cursor"
+                      ></span>
+                      <div
+                        class="input-mock"
+                        style="
+                          min-height: 28px;
+                          font-size: 12px;
+                          margin-top: 4px;
+                        "
+                      ></div>
+                    </li>
+                  </ol>
+                  <div class="row-end" style="margin-top: 10px">
+                    <span class="btn-mini muted">Apply answers</span>
+                  </div>
+                </div>
+
+                <div class="row-end" style="margin-top: 14px">
+                  <span class="btn-mini muted">Save and name</span>
+                </div>
+                <p
+                  style="
+                    margin: 12px 0 0;
+                    color: var(--text-muted);
+                    font-size: 11.5px;
+                    font-family: var(--mono);
+                  "
+                >
+                  reads · none · writes · none until Save
+                </p>
+              </div>
+            </div>
+          </a>
+
+          <!-- stream complete arrow -->
+          <div
+            class="pos-stream"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 6px;
+            "
+          >
+            <span class="edge-label"
+              >Apply answers (optional, fires once) → re-stream body in
+              place</span
+            >
+            <span class="arrow-down"></span>
+            <span class="edge-label" style="margin-top: 6px"
+              >then Save → S3.0b</span
+            >
+            <span class="arrow-down"></span>
+          </div>
+
+          <!-- S3.0b -->
+          <a
+            href="#s3-0b"
+            id="s3-0b"
+            class="node pos-s3b"
+            tabindex="0"
+            style="width: 340px"
+          >
+            <div class="node-label">S3.0b</div>
+            <div class="node-title">Workspace — settled</div>
+            <div class="node-sub">
+              Save (1st saves title+desc), Improve (one-shot rewrite + intent),
+              Copy, ⋯ Delete.
+            </div>
+            <div class="node-badges">
+              <span class="badge draft">DRAFT</span>
+            </div>
+
+            <div class="peek">
+              <div class="peek-frame">
+                <span class="brand">Prompt Upgrader</span>
+                <span class="badge draft">S3.0b</span>
+              </div>
+              <div class="peek-body">
+                <div class="backlink-mini">← Library</div>
+                <div class="ws-title-mini">Sysco discovery interview</div>
+                <div class="ws-desc-mini">
+                  One-shot questionnaire for enterprise IT discovery sessions.
+                  Walks the stakeholder through pain → impact → budget triage in
+                  8–12 minutes.
+                </div>
+                <div class="input-mock body">
+                  Role: You are a senior discovery interviewer for enterprise IT
+                  sales. Context: The user is conducting an 8–12 minute
+                  discovery call. Task: Walk the stakeholder through three
+                  rounds — pain, impact, budget triage. Constraints: No more
+                  than 12 minutes total. No leading questions on budget.
+                </div>
+                <div class="improve-mini">
+                  <div class="head">Improve</div>
+                  <div class="input-mock" style="min-height: 32px">
+                    What to change? (optional — e.g. "more concise")
+                  </div>
+                  <div class="row-end">
+                    <span class="btn-mini">Improve →</span>
+                  </div>
+                </div>
+                <div class="row-between">
+                  <span
+                    style="
+                      color: var(--text-muted);
+                      font-size: 11px;
+                      font-family: var(--mono);
+                    "
+                    >Saved 4m ago</span
+                  >
+                  <span style="display: flex; gap: 8px">
+                    <span class="btn-mini ghost">Copy</span>
+                    <span class="btn-mini">Save</span>
+                  </span>
+                </div>
+                <p
+                  style="
+                    margin: 12px 0 0;
+                    color: var(--text-muted);
+                    font-size: 11.5px;
+                    font-family: var(--mono);
+                  "
+                >
+                  reads · pu_prompt_body · writes · pu_prompt_meta +
+                  pu_prompt_body + pu_prompt_versions (on Save)
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- return-loop label -->
+        <div style="display: flex; justify-content: center; margin-top: 20px">
+          <span class="loop-note"
+            >↰ ← Library or card click loops back to S1.0 / S3.0b</span
+          >
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- PINNED DECISIONS -->
+      <!-- ============================================================ -->
+      <div class="pinned">
+        <h2>Pinned decisions</h2>
+        <p class="sub">Locked-in design calls — flow above honors these.</p>
+        <ol>
+          <li>
+            <strong>Streaming, not interstitial.</strong> Metaprompt output
+            streams into the S3.0 body. No route switch.
+          </li>
+          <li>
+            <strong>Hardcoded output_templates.</strong> Two skeletons (one-off,
+            reusable) live in code. No editing UI.
+          </li>
+          <li>
+            <strong>user_profile stays Jinja, passes empty.</strong> Profile
+            work deferred to v1.1+.
+          </li>
+          <li>
+            <strong>"+ New" opens a modal.</strong> Same sentence + checkbox
+            combo as S1.1. Same metaprompt fires.
+          </li>
+          <li>
+            <strong
+              >Templates render plain text + leading fill-in
+              instruction.</strong
+            >
+            Reusable output_template tells ChatGPT to ask the user for
+            placeholder values before producing output.
+          </li>
+          <li>
+            <strong>Hardening questions are one-shot (S3.0a only).</strong>
+            Initial metaprompt streams the prompt body plus up to 3 optional
+            questions. Answering any and clicking "Apply answers" re-fires the
+            metaprompt once with the answers folded in — body restreams in
+            place, no new questions. After that, only Improve (intent text)
+            edits further. Hardening Q&amp;A doesn't appear in S3.0b.
+          </li>
+        </ol>
+      </div>
+
+      <footer class="bottom">
+        reload to see proposals &amp; revisions · hover any node to peek
+      </footer>
+    </div>
+  </body>
+</html>
