@@ -667,6 +667,192 @@
         color: var(--accent);
       }
 
+      /* Audience caption — hidden on desktop, shown on mobile */
+      .audience-mobile {
+        display: none;
+      }
+
+      /* ============================================================== */
+      /* STYLED PROMPT BODY (not a textarea)                            */
+      /* ============================================================== */
+      .prompt-card {
+        background: linear-gradient(180deg, #fcfdff, #f5f8fc);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--accent);
+        border-radius: 10px;
+        padding: 14px 16px 16px;
+        margin-top: 4px;
+        position: relative;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 12.5px;
+        line-height: 1.55;
+        color: var(--text);
+      }
+      .prompt-card .prompt-tag {
+        position: absolute;
+        top: -8px;
+        left: 12px;
+        background: var(--surface);
+        border: 1px solid var(--border-strong);
+        color: var(--text-muted);
+        font-family: var(--mono);
+        font-size: 10px;
+        font-weight: 600;
+        padding: 1px 6px;
+        border-radius: 4px;
+        letter-spacing: 0.04em;
+      }
+      .prompt-section {
+        margin-bottom: 8px;
+      }
+      .prompt-section:last-child {
+        margin-bottom: 0;
+      }
+      .prompt-section .lbl {
+        font-weight: 600;
+        color: var(--text);
+        margin-right: 4px;
+      }
+      .prompt-section .body {
+        color: var(--text-sub);
+      }
+      .prompt-card.collapsible {
+        max-height: 110px;
+        overflow: hidden;
+      }
+      .prompt-card.collapsible::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 36px;
+        background: linear-gradient(180deg, transparent, #f5f8fc 80%);
+        pointer-events: none;
+      }
+      .prompt-collapse-toggle {
+        text-align: center;
+        font-size: 11.5px;
+        color: var(--accent);
+        font-weight: 500;
+        margin-top: 6px;
+        cursor: pointer;
+        font-family: var(--mono);
+      }
+
+      /* Copy / Export row */
+      .copy-row {
+        display: flex;
+        gap: 6px;
+        margin-top: 10px;
+      }
+      .copy-row .btn-mini {
+        font-size: 11px;
+        padding: 5px 9px;
+      }
+      .copy-row .btn-mini.icon {
+        padding: 5px 8px;
+      }
+      .copy-row .btn-mini.ghost {
+        background: #fff;
+      }
+
+      /* Two-CTA decision row after stream */
+      .cta-row {
+        display: flex;
+        gap: 8px;
+        margin-top: 14px;
+      }
+      .cta-row .btn-mini {
+        flex: 1;
+        justify-content: center;
+        font-size: 12px;
+        padding: 8px 10px;
+      }
+      .cta-row .btn-mini.secondary {
+        background: #fff;
+        color: var(--text);
+        border-color: var(--border-strong);
+      }
+
+      /* Editable cue on title / desc (Google-Docs style) */
+      .editable {
+        border-bottom: 1px dotted transparent;
+        cursor: text;
+        padding-bottom: 1px;
+      }
+      .editable:hover {
+        border-bottom-color: var(--border-strong);
+      }
+
+      /* Sticky save bar mock */
+      .sticky-save {
+        position: sticky;
+        bottom: 8px;
+        margin-top: 14px;
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+        padding: 10px 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 0 0 10px 10px;
+        box-shadow: 0 -4px 12px rgba(16, 24, 40, 0.04);
+      }
+      .sticky-save .save-meta {
+        color: var(--text-muted);
+        font-size: 11px;
+        font-family: var(--mono);
+      }
+      .sticky-save .btn-mini {
+        font-size: 12px;
+        padding: 7px 14px;
+      }
+
+      /* Library card with hover-revealed copy affordance */
+      .pc-wrap {
+        position: relative;
+      }
+      .pc-wrap .card-copy {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: var(--surface);
+        border: 1px solid var(--border-strong);
+        color: var(--text-sub);
+        border-radius: 6px;
+        padding: 3px 8px;
+        font-size: 10.5px;
+        font-family: var(--mono);
+        opacity: 0;
+        transition: opacity 120ms ease;
+        pointer-events: none;
+      }
+      .pc-wrap:hover .card-copy {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      /* Phone-frame treatment for peeks (distinct from wrapper card) */
+      .peek-frame {
+        background: linear-gradient(180deg, #f6f8fb, #fff);
+        position: relative;
+      }
+      .peek-frame::before {
+        content: "● ● ●";
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 7px;
+        letter-spacing: 3px;
+        color: var(--border-strong);
+      }
+      .peek-frame .brand {
+        margin-left: 32px;
+      }
+
       /* ============================================================== */
       /* MOBILE — iPhone Pro Max and below                              */
       /* ============================================================== */
@@ -769,11 +955,21 @@
           min-height: 90px;
         }
 
-        /* Branch split: stack labels vertically with single arrow */
+        /* Branch split hidden on mobile — audience is shown inside each node instead */
         .branch-split {
-          grid-template-columns: 1fr;
-          gap: 6px;
-          width: 100%;
+          display: none;
+        }
+        /* Audience caption (mobile-only) */
+        .audience-mobile {
+          display: inline-block;
+          margin-top: 8px;
+          font-size: 11px;
+          font-family: var(--mono);
+          background: var(--accent-soft);
+          color: var(--accent);
+          padding: 2px 8px;
+          border-radius: 999px;
+          letter-spacing: 0.02em;
         }
 
         /* Arrows tighten up */
@@ -889,6 +1085,7 @@
               One sentence about what they want, plus a checkbox if they want a
               reusable template. Start.
             </div>
+            <span class="audience-mobile">shown to first-time visitors</span>
             <div class="node-badges">
               <span class="badge frozen">FROZEN</span>
             </div>
@@ -930,9 +1127,10 @@
             <div class="node-label">S1.0</div>
             <div class="node-title">Library</div>
             <div class="node-sub">
-              Saved prompts stacked newest-first. + New opens the same input as
-              the welcome screen.
+              Saved prompts stacked newest-first. Hover a card to copy it. + New
+              opens the same input as the welcome screen.
             </div>
+            <span class="audience-mobile">shown to returning visitors</span>
             <div class="node-badges">
               <span class="badge frozen">FROZEN</span>
             </div>
@@ -947,27 +1145,47 @@
                 >
               </div>
               <div class="peek-body">
-                <div class="pc">
-                  <div class="title">Sysco discovery interview</div>
-                  <div class="desc">
-                    A questionnaire for enterprise IT discovery sessions.
+                <div class="pc-wrap">
+                  <div class="pc">
+                    <div class="title">Sysco discovery interview</div>
+                    <div class="desc">
+                      A questionnaire for enterprise IT discovery sessions.
+                    </div>
+                    <div class="when">Updated 2h ago</div>
                   </div>
-                  <div class="when">Updated 2h ago</div>
+                  <span class="card-copy">⧉ Copy</span>
                 </div>
-                <div class="pc">
-                  <div class="title">Onboarding rewrite v2</div>
-                  <div class="desc">
-                    Welcome flow for net-new B2B trial users.
+                <div class="pc-wrap">
+                  <div class="pc">
+                    <div class="title">Onboarding rewrite v2</div>
+                    <div class="desc">
+                      Welcome flow for net-new B2B trial users.
+                    </div>
+                    <div class="when">Updated yesterday</div>
                   </div>
-                  <div class="when">Updated yesterday</div>
+                  <span class="card-copy">⧉ Copy</span>
                 </div>
-                <div class="pc">
-                  <div class="title">Code reviewer follow-ups</div>
-                  <div class="desc">
-                    Short nudges that get reviewers to dig deeper.
+                <div class="pc-wrap">
+                  <div class="pc">
+                    <div class="title">Code reviewer follow-ups</div>
+                    <div class="desc">
+                      Short nudges that get reviewers to dig deeper.
+                    </div>
+                    <div class="when">Updated 3d ago</div>
                   </div>
-                  <div class="when">Updated 3d ago</div>
+                  <span class="card-copy">⧉ Copy</span>
                 </div>
+                <p
+                  style="
+                    margin: 10px 0 0;
+                    color: var(--text-muted);
+                    font-size: 11px;
+                    font-style: italic;
+                  "
+                >
+                  Hover any card → ⧉ Copy reveals to grab the prompt without
+                  opening it.
+                </p>
               </div>
             </div>
           </a>
@@ -1025,11 +1243,10 @@
             style="width: 340px"
           >
             <div class="node-label">S3.0a</div>
-            <div class="node-title">Workspace — writing the prompt</div>
+            <div class="node-title">Workspace — first look</div>
             <div class="node-sub">
-              The prompt writes itself in the editor. Then up to 3 optional
-              sharpening questions appear — answering any makes the prompt
-              materially better.
+              Title, description, and prompt all stream in together. Then we
+              ask: ship it as-is or refine it?
             </div>
             <div class="node-badges">
               <span class="badge draft">DRAFT</span>
@@ -1042,89 +1259,97 @@
               </div>
               <div class="peek-body">
                 <div class="backlink-mini">← Library</div>
-                <div class="ws-title-mini muted">Untitled</div>
-                <div class="ws-desc-mini muted">Generating…</div>
-                <div class="input-mock body">
-                  Role: You are a senior sales coach helping a founder write a
-                  follow-up to a discovery call. Context: The buyer dodged the
-                  budget question. Task: Draft three follow-up emails that
-                  re-open the budget conversation without souring rapport.
+                <div class="ws-title-mini">Discovery follow-up emails</div>
+                <div class="ws-desc-mini">
+                  Three follow-up emails that re-open a stalled budget
+                  conversation without souring rapport.
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 4px;
+                    margin: 6px 0 12px;
+                  "
+                >
+                  <span
+                    style="
+                      background: var(--accent-soft);
+                      color: var(--accent);
+                      font-size: 10.5px;
+                      font-family: var(--mono);
+                      padding: 2px 8px;
+                      border-radius: 999px;
+                    "
+                    >sales</span
+                  >
+                  <span
+                    style="
+                      background: var(--accent-soft);
+                      color: var(--accent);
+                      font-size: 10.5px;
+                      font-family: var(--mono);
+                      padding: 2px 8px;
+                      border-radius: 999px;
+                    "
+                    >follow-up</span
+                  >
+                  <span
+                    style="
+                      background: var(--surface-tint);
+                      color: var(--text-muted);
+                      font-size: 10.5px;
+                      font-family: var(--mono);
+                      padding: 2px 8px;
+                      border-radius: 999px;
+                    "
+                    >one-off</span
+                  >
                 </div>
 
-                <div class="improve-mini" style="margin-top: 14px">
-                  <div class="head">
-                    Sharpen this prompt
-                    <span
-                      style="
-                        font-weight: 400;
-                        color: var(--text-muted);
-                        font-size: 11.5px;
-                      "
-                      >· optional</span
+                <div class="prompt-card">
+                  <span class="prompt-tag">PROMPT</span>
+                  <div class="prompt-section">
+                    <span class="lbl">Role.</span>
+                    <span class="body"
+                      >Senior sales coach helping a founder write follow-ups to
+                      a discovery call.</span
                     >
                   </div>
-                  <p
-                    style="
-                      margin: 0 0 8px;
-                      color: var(--text-sub);
-                      font-size: 12px;
-                    "
-                  >
-                    Answer any of these to make the prompt materially better —
-                    or skip and keep the version above.
-                  </p>
-                  <ol
-                    style="
-                      margin: 0;
-                      padding-left: 18px;
-                      color: var(--text);
-                      font-size: 12.5px;
-                    "
-                  >
-                    <li style="margin-bottom: 6px">
-                      Who's the audience for these emails — exec, IC, or both?
-                      <div
-                        class="input-mock"
-                        style="
-                          min-height: 28px;
-                          font-size: 12px;
-                          margin-top: 4px;
-                        "
-                      ></div>
-                    </li>
-                    <li style="margin-bottom: 6px">
-                      What tone fits — assertive, curious, or warm?
-                      <div
-                        class="input-mock"
-                        style="
-                          min-height: 28px;
-                          font-size: 12px;
-                          margin-top: 4px;
-                        "
-                      ></div>
-                    </li>
-                    <li>
-                      Any specific deal context to reference?<span
+                  <div class="prompt-section">
+                    <span class="lbl">Context.</span>
+                    <span class="body"
+                      >The buyer dodged the budget question on the original
+                      call.</span
+                    >
+                  </div>
+                  <div class="prompt-section">
+                    <span class="lbl">Task.</span>
+                    <span class="body"
+                      >Draft three follow-up emails that re-open the budget
+                      conversation without souring rapport.<span
                         class="stream-cursor"
-                      ></span>
-                      <div
-                        class="input-mock"
-                        style="
-                          min-height: 28px;
-                          font-size: 12px;
-                          margin-top: 4px;
-                        "
-                      ></div>
-                    </li>
-                  </ol>
-                  <div class="row-end" style="margin-top: 10px">
-                    <span class="btn-mini muted">Apply answers</span>
+                      ></span
+                    ></span>
                   </div>
                 </div>
 
-                <div class="row-end" style="margin-top: 14px">
-                  <span class="btn-mini muted">Save and name</span>
+                <div class="cta-row">
+                  <span class="btn-mini">Looks great — save it</span>
+                  <span class="btn-mini secondary">Refine it →</span>
                 </div>
+                <p
+                  style="
+                    margin: 8px 0 0;
+                    color: var(--text-muted);
+                    font-size: 11px;
+                    font-style: italic;
+                    text-align: center;
+                  "
+                >
+                  "Refine it" reveals up to 3 sharpening questions + a free-form
+                  "anything else?" box.
+                </p>
               </div>
             </div>
           </a>
@@ -1139,12 +1364,11 @@
               gap: 6px;
             "
           >
-            <span class="edge-label"
-              >Apply answers (optional, once) → prompt rewrites itself in
-              place</span
+            <span class="edge-label">"Looks great" → S3.0b directly</span>
+            <span class="edge-label" style="margin-top: 4px"
+              >"Refine it" → sharpening Qs + free-form box → then Save →
+              S3.0b</span
             >
-            <span class="arrow-down"></span>
-            <span class="edge-label" style="margin-top: 6px">then Save</span>
             <span class="arrow-down"></span>
           </div>
 
@@ -1157,10 +1381,11 @@
             style="width: 340px"
           >
             <div class="node-label">S3.0b</div>
-            <div class="node-title">Workspace — finished prompt</div>
+            <div class="node-title">Workspace — saved &amp; settled</div>
             <div class="node-sub">
-              Save (first save also names it), Improve (tell it what to change),
-              Copy, Delete.
+              Editable title and description. Collapsible prompt. Copy as plain
+              text or markdown. ⋯ menu for download / delete. Sticky Save floats
+              bottom-right.
             </div>
             <div class="node-badges">
               <span class="badge draft">DRAFT</span>
@@ -1169,24 +1394,119 @@
             <div class="peek">
               <div class="peek-frame">
                 <span class="brand">Prompt Upgrader</span>
-                <span class="badge draft">S3.0b</span>
+                <span style="display: flex; gap: 6px; align-items: center">
+                  <span class="badge draft">S3.0b</span>
+                  <span
+                    style="
+                      color: var(--text-muted);
+                      font-size: 14px;
+                      padding: 0 4px;
+                    "
+                    >⋯</span
+                  >
+                </span>
               </div>
               <div class="peek-body">
                 <div class="backlink-mini">← Library</div>
-                <div class="ws-title-mini">Sysco discovery interview</div>
-                <div class="ws-desc-mini">
-                  A questionnaire for enterprise IT discovery sessions. Walks
-                  the stakeholder through pain → impact → budget in 8–12
-                  minutes.
+                <div class="ws-title-mini editable">
+                  Sysco discovery interview
                 </div>
-                <div class="input-mock body">
-                  Role: You are a senior discovery interviewer for enterprise IT
-                  sales. Context: The user is conducting an 8–12 minute
-                  discovery call. Task: Walk the stakeholder through three
-                  rounds — pain, impact, budget triage. Constraints: No more
-                  than 12 minutes total. No leading questions on budget.
+                <div class="ws-desc-mini editable">
+                  Enterprise IT discovery questionnaire. Walks stakeholders
+                  through pain → impact → budget in 8–12 minutes.
                 </div>
-                <div class="improve-mini">
+                <div
+                  style="
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 4px;
+                    margin: 6px 0 12px;
+                  "
+                >
+                  <span
+                    style="
+                      background: var(--accent-soft);
+                      color: var(--accent);
+                      font-size: 10.5px;
+                      font-family: var(--mono);
+                      padding: 2px 8px;
+                      border-radius: 999px;
+                    "
+                    >sales</span
+                  >
+                  <span
+                    style="
+                      background: var(--accent-soft);
+                      color: var(--accent);
+                      font-size: 10.5px;
+                      font-family: var(--mono);
+                      padding: 2px 8px;
+                      border-radius: 999px;
+                    "
+                    >discovery</span
+                  >
+                  <span
+                    style="
+                      background: var(--surface-tint);
+                      color: var(--text-muted);
+                      font-size: 10.5px;
+                      font-family: var(--mono);
+                      padding: 2px 8px;
+                      border-radius: 999px;
+                    "
+                    >reusable template</span
+                  >
+                  <span
+                    style="
+                      color: var(--text-muted);
+                      font-size: 10.5px;
+                      font-family: var(--mono);
+                      padding: 2px 0 2px 4px;
+                      cursor: text;
+                    "
+                    >+ edit</span
+                  >
+                </div>
+
+                <div class="prompt-card collapsible">
+                  <span class="prompt-tag">PROMPT</span>
+                  <div class="prompt-section">
+                    <span class="lbl">Role.</span>
+                    <span class="body"
+                      >Senior discovery interviewer for enterprise IT
+                      sales.</span
+                    >
+                  </div>
+                  <div class="prompt-section">
+                    <span class="lbl">Context.</span>
+                    <span class="body"
+                      >The user is conducting an 8–12 minute discovery
+                      call.</span
+                    >
+                  </div>
+                  <div class="prompt-section">
+                    <span class="lbl">Task.</span>
+                    <span class="body"
+                      >Walk the stakeholder through three rounds — pain, impact,
+                      budget triage.</span
+                    >
+                  </div>
+                  <div class="prompt-section">
+                    <span class="lbl">Constraints.</span>
+                    <span class="body"
+                      >No more than 12 minutes total. No leading questions on
+                      budget.</span
+                    >
+                  </div>
+                </div>
+                <div class="prompt-collapse-toggle">▾ Show full prompt</div>
+
+                <div class="copy-row">
+                  <span class="btn-mini ghost">⧉ Copy</span>
+                  <span class="btn-mini ghost">⧉ Copy as Markdown</span>
+                </div>
+
+                <div class="improve-mini" style="margin-top: 12px">
                   <div class="head">Improve</div>
                   <div class="input-mock" style="min-height: 32px">
                     What to change? (optional — e.g. "more concise")
@@ -1195,20 +1515,22 @@
                     <span class="btn-mini">Improve →</span>
                   </div>
                 </div>
-                <div class="row-between">
-                  <span
-                    style="
-                      color: var(--text-muted);
-                      font-size: 11px;
-                      font-family: var(--mono);
-                    "
-                    >Saved 4m ago</span
-                  >
-                  <span style="display: flex; gap: 8px">
-                    <span class="btn-mini ghost">Copy</span>
-                    <span class="btn-mini">Save</span>
-                  </span>
+
+                <div class="sticky-save">
+                  <span class="save-meta">Saved 4m ago</span>
+                  <span class="btn-mini">Save</span>
                 </div>
+                <p
+                  style="
+                    margin: 8px 0 0;
+                    color: var(--text-muted);
+                    font-size: 11px;
+                    font-style: italic;
+                  "
+                >
+                  ⋯ menu (top-right): Download .txt · Download .md · Email it to
+                  me · Delete.
+                </p>
               </div>
             </div>
           </a>
@@ -1238,6 +1560,26 @@
             the workspace as it's generated.
           </li>
           <li>
+            <strong>Title, description, and prompt arrive together.</strong>
+            The first response from the LLM includes the prompt body, the title,
+            the description, and up to 3 sharpening questions — all in one shot,
+            so the workspace is fully populated as soon as streaming completes.
+          </li>
+          <li>
+            <strong>Two CTAs after the first stream, not a quiz.</strong>
+            Once the prompt finishes generating, testers see two buttons: "Looks
+            great — save it" (primary) or "Refine it" (secondary). Sharpening
+            questions only appear if they click Refine.
+          </li>
+          <li>
+            <strong
+              >"Refine it" reveals sharpening Qs + a free-form box.</strong
+            >
+            Answer any of the 3 questions, type anything else in the free box,
+            hit Apply. The prompt rewrites once. After that, all edits go
+            through "Improve" — no more pop-up questions.
+          </li>
+          <li>
             <strong>Two prompt shapes, fixed.</strong> One for a one-off prompt,
             one for a reusable template. Testers can't edit those shapes — only
             what comes out of them.
@@ -1258,13 +1600,31 @@
             producing output.
           </li>
           <li>
-            <strong
-              >Sharpening questions appear once, on first generation.</strong
-            >
-            We stream the prompt plus up to 3 optional follow-up questions.
-            Answering any and clicking "Apply answers" rewrites the prompt once.
-            After that, all further edits go through the "Improve" box — no more
-            pop-up questions.
+            <strong>Save is a sticky bottom-right action.</strong> Always
+            visible while scrolling, primary color, never gets buried under
+            content. (Per Q1A.)
+          </li>
+          <li>
+            <strong>Title and description edit inline.</strong> Click anywhere
+            on the title or description to edit — Google-Docs style, with a
+            subtle dotted underline on hover hinting at it. (Per Q2B.)
+          </li>
+          <li>
+            <strong>Delete lives in the ⋯ menu.</strong> Top-right of the
+            workspace. Keeps the prompt area clean. Library cards get a
+            hover-revealed "⧉ Copy" affordance so testers can grab a prompt
+            without opening it. (Per Q3.)
+          </li>
+          <li>
+            <strong>Prompt body renders as a styled artifact.</strong> Role /
+            Context / Task / Constraints with bold labels — not a monospace
+            textarea. On S3.0b, it defaults to collapsed with a "Show full
+            prompt" toggle so the workspace stays scannable.
+          </li>
+          <li>
+            <strong>Copy comes in two flavors + a ⋯ menu.</strong> Plain text
+            and Markdown side-by-side. ⋯ menu adds Download .txt, Download .md,
+            Email it to me, Delete.
           </li>
         </ol>
       </div>
@@ -1275,112 +1635,118 @@
       <div class="open-q">
         <h2>Open decisions</h2>
         <p class="sub">
-          A is the recommendation. Reply by character — "1A, 2B, 3A…" — or ask
+          A is the recommendation. Reply by character — "1A, 2C, 3B…" — or ask
           for something else.
         </p>
 
         <div class="q">
           <p class="q-text">
-            1. Where should the Save button live on the finished-prompt screen?
+            1. What metadata does the LLM return on the first response, beyond
+            title and description?
           </p>
           <ul class="q-opts">
             <li>
-              <span class="opt-label gold">A. 🥇</span> Sticky bottom-right
-              action — always visible while scrolling, primary color.
+              <span class="opt-label gold">A. 🥇</span> Title, description, tags
+              (≤4), use-case (one-off / reusable), suggested-model hint (ChatGPT
+              / Claude / either). Editable inline.
             </li>
             <li>
-              <span class="opt-label">B. 🥈</span> Wide primary button directly
-              above the Improve box.
+              <span class="opt-label">B. 🥈</span> A only — drop the
+              suggested-model hint (could confuse testers).
             </li>
             <li>
-              <span class="opt-label">C.</span> Leave it where it is, next to
-              Copy in the corner.
+              <span class="opt-label">C.</span> Just title + description for v1.
+              Defer everything else.
             </li>
           </ul>
         </div>
 
         <div class="q">
           <p class="q-text">
-            2. How does a tester edit the title and description after the first
-            save?
+            2. Where do tags get edited — inline only, or with a small
+            tag-picker dialog?
           </p>
           <ul class="q-opts">
             <li>
-              <span class="opt-label gold">A. 🥇</span> Pencil icon next to each
-              — obvious, low-risk.
+              <span class="opt-label gold">A. 🥇</span> Inline — click "+ edit"
+              next to the tag row, type or pick from a list of tags already in
+              their library.
             </li>
             <li>
-              <span class="opt-label">B. 🥈</span> Click anywhere on title or
-              description to edit inline; subtle dotted underline on hover hints
-              at it.
+              <span class="opt-label">B. 🥈</span> Small dialog popover with
+              autocomplete from library tags.
             </li>
             <li>
-              <span class="opt-label">C.</span> Through the ⋯ menu → "Rename" /
-              "Edit details".
-            </li>
-          </ul>
-        </div>
-
-        <div class="q">
-          <p class="q-text">3. Where does Delete live?</p>
-          <ul class="q-opts">
-            <li>
-              <span class="opt-label gold">A. 🥇</span> Stays tucked in the ⋯
-              menu (top-right) inside the workspace.
-            </li>
-            <li>
-              <span class="opt-label">B. 🥈</span> Also surfaces on each library
-              card (hover/long-press → delete from the list).
-            </li>
-            <li><span class="opt-label">C.</span> Both.</li>
-          </ul>
-        </div>
-
-        <div class="q">
-          <p class="q-text">
-            4. Should v1 give testers a "start over from scratch" button?
-          </p>
-          <ul class="q-opts">
-            <li>
-              <span class="opt-label gold">A. 🥇</span> No — "← Library" then "+
-              New" is one extra click and zero risk of accidental wipe.
-            </li>
-            <li>
-              <span class="opt-label">B. 🥈</span> Yes — "Start over" in the ⋯
-              menu, with a confirm prompt.
-            </li>
-            <li>
-              <span class="opt-label">C.</span> Yes — visible "Start over" link
-              near the title.
+              <span class="opt-label">C.</span> Not editable in v1 — LLM
+              decides, tester lives with it.
             </li>
           </ul>
         </div>
 
         <div class="q">
           <p class="q-text">
-            5. What should the source-of-truth doc be called?
+            3. Does v1 include "Email it to me" in the ⋯ menu?
           </p>
           <ul class="q-opts">
             <li>
-              <span class="opt-label gold">A. 🥇</span>
-              <code style="font-family: var(--mono); font-size: 12.5px"
-                >tester-build.md</code
+              <span class="opt-label gold">A. 🥇</span> Yes — uses
+              <code style="font-family: var(--mono); font-size: 12px"
+                >mailto:</code
               >
-              — focuses on what we're shipping.
+              with subject prefilled. Zero backend needed.
             </li>
             <li>
-              <span class="opt-label">B.</span>
-              <code style="font-family: var(--mono); font-size: 12.5px"
-                >rethink.md</code
-              >
-              — signals "redo of the spike".
+              <span class="opt-label">B. 🥈</span> No — Download .md is already
+              a one-click portable export, email is redundant.
             </li>
             <li>
-              <span class="opt-label">C.</span>
-              <code style="font-family: var(--mono); font-size: 12.5px"
-                >cut.md</code
-              >
-              — signals the pared-down version.
+              <span class="opt-label">C.</span> Yes, with a real send (needs
+              transactional email infra — bigger v1 ask).
+            </li>
+          </ul>
+        </div>
+
+        <div class="q">
+          <p class="q-text">
+            4. "Start over" affordance — clears the workspace and reopens the
+            welcome input <em>without</em> wiping the library. (Useful if a
+            tester is mid-flow on a fresh prompt and wants to scrap it.)
+          </p>
+          <ul class="q-opts">
+            <li>
+              <span class="opt-label gold">A. 🥇</span> Skip it. The "← Library"
+              backlink + "+ New" is one extra click and zero risk of accidental
+              data loss.
+            </li>
+            <li>
+              <span class="opt-label">B. 🥈</span> Add it to the ⋯ menu as
+              "Start over" with a confirm step.
+            </li>
+            <li>
+              <span class="opt-label">C.</span> Add it as a visible "Start over"
+              link near the title.
+            </li>
+          </ul>
+        </div>
+
+        <div class="q">
+          <p class="q-text">
+            5. Collapsed prompt on the saved-and-settled screen — what's the
+            default state?
+          </p>
+          <ul class="q-opts">
+            <li>
+              <span class="opt-label gold">A. 🥇</span> Render expanded, then
+              animate to collapsed after ~1s so the tester sees the collapse
+              happen and knows it can re-expand.
+            </li>
+            <li>
+              <span class="opt-label">B. 🥈</span> Collapsed by default with a
+              clear "▾ Show full prompt" affordance — no animation.
+            </li>
+            <li>
+              <span class="opt-label">C.</span> Always expanded — let the tester
+              scroll. (Simpler to build.)
             </li>
           </ul>
         </div>
