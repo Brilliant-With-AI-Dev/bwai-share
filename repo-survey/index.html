@@ -1,0 +1,5252 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>brilliant-apps — repo state survey</title>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --surface: #ffffff;
+        --canvas: #f6f8fa;
+        --border: #d0d7de;
+        --border-strong: #afb8c1;
+        --text: #1f2328;
+        --muted: #656d76;
+        --accent: #0969da;
+        --accent-soft: #ddf4ff;
+        --accent-strong: #0550ae;
+        --warn: #bf8700;
+        --warn-soft: #fff8c5;
+        --crit: #cf222e;
+        --crit-soft: #ffebe9;
+        --ok: #1a7f37;
+        --ok-soft: #dafbe1;
+        --code-bg: #f6f8fa;
+        --shadow:
+          0 1px 0 rgba(31, 35, 40, 0.04), 0 1px 3px rgba(31, 35, 40, 0.06);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 15px;
+        line-height: 1.55;
+        color: var(--text);
+        background: var(--bg);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      code {
+        font-family: "SF Mono", Menlo, Consolas, monospace;
+        font-size: 0.86em;
+        background: var(--code-bg);
+        padding: 1px 5px;
+        border-radius: 4px;
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: 232px 1fr;
+        max-width: 1320px;
+        margin: 0 auto;
+        padding: 32px 24px 96px;
+        gap: 36px;
+      }
+      @media (max-width: 960px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+        nav.toc {
+          position: static !important;
+        }
+      }
+      nav.toc {
+        position: sticky;
+        top: 24px;
+        align-self: start;
+        font-size: 13px;
+      }
+      nav.toc h3 {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        margin: 0 0 10px;
+      }
+      nav.toc ol {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        counter-reset: sec;
+      }
+      nav.toc li {
+        counter-increment: sec;
+        margin: 3px 0;
+      }
+      nav.toc a {
+        color: var(--muted);
+        display: block;
+        padding: 4px 8px;
+        border-radius: 6px;
+        border-left: 2px solid transparent;
+      }
+      nav.toc a::before {
+        content: counter(sec) ".";
+        display: inline-block;
+        width: 20px;
+        color: var(--accent);
+        font-variant-numeric: tabular-nums;
+      }
+      nav.toc a:hover {
+        background: var(--canvas);
+        color: var(--text);
+        border-left-color: var(--accent);
+        text-decoration: none;
+      }
+      h1 {
+        font-size: 27px;
+        margin: 0 0 4px;
+        letter-spacing: -0.01em;
+      }
+      h2 {
+        font-size: 19px;
+        margin: 38px 0 12px;
+        letter-spacing: -0.005em;
+        scroll-margin-top: 20px;
+      }
+      h2 .num {
+        color: var(--accent);
+        font-variant-numeric: tabular-nums;
+        margin-right: 6px;
+      }
+      h3 {
+        font-size: 11px;
+        margin: 18px 0 8px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+      }
+      p {
+        margin: 0 0 12px;
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 18px 20px;
+        box-shadow: var(--shadow);
+      }
+
+      /* overview */
+      .overview {
+        border: 1px solid var(--border);
+        border-left: 4px solid var(--accent);
+        border-radius: 12px;
+        padding: 20px 24px;
+        margin: 20px 0 8px;
+        box-shadow: var(--shadow);
+      }
+      .overview-row {
+        margin-bottom: 14px;
+      }
+      .overview-row:last-child {
+        margin-bottom: 0;
+      }
+      .overview-row h3 {
+        color: var(--accent);
+        margin: 0 0 3px;
+      }
+      .overview-row p {
+        margin: 0;
+        font-size: 15.5px;
+      }
+
+      /* stat grid */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+        margin: 16px 0 8px;
+      }
+      .stat {
+        border: 1px solid var(--border);
+        border-left: 4px solid var(--border-strong);
+        border-radius: 10px;
+        padding: 12px 14px;
+        background: var(--surface);
+      }
+      .stat .n {
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        font-variant-numeric: tabular-nums;
+      }
+      .stat .l {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .stat .sub {
+        font-size: 11.5px;
+        color: var(--muted);
+        margin-top: 6px;
+        line-height: 1.4;
+      }
+      .stat.crit {
+        border-left-color: var(--crit);
+      }
+      .stat.warn {
+        border-left-color: var(--warn);
+      }
+      .stat.ok {
+        border-left-color: var(--ok);
+      }
+      .stat.accent {
+        border-left-color: var(--accent);
+      }
+
+      /* badges */
+      .badge {
+        display: inline-block;
+        padding: 1px 7px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 600;
+        vertical-align: middle;
+      }
+      .badge.info {
+        background: #eaeef2;
+        color: #57606a;
+      }
+      .badge.warn {
+        background: var(--warn-soft);
+        color: #7a5b00;
+      }
+      .badge.crit {
+        background: var(--crit-soft);
+        color: #a40e26;
+      }
+      .badge.ok {
+        background: var(--ok-soft);
+        color: #116329;
+      }
+      .badge.accent {
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+      }
+
+      /* chips */
+      .chips {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin: 12px 0;
+        align-items: center;
+      }
+      .chip {
+        font: inherit;
+        padding: 4px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        cursor: pointer;
+        font-size: 13px;
+        color: var(--text);
+      }
+      .chip:hover {
+        border-color: var(--accent);
+      }
+      .chip.active {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+      .chip .c {
+        font-variant-numeric: tabular-nums;
+        opacity: 0.7;
+        margin-left: 4px;
+      }
+
+      /* tables */
+      .tablewrap {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .tablewrap.scroll {
+        max-height: 460px;
+        overflow-y: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      th {
+        position: sticky;
+        top: 0;
+        background: var(--canvas);
+        text-align: left;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--muted);
+        padding: 8px 12px;
+        border-bottom: 1px solid var(--border);
+        z-index: 1;
+      }
+      td {
+        padding: 7px 12px;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      tr.dim td {
+        opacity: 0.5;
+      }
+      td.mono,
+      .mono {
+        font-family: "SF Mono", Menlo, Consolas, monospace;
+        font-size: 12px;
+      }
+      td.subj {
+        color: var(--muted);
+      }
+      .nowrap {
+        white-space: nowrap;
+      }
+      .right {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* search */
+      input[type="search"] {
+        font: inherit;
+        font-size: 13px;
+        padding: 6px 10px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        min-width: 240px;
+      }
+      input[type="search"]:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* sync diagram */
+      .sync-flow {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        flex-wrap: wrap;
+        margin: 12px 0;
+      }
+      .node {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px 16px;
+        background: var(--surface);
+        min-width: 150px;
+      }
+      .node .h {
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .node .s {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .node.prod {
+        border-left: 4px solid var(--crit);
+      }
+      .node.stg {
+        border-left: 4px solid var(--ok);
+      }
+      .arrow {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0 14px;
+        color: var(--accent);
+        font-size: 12px;
+        min-width: 150px;
+      }
+      .arrow .line {
+        font-size: 20px;
+        line-height: 1;
+      }
+      .arrow .lbl {
+        font-weight: 600;
+      }
+
+      /* recco */
+      .recco {
+        background: var(--ok-soft);
+        border-left: 3px solid var(--ok);
+        padding: 10px 14px;
+        border-radius: 8px;
+        margin: 8px 0;
+        font-size: 14px;
+      }
+      .recco strong {
+        color: #116329;
+      }
+      .warnbox {
+        background: var(--warn-soft);
+        border-left: 3px solid var(--warn);
+        padding: 10px 14px;
+        border-radius: 8px;
+        margin: 8px 0;
+        font-size: 14px;
+      }
+      .critbox {
+        background: var(--crit-soft);
+        border-left: 3px solid var(--crit);
+        padding: 10px 14px;
+        border-radius: 8px;
+        margin: 8px 0;
+        font-size: 14px;
+      }
+
+      .bar {
+        display: flex;
+        height: 22px;
+        border-radius: 6px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        margin: 8px 0 4px;
+      }
+      .bar span {
+        display: block;
+        height: 100%;
+      }
+      .barkey {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 14px;
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 6px;
+      }
+      .barkey i {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 2px;
+        margin-right: 4px;
+        vertical-align: middle;
+      }
+
+      .toolbar {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin: 8px 0 16px;
+        flex-wrap: wrap;
+      }
+      button.btn {
+        font: inherit;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 6px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      button.btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      button.btn.primary {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+      button.btn.primary:hover {
+        background: var(--accent-strong);
+        color: #fff;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .hint {
+        font-size: 12.5px;
+        color: var(--muted);
+        margin: 4px 0 0;
+      }
+      details {
+        margin: 8px 0;
+      }
+      summary {
+        cursor: pointer;
+        font-size: 13px;
+        color: var(--accent);
+      }
+
+      @media print {
+        body {
+          background: #fff;
+        }
+        .layout {
+          display: block;
+          padding: 0;
+        }
+        nav.toc,
+        .no-print,
+        button {
+          display: none !important;
+        }
+        .tablewrap.scroll {
+          max-height: none;
+        }
+        .card,
+        .stat {
+          box-shadow: none;
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <nav class="toc no-print">
+        <h3>Sections</h3>
+        <ol>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#snapshot">Snapshot</a></li>
+          <li><a href="#release">Release &amp; sync</a></li>
+          <li><a href="#uncommitted">Uncommitted work</a></li>
+          <li><a href="#worktrees">Worktrees</a></li>
+          <li><a href="#branches">Branches</a></li>
+          <li><a href="#prs">Pull requests</a></li>
+          <li><a href="#issues">Issues</a></li>
+          <li><a href="#cleanup">Cleanup actions</a></li>
+        </ol>
+        <div class="toolbar no-print" style="margin-top: 20px">
+          <button class="btn primary" id="exportJson">Copy JSON</button>
+          <button class="btn" id="exportMd">Copy summary MD</button>
+        </div>
+      </nav>
+
+      <main>
+        <h1>brilliant-apps — repo state survey</h1>
+        <p class="meta" id="metaline"></p>
+
+        <section id="overview" class="overview">
+          <div class="overview-row">
+            <h3>What this is</h3>
+            <p>
+              A one-page snapshot of everything in flight in the brilliant-apps
+              code repository — what's shipped, what's waiting, and what's
+              accumulating clutter.
+            </p>
+          </div>
+          <div class="overview-row">
+            <h3>The big picture</h3>
+            <p id="bigpic"></p>
+          </div>
+          <div class="overview-row">
+            <h3>What needs a decision</h3>
+            <p id="needsdecision"></p>
+          </div>
+        </section>
+
+        <h2 id="snapshot"><span class="num">2.</span>Snapshot</h2>
+        <div class="stats" id="statgrid"></div>
+        <p class="hint">
+          Counts taken <span id="takendate"></span> against
+          <code>origin</code> after a fresh fetch. Local-checkout staleness is
+          reported separately in §3.
+        </p>
+
+        <h2 id="release">
+          <span class="num">3.</span>Release &amp; sync state
+        </h2>
+        <p>
+          Feature branches PR into <code>staging</code> (the repo default +
+          preview deploy). <code>main</code> is production and only takes
+          periodic release PRs.
+        </p>
+        <div class="sync-flow" id="syncflow"></div>
+        <div id="syncnotes"></div>
+
+        <h2 id="uncommitted"><span class="num">4.</span>Uncommitted work</h2>
+        <p>
+          Tracked changes that exist only on disk — not yet committed anywhere.
+          This is the real "could be lost" surface.
+        </p>
+        <div id="dirtybox"></div>
+        <div class="tablewrap" style="margin-top: 10px">
+          <table id="dirtytable">
+            <thead>
+              <tr>
+                <th>Worktree</th>
+                <th>Branch</th>
+                <th class="right">Tracked</th>
+                <th class="right">Untracked</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p class="hint">
+          "Tracked" = modified/added/deleted files git is watching (real unsaved
+          work). "Untracked" = new files git is ignoring or hasn't been told
+          about (usually scratch/handoff docs).
+        </p>
+
+        <h2 id="worktrees"><span class="num">5.</span>Worktrees</h2>
+        <p><span id="wtsummary"></span></p>
+        <div class="chips no-print" id="wtchips"></div>
+        <div class="tablewrap scroll">
+          <table id="wttable">
+            <thead>
+              <tr>
+                <th>Path</th>
+                <th>Branch</th>
+                <th>SHA</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <h2 id="branches"><span class="num">6.</span>Branches</h2>
+        <p><span id="brsummary"></span></p>
+        <h3>By prefix</h3>
+        <div class="barkey" id="barkey"></div>
+        <div class="bar" id="prefixbar"></div>
+        <div class="chips no-print" id="brchips" style="margin-top: 14px"></div>
+        <div class="toolbar no-print">
+          <input
+            type="search"
+            id="brsearch"
+            placeholder="filter branches by name or subject…"
+          />
+          <span class="hint" id="brcount"></span>
+        </div>
+        <div class="tablewrap scroll">
+          <table id="brtable">
+            <thead>
+              <tr>
+                <th>Branch</th>
+                <th>Upstream</th>
+                <th>SHA</th>
+                <th>Last commit</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <h2 id="prs"><span class="num">7.</span>Pull requests</h2>
+        <p><span id="prsummary"></span></p>
+        <div class="chips no-print" id="prchips"></div>
+        <div class="tablewrap">
+          <table id="prtable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Base</th>
+                <th class="right">±</th>
+                <th class="nowrap">Updated</th>
+                <th>Flags</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <h2 id="issues"><span class="num">8.</span>Open issues</h2>
+        <p><span id="issummary"></span></p>
+        <div class="chips no-print" id="ischips"></div>
+        <div class="tablewrap scroll">
+          <table id="istable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th class="nowrap">Updated</th>
+                <th>Flags</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <h2 id="cleanup">
+          <span class="num">9.</span>Recommended cleanup actions
+        </h2>
+        <div id="cleanupbox"></div>
+        <p class="hint no-print">
+          Commands are suggestions for a maintenance pass — review before
+          running. Nothing here has been executed.
+        </p>
+      </main>
+    </div>
+
+    <script>
+      const DATA = {
+"summary": {
+"generatedAt": "2026-05-31",
+"localBranches": 199,
+"realBranches": 145,
+"scaffoldBranches": 54,
+"remoteBranches": 158,
+"goneUpstream": 42,
+"worktrees": 66,
+"lockedWorktrees": 17,
+"agentWorktrees": 17,
+"dirtyWorktrees": 10,
+"missingWorktrees": 0,
+"openPRs": 14,
+"draftPRs": 2,
+"stalePRs": 9,
+"nonStagingPRs": 2,
+"openIssues": 35,
+"inProgressIssues": 1,
+"retiredProductIssues": 17
+},
+"sync": {
+"releaseGap": 68,
+"mainOnly": 3,
+"localStagingAhead": 0,
+"localStagingBehind": 8,
+"localMainAhead": 7,
+"localMainBehind": 33
+},
+"prefixes": {
+"chore": 11,
+"claude": 1,
+"codex": 1,
+"context": 1,
+"design": 1,
+"docs": 20,
+"feat": 65,
+"fix": 27,
+"hotfix": 1,
+"main": 1,
+"matt": 9,
+"refactor": 1,
+"release": 3,
+"smoke": 1,
+"staging": 1,
+"test": 1,
+"worktree-*": 54
+},
+"branches": [
+{
+"name": "chore/gitignore-product-assets",
+"sha": "5071475",
+"upstream": "origin/chore/gitignore-product-assets",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "chore: whitelist product + extra image formats in .gitignore",
+"prefix": "chore",
+"scaffold": false
+},
+{
+"name": "chore/mpa-8-baseline",
+"sha": "f5e5014",
+"upstream": "origin/dev",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "chore(mpa-8): baseline manual + denial UX probe stub",
+"prefix": "chore",
+"scaffold": false
+},
+{
+"name": "chore/pocock-skills-setup",
+"sha": "57b678c",
+"upstream": "origin/chore/pocock-skills-setup",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "chore(docs): configure Pocock agent skills setup",
+"prefix": "chore",
+"scaffold": false
+},
+{
+"name": "chore/project-state-audit-and-restructure",
+"sha": "66060e3",
+"upstream": "origin/chore/project-state-audit-and-restructure",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "chore: project-state audit \u2014 capability status cards, .scratch restructure, file gap issues",
+"prefix": "chore",
+"scaffold": false
+},
+{
+"name": "chore/prompt-upgrader-ai-fill-dedup",
+"sha": "9fd2082",
+"upstream": "origin/chore/prompt-upgrader-ai-fill-dedup",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "chore(prompt-upgrader): dedupe AiFillService \u2014 import from canonical ai-fill module",
+"prefix": "chore",
+"scaffold": false
+},
+{
+"name": "chore/rename-compass-preview-sandbox",
+"sha": "ae6d84b",
+"upstream": "origin/chore/rename-compass-preview-sandbox",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(handoff): mirror-next redesign scope + session wrap",
+"prefix": "chore",
+"scaffold": false
+},
+{
+"name": "chore/repo-test-readiness",
+"sha": "af6cc4e",
+"upstream": "origin/chore/repo-test-readiness",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "chore(test): wire vitest for apps/web + pnpm test + module-load gate + unit tests (testing/001)",
+"prefix": "chore",
+"scaffold": false
+},
+{
+"name": "chore/safe-subset-pre-platform-flip",
+"sha": "470bb88",
+"upstream": "origin/chore/safe-subset-pre-platform-flip",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(globals): italics inherit body color, not --accent",
+"prefix": "chore",
+"scaffold": false
+},
+{
+"name": "chore/scratch-infra-006-priority",
+"sha": "1e4a7fc",
+"upstream": "origin/chore/scratch-infra-006-priority",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(scratch): capture Adrian's vote + architectural reframe on infra/006",
+"prefix": "chore",
+"scaffold": false
+},
+{
+"name": "chore/setup-pocock-skills",
+"sha": "bad28dd",
+"upstream": "origin/chore/setup-pocock-skills",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "chore: rename apps/xray \u2192 apps/web; delete pathways + discovery stubs",
+"prefix": "chore",
+"scaffold": false
+},
+{
+"name": "chore/test-auto-alias",
+"sha": "4a5f1b9",
+"upstream": "origin/chore/test-auto-alias",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "chore(test): trigger dev rebuild to verify Vercel auto-alias",
+"prefix": "chore",
+"scaffold": false
+},
+{
+"name": "claude/define-composer-state-model-RmuK6",
+"sha": "87f2762",
+"upstream": "origin/claude/define-composer-state-model-RmuK6",
+"track": "[ahead 3]",
+"gone": false,
+"ahead": 3,
+"behind": 0,
+"subject": "fix(mir-79): reference page visual fixes \u2014 mic icons, meter width, in-capsule transitional states",
+"prefix": "claude",
+"scaffold": false
+},
+{
+"name": "codex/io-discovery",
+"sha": "6f14b72",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "Set up Brilliant Discovery testing path and add handoff",
+"prefix": "codex",
+"scaffold": false
+},
+{
+"name": "context-md-products",
+"sha": "069a40e",
+"upstream": "origin/context-md-products",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(handoff): resume prompt for CONTEXT.md grilling round 4+",
+"prefix": "context",
+"scaffold": false
+},
+{
+"name": "design/insights-treatments-mockups",
+"sha": "a67c756",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(mirror-next): insights-report visual treatment mockups (#022)",
+"prefix": "design",
+"scaffold": false
+},
+{
+"name": "docs/cleanroom-handoff-routing",
+"sha": "4131ef1",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs: append continuation prompt to M2M handoff for self-perpetuating chain",
+"prefix": "docs",
+"scaffold": false
+},
+{
+"name": "docs/composer-afk-compaction-handoff",
+"sha": "9412fcb",
+"upstream": "origin/docs/composer-afk-compaction-handoff",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(afk): codify flow-uat as sole UAT vehicle for S5+; forbid composer-uat extensions",
+"prefix": "docs",
+"scaffold": false
+},
+{
+"name": "docs/composer-parallel-dispatch",
+"sha": "645b0dd",
+"upstream": "origin/docs/composer-parallel-dispatch",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(handoff): composer parallel dispatch plan (S14/S2/S15)",
+"prefix": "docs",
+"scaffold": false
+},
+{
+"name": "docs/correct-upstash-override-comment",
+"sha": "654660f",
+"upstream": "origin/docs/correct-upstash-override-comment",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(prompts): correct stale Upstash override claim in snapshot file header",
+"prefix": "docs",
+"scaffold": false
+},
+{
+"name": "docs/env-var-policy",
+"sha": "3f25963",
+"upstream": "origin/docs/env-var-policy",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(env): policy ADR + migration issue \u2014 env vars vs source constants",
+"prefix": "docs",
+"scaffold": false
+},
+{
+"name": "docs/handoff-mir-v2-cdeg-dispatched",
+"sha": "5633094",
+"upstream": "origin/docs/handoff-mir-v2-cdeg-dispatched",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(handoff): mir-v2 \u2014 Slices C/D/E/G dispatched, hotfix + spec shipped",
+"prefix": "docs",
+"scaffold": false
+},
+{
+"name": "docs/lean-agents-md",
+"sha": "57a2322",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs: consolidate context files into AGENTS.md, trim hard",
+"prefix": "docs",
+"scaffold": false
+},
+{
+"name": "docs/m2m-migration-scoping",
+"sha": "20ca358",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs: correct M2M plan \u2014 body change is 1.8.0, usertests not dev, synchronized cutover",
+"prefix": "docs",
+"scaffold": false
+},
+{
+"name": "docs/m2m-prompt-migration-plan",
+"sha": "5e846d4",
+"upstream": "origin/docs/m2m-prompt-migration-plan",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(m2m-plan): finalize plan v0.3 from grilling pass",
+"prefix": "docs",
+"scaffold": false
+},
+{
+"name": "docs/m2m-shapes-explainer",
+"sha": "fc6ad38",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs: M2M migration shapes \u2014 interactive HTML explainer + remix GUI",
+"prefix": "docs",
+"scaffold": false
+},
+{
+"name": "docs/mirror-stabilization-prd-land",
+"sha": "cf55c75",
+"upstream": "origin/docs/mirror-stabilization-prd-land",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(prd): add status header \u2014 what shipped, what's left",
+"prefix": "docs",
+"scaffold": false
+},
+{
+"name": "docs/next-gen-arch-grilling-continued",
+"sha": "a80b60b",
+"upstream": "origin/docs/next-gen-arch-grilling-continued",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "chore(vendor): refresh task-templates snapshot to include freestyle scaffold",
+"prefix": "docs",
+"scaffold": false
+},
+{
+"name": "docs/next-gen-arch-grilling-continued-v2",
+"sha": "5024bfc",
+"upstream": "origin/docs/next-gen-arch-grilling-continued-v2",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(decisions): resolve grilling-continuation branches + task-templates snapshot",
+"prefix": "docs",
+"scaffold": false
+},
+{
+"name": "docs/product-engine-adr",
+"sha": "10cdbdb",
+"upstream": "origin/docs/product-engine-adr",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs: ADR for @bwai/product-engine \u2014 config-driven flow, thunk registry, deferred features",
+"prefix": "docs",
+"scaffold": false
+},
+{
+"name": "docs/prompts-cms-exploration",
+"sha": "619f636",
+"upstream": "origin/docs/prompts-cms-exploration",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(scratch): explore CMS-backed prompt editing",
+"prefix": "docs",
+"scaffold": false
+},
+{
+"name": "docs/repo-architecture",
+"sha": "fc3e03d",
+"upstream": "origin/docs/repo-architecture",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs: add architecture/ reference docs \u2014 mock mode, apps & products, system overview",
+"prefix": "docs",
+"scaffold": false
+},
+{
+"name": "docs/repo-cleanup-plans",
+"sha": "ffece19",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs: invert TWAI boundaries \u2014 default to platform unless gap",
+"prefix": "docs",
+"scaffold": false
+},
+{
+"name": "docs/runtime-core-adr",
+"sha": "1a2648d",
+"upstream": "origin/docs/runtime-core-adr",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "chore(scratch): file three scratch issues for the in-flight handoffs",
+"prefix": "docs",
+"scaffold": false
+},
+{
+"name": "docs/scratch-chat-scroll-library-migration",
+"sha": "05a5d2e",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs: add screenshot-gallery dev tool section to mock-mode.md (#296)",
+"prefix": "docs",
+"scaffold": false
+},
+{
+"name": "docs/screenshot-tool-mock-mode-note",
+"sha": "30b237e",
+"upstream": "origin/docs/screenshot-tool-mock-mode-note",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "docs: add screenshot-gallery dev tool section to mock-mode.md",
+"prefix": "docs",
+"scaffold": false
+},
+{
+"name": "feat/bwai-stack-impl",
+"sha": "ce48fc8",
+"upstream": "origin/feat/bwai-stack-impl",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(web): single BWAI_STACK env switches platform + stytch wiring",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/composer-overhaul-s2",
+"sha": "2168fa2",
+"upstream": "origin/feat/composer-overhaul-s2",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(composer): restore cursor-pointer on MicButton + SendButton (Tailwind v4)",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/dev-auth-bypass",
+"sha": "efc4636",
+"upstream": "origin/feat/dev-auth-bypass",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "chore(mock): make insights placeholder obviously fake",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/discovery-workflow",
+"sha": "46933a8",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(discovery): use messagesRef to fix stale closure in onToolCall",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/globals-import-design-system",
+"sha": "a9e6e18",
+"upstream": "origin/feat/globals-import-design-system",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "refactor(web): globals.css imports tokens from @bwai/design-system (one source of truth)",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/interview-prompt-scrubs",
+"sha": "d26a6ed",
+"upstream": "origin/feat/interview-prompt-scrubs",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(prompts): scrub air-interview v20.1 + add mirror drafts + chat-composer test exclude",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/jcodemunch-mcp",
+"sha": "5b78b73",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "chore: add jcodemunch MCP server (project-scoped)",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/lobby-mirror-launch",
+"sha": "7a3f8b7",
+"upstream": "origin/feat/lobby-mirror-launch",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(lobby): card label \"Mirror\" -> \"AI Mirror Experience\"",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/m2m-chat-route",
+"sha": "16cbdf4",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "chore(web): add layered M2M smoke-test script",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/m2m-session-verify",
+"sha": "a58da17",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(auth): add server-side Stytch session verifier for M2M flows",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mir-187-real-llm-integration",
+"sha": "d2fe70a",
+"upstream": "origin/feat/mir-187-real-llm-integration",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(mir-v2): pre-compaction handoff snapshot pointing to MIR-206 epic",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mir-200-promptlab-mirror-v2",
+"sha": "5a37cea",
+"upstream": "origin/feat/mir-200-promptlab-mirror-v2",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(mir-200): register mirror-v2 in Prompt Lab + lift PromptLabNotice to AuthGuardLayout",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mir-201-form-parity",
+"sha": "a5d7751",
+"upstream": "origin/feat/mir-201-form-parity",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(mir-201): mirror-v2 form parity \u2014 wire IntakeForm + persist preContext",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mir-202-preparing-page",
+"sha": "89d119c",
+"upstream": "origin/feat/mir-202-preparing-page",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "Merge dev into feat/mir-202-preparing-page (resolve form/page.tsx + form.test.tsx conflicts \u2014 keep /preparing nav)",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mir-203-legacy-composer-stopgap",
+"sha": "ce77e42",
+"upstream": "origin/feat/mir-203-legacy-composer-stopgap",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "Merge dev into feat/mir-203-legacy-composer-stopgap (resolve interview/page.tsx + page.test.tsx \u2014 keep LegacyInterviewChat + dev's resolveDeliverableMsg)",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mir-204-insight-error-ux",
+"sha": "45f8a6f",
+"upstream": "origin/feat/mir-204-insight-error-ux",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "Merge dev into feat/mir-204-insight-error-ux (resolve interview/page.tsx + tests \u2014 keep error UX + skipped param + LegacyInterviewChat + resolveDeliverableMsg)",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mir-212-skip-prompt-wrapper",
+"sha": "c0212cc",
+"upstream": "origin/feat/mir-212-skip-prompt-wrapper",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "Merge dev into feat/mir-212-skip-prompt-wrapper (resolve interview/page.tsx + tests + FinalQuestionsCard \u2014 keep skipped param + LegacyInterviewChat + resolveDeliverableMsg)",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mir-214-no-conclusion-route",
+"sha": "4166b79",
+"upstream": "origin/feat/mir-214-no-conclusion-route",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "Merge dev into feat/mir-214-no-conclusion-route (resolve interview/page.tsx + tests; delete conclusion route + test \u2014 keep all dev features)",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mir-216-collapse-intake-form",
+"sha": "1161aad",
+"upstream": "origin/feat/mir-216-collapse-intake-form",
+"track": "[ahead 374, behind 5]",
+"gone": false,
+"ahead": 374,
+"behind": 5,
+"subject": "fix(mir-216): apply minHeight:0 fix to mockup shells too",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mir-78-unified-chat-ui",
+"sha": "2db6197",
+"upstream": "origin/dev",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "Merge remote-tracking branch 'origin/main' into dev",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mir-v2-closing-copy",
+"sha": "b0281f6",
+"upstream": "origin/feat/mir-v2-closing-copy",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(mir-211): swap closing-question copy to MIR-85 canonical proposal",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mirror-afk-execution",
+"sha": "6eddbaa",
+"upstream": "origin/feat/mirror-afk-execution",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(mirror): resolve Codex tight-scope findings on PR #184",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mirror-next-insights-report-design",
+"sha": "6840464",
+"upstream": "origin/feat/mirror-next-insights-report-design",
+"track": "[ahead 1, behind 3]",
+"gone": false,
+"ahead": 1,
+"behind": 3,
+"subject": "feat(mirror-next): redesign Insights Snapshot report to xray-parity treatment (#022)",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mirror-next-m2m-cutover",
+"sha": "3ecd8db",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "test(mirror-next): unit tests for stripHiddenWrapper helper",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mirror-next-m2m-fungible-stepid",
+"sha": "3473ad9",
+"upstream": "origin/feat/mirror-next-m2m-fungible-stepid",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(prepare-task): hardcode legacy template UUID for retiring products",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mirror-next-m2m-infra",
+"sha": "fbc0e4b",
+"upstream": "origin/feat/mirror-next-m2m-infra",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "refactor(mirror-next): extract pure prompt builders from mirror-next steps",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mirror-next-rebuild-prd",
+"sha": "6d1a748",
+"upstream": "origin/feat/mirror-next-rebuild-prd",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(handoff): mirror-next rebuild PRD grilled \u2014 Slice 0 spike ready",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mirror-next-rebuild-prd-v2",
+"sha": "8820c44",
+"upstream": "origin/feat/mirror-next-rebuild-prd-v2",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(mirror-next): rebuild PRD + issue stack + post-ADR refinements",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mirror-next-route-graph",
+"sha": "cff1ff6",
+"upstream": "origin/feat/mirror-next-route-graph",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(product-engine): full route graph + session envelope",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mirror-next-spike-0",
+"sha": "e0acd43",
+"upstream": "origin/feat/mirror-next-spike-0",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "chore(mirror-next): rename \"coach\" \u2192 \"interviewer\" across spike sandbox",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mirror-next-staged-prompts",
+"sha": "a9ff711",
+"upstream": "origin/feat/mirror-next-staged-prompts",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(mirror-next): staged-prompt dispatch (Identity \u2192 Interview \u2192 Insights \u2192 Report)",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mirror-next-staged-prompts-followup",
+"sha": "4e6e068",
+"upstream": "origin/feat/mirror-next-staged-prompts-followup",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(mirror-next): server-side prompt assembly POC (Stage 1+2)",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mirror-next-staged-prompts-prep",
+"sha": "5d7e642",
+"upstream": "origin/feat/mirror-next-staged-prompts-prep",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "refactor(prompts): scaffold products/mirror/ + rename schema token",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mirror-prompt-hydrated-upstash",
+"sha": "13cf62b",
+"upstream": "origin/feat/mirror-prompt-hydrated-upstash",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(mirror,mirror-next): default to hydrated Upstash snapshot (v2026-03-17-1) + runtime resolution log",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mirror-stabilization-gaps",
+"sha": "f253b98",
+"upstream": "origin/feat/mirror-stabilization-gaps",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(mirror): port v19 lens + topic-title + tone-by-phase + callback rules (PRD \u00a73.2)",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mpa-10-lab-gating",
+"sha": "cc0b607",
+"upstream": "origin/feat/mpa-10-lab-gating",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(lab): org-gating primitives and NEXT_PUBLIC_LAB_ENABLED flag (MPA-10)",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mpa-11-lab-lobby",
+"sha": "560438c",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(lab): /lab lobby route + root-lobby card (MPA-11)",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mpa-12-exec-mirror",
+"sha": "eab9231",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(lab): exec-mirror variant \u2014 full pipeline fork (MPA-12)",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/mpa-9-session-namespacing",
+"sha": "5fd996e",
+"upstream": "origin/feat/mpa-9-session-namespacing",
+"track": "[ahead 3]",
+"gone": false,
+"ahead": 3,
+"behind": 0,
+"subject": "Merge branch 'feat/mpa-10-lab-gating' into feat/mpa-9-session-namespacing",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/multi-product",
+"sha": "42bf181",
+"upstream": "origin/feat/multi-product",
+"track": "[ahead 17]",
+"gone": false,
+"ahead": 17,
+"behind": 0,
+"subject": "Merge remote-tracking branch 'origin/dev' into feat/multi-product",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/pathways-nish-feedback-v2",
+"sha": "fd7e36a",
+"upstream": "origin/feat/pathways-nish-feedback-v2",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "chore: add vercel.json for monorepo install",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/platform-1-9-0-default",
+"sha": "0a9253b",
+"upstream": "origin/feat/platform-1-9-0-default",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "fixup: platform deploy bumped 1.9.0 \u2192 1.9.1; resync vendor contracts",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/platform-client-phase-4-auth-me",
+"sha": "d85ebb9",
+"upstream": "origin/feat/platform-client-phase-4-auth-me",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(platform-client): Phase 4 \u2014 cut /auth/me wake to SDK",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/platform-client-phase-5-3-api-factory",
+"sha": "3209a93",
+"upstream": "origin/feat/platform-client-phase-5-3-api-factory",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(platform-client): Phase 5-3 \u2014 non-streaming consumers via SDK",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/platform-client-phase-5-admin-tabs",
+"sha": "bba25d8",
+"upstream": "origin/feat/platform-client-phase-5-admin-tabs",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(platform-client): Phase 5-2 \u2014 admin tabs via SDK",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/platform-client-phase-5-voice-token",
+"sha": "ec0d196",
+"upstream": "origin/feat/platform-client-phase-5-voice-token",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(platform-client): Phase 5 \u2014 voice token via SDK + singleton factory",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/platform-client-sdk-foundation",
+"sha": "2ccd9c2",
+"upstream": "origin/feat/platform-client-sdk-foundation",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(plans): add chat shape adapter plan",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/product-engine-skeleton",
+"sha": "8defaa9",
+"upstream": "origin/feat/product-engine-skeleton",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "chore(docs): add /mirror-next/start screenshot for PR #257 review",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/prompt-road-test",
+"sha": "5f9c40b",
+"upstream": "origin/feat/prompt-road-test",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(road-test): add reusable two-role LLM prompt road-test harness",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/prompt-upgrader-01-routes",
+"sha": "73813e1",
+"upstream": "origin/feat/prompt-upgrader-01-routes",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(prompt-upgrader): mark slice 01 done",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/prompt-upgrader-02-intake-form",
+"sha": "b4db736",
+"upstream": "origin/feat/prompt-upgrader-02-intake-form",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(prompt-upgrader): slice 02 \u2014 intake form + drafting interstitial",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/prompt-upgrader-03-persistence",
+"sha": "1a7fe7a",
+"upstream": "origin/feat/prompt-upgrader-03-persistence",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(prompt-upgrader): note ISO 8601 sort property on updatedAt compare",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/prompt-upgrader-04-workspace",
+"sha": "39f20dd",
+"upstream": "origin/feat/prompt-upgrader-04-workspace",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(prompt-upgrader): slice 04 \u2014 workspace shell + reducer",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/prompt-upgrader-05-aifill",
+"sha": "fe897ff",
+"upstream": "origin/feat/prompt-upgrader-05-aifill",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(prompt-upgrader): file slice 05a \u2014 real AI-fill wiring via TaskTemplate",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/prompt-upgrader-05a-ai-fill-wiring",
+"sha": "524ea4a",
+"upstream": "origin/feat/prompt-upgrader-05a-ai-fill-wiring",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(prompt-upgrader): slice 05a \u2014 real AI-fill wiring",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/prompt-upgrader-05a-promptoverrides",
+"sha": "e3d29b3",
+"upstream": "origin/feat/prompt-upgrader-05a-promptoverrides",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(prompt-upgrader): slice 05a - AI-fill via promptOverrides",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/prompt-upgrader-06-07-08-action-surfaces",
+"sha": "b21ae1f",
+"upstream": "origin/feat/prompt-upgrader-06-07-08-action-surfaces",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "chore(prompt-upgrader): flip slices 06-08 to done",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/prompt-upgrader-09-library-telemetry",
+"sha": "3c01a96",
+"upstream": "origin/feat/prompt-upgrader-09-library-telemetry",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "chore(prompt-upgrader): flip slice 09 to done",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/prompt-upgrader-docs",
+"sha": "55f5fe5",
+"upstream": "origin/feat/prompt-upgrader-docs",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(prompt-upgrader): PRD + 9 tracer-bullet issue slices",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/prompt-upgrader-rethink",
+"sha": "c656f38",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(agents): correct Stytch preview auth claim (#361)",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/prompt-upgrader-spike",
+"sha": "3d7c970",
+"upstream": "origin/feat/prompt-upgrader-spike",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(prompt-upgrader): PRD + 9 tracer-bullet issue slices",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/screenshot-gallery",
+"sha": "0613677",
+"upstream": "origin/feat/screenshot-gallery",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(web): screenshot-gallery \u2014 seed sessionStorage so legacy interview routes render real screens",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/single-env-stack-switcher-audit",
+"sha": "71409c6",
+"upstream": "origin/staging",
+"track": "[behind 22]",
+"gone": false,
+"ahead": 0,
+"behind": 22,
+"subject": "feat(lobby): promote mirror-next as sole AI Mirror Experience card for 1.9.1 launch (#366)",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/vendor-platform-contracts",
+"sha": "9150fc4",
+"upstream": "origin/feat/vendor-platform-contracts",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "chore: vendor read-only snapshot of bwai-platform contracts (openapi, bdd, prompt templates) + sync script",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "feat/xray-bake-prod-upstash-snapshot",
+"sha": "8351a53",
+"upstream": "origin/feat/xray-bake-prod-upstash-snapshot",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(xray): bake prod-Upstash interview prompt into code (v2026-03-17-1)",
+"prefix": "feat",
+"scaffold": false
+},
+{
+"name": "fix/agents-md-stytch-wildcards",
+"sha": "94d8cb9",
+"upstream": "origin/fix/agents-md-stytch-wildcards",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(agents): correct Stytch preview auth claim",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/chat-autoscroll-intersection-observer",
+"sha": "5ba5c84",
+"upstream": "origin/fix/chat-autoscroll-intersection-observer",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(chat-messages): replace scroll-event polling with IntersectionObserver on bottom anchor",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/chat-body-envelope",
+"sha": "4ba6707",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(api-client): chat body uses {role,content} envelope (TWAI 1.8.0+)",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/chat-foundation-library-and-voice-default",
+"sha": "bfcb66e",
+"upstream": "origin/fix/chat-foundation-library-and-voice-default",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(chat): honor voiceFirst=false, clear voice-auth-failed on re-opt-in, restore iOS keyboard re-anchor",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/chat-stream-metadata-and-autoscroll",
+"sha": "6bdefdd",
+"upstream": "origin/fix/chat-stream-metadata-and-autoscroll",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(chat): re-anchor stream auto-scroll on composer reflow and send",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/composer-multiline-flipflop",
+"sha": "88eaa5f",
+"upstream": "origin/fix/composer-multiline-flipflop",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(chat-input): stop multi-line flip-flop at row-mode wrap boundary",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/form-input-security-hardening",
+"sha": "79c9fdb",
+"upstream": "origin/fix/form-input-security-hardening",
+"track": "[ahead 1, behind 6]",
+"gone": false,
+"ahead": 1,
+"behind": 6,
+"subject": "fix(security): harden form-input prompt assembly \u2014 escape delimiters, cap length, strip control/bidi chars",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/form-stt-newline-no-speech",
+"sha": "8a1fe5a",
+"upstream": "origin/fix/form-stt-newline-no-speech",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(stt): paragraph-separate dictated transcripts; show feedback when no speech captured",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/helpertext-set-state-in-effect",
+"sha": "cde98fd",
+"upstream": "origin/fix/helpertext-set-state-in-effect",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(chat-input): suppress set-state-in-effect for one-time touch detection",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/mir-73-corporate-network-fallback",
+"sha": "3cea00e",
+"upstream": "origin/fix/mir-73-corporate-network-fallback",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(mir-73): N=2 streaming-fail triggers clean text-only fallback",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/mir-74-persistent-session-actions",
+"sha": "2db6197",
+"upstream": "origin/dev",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "Merge remote-tracking branch 'origin/main' into dev",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/mir-75-pdf-multipage",
+"sha": "82a55a6",
+"upstream": "origin/fix/mir-75-pdf-multipage",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "chore(xray): add /xray/pdf-test no-auth print harness",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/mir-75-pdf-multipage-rebased",
+"sha": "eb13925",
+"upstream": "origin/staging",
+"track": "[ahead 1, behind 42]",
+"gone": false,
+"ahead": 1,
+"behind": 42,
+"subject": "fix(mir-75): PDF export renders all pages without early breaks",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/mir-v2-form-and-waiting-parity",
+"sha": "4398c7c",
+"upstream": "origin/fix/mir-v2-form-and-waiting-parity",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(mir-v2): form + interview waiting parity with /xray",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/mir-v2-prompt-wiring",
+"sha": "8f28fbd",
+"upstream": "origin/fix/mir-v2-prompt-wiring",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(mir-v2): use mirror-interview-v21 by default, drive prompts through Prompt Lab, drop Upstash",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/mir-v2-start-parity",
+"sha": "50c9764",
+"upstream": "origin/fix/mir-v2-start-parity",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(mir-v2): start-page parity with /xray/start",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/mirror-next-circular-import-reland",
+"sha": "288b04c",
+"upstream": "origin/fix/mirror-next-circular-import-reland",
+"track": "[behind 2]",
+"gone": false,
+"ahead": 0,
+"behind": 2,
+"subject": "fix(mirror-next): break circular import in engine config (re-land #276\u2013#280)",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/mirror-next-context-vocab",
+"sha": "1c02276",
+"upstream": "origin/fix/mirror-next-context-vocab",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(mirror-next): reconcile CONTEXT.md vocab with shared-root grilling",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/mirror-next-interview-parity",
+"sha": "5513e95",
+"upstream": "origin/fix/mirror-next-interview-parity",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(mirror-next): rebuild interview screen on the production chat shell (#009, #010)",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/mirror-next-mobile-start-layout",
+"sha": "75370c4",
+"upstream": "origin/fix/mirror-next-mobile-start-layout",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(mirror-next): mobile layout \u2014 header collision + touts wrap",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/mirror-next-passive-listeners",
+"sha": "b0fb0bc",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "release: rename apps/xray \u2192 apps/web + Path A branding registry + Pocock skills (#247)",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/mirror-next-start-prewarm-cursor",
+"sha": "bc635c1",
+"upstream": "origin/fix/mirror-next-start-prewarm-cursor",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(mirror-next): pre-warm task on /start, stop double-fire in form, add CTA pointer cursor",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/mirror-next-uat-batch-2",
+"sha": "415df51",
+"upstream": "origin/fix/mirror-next-uat-batch-2",
+"track": "[behind 3]",
+"gone": false,
+"ahead": 0,
+"behind": 3,
+"subject": "fix(mirror-next): UAT batch 2 \u2014 titles, generating layout, composer/chat layout, CTA polish, insights mailto, back-nav redirect",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/mirror-prewarm-task",
+"sha": "5a256b9",
+"upstream": "origin/fix/mirror-prewarm-task",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "chore(docs): salvage notes + session handoffs from design-system planning",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/render-smoke-mock-mode",
+"sha": "1f8c386",
+"upstream": "origin/fix/render-smoke-mock-mode",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(ci): run render-smoke in mock mode so it never hits the platform proxy",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/smoke-rename-and-proxy-docs",
+"sha": "8a76c1d",
+"upstream": "origin/fix/smoke-rename-and-proxy-docs",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "refactor(tests): remove old tests/render-smoke path (replaced by tests/smoke)",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "fix/voice-mic-envelope-decoupling",
+"sha": "b736a93",
+"upstream": "origin/staging",
+"track": "[ahead 1, behind 1]",
+"gone": false,
+"ahead": 1,
+"behind": 1,
+"subject": "fix(mirror): decouple chat-composer mic visibility from envelope state",
+"prefix": "fix",
+"scaffold": false
+},
+{
+"name": "hotfix/unmute-intro-video",
+"sha": "bed6bad",
+"upstream": "origin/hotfix/unmute-intro-video",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(video): unmute intro video on autoplay (#325)",
+"prefix": "hotfix",
+"scaffold": false
+},
+{
+"name": "main",
+"sha": "7f22f94",
+"upstream": "origin/main",
+"track": "[ahead 7, behind 33]",
+"gone": false,
+"ahead": 7,
+"behind": 33,
+"subject": "docs: introduce handoff workflow + template",
+"prefix": "main",
+"scaffold": false
+},
+{
+"name": "matt/fix-mirror-v2-composer-stickiness",
+"sha": "8a08872",
+"upstream": "origin/matt/fix-mirror-v2-composer-stickiness",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(mirror-v2): pin composer to bottom \u2014 subtract AppHeader from page wrapper",
+"prefix": "matt",
+"scaffold": false
+},
+{
+"name": "matt/mir-171-prompt-lab-runtime-variant-picker-6-categories-feature",
+"sha": "04daac7",
+"upstream": "origin/matt/mir-171-prompt-lab-runtime-variant-picker-6-categories-feature",
+"track": "[ahead 2]",
+"gone": false,
+"ahead": 2,
+"behind": 0,
+"subject": "fix(prompt-lab): UAT polish \u2014 rename, subtitle, robust reset (MIR-182)",
+"prefix": "matt",
+"scaffold": false
+},
+{
+"name": "matt/mir-198-chat-composer-light-refresh",
+"sha": "c62cb7b",
+"upstream": "origin/matt/mir-198-chat-composer-light-refresh",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(waiting-screen): rebuild to match mirror-v2 GeneratingCard",
+"prefix": "matt",
+"scaffold": false
+},
+{
+"name": "matt/mir-198-legacyinterview-build-fix",
+"sha": "76c74af",
+"upstream": "origin/matt/mir-198-legacyinterview-build-fix",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(mirror-v2): swap LegacyInterviewChat onto v-refresh ChatInput",
+"prefix": "matt",
+"scaffold": false
+},
+{
+"name": "matt/mir-234-email-button-stub",
+"sha": "5991bea",
+"upstream": "origin/matt/mir-234-email-button-stub",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(mirror-v2): stub Email-to-me button with inline confirmation note",
+"prefix": "matt",
+"scaffold": false
+},
+{
+"name": "matt/mir-v2-closing-insights-overhaul",
+"sha": "a5600e8",
+"upstream": "origin/matt/mir-v2-closing-insights-overhaul",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(mirror-v2): tone calibration in closing-message + form required UX + record-button copy",
+"prefix": "matt",
+"scaffold": false
+},
+{
+"name": "matt/mir-v2-progress-and-width",
+"sha": "429d1d6",
+"upstream": "origin/matt/mir-v2-progress-and-width",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(handoff): bundle three accumulated session handoffs",
+"prefix": "matt",
+"scaffold": false
+},
+{
+"name": "matt/mirror-clone-sysco-free",
+"sha": "865031e",
+"upstream": "origin/matt/mirror-clone-sysco-free",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(mirror): generic AI Mirror Experience clone of mirror-v2 [MIR-236]",
+"prefix": "matt",
+"scaffold": false
+},
+{
+"name": "matt/prompt-cleanup-leading-hr",
+"sha": "85a9e24",
+"upstream": "origin/matt/prompt-cleanup-leading-hr",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat: bundled mirror-v2 cleanup \u2014 labels, AIM avatar, ProgressAffordance, real insights",
+"prefix": "matt",
+"scaffold": false
+},
+{
+"name": "refactor/prompt-assembly-mirror-next",
+"sha": "c901a72",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "refactor(mirror-next): extract pure prompt builders from mirror-next steps",
+"prefix": "refactor",
+"scaffold": false
+},
+{
+"name": "release/mpa-9-mpa-12",
+"sha": "42acde9",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(lab): exec-mirror variant \u2014 full pipeline fork (MPA-12)",
+"prefix": "release",
+"scaffold": false
+},
+{
+"name": "release/sync-main-to-dev-2026-05-14",
+"sha": "1b33ac4",
+"upstream": "origin/release/sync-main-to-dev-2026-05-14",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(prompts): correct stale Upstash override claim in snapshot file header (#308)",
+"prefix": "release",
+"scaffold": false
+},
+{
+"name": "release/unmute-intro-video-2026-05-18",
+"sha": "bed6bad",
+"upstream": "origin/release/unmute-intro-video-2026-05-18",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(video): unmute intro video on autoplay (#325)",
+"prefix": "release",
+"scaffold": false
+},
+{
+"name": "smoke/m2m-env-check",
+"sha": "910b7cc",
+"upstream": "origin/smoke/m2m-env-check",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(mirror-next): finish server-side prompt migration (stages 3, 4, wrap-up) (#314)",
+"prefix": "smoke",
+"scaffold": false
+},
+{
+"name": "staging",
+"sha": "b6c3bac",
+"upstream": "origin/staging",
+"track": "[behind 8]",
+"gone": false,
+"ahead": 0,
+"behind": 8,
+"subject": "feat(tsconfig): add @bwai/* paths aliases for LSP cross-package navigation (#373)",
+"prefix": "staging",
+"scaffold": false
+},
+{
+"name": "test-283",
+"sha": "cd5b2c3",
+"upstream": "origin/fix/mirror-next-uat-batch-2",
+"track": "[ahead 1]",
+"gone": false,
+"ahead": 1,
+"behind": 0,
+"subject": "chore: vendor read-only snapshot of bwai-platform contracts (openapi, bdd, prompt templates) + sync script",
+"prefix": "test",
+"scaffold": false
+},
+{
+"name": "worktree-agent-a0122ed6cbc590cd3",
+"sha": "979d8fe",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(chat): adopt use-stick-to-bottom for auto-scroll; default composer to voice-first (#307)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-a1719aeaeb15d9b1e",
+"sha": "71409c6",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(lobby): promote mirror-next as sole AI Mirror Experience card for 1.9.1 launch (#366)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-a27cca233a63c0307",
+"sha": "c656f38",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(agents): correct Stytch preview auth claim (#361)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-a2fbf6d51fd8f5a7f",
+"sha": "fd8459a",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(prompt-upgrader): slices 06+07+08 \u2014 chat loop + action surfaces + save/restore (#352)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-a31d89c8aa8a29900",
+"sha": "50143aa",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(video): unmute intro video on autoplay (#325) (#327)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-a33fa5e7dabb070ea",
+"sha": "05a5d2e",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs: add screenshot-gallery dev tool section to mock-mode.md (#296)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-a3459d9acef110c14",
+"sha": "05a5d2e",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs: add screenshot-gallery dev tool section to mock-mode.md (#296)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-a452fa6a3acf98497",
+"sha": "1b33ac4",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(prompts): correct stale Upstash override claim in snapshot file header (#308)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-a4576eef465189293",
+"sha": "05a5d2e",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs: add screenshot-gallery dev tool section to mock-mode.md (#296)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-a4922e24f4eacf393",
+"sha": "9b23840",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(prompt-upgrader): slice 02 \u2014 intake form + drafting interstitial (#351)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-a4a436d97eea357b5",
+"sha": "a519a90",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "Merge pull request #299 from alignmktg/feat/xray-bake-prod-upstash-snapshot",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-a65c6ab3d45b0bd9d",
+"sha": "01291f4",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "refactor(mirror-next): rename step slugs/titles, collapse prep step, reorder insights/report dispatch",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-a6bbfd3556d4d430a",
+"sha": "05a5d2e",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs: add screenshot-gallery dev tool section to mock-mode.md (#296)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-a6d00302647a02c30",
+"sha": "538dacf",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "feat(platform-client): Phase 5 \u2014 voice token via SDK + singleton factory (#356)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-a6eb1fc150c58d3a4",
+"sha": "b0fb0bc",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "release: rename apps/xray \u2192 apps/web + Path A branding registry + Pocock skills (#247)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-a730c4fdacb4d851a",
+"sha": "1b33ac4",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(prompts): correct stale Upstash override claim in snapshot file header (#308)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-a748d83e060a74467",
+"sha": "a519a90",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "Merge pull request #299 from alignmktg/feat/xray-bake-prod-upstash-snapshot",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-a7573873b2f323d64",
+"sha": "415df51",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(mirror-next): UAT batch 2 \u2014 titles, generating layout, composer/chat layout, CTA polish, insights mailto, back-nav redirect",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-a7efd05f082f58b1c",
+"sha": "bfcb66e",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(chat): honor voiceFirst=false, clear voice-auth-failed on re-opt-in, restore iOS keyboard re-anchor",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-a929c5aca980f33b1",
+"sha": "05a5d2e",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs: add screenshot-gallery dev tool section to mock-mode.md (#296)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-a9d7bb5b5a4105474",
+"sha": "05a5d2e",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs: add screenshot-gallery dev tool section to mock-mode.md (#296)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-a9dd72674ac49595f",
+"sha": "b0fb0bc",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "release: rename apps/xray \u2192 apps/web + Path A branding registry + Pocock skills (#247)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-aa648ee45abfd0207",
+"sha": "05a5d2e",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs: add screenshot-gallery dev tool section to mock-mode.md (#296)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-aab0add3453fb6204",
+"sha": "88eaa5f",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(chat-input): stop multi-line flip-flop at row-mode wrap boundary",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-ab2ab642c927e5b43",
+"sha": "127730f",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(mirror-next): break engine-registry import cycle so turbopack dev doesn't TDZ-crash",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-ab2c5469a55514957",
+"sha": "57a2322",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs: consolidate context files into AGENTS.md, trim hard",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-ab2f67a80fa3634fb",
+"sha": "aa0ba4b",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(security): harden form-input prompt assembly \u2014 escape delimiters, cap length, strip control/bidi chars",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-abdb16e36b14f3632",
+"sha": "b0fb0bc",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "release: rename apps/xray \u2192 apps/web + Path A branding registry + Pocock skills (#247)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-abe1d1e10c5e95f9d",
+"sha": "88eaa5f",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(chat-input): stop multi-line flip-flop at row-mode wrap boundary",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-abf85a2cd93e2626f",
+"sha": "b0fb0bc",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "release: rename apps/xray \u2192 apps/web + Path A branding registry + Pocock skills (#247)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-ac3b92f2f4dba429e",
+"sha": "b0fb0bc",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "release: rename apps/xray \u2192 apps/web + Path A branding registry + Pocock skills (#247)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-acd50444981b18635",
+"sha": "b0fb0bc",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "release: rename apps/xray \u2192 apps/web + Path A branding registry + Pocock skills (#247)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-ad363a86a40084189",
+"sha": "4ae2ee7",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(mirror-next): restore interview chat-engine wiring + lifecycle logging on InterviewStep",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-adb43009478d0a61a",
+"sha": "d5ee839",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "release: mirror URL flip + platform-1.9.1 PROD cutover (#371)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-aec4033d8affaf1d4",
+"sha": "b0fb0bc",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "release: rename apps/xray \u2192 apps/web + Path A branding registry + Pocock skills (#247)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-af461cd0fb2f32001",
+"sha": "f0e5f53",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(video): unmute intro video on autoplay (#325)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-af8bff4c3d80e252b",
+"sha": "fca6292",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(web): capture screenshot-gallery PNGs at 2x device pixel ratio (#298)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-agent-afa42c7864901d015",
+"sha": "a519a90",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "Merge pull request #299 from alignmktg/feat/xray-bake-prod-upstash-snapshot",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-context-md-shared-root",
+"sha": "78c7f90",
+"upstream": "origin/worktree-context-md-shared-root",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(context): pin append-without-submit use cases from 2026-04-14 Grain recording",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-docs+context-runtime-visibility-clarify",
+"sha": "cb6bdff",
+"upstream": "origin/worktree-docs+context-runtime-visibility-clarify",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(context): clarify Runtime, retire \"M2M-enabled,\" flag Visibility enum",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-feat+chat-shape-adapter",
+"sha": "c8600be",
+"upstream": "origin/worktree-feat+chat-shape-adapter",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "chore(ci): rebuild preview to pick up branch-scoped TASK_TEMPLATE_ID for UAT",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-fix-insights-snapshot-format",
+"sha": "8aeb740",
+"upstream": "origin/worktree-fix-insights-snapshot-format",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(mirror-next): stop CSS duplicating insights HRs and section numbers",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-fix-mirror-next-streaming-json-leak",
+"sha": "b176130",
+"upstream": "origin/fix/mirror-next-streaming-json-leak",
+"track": "[behind 2]",
+"gone": false,
+"ahead": 0,
+"behind": 2,
+"subject": "fix(mirror-next): stop raw JSON envelope leaking into chat bubble",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-handoff-platform-1-9-1-shipped",
+"sha": "eae8995",
+"upstream": "origin/worktree-handoff-platform-1-9-1-shipped",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(handoff): platform-1.9.1 + mirror URL flip shipped to prod",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-m2m-fungible-stepid",
+"sha": "f0e5f53",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "fix(video): unmute intro video on autoplay (#325)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-mic-test-priming",
+"sha": "f592c9b",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "release: Modal width fix + centering regression fix (#374 + #384) (#386)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-mirror-next-rebuild-prd",
+"sha": "60887c5",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(scratch): explore CMS-backed prompt editing (#321)",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-onboarding-flow-design",
+"sha": "92233ee",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(onboarding): post-sign-in setup+onboarding flow proposal (artifact) + preserve-artifacts norm",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-prd+mirror-stabilization",
+"sha": "f716e79",
+"upstream": "origin/docs/mirror-stabilization-prd",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(prd): draft mirror post-cutover stabilization PRD",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-scratch-mirror-structured-outputs",
+"sha": "3a04cf3",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "Merge pull request #309 from alignmktg/release/sync-main-to-dev-2026-05-14",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-scratch-prompts-cms",
+"sha": "7710ac5",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "docs(scratch): explore CMS-backed prompt editing",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-smoke-vercel-json",
+"sha": "9169b8c",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "chore(smoke): trigger rebuild with corrected NEXT_PUBLIC_STYTCH_PUBLIC_TOKEN",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-unmute-intro-video",
+"sha": "a51588f",
+"upstream": "origin/worktree-unmute-intro-video",
+"track": "[gone]",
+"gone": true,
+"ahead": 0,
+"behind": 0,
+"subject": "chore(ci): stub NEXT_PUBLIC_TASK_TEMPLATE_ID for render-smoke",
+"prefix": "worktree-*",
+"scaffold": true
+},
+{
+"name": "worktree-worktreeinclude",
+"sha": "24c1559",
+"upstream": "",
+"track": "",
+"gone": false,
+"ahead": 0,
+"behind": 0,
+"subject": "chore: add .worktreeinclude for env/secret copying",
+"prefix": "worktree-*",
+"scaffold": true
+}
+],
+"worktrees": [
+{
+"path": "/Users/MacFish/code/brilliant-apps",
+"sha": "b6c3bac7d",
+"branch": "staging",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": true,
+"exists": true,
+"dirtyTracked": 1,
+"untracked": 20,
+"label": "main-checkout"
+},
+{
+"path": "/Users/MacFish/.claude/worktrees/mirror-afk-phases-1-4",
+"sha": "6eddbaac8",
+"branch": "feat/mirror-afk-execution",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": ".claude/wt/mirror-afk-phases-1-4"
+},
+{
+"path": "/Users/MacFish/Code/brilliant-apps--discovery",
+"sha": "46933a807",
+"branch": "feat/discovery-workflow",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 1,
+"untracked": 10,
+"label": "Code/brilliant-apps--discovery"
+},
+{
+"path": "/Users/MacFish/Code/brilliant-apps--interview-prompt-scrubs",
+"sha": "d26a6ed14",
+"branch": "feat/interview-prompt-scrubs",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "Code/brilliant-apps--interview-prompt-scrubs"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps--io-discovery",
+"sha": "6f14b7261",
+"branch": "codex/io-discovery",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 30,
+"untracked": 5,
+"label": "code/brilliant-apps--io-discovery"
+},
+{
+"path": "/Users/MacFish/Code/brilliant-apps--mir-74",
+"sha": "2db6197fe",
+"branch": "fix/mir-74-persistent-session-actions",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 4,
+"untracked": 1,
+"label": "Code/brilliant-apps--mir-74"
+},
+{
+"path": "/Users/MacFish/Code/brilliant-apps--mir-75",
+"sha": "82a55a62c",
+"branch": "fix/mir-75-pdf-multipage",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "Code/brilliant-apps--mir-75"
+},
+{
+"path": "/Users/MacFish/Code/brilliant-apps--mir-78",
+"sha": "2db6197fe",
+"branch": "feat/mir-78-unified-chat-ui",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 1,
+"untracked": 1,
+"label": "Code/brilliant-apps--mir-78"
+},
+{
+"path": "/Users/MacFish/Code/brilliant-apps--mir-79",
+"sha": "87f276276",
+"branch": "claude/define-composer-state-model-RmuK6",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "Code/brilliant-apps--mir-79"
+},
+{
+"path": "/Users/MacFish/Code/brilliant-apps--mirror-flow-v2-spec",
+"sha": "1161aaddd",
+"branch": "feat/mir-216-collapse-intake-form",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 1,
+"untracked": 1,
+"label": "Code/brilliant-apps--mirror-flow-v2-spec"
+},
+{
+"path": "/Users/MacFish/Code/brilliant-apps--mpa-10",
+"sha": "cc0b6077c",
+"branch": "feat/mpa-10-lab-gating",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "Code/brilliant-apps--mpa-10"
+},
+{
+"path": "/Users/MacFish/Code/brilliant-apps--mpa-11",
+"sha": "560438c72",
+"branch": "feat/mpa-11-lab-lobby",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "Code/brilliant-apps--mpa-11"
+},
+{
+"path": "/Users/MacFish/Code/brilliant-apps--mpa-12",
+"sha": "eab923177",
+"branch": "feat/mpa-12-exec-mirror",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "Code/brilliant-apps--mpa-12"
+},
+{
+"path": "/Users/MacFish/Code/brilliant-apps--mpa-8",
+"sha": "f5e50148e",
+"branch": "chore/mpa-8-baseline",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "Code/brilliant-apps--mpa-8"
+},
+{
+"path": "/Users/MacFish/Code/brilliant-apps--mpa-9",
+"sha": "5fd996e9c",
+"branch": "feat/mpa-9-session-namespacing",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "Code/brilliant-apps--mpa-9"
+},
+{
+"path": "/Users/MacFish/Code/brilliant-apps--mpa-release",
+"sha": "42acde92b",
+"branch": "release/mpa-9-mpa-12",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "Code/brilliant-apps--mpa-release"
+},
+{
+"path": "/Users/MacFish/Code/brilliant-apps--multi-product",
+"sha": "42bf1819b",
+"branch": "feat/multi-product",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 2,
+"untracked": 0,
+"label": "Code/brilliant-apps--multi-product"
+},
+{
+"path": "/Users/MacFish/Code/brilliant-apps--pathways",
+"sha": "fd7e36a27",
+"branch": "feat/pathways-nish-feedback-v2",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 4,
+"untracked": 4,
+"label": "Code/brilliant-apps--pathways"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/agent-a00d52a771e31885c",
+"sha": "a67c75634",
+"branch": "design/insights-treatments-mockups",
+"locked": true,
+"detached": false,
+"isAgent": true,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/agent-a00d52a771e31885c"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/agent-a1719aeaeb15d9b1e",
+"sha": "470bb88c9",
+"branch": "chore/safe-subset-pre-platform-flip",
+"locked": true,
+"detached": false,
+"isAgent": true,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/agent-a1719aeaeb15d9b1e"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/agent-a27cca233a63c0307",
+"sha": "e3d29b325",
+"branch": "feat/prompt-upgrader-05a-promptoverrides",
+"locked": true,
+"detached": false,
+"isAgent": true,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/agent-a27cca233a63c0307"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/agent-a2fbf6d51fd8f5a7f",
+"sha": "3c01a960c",
+"branch": "feat/prompt-upgrader-09-library-telemetry",
+"locked": true,
+"detached": false,
+"isAgent": true,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/agent-a2fbf6d51fd8f5a7f"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/agent-a31d89c8aa8a29900",
+"sha": "71409c6ed",
+"branch": "feat/single-env-stack-switcher-audit",
+"locked": true,
+"detached": false,
+"isAgent": true,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/agent-a31d89c8aa8a29900"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/agent-a33fa5e7dabb070ea",
+"sha": "20ca3583a",
+"branch": "docs/m2m-migration-scoping",
+"locked": true,
+"detached": false,
+"isAgent": true,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/agent-a33fa5e7dabb070ea"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/agent-a3459d9acef110c14",
+"sha": "fc6ad38d5",
+"branch": "docs/m2m-shapes-explainer",
+"locked": true,
+"detached": false,
+"isAgent": true,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/agent-a3459d9acef110c14"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/agent-a4576eef465189293",
+"sha": "4ba670751",
+"branch": "fix/chat-body-envelope",
+"locked": true,
+"detached": false,
+"isAgent": true,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/agent-a4576eef465189293"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/agent-a4922e24f4eacf393",
+"sha": "b21ae1f54",
+"branch": "feat/prompt-upgrader-06-07-08-action-surfaces",
+"locked": true,
+"detached": false,
+"isAgent": true,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/agent-a4922e24f4eacf393"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/agent-a65c6ab3d45b0bd9d",
+"sha": "01291f490",
+"branch": "worktree-agent-a65c6ab3d45b0bd9d",
+"locked": true,
+"detached": false,
+"isAgent": true,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/agent-a65c6ab3d45b0bd9d"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/agent-a6bbfd3556d4d430a",
+"sha": "c901a7212",
+"branch": "refactor/prompt-assembly-mirror-next",
+"locked": true,
+"detached": false,
+"isAgent": true,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/agent-a6bbfd3556d4d430a"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/agent-a6d00302647a02c30",
+"sha": "524ea4a2f",
+"branch": "feat/prompt-upgrader-05a-ai-fill-wiring",
+"locked": true,
+"detached": false,
+"isAgent": true,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/agent-a6d00302647a02c30"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/agent-a9dd72674ac49595f",
+"sha": "16cbdf429",
+"branch": "feat/m2m-chat-route",
+"locked": true,
+"detached": false,
+"isAgent": true,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/agent-a9dd72674ac49595f"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/agent-aa648ee45abfd0207",
+"sha": "a58da1720",
+"branch": "feat/m2m-session-verify",
+"locked": true,
+"detached": false,
+"isAgent": true,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/agent-aa648ee45abfd0207"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/agent-abdb16e36b14f3632",
+"sha": "3ecd8db0f",
+"branch": "feat/mirror-next-m2m-cutover",
+"locked": true,
+"detached": false,
+"isAgent": true,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/agent-abdb16e36b14f3632"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/agent-af461cd0fb2f32001",
+"sha": "8a76c1d4c",
+"branch": "fix/smoke-rename-and-proxy-docs",
+"locked": true,
+"detached": false,
+"isAgent": true,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/agent-af461cd0fb2f32001"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/agent-afa42c7864901d015",
+"sha": "5b78b734e",
+"branch": "feat/jcodemunch-mcp",
+"locked": true,
+"detached": false,
+"isAgent": true,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/agent-afa42c7864901d015"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/bwai-stack-impl",
+"sha": "ce48fc8a6",
+"branch": "feat/bwai-stack-impl",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 1,
+"label": "code/brilliant-apps/.claude/worktrees/bwai-stack-impl"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/context-md-shared-root",
+"sha": "069a40ec9",
+"branch": "context-md-products",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/context-md-shared-root"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/docs+context-runtime-visibility-clarify",
+"sha": "cb6bdff37",
+"branch": "worktree-docs+context-runtime-visibility-clarify",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/docs+context-runtime-visibility-clarify"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/feat+chat-shape-adapter",
+"sha": "c8600be6d",
+"branch": "worktree-feat+chat-shape-adapter",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/feat+chat-shape-adapter"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/feat+platform-client-sdk-spike",
+"sha": "7a3f8b782",
+"branch": "feat/lobby-mirror-launch",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 2,
+"untracked": 2,
+"label": "code/brilliant-apps/.claude/worktrees/feat+platform-client-sdk-spike"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/feat+prompt-road-test",
+"sha": "5f9c40b35",
+"branch": "feat/prompt-road-test",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/feat+prompt-road-test"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/fix+voice-mic-disappear-instrumentation",
+"sha": "b736a9394",
+"branch": "fix/voice-mic-envelope-decoupling",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/fix+voice-mic-disappear-instrumentation"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/fix-chat-stream-metadata-and-autoscroll",
+"sha": "6bdefddf1",
+"branch": "fix/chat-stream-metadata-and-autoscroll",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 1,
+"label": "code/brilliant-apps/.claude/worktrees/fix-chat-stream-metadata-and-autoscroll"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/fix-insights-snapshot-format",
+"sha": "8aeb74086",
+"branch": "worktree-fix-insights-snapshot-format",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/fix-insights-snapshot-format"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/fix-mirror-next-streaming-json-leak",
+"sha": "b176130d9",
+"branch": "worktree-fix-mirror-next-streaming-json-leak",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/fix-mirror-next-streaming-json-leak"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/gitignore-images",
+"sha": "507147556",
+"branch": "chore/gitignore-product-assets",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/gitignore-images"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/grilling-continued-v2",
+"sha": "5024bfcfb",
+"branch": "docs/next-gen-arch-grilling-continued-v2",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/grilling-continued-v2"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/handoff-platform-1-9-1-shipped",
+"sha": "eae8995d8",
+"branch": "worktree-handoff-platform-1-9-1-shipped",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/handoff-platform-1-9-1-shipped"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/mic-test-priming",
+"sha": "f592c9b8d",
+"branch": "worktree-mic-test-priming",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/mic-test-priming"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/mir-75-rebased",
+"sha": "eb13925b2",
+"branch": "fix/mir-75-pdf-multipage-rebased",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/mir-75-rebased"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/mirror-next-context-reconcile",
+"sha": "1c0227692",
+"branch": "fix/mirror-next-context-vocab",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/mirror-next-context-reconcile"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/mirror-next-rebuild-prd",
+"sha": "e0acd4393",
+"branch": "feat/mirror-next-spike-0",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 1,
+"label": "code/brilliant-apps/.claude/worktrees/mirror-next-rebuild-prd"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/mirror-stabilization-gaps",
+"sha": "f253b98a2",
+"branch": "feat/mirror-stabilization-gaps",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 1,
+"untracked": 1,
+"label": "code/brilliant-apps/.claude/worktrees/mirror-stabilization-gaps"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/next-gen-arch-grilling",
+"sha": "a80b60b7d",
+"branch": "docs/next-gen-arch-grilling-continued",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/next-gen-arch-grilling"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/onboarding-flow-design",
+"sha": "92233ee4d",
+"branch": "worktree-onboarding-flow-design",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/onboarding-flow-design"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/platform-1-9-0-docs",
+"sha": "0a9253bab",
+"branch": "feat/platform-1-9-0-default",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/platform-1-9-0-docs"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/prd+mirror-stabilization",
+"sha": "f716e7983",
+"branch": "worktree-prd+mirror-stabilization",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/prd+mirror-stabilization"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/prompt-upgrader-rethink",
+"sha": "c656f3843",
+"branch": "feat/prompt-upgrader-rethink",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 3,
+"label": "code/brilliant-apps/.claude/worktrees/prompt-upgrader-rethink"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/prompt-upgrader-spike",
+"sha": "3d7c97020",
+"branch": "feat/prompt-upgrader-spike",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 1,
+"label": "code/brilliant-apps/.claude/worktrees/prompt-upgrader-spike"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/pu-02-intake-form",
+"sha": "b4db73635",
+"branch": "feat/prompt-upgrader-02-intake-form",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/pu-02-intake-form"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/scratch-mirror-structured-outputs",
+"sha": "3a04cf3d1",
+"branch": "worktree-scratch-mirror-structured-outputs",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 1,
+"label": "code/brilliant-apps/.claude/worktrees/scratch-mirror-structured-outputs"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/scratch-prompts-cms",
+"sha": "1a2648dc8",
+"branch": "docs/runtime-core-adr",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/scratch-prompts-cms"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/scratch-resend-priority",
+"sha": "1e4a7fcbc",
+"branch": "chore/scratch-infra-006-priority",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/scratch-resend-priority"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/staged-prompts-v2",
+"sha": "40a94acf8",
+"detached": true,
+"branch": null,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 4,
+"label": "code/brilliant-apps/.claude/worktrees/staged-prompts-v2"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/unmute-intro-video",
+"sha": "a51588f7f",
+"branch": "worktree-unmute-intro-video",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/unmute-intro-video"
+},
+{
+"path": "/Users/MacFish/code/brilliant-apps/.claude/worktrees/worktreeinclude",
+"sha": "24c155990",
+"branch": "worktree-worktreeinclude",
+"detached": false,
+"locked": false,
+"isAgent": false,
+"isMain": false,
+"exists": true,
+"dirtyTracked": 0,
+"untracked": 0,
+"label": "code/brilliant-apps/.claude/worktrees/worktreeinclude"
+}
+],
+"prs": [
+{
+"additions": 216,
+"baseRefName": "claude/mirror-onboarding-ai-interview-bKb1J",
+"createdAt": "2026-05-26T05:46:00Z",
+"deletions": 22,
+"headRefName": "claude/mirror-onboarding-followups-bKb1J",
+"isDraft": true,
+"number": 394,
+"title": "fix(mirror): onboarding follow-ups \u2014 gate dedupe, stale-session clear, per-step first-call",
+"updatedAt": "2026-05-26T05:50:59Z",
+"recent": true,
+"nonStaging": true,
+"authorLogin": "alignmktg"
+},
+{
+"additions": 2149,
+"baseRefName": "staging",
+"createdAt": "2026-05-26T00:29:26Z",
+"deletions": 51,
+"headRefName": "claude/mirror-onboarding-ai-interview-bKb1J",
+"isDraft": true,
+"number": 393,
+"title": "feat(mirror): AI-led onboarding interview replaces deep form pages",
+"updatedAt": "2026-05-26T00:29:41Z",
+"recent": true,
+"nonStaging": false,
+"authorLogin": "alignmktg"
+},
+{
+"additions": 399,
+"baseRefName": "staging",
+"createdAt": "2026-05-25T22:14:05Z",
+"deletions": 16,
+"headRefName": "feat/mirror-stabilization-gaps",
+"isDraft": false,
+"number": 392,
+"title": "feat(mirror): port v19 lens + topic-title + tone-by-phase + callback rules (PRD \u00a73.2)",
+"updatedAt": "2026-05-25T22:26:40Z",
+"recent": true,
+"nonStaging": false,
+"authorLogin": "alignmktg"
+},
+{
+"additions": 60885,
+"baseRefName": "staging",
+"createdAt": "2026-05-25T21:27:40Z",
+"deletions": 3614,
+"headRefName": "docs/mirror-stabilization-prd-land",
+"isDraft": false,
+"number": 391,
+"title": "docs(prd): land mirror post-cutover stabilization PRD + status header",
+"updatedAt": "2026-05-25T21:28:51Z",
+"recent": true,
+"nonStaging": false,
+"authorLogin": "alignmktg"
+},
+{
+"additions": 114,
+"baseRefName": "staging",
+"createdAt": "2026-05-25T20:55:44Z",
+"deletions": 3,
+"headRefName": "fix/chat-stream-metadata-and-autoscroll",
+"isDraft": false,
+"number": 387,
+"title": "fix(chat): kill metadata flashes + re-anchor auto-scroll on composer reflow",
+"updatedAt": "2026-05-25T20:56:10Z",
+"recent": true,
+"nonStaging": false,
+"authorLogin": "alignmktg"
+},
+{
+"additions": 60836,
+"baseRefName": "staging",
+"createdAt": "2026-05-22T01:12:16Z",
+"deletions": 3614,
+"headRefName": "worktree-handoff-platform-1-9-1-shipped",
+"isDraft": false,
+"number": 372,
+"title": "docs(handoff): platform-1.9.1 cutover shipped",
+"updatedAt": "2026-05-22T01:13:12Z",
+"recent": false,
+"nonStaging": false,
+"authorLogin": "alignmktg"
+},
+{
+"additions": 149,
+"baseRefName": "staging",
+"createdAt": "2026-05-19T20:03:55Z",
+"deletions": 11,
+"headRefName": "docs/env-var-policy",
+"isDraft": false,
+"number": 365,
+"title": "docs(env): env vars vs source constants policy + cleanup issue",
+"updatedAt": "2026-05-19T20:05:05Z",
+"recent": false,
+"nonStaging": false,
+"authorLogin": "alignmktg"
+},
+{
+"additions": 225,
+"baseRefName": "staging",
+"createdAt": "2026-05-19T18:45:44Z",
+"deletions": 13,
+"headRefName": "feat/platform-client-phase-5-3-api-factory",
+"isDraft": false,
+"number": 363,
+"title": "feat(platform-client): Phase 5-3 \u2014 non-streaming consumers via SDK",
+"updatedAt": "2026-05-19T18:45:50Z",
+"recent": false,
+"nonStaging": false,
+"authorLogin": "alignmktg"
+},
+{
+"additions": 1563,
+"baseRefName": "staging",
+"createdAt": "2026-05-19T18:11:46Z",
+"deletions": 63,
+"headRefName": "feat/prompt-upgrader-05a-promptoverrides",
+"isDraft": false,
+"number": 362,
+"title": "feat(prompt-upgrader): slice 05a \u2014 AI-fill via promptOverrides",
+"updatedAt": "2026-05-19T20:48:40Z",
+"recent": false,
+"nonStaging": false,
+"authorLogin": "alignmktg"
+},
+{
+"additions": 122,
+"baseRefName": "staging",
+"createdAt": "2026-05-19T17:37:42Z",
+"deletions": 10,
+"headRefName": "worktree-feat+chat-shape-adapter",
+"isDraft": false,
+"number": 360,
+"title": "feat(api-client): chat body shape adapter for platform v1.9.0 (PR #237)",
+"updatedAt": "2026-05-19T23:13:28Z",
+"recent": false,
+"nonStaging": false,
+"authorLogin": "alignmktg"
+},
+{
+"additions": 33,
+"baseRefName": "staging",
+"createdAt": "2026-05-18T22:54:53Z",
+"deletions": 33,
+"headRefName": "fix/smoke-rename-and-proxy-docs",
+"isDraft": false,
+"number": 334,
+"title": "refactor: rename render-smoke \u2192 smoke + fix proxy docs (Node not edge)",
+"updatedAt": "2026-05-19T04:18:02Z",
+"recent": false,
+"nonStaging": false,
+"authorLogin": "alignmktg"
+},
+{
+"additions": 1960,
+"baseRefName": "feat/multi-product",
+"createdAt": "2026-05-12T23:31:39Z",
+"deletions": 3,
+"headRefName": "newAppsForMatt",
+"isDraft": false,
+"number": 297,
+"title": "feat: new experience apps for promp overrides and arbitray role messages",
+"updatedAt": "2026-05-12T23:39:45Z",
+"recent": false,
+"nonStaging": true,
+"authorLogin": "LucMorrissette"
+},
+{
+"additions": 172,
+"baseRefName": "staging",
+"createdAt": "2026-05-07T21:45:45Z",
+"deletions": 33,
+"headRefName": "feat/dev-auth-bypass",
+"isDraft": false,
+"number": 246,
+"title": "feat(auth): full-mock dev mode + centralized bypass gate (security fix)",
+"updatedAt": "2026-05-19T04:17:58Z",
+"recent": false,
+"nonStaging": false,
+"authorLogin": "alignmktg"
+},
+{
+"additions": 148,
+"baseRefName": "staging",
+"createdAt": "2026-04-24T19:39:02Z",
+"deletions": 10,
+"headRefName": "fix/mir-75-pdf-multipage",
+"isDraft": false,
+"number": 159,
+"title": "fix(mir-75): PDF export renders all pages without early breaks",
+"updatedAt": "2026-05-19T04:17:50Z",
+"recent": false,
+"nonStaging": false,
+"authorLogin": "alignmktg"
+}
+],
+"issues": [
+{
+"createdAt": "2026-05-25T21:20:16Z",
+"number": 389,
+"title": "mirror-stabilization PRD gaps: v19 lens-signaling port + Options CTA + diff exercise",
+"updatedAt": "2026-05-25T21:20:16Z",
+"labelNames": [
+"handoff",
+"in_progress"
+],
+"inProgress": true,
+"retiredProduct": false
+},
+{
+"createdAt": "2026-03-26T20:39:38Z",
+"number": 109,
+"title": "feat(xray): Add Start page \u2014 move createTask to explicit user action",
+"updatedAt": "2026-03-26T20:39:38Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": true
+},
+{
+"createdAt": "2026-03-26T01:20:13Z",
+"number": 108,
+"title": "Voice dictation UX overhaul \u2014 walkthrough",
+"updatedAt": "2026-03-26T01:21:56Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": false
+},
+{
+"createdAt": "2026-03-25T17:45:29Z",
+"number": 107,
+"title": "Workflow Studio: composable AI workflow builder PRD",
+"updatedAt": "2026-03-25T17:45:29Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": false
+},
+{
+"createdAt": "2026-03-25T17:43:52Z",
+"number": 106,
+"title": "Composed AI Workflow: standalone product pattern PRD",
+"updatedAt": "2026-03-25T17:43:52Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": false
+},
+{
+"createdAt": "2026-03-25T16:14:43Z",
+"number": 104,
+"title": "Platform: Tool calling support in chat pipeline",
+"updatedAt": "2026-03-25T16:14:43Z",
+"labelNames": [
+"enhancement"
+],
+"inProgress": false,
+"retiredProduct": false
+},
+{
+"createdAt": "2026-03-25T16:14:37Z",
+"number": 103,
+"title": "Platform: Replace LiteLLM proxy with Vercel AI Gateway",
+"updatedAt": "2026-03-25T16:14:37Z",
+"labelNames": [
+"enhancement"
+],
+"inProgress": false,
+"retiredProduct": false
+},
+{
+"createdAt": "2026-03-25T16:14:31Z",
+"number": 102,
+"title": "Platform: Context Asset direct CRUD endpoints",
+"updatedAt": "2026-03-25T16:14:31Z",
+"labelNames": [
+"enhancement"
+],
+"inProgress": false,
+"retiredProduct": false
+},
+{
+"createdAt": "2026-03-25T16:14:17Z",
+"number": 101,
+"title": "Platform Evolution: Architecture exploration \u2014 AI Gateway, tool calling, MCP, context assets, task metadata",
+"updatedAt": "2026-03-25T16:14:17Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": false
+},
+{
+"createdAt": "2026-03-25T15:58:52Z",
+"number": 100,
+"title": "Debug run persistence: save/retrieve full run history via platform tasks",
+"updatedAt": "2026-03-25T15:58:52Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": false
+},
+{
+"createdAt": "2026-03-24T18:29:34Z",
+"number": 99,
+"title": "Debug page: prompt version selector with live default",
+"updatedAt": "2026-03-24T18:29:34Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": false
+},
+{
+"createdAt": "2026-03-23T19:20:31Z",
+"number": 96,
+"title": "Debug page: skip interview via chat log paste or stored presets",
+"updatedAt": "2026-03-23T19:20:31Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": false
+},
+{
+"createdAt": "2026-03-22T21:25:30Z",
+"number": 92,
+"title": "Compass Report: AI SDK direct inference + new narrative report template",
+"updatedAt": "2026-03-22T21:25:30Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": true
+},
+{
+"createdAt": "2026-03-20T18:22:26Z",
+"number": 90,
+"title": "BriefAI: How It Works marketing page",
+"updatedAt": "2026-03-20T19:24:24Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": true
+},
+{
+"createdAt": "2026-03-20T18:11:43Z",
+"number": 89,
+"title": "BriefAI: AI-Powered Creative Briefing Product",
+"updatedAt": "2026-03-20T18:11:43Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": true
+},
+{
+"createdAt": "2026-03-19T20:49:19Z",
+"number": 88,
+"title": "Adopt assistant-ui as @bwai/ui chat + AI interface layer",
+"updatedAt": "2026-03-19T20:49:19Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": false
+},
+{
+"createdAt": "2026-03-19T20:37:04Z",
+"number": 87,
+"title": "PDF export: blurry rendering + excessive whitespace",
+"updatedAt": "2026-03-19T20:37:04Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": false
+},
+{
+"createdAt": "2026-03-19T18:00:32Z",
+"number": 83,
+"title": "Phase 1b: Complete design token superset + shadcn Tailwind bridge",
+"updatedAt": "2026-03-19T18:41:16Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": false
+},
+{
+"createdAt": "2026-03-18T21:21:58Z",
+"number": 81,
+"title": "Phase 1a: Create @bwai/design-tokens + @bwai/ui foundation packages",
+"updatedAt": "2026-03-19T18:11:19Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": false
+},
+{
+"createdAt": "2026-03-18T18:53:04Z",
+"number": 78,
+"title": "X-Ray: Finish Interview button UX \u2014 scroll + context gate",
+"updatedAt": "2026-03-18T18:53:04Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": true
+},
+{
+"createdAt": "2026-03-18T16:33:25Z",
+"number": 75,
+"title": "P0: Merge codex/launch-hour-stabilization \u2192 main",
+"updatedAt": "2026-03-18T16:33:25Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": false
+},
+{
+"createdAt": "2026-03-18T16:32:05Z",
+"number": 74,
+"title": "X-Ray Prompt A/B Variants + URL State Rationalization",
+"updatedAt": "2026-03-18T16:32:05Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": true
+},
+{
+"createdAt": "2026-03-18T16:26:46Z",
+"number": 73,
+"title": "Merge codex/launch-hour-stabilization \u2192 main",
+"updatedAt": "2026-03-18T16:26:46Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": false
+},
+{
+"createdAt": "2026-03-18T14:43:47Z",
+"number": 70,
+"title": "verify(xray): production console logging cleaned up (no chunk spam)",
+"updatedAt": "2026-03-18T14:43:47Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": true
+},
+{
+"createdAt": "2026-03-18T14:43:36Z",
+"number": 69,
+"title": "verify(xray): form page 1 vs page 2 progress indicator baseline alignment",
+"updatedAt": "2026-03-18T14:43:36Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": true
+},
+{
+"createdAt": "2026-03-18T14:43:23Z",
+"number": 68,
+"title": "verify(xray): restart flow \u2014 stale deliverable restore on return to /xray",
+"updatedAt": "2026-03-18T14:43:23Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": true
+},
+{
+"createdAt": "2026-03-18T14:43:12Z",
+"number": 67,
+"title": "bug(xray): URL doesn't update when deliverable draft/revision is generated",
+"updatedAt": "2026-03-18T14:43:12Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": true
+},
+{
+"createdAt": "2026-03-18T14:42:59Z",
+"number": 66,
+"title": "bug(xray): \"Finish Interview\" button appears without context or explanation",
+"updatedAt": "2026-03-18T14:42:59Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": true
+},
+{
+"createdAt": "2026-03-17T20:49:32Z",
+"number": 65,
+"title": "feat(xray): move all pages under /xray/* prefix + dedicated /signin page",
+"updatedAt": "2026-03-17T20:49:32Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": true
+},
+{
+"createdAt": "2026-03-17T20:43:42Z",
+"number": 63,
+"title": "chore: migrate Stytch styles prop to presentation",
+"updatedAt": "2026-03-17T20:43:42Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": false
+},
+{
+"createdAt": "2026-03-17T18:55:30Z",
+"number": 57,
+"title": "feat(xray): update URL as form pages advance",
+"updatedAt": "2026-03-17T18:55:30Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": true
+},
+{
+"createdAt": "2026-03-17T18:54:51Z",
+"number": 56,
+"title": "feat(xray): support multiple file uploads (2-3 max)",
+"updatedAt": "2026-03-17T18:54:51Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": true
+},
+{
+"createdAt": "2026-03-17T16:09:06Z",
+"number": 50,
+"title": "X-Ray: distill uploaded document before interview context injection",
+"updatedAt": "2026-03-17T16:09:06Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": true
+},
+{
+"createdAt": "2026-03-13T21:29:18Z",
+"number": 16,
+"title": "X-Ray: Tune interview prompts per Adrian feedback (#1-6, #18)",
+"updatedAt": "2026-03-13T21:29:18Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": true
+},
+{
+"createdAt": "2026-03-13T00:59:34Z",
+"number": 3,
+"title": "Extract Layer 2 primitives as patterns emerge from xray usage",
+"updatedAt": "2026-03-13T00:59:34Z",
+"labelNames": [],
+"inProgress": false,
+"retiredProduct": true
+}
+]
+};
+      const TODAY = "2026-05-31";
+      function esc(s) {
+        return String(s == null ? "" : s).replace(
+          /[&<>"]/g,
+          (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c],
+        );
+      }
+      function daysAgo(iso) {
+        const a = new Date(iso + (iso.length <= 10 ? "T00:00:00Z" : "")),
+          b = new Date(TODAY + "T00:00:00Z");
+        return Math.round((b - a) / 86400000);
+      }
+      function ageLabel(iso) {
+        const d = daysAgo(iso.slice(0, 10));
+        if (d <= 0) return "today";
+        if (d === 1) return "1d ago";
+        if (d < 60) return d + "d ago";
+        return Math.round(d / 30) + "mo ago";
+      }
+      const REPO_URL = "https://github.com/alignmktg/brilliant-apps";
+
+      /* ---- meta + overview ---- */
+      const S = DATA.summary,
+        SY = DATA.sync;
+      document.getElementById("metaline").innerHTML =
+        "Generated " +
+        S.generatedAt +
+        " · <code>alignmktg/brilliant-apps</code> · default branch <code>staging</code> · one deployed app (<code>apps/web</code>)";
+      document.getElementById("takendate").textContent = S.generatedAt;
+      document.getElementById("bigpic").innerHTML =
+        "Active development on the Mirror product. <strong>" +
+        SY.releaseGap +
+        " commits</strong> are merged to staging and waiting for the next production release. " +
+        "Day-to-day work is healthy; the clutter is in <strong>" +
+        S.localBranches +
+        " local branches</strong> and <strong>" +
+        S.worktrees +
+        " worktrees</strong> that have piled up from months of parallel agent sessions.";
+      document.getElementById("needsdecision").innerHTML =
+        "One worktree (<code>io-discovery</code>) holds <strong>30 uncommitted changes</strong> — decide keep or discard. " +
+        "<strong>" +
+        S.goneUpstream +
+        " branches</strong> and <strong>" +
+        S.lockedWorktrees +
+        " orphaned agent worktrees</strong> are safe to prune. " +
+        "<strong>" +
+        S.retiredProductIssues +
+        " of " +
+        S.openIssues +
+        " open issues</strong> reference retired products and could be closed.";
+
+      /* ---- stat grid ---- */
+      const stats = [
+        {
+          n: SY.releaseGap,
+          l: "commits awaiting release",
+          sub: "on origin/staging, not in production",
+          cls: "accent",
+        },
+        {
+          n: S.openPRs,
+          l: "open PRs",
+          sub:
+            S.draftPRs +
+            " draft · " +
+            S.stalePRs +
+            " stale (>7d) · " +
+            S.nonStagingPRs +
+            " off-staging base",
+          cls: "warn",
+        },
+        {
+          n: S.openIssues,
+          l: "open issues",
+          sub:
+            S.inProgressIssues +
+            " in progress · " +
+            S.retiredProductIssues +
+            " retired-product",
+          cls: "info",
+        },
+        {
+          n: S.realBranches,
+          l: "real branches",
+          sub:
+            "+ " +
+            S.scaffoldBranches +
+            " worktree/agent scaffold = " +
+            S.localBranches +
+            " local",
+          cls: "info",
+        },
+        {
+          n: S.goneUpstream,
+          l: "prunable branches",
+          sub: "merged — upstream deleted",
+          cls: "ok",
+        },
+        {
+          n: S.worktrees,
+          l: "worktrees",
+          sub:
+            S.lockedWorktrees +
+            " locked agent · " +
+            S.dirtyWorktrees +
+            " with uncommitted work",
+          cls: "warn",
+        },
+      ];
+      document.getElementById("statgrid").innerHTML = stats
+        .map(
+          (s) =>
+            '<div class="stat ' +
+            s.cls +
+            '"><div class="n">' +
+            s.n +
+            '</div><div class="l">' +
+            esc(s.l) +
+            '</div><div class="sub">' +
+            esc(s.sub) +
+            "</div></div>",
+        )
+        .join("");
+
+      /* ---- sync flow ---- */
+      document.getElementById("syncflow").innerHTML =
+        '<div class="node stg"><div class="h">origin/staging</div><div class="s">repo default · preview deploy</div></div>' +
+        '<div class="arrow"><div class="lbl">' +
+        SY.releaseGap +
+        ' commits ahead</div><div class="line">───────▶</div><div class="s">awaiting release PR</div></div>' +
+        '<div class="node prod"><div class="h">origin/main</div><div class="s">production · brilliant-apps.vercel.app</div></div>';
+      document.getElementById("syncnotes").innerHTML =
+        '<div class="warnbox"><strong>' +
+        SY.releaseGap +
+        " commits</strong> have accumulated on staging since the last release to production. <code>main</code> also carries " +
+        SY.mainOnly +
+        " release-merge commits not on staging (normal artifact of squash-merge releases).</div>" +
+        "<h3>This local checkout</h3>" +
+        '<div class="' +
+        (SY.localStagingBehind > 0 ? "warnbox" : "recco") +
+        '">Local <code>staging</code> is ' +
+        (SY.localStagingBehind > 0
+          ? "<strong>" +
+            SY.localStagingBehind +
+            " commits behind</strong> origin — run <code>git pull</code> before new work."
+          : "in sync with origin.") +
+        "</div>" +
+        (SY.localMainAhead > 0 || SY.localMainBehind > 0
+          ? '<div class="warnbox">Local <code>main</code> has diverged from origin (<strong>' +
+            SY.localMainAhead +
+            " ahead, " +
+            SY.localMainBehind +
+            " behind</strong>) — it is stale and per-machine, not a production fact. Reset with <code>git checkout main &amp;&amp; git reset --hard origin/main</code> when convenient.</div>"
+          : "");
+
+      /* ---- dirty worktrees ---- */
+      const dirty = DATA.worktrees
+        .filter((w) => w.dirtyTracked > 0)
+        .sort((a, b) => b.dirtyTracked - a.dirtyTracked);
+      const biggest = dirty[0];
+      document.getElementById("dirtybox").innerHTML =
+        '<div class="critbox"><strong>Biggest unsaved pocket:</strong> <code>' +
+        esc(biggest.label) +
+        "</code> on branch <code>" +
+        esc(biggest.branch || "detached") +
+        "</code> holds <strong>" +
+        biggest.dirtyTracked +
+        " uncommitted tracked changes</strong>. Decide keep (commit/stash) or discard before any worktree cleanup.</div>" +
+        '<p class="muted" style="font-size:13.5px;">' +
+        dirty.length +
+        " of " +
+        S.worktrees +
+        " worktrees have uncommitted tracked changes. The main checkout carries only a 1-line <code>.gitignore</code> edit plus untracked handoff/scratch docs.</p>";
+      document.querySelector("#dirtytable tbody").innerHTML = dirty
+        .map((w) => {
+          const crit = w.dirtyTracked >= 10;
+          return (
+            '<tr><td class="mono">' +
+            esc(w.label) +
+            '</td><td class="mono">' +
+            esc(w.branch || "<detached>") +
+            "</td>" +
+            '<td class="right"><span class="badge ' +
+            (crit ? "crit" : "warn") +
+            '">' +
+            w.dirtyTracked +
+            "</span></td>" +
+            '<td class="right muted">' +
+            w.untracked +
+            "</td></tr>"
+          );
+        })
+        .join("");
+
+      /* ---- worktrees ---- */
+      function wtClass(w) {
+        if (!w.exists) return "missing";
+        if (w.isMain) return "main";
+        if (w.isAgent) return "agent";
+        if (w.path.includes("/.claude/worktrees/")) return "named";
+        return "sibling";
+      }
+      const wtAll = DATA.worktrees;
+      document.getElementById("wtsummary").innerHTML =
+        S.worktrees +
+        " worktrees total — <strong>" +
+        S.lockedWorktrees +
+        " locked agent worktrees</strong> (orphaned from background sessions, reclaimable), " +
+        wtAll.filter((w) => wtClass(w) === "sibling").length +
+        " sibling checkouts, " +
+        S.dirtyWorktrees +
+        " with uncommitted work.";
+      const wtFilters = [
+        { k: "all", l: "All", f: () => true },
+        { k: "dirty", l: "Uncommitted", f: (w) => w.dirtyTracked > 0 },
+        { k: "agent", l: "Locked agent", f: (w) => w.isAgent },
+        {
+          k: "sibling",
+          l: "Sibling checkout",
+          f: (w) => wtClass(w) === "sibling",
+        },
+        {
+          k: "named",
+          l: "Named (.claude/wt)",
+          f: (w) => wtClass(w) === "named",
+        },
+      ];
+      let wtActive = "all";
+      function renderWt() {
+        const f = wtFilters.find((x) => x.k === wtActive).f;
+        const rows = wtAll.filter(f);
+        document.querySelector("#wttable tbody").innerHTML = rows
+          .map((w) => {
+            const badges = [];
+            if (w.isMain)
+              badges.push('<span class="badge accent">main checkout</span>');
+            if (w.locked) badges.push('<span class="badge info">locked</span>');
+            if (w.detached)
+              badges.push('<span class="badge info">detached</span>');
+            if (w.dirtyTracked > 0)
+              badges.push(
+                '<span class="badge ' +
+                  (w.dirtyTracked >= 10 ? "crit" : "warn") +
+                  '">' +
+                  w.dirtyTracked +
+                  " uncommitted</span>",
+              );
+            if (!w.exists)
+              badges.push('<span class="badge crit">missing</span>');
+            if (!badges.length)
+              badges.push('<span class="badge ok">clean</span>');
+            return (
+              '<tr><td class="mono">' +
+              esc(w.label) +
+              '</td><td class="mono">' +
+              esc(w.branch || "—") +
+              '</td><td class="mono">' +
+              esc(w.sha || "") +
+              "</td><td>" +
+              badges.join(" ") +
+              "</td></tr>"
+            );
+          })
+          .join("");
+        document
+          .querySelectorAll("#wtchips .chip")
+          .forEach((c) =>
+            c.classList.toggle("active", c.dataset.k === wtActive),
+          );
+      }
+      document.getElementById("wtchips").innerHTML = wtFilters
+        .map(
+          (x) =>
+            '<button class="chip" data-k="' +
+            x.k +
+            '">' +
+            x.l +
+            '<span class="c">' +
+            wtAll.filter(x.f).length +
+            "</span></button>",
+        )
+        .join("");
+      document.querySelectorAll("#wtchips .chip").forEach(
+        (c) =>
+          (c.onclick = () => {
+            wtActive = c.dataset.k;
+            renderWt();
+          }),
+      );
+      renderWt();
+
+      /* ---- branches ---- */
+      const brAll = DATA.branches;
+      document.getElementById("brsummary").innerHTML =
+        S.localBranches +
+        " local branches (" +
+        S.realBranches +
+        " real feature branches + " +
+        S.scaffoldBranches +
+        " <code>worktree-*</code> scaffold) · " +
+        S.remoteBranches +
+        " on origin. " +
+        "<strong>" +
+        S.goneUpstream +
+        " have a deleted upstream</strong> (merged &amp; safe to prune).";
+      // prefix bar
+      const palette = [
+        "#0969da",
+        "#1a7f37",
+        "#bf8700",
+        "#cf222e",
+        "#8250df",
+        "#bc4c00",
+        "#0550ae",
+        "#656d76",
+        "#afb8c1",
+      ];
+      const pf = Object.entries(DATA.prefixes).sort((a, b) => b[1] - a[1]);
+      const totalpf = pf.reduce((s, x) => s + x[1], 0);
+      const topf = pf.slice(0, 7);
+      const otherN = pf.slice(7).reduce((s, x) => s + x[1], 0);
+      const bars = topf.concat(otherN > 0 ? [["other", otherN]] : []);
+      document.getElementById("prefixbar").innerHTML = bars
+        .map(
+          (b, i) =>
+            '<span style="width:' +
+            (b[1] / totalpf) * 100 +
+            "%;background:" +
+            palette[i % palette.length] +
+            '" title="' +
+            esc(b[0]) +
+            ": " +
+            b[1] +
+            '"></span>',
+        )
+        .join("");
+      document.getElementById("barkey").innerHTML = bars
+        .map(
+          (b, i) =>
+            '<span><i style="background:' +
+            palette[i % palette.length] +
+            '"></i>' +
+            esc(b[0]) +
+            " " +
+            b[1] +
+            "</span>",
+        )
+        .join("");
+      // filters
+      const brFilters = [
+        { k: "real", l: "Real feature", f: (b) => !b.scaffold },
+        { k: "all", l: "All", f: () => true },
+        { k: "gone", l: "Prunable (upstream gone)", f: (b) => b.gone },
+        { k: "scaffold", l: "Scaffold (worktree-*)", f: (b) => b.scaffold },
+      ];
+      let brActive = "real",
+        brQ = "";
+      function renderBr() {
+        const f = brFilters.find((x) => x.k === brActive).f;
+        const q = brQ.toLowerCase();
+        const rows = brAll
+          .filter(f)
+          .filter(
+            (b) =>
+              !q ||
+              b.name.toLowerCase().includes(q) ||
+              (b.subject || "").toLowerCase().includes(q),
+          )
+          .sort((a, b) => a.name.localeCompare(b.name));
+        document.querySelector("#brtable tbody").innerHTML = rows
+          .map((b) => {
+            let up = b.gone
+              ? '<span class="badge ok">gone</span>'
+              : b.upstream
+                ? '<span class="mono muted">' + esc(b.upstream) + "</span>"
+                : '<span class="muted">—local—</span>';
+            let track =
+              b.track && b.track !== "[gone]" && !b.gone
+                ? ' <span class="muted">' + esc(b.track) + "</span>"
+                : "";
+            return (
+              '<tr class="' +
+              (b.scaffold || b.gone ? "dim" : "") +
+              '"><td class="mono">' +
+              esc(b.name) +
+              "</td><td>" +
+              up +
+              track +
+              '</td><td class="mono">' +
+              esc(b.sha) +
+              '</td><td class="subj">' +
+              esc((b.subject || "").slice(0, 70)) +
+              "</td></tr>"
+            );
+          })
+          .join("");
+        document.getElementById("brcount").textContent = rows.length + " shown";
+        document
+          .querySelectorAll("#brchips .chip")
+          .forEach((c) =>
+            c.classList.toggle("active", c.dataset.k === brActive),
+          );
+      }
+      document.getElementById("brchips").innerHTML = brFilters
+        .map(
+          (x) =>
+            '<button class="chip" data-k="' +
+            x.k +
+            '">' +
+            x.l +
+            '<span class="c">' +
+            brAll.filter(x.f).length +
+            "</span></button>",
+        )
+        .join("");
+      document.querySelectorAll("#brchips .chip").forEach(
+        (c) =>
+          (c.onclick = () => {
+            brActive = c.dataset.k;
+            renderBr();
+          }),
+      );
+      document.getElementById("brsearch").addEventListener("input", (e) => {
+        brQ = e.target.value;
+        renderBr();
+      });
+      renderBr();
+
+      /* ---- PRs ---- */
+      const prAll = DATA.prs.sort((a, b) =>
+        b.updatedAt.localeCompare(a.updatedAt),
+      );
+      document.getElementById("prsummary").innerHTML =
+        S.openPRs +
+        " open PRs — a recent Mirror-stabilization cluster plus a tail of <strong>" +
+        S.stalePRs +
+        " stale</strong> (untouched >7 days). " +
+        S.nonStagingPRs +
+        " target a non-<code>staging</code> base (stacked / cross-fork).";
+      const prFilters = [
+        { k: "all", l: "All", f: () => true },
+        { k: "recent", l: "Recent (≤7d)", f: (p) => p.recent },
+        { k: "stale", l: "Stale (>7d)", f: (p) => !p.recent },
+        { k: "draft", l: "Draft", f: (p) => p.isDraft },
+        { k: "nonstaging", l: "Off-staging base", f: (p) => p.nonStaging },
+      ];
+      let prActive = "all";
+      function renderPr() {
+        const f = prFilters.find((x) => x.k === prActive).f;
+        const rows = prAll.filter(f);
+        document.querySelector("#prtable tbody").innerHTML = rows
+          .map((p) => {
+            const flags = [];
+            if (p.isDraft) flags.push('<span class="badge info">draft</span>');
+            if (!p.recent) flags.push('<span class="badge warn">stale</span>');
+            if (p.nonStaging)
+              flags.push(
+                '<span class="badge crit">base: ' +
+                  esc(p.baseRefName) +
+                  "</span>",
+              );
+            const big = p.additions + p.deletions > 5000;
+            return (
+              '<tr class="' +
+              (!p.recent ? "dim" : "") +
+              '"><td class="mono"><a href="' +
+              REPO_URL +
+              "/pull/" +
+              p.number +
+              '">#' +
+              p.number +
+              "</a></td>" +
+              "<td>" +
+              esc(p.title) +
+              '<div class="muted mono" style="font-size:11px">' +
+              esc(p.headRefName) +
+              " · @" +
+              esc(p.authorLogin) +
+              "</div></td>" +
+              '<td class="mono">' +
+              esc(p.baseRefName) +
+              "</td>" +
+              '<td class="right ' +
+              (big ? "" : "muted") +
+              '">+' +
+              p.additions +
+              "/-" +
+              p.deletions +
+              "</td>" +
+              '<td class="nowrap muted">' +
+              ageLabel(p.updatedAt) +
+              "</td>" +
+              "<td>" +
+              flags.join(" ") +
+              "</td></tr>"
+            );
+          })
+          .join("");
+        document
+          .querySelectorAll("#prchips .chip")
+          .forEach((c) =>
+            c.classList.toggle("active", c.dataset.k === prActive),
+          );
+      }
+      document.getElementById("prchips").innerHTML = prFilters
+        .map(
+          (x) =>
+            '<button class="chip" data-k="' +
+            x.k +
+            '">' +
+            x.l +
+            '<span class="c">' +
+            prAll.filter(x.f).length +
+            "</span></button>",
+        )
+        .join("");
+      document.querySelectorAll("#prchips .chip").forEach(
+        (c) =>
+          (c.onclick = () => {
+            prActive = c.dataset.k;
+            renderPr();
+          }),
+      );
+      renderPr();
+
+      /* ---- issues ---- */
+      const isAll = DATA.issues.sort((a, b) =>
+        b.updatedAt.localeCompare(a.updatedAt),
+      );
+      document.getElementById("issummary").innerHTML =
+        S.openIssues +
+        " open issues. Only <strong>" +
+        S.inProgressIssues +
+        " in progress</strong>; <strong>" +
+        S.retiredProductIssues +
+        "</strong> reference retired products (xray/pathways/discovery/compass/briefai) and are likely closeable. The rest is older platform/feature backlog.";
+      const isFilters = [
+        { k: "all", l: "All", f: () => true },
+        { k: "prog", l: "In progress", f: (i) => i.inProgress },
+        { k: "active", l: "Active backlog", f: (i) => !i.retiredProduct },
+        { k: "retired", l: "Retired-product", f: (i) => i.retiredProduct },
+      ];
+      let isActive = "all";
+      function renderIs() {
+        const f = isFilters.find((x) => x.k === isActive).f;
+        const rows = isAll.filter(f);
+        document.querySelector("#istable tbody").innerHTML = rows
+          .map((i) => {
+            const flags = [];
+            if (i.inProgress)
+              flags.push('<span class="badge ok">in progress</span>');
+            if (i.retiredProduct)
+              flags.push('<span class="badge info">retired product</span>');
+            (i.labelNames || [])
+              .filter((l) => l !== "in_progress")
+              .forEach((l) =>
+                flags.push('<span class="badge accent">' + esc(l) + "</span>"),
+              );
+            return (
+              '<tr class="' +
+              (i.retiredProduct ? "dim" : "") +
+              '"><td class="mono"><a href="' +
+              REPO_URL +
+              "/issues/" +
+              i.number +
+              '">#' +
+              i.number +
+              "</a></td>" +
+              "<td>" +
+              esc(i.title) +
+              '</td><td class="nowrap muted">' +
+              ageLabel(i.updatedAt) +
+              "</td><td>" +
+              flags.join(" ") +
+              "</td></tr>"
+            );
+          })
+          .join("");
+        document
+          .querySelectorAll("#ischips .chip")
+          .forEach((c) =>
+            c.classList.toggle("active", c.dataset.k === isActive),
+          );
+      }
+      document.getElementById("ischips").innerHTML = isFilters
+        .map(
+          (x) =>
+            '<button class="chip" data-k="' +
+            x.k +
+            '">' +
+            x.l +
+            '<span class="c">' +
+            isAll.filter(x.f).length +
+            "</span></button>",
+        )
+        .join("");
+      document.querySelectorAll("#ischips .chip").forEach(
+        (c) =>
+          (c.onclick = () => {
+            isActive = c.dataset.k;
+            renderIs();
+          }),
+      );
+      renderIs();
+
+      /* ---- cleanup ---- */
+      document.getElementById("cleanupbox").innerHTML =
+        '<div class="critbox"><strong>1. Resolve the one large unsaved pocket first.</strong> <code>io-discovery</code> has 30 uncommitted tracked changes. Commit, stash, or discard before pruning worktrees — pruning a dirty worktree loses the work.</div>' +
+        '<div class="recco"><strong>2. Prune merged branches.</strong> ' +
+        S.goneUpstream +
+        " local branches have a deleted upstream: <code>git branch -vv | grep \": gone]\" | awk '{print $1}' | xargs git branch -D</code> (review the list in §6 first).</div>" +
+        '<div class="recco"><strong>3. Reclaim orphaned agent worktrees.</strong> ' +
+        S.lockedWorktrees +
+        " locked <code>.claude/wt/agent-*</code> worktrees are leftovers from background sessions: <code>git worktree prune</code> + remove the locked ones after confirming they are clean (none of the " +
+        S.dirtyWorktrees +
+        " dirty worktrees are auto-agent except where flagged).</div>" +
+        '<div class="warnbox"><strong>4. Refresh this checkout.</strong> <code>git pull</code> on staging (' +
+        SY.localStagingBehind +
+        " behind); reset stale local <code>main</code> to <code>origin/main</code>.</div>" +
+        '<div class="recco"><strong>5. Triage the issue backlog.</strong> Close or relabel the ' +
+        S.retiredProductIssues +
+        " retired-product issues; the active backlog is then ~" +
+        (S.openIssues - S.retiredProductIssues) +
+        " items.</div>" +
+        '<div class="warnbox"><strong>6. Sweep stale PRs.</strong> ' +
+        S.stalePRs +
+        " PRs are untouched >7 days — close, rebase, or land. Two target non-<code>staging</code> bases and need a decision.</div>";
+
+      /* ---- export ---- */
+      function copyText(t, btn) {
+        navigator.clipboard.writeText(t).then(() => {
+          const o = btn.textContent;
+          btn.textContent = "Copied";
+          setTimeout(() => (btn.textContent = o), 1200);
+        });
+      }
+      document.getElementById("exportJson").onclick = (e) =>
+        copyText(JSON.stringify(DATA, null, 2), e.target);
+      document.getElementById("exportMd").onclick = (e) => {
+        const md = [
+          "# brilliant-apps repo survey — " + S.generatedAt,
+          "",
+          "## Snapshot",
+          "- Release gap: **" +
+            SY.releaseGap +
+            " commits** on origin/staging awaiting production release (main +" +
+            SY.mainOnly +
+            " release-merge commits)",
+          "- Branches: " +
+            S.localBranches +
+            " local (" +
+            S.realBranches +
+            " real + " +
+            S.scaffoldBranches +
+            " scaffold), " +
+            S.remoteBranches +
+            " remote, **" +
+            S.goneUpstream +
+            " prunable**",
+          "- Worktrees: " +
+            S.worktrees +
+            " (" +
+            S.lockedWorktrees +
+            " locked agent, " +
+            S.dirtyWorktrees +
+            " with uncommitted work)",
+          "- PRs: " +
+            S.openPRs +
+            " open (" +
+            S.draftPRs +
+            " draft, " +
+            S.stalePRs +
+            " stale, " +
+            S.nonStagingPRs +
+            " off-staging)",
+          "- Issues: " +
+            S.openIssues +
+            " open (" +
+            S.inProgressIssues +
+            " in progress, " +
+            S.retiredProductIssues +
+            " retired-product)",
+          "- Local checkout: staging " +
+            SY.localStagingBehind +
+            " behind origin; main diverged (" +
+            SY.localMainAhead +
+            " ahead/" +
+            SY.localMainBehind +
+            " behind)",
+          "",
+          "## Uncommitted (tracked) by worktree",
+          ...dirty.map(
+            (w) =>
+              "- " +
+              w.dirtyTracked +
+              " tracked / " +
+              w.untracked +
+              " untracked — `" +
+              w.label +
+              "` [" +
+              (w.branch || "detached") +
+              "]",
+          ),
+          "",
+          "## Cleanup actions",
+          "1. Resolve io-discovery (30 uncommitted) — keep or discard",
+          "2. Prune " + S.goneUpstream + " merged branches (upstream gone)",
+          "3. Reclaim " + S.lockedWorktrees + " orphaned agent worktrees",
+          "4. Pull staging, reset stale local main",
+          "5. Triage " + S.retiredProductIssues + " retired-product issues",
+          "6. Sweep " + S.stalePRs + " stale PRs",
+        ].join("\n");
+        copyText(md, e.target);
+      };
+    </script>
+  </body>
+</html>
