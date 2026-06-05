@@ -1,0 +1,1411 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Mirror — unified custom sign-in: 3 variants + org picker + states
+    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Outfit:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ===================================================================
+         PAGE CHROME — the review document frame (cool-slate, neutral).
+         The product MOCKUPS below render the real proposed brand: forest
+         green + navy + Newsreader/Outfit. Treatment-idiom = hardcoded hex
+         (no token indirection) so what you see is exactly the look.
+         =================================================================== */
+      :root {
+        --doc-bg: #f6f8fb;
+        --doc-surface: #ffffff;
+        --doc-ink: #0f1a2e;
+        --doc-ink-2: #3a4861;
+        --doc-ink-3: #6b7790;
+        --doc-line: #d6dde8;
+        --doc-accent: #2c6bed;
+        --doc-good: #157a4e;
+        --doc-good-soft: #e2f1ea;
+        --doc-warn: #b06b00;
+        --doc-warn-soft: #fbecd2;
+        --doc-gold: #b8860b;
+        --doc-gold-soft: #fdf4d3;
+        --doc-shadow:
+          0 1px 2px rgba(15, 26, 46, 0.04), 0 4px 12px rgba(15, 26, 46, 0.06);
+
+        /* ---- PRODUCT BRAND TOKENS (mirrors packages/design-system LEGACY
+               forest family + ConsumerAuthScreen look). Hardcoded on purpose
+               per the treatment-sandbox idiom. ---- */
+        --navy: #0a1628;
+        --navy-90: rgba(10, 22, 40, 0.9);
+        --navy-70: rgba(10, 22, 40, 0.7);
+        --navy-50: rgba(10, 22, 40, 0.5);
+        --navy-30: rgba(10, 22, 40, 0.3);
+        --navy-10: rgba(10, 22, 40, 0.1);
+        --navy-05: rgba(10, 22, 40, 0.05);
+        --off-white: #fafaf7;
+        --accent: #157a4e; /* forest — the brand green the deployed app renders */
+        --accent-bright: #1a9960;
+        --accent-glow: rgba(21, 122, 78, 0.12);
+        --accent-bg: rgba(21, 122, 78, 0.05);
+        --rose: #e11d48;
+        --rose-soft: rgba(225, 29, 72, 0.12);
+        --rose-faint: rgba(225, 29, 72, 0.05);
+        --font-display: "Newsreader", Georgia, serif;
+        --font-body: "Outfit", system-ui, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: var(--doc-bg);
+        color: var(--doc-ink);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .wrap {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 56px 32px 96px;
+      }
+      .crumb {
+        font-size: 13px;
+        color: var(--doc-ink-3);
+        margin-bottom: 16px;
+      }
+      .crumb a {
+        color: var(--doc-ink-3);
+      }
+      h1.doc {
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: -0.012em;
+        margin: 0 0 10px;
+        line-height: 1.25;
+        color: var(--doc-ink);
+      }
+      .lede {
+        font-size: 16px;
+        color: var(--doc-ink-2);
+        max-width: 760px;
+        margin: 0 0 24px;
+      }
+      .meta-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 36px;
+      }
+      .pill {
+        font-size: 12.5px;
+        font-weight: 600;
+        padding: 5px 11px;
+        border-radius: 999px;
+        border: 1px solid var(--doc-line);
+        background: var(--doc-surface);
+        color: var(--doc-ink-2);
+      }
+      .pill.good {
+        background: var(--doc-good-soft);
+        border-color: #bfe0d0;
+        color: var(--doc-good);
+      }
+      .pill.warn {
+        background: var(--doc-warn-soft);
+        border-color: #ecd3a3;
+        color: var(--doc-warn);
+      }
+      h2.doc {
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: var(--doc-ink-3);
+        margin: 56px 0 6px;
+      }
+      h2.doc .num {
+        color: var(--doc-accent);
+      }
+      .section-sub {
+        font-size: 15px;
+        color: var(--doc-ink-2);
+        max-width: 820px;
+        margin: 0 0 24px;
+      }
+      hr.doc {
+        border: 0;
+        border-top: 1px solid var(--doc-line);
+        margin: 8px 0 0;
+      }
+
+      /* recommendation / constraint cards */
+      .reco {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        background: var(--doc-surface);
+        border: 1px solid var(--doc-line);
+        border-left: 4px solid var(--doc-accent);
+        border-radius: 10px;
+        box-shadow: var(--doc-shadow);
+        padding: 16px 18px;
+        margin: 0 0 16px;
+      }
+      .reco.gold {
+        border-left-color: var(--doc-gold);
+        background: #fffdf6;
+      }
+      .reco .medal {
+        font-size: 22px;
+        line-height: 1.3;
+        flex-shrink: 0;
+      }
+      .reco .body {
+        font-size: 14.5px;
+        color: var(--doc-ink-2);
+      }
+      .reco .body strong {
+        color: var(--doc-ink);
+      }
+      .constraints {
+        background: var(--doc-surface);
+        border: 1px solid var(--doc-line);
+        border-radius: 10px;
+        box-shadow: var(--doc-shadow);
+        padding: 8px 22px;
+        margin-bottom: 28px;
+      }
+      .constraints li {
+        margin: 10px 0;
+        font-size: 14.5px;
+        color: var(--doc-ink-2);
+      }
+      .constraints li strong {
+        color: var(--doc-ink);
+      }
+      .no {
+        color: var(--doc-warn);
+        font-weight: 600;
+      }
+      .yes {
+        color: var(--doc-good);
+        font-weight: 600;
+      }
+
+      /* mockup frame */
+      .variant-head {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        margin: 36px 0 4px;
+      }
+      .variant-head .tag {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #fff;
+        background: var(--doc-ink);
+        border-radius: 6px;
+        padding: 3px 9px;
+      }
+      .variant-head .tag.lead {
+        background: var(--doc-good);
+      }
+      .variant-head h3 {
+        font-size: 19px;
+        font-weight: 600;
+        margin: 0;
+        color: var(--doc-ink);
+      }
+      .variant-note {
+        font-size: 14px;
+        color: var(--doc-ink-3);
+        margin: 2px 0 16px;
+        max-width: 820px;
+      }
+      .frame {
+        border: 1px solid var(--doc-line);
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: var(--doc-shadow);
+        background: #fff;
+        margin-bottom: 14px;
+      }
+      .frame-bar {
+        height: 34px;
+        background: #eef1f6;
+        border-bottom: 1px solid var(--doc-line);
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 0 13px;
+      }
+      .frame-bar .dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: #cdd4e0;
+      }
+      .frame-bar .url {
+        margin-left: 10px;
+        font-size: 12px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        color: var(--doc-ink-3);
+        background: #fff;
+        border: 1px solid var(--doc-line);
+        border-radius: 6px;
+        padding: 2px 10px;
+      }
+      .stage {
+        /* the product canvas — neutral so the mockup's own off-white reads */
+        background: #e7e9e4;
+        padding: 0;
+      }
+
+      /* states grid */
+      .states {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 18px;
+        margin-bottom: 14px;
+      }
+      .state-cell {
+        border: 1px solid var(--doc-line);
+        border-radius: 12px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: var(--doc-shadow);
+      }
+      .state-label {
+        font-size: 11.5px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--doc-ink-3);
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--doc-line);
+        background: #f8fafc;
+      }
+      .state-canvas {
+        background: #e7e9e4;
+        padding: 22px;
+        min-height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      footer.doc {
+        margin-top: 72px;
+        padding-top: 24px;
+        border-top: 1px solid var(--doc-line);
+        font-size: 12.5px;
+        color: var(--doc-ink-3);
+      }
+      footer.doc a {
+        color: var(--doc-ink-2);
+      }
+
+      /* ===================================================================
+         PRODUCT MOCKUP STYLES — ConsumerAuthScreen look, hardcoded.
+         =================================================================== */
+      .m-shell {
+        min-height: 520px;
+        background: var(--off-white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-body);
+        padding: 44px 24px;
+        width: 100%;
+      }
+      .m-card {
+        width: 100%;
+        max-width: 420px;
+        background: var(--off-white);
+        border-radius: 12px;
+        padding: 8px 4px;
+      }
+      /* V3 framed card variant — elevated white surface w/ top accent stripe */
+      .m-card.framed {
+        background: #ffffff;
+        border: 1px solid var(--navy-10);
+        border-top: 3px solid var(--accent);
+        border-radius: 14px;
+        padding: 38px 36px 34px;
+        box-shadow:
+          0 1px 2px rgba(10, 22, 40, 0.04),
+          0 18px 40px rgba(10, 22, 40, 0.08);
+      }
+      .m-wordmark {
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: 14px;
+        letter-spacing: 0.14em;
+        color: var(--navy-30);
+        text-transform: uppercase;
+        margin-bottom: 24px;
+      }
+      .m-wordmark .w {
+        color: var(--accent);
+      }
+      .m-h1 {
+        font-family: var(--font-display);
+        font-size: 30px;
+        font-weight: 400;
+        letter-spacing: -0.01em;
+        color: var(--navy);
+        margin: 0 0 8px;
+      }
+      .m-sub {
+        font-size: 17px;
+        font-weight: 300;
+        line-height: 1.6;
+        color: var(--navy-50);
+        margin: 0 0 28px;
+      }
+      .m-form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .m-field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .m-field-label {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--navy);
+      }
+      .m-input {
+        display: block;
+        width: 100%;
+        padding: 13px 15px;
+        font-size: 17px;
+        font-family: var(--font-body);
+        font-weight: 400;
+        color: var(--navy);
+        background: var(--off-white);
+        border: 1px solid var(--navy-10);
+        border-radius: 8px;
+        outline: none;
+      }
+      .m-card.framed .m-input {
+        background: #ffffff;
+      }
+      .m-input.focused {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-glow);
+      }
+      .m-input.placeholder {
+        color: var(--navy-30);
+      }
+      .m-btn-primary {
+        margin-top: 4px;
+        padding: 13px 16px;
+        font-size: 17px;
+        font-family: var(--font-body);
+        font-weight: 600;
+        color: var(--off-white);
+        background: var(--accent);
+        border: 1px solid var(--accent);
+        border-radius: 8px;
+        cursor: pointer;
+        text-align: center;
+      }
+      .m-btn-primary.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .m-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 20px 0;
+        color: var(--navy-30);
+        font-size: 14px;
+      }
+      .m-divider .line {
+        flex: 1;
+        height: 1px;
+        background: var(--navy-10);
+      }
+      .m-btn-secondary {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        padding: 13px 16px;
+        font-size: 17px;
+        font-family: var(--font-body);
+        font-weight: 600;
+        color: var(--navy);
+        background: var(--off-white);
+        border: 1px solid var(--navy-10);
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .m-card.framed .m-btn-secondary {
+        background: #ffffff;
+      }
+      .m-switch {
+        margin-top: 24px;
+        font-size: 15px;
+        font-weight: 300;
+        color: var(--navy-50);
+      }
+      .m-switch a {
+        font-weight: 500;
+        color: var(--accent);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+      .m-note-info {
+        margin-bottom: 20px;
+        padding: 12px 14px;
+        font-size: 15px;
+        line-height: 1.5;
+        color: var(--navy);
+        background: var(--accent-bg);
+        border: 1px solid var(--accent-glow);
+        border-radius: 8px;
+      }
+      .m-note-error {
+        margin-top: 16px;
+        padding: 12px 14px;
+        font-size: 15px;
+        line-height: 1.5;
+        color: var(--rose);
+        background: var(--rose-faint);
+        border: 1px solid var(--rose-soft);
+        border-radius: 8px;
+      }
+      .m-note-signedout {
+        margin-bottom: 20px;
+        padding: 12px 14px;
+        font-size: 15px;
+        line-height: 1.5;
+        color: var(--navy);
+        background: var(--navy-05);
+        border: 1px solid var(--navy-10);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+      .m-check {
+        color: var(--accent);
+        flex-shrink: 0;
+      }
+      .m-link-btn {
+        margin-top: 8px;
+        padding: 0;
+        font-size: 15px;
+        font-family: var(--font-body);
+        font-weight: 500;
+        color: var(--accent);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        display: inline-block;
+      }
+      .m-strong {
+        color: var(--navy);
+        font-weight: 600;
+      }
+
+      /* password-slot annotation */
+      .pw-slot {
+        position: relative;
+        border: 1.5px dashed var(--accent);
+        border-radius: 8px;
+        padding: 13px 15px;
+        background: var(--accent-bg);
+        color: var(--navy-50);
+        font-size: 15px;
+        font-style: italic;
+      }
+      .pw-badge {
+        position: absolute;
+        top: -10px;
+        left: 12px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #fff;
+        background: var(--accent);
+        border-radius: 5px;
+        padding: 2px 7px;
+        font-style: normal;
+      }
+
+      /* split-panel (V2) */
+      .m-split {
+        display: flex;
+        min-height: 520px;
+        width: 100%;
+        font-family: var(--font-body);
+      }
+      .m-split-left {
+        width: 44%;
+        min-width: 300px;
+        background: var(--navy);
+        position: relative;
+        overflow: hidden;
+        padding: 44px 46px;
+        display: flex;
+        flex-direction: column;
+        color: #fff;
+      }
+      .m-split-left .glow {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse 60% 50% at 50% 80%,
+          var(--accent-glow),
+          transparent
+        );
+        pointer-events: none;
+      }
+      .m-split-left .inner {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      .m-split-wordmark {
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: 14px;
+        letter-spacing: 0.14em;
+        color: rgba(255, 255, 255, 0.45);
+        text-transform: uppercase;
+        margin-bottom: 40px;
+      }
+      .m-split-wordmark .w {
+        color: var(--accent-bright);
+      }
+      .m-split-title {
+        font-family: var(--font-display);
+        font-size: 46px;
+        font-weight: 400;
+        line-height: 1.12;
+        letter-spacing: -0.02em;
+        color: #fff;
+        margin: 0 0 18px;
+      }
+      .m-split-title em {
+        font-style: italic;
+        color: var(--accent-bright);
+      }
+      .m-split-blurb {
+        font-size: 18px;
+        font-weight: 300;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.55);
+        margin: 0;
+        max-width: 360px;
+      }
+      .m-split-quote {
+        border-left: 3px solid var(--accent);
+        padding-left: 18px;
+        margin: 0;
+      }
+      .m-split-quote p {
+        font-family: var(--font-display);
+        font-size: 18px;
+        font-style: italic;
+        line-height: 1.5;
+        color: rgba(255, 255, 255, 0.7);
+        margin: 0 0 8px;
+      }
+      .m-split-quote cite {
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        color: var(--accent-bright);
+        font-style: normal;
+      }
+      .m-split-right {
+        flex: 1;
+        background: var(--off-white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 44px 40px;
+      }
+      .grow {
+        flex: 1;
+      }
+
+      /* org picker */
+      .m-org-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin: 4px 0 8px;
+      }
+      .m-org-card {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        width: 100%;
+        text-align: left;
+        padding: 15px 16px;
+        background: var(--off-white);
+        border: 1px solid var(--navy-10);
+        border-radius: 10px;
+        cursor: pointer;
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s;
+      }
+      .m-card.framed .m-org-card {
+        background: #fff;
+      }
+      .m-org-card.hover {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-glow);
+      }
+      .m-org-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 9px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-display);
+        font-size: 18px;
+        font-weight: 500;
+        color: var(--accent);
+        background: var(--accent-bg);
+        border: 1px solid var(--accent-glow);
+      }
+      .m-org-meta {
+        flex: 1;
+        min-width: 0;
+      }
+      .m-org-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--navy);
+        margin: 0 0 2px;
+      }
+      .m-org-sub {
+        font-size: 13.5px;
+        font-weight: 300;
+        color: var(--navy-50);
+        margin: 0;
+      }
+      .m-org-role {
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--accent);
+        background: var(--accent-bg);
+        border: 1px solid var(--accent-glow);
+        border-radius: 999px;
+        padding: 3px 9px;
+        flex-shrink: 0;
+      }
+      .m-org-chev {
+        color: var(--navy-30);
+        flex-shrink: 0;
+      }
+
+      @media (max-width: 640px) {
+        .m-split {
+          flex-direction: column;
+        }
+        .m-split-left {
+          width: 100%;
+          min-width: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <p class="crumb">
+        <a href="../">← Brilliant With AI — Shared Artifacts</a>
+      </p>
+
+      <h1 class="doc">Mirror — unified custom sign-in: pick a direction</h1>
+      <p class="lede">
+        Three on-brand treatments for the single identity-first sign-in surface
+        at <code>/</code> that replaces the rejected Stytch widget, plus the
+        2+&#8209;org picker and the full state set. Pick a direction — that pick
+        unblocks build item <strong>C2</strong>. The decided flow lives in
+        <a href="https://github.com/Brilliant-With-AI-Dev/bapps/pull/460"
+          >PR&nbsp;#460 §3</a
+        >; this is its visual realization, not a re-litigation of the flow.
+      </p>
+
+      <div class="meta-pills">
+        <span class="pill good"
+          >Identity-first — no Personal/Business tabs</span
+        >
+        <span class="pill">Email magic link + Continue with Google</span>
+        <span class="pill"
+          >ConsumerAuthScreen look · forest green · Newsreader/Outfit</span
+        >
+        <span class="pill warn">Mockups only — no repo code changed</span>
+      </div>
+
+      <!-- ================= HOW TO READ ================= -->
+      <h2 class="doc"><span class="num">00</span> &nbsp;How to read this</h2>
+      <hr class="doc" />
+      <p class="section-sub" style="margin-top: 20px">
+        Section&nbsp;01 holds the three sign-in treatments — same content and
+        brand, different chrome — all shown in their <em>idle</em> resting
+        state. Section&nbsp;02 carries the org picker. Section&nbsp;03 renders
+        the complete state set on the lead variant so you can see every screen a
+        user actually hits. These are static renders of HTML/CSS, not the live
+        React build; the typography, color, and spacing are faithful to the
+        proposed product.
+      </p>
+
+      <div class="reco gold">
+        <span class="medal">🥇</span>
+        <div class="body">
+          <strong>Recommended lead: Variant&nbsp;A (centered card).</strong> It
+          is the literal continuation of the existing
+          <code>ConsumerAuthScreen</code> — lowest build risk for C2, identical
+          on every viewport, and it reads as "one calm front door" rather than a
+          marketing page. Variant&nbsp;B (split-panel) is the strongest pick if
+          you want the sign-in to keep the current B2B login's branded left
+          rail; Variant&nbsp;C if you want a touch more "product surface"
+          framing without the full panel.
+        </div>
+      </div>
+
+      <!-- ================= CONSTRAINTS ================= -->
+      <h2 class="doc">
+        <span class="num">01</span> &nbsp;Sign-in — three treatments
+      </h2>
+      <hr class="doc" />
+      <ul class="constraints" style="margin-top: 20px">
+        <li>
+          <strong>What every variant must do</strong> (from the decided plan):
+          one email field, an
+          <span class="yes">"Email me a sign-in link"</span> primary action,
+          <span class="yes">"Continue with Google,"</span> and a
+          <span class="yes">"New here? Create an account"</span> link to
+          <code>/signup</code>.
+        </li>
+        <li>
+          <strong class="no">No Personal / Business tabs.</strong>
+          Identity-first discovery determines context from the email — type
+          self-identification is unnecessary and was rejected (Matt&nbsp;+
+          playbook&nbsp;A2). None of these variants show a type choice.
+        </li>
+        <li>
+          <strong>Password slot is a placeholder, not a decision.</strong>
+          Variant&nbsp;A shows where a password field <em>would</em> sit.
+          Whether it ships depends on the C1 audit (<a
+            href="https://github.com/Brilliant-With-AI-Dev/bapps/issues/465"
+            >#465</a
+          >): if any real B2B member signs in with a password, the slot fills;
+          otherwise it's dropped. Designed as a slot so either outcome is a
+          one-line change.
+        </li>
+      </ul>
+
+      <!-- ---------- VARIANT A ---------- -->
+      <div class="variant-head">
+        <span class="tag lead">Variant A · Lead</span>
+        <h3>Centered single-column card</h3>
+      </div>
+      <p class="variant-note">
+        The current <code>ConsumerAuthScreen</code>, promoted to <code>/</code>.
+        Off-white field, card centered in the viewport, wordmark above the
+        heading. Calmest, lowest-risk, identical at every width.
+      </p>
+      <div class="frame">
+        <div class="frame-bar">
+          <span class="dot"></span><span class="dot"></span
+          ><span class="dot"></span>
+          <span class="url">brilliant-apps.vercel.app/</span>
+        </div>
+        <div class="stage">
+          <div class="m-shell">
+            <div class="m-card">
+              <div class="m-wordmark">
+                BRILLIANT<span class="w">WITH</span>.AI
+              </div>
+              <h1 class="m-h1">Sign in</h1>
+              <p class="m-sub">Sign in with your email or Google.</p>
+              <div class="m-form">
+                <label class="m-field">
+                  <span class="m-field-label">Email</span>
+                  <span class="m-input placeholder">you@example.com</span>
+                </label>
+                <span class="m-btn-primary">Email me a sign-in link</span>
+              </div>
+              <div class="m-divider">
+                <span class="line"></span><span>or</span
+                ><span class="line"></span>
+              </div>
+              <div class="m-btn-secondary">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M12 11h8.5a8.5 8.5 0 1 1-2.4-5.1" />
+                </svg>
+                Continue with Google
+              </div>
+              <p class="m-switch">
+                New here? <a href="#">Create an account</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---------- VARIANT B ---------- -->
+      <div class="variant-head">
+        <span class="tag">Variant B</span>
+        <h3>Split-panel with branded left rail</h3>
+      </div>
+      <p class="variant-note">
+        Keeps the current B2B login's navy branded panel (the
+        <code>LoginLeftPanel</code> chrome — wordmark, headline, pull-quote,
+        radial glow) on the left; the identity-first form sits on the right in
+        the same card content as Variant&nbsp;A. Most "established product"
+        feel; collapses to a single column on narrow screens.
+      </p>
+      <div class="frame">
+        <div class="frame-bar">
+          <span class="dot"></span><span class="dot"></span
+          ><span class="dot"></span>
+          <span class="url">brilliant-apps.vercel.app/</span>
+        </div>
+        <div class="stage">
+          <div class="m-split">
+            <div class="m-split-left">
+              <div class="glow"></div>
+              <div class="inner">
+                <div class="m-split-wordmark">
+                  BRILLIANT<span class="w">WITH</span>.AI
+                </div>
+                <div class="grow"></div>
+                <div>
+                  <h1 class="m-split-title">
+                    See your team<br />through a clearer <em>mirror</em>
+                  </h1>
+                  <p class="m-split-blurb">
+                    A 30-minute AI-guided interview that surfaces how your team
+                    really works with AI.
+                  </p>
+                </div>
+                <div class="grow"></div>
+                <blockquote class="m-split-quote">
+                  <p>
+                    &ldquo;The clearest read on our AI readiness we've
+                    had.&rdquo;
+                  </p>
+                  <cite>BRILLIANTWITH.AI</cite>
+                </blockquote>
+              </div>
+            </div>
+            <div class="m-split-right">
+              <div class="m-card" style="max-width: 380px">
+                <h1 class="m-h1">Sign in</h1>
+                <p class="m-sub">Sign in with your email or Google.</p>
+                <div class="m-form">
+                  <label class="m-field">
+                    <span class="m-field-label">Email</span>
+                    <span class="m-input placeholder">you@example.com</span>
+                  </label>
+                  <span class="m-btn-primary">Email me a sign-in link</span>
+                </div>
+                <div class="m-divider">
+                  <span class="line"></span><span>or</span
+                  ><span class="line"></span>
+                </div>
+                <div class="m-btn-secondary">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 11h8.5a8.5 8.5 0 1 1-2.4-5.1" />
+                  </svg>
+                  Continue with Google
+                </div>
+                <p class="m-switch">
+                  New here? <a href="#">Create an account</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---------- VARIANT C ---------- -->
+      <div class="variant-head">
+        <span class="tag">Variant C</span>
+        <h3>Framed elevated card with accent stripe</h3>
+      </div>
+      <p class="variant-note">
+        Same centered layout as Variant&nbsp;A, but the form sits on a white,
+        bordered, lightly-shadowed surface with a 3px forest top-stripe — the
+        document-panel idiom from the design system. Slightly more "product
+        surface" weight than the borderless card without committing to a full
+        panel.
+      </p>
+      <div class="frame">
+        <div class="frame-bar">
+          <span class="dot"></span><span class="dot"></span
+          ><span class="dot"></span>
+          <span class="url">brilliant-apps.vercel.app/</span>
+        </div>
+        <div class="stage">
+          <div class="m-shell">
+            <div class="m-card framed">
+              <div class="m-wordmark">
+                BRILLIANT<span class="w">WITH</span>.AI
+              </div>
+              <h1 class="m-h1">Sign in</h1>
+              <p class="m-sub">Sign in with your email or Google.</p>
+              <div class="m-form">
+                <label class="m-field">
+                  <span class="m-field-label">Email</span>
+                  <span class="m-input placeholder">you@example.com</span>
+                </label>
+                <span class="m-btn-primary">Email me a sign-in link</span>
+              </div>
+              <div class="m-divider">
+                <span class="line"></span><span>or</span
+                ><span class="line"></span>
+              </div>
+              <div class="m-btn-secondary">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M12 11h8.5a8.5 8.5 0 1 1-2.4-5.1" />
+                </svg>
+                Continue with Google
+              </div>
+              <p class="m-switch">
+                New here? <a href="#">Create an account</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- password slot note, rendered on Variant A geometry -->
+      <div class="variant-head">
+        <span class="tag" style="background: var(--accent)">Slot</span>
+        <h3>Password fallback — designed, gated on the C1 audit</h3>
+      </div>
+      <p class="variant-note">
+        If
+        <a href="https://github.com/Brilliant-With-AI-Dev/bapps/issues/465"
+          >#465</a
+        >
+        finds real password users, the field drops in below Email (before the
+        primary button). Shown here as an annotated slot on Variant&nbsp;A — not
+        a committed element.
+      </p>
+      <div class="frame">
+        <div class="frame-bar">
+          <span class="dot"></span><span class="dot"></span
+          ><span class="dot"></span>
+          <span class="url">brilliant-apps.vercel.app/ · conditional</span>
+        </div>
+        <div class="stage">
+          <div class="m-shell">
+            <div class="m-card">
+              <div class="m-wordmark">
+                BRILLIANT<span class="w">WITH</span>.AI
+              </div>
+              <h1 class="m-h1">Sign in</h1>
+              <p class="m-sub">Sign in with your email or Google.</p>
+              <div class="m-form">
+                <label class="m-field">
+                  <span class="m-field-label">Email</span>
+                  <span class="m-input placeholder">you@example.com</span>
+                </label>
+                <div class="pw-slot">
+                  <span class="pw-badge">Conditional · gated on #465</span>
+                  Password field appears here only if real B2B members use
+                  passwords. Otherwise omitted.
+                </div>
+                <span class="m-btn-primary">Email me a sign-in link</span>
+              </div>
+              <div class="m-divider">
+                <span class="line"></span><span>or</span
+                ><span class="line"></span>
+              </div>
+              <div class="m-btn-secondary">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M12 11h8.5a8.5 8.5 0 1 1-2.4-5.1" />
+                </svg>
+                Continue with Google
+              </div>
+              <p class="m-switch">
+                New here? <a href="#">Create an account</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= ORG PICKER ================= -->
+      <h2 class="doc">
+        <span class="num">02</span> &nbsp;Org picker — 2+ orgs only
+      </h2>
+      <hr class="doc" />
+      <p class="section-sub" style="margin-top: 20px">
+        Shown <strong>only</strong> when discovery returns 2+ orgs (dual-account
+        users — a B2B member who also has a personal org). 1-org users —
+        consumers and most B2B members — skip this entirely and land inside the
+        product. Matched to the lead variant's centered-card geometry; each row
+        is a card with the org name, your role, and last-active when available.
+      </p>
+      <div class="frame">
+        <div class="frame-bar">
+          <span class="dot"></span><span class="dot"></span
+          ><span class="dot"></span>
+          <span class="url">brilliant-apps.vercel.app/authenticate</span>
+        </div>
+        <div class="stage">
+          <div class="m-shell">
+            <div class="m-card" style="max-width: 460px">
+              <div class="m-wordmark">
+                BRILLIANT<span class="w">WITH</span>.AI
+              </div>
+              <h1 class="m-h1">Choose a workspace</h1>
+              <p class="m-sub">
+                You're a member of more than one. Pick where you'd like to go.
+              </p>
+              <div class="m-org-list">
+                <div class="m-org-card hover">
+                  <div class="m-org-avatar">A</div>
+                  <div class="m-org-meta">
+                    <p class="m-org-name">Acme Corp</p>
+                    <p class="m-org-sub">Last active 2 days ago</p>
+                  </div>
+                  <span class="m-org-role">Admin</span>
+                  <svg
+                    class="m-org-chev"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M9 6l6 6-6 6" />
+                  </svg>
+                </div>
+                <div class="m-org-card">
+                  <div class="m-org-avatar">J</div>
+                  <div class="m-org-meta">
+                    <p class="m-org-name">Jordan Rivera</p>
+                    <p class="m-org-sub">
+                      Personal workspace · last active today
+                    </p>
+                  </div>
+                  <span class="m-org-role">Member</span>
+                  <svg
+                    class="m-org-chev"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M9 6l6 6-6 6" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= STATE SET ================= -->
+      <h2 class="doc">
+        <span class="num">03</span> &nbsp;State set — on the lead variant
+      </h2>
+      <hr class="doc" />
+      <p class="section-sub" style="margin-top: 20px">
+        Every screen a user actually hits, rendered on Variant&nbsp;A so the set
+        is complete before you pick. <strong>Idle</strong> is in Section&nbsp;01
+        above; the five below cover the rest. If you pick B or C, the same
+        states port directly — only the chrome around the card changes.
+      </p>
+      <div class="states">
+        <!-- link-sent -->
+        <div class="state-cell">
+          <div class="state-label">Link sent — "Check your email"</div>
+          <div class="state-canvas">
+            <div class="m-card" style="max-width: 360px">
+              <div class="m-wordmark">
+                BRILLIANT<span class="w">WITH</span>.AI
+              </div>
+              <h1 class="m-h1">Check your email</h1>
+              <p class="m-sub">
+                We sent a sign-in link to
+                <span class="m-strong">you@example.com</span>. It expires in 10
+                minutes.
+              </p>
+              <span class="m-link-btn">Use a different email</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- error banner -->
+        <div class="state-cell">
+          <div class="state-label">Error — send failed</div>
+          <div class="state-canvas">
+            <div class="m-card" style="max-width: 360px">
+              <div class="m-wordmark">
+                BRILLIANT<span class="w">WITH</span>.AI
+              </div>
+              <h1 class="m-h1">Sign in</h1>
+              <p class="m-sub">Sign in with your email or Google.</p>
+              <div class="m-form">
+                <label class="m-field">
+                  <span class="m-field-label">Email</span>
+                  <span class="m-input">you@example.com</span>
+                </label>
+                <span class="m-btn-primary">Email me a sign-in link</span>
+              </div>
+              <div class="m-note-error">
+                Sign-in is temporarily unavailable. Please try again in a
+                moment.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- signed-out banner -->
+        <div class="state-cell">
+          <div class="state-label">Signed-out banner — post sign-out</div>
+          <div class="state-canvas">
+            <div class="m-card" style="max-width: 360px">
+              <div class="m-wordmark">
+                BRILLIANT<span class="w">WITH</span>.AI
+              </div>
+              <h1 class="m-h1">Sign in</h1>
+              <p class="m-sub">Sign in with your email or Google.</p>
+              <div class="m-note-signedout">
+                <svg
+                  class="m-check"
+                  width="17"
+                  height="17"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M20 6L9 17l-5-5" />
+                </svg>
+                You're signed out.
+              </div>
+              <div class="m-form">
+                <label class="m-field">
+                  <span class="m-field-label">Email</span>
+                  <span class="m-input placeholder">you@example.com</span>
+                </label>
+                <span class="m-btn-primary">Email me a sign-in link</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- no-account -->
+        <div class="state-cell">
+          <div class="state-label">No account — email not found</div>
+          <div class="state-canvas">
+            <div class="m-card" style="max-width: 360px">
+              <div class="m-wordmark">
+                BRILLIANT<span class="w">WITH</span>.AI
+              </div>
+              <h1 class="m-h1">Sign in</h1>
+              <p class="m-sub">Sign in with your email or Google.</p>
+              <div class="m-note-info">
+                We couldn't find an account for that email.
+                <a
+                  href="#"
+                  style="
+                    color: var(--accent);
+                    font-weight: 500;
+                    text-decoration: underline;
+                  "
+                  >Create one</a
+                >
+                to get started.
+              </div>
+              <div class="m-form">
+                <label class="m-field">
+                  <span class="m-field-label">Email</span>
+                  <span class="m-input">you@example.com</span>
+                </label>
+                <span class="m-btn-primary">Email me a sign-in link</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- expired link banner (info) -->
+        <div class="state-cell">
+          <div class="state-label">Info — link expired (return visit)</div>
+          <div class="state-canvas">
+            <div class="m-card" style="max-width: 360px">
+              <div class="m-wordmark">
+                BRILLIANT<span class="w">WITH</span>.AI
+              </div>
+              <h1 class="m-h1">Sign in</h1>
+              <p class="m-sub">Sign in with your email or Google.</p>
+              <div class="m-note-info">
+                That sign-in link expired or was already used. Enter your email
+                below to get a fresh one.
+              </div>
+              <div class="m-form">
+                <label class="m-field">
+                  <span class="m-field-label">Email</span>
+                  <span class="m-input placeholder">you@example.com</span>
+                </label>
+                <span class="m-btn-primary">Email me a sign-in link</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- submitting -->
+        <div class="state-cell">
+          <div class="state-label">Submitting — button busy</div>
+          <div class="state-canvas">
+            <div class="m-card" style="max-width: 360px">
+              <div class="m-wordmark">
+                BRILLIANT<span class="w">WITH</span>.AI
+              </div>
+              <h1 class="m-h1">Sign in</h1>
+              <p class="m-sub">Sign in with your email or Google.</p>
+              <div class="m-form">
+                <label class="m-field">
+                  <span class="m-field-label">Email</span>
+                  <span class="m-input">you@example.com</span>
+                </label>
+                <span class="m-btn-primary disabled">Sending…</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= OPEN QUESTIONS ================= -->
+      <h2 class="doc">
+        <span class="num">04</span> &nbsp;What your pick decides
+      </h2>
+      <hr class="doc" />
+      <ul class="constraints" style="margin-top: 20px">
+        <li>
+          <strong>Which chrome?</strong> A (centered card), B (split-panel), or
+          C (framed card). All three carry identical content and brand — the
+          choice is how much surrounding weight the sign-in page should have.
+        </li>
+        <li>
+          <strong>Heading copy.</strong> Mockups use a neutral "Sign in." The
+          old consumer screen said "Welcome back"; the B2B panel used a product
+          headline. Flag if you want something other than "Sign in."
+        </li>
+        <li>
+          <strong>Password slot.</strong> Defaults to omitted pending
+          <a href="https://github.com/Brilliant-With-AI-Dev/bapps/issues/465"
+            >#465</a
+          >. No action needed unless you already know passwords must stay.
+        </li>
+        <li>
+          <strong>Not in scope here:</strong> the lobby / auto-forward, the
+          deep-link return, and account creation (<code>/signup</code> stays its
+          own surface). This artifact is sign-in + org picker only.
+        </li>
+      </ul>
+
+      <footer class="doc">
+        Mockups for
+        <a href="https://github.com/Brilliant-With-AI-Dev/bapps/issues/466"
+          >bapps&nbsp;#466</a
+        >
+        · decided flow in
+        <a href="https://github.com/Brilliant-With-AI-Dev/bapps/pull/460"
+          >PR&nbsp;#460</a
+        >
+        · password slot gated on
+        <a href="https://github.com/Brilliant-With-AI-Dev/bapps/issues/465"
+          >C1&nbsp;spike&nbsp;#465</a
+        >. Static HTML treatment renders — no repo code was changed. Brand:
+        forest <code>#157a4e</code>, navy <code>#0a1628</code>, Newsreader +
+        Outfit.
+      </footer>
+    </div>
+  </body>
+</html>
