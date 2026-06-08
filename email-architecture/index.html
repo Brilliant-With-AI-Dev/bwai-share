@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>How BWAI should send email — v1 scope for team review</title>
+    <title>How BWAI should send email — May 2026 snapshot (superseded)</title>
     <style>
       :root {
         --bg: #f6f8fb;
@@ -561,8 +561,82 @@
         <span>Updated 2026-05-19</span>
         <span>Owner: Matt</span>
         <span>Audience: BWAI team</span>
-        <span class="status">Status: confirm v1 scope</span>
+        <span class="status">Snapshot · May 2026 · superseded</span>
       </div>
+
+      <section
+        class="card"
+        style="
+          border-left: 4px solid var(--silver);
+          background: var(--silver-soft);
+          margin-bottom: 32px;
+        "
+      >
+        <p
+          style="
+            margin: 0 0 8px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--silver);
+          "
+        >
+          📌 Frozen snapshot
+        </p>
+        <p style="margin: 0 0 12px; color: var(--ink-2)">
+          This is the May 2026 team-review explainer, kept for the backstory.
+          The live conversation has moved into the issue tracker, and the scope
+          has been re-cast as part of a larger workstream.
+        </p>
+        <ul
+          style="
+            margin: 0;
+            padding-left: 18px;
+            color: var(--ink-2);
+            font-size: 14px;
+            line-height: 1.7;
+          "
+        >
+          <li>
+            <strong>Canonical home:</strong>
+            <a href="https://github.com/Brilliant-With-AI-Dev/bapps/issues/458"
+              >bapps#458</a
+            >
+            (mirrored to Linear DEV-41). Adrian's two-tier framing became the
+            issue title — it won.
+          </li>
+          <li>
+            <strong>Scope shift:</strong> now labeled
+            <code>proj:b2c-payments</code>. Email is no longer free-standing
+            infra; v1 sequencing belongs to the B2C self-serve launch, which
+            likely wants receipt and entitlement-claim emails before Mirror
+            snapshots.
+          </li>
+          <li>
+            <strong>The "one open question" below is largely answered.</strong>
+            Two open PRs override it for the paid path:
+            <a href="https://github.com/Brilliant-With-AI-Dev/bapps/pull/460"
+              >#460</a
+            >
+            (unified sign-in via email magic link — gives us email-on-file for
+            any signed-in user) and
+            <a href="https://github.com/Brilliant-With-AI-Dev/bapps/pull/597"
+              >#597</a
+            >
+            (Stripe B2C — proposes a pending-entitlement-by-email store at
+            payment-first signup). The only remaining gap is mid-flow snapshots
+            for unauthenticated users, since those fire before either capture
+            moment.
+          </li>
+          <li>
+            <strong>What's still right below:</strong> the two-tier
+            architecture; the case for AI-writes-and-sends; the Tier 1 vs Tier 2
+            tradeoffs. <strong>What's stale:</strong> the "Proposed v1 scope"
+            card and "Next step" both assume standalone-infra sequencing.
+          </li>
+        </ul>
+      </section>
 
       <h2>Where we are</h2>
       <section class="card status-card">
@@ -783,16 +857,21 @@
       <h2>Next step</h2>
       <section class="card next-card">
         <p>
-          <strong>If the team confirms v1 scope above</strong>, we move
-          infra/006 from <em>needs-triage</em> to <em>ready-for-agent</em> and
-          ship the Mirror Snapshot in roughly two days.
+          <strong>Re-scope v1 inside the B2C self-serve launch.</strong> The
+          email work has been folded into <code>proj:b2c-payments</code>;
+          standalone snapshot-first sequencing no longer fits. The B2C payment
+          funnel likely wants receipt and entitlement-claim emails before Mirror
+          snapshots, and the email-capture question is partially answered by the
+          new sign-in and payment-first signup designs.
         </p>
         <p>
-          The two-tier architecture is the destination. v1 builds the foundation
-          for the heavier Tier 2 path — domain, deliverability, sender identity,
-          AI body generation, send pipe — without committing to the queue,
-          evaluator, or dashboard until Tier 2 is real. The cost of changing
-          course later is small.
+          Live discussion happens in
+          <a href="https://github.com/Brilliant-With-AI-Dev/bapps/issues/458"
+            >bapps#458</a
+          >
+          (Linear DEV-41). The two-tier architecture below is still the
+          destination — what changes is which tier ships first, and what gets
+          bundled with it.
         </p>
       </section>
 
@@ -948,13 +1027,14 @@
       </details>
 
       <footer>
-        Tracked in the
-        <a href="https://github.com/alignmktg/brilliant-apps"
-          ><em>brilliant-apps</em></a
+        Canonical home:
+        <a href="https://github.com/Brilliant-With-AI-Dev/bapps/issues/458"
+          >bapps#458</a
         >
-        repo at <em>.scratch/infra/006</em>. Current PR with vote log:
-        <a href="https://github.com/alignmktg/brilliant-apps/pull/328"
-          >alignmktg/brilliant-apps#328</a
+        (Linear DEV-41), under <code>proj:b2c-payments</code>. Original
+        team-review PR (now merged, staging branch retired):
+        <a href="https://github.com/Brilliant-With-AI-Dev/bapps/pull/328"
+          >bapps#328</a
         >.
       </footer>
     </div>
