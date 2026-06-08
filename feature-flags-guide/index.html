@@ -1,0 +1,1920 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Testing new features before customers see them</title>
+    <style>
+      :root {
+        --bg: #f6f8fb;
+        --surface: #ffffff;
+        --surface-2: #f3f6fb;
+        --ink: #0f1a2e;
+        --ink-2: #3a4861;
+        --ink-3: #6b7790;
+        --line: #d6dde8;
+        --line-2: #e6ebf2;
+        --accent: #0969da;
+        --accent-soft: #e7efff;
+        --green: #157a4e;
+        --green-soft: #e3f3ea;
+        --amber: #bf8700;
+        --amber-soft: #fdf3da;
+        --red: #cf222e;
+        --slate: #57606a;
+        --mono:
+          ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+        --shadow:
+          0 1px 2px rgba(15, 26, 46, 0.04), 0 4px 14px rgba(15, 26, 46, 0.06);
+        --shadow-lg: 0 6px 24px rgba(15, 26, 46, 0.1);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .wrap {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 56px 24px 80px;
+      }
+      a {
+        color: var(--accent);
+      }
+      code,
+      .mono {
+        font-family: var(--mono);
+        font-size: 0.92em;
+      }
+      .pill-code {
+        font-family: var(--mono);
+        font-size: 0.86em;
+        background: var(--surface-2);
+        border: 1px solid var(--line-2);
+        border-radius: 6px;
+        padding: 1px 6px;
+        white-space: nowrap;
+      }
+
+      /* ---- header ---- */
+      header.top {
+        margin-bottom: 28px;
+      }
+      .eyebrow {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+        margin: 0 0 10px;
+      }
+      h1 {
+        font-size: 32px;
+        line-height: 1.2;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin: 0 0 10px;
+      }
+      .sub {
+        font-size: 17px;
+        color: var(--ink-2);
+        margin: 0;
+      }
+      .meta-row {
+        margin-top: 16px;
+        font-size: 13px;
+        color: var(--ink-3);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        align-items: center;
+      }
+
+      h2 {
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        margin: 48px 0 14px;
+        scroll-margin-top: 20px;
+      }
+      h3 {
+        font-size: 17px;
+        font-weight: 700;
+        margin: 26px 0 8px;
+      }
+      p {
+        margin: 0 0 14px;
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+        padding: 22px 24px;
+      }
+
+      /* ---- plain english overview ---- */
+      .overview {
+        border-left: 4px solid var(--accent);
+      }
+      .overview .q {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin: 0 0 2px;
+      }
+      .overview .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 20px;
+      }
+      .overview .grid > div {
+        min-width: 0;
+      }
+      @media (max-width: 680px) {
+        .overview .grid {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+      }
+
+      /* ---- state delta ---- */
+      .delta {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 12px;
+        margin: 18px 0;
+      }
+      @media (max-width: 680px) {
+        .delta {
+          grid-template-columns: 1fr;
+        }
+      }
+      .lane {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 16px 18px;
+      }
+      .lane.today {
+        border-left: 4px solid var(--slate);
+      }
+      .lane.after {
+        border-left: 4px solid var(--green);
+      }
+      .lane.why {
+        border-left: 4px solid var(--accent);
+      }
+      .lane h4 {
+        margin: 0 0 8px;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--ink-3);
+      }
+      .lane ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+      .lane li {
+        margin-bottom: 6px;
+      }
+
+      /* ---- callouts ---- */
+      .note {
+        border-radius: 10px;
+        padding: 12px 16px;
+        margin: 16px 0;
+        font-size: 15px;
+      }
+      .note.info {
+        background: var(--accent-soft);
+        border-left: 4px solid var(--accent);
+      }
+      .note.warn {
+        background: var(--amber-soft);
+        border-left: 4px solid var(--amber);
+      }
+      .note.good {
+        background: var(--green-soft);
+        border-left: 4px solid var(--green);
+      }
+      .note strong {
+        color: var(--ink);
+      }
+
+      /* ---- three-ways overview cards ---- */
+      .ways {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 14px;
+        margin: 8px 0 4px;
+      }
+      @media (max-width: 760px) {
+        .ways {
+          grid-template-columns: 1fr;
+        }
+      }
+      .way {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 18px;
+        box-shadow: var(--shadow);
+      }
+      .way .num {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 15px;
+        color: #fff;
+        background: var(--accent);
+        margin-bottom: 10px;
+      }
+      .way.p1 .num {
+        background: var(--green);
+      }
+      .way.p2 .num {
+        background: var(--accent);
+      }
+      .way.p3 .num {
+        background: var(--slate);
+      }
+      .way h4 {
+        margin: 0 0 6px;
+        font-size: 16px;
+      }
+      .way p {
+        font-size: 14px;
+        color: var(--ink-2);
+        margin: 0 0 10px;
+      }
+      .way .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .tag {
+        font-size: 11.5px;
+        font-weight: 600;
+        padding: 3px 8px;
+        border-radius: 999px;
+        background: var(--surface-2);
+        color: var(--ink-2);
+        border: 1px solid var(--line-2);
+      }
+      .tag.go {
+        background: var(--green-soft);
+        color: var(--green);
+        border-color: transparent;
+      }
+      .tag.risk0 {
+        background: var(--green-soft);
+        color: var(--green);
+        border-color: transparent;
+      }
+      .badge-rec {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--green);
+        background: var(--green-soft);
+        border-radius: 999px;
+        padding: 2px 9px;
+        margin-left: 8px;
+        vertical-align: middle;
+      }
+
+      /* ---- path finder (interactive) ---- */
+      .finder {
+        border-left: 4px solid var(--accent);
+      }
+      .finder .opts {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      @media (max-width: 680px) {
+        .finder .opts {
+          grid-template-columns: 1fr;
+        }
+      }
+      .finder button.opt {
+        text-align: left;
+        cursor: pointer;
+        font: inherit;
+        color: var(--ink);
+        background: var(--surface-2);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 14px 16px;
+        transition:
+          border-color 0.15s ease,
+          transform 0.12s ease,
+          background 0.15s ease;
+      }
+      .finder button.opt:hover {
+        border-color: var(--accent);
+        transform: translateY(-1px);
+      }
+      .finder button.opt[aria-pressed="true"] {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+      }
+      .finder button.opt strong {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 2px;
+      }
+      .finder button.opt span {
+        font-size: 13px;
+        color: var(--ink-3);
+      }
+      .finder .result {
+        margin-top: 16px;
+        padding: 14px 16px;
+        border-radius: 10px;
+        background: var(--green-soft);
+        border-left: 4px solid var(--green);
+        display: none;
+      }
+      .finder .result.show {
+        display: block;
+      }
+      .finder .result a {
+        font-weight: 600;
+      }
+
+      /* ---- audit checklist (brownfield) ---- */
+      .audit .audit-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .audit ul {
+        list-style: none;
+        margin: 12px 0 0;
+        padding: 0;
+      }
+      .audit li {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        padding: 9px 0;
+        border-bottom: 1px solid var(--line-2);
+      }
+      .audit li:last-child {
+        border-bottom: none;
+      }
+      .audit input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        margin-top: 1px;
+        flex: none;
+        accent-color: var(--green);
+        cursor: pointer;
+      }
+      .audit label {
+        cursor: pointer;
+        font-size: 15px;
+      }
+      .audit li.done label {
+        color: var(--ink-3);
+        text-decoration: line-through;
+      }
+      .install-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 8px;
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--accent);
+        text-decoration: none;
+        background: var(--accent-soft);
+        border: 1px solid #cfe1fb;
+        border-radius: 8px;
+        padding: 6px 12px;
+        transition: border-color 0.15s ease;
+      }
+      .install-link:hover {
+        border-color: var(--accent);
+        text-decoration: underline;
+      }
+      .audit li.done .install-link {
+        opacity: 0.55;
+      }
+      .toggle-brown {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: var(--ink-2);
+        cursor: pointer;
+        user-select: none;
+      }
+      .toggle-brown input {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--accent);
+        cursor: pointer;
+      }
+
+      .haveit {
+        display: none;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--green);
+        background: var(--green-soft);
+        border-radius: 999px;
+        padding: 2px 9px;
+        margin-left: 8px;
+        vertical-align: middle;
+      }
+      .step.satisfied .haveit {
+        display: inline-block;
+      }
+      body.brownfield .step.satisfied {
+        opacity: 0.5;
+      }
+      body.brownfield .step.satisfied .step-detail {
+        display: none;
+      }
+
+      /* ---- numbered steps ---- */
+      ol.steps {
+        counter-reset: s;
+        list-style: none;
+        margin: 14px 0;
+        padding: 0;
+      }
+      ol.steps > li {
+        counter-increment: s;
+        position: relative;
+        padding: 0 0 14px 44px;
+      }
+      ol.steps > li::before {
+        content: counter(s);
+        position: absolute;
+        left: 0;
+        top: -2px;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        font-weight: 700;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      ol.steps.green > li::before {
+        background: var(--green);
+      }
+
+      /* ---- screenshot recreations ---- */
+      figure.shot {
+        margin: 18px 0 8px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+        background: var(--surface);
+      }
+      .shot-bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 12px;
+        background: #e9edf3;
+        border-bottom: 1px solid var(--line);
+      }
+      .shot-bar .dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: #c4ccd6;
+        flex: none;
+      }
+      .shot-bar .dot.r {
+        background: #ec6a5e;
+      }
+      .shot-bar .dot.y {
+        background: #f4be4f;
+      }
+      .shot-bar .dot.g {
+        background: #61c554;
+      }
+      .shot-bar .url {
+        flex: 1;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        padding: 5px 12px;
+        font-family: var(--mono);
+        font-size: 12.5px;
+        color: var(--ink-2);
+        margin-left: 6px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      figure.shot figcaption {
+        padding: 10px 14px;
+        font-size: 13px;
+        color: var(--ink-3);
+        background: var(--surface-2);
+        border-top: 1px solid var(--line-2);
+      }
+      .illus-tag {
+        display: inline-block;
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--amber);
+        background: var(--amber-soft);
+        border-radius: 999px;
+        padding: 2px 8px;
+        margin-right: 8px;
+        vertical-align: middle;
+      }
+      .shot-body {
+        position: relative;
+      }
+
+      /* faux production page (for toolbar shot) */
+      .page-mock {
+        background: linear-gradient(180deg, #fbfcfe 0%, #f1f4f9 100%);
+        padding: 26px 24px 70px;
+        min-height: 220px;
+        position: relative;
+      }
+      .page-mock .skl {
+        background: #e4e9f0;
+        border-radius: 6px;
+      }
+      .page-mock .skl.t {
+        height: 18px;
+        width: 46%;
+        margin-bottom: 14px;
+      }
+      .page-mock .skl.l {
+        height: 11px;
+        margin-bottom: 9px;
+      }
+      .page-mock .skl.l.w1 {
+        width: 92%;
+      }
+      .page-mock .skl.l.w2 {
+        width: 84%;
+      }
+      .page-mock .skl.l.w3 {
+        width: 70%;
+      }
+
+      /* vercel toolbar recreation */
+      .vtoolbar {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        background: #0a0a0a;
+        border-radius: 999px;
+        padding: 5px 8px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+      }
+      .vtoolbar .vbtn {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .vtoolbar .vbtn svg {
+        width: 16px;
+        height: 16px;
+      }
+      .vtoolbar .vbtn svg * {
+        stroke: #d4d4d4;
+      }
+      .vtoolbar .vbtn.logo svg path {
+        fill: #fff;
+        stroke: none;
+      }
+      .vtoolbar .vbtn.flags {
+        background: #1f6feb33;
+        box-shadow: 0 0 0 2px #4493f8;
+      }
+      .vtoolbar .vbtn.flags svg * {
+        stroke: #79c0ff;
+      }
+      .vtoolbar .vdiv {
+        width: 1px;
+        height: 18px;
+        background: #333;
+        margin: 0 4px;
+      }
+
+      .callout {
+        position: absolute;
+        background: var(--ink);
+        color: #fff;
+        font-size: 12.5px;
+        font-weight: 600;
+        padding: 6px 11px;
+        border-radius: 8px;
+        box-shadow: var(--shadow-lg);
+        white-space: nowrap;
+        z-index: 3;
+      }
+      .callout .cnum {
+        display: inline-flex;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        margin-right: 6px;
+      }
+      .callout::after {
+        content: "";
+        position: absolute;
+        width: 9px;
+        height: 9px;
+        background: var(--ink);
+        transform: rotate(45deg);
+      }
+      .callout.below::after {
+        top: -4px;
+        left: 18px;
+      }
+      .callout.tb {
+        bottom: 56px;
+        left: 50%;
+        transform: translateX(-10px);
+      }
+      .callout.tb::after {
+        bottom: -4px;
+        left: 18px;
+        top: auto;
+      }
+
+      /* flags explorer panel recreation */
+      .fe {
+        background: #fff;
+        padding: 0;
+      }
+      .fe-top {
+        padding: 16px 18px 12px;
+        border-bottom: 1px solid var(--line-2);
+      }
+      .fe-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 700;
+        font-size: 15px;
+        margin-bottom: 12px;
+      }
+      .fe-title svg {
+        width: 17px;
+        height: 17px;
+      }
+      .fe-title svg * {
+        stroke: var(--ink);
+      }
+      .fe-search {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 8px 12px;
+        color: var(--ink-3);
+        font-size: 13.5px;
+        background: var(--surface-2);
+      }
+      .fe-search svg {
+        width: 15px;
+        height: 15px;
+        flex: none;
+      }
+      .fe-search svg * {
+        stroke: var(--ink-3);
+      }
+      .fe-rows {
+        padding: 6px 0 8px;
+      }
+      .fe-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 13px 18px;
+        border-bottom: 1px solid var(--line-2);
+      }
+      .fe-row:last-child {
+        border-bottom: none;
+      }
+      .fe-row .fe-name {
+        font-family: var(--mono);
+        font-size: 13px;
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .fe-row .fe-desc {
+        font-size: 12px;
+        color: var(--ink-3);
+        margin-top: 2px;
+      }
+      .fe-row.active {
+        background: #f1f7ff;
+      }
+      .seg {
+        display: inline-flex;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        overflow: hidden;
+        flex: none;
+      }
+      .seg span {
+        font-size: 12px;
+        font-weight: 600;
+        padding: 6px 12px;
+        color: var(--ink-2);
+        background: #fff;
+        border-right: 1px solid var(--line);
+      }
+      .seg span:last-child {
+        border-right: none;
+      }
+      .seg span.on {
+        background: var(--green);
+        color: #fff;
+      }
+      .seg span.sel {
+        background: var(--ink);
+        color: #fff;
+      }
+      .ov-pill {
+        font-size: 10.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: var(--green);
+        background: var(--green-soft);
+        border-radius: 999px;
+        padding: 2px 8px;
+        margin-left: 8px;
+      }
+
+      /* preview app mock */
+      .app-mock {
+        padding: 30px 24px;
+        background: linear-gradient(180deg, #ffffff, #f5f8fc);
+        text-align: center;
+      }
+      .app-mock .logo {
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+        background: var(--green);
+        margin: 0 auto 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .app-mock .logo span {
+        color: #fff;
+        font-weight: 800;
+        font-size: 18px;
+      }
+      .app-mock h5 {
+        margin: 0 0 4px;
+        font-size: 18px;
+      }
+      .app-mock .muted {
+        color: var(--ink-3);
+        font-size: 13px;
+        margin: 0 0 16px;
+      }
+      .app-mock .field {
+        max-width: 280px;
+        margin: 0 auto 9px;
+        height: 38px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        color: var(--ink-3);
+        font-size: 13px;
+      }
+      .app-mock .cta {
+        max-width: 280px;
+        margin: 4px auto 0;
+        height: 40px;
+        border-radius: 8px;
+        background: var(--green);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .flag-on-tag {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--green);
+        background: var(--green-soft);
+        border-radius: 999px;
+        padding: 3px 10px;
+      }
+
+      /* ---- faq ---- */
+      details.faq {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: var(--surface);
+        margin-bottom: 10px;
+        box-shadow: var(--shadow);
+      }
+      details.faq summary {
+        cursor: pointer;
+        padding: 14px 18px;
+        font-weight: 600;
+        font-size: 15.5px;
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+      details.faq summary::-webkit-details-marker {
+        display: none;
+      }
+      details.faq summary::after {
+        content: "+";
+        color: var(--ink-3);
+        font-size: 20px;
+        font-weight: 400;
+      }
+      details.faq[open] summary::after {
+        content: "\2013";
+      }
+      details.faq .a {
+        padding: 0 18px 16px;
+        color: var(--ink-2);
+      }
+
+      /* ---- quick ref ---- */
+      .qref {
+        display: grid;
+        gap: 10px;
+      }
+      .qref .qr {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        padding: 12px 16px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: var(--surface);
+      }
+      .qref .qr b {
+        color: var(--ink);
+      }
+
+      /* ---- buttons / export ---- */
+      .btn {
+        font: inherit;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 9px;
+        padding: 9px 16px;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        color: var(--ink);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition:
+          border-color 0.15s ease,
+          background 0.15s ease;
+      }
+      .btn:hover {
+        border-color: var(--accent);
+      }
+      .btn.primary {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+      .btn.primary:hover {
+        filter: brightness(1.05);
+      }
+
+      footer.foot {
+        margin-top: 64px;
+        padding-top: 22px;
+        border-top: 1px solid var(--line);
+        font-size: 13px;
+        color: var(--ink-3);
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .toc {
+        font-size: 14px;
+      }
+      .toc a {
+        display: inline-block;
+        margin-right: 16px;
+        color: var(--ink-2);
+        text-decoration: none;
+        padding: 4px 0;
+      }
+      .toc a:hover {
+        color: var(--accent);
+      }
+
+      /* ---- print ---- */
+      @media print {
+        body {
+          background: #fff;
+        }
+        .wrap {
+          max-width: 100%;
+          padding: 0;
+        }
+        .no-print,
+        .finder .opts,
+        .btn,
+        .toggle-brown,
+        .toc {
+          display: none !important;
+        }
+        .card,
+        .way,
+        .lane,
+        figure.shot,
+        details.faq,
+        .qref .qr {
+          box-shadow: none;
+        }
+        details.faq[open] .a,
+        details.faq .a {
+          display: block;
+        }
+        details.faq {
+          break-inside: avoid;
+        }
+        figure.shot {
+          break-inside: avoid;
+        }
+        body.brownfield .step.satisfied {
+          opacity: 1;
+        }
+        body.brownfield .step.satisfied .step-detail {
+          display: block;
+        }
+        .vtoolbar {
+          box-shadow: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="top">
+        <p class="eyebrow">
+          Brilliant With AI &middot; Guide for the business team
+        </p>
+        <h1>Testing new features before customers see them</h1>
+        <p class="sub">
+          How to preview and test work-in-progress safely, using our feature
+          on/off switches. Plain language, no engineering background needed.
+        </p>
+        <div class="meta-row">
+          <span>Reading time ~6 min</span>
+          <span>&middot;</span>
+          <span>Audience: business &amp; marketing team</span>
+          <span>&middot;</span>
+          <button
+            class="btn no-print"
+            id="copyMd"
+            style="padding: 4px 12px; font-size: 12.5px"
+          >
+            Copy as Markdown
+          </button>
+          <button
+            class="btn no-print"
+            id="printBtn"
+            style="padding: 4px 12px; font-size: 12.5px"
+          >
+            Print / Save PDF
+          </button>
+        </div>
+      </header>
+
+      <nav class="toc no-print" aria-label="On this page">
+        <a href="#idea">The idea</a>
+        <a href="#finder">Find your path</a>
+        <a href="#path1">Path 1: Preview link</a>
+        <a href="#path2">Path 2: Test on live site</a>
+        <a href="#path3">Path 3: Launch</a>
+        <a href="#example">Example</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <!-- PLAIN ENGLISH OVERVIEW -->
+      <section class="card overview" style="margin-top: 26px">
+        <div class="grid">
+          <div>
+            <p class="q">What is this</p>
+            <p style="margin: 0; font-size: 14.5px; color: var(--ink-2)">
+              A short guide to our "feature flags" &mdash; the on/off switches
+              that let us hide a finished feature from customers until we're
+              ready.
+            </p>
+          </div>
+          <div>
+            <p class="q">Who it's for</p>
+            <p style="margin: 0; font-size: 14.5px; color: var(--ink-2)">
+              Anyone on the business or marketing team who needs to review or
+              test a new feature before it goes live.
+            </p>
+          </div>
+          <div>
+            <p class="q">What you get</p>
+            <p style="margin: 0; font-size: 14.5px; color: var(--ink-2)">
+              Three clear ways to see a not-yet-live feature, with step-by-step
+              directions and pictures of each screen.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- STATE DELTA -->
+      <div class="delta">
+        <div class="lane today">
+          <h4>How it used to work</h4>
+          <ul>
+            <li>A feature was either live for everyone or not built at all.</li>
+            <li>
+              Testing meant either guessing or risking customers seeing
+              half-done work.
+            </li>
+          </ul>
+        </div>
+        <div class="lane after">
+          <h4>How it works now</h4>
+          <ul>
+            <li>Finished code can sit on the live site with its switch OFF.</li>
+            <li>
+              You can turn it ON privately, test it, then launch on purpose.
+            </li>
+          </ul>
+        </div>
+        <div class="lane why">
+          <h4>Why it matters to you</h4>
+          <ul>
+            <li>You catch problems before any customer does.</li>
+            <li>If a launch goes wrong, we undo it in seconds, not hours.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- THE IDEA -->
+      <h2 id="idea">The one idea: a switch on every feature</h2>
+      <p>
+        Every new feature we build has an
+        <strong>on/off switch</strong> attached to it. Engineers call it a
+        <strong>feature flag</strong>; you can just think of it as a light
+        switch.
+      </p>
+      <p>
+        The code for the feature ships to our website like everything else, but
+        the switch starts in the <strong>OFF</strong> position, so customers
+        don't see it yet. We can turn it ON privately to test, fix anything
+        that's wrong, and only flip it ON for everyone once we're confident.
+      </p>
+      <div class="note info">
+        <strong>The curtain analogy.</strong> Picture a stage with the curtain
+        closed. The set is fully built and the actors are in position, but the
+        audience sees nothing until we choose to raise the curtain. A feature
+        flag is that curtain.
+      </div>
+
+      <!-- THREE WAYS OVERVIEW -->
+      <h2>Three ways to see a feature that isn't live yet</h2>
+      <div class="ways">
+        <div class="way p1">
+          <div class="num">1</div>
+          <h4>Preview link <span class="badge-rec">Start here</span></h4>
+          <p>
+            Open a private copy of the product where the feature is already on.
+          </p>
+          <div class="tags">
+            <span class="tag">Anyone</span><span class="tag go">No setup</span
+            ><span class="tag risk0">No customer risk</span>
+          </div>
+        </div>
+        <div class="way p2">
+          <div class="num">2</div>
+          <h4>Test on the live site</h4>
+          <p>
+            Switch a feature ON for your own browser only, on the real site.
+          </p>
+          <div class="tags">
+            <span class="tag">Needs Vercel access</span
+            ><span class="tag">One-time setup</span
+            ><span class="tag risk0">No customer risk</span>
+          </div>
+        </div>
+        <div class="way p3">
+          <div class="num">3</div>
+          <h4>Launch for everyone</h4>
+          <p>
+            An engineer flips the switch ON for all customers. This is the
+            release.
+          </p>
+          <div class="tags">
+            <span class="tag">Engineer does this</span
+            ><span class="tag">Instant undo</span>
+          </div>
+        </div>
+      </div>
+      <p style="font-size: 14px; color: var(--ink-3); margin-top: 12px">
+        Almost all of your testing should use <strong>Path 1</strong>. Paths 2
+        and 3 are here so you understand the full picture.
+      </p>
+
+      <!-- PATH FINDER -->
+      <section class="card finder" id="finder" style="margin-top: 22px">
+        <p
+          class="q"
+          style="
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin: 0 0 2px;
+          "
+        >
+          Not sure which one?
+        </p>
+        <p style="margin: 0; font-weight: 600">What are you trying to do?</p>
+        <div class="opts">
+          <button class="opt" data-r="r1" aria-pressed="false">
+            <strong>Just review / test a feature</strong
+            ><span>before it goes to customers</span>
+          </button>
+          <button class="opt" data-r="r2" aria-pressed="false">
+            <strong>See it on the real live site</strong
+            ><span>just for me, not customers</span>
+          </button>
+          <button class="opt" data-r="r3" aria-pressed="false">
+            <strong>Make it live for everyone</strong
+            ><span>this is the actual launch</span>
+          </button>
+        </div>
+        <div class="result" id="finderResult"></div>
+      </section>
+
+      <!-- PATH 1 -->
+      <h2 id="path1">
+        Path 1 &mdash; Preview link
+        <span class="badge-rec">Recommended, no setup</span>
+      </h2>
+      <p>
+        While an engineer is building a feature, every version of their work
+        automatically gets its own <strong>private preview website</strong>.
+        It's a complete, working copy of our product where the new feature is
+        already switched <strong>ON</strong>.
+      </p>
+      <ol class="steps green">
+        <li>
+          <strong>Ask the engineer for the preview link.</strong> It looks like
+          a normal web address ending in
+          <span class="pill-code">.vercel.app</span>.
+        </li>
+        <li>
+          <strong>Open it in your browser</strong> and use the product normally.
+          The new feature is usually already on.
+        </li>
+        <li>
+          <strong>Test it, click around, and send your feedback</strong> back to
+          the engineer.
+        </li>
+      </ol>
+
+      <figure class="shot">
+        <div class="shot-bar">
+          <span class="dot r"></span><span class="dot y"></span
+          ><span class="dot g"></span>
+          <div class="url">feat-signup-7f3a2.vercel.app</div>
+        </div>
+        <div class="shot-body">
+          <div class="app-mock">
+            <span class="flag-on-tag">Feature ON in preview</span>
+            <div class="logo"><span>B</span></div>
+            <h5>Create your account</h5>
+            <p class="muted">
+              The new sign-up page, live in this private preview only
+            </p>
+            <div class="field">name@company.com</div>
+            <div class="field">Choose a password</div>
+            <div class="cta">Sign up</div>
+          </div>
+        </div>
+        <figcaption>
+          <span class="illus-tag">Illustration</span>A preview link opens a full
+          working copy of the product. The address ends in
+          <code>.vercel.app</code>, and the new feature is already switched on.
+          Nothing here reaches customers. (Your actual screen will look like the
+          real product.)
+        </figcaption>
+      </figure>
+
+      <div class="note warn">
+        <strong>If you hit a login wall or don't see the feature:</strong> tell
+        the engineer. They'll either give you access or confirm the right link.
+        Each feature decides for itself whether it's on in previews, so
+        occasionally one is off by default.
+      </div>
+      <p style="font-size: 14px; color: var(--ink-3)">
+        This is the path to use 9 times out of 10: fastest, nothing to install,
+        zero risk. It uses a <strong>test login</strong>, not your real customer
+        account &mdash; the engineer will tell you how to sign in.
+      </p>
+
+      <!-- PATH 2 -->
+      <h2 id="path2">Path 2 &mdash; Test a feature on the real live site</h2>
+      <p>
+        Sometimes you need to see a feature on the
+        <strong>real production website</strong> (<span class="pill-code"
+          >brilliant-apps.vercel.app</span
+        >) &mdash; for example, to test it with real data. You can switch a
+        hidden feature <strong>ON for your own browser only</strong>. Customers
+        keep seeing the product exactly as it is now.
+      </p>
+
+      <!-- AUDIT CHECKLIST -->
+      <section class="card audit" style="margin: 18px 0">
+        <div class="audit-head">
+          <div>
+            <p style="margin: 0; font-weight: 700">One-time setup check</p>
+            <p style="margin: 2px 0 0; font-size: 13px; color: var(--ink-3)">
+              Tick what you already have. You only need these for Path 2.
+            </p>
+          </div>
+          <label class="toggle-brown no-print"
+            ><input type="checkbox" id="brownToggle" /> Hide steps I've already
+            done</label
+          >
+        </div>
+        <ul id="auditList">
+          <li data-key="team">
+            <input type="checkbox" id="ck-team" /><label for="ck-team"
+              ><strong>I've been added to our Vercel team.</strong> Vercel is
+              the company that hosts our website. An engineer can invite
+              you.</label
+            >
+          </li>
+          <li data-key="ext">
+            <input type="checkbox" id="ck-ext" />
+            <div>
+              <label for="ck-ext"
+                ><strong>I installed the Vercel browser extension.</strong> This
+                is what makes the toolbar appear on the live site. Works in
+                Chrome, Edge, Brave, and other Chrome-based browsers.</label
+              >
+              <a
+                class="install-link"
+                href="https://chromewebstore.google.com/detail/vercel/lahhiofdgnbcgmemekkmjnpifojdaelb"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Install the Vercel extension for Chrome &rarr;</a
+              >
+            </div>
+          </li>
+          <li data-key="login">
+            <input type="checkbox" id="ck-login" /><label for="ck-login"
+              ><strong>I'm logged in at vercel.com</strong> in the same browser,
+              so the extension knows it's me.</label
+            >
+          </li>
+        </ul>
+      </section>
+
+      <div class="note info">
+        <strong>Don't have these yet?</strong> Use Path 1 instead &mdash; it
+        needs none of this. Or ask an engineer to set you up on Vercel once, and
+        Path 2 is yours from then on.
+      </div>
+
+      <h3>Each time you want to test</h3>
+      <ol class="steps">
+        <li class="step" data-needs="all">
+          <strong>Open the live site,</strong>
+          <span class="pill-code">brilliant-apps.vercel.app</span>.
+          <span class="haveit">setup done</span>
+        </li>
+        <li>
+          <strong>Find the Vercel Toolbar</strong> &mdash; a small dark bar at
+          the bottom of the page &mdash; and
+          <strong>click the flags icon</strong> to open the
+          <strong>Flags Explorer</strong>.
+          <div
+            class="step-detail"
+            style="font-size: 13.5px; color: var(--ink-3); margin-top: 4px"
+          >
+            See the picture below for exactly which icon.
+          </div>
+        </li>
+        <li>
+          <strong>Find the feature by its name.</strong> An engineer will tell
+          you the exact name, for example
+          <span class="pill-code">release.b2c-consumer-surface</span>.
+        </li>
+        <li><strong>Set it to "On."</strong></li>
+        <li>
+          <strong>Refresh the page.</strong> You now see the feature; everyone
+          else still sees the normal site.
+        </li>
+      </ol>
+
+      <figure class="shot">
+        <div class="shot-bar">
+          <span class="dot r"></span><span class="dot y"></span
+          ><span class="dot g"></span>
+          <div class="url">brilliant-apps.vercel.app</div>
+        </div>
+        <div class="shot-body">
+          <div class="page-mock">
+            <div class="skl t"></div>
+            <div class="skl l w1"></div>
+            <div class="skl l w2"></div>
+            <div class="skl l w3"></div>
+            <div class="callout tb">
+              <span class="cnum">1</span>Click the flags icon
+            </div>
+            <div class="vtoolbar" aria-hidden="true">
+              <div class="vbtn logo">
+                <svg viewBox="0 0 24 24"><path d="M12 4 22 20 2 20 Z" /></svg>
+              </div>
+              <div class="vdiv"></div>
+              <div class="vbtn">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M21 12a9 9 0 1 1-3-6.7L21 7"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M21 4v3h-3"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+              <div class="vbtn">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.4 8.4 0 0 1-3.8-.9L3 20l1.3-4a8.4 8.4 0 1 1 16.7-4.5z"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+              <div class="vbtn flags">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <line
+                    x1="4"
+                    y1="21"
+                    x2="4"
+                    y2="14"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <line
+                    x1="4"
+                    y1="10"
+                    x2="4"
+                    y2="3"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <line
+                    x1="12"
+                    y1="21"
+                    x2="12"
+                    y2="12"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <line
+                    x1="12"
+                    y1="8"
+                    x2="12"
+                    y2="3"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <line
+                    x1="20"
+                    y1="21"
+                    x2="20"
+                    y2="16"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <line
+                    x1="20"
+                    y1="12"
+                    x2="20"
+                    y2="3"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <circle cx="4" cy="12" r="2" stroke-width="2" />
+                  <circle cx="12" cy="10" r="2" stroke-width="2" />
+                  <circle cx="20" cy="14" r="2" stroke-width="2" />
+                </svg>
+              </div>
+              <div class="vbtn">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="9" stroke-width="2" />
+                  <path
+                    d="M12 8v8M8 12h8"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption>
+          <span class="illus-tag">Illustration</span>On the live site, a small
+          dark <strong>Vercel Toolbar</strong> sits at the bottom. Click the
+          <strong>flags icon</strong> in it to open the Flags Explorer. (The
+          real toolbar's icons may be arranged a little differently.)
+        </figcaption>
+      </figure>
+
+      <figure class="shot">
+        <div class="shot-bar">
+          <span class="dot r"></span><span class="dot y"></span
+          ><span class="dot g"></span>
+          <div class="url">Flags Explorer</div>
+        </div>
+        <div class="shot-body">
+          <div class="fe">
+            <div class="fe-top">
+              <div class="fe-title">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <line
+                    x1="4"
+                    y1="21"
+                    x2="4"
+                    y2="14"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <line
+                    x1="4"
+                    y1="10"
+                    x2="4"
+                    y2="3"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <line
+                    x1="12"
+                    y1="21"
+                    x2="12"
+                    y2="12"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <line
+                    x1="12"
+                    y1="8"
+                    x2="12"
+                    y2="3"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <line
+                    x1="20"
+                    y1="21"
+                    x2="20"
+                    y2="16"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <line
+                    x1="20"
+                    y1="12"
+                    x2="20"
+                    y2="3"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <circle cx="4" cy="12" r="2" stroke-width="2" />
+                  <circle cx="12" cy="10" r="2" stroke-width="2" />
+                  <circle cx="20" cy="14" r="2" stroke-width="2" />
+                </svg>
+                Flags Explorer
+              </div>
+              <div class="fe-search">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <circle cx="11" cy="11" r="7" stroke-width="2" />
+                  <path
+                    d="m20 20-3.5-3.5"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                </svg>
+                Search flags&hellip;
+              </div>
+            </div>
+            <div class="fe-rows">
+              <div class="fe-row active">
+                <div style="min-width: 0">
+                  <div class="fe-name">
+                    release.b2c-consumer-surface<span class="ov-pill"
+                      >Override on</span
+                    >
+                  </div>
+                  <div class="fe-desc">
+                    New customer sign-up &amp; login pages
+                  </div>
+                </div>
+                <div class="seg">
+                  <span>Default</span><span class="on">On</span><span>Off</span>
+                </div>
+              </div>
+              <div class="fe-row">
+                <div style="min-width: 0">
+                  <div class="fe-name">release.mirror-return</div>
+                  <div class="fe-desc">"Return to your Mirror" surface</div>
+                </div>
+                <div class="seg">
+                  <span class="sel">Default</span><span>On</span
+                  ><span>Off</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="callout below" style="top: 64px; right: 18px">
+            <span class="cnum">2</span>Pick "On" for your feature
+          </div>
+        </div>
+        <figcaption>
+          <span class="illus-tag">Illustration</span>The
+          <strong>Flags Explorer</strong> lists each feature by name. Switch
+          yours to <strong>On</strong>, refresh, and you'll see it &mdash; only
+          in your browser. (The exact controls and labels in the real panel may
+          differ.)
+        </figcaption>
+      </figure>
+
+      <div class="note good">
+        <strong>It only affects you.</strong> The switch lives in your browser,
+        it's temporary, and it doesn't follow you to another computer. To return
+        to the normal customer view, set it back to <strong>Off</strong> or just
+        close the browser.
+      </div>
+
+      <!-- PATH 3 -->
+      <h2 id="path3">Path 3 &mdash; Turn it on for everyone (the launch)</h2>
+      <p>
+        When the team agrees a feature is ready, an engineer flips its switch to
+        <strong>ON for all customers</strong>. This happens instantly, with no
+        new version of the site to build and wait for.
+      </p>
+      <p>
+        You don't do this yourself &mdash; it's the actual release decision
+        &mdash; but two things are worth knowing:
+      </p>
+      <ul>
+        <li>
+          <strong>It's instant in both directions.</strong> If something looks
+          wrong right after launch, the engineer flips the switch back to OFF in
+          seconds and customers return to the previous experience. No drawn-out
+          rollback.
+        </li>
+        <li>
+          <strong
+            >"Ready to launch" is a business call as much as a technical
+            one.</strong
+          >
+          Your sign-off on a feature (from Path 1 or 2) is usually what tells
+          the team it's safe to raise the curtain.
+        </li>
+      </ul>
+
+      <!-- WORKED EXAMPLE -->
+      <h2 id="example">A worked example</h2>
+      <p>
+        Say we've built new
+        <strong>customer sign-up and login pages</strong> but aren't ready to
+        open them to the public. They live behind a switch called
+        <span class="pill-code">release.b2c-consumer-surface</span>, which is
+        <strong>OFF</strong> for customers. Right now, anyone who tries to reach
+        those pages is quietly sent back to the normal entry screen.
+      </p>
+      <ol class="steps">
+        <li>
+          <strong>Marketing checks the sign-up copy and flow.</strong> They ask
+          the engineer for the <strong>preview link</strong> (Path 1), walk
+          through sign-up as a new customer would, spot two wording changes, and
+          send them over. No customer ever saw the work-in-progress.
+        </li>
+        <li>
+          <strong>A final check on real production.</strong> A teammate who's
+          set up on Vercel (Path 2) flips the feature
+          <strong>ON in their own browser</strong> on the live site, confirms it
+          behaves correctly with real data, then switches it back off.
+        </li>
+        <li>
+          <strong>Launch day.</strong> With sign-off in hand, an engineer turns
+          the switch <strong>ON for everyone</strong> (Path 3). Sign-up goes
+          live for all customers at once. If a problem appears, they flip it
+          back off immediately.
+        </li>
+      </ol>
+
+      <!-- FAQ -->
+      <h2 id="faq">Common questions</h2>
+      <details class="faq">
+        <summary>
+          If I turn a feature on for myself, will customers see it?
+        </summary>
+        <div class="a">
+          No. Paths 1 and 2 only change your own view. Customers only see a
+          feature after Path 3, the launch.
+        </div>
+      </details>
+      <details class="faq">
+        <summary>Can I break the live product by testing?</summary>
+        <div class="a">
+          No. Preview links are a separate copy, and the per-browser switch only
+          changes what you see.
+        </div>
+      </details>
+      <details class="faq">
+        <summary>
+          A feature I was told about isn't showing up. What now?
+        </summary>
+        <div class="a">
+          Tell the engineer the feature's name and which path you tried. Usually
+          it's a wrong link, a switch that's off by default in previews, or a
+          setup step missing on your Vercel account.
+        </div>
+      </details>
+      <details class="faq">
+        <summary>
+          Why don't we just push features straight to customers?
+        </summary>
+        <div class="a">
+          Because "the code is on the website" and "customers can use the
+          feature" are now two separate decisions. That lets us test safely in
+          the real environment first, launch on a deliberate schedule, and undo
+          instantly if needed.
+        </div>
+      </details>
+      <details class="faq">
+        <summary>
+          Is this the same as LaunchDarkly or other flag tools I've heard of?
+        </summary>
+        <div class="a">
+          Same idea, simpler setup. We use Vercel's built-in flag tooling rather
+          than a separate paid platform. For your purposes, the experience is
+          exactly what's described above.
+        </div>
+      </details>
+
+      <!-- QUICK REFERENCE -->
+      <h2>Quick reference</h2>
+      <div class="qref">
+        <div class="qr">
+          <b>Just want to review a feature?</b>&nbsp; Ask for the
+          <b>preview link</b> (Path 1). That's it.
+        </div>
+        <div class="qr">
+          <b>Need to see it on the real site?</b>&nbsp; Do the one-time Vercel
+          setup, then use the <b>Flags Explorer</b> toolbar (Path 2).
+        </div>
+        <div class="qr">
+          <b>Think it's ready for customers?</b>&nbsp; Give your sign-off; an
+          engineer handles the launch (Path 3).
+        </div>
+        <div class="qr">
+          <b>Stuck?</b>&nbsp; Tell an engineer the feature name and what you
+          tried.
+        </div>
+      </div>
+
+      <footer class="foot">
+        <span>Questions or corrections: contact Matt.</span>
+        <span class="no-print"
+          >The pictures above are simplified illustrations of the steps; the
+          real screens may look a little different.</span
+        >
+      </footer>
+    </div>
+
+    <script>
+      // ----- Markdown export (base64 to survive formatters) -----
+      var MD_B64 =
+        "IyBUZXN0aW5nIG5ldyBmZWF0dXJlcyBiZWZvcmUgY3VzdG9tZXJzIHNlZSB0aGVtCgpBIHBsYWluLWxhbmd1YWdlIGd1aWRlIGZvciB0aGUgYnVzaW5lc3MgdGVhbS4gTm8gZW5naW5lZXJpbmcgYmFja2dyb3VuZCBuZWVkZWQuCgojIyBUaGUgb25lIGlkZWEKCkV2ZXJ5IG5ldyBmZWF0dXJlIGhhcyBhbiBvbi9vZmYgc3dpdGNoIGNhbGxlZCBhICJmZWF0dXJlIGZsYWcuIiBUaGUgY29kZSBzaGlwcwp0byBvdXIgd2Vic2l0ZSBsaWtlIGV2ZXJ5dGhpbmcgZWxzZSwgYnV0IHRoZSBzd2l0Y2ggc3RhcnRzIE9GRiwgc28gY3VzdG9tZXJzCmRvbid0IHNlZSBpdCB5ZXQuIFdlIGNhbiB0dXJuIGl0IE9OIHByaXZhdGVseSB0byB0ZXN0IGl0LCB0aGVuIGZsaXAgaXQgT04gZm9yCmV2ZXJ5b25lIG9uY2Ugd2UncmUgY29uZmlkZW50LiBUaGluayBvZiBhIHN0YWdlIHdpdGggdGhlIGN1cnRhaW4gY2xvc2VkOiB0aGUgc2V0CmlzIGJ1aWx0IGFuZCB0aGUgYWN0b3JzIGFyZSBpbiBwb3NpdGlvbiwgYnV0IHRoZSBhdWRpZW5jZSBzZWVzIG5vdGhpbmcgdW50aWwgd2UKcmFpc2UgdGhlIGN1cnRhaW4uCgojIyBXaHkgaXQgbWF0dGVycwoKLSBSZXZpZXcgYW5kIHRlc3QgYSBmZWF0dXJlIGJlZm9yZSBhbnkgY3VzdG9tZXIgc2VlcyBpdC4KLSBObyByaXNrIHRvIHRoZSBsaXZlIHByb2R1Y3Q6IHR1cm5pbmcgYSBmZWF0dXJlIG9uIGZvciB5b3Vyc2VsZiBkb2VzIG5vdCB0dXJuIGl0CiAgb24gZm9yIGN1c3RvbWVycy4KLSBJbnN0YW50IHVuZG86IGlmIGEgbGF1bmNoIG1pc2JlaGF2ZXMsIHdlIGZsaXAgdGhlIHN3aXRjaCBiYWNrIHRvIE9GRiBpbiBzZWNvbmRzLgoKIyMgVGhyZWUgd2F5cyB0byBzZWUgYSBmZWF0dXJlIHRoYXQgaXNuJ3QgbGl2ZSB5ZXQKCjEuIFByZXZpZXcgbGluayAoc3RhcnQgaGVyZSkg4oCUIGFueW9uZSwgbm8gc2V0dXAsIG5vIGN1c3RvbWVyIHJpc2suCjIuIEZsaXAgaXQgb24gZm9yIHlvdXJzZWxmIG9uIHRoZSBsaXZlIHNpdGUg4oCUIGZvciBwZW9wbGUgc2V0IHVwIG9uIFZlcmNlbCwgb25lLXRpbWUgc2V0dXAuCjMuIFR1cm4gaXQgb24gZm9yIGV2ZXJ5b25lIOKAlCB0aGUgbGF1bmNoLCBkb25lIGJ5IGFuIGVuZ2luZWVyLgoKIyMjIFBhdGggMSDigJQgUHJldmlldyBsaW5rIChyZWNvbW1lbmRlZCwgbm8gc2V0dXApCgpFdmVyeSB2ZXJzaW9uIG9mIGFuIGVuZ2luZWVyJ3Mgd29yayBnZXRzIGl0cyBvd24gcHJpdmF0ZSBwcmV2aWV3IHdlYnNpdGUgd2hlcmUKdGhlIGZlYXR1cmUgaXMgYWxyZWFkeSBPTi4KCjEuIEFzayB0aGUgZW5naW5lZXIgZm9yIHRoZSBwcmV2aWV3IGxpbmsgKGEgd2ViIGFkZHJlc3MgZW5kaW5nIGluIC52ZXJjZWwuYXBwKS4KMi4gT3BlbiBpdCBhbmQgdXNlIHRoZSBwcm9kdWN0IG5vcm1hbGx5OyB0aGUgZmVhdHVyZSBpcyB1c3VhbGx5IGFscmVhZHkgb24uCjMuIFRlc3QgaXQgYW5kIHNlbmQgZmVlZGJhY2suCgpOb3RlczogdGhlIHByZXZpZXcgaXMgc2VwYXJhdGUgZnJvbSB0aGUgcmVhbCBwcm9kdWN0LCBzbyBub3RoaW5nIHlvdSBkbyBhZmZlY3RzCmN1c3RvbWVycy4gSXQgdXNlcyBhIHRlc3QgbG9naW4sIG5vdCB5b3VyIHJlYWwgYWNjb3VudC4gSWYgeW91IGhpdCBhIGxvZ2luIHdhbGwKb3IgZG9uJ3Qgc2VlIHRoZSBmZWF0dXJlLCB0ZWxsIHRoZSBlbmdpbmVlci4KCiMjIyBQYXRoIDIg4oCUIEZsaXAgaXQgb24gZm9yIHlvdXJzZWxmIG9uIHRoZSBsaXZlIHNpdGUKClRvIHNlZSBhIGZlYXR1cmUgb24gdGhlIHJlYWwgcHJvZHVjdGlvbiBzaXRlIChicmlsbGlhbnQtYXBwcy52ZXJjZWwuYXBwKSB3aXRob3V0CmV4cG9zaW5nIGl0IHRvIGN1c3RvbWVycywgc3dpdGNoIGl0IE9OIGZvciB5b3VyIG93biBicm93c2VyIG9ubHkuCgpPbmUtdGltZSBzZXR1cDogKDEpIGJlIGFkZGVkIHRvIG91ciBWZXJjZWwgdGVhbSwgKDIpIGluc3RhbGwgdGhlIFZlcmNlbCBicm93c2VyIGV4dGVuc2lvbgooaHR0cHM6Ly9jaHJvbWV3ZWJzdG9yZS5nb29nbGUuY29tL2RldGFpbC92ZXJjZWwvbGFoaGlvZmRnbmJjZ21lbWVra21qbnBpZm9qZGFlbGIpLCAoMykgbG9nIGluIGF0IHZlcmNlbC5jb20gaW4gdGhlIHNhbWUgYnJvd3Nlci4KCkVhY2ggdGltZTogKDEpIG9wZW4gYnJpbGxpYW50LWFwcHMudmVyY2VsLmFwcCwgKDIpIGNsaWNrIHRoZSBmbGFncyBpY29uIGluIHRoZQpWZXJjZWwgVG9vbGJhciBhdCB0aGUgYm90dG9tIHRvIG9wZW4gdGhlIEZsYWdzIEV4cGxvcmVyLCAoMykgZmluZCB0aGUgZmVhdHVyZSBieQpuYW1lLCAoNCkgc2V0IGl0IHRvIE9uLCAoNSkgcmVmcmVzaC4gWW91IHNlZSB0aGUgZmVhdHVyZTsgY3VzdG9tZXJzIGRvbid0LgoKTm90ZXM6IHRoZSBzd2l0Y2ggb25seSBhcHBsaWVzIHRvIHlvdXIgYnJvd3NlciwgaXQncyB0ZW1wb3JhcnksIGFuZCBzZXR0aW5nIGl0CmJhY2sgdG8gT2ZmIChvciBjbG9zaW5nIHRoZSBicm93c2VyKSByZXR1cm5zIHRoZSBub3JtYWwgdmlldy4KCiMjIyBQYXRoIDMg4oCUIFR1cm4gaXQgb24gZm9yIGV2ZXJ5b25lICh0aGUgbGF1bmNoKQoKV2hlbiB0aGUgdGVhbSBhZ3JlZXMgYSBmZWF0dXJlIGlzIHJlYWR5LCBhbiBlbmdpbmVlciBmbGlwcyB0aGUgc3dpdGNoIE9OIGZvciBhbGwKY3VzdG9tZXJzIGluc3RhbnRseSwgd2l0aCBubyBuZXcgdmVyc2lvbiB0byBidWlsZC4gSXQncyBpbnN0YW50IGluIGJvdGgKZGlyZWN0aW9ucywgc28gYSBiYWQgbGF1bmNoIGlzIGZsaXBwZWQgYmFjayB0byBPRkYgaW4gc2Vjb25kcy4gWW91ciBzaWduLW9mZiB2aWEKUGF0aCAxIG9yIDIgaXMgdXN1YWxseSB3aGF0IHRlbGxzIHRoZSB0ZWFtIGl0J3Mgc2FmZSB0byBsYXVuY2guCgojIyBXb3JrZWQgZXhhbXBsZQoKTmV3IGN1c3RvbWVyIHNpZ24tdXAgYW5kIGxvZ2luIHBhZ2VzIGxpdmUgYmVoaW5kIGEgc3dpdGNoIGNhbGxlZApyZWxlYXNlLmIyYy1jb25zdW1lci1zdXJmYWNlLCBPRkYgZm9yIGN1c3RvbWVycy4gTWFya2V0aW5nIHJldmlld3MgdGhlIGNvcHkgdmlhCmEgcHJldmlldyBsaW5rIChQYXRoIDEpLiBBIHRlYW1tYXRlIHNldCB1cCBvbiBWZXJjZWwgZG9lcyBhIGZpbmFsIGNoZWNrIG9uIHRoZQpsaXZlIHNpdGUgKFBhdGggMikuIE9uIGxhdW5jaCBkYXkgYW4gZW5naW5lZXIgdHVybnMgdGhlIHN3aXRjaCBPTiBmb3IgZXZlcnlvbmUKKFBhdGggMyksIHdpdGggaW5zdGFudCByb2xsYmFjayBpZiBuZWVkZWQuCgojIyBGQVEKCi0gSWYgSSB0dXJuIGEgZmVhdHVyZSBvbiBmb3IgbXlzZWxmLCB3aWxsIGN1c3RvbWVycyBzZWUgaXQ/IE5vLiBQYXRocyAxIGFuZCAyCiAgb25seSBhZmZlY3QgeW91ciBvd24gdmlldy4KLSBDYW4gSSBicmVhayB0aGUgbGl2ZSBwcm9kdWN0IGJ5IHRlc3Rpbmc/IE5vLgotIEEgZmVhdHVyZSBpc24ndCBzaG93aW5nIHVwLiBUZWxsIHRoZSBlbmdpbmVlciB0aGUgZmVhdHVyZSBuYW1lIGFuZCB3aGljaCBwYXRoCiAgeW91IHRyaWVkLgotIElzIHRoaXMgdGhlIHNhbWUgYXMgTGF1bmNoRGFya2x5PyBTYW1lIGlkZWEsIHNpbXBsZXIgc2V0dXAuIFdlIHVzZSBWZXJjZWwncwogIGJ1aWx0LWluIGZsYWcgdG9vbGluZy4K";
+      function decodeMd() {
+        try {
+          var bin = atob(MD_B64);
+          var bytes = new Uint8Array(bin.length);
+          for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+          return new TextDecoder("utf-8").decode(bytes);
+        } catch (e) {
+          return "(could not decode)";
+        }
+      }
+      var copyBtn = document.getElementById("copyMd");
+      copyBtn.addEventListener("click", function () {
+        var md = decodeMd();
+        navigator.clipboard.writeText(md).then(
+          function () {
+            var t = copyBtn.textContent;
+            copyBtn.textContent = "Copied";
+            setTimeout(function () {
+              copyBtn.textContent = t;
+            }, 1600);
+          },
+          function () {
+            var ta = document.createElement("textarea");
+            ta.value = md;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand("copy");
+            document.body.removeChild(ta);
+            copyBtn.textContent = "Copied";
+            setTimeout(function () {
+              copyBtn.textContent = "Copy as Markdown";
+            }, 1600);
+          },
+        );
+      });
+      document
+        .getElementById("printBtn")
+        .addEventListener("click", function () {
+          window.print();
+        });
+
+      // ----- Path finder -----
+      var RESULTS = {
+        r1: 'Use <a href="#path1">Path 1 &mdash; Preview link</a>. Ask the engineer for the link, open it, and test. No setup, no risk.',
+        r2: 'Use <a href="#path2">Path 2 &mdash; Test on the live site</a>. Do the one-time Vercel setup, then flip the feature on for your own browser in the Flags Explorer.',
+        r3: "That's <a href=\"#path3\">Path 3 &mdash; the launch</a>. An engineer flips it on for everyone once the team signs off. Give your go-ahead and they'll handle it.",
+      };
+      var res = document.getElementById("finderResult");
+      Array.prototype.forEach.call(
+        document.querySelectorAll(".finder .opt"),
+        function (b) {
+          b.addEventListener("click", function () {
+            Array.prototype.forEach.call(
+              document.querySelectorAll(".finder .opt"),
+              function (x) {
+                x.setAttribute("aria-pressed", "false");
+              },
+            );
+            b.setAttribute("aria-pressed", "true");
+            res.innerHTML = RESULTS[b.dataset.r];
+            res.classList.add("show");
+          });
+        },
+      );
+
+      // ----- Audit checklist (persist + brownfield dim) -----
+      var KEYS = { team: "ck-team", ext: "ck-ext", login: "ck-login" };
+      function applyAudit() {
+        var team = document.getElementById("ck-team").checked;
+        var ext = document.getElementById("ck-ext").checked;
+        var login = document.getElementById("ck-login").checked;
+        // mark audit list items
+        Array.prototype.forEach.call(
+          document.querySelectorAll("#auditList li"),
+          function (li) {
+            var cb = li.querySelector("input");
+            li.classList.toggle("done", cb.checked);
+          },
+        );
+        // "Open the live site" step is satisfied only when all setup is done
+        var allDone = team && ext && login;
+        var s1 = document.querySelector('.step[data-needs="all"]');
+        if (s1) s1.classList.toggle("satisfied", allDone);
+      }
+      function saveAudit() {
+        try {
+          localStorage.setItem(
+            "ffg-audit",
+            JSON.stringify({
+              team: document.getElementById("ck-team").checked,
+              ext: document.getElementById("ck-ext").checked,
+              login: document.getElementById("ck-login").checked,
+              brown: document.getElementById("brownToggle").checked,
+            }),
+          );
+        } catch (e) {}
+      }
+      function loadAudit() {
+        try {
+          var s = JSON.parse(localStorage.getItem("ffg-audit") || "{}");
+          if (s.team) document.getElementById("ck-team").checked = true;
+          if (s.ext) document.getElementById("ck-ext").checked = true;
+          if (s.login) document.getElementById("ck-login").checked = true;
+          if (s.brown) {
+            document.getElementById("brownToggle").checked = true;
+            document.body.classList.add("brownfield");
+          }
+        } catch (e) {}
+      }
+      ["ck-team", "ck-ext", "ck-login"].forEach(function (id) {
+        document.getElementById(id).addEventListener("change", function () {
+          applyAudit();
+          saveAudit();
+        });
+      });
+      document
+        .getElementById("brownToggle")
+        .addEventListener("change", function () {
+          document.body.classList.toggle("brownfield", this.checked);
+          saveAudit();
+        });
+      loadAudit();
+      applyAudit();
+
+      // smooth scroll for in-page nav
+      Array.prototype.forEach.call(
+        document.querySelectorAll('a[href^="#"]'),
+        function (a) {
+          a.addEventListener("click", function (e) {
+            var t = document.querySelector(a.getAttribute("href"));
+            if (t) {
+              e.preventDefault();
+              t.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          });
+        },
+      );
+    </script>
+  </body>
+</html>
