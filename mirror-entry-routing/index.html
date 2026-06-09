@@ -1,1117 +1,264 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Mirror — entry-routing refactor walkthrough</title>
-    <style>
-      :root {
-        --ink: #1a2230;
-        --ink-soft: #4a5568;
-        --line: #e3e8ef;
-        --line-strong: #cdd5e0;
-        --bg: #ffffff;
-        --bg-soft: #f7f9fc;
-        --head: #0f1b2d;
-        --code-bg: #eef2f7;
-        --accent: #1f6f54; /* forest */
-        --ok: #1f7a4d;
-        --ok-bg: #e9f6ee;
-        --warn: #9a6b00;
-        --warn-bg: #fbf3df;
-        --bad: #a3261f;
-        --bad-bg: #fbeceb;
-        --na: #5b6675;
-        --na-bg: #eef1f5;
-      }
-      * {
-        box-sizing: border-box;
-      }
-      html {
-        -webkit-text-size-adjust: 100%;
-      }
-      body {
-        margin: 0;
-        background: var(--bg-soft);
-        color: var(--ink);
-        font:
-          21px/1.6 -apple-system,
-          BlinkMacSystemFont,
-          "Segoe UI",
-          Roboto,
-          Helvetica,
-          Arial,
-          sans-serif;
-        padding: 36px 30px 80px;
-      }
-      h1 {
-        font-size: 36px;
-        margin: 0 0 8px;
-        letter-spacing: -0.01em;
-      }
-      .sub {
-        color: var(--ink-soft);
-        margin: 0 0 26px;
-        font-size: 20px;
-        max-width: 1400px;
-      }
-      .legend {
-        background: var(--bg);
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 20px 24px;
-        margin: 0 0 22px;
-        font-size: 19px;
-        line-height: 1.7;
-        color: var(--ink-soft);
-        max-width: 1400px;
-      }
-      .legend b {
-        color: var(--ink);
-      }
-      .legend code,
-      td code,
-      th code,
-      .change code,
-      .ba code {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        background: var(--code-bg);
-        padding: 2px 7px;
-        border-radius: 5px;
-        font-size: 0.92em;
-        color: #1a3a5c;
-      }
-      .change {
-        background: var(--ok-bg);
-        border: 1px solid #c7e6d3;
-        border-radius: 12px;
-        padding: 18px 24px 8px;
-        margin: 0 0 30px;
-        font-size: 19px;
-        line-height: 1.6;
-        max-width: 1400px;
-      }
-      .change h2 {
-        font-size: 18px;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        color: var(--accent);
-        margin: 0 0 10px;
-      }
-      .change ul {
-        margin: 0 0 12px;
-        padding-left: 22px;
-      }
-      .change li {
-        margin-bottom: 8px;
-      }
-      .change b {
-        color: var(--ink);
-      }
-      .section-title {
-        font-size: 27px;
-        font-weight: 700;
-        margin: 44px 0 6px;
-        color: var(--head);
-        letter-spacing: -0.01em;
-      }
-      .section-note {
-        color: var(--ink-soft);
-        margin: 0 0 16px;
-        font-size: 18px;
-        max-width: 1400px;
-      }
-      .uc {
-        font-size: 25px;
-        font-weight: 700;
-        margin: 38px 0 12px;
-        color: var(--head);
-      }
-      /* before/after contrast banner */
-      .ba {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0;
-        max-width: 1640px;
-        border: 1px solid var(--line-strong);
-        border-radius: 12px;
-        overflow: hidden;
-        margin: 0 0 14px;
-        font-size: 18px;
-        line-height: 1.5;
-      }
-      .ba > div {
-        padding: 14px 20px;
-      }
-      .ba .before {
-        background: var(--bad-bg);
-        border-right: 1px solid var(--line-strong);
-      }
-      .ba .after {
-        background: var(--ok-bg);
-      }
-      .ba .tag {
-        display: block;
-        font-size: 13px;
-        font-weight: 800;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        margin-bottom: 6px;
-      }
-      .ba .before .tag {
-        color: var(--bad);
-      }
-      .ba .after .tag {
-        color: var(--ok);
-      }
-      @media (max-width: 900px) {
-        .ba {
-          grid-template-columns: 1fr;
-        }
-        .ba .before {
-          border-right: none;
-          border-bottom: 1px solid var(--line-strong);
-        }
-      }
-      .wrap {
-        overflow-x: auto;
-        border: 1px solid var(--line-strong);
-        border-radius: 14px;
-        background: var(--bg);
-        max-width: 1640px;
-      }
-      table {
-        border-collapse: collapse;
-        width: 100%;
-        min-width: 1640px;
-      }
-      /* the decision table is narrower — let it breathe without the wide min */
-      .narrow {
-        max-width: 1400px;
-      }
-      .narrow table {
-        min-width: 0;
-      }
-      thead th {
-        position: sticky;
-        top: 0;
-        background: var(--head);
-        color: #fff;
-        text-align: left;
-        vertical-align: top;
-        font-size: 17px;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        padding: 16px 18px;
-        border-right: 1px solid #243348;
-        white-space: nowrap;
-      }
-      thead th:last-child {
-        border-right: none;
-      }
-      tbody td {
-        vertical-align: top;
-        padding: 20px 18px;
-        border-top: 1px solid var(--line);
-        border-right: 1px solid var(--line);
-        font-size: 19px;
-        line-height: 1.55;
-        color: var(--ink);
-      }
-      tbody td:last-child {
-        border-right: none;
-      }
-      tbody tr:nth-child(even) td {
-        background: var(--bg-soft);
-      }
-      .step {
-        white-space: nowrap;
-        font-weight: 700;
-        color: var(--head);
-        font-size: 23px;
-      }
-      .step small {
-        display: block;
-        font-weight: 500;
-        color: var(--accent);
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        font-size: 16px;
-        margin-top: 5px;
-        white-space: normal;
-      }
-      .rownum {
-        font-weight: 800;
-        color: var(--head);
-        font-size: 22px;
-        white-space: nowrap;
-      }
-      .col-cond {
-        min-width: 360px;
-      }
-      .col-sees {
-        min-width: 150px;
-      }
-      .col-dest {
-        min-width: 220px;
-      }
-      .col-why {
-        min-width: 420px;
-      }
-      .col-user {
-        min-width: 220px;
-      }
-      .col-ui {
-        min-width: 170px;
-      }
-      .col-runtime {
-        min-width: 360px;
-      }
-      .col-route {
-        min-width: 200px;
-      }
-      .col-platform {
-        min-width: 210px;
-      }
-      .col-stores {
-        min-width: 250px;
-      }
-      .col-resume {
-        min-width: 230px;
-      }
-      .pill {
-        display: inline-block;
-        padding: 3px 12px;
-        border-radius: 999px;
-        font-size: 15px;
-        font-weight: 700;
-        letter-spacing: 0.03em;
-        margin-bottom: 7px;
-      }
-      .pill.ok {
-        color: var(--ok);
-        background: var(--ok-bg);
-      }
-      .pill.warn {
-        color: var(--warn);
-        background: var(--warn-bg);
-      }
-      .pill.bad {
-        color: var(--bad);
-        background: var(--bad-bg);
-      }
-      .pill.na {
-        color: var(--na);
-        background: var(--na-bg);
-      }
-      .dest {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        font-weight: 700;
-        font-size: 16px;
-        white-space: nowrap;
-      }
-      .dest.start {
-        color: var(--na);
-      }
-      .dest.report {
-        color: #1a5fb4;
-      }
-      .dest.resume {
-        color: var(--accent);
-      }
-      .dest.interview {
-        color: #7a4da3;
-      }
-      .muted {
-        color: var(--ink-soft);
-      }
-      .none {
-        color: var(--na);
-        font-style: italic;
-      }
-      .destfix {
-        color: var(--ok);
-        font-weight: 700;
-      }
-      .toc {
-        background: var(--bg);
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 16px 24px;
-        margin: 0 0 26px;
-        max-width: 1400px;
-        font-size: 18px;
-      }
-      .toc a {
-        color: var(--accent);
-        text-decoration: none;
-      }
-      .toc a:hover {
-        text-decoration: underline;
-      }
-      .toc ol {
-        margin: 6px 0 0;
-        padding-left: 24px;
-        columns: 2;
-        column-gap: 40px;
-      }
-      .toc li {
-        margin-bottom: 4px;
-        break-inside: avoid;
-      }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mirror — the right landing, every time</title>
+    <link rel="stylesheet" href="../assets/bwai-doc.css" />
   </head>
   <body>
-    <h1>Mirror — entry routing, the proposed design</h1>
-    <p class="sub">
-      The <b>complete walkthrough</b> for the entry-routing refactor (branch
-      <code>feat/mirror-entry-routing</code>), to bless before any code lands.
-      Today, opening <code>/mirror</code> can flicker
-      <code>/mirror → /mirror/report → /mirror/start</code> for a brand-new
-      user, who lands for a moment on a URL named &ldquo;report&rdquo; that has
-      no report. This change makes <code>/mirror</code> read the signed-in
-      user's run state <b>once, server-side</b>, and redirect <b>once</b> to the
-      single destination that is true for them. Everything is behind the
-      <code>release.mirror-return</code> flag (on in preview/dev, off in
-      production).
-    </p>
-
-    <div class="change">
-      <h2>What changes (four edits, all flag-dark)</h2>
-      <ul>
-        <li>
-          <b>New resolver — <code>lib/mirror/entry-routing.ts</code>.</b> One
-          server-only function decides the destination from run state, reusing
-          the exact read path <code>/api/mirror/state</code> already uses.
-        </li>
-        <li>
-          <b><code>/mirror</code> becomes an honest server redirect.</b> It calls
-          the resolver (with a timeout + safe fallback) and redirects once — no
-          guess, no double-bounce.
-        </li>
-        <li>
-          <b>New surface — <code>/mirror/resume</code>.</b> &ldquo;Pick up where
-          you left off?&rdquo; moves off the report page into its own route, so
-          each surface owns one job.
-        </li>
-        <li>
-          <b><code>/mirror/report</code> slims to finished-report-only.</b> It
-          drops the resume gate; it renders the completed Mirror (and its own
-          retry state on a platform hiccup).
-        </li>
-      </ul>
-    </div>
-
-    <div class="toc">
-      <b>On this page</b>
-      <ol>
-        <li><a href="#decision">The decision table</a> — every input → one destination</li>
-        <li><a href="#uc1">Use Case 1</a> — first-timer, no run</li>
-        <li><a href="#uc2">Use Case 2</a> — returning, finished Mirror</li>
-        <li><a href="#uc3">Use Case 3</a> — returning, abandoned run</li>
-        <li><a href="#uc4">Use Case 4</a> — active tab, mid-interview</li>
-        <li><a href="#edges">Edge cases</a> — the safety rails</li>
-        <li><a href="#tradeoffs">Accepted tradeoffs</a></li>
-      </ol>
-    </div>
-
-    <!-- ================= DECISION TABLE ================= -->
-    <div class="section-title" id="decision">1 · The decision table</div>
-    <p class="section-note">
-      The whole refactor in one place: a <b>first-match-wins</b> ladder. The
-      entry router walks it top to bottom and stops at the first row that
-      applies. Rows 1&ndash;5 are the cheap or defensive exits; rows 6&ndash;8
-      are the real three-way decision after run state is read. &ldquo;Server can
-      see it?&rdquo; flags whether the choice is made server-side (at
-      <code>/mirror</code>) or has to be finished client-side on the destination
-      surface, because the browser session envelope is invisible to the server.
-    </p>
-    <div class="wrap narrow">
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th class="col-cond">Condition (first match wins)</th>
-            <th class="col-sees">Decided</th>
-            <th class="col-dest">Destination</th>
-            <th class="col-why">Why</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="rownum">1</td>
-            <td class="col-cond">
-              <code>release.mirror-return</code> is <b>OFF</b>
-            </td>
-            <td class="col-sees">server</td>
-            <td class="col-dest"><span class="dest start">/mirror/start</span></td>
-            <td class="col-why">
-              Dark launch. No cookie read, no platform call — byte-for-byte
-              identical to production today. The whole mechanism is invisible
-              until the flag flips.
-            </td>
-          </tr>
-          <tr>
-            <td class="rownum">2</td>
-            <td class="col-cond">Flag on, but <b>no Stytch session cookie</b></td>
-            <td class="col-sees">server</td>
-            <td class="col-dest"><span class="dest start">/mirror/start</span></td>
-            <td class="col-why">
-              Anonymous visitor. The login wall lives on <code>/start</code>
-              (the layout soft-gate), so entry short-circuits before any platform
-              work — instant, exactly like today.
-            </td>
-          </tr>
-          <tr>
-            <td class="rownum">3</td>
-            <td class="col-cond">Flag on, cookie present, but <code>PLATFORM_URL</code> unset</td>
-            <td class="col-sees">server</td>
-            <td class="col-dest"><span class="dest start">/mirror/start</span></td>
-            <td class="col-why">
-              Misconfiguration. Can't read run state with no platform, so default
-              to the intro — recoverable, never a crash.
-            </td>
-          </tr>
-          <tr>
-            <td class="rownum">4</td>
-            <td class="col-cond">
-              Session verify returns <b>NO_SESSION</b> (cookie present but no
-              valid session)
-            </td>
-            <td class="col-sees">server</td>
-            <td class="col-dest"><span class="dest start">/mirror/start</span></td>
-            <td class="col-why">
-              The cookie is stale/garbage. Treat as logged-out and send to the
-              intro; the gate on <code>/start</code> handles re-auth.
-            </td>
-          </tr>
-          <tr>
-            <td class="rownum">5</td>
-            <td class="col-cond">
-              Resolver <b>throws or times out</b>: a transient session-verify
-              error, M2M-token mint failure, asset-read failure, or the
-              <code>~3500&nbsp;ms</code> entry timeout
-            </td>
-            <td class="col-sees">server</td>
-            <td class="col-dest"><span class="dest resume">/mirror/resume</span> <span class="muted">(fallback)</span></td>
-            <td class="col-why">
-              We can't tell what the user has, so degrade to
-              <code>/resume</code>, which re-probes and, if still failing,
-              forwards to <code>/report</code>'s explicit retry state. A
-              returning user is <b>never</b> wrongly dumped on <code>/start</code>
-              during an outage.
-            </td>
-          </tr>
-          <tr>
-            <td class="rownum">6</td>
-            <td class="col-cond">
-              An <b>incomplete</b> run snapshot exists
-              (<code>mirror/state/&lt;id&gt;</code> not yet in the manifest)
-            </td>
-            <td class="col-sees">server</td>
-            <td class="col-dest"><span class="dest resume">/mirror/resume</span></td>
-            <td class="col-why">
-              A conversation to pick up exists — the highest-value honest
-              destination, so it wins over a finished run. This is what the
-              resume offer is for.
-            </td>
-          </tr>
-          <tr>
-            <td class="rownum">7</td>
-            <td class="col-cond">
-              No incomplete run, but a <b>finished</b> run is recorded in
-              <code>mirror/index</code>
-            </td>
-            <td class="col-sees">server</td>
-            <td class="col-dest"><span class="dest report">/mirror/report</span></td>
-            <td class="col-why">
-              Show the saved Mirror. A completed run is never offered for resume.
-            </td>
-          </tr>
-          <tr>
-            <td class="rownum">8</td>
-            <td class="col-cond">
-              Authenticated, but <b>no runs at all</b> (no snapshot, empty
-              manifest)
-            </td>
-            <td class="col-sees">server</td>
-            <td class="col-dest"><span class="dest start">/mirror/start</span></td>
-            <td class="col-why">
-              The brand-new-user path. One redirect to the intro — the wart's
-              flicker is gone.
-            </td>
-          </tr>
-          <tr>
-            <td class="rownum">+</td>
-            <td class="col-cond">
-              <b>This browser tab is mid-interview</b> (a live session envelope
-              is present)
-            </td>
-            <td class="col-sees">client</td>
-            <td class="col-dest"><span class="dest interview">/mirror/interview</span></td>
-            <td class="col-why">
-              The server can't see <code>sessionStorage</code>, so this is
-              enforced on arrival: <code>/resume</code> and <code>/report</code>
-              share a one-line guard that continues a live tab into the interview
-              before doing anything else. See Use Case 4.
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="legend">
-      <b>How to read the walkthrough tables.</b> One row per step; read any
-      column top-to-bottom to watch that lane evolve. &nbsp;<b>ROUTE</b> = the
-      app's own <code>/api/*</code> edge proxy (<code>404</code> = flag off,
-      <code>401</code> = no session, <code>200</code> = live). &nbsp;·&nbsp;
-      <b>PLATFORM</b> = the TWAI (the AI backend) behind that proxy.
-      &nbsp;·&nbsp; <b>STORES</b> = which of the three persistence stores is
-      touched — <b>Transcript</b> (durable, platform-side, keyed by taskId),
-      <b>Snapshot</b> (<code>mirror/state/&lt;runId&gt;</code>, a thin server
-      asset = form answers + ids), <b>Envelope</b> (the browser's
-      <code>sessionStorage</code>). &nbsp;·&nbsp; <b>RESUME?</b> = is
-      &ldquo;Pick up where you left off?&rdquo; shown here, and is that correct?
-    </div>
-
-    <!-- ================= USE CASE 1 ================= -->
-    <div class="section-title">2 · Use-case walkthroughs</div>
-    <div class="uc" id="uc1">Use Case 1 — First-time signed-in user, no prior run</div>
-    <div class="ba">
-      <div class="before">
-        <span class="tag">Before · on main today</span>
-        <code>/mirror</code> sees a session cookie and redirects to
-        <code>/mirror/report</code>; the report page fetches return-state, gets
-        <code>hasRun:false</code>, and bounces again to <code>/mirror/start</code>.
-        The address bar flickers <code>/mirror → /report → /start</code> — a
-        moment on a &ldquo;report&rdquo; URL with no report. The wart.
-      </div>
-      <div class="after">
-        <span class="tag">After · this change</span>
-        <code>/mirror</code> resolves run state server-side, finds nothing, and
-        redirects <b>once</b> to <code>/mirror/start</code>. The
-        &ldquo;report&rdquo; URL is never shown to someone who has no report.
-      </div>
-    </div>
     <div class="wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Step · URL</th>
-            <th class="col-user">User</th>
-            <th class="col-ui">UI</th>
-            <th class="col-runtime">Runtime</th>
-            <th class="col-route">Route (<code>/api</code>)</th>
-            <th class="col-platform">Platform (TWAI)</th>
-            <th class="col-stores">Stores</th>
-            <th class="col-resume">Resume?</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="step">1<small>/mirror → <span class="destfix">/mirror/start</span></small></td>
-            <td class="col-user">
-              First-time but <b>signed-in</b> (Stytch B2B login gates every
-              Mirror surface). No prior run. Opens <code>/mirror</code>.
-            </td>
-            <td class="col-ui">Nothing paints — a single server redirect.</td>
-            <td class="col-runtime">
-              <code>MirrorIndexPage</code> (server,
-              <code>runtime="nodejs"</code>): flag on + cookie present, so it
-              calls <code>resolveMirrorEntryTarget()</code>. That verifies the
-              session, mints a read-only M2M token, and reads the user's
-              context-assets + the <code>mirror/index</code> manifest. No
-              incomplete snapshot and no current run ⇒ row 8 ⇒ target
-              <code>"start"</code>. Redirects to <code>/mirror/start</code>.
-            </td>
-            <td class="col-route">
-              <span class="none">No <code>/api/*</code> proxy hit.</span> The
-              resolver is server code, so it calls the platform directly, reusing
-              the same M2M + delegation path as <code>/api/mirror/state</code>.
-            </td>
-            <td class="col-platform">
-              <b>One read.</b> Enumerate the user's context-assets + fetch the
-              manifest; both empty. (The accepted cost — see tradeoffs.)
-            </td>
-            <td class="col-stores">
-              <b>None written.</b> Read-only. No run id minted yet.
-            </td>
-            <td class="col-resume">
-              <span class="pill na">N/A</span><br />No run; correctly sent to
-              <code>/start</code>.
-            </td>
-          </tr>
-          <tr>
-            <td class="step">2<small>/mirror/start</small></td>
-            <td class="col-user">Lands on the intro screen, as intended.</td>
-            <td class="col-ui">The Mirror start screen paints (first paint).</td>
-            <td class="col-runtime">
-              Unchanged from today. The run begins when the user clicks through
-              to the intake form.
-            </td>
-            <td class="col-route"><span class="none">None at mount.</span></td>
-            <td class="col-platform"><span class="none">None at mount.</span></td>
-            <td class="col-stores">
-              <span class="none">None</span> until the form is completed — then a
-              taskId is minted and the first <b>Snapshot</b> is written.
-            </td>
-            <td class="col-resume">
-              <span class="pill na">N/A</span><br />Forward path; the offer never
-              appears here.
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <p class="crumb">
+        <a href="../">← Brilliant With AI — Shared Artifacts</a>
+      </p>
 
-    <!-- ================= USE CASE 2 ================= -->
-    <div class="uc" id="uc2">Use Case 2 — Returning user with a FINISHED Mirror</div>
-    <div class="ba">
-      <div class="before">
-        <span class="tag">Before · on main today</span>
-        <code>/mirror</code> redirects to <code>/mirror/report</code> on cookie
-        presence alone; the report page first probes
-        <code>/api/mirror/state</code> for a resumable run, then fetches
-        return-state. The resume gate and the report share one page.
-      </div>
-      <div class="after">
-        <span class="tag">After · this change</span>
-        <code>/mirror</code> resolves server-side that the user has a finished
-        run (and <b>no</b> incomplete one) and redirects once to
-        <code>/mirror/report</code>. The report page now does one job.
-      </div>
-    </div>
-    <div class="wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Step · URL</th>
-            <th class="col-user">User</th>
-            <th class="col-ui">UI</th>
-            <th class="col-runtime">Runtime</th>
-            <th class="col-route">Route (<code>/api</code>)</th>
-            <th class="col-platform">Platform (TWAI)</th>
-            <th class="col-stores">Stores</th>
-            <th class="col-resume">Resume?</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="step">1<small>/mirror → <span class="destfix">/mirror/report</span></small></td>
-            <td class="col-user">
-              Returning, signed-in. Finished a Mirror on an earlier visit. Opens
-              <code>/mirror</code>.
-            </td>
-            <td class="col-ui">Nothing paints — a single server redirect.</td>
-            <td class="col-runtime">
-              <code>resolveMirrorEntryTarget()</code>: the finished run was
-              cleared from <code>mirror/state/*</code> at completion AND recorded
-              in <code>mirror/index</code>, so no incomplete snapshot. But the
-              manifest's current run has report + insights ⇒ row 7 ⇒ target
-              <code>"report"</code>. Redirects to <code>/mirror/report</code>.
-            </td>
-            <td class="col-route">
-              <span class="none">No proxy hit.</span> Resolver reads the platform
-              directly, server-side.
-            </td>
-            <td class="col-platform">
-              <b>One read.</b> Assets + manifest: a current run with deliverables
-              is found.
-            </td>
-            <td class="col-stores"><b>None written.</b> Read-only.</td>
-            <td class="col-resume">
-              <span class="pill ok">No — correct</span><br />A finished run is
-              never offered for resume; the decision is made before any surface
-              paints.
-            </td>
-          </tr>
-          <tr>
-            <td class="step">2<small>/mirror/report</small></td>
-            <td class="col-user">Sees their saved report + insights.</td>
-            <td class="col-ui">
-              Neutral &ldquo;One moment…&rdquo; shell, then the finished Mirror
-              (report, insights, earlier-Mirrors list, chat).
-            </td>
-            <td class="col-runtime">
-              The slimmed report page mounts. First the shared in-flight-tab
-              guard (no live tab here, so it passes), then it fetches
-              <code>/api/mirror/return-state</code>. <code>hasRun:true</code> ⇒
-              renders. 5xx / timeout ⇒ in-place retry; 401 / 404 ⇒
-              <code>/start</code>. Same classification it already owns — just
-              without the resume gate bolted on.
-            </td>
-            <td class="col-route">
-              <code>GET /api/mirror/return-state</code> →
-              <code>200</code> (<code>hasRun:true</code>).
-            </td>
-            <td class="col-platform">
-              Reads manifest + the current run's report / insights values.
-            </td>
-            <td class="col-stores"><b>None written.</b> Read-only.</td>
-            <td class="col-resume">
-              <span class="pill na">N/A</span><br />The report page no longer
-              hosts the offer.
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <h1 class="doc">Mirror — the right landing, every time</h1>
+      <p class="lede">
+        Today, opening Mirror can stutter through a confusing detour before it
+        sets you down. This change makes it one clean step: the moment you open
+        Mirror, the app quietly works out who you are and where you left off,
+        then sends you straight to the one place that's actually true for you.
+      </p>
 
-    <!-- ================= USE CASE 3 ================= -->
-    <div class="uc" id="uc3">Use Case 3 — Returning user with an ABANDONED (incomplete) run</div>
-    <div class="ba">
-      <div class="before">
-        <span class="tag">Before · on main today</span>
-        <code>/mirror</code> redirects to <code>/mirror/report</code>; the report
-        page probes for a resumable snapshot and only then swaps its own render
-        to the offer. The offer is a sub-state of the report page.
+      <div class="meta-pills">
+        <span class="pill accent">Read before we build it</span>
+        <span class="pill good">Off by default for customers</span>
+        <span class="pill good">No customer impact yet</span>
+        <span class="pill">Proposed design · 2026-06-09</span>
       </div>
-      <div class="after">
-        <span class="tag">After · this change</span>
-        <code>/mirror</code> resolves server-side that an <b>incomplete</b> run
-        exists and redirects once to <code>/mirror/resume</code> — a dedicated
-        surface whose only job is the offer.
-      </div>
-    </div>
-    <div class="wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Step · URL</th>
-            <th class="col-user">User</th>
-            <th class="col-ui">UI</th>
-            <th class="col-runtime">Runtime</th>
-            <th class="col-route">Route (<code>/api</code>)</th>
-            <th class="col-platform">Platform (TWAI)</th>
-            <th class="col-stores">Stores</th>
-            <th class="col-resume">Resume?</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="step">1<small>/mirror → <span class="destfix">/mirror/resume</span></small></td>
-            <td class="col-user">
-              Returning, signed-in. Started a Mirror earlier, completed the form
-              (and maybe a few questions), then closed the tab without finishing.
-              Opens <code>/mirror</code>.
-            </td>
-            <td class="col-ui">Nothing paints — a single server redirect.</td>
-            <td class="col-runtime">
-              <code>resolveMirrorEntryTarget()</code>: a
-              <code>mirror/state/&lt;runId&gt;</code> snapshot exists that is NOT
-              in <code>mirror/index</code> ⇒ <code>findResumableSnapshot</code>
-              returns it (newest incomplete) ⇒ row 6 ⇒ target
-              <code>"resume"</code> (precedence over report). Redirects to
-              <code>/mirror/resume</code>.
-            </td>
-            <td class="col-route">
-              <span class="none">No proxy hit.</span> Resolver reads the platform
-              directly, server-side.
-            </td>
-            <td class="col-platform">
-              <b>One read.</b> Enumeration finds the incomplete snapshot;
-              manifest confirms it was never completed.
-            </td>
-            <td class="col-stores"><b>None written.</b> Read-only.</td>
-            <td class="col-resume">
-              <span class="pill ok">Yes — correct</span><br />An incomplete run
-              is exactly what the offer is for.
-            </td>
-          </tr>
-          <tr>
-            <td class="step">2<small>/mirror/resume</small></td>
-            <td class="col-user">Sees &ldquo;Pick up where you left off?&rdquo;</td>
-            <td class="col-ui">
-              Neutral &ldquo;One moment…&rdquo; shell, then the
-              <code>ResumeOffer</code> dialog with
-              &ldquo;Resume my conversation&rdquo; / &ldquo;Not now.&rdquo;
-            </td>
-            <td class="col-runtime">
-              The new resume page mounts. The shared in-flight-tab guard runs
-              first (no live tab here). Then it re-confirms with a
-              <code>fetchResumableState()</code> probe — the entry decision is a
-              hint, not a contract. Probe <code>enabled:true</code> + snapshot ⇒
-              show the offer. <b>Key safety rule:</b> if the probe comes back
-              <code>enabled:false</code> for any reason, this page forwards to
-              <code>/mirror/report</code> — it <b>never</b> bounces to
-              <code>/start</code>.
-            </td>
-            <td class="col-route">
-              <code>GET /api/mirror/state</code> →
-              <code>200</code> (<code>hasResumable:true</code>).
-            </td>
-            <td class="col-platform">
-              Re-reads the same incomplete snapshot to hydrate the offer.
-            </td>
-            <td class="col-stores">
-              <b>Reads</b> Snapshot. Envelope / Transcript untouched yet.
-            </td>
-            <td class="col-resume">
-              <span class="pill ok">Yes — shown</span><br />The offer is the
-              whole point of this surface.
-            </td>
-          </tr>
-          <tr>
-            <td class="step">3a<small>Resume → /mirror/interview</small></td>
-            <td class="col-user">Clicks &ldquo;Resume my conversation.&rdquo;</td>
-            <td class="col-ui">Lands back in the interview, mid-conversation.</td>
-            <td class="col-runtime">
-              <code>acceptResume()</code> (lifted verbatim from the old report
-              page): <code>clearEnvelope()</code>, then
-              <code>updateEnvelope()</code> with the snapshot's taskId +
-              preContext + mic/facts flags +
-              <code>prepareStatus:"ready"</code>;
-              <code>router.replace("/mirror/interview")</code>.
-            </td>
-            <td class="col-route">
-              <span class="none">Client navigation.</span> The interview then
-              replays the conversation via
-              <code>useChatEngine.initialize()</code> from the platform.
-            </td>
-            <td class="col-platform">
-              Interview mount fetches the durable chat state (transcript) for the
-              taskId.
-            </td>
-            <td class="col-stores">
-              <b>Writes</b> Envelope (rehydrated from Snapshot). Transcript read
-              back by the engine. Snapshot unchanged.
-            </td>
-            <td class="col-resume">
-              <span class="pill ok">Consumed</span><br />Offer accepted; run
-              resumed.
-            </td>
-          </tr>
-          <tr>
-            <td class="step">3b<small>Not now → /mirror/report</small></td>
-            <td class="col-user">Clicks &ldquo;Not now.&rdquo;</td>
-            <td class="col-ui">Moves on to the report surface.</td>
-            <td class="col-runtime">
-              <code>declineResume()</code> forwards to
-              <code>/mirror/report</code>. The snapshot is deliberately NOT erased
-              — the run re-surfaces on a later visit until completed or cleared.
-              If the user has no finished run, the report page's own
-              <code>hasRun:false</code> logic sends them to <code>/start</code> —
-              one correct fallthrough, no flicker.
-            </td>
-            <td class="col-route">
-              <code>GET /api/mirror/return-state</code> on the report page.
-            </td>
-            <td class="col-platform">Reads manifest (and a run if present).</td>
-            <td class="col-stores"><b>None written.</b> Snapshot preserved.</td>
-            <td class="col-resume">
-              <span class="pill na">Dismissed</span><br />Declining once never
-              erases the run.
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
 
-    <!-- ================= USE CASE 4 ================= -->
-    <div class="uc" id="uc4">Use Case 4 — Active tab, mid-interview, opens /mirror</div>
-    <div class="ba">
-      <div class="before">
-        <span class="tag">Before · on main today</span>
-        <code>/mirror/report</code> is the single entry chokepoint, and its resume
-        gate checks the live tab envelope first — so a mid-interview tab that hits
-        <code>/mirror</code> is sent straight back into the interview.
-      </div>
-      <div class="after">
-        <span class="tag">After · this change</span>
-        Entry now splits across <code>/resume</code> and <code>/report</code>, so
-        the &ldquo;continue this live tab&rdquo; check moves into a one-line guard
-        <b>shared by both</b> surfaces. The invariant is preserved: an actively
-        running tab always continues its interview.
-      </div>
-    </div>
-    <div class="wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Step · URL</th>
-            <th class="col-user">User</th>
-            <th class="col-ui">UI</th>
-            <th class="col-runtime">Runtime</th>
-            <th class="col-route">Route (<code>/api</code>)</th>
-            <th class="col-platform">Platform (TWAI)</th>
-            <th class="col-stores">Stores</th>
-            <th class="col-resume">Resume?</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="step">1<small>/mirror → /resume or /report</small></td>
-            <td class="col-user">
-              Mid-interview in this tab (a live session envelope is set), then
-              navigates to <code>/mirror</code> — back button, bookmark, logo
-              click.
-            </td>
-            <td class="col-ui">Nothing paints — a single server redirect.</td>
-            <td class="col-runtime">
-              The server can't see <code>sessionStorage</code>, so it routes on
-              server state alone: if the run's snapshot was already written ⇒
-              <code>/resume</code> (row 6); if not yet, but a prior finished run
-              exists ⇒ <code>/report</code> (row 7); otherwise ⇒
-              <code>/start</code> (row 8).
-            </td>
-            <td class="col-route"><span class="none">No proxy hit.</span></td>
-            <td class="col-platform"><b>One read.</b> Assets + manifest.</td>
-            <td class="col-stores">
-              <b>None written.</b> The live <b>Envelope</b> is intact in this
-              tab.
-            </td>
-            <td class="col-resume">
-              <span class="pill na">Decided next</span><br />The live-tab case is
-              resolved on arrival, below.
-            </td>
-          </tr>
-          <tr>
-            <td class="step">2<small>→ /mirror/interview</small></td>
-            <td class="col-user">Continues the conversation, uninterrupted.</td>
-            <td class="col-ui">The interview re-mounts where they left off.</td>
-            <td class="col-runtime">
-              Whichever surface it landed on (<code>/resume</code> or
-              <code>/report</code>) runs the <b>shared in-flight-tab guard</b>
-              first: a live envelope (taskId set, no insights/report/finalResponse)
-              ⇒ <code>router.replace("/mirror/interview")</code> before any probe
-              or fetch. The interview replays from the platform transcript.
-            </td>
-            <td class="col-route">
-              <span class="none">Client navigation</span>, then the interview's
-              own chat-state fetch.
-            </td>
-            <td class="col-platform">Interview mount reads the transcript.</td>
-            <td class="col-stores">
-              <b>Reads</b> Envelope (client) + Transcript (platform). No write.
-            </td>
-            <td class="col-resume">
-              <span class="pill ok">Skipped — correct</span><br />A live run is
-              continued, not re-offered. No &ldquo;resume?&rdquo; prompt for a
-              conversation already in progress.
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <!-- 01 -->
+      <h2 class="doc"><span class="num">01</span> &nbsp;The problem today</h2>
+      <hr class="doc" />
+      <p class="section-sub">
+        Right now, opening Mirror sometimes sends people on a needless detour. A
+        brand-new visitor briefly flashes through a page named “report” before
+        getting bounced to the welcome screen — even though they have no report
+        yet, because they have never done anything. The web address visibly
+        stutters through two or three stops in a fraction of a second, so the
+        app looks broken at the worst possible moment: the very first thing a
+        new person sees.
+      </p>
 
-    <!-- ================= EDGE CASES ================= -->
-    <div class="section-title" id="edges">3 · Edge cases — the safety rails</div>
-    <p class="section-note">
-      The conditions that don't fit a happy-path journey but decide whether the
-      design is safe to ship. Each maps to a row in the decision table above.
-    </p>
-    <div class="wrap narrow">
-      <table>
-        <thead>
-          <tr>
-            <th>Scenario</th>
-            <th class="col-user">Trigger</th>
-            <th class="col-runtime">What the entry router does</th>
-            <th class="col-resume">Outcome &amp; why it's safe</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="step">Flag OFF<small>production today</small></td>
-            <td class="col-user"><code>release.mirror-return</code> off (current prod).</td>
-            <td class="col-runtime">
-              Row 1: first line of <code>MirrorIndexPage</code> ⇒
-              <code>redirect("/mirror/start")</code>. No cookie read, no resolver,
-              no platform call.
-            </td>
-            <td class="col-resume">
-              <span class="pill ok">Byte-identical to prod</span><br />Zero
-              behavior change ships to customers on merge. This is what makes the
-              PR auto-mergeable.
-            </td>
-          </tr>
-          <tr>
-            <td class="step">Logged-out<small>flag on</small></td>
-            <td class="col-user">No session cookie (flag on in preview/dev).</td>
-            <td class="col-runtime">
-              Row 2: cookie-presence short-circuit ⇒
-              <code>redirect("/mirror/start")</code> before any platform work.
-            </td>
-            <td class="col-resume">
-              <span class="pill ok">Instant, matches today</span><br />The login
-              wall lives on <code>/start</code>, so anonymous hits stay cheap.
-            </td>
-          </tr>
-          <tr>
-            <td class="step">Transient platform failure<small>the key rail</small></td>
-            <td class="col-user">
-              Cookie present, but the resolver throws — platform 5xx, M2M mint
-              fail, transient session-verify error, or the
-              <code>~3500&nbsp;ms</code> timeout.
-            </td>
-            <td class="col-runtime">
-              Row 5: the <code>try/catch</code> falls back to target
-              <code>"resume"</code> ⇒ <code>/mirror/resume</code>. That page
-              re-probes; if the blip cleared it behaves normally, and if it is
-              still failing it forwards to <code>/mirror/report</code>, whose retry
-              UI takes over.
-            </td>
-            <td class="col-resume">
-              <span class="pill warn">Degrades to retry, never strands</span
-              ><br />A returning user with a real run is never wrongly dumped on
-              <code>/start</code> during an outage; they reach an explicit
-              &ldquo;temporary hiccup, try again&rdquo; state. Falling back to
-              <code>resume</code> (not <code>report</code>) can never under-serve,
-              since <code>resume</code> forwards to <code>report</code> anyway.
-            </td>
-          </tr>
-          <tr>
-            <td class="step">Misconfigured env<small>no PLATFORM_URL</small></td>
-            <td class="col-user">Server env missing <code>PLATFORM_URL</code>.</td>
-            <td class="col-runtime">
-              Row 3: resolver returns <code>"start"</code> immediately — can't read
-              state with no platform.
-            </td>
-            <td class="col-resume">
-              <span class="pill na">Safe default</span><br />Worst case everyone
-              gets the intro — recoverable, never a crash or a wrong-data render.
-            </td>
-          </tr>
-          <tr>
-            <td class="step">Stale session cookie<small>flag on</small></td>
-            <td class="col-user">
-              A cookie is present but the session is invalid/expired.
-            </td>
-            <td class="col-runtime">
-              Row 4: session verify returns <b>NO_SESSION</b> ⇒
-              <code>"start"</code>. (Any <i>other</i> verify error is treated as
-              transient and takes row 5 instead.)
-            </td>
-            <td class="col-resume">
-              <span class="pill ok">Treated as logged-out</span><br />Re-auth
-              happens on <code>/start</code>; a dead cookie never blocks entry.
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <div class="flow">
+        <span class="flow-step start"
+          ><span class="ico">🔗</span> Opens Mirror</span
+        >
+        <span class="flow-arrow">→</span>
+        <span class="flow-step bad"
+          ><span class="ico">📄</span> “report” (empty)</span
+        >
+        <span class="flow-arrow">→</span>
+        <span class="flow-step bad"><span class="ico">↩︎</span> bounced</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step ghost"
+          ><span class="ico">👋</span> welcome screen</span
+        >
+      </div>
+      <p class="body" style="margin-top: 14px">
+        The person ends up in the right place, but only after a visible flicker
+        through a page that misrepresents what it is.
+      </p>
 
-    <!-- ================= TRADEOFFS ================= -->
-    <div class="section-title" id="tradeoffs">4 · Accepted tradeoffs</div>
-    <p class="section-note">Called out for sign-off, not buried.</p>
-    <div class="legend">
-      <b>1. One extra server read at entry.</b> The resolver reads run state once
-      server-side, and the destination page reads again to render. The reads are
-      idempotent, and the entry read is capped by the <code>~3500&nbsp;ms</code>
-      timeout, so worst-case entry latency is bounded and a slow platform can
-      never hang the redirect. This is the price of being honest about the
-      destination instead of guessing and bouncing.
-      <br /><br />
-      <b>2. Narrow brand-new-interview window.</b> If a user is mid-interview in
-      one tab and opens <code>/mirror</code> in a <i>second</i> tab within the
-      first ~1.5&nbsp;s — before the first snapshot is written — the resolver
-      can't see the run yet and routes the second tab by server state alone. The
-      <code>#595</code> form-completion snapshot write shrinks this window to
-      near-zero. Noted, not blocking.
-      <br /><br />
-      <b>3. The resume page re-probes.</b> The entry decision is a hint, not a
-      contract — <code>/mirror/resume</code> re-confirms with its own probe so a
-      stale-by-milliseconds entry read self-corrects, and the shared in-flight-tab
-      guard catches the live-tab case the server can't see.
+      <!-- 02 -->
+      <h2 class="doc">
+        <span class="num">02</span> &nbsp;The fix, in one idea
+      </h2>
+      <hr class="doc" />
+      <p class="section-sub">
+        The instant you open Mirror, the app checks — quietly, behind the
+        scenes, before showing you anything — who you are and where you are in
+        your journey. Then it sends you straight to the one place that’s true
+        for you. One clean step. No flicker, no detour, and no page pretending
+        to be something it isn’t.
+      </p>
+
+      <div class="flow">
+        <span class="flow-step start"
+          ><span class="ico">🔗</span> Opens Mirror</span
+        >
+        <span class="flow-arrow">→</span>
+        <span class="flow-step check"
+          ><span class="ico">⚡</span> One quiet check, behind the scenes</span
+        >
+        <span class="flow-arrow">→</span>
+        <span class="flow-step end"
+          ><span class="ico">🎯</span> The one right place</span
+        >
+      </div>
+
+      <!-- 03 -->
+      <h2 class="doc"><span class="num">03</span> &nbsp;The four journeys</h2>
+      <hr class="doc" />
+      <p class="section-sub">
+        Four kinds of people open Mirror. Here is what each one experiences now
+        — and what was clunky before.
+      </p>
+
+      <div class="journey">
+        <!-- J1 -->
+        <div class="journey-card">
+          <div class="journey-top">
+            <div class="journey-icon">👋</div>
+            <div class="journey-who">
+              <h3>The first-time visitor</h3>
+              <p class="journey-when">Brand new. Has never started a Mirror.</p>
+            </div>
+          </div>
+          <div class="journey-body">
+            <div class="ba">
+              <div class="before">
+                <span class="lbl">Before</span>
+                Flickered through an empty “report” page, then got bounced to
+                the welcome screen.
+              </div>
+              <div class="after">
+                <span class="lbl">Now</span>
+                Lands cleanly on the welcome screen, ready to begin.
+              </div>
+            </div>
+            <div class="journey-land">
+              <span class="arrow">→</span> They land on
+              <span class="dest">the welcome &amp; start screen</span>.
+            </div>
+          </div>
+        </div>
+
+        <!-- J2 -->
+        <div class="journey-card">
+          <div class="journey-top">
+            <div class="journey-icon">📄</div>
+            <div class="journey-who">
+              <h3>The returning visitor who already finished</h3>
+              <p class="journey-when">
+                Came back after completing their Mirror.
+              </p>
+            </div>
+          </div>
+          <div class="journey-body">
+            <div class="ba">
+              <div class="before">
+                <span class="lbl">Before</span>
+                Risked being wrongly asked to “pick up where you left off” for
+                work they had already finished.
+              </div>
+              <div class="after">
+                <span class="lbl">Now</span>
+                Goes straight to their saved report, with no false “resume”
+                prompt.
+              </div>
+            </div>
+            <div class="journey-land">
+              <span class="arrow">→</span> They land on
+              <span class="dest">their saved report</span>.
+            </div>
+          </div>
+        </div>
+
+        <!-- J3 -->
+        <div class="journey-card">
+          <div class="journey-top">
+            <div class="journey-icon">⏸️</div>
+            <div class="journey-who">
+              <h3>The returning visitor who walked away mid-way</h3>
+              <p class="journey-when">
+                Started a Mirror but never finished it.
+              </p>
+            </div>
+          </div>
+          <div class="journey-body">
+            <div class="ba">
+              <div class="before">
+                <span class="lbl">Before</span>
+                Could be dropped somewhere that didn’t reflect their
+                half-finished work.
+              </div>
+              <div class="after">
+                <span class="lbl">Now</span>
+                Greeted with a friendly “Pick up where you left off?” offer.
+              </div>
+            </div>
+            <p class="body" style="margin: 0">
+              Say <strong>yes</strong>, and they drop back into the conversation
+              right where they stopped. Say <strong>“not now,”</strong> and they
+              go to their reports area — their unfinished work is kept safely,
+              not deleted, so it’s still waiting next time.
+            </p>
+            <div class="journey-land">
+              <span class="arrow">→</span> They land
+              <span class="dest"
+                >back in their conversation, or in their reports area — their
+                choice</span
+              >.
+            </div>
+          </div>
+        </div>
+
+        <!-- J4 -->
+        <div class="journey-card">
+          <div class="journey-top">
+            <div class="journey-icon">🪟</div>
+            <div class="journey-who">
+              <h3>The visitor still mid-conversation in another tab</h3>
+              <p class="journey-when">
+                Has a live Mirror conversation open elsewhere, and opens Mirror
+                again.
+              </p>
+            </div>
+          </div>
+          <div class="journey-body">
+            <div class="ba">
+              <div class="before">
+                <span class="lbl">Before</span>
+                Could be interrupted by a “resume?” prompt for a conversation
+                already on their screen.
+              </div>
+              <div class="after">
+                <span class="lbl">Now</span>
+                Dropped straight back into the live conversation, with no
+                needless interruption.
+              </div>
+            </div>
+            <div class="journey-land">
+              <span class="arrow">→</span> They land
+              <span class="dest">right back in their live conversation</span>.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04 -->
+      <h2 class="doc"><span class="num">04</span> &nbsp;The safety net</h2>
+      <hr class="doc" />
+      <div class="note info">
+        The behind-the-scenes check is fast, but the app is built to stay
+        graceful if it’s ever slow or hiccups. A person is
+        <strong>never</strong> dumped somewhere confusing, and
+        <strong>never</strong> wrongly told they have nothing. The worst case is
+        a gentle “give it a moment, try again” — never a dead end, and never a
+        lost report.
+      </div>
+
+      <!-- 05 -->
+      <h2 class="doc"><span class="num">05</span> &nbsp;Safe to ship today</h2>
+      <hr class="doc" />
+      <div class="reco gold">
+        <span class="medal">🟢</span>
+        <span class="body">
+          This change ships behind an
+          <strong>off-switch the team controls</strong>, and it is
+          <strong>off for real customers right now</strong>. The moment it goes
+          live in the codebase, paying customers see exactly what they see today
+          — with zero risk. The team turns it on only in internal previews,
+          until the design on this page is approved.
+        </span>
+      </div>
+
+      <footer class="doc">
+        Mirror entry-routing walkthrough · prepared for review on 2026-06-09 ·
+        built on the <a href="../design-system/">BWAI Doc design system</a>. ·
+        <a href="../">Back to all artifacts</a>
+      </footer>
     </div>
   </body>
 </html>

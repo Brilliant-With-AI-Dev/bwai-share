@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BWAI Doc — design system</title>
+    <link rel="stylesheet" href="../assets/bwai-doc.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <p class="crumb">
+        <a href="../">← Brilliant With AI — Shared Artifacts</a>
+      </p>
+
+      <h1 class="doc">BWAI Doc — design system</h1>
+      <p class="lede">
+        The shared, light-theme frame for Brilliant With AI review documents:
+        calm cool-slate surfaces, one blue accent, and restrained good / warn /
+        gold signals. This page renders every component in
+        <code>assets/bwai-doc.css</code> so a future author can copy the markup
+        straight into a new artifact.
+      </p>
+
+      <div class="meta-pills">
+        <span class="pill accent">Component reference</span>
+        <span class="pill good">Light theme</span>
+        <span class="pill">System-sans · copy-paste ready</span>
+      </div>
+
+      <!-- 01 -->
+      <h2 class="doc"><span class="num">01</span> &nbsp;Foundations</h2>
+      <hr class="doc" />
+      <p class="section-sub">
+        The token palette and the body type. Every color below is a
+        <code>--doc-*</code> custom property — reference the token, never a raw
+        hex value, so artifacts stay consistent if the palette shifts.
+      </p>
+
+      <div class="flow">
+        <span class="flow-step">
+          <span
+            class="ico"
+            style="
+              width: 16px;
+              height: 16px;
+              border-radius: 4px;
+              border: 1px solid var(--doc-line);
+              background: var(--doc-accent);
+            "
+          ></span>
+          --doc-accent
+        </span>
+        <span class="flow-step">
+          <span
+            class="ico"
+            style="
+              width: 16px;
+              height: 16px;
+              border-radius: 4px;
+              border: 1px solid var(--doc-line);
+              background: var(--doc-good);
+            "
+          ></span>
+          --doc-good
+        </span>
+        <span class="flow-step">
+          <span
+            class="ico"
+            style="
+              width: 16px;
+              height: 16px;
+              border-radius: 4px;
+              border: 1px solid var(--doc-line);
+              background: var(--doc-warn);
+            "
+          ></span>
+          --doc-warn
+        </span>
+        <span class="flow-step">
+          <span
+            class="ico"
+            style="
+              width: 16px;
+              height: 16px;
+              border-radius: 4px;
+              border: 1px solid var(--doc-line);
+              background: var(--doc-gold);
+            "
+          ></span>
+          --doc-gold
+        </span>
+      </div>
+      <p class="body" style="margin-top: 14px">
+        The body font is system-sans (<code>--doc-font</code>:
+        <code>-apple-system</code> and friends), set at a calm 1.55 line height
+        on a cool <code>--doc-bg</code> slate. There is no web font to load.
+      </p>
+
+      <!-- 02 -->
+      <h2 class="doc"><span class="num">02</span> &nbsp;Header block</h2>
+      <hr class="doc" />
+      <p class="section-sub">
+        The document opener: an <code>h1.doc</code> title, a
+        <code>.lede</code> standfirst, and a row of <code>.meta-pills</code> for
+        status. Pills come in plain, <code>.good</code>, <code>.warn</code>, and
+        <code>.accent</code>.
+      </p>
+
+      <h1 class="doc">Example heading</h1>
+      <p class="lede">
+        This is the lede — one or two sentences that set up the document in
+        plain language before any detail. Keep it readable and unhurried.
+      </p>
+      <div class="meta-pills">
+        <span class="pill">Plain pill</span>
+        <span class="pill good">Good pill</span>
+        <span class="pill warn">Warn pill</span>
+        <span class="pill accent">Accent pill</span>
+      </div>
+
+      <!-- 03 -->
+      <h2 class="doc"><span class="num">03</span> &nbsp;Section headers</h2>
+      <hr class="doc" />
+      <p class="section-sub">
+        Each section opens with an <code>h2.doc</code> containing a
+        <code>.num</code> span (the accent-blue number) followed by the title,
+        then an <code>hr.doc</code> rule, then a <code>.section-sub</code>
+        description. Every numbered header on this page is a live example of the
+        pattern — including this one.
+      </p>
+
+      <!-- 04 -->
+      <h2 class="doc"><span class="num">04</span> &nbsp;Callouts</h2>
+      <hr class="doc" />
+      <p class="section-sub">
+        Two callout families. The <code>.reco</code> card carries a
+        <code>.medal</code> glyph plus a <code>.body</code>, with a
+        <code>.gold</code> variant for the headline recommendation. The
+        <code>.note</code> block comes in plain, <code>.info</code>,
+        <code>.good</code>, and <code>.warn</code>.
+      </p>
+
+      <div class="reco">
+        <span class="medal">🔵</span>
+        <span class="body">
+          This is what a recommendation looks like.
+          <strong>The lead-in is bold</strong>, and the rest explains the call
+          in calm, plain language.
+        </span>
+      </div>
+
+      <div class="reco gold">
+        <span class="medal">🟢</span>
+        <span class="body">
+          The gold variant marks the single headline takeaway —
+          <strong>the one thing</strong> a reader should leave with. Use it
+          sparingly, once per document.
+        </span>
+      </div>
+
+      <div class="note">
+        <strong>Plain note.</strong> A neutral aside for context that doesn't
+        rise to a recommendation.
+      </div>
+      <div class="note info">
+        <strong>Info note.</strong> Accent-blue framing for an explanatory
+        detail worth highlighting.
+      </div>
+      <div class="note good">
+        <strong>Good note.</strong> A reassuring confirmation — something is
+        safe or settled.
+      </div>
+      <div class="note warn">
+        <strong>Warn note.</strong> A gentle caution about an edge or a caveat
+        to keep in mind.
+      </div>
+
+      <!-- 05 -->
+      <h2 class="doc"><span class="num">05</span> &nbsp;Constraints list</h2>
+      <hr class="doc" />
+      <p class="section-sub">
+        A <code>.constraints</code> card wraps a <code>ul</code> of
+        <code>li</code> items, each marked with a chevron. Use inline
+        <code>.yes</code> and <code>.no</code> spans to call out what's in and
+        out of scope.
+      </p>
+
+      <div class="constraints">
+        <ul>
+          <li>
+            <strong>First constraint</strong> — a short rule the design holds
+            to.
+          </li>
+          <li>
+            Scope is <span class="yes">in</span> for the common path and
+            <span class="no">out</span> for the rare edge.
+          </li>
+          <li>
+            Another constraint, stated plainly so a reader can hold the whole
+            list in mind.
+          </li>
+        </ul>
+      </div>
+
+      <!-- 06 -->
+      <h2 class="doc"><span class="num">06</span> &nbsp;Flow chips</h2>
+      <hr class="doc" />
+      <p class="section-sub">
+        A <code>.flow</code> row of <code>.flow-step</code> chips joined by
+        <code>.flow-arrow</code> (→). Variants: <code>.start</code>,
+        <code>.check</code>, <code>.end</code>, <code>.bad</code>, and
+        <code>.ghost</code> (dashed).
+      </p>
+
+      <div class="flow">
+        <span class="flow-step start"><span class="ico">🔗</span> Start</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step check"><span class="ico">⚡</span> Check</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step bad"><span class="ico">⚠️</span> Bad path</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step ghost"
+          ><span class="ico">💤</span> Ghost (dashed)</span
+        >
+        <span class="flow-arrow">→</span>
+        <span class="flow-step end"><span class="ico">🎯</span> End</span>
+      </div>
+
+      <!-- 07 -->
+      <h2 class="doc"><span class="num">07</span> &nbsp;Journey card</h2>
+      <hr class="doc" />
+      <p class="section-sub">
+        One <code>.journey-card</code> tells a single persona's story: a
+        <code>.journey-top</code> header (icon, who, when), then a
+        <code>.journey-body</code> holding a <code>.ba</code> before/now pair
+        and a <code>.journey-land</code> line for where they end up.
+      </p>
+
+      <div class="journey">
+        <div class="journey-card">
+          <div class="journey-top">
+            <div class="journey-icon">👋</div>
+            <div class="journey-who">
+              <h3>Example persona</h3>
+              <p class="journey-when">When and why they show up.</p>
+            </div>
+          </div>
+          <div class="journey-body">
+            <div class="ba">
+              <div class="before">
+                <span class="lbl">Before</span>
+                What was clunky or confusing for this person previously.
+              </div>
+              <div class="after">
+                <span class="lbl">Now</span>
+                What they experience instead, stated as a clean outcome.
+              </div>
+            </div>
+            <div class="journey-land">
+              <span class="arrow">→</span> They land on
+              <span class="dest">the right place for them</span>.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 08 -->
+      <h2 class="doc"><span class="num">08</span> &nbsp;Before / now pair</h2>
+      <hr class="doc" />
+      <p class="section-sub">
+        The <code>.ba</code> grid on its own: a <code>.before</code> cell (warm)
+        and an <code>.after</code> cell (green), each with a
+        <code>.lbl</code> label. Useful anywhere you contrast the old way with
+        the new.
+      </p>
+
+      <div class="ba">
+        <div class="before">
+          <span class="lbl">Before</span>
+          The previous behaviour, described so the change is easy to feel.
+        </div>
+        <div class="after">
+          <span class="lbl">Now</span>
+          The improved behaviour, stated as a plain, positive result.
+        </div>
+      </div>
+
+      <footer class="doc">
+        BWAI Doc · the shared design system for Brilliant With AI review
+        documents. ·
+        <a href="../">Back to all artifacts</a>
+      </footer>
+    </div>
+  </body>
+</html>

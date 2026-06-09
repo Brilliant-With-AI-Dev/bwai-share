@@ -1,0 +1,447 @@
+/* ============================================================================
+   BWAI Doc — shared "review document" design system
+   ----------------------------------------------------------------------------
+   Extracted from payments-claim-funnel. A calm, light, system-sans frame for
+   explainers and walkthroughs meant to be READ (not a product mockup). Cool
+   slate, one blue accent, restrained good/warn/gold signals.
+
+   Use the `--doc-*` tokens and the classes below. Product-UI mockups (forest
+   green, Newsreader/Outfit, `.m-*`) are a SEPARATE layer — not part of this
+   file. Link it with:  <link rel="stylesheet" href="../assets/bwai-doc.css" />
+   ========================================================================== */
+
+:root {
+  --doc-bg: #f6f8fb;
+  --doc-surface: #ffffff;
+  --doc-surface-2: #fbfcfe;
+  --doc-ink: #0f1a2e;
+  --doc-ink-2: #3a4861;
+  --doc-ink-3: #6b7790;
+  --doc-line: #d6dde8;
+  --doc-accent: #2c6bed;
+  --doc-accent-soft: #e7efff;
+  --doc-accent-border: #c2d6fb;
+  --doc-good: #157a4e;
+  --doc-good-soft: #e2f1ea;
+  --doc-good-border: #bfe0d0;
+  --doc-warn: #b06b00;
+  --doc-warn-soft: #fbecd2;
+  --doc-warn-border: #ecd3a3;
+  --doc-gold: #b8860b;
+  --doc-gold-soft: #fdf4d3;
+  --doc-radius: 12px;
+  --doc-shadow:
+    0 1px 2px rgba(15, 26, 46, 0.04), 0 4px 12px rgba(15, 26, 46, 0.06);
+  --doc-font:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  --doc-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: var(--doc-bg);
+  color: var(--doc-ink);
+  font-family: var(--doc-font);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---- layout ---- */
+.wrap {
+  max-width: 840px;
+  margin: 0 auto;
+  padding: 56px 32px 96px;
+}
+
+/* ---- document header ---- */
+.crumb {
+  font-size: 13px;
+  color: var(--doc-ink-3);
+  margin: 0 0 18px;
+}
+.crumb a {
+  color: var(--doc-ink-3);
+  text-decoration: none;
+}
+.crumb a:hover {
+  color: var(--doc-accent);
+  text-decoration: underline;
+}
+
+h1.doc {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.012em;
+  line-height: 1.2;
+  margin: 0 0 12px;
+  color: var(--doc-ink);
+}
+.lede {
+  font-size: 17px;
+  color: var(--doc-ink-2);
+  max-width: 720px;
+  margin: 0 0 22px;
+}
+
+.meta-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 8px;
+}
+.pill {
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--doc-line);
+  background: var(--doc-surface);
+  color: var(--doc-ink-2);
+}
+.pill.good {
+  background: var(--doc-good-soft);
+  border-color: var(--doc-good-border);
+  color: var(--doc-good);
+}
+.pill.warn {
+  background: var(--doc-warn-soft);
+  border-color: var(--doc-warn-border);
+  color: var(--doc-warn);
+}
+.pill.accent {
+  background: var(--doc-accent-soft);
+  border-color: var(--doc-accent-border);
+  color: var(--doc-accent);
+}
+
+/* ---- section heading ---- */
+h2.doc {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--doc-ink-3);
+  margin: 56px 0 6px;
+}
+h2.doc .num {
+  color: var(--doc-accent);
+}
+hr.doc {
+  border: 0;
+  border-top: 1px solid var(--doc-line);
+  margin: 0 0 4px;
+}
+.section-sub {
+  font-size: 15.5px;
+  color: var(--doc-ink-2);
+  max-width: 780px;
+  margin: 18px 0 24px;
+}
+p.body {
+  font-size: 15.5px;
+  color: var(--doc-ink-2);
+  max-width: 780px;
+}
+
+/* ---- recommendation / callout card (left accent rule) ---- */
+.reco {
+  display: flex;
+  gap: 14px;
+  background: var(--doc-surface);
+  border: 1px solid var(--doc-line);
+  border-left: 4px solid var(--doc-accent);
+  border-radius: 10px;
+  box-shadow: var(--doc-shadow);
+  padding: 16px 18px;
+  margin: 0 0 16px;
+}
+.reco.gold {
+  border-left-color: var(--doc-gold);
+  background: #fffdf6;
+}
+.reco .medal {
+  font-size: 22px;
+  line-height: 1.2;
+}
+.reco .body {
+  font-size: 14.5px;
+  color: var(--doc-ink-2);
+}
+.reco .body strong {
+  color: var(--doc-ink);
+}
+
+/* ---- plain note callouts ---- */
+.note {
+  font-size: 15px;
+  line-height: 1.5;
+  padding: 13px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--doc-line);
+  background: var(--doc-surface);
+  color: var(--doc-ink-2);
+  margin: 0 0 16px;
+}
+.note strong {
+  color: var(--doc-ink);
+}
+.note.info {
+  background: var(--doc-accent-soft);
+  border-color: var(--doc-accent-border);
+}
+.note.good {
+  background: var(--doc-good-soft);
+  border-color: var(--doc-good-border);
+}
+.note.warn {
+  background: var(--doc-warn-soft);
+  border-color: var(--doc-warn-border);
+}
+
+/* ---- constraints / bullet card ---- */
+.constraints {
+  background: var(--doc-surface);
+  border: 1px solid var(--doc-line);
+  border-radius: 10px;
+  box-shadow: var(--doc-shadow);
+  padding: 6px 22px;
+  margin: 0 0 24px;
+}
+.constraints ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.constraints li {
+  margin: 12px 0;
+  padding-left: 26px;
+  position: relative;
+  font-size: 14.5px;
+  color: var(--doc-ink-2);
+}
+.constraints li::before {
+  content: "›";
+  position: absolute;
+  left: 6px;
+  color: var(--doc-ink-3);
+  font-weight: 700;
+}
+.constraints li strong {
+  color: var(--doc-ink);
+}
+.yes {
+  color: var(--doc-good);
+  font-weight: 600;
+}
+.no {
+  color: var(--doc-warn);
+  font-weight: 600;
+}
+
+/* ============================================================================
+   Walkthrough components — the executive-readable replacement for tables
+   ========================================================================== */
+
+/* ---- flow: a friendly chip sequence joined by arrows ---- */
+.flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0 4px;
+}
+.flow-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--doc-line);
+  background: var(--doc-surface);
+  box-shadow: var(--doc-shadow);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--doc-ink-2);
+}
+.flow-step .ico {
+  font-size: 15px;
+}
+.flow-step.start {
+  color: var(--doc-ink);
+}
+.flow-step.check {
+  background: var(--doc-accent-soft);
+  border-color: var(--doc-accent-border);
+  color: var(--doc-accent);
+}
+.flow-step.bad {
+  background: var(--doc-warn-soft);
+  border-color: var(--doc-warn-border);
+  color: var(--doc-warn);
+}
+.flow-step.ghost {
+  border-style: dashed;
+  color: var(--doc-ink-3);
+}
+.flow-step.end {
+  background: var(--doc-good-soft);
+  border-color: var(--doc-good-border);
+  color: var(--doc-good);
+}
+.flow-arrow {
+  color: var(--doc-ink-3);
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* ---- journey cards: one per persona, a tiny story ---- */
+.journey {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 4px 0 8px;
+}
+.journey-card {
+  background: var(--doc-surface);
+  border: 1px solid var(--doc-line);
+  border-radius: 14px;
+  box-shadow: var(--doc-shadow);
+  overflow: hidden;
+}
+.journey-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 22px;
+  background: var(--doc-surface-2);
+  border-bottom: 1px solid var(--doc-line);
+}
+.journey-icon {
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--doc-accent-soft);
+  color: var(--doc-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 21px;
+}
+.journey-who h3 {
+  margin: 0 0 2px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--doc-ink);
+}
+.journey-when {
+  margin: 0;
+  font-size: 14px;
+  color: var(--doc-ink-3);
+}
+.journey-body {
+  padding: 18px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* land line: where the user ends up */
+.journey-land {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 14.5px;
+  color: var(--doc-ink-2);
+}
+.journey-land .arrow {
+  color: var(--doc-ink-3);
+}
+.journey-land .dest {
+  font-weight: 700;
+  color: var(--doc-good);
+}
+
+/* ---- before / now pair ---- */
+.ba {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.ba > div {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--doc-line);
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--doc-ink-2);
+}
+.ba .lbl {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 4px;
+}
+.ba .before {
+  background: #fcf7f0;
+  border-color: var(--doc-warn-border);
+}
+.ba .before .lbl {
+  color: var(--doc-warn);
+}
+.ba .after {
+  background: var(--doc-good-soft);
+  border-color: var(--doc-good-border);
+}
+.ba .after .lbl {
+  color: var(--doc-good);
+}
+.ba strong {
+  color: var(--doc-ink);
+}
+
+/* ---- footer ---- */
+footer.doc {
+  margin-top: 72px;
+  padding-top: 24px;
+  border-top: 1px solid var(--doc-line);
+  font-size: 12.5px;
+  color: var(--doc-ink-3);
+}
+footer.doc a {
+  color: var(--doc-ink-2);
+}
+
+/* ---- code ---- */
+code {
+  font-family: var(--doc-mono);
+  font-size: 0.9em;
+  background: #eef1f6;
+  border: 1px solid var(--doc-line);
+  border-radius: 5px;
+  padding: 1px 5px;
+}
+
+/* ---- responsive ---- */
+@media (max-width: 640px) {
+  .wrap {
+    padding: 40px 20px 72px;
+  }
+  h1.doc {
+    font-size: 25px;
+  }
+  .ba {
+    grid-template-columns: 1fr;
+  }
+}
