@@ -126,6 +126,25 @@
         <h2>Artifacts</h2>
         <ul class="artifacts">
           <li>
+            <a href="mirror-entry-routing/">
+              <p class="title">Mirror — entry routing, the proposed design</p>
+              <p class="meta">
+                2026-06-09 — the complete walkthrough to bless before code lands
+                for the entry-routing refactor. Today opening
+                <code>/mirror</code> can flicker
+                <code>/mirror → /report → /start</code> for a brand-new user;
+                this makes <code>/mirror</code> read run state once,
+                server-side, and redirect once to the one honest destination. A
+                first-match decision table (8 server rows + the client
+                in-flight-tab case), four use-case lane tables (first-timer ·
+                finished · abandoned · active tab) with before/after banners,
+                five edge-case safety rails, and the accepted tradeoffs. All
+                behind the <code>release.mirror-return</code> flag (off in
+                prod).
+              </p>
+            </a>
+          </li>
+          <li>
             <a href="payments-claim-funnel/">
               <p class="title">
                 Mirror — payment-first claim funnel (pick a direction)
