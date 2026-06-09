@@ -1,0 +1,865 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Stripe + Resend — go-live runbook for Individual Mirror payments
+    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500&family=Outfit:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --doc-bg: #f6f8fb;
+        --doc-surface: #ffffff;
+        --doc-ink: #0f1a2e;
+        --doc-ink-2: #3a4861;
+        --doc-ink-3: #6b7790;
+        --doc-line: #d6dde8;
+        --doc-accent: #2c6bed;
+        --doc-good: #157a4e;
+        --doc-good-soft: #e2f1ea;
+        --doc-warn: #b06b00;
+        --doc-warn-soft: #fbecd2;
+        --doc-danger: #b3261e;
+        --doc-danger-soft: #fbe6e4;
+        --doc-gold: #b8860b;
+        --doc-shadow:
+          0 1px 2px rgba(15, 26, 46, 0.04), 0 4px 12px rgba(15, 26, 46, 0.06);
+        --mono: ui-monospace, SFMono-Regular, Menlo, "Cascadia Code", monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: var(--doc-bg);
+        color: var(--doc-ink);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .wrap {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 56px 32px 96px;
+      }
+      .crumb {
+        font-size: 13px;
+        color: var(--doc-ink-3);
+        margin-bottom: 16px;
+      }
+      .crumb a {
+        color: var(--doc-ink-3);
+      }
+      h1.doc {
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: -0.012em;
+        margin: 0 0 10px;
+        line-height: 1.25;
+      }
+      .lede {
+        font-size: 16px;
+        color: var(--doc-ink-2);
+        max-width: 720px;
+        margin: 0 0 24px;
+      }
+      .meta-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      .pill {
+        font-size: 12.5px;
+        font-weight: 600;
+        padding: 5px 11px;
+        border-radius: 999px;
+        border: 1px solid var(--doc-line);
+        background: var(--doc-surface);
+        color: var(--doc-ink-2);
+      }
+      .pill.good {
+        background: var(--doc-good-soft);
+        border-color: #bfe0d0;
+        color: var(--doc-good);
+      }
+      .pill.warn {
+        background: var(--doc-warn-soft);
+        border-color: #ecd3a3;
+        color: var(--doc-warn);
+      }
+      h2.doc {
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: var(--doc-ink-3);
+        margin: 52px 0 6px;
+      }
+      h2.doc .num {
+        color: var(--doc-accent);
+      }
+      hr.doc {
+        border: 0;
+        border-top: 1px solid var(--doc-line);
+        margin: 8px 0 22px;
+      }
+      h3.doc {
+        font-size: 17px;
+        font-weight: 600;
+        color: var(--doc-ink);
+        margin: 26px 0 8px;
+      }
+      p.body {
+        font-size: 15px;
+        color: var(--doc-ink-2);
+        margin: 0 0 14px;
+      }
+      p.body strong,
+      li strong {
+        color: var(--doc-ink);
+      }
+      ul.body,
+      ol.body {
+        font-size: 15px;
+        color: var(--doc-ink-2);
+        padding-left: 22px;
+        margin: 0 0 14px;
+      }
+      ul.body li,
+      ol.body li {
+        margin: 7px 0;
+      }
+      code {
+        font-family: var(--mono);
+        font-size: 0.88em;
+        background: #eef1f6;
+        border: 1px solid var(--doc-line);
+        border-radius: 5px;
+        padding: 1px 6px;
+        color: #1c3a6e;
+        white-space: nowrap;
+      }
+      a {
+        color: var(--doc-accent);
+      }
+
+      /* callout boxes */
+      .callout {
+        display: flex;
+        gap: 13px;
+        align-items: flex-start;
+        border: 1px solid var(--doc-line);
+        border-left: 4px solid var(--doc-ink-3);
+        border-radius: 10px;
+        background: var(--doc-surface);
+        box-shadow: var(--doc-shadow);
+        padding: 15px 18px;
+        margin: 0 0 18px;
+      }
+      .callout .ic {
+        font-size: 18px;
+        line-height: 1.4;
+        flex-shrink: 0;
+      }
+      .callout .c-body {
+        font-size: 14.5px;
+        color: var(--doc-ink-2);
+      }
+      .callout .c-body strong {
+        color: var(--doc-ink);
+      }
+      .callout.danger {
+        border-left-color: var(--doc-danger);
+        background: var(--doc-danger-soft);
+      }
+      .callout.warn {
+        border-left-color: var(--doc-warn);
+        background: var(--doc-warn-soft);
+      }
+      .callout.good {
+        border-left-color: var(--doc-good);
+        background: var(--doc-good-soft);
+      }
+      .callout.info {
+        border-left-color: var(--doc-accent);
+      }
+
+      /* env-var table */
+      table.env {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13.5px;
+        margin: 0 0 14px;
+        background: var(--doc-surface);
+        border: 1px solid var(--doc-line);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: var(--doc-shadow);
+      }
+      table.env th {
+        text-align: left;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--doc-ink-3);
+        background: #f8fafc;
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--doc-line);
+      }
+      table.env td {
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--doc-line);
+        vertical-align: top;
+        color: var(--doc-ink-2);
+      }
+      table.env tr:last-child td {
+        border-bottom: 0;
+      }
+      table.env td.k {
+        white-space: nowrap;
+      }
+      table.env code {
+        white-space: nowrap;
+      }
+      .scope {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 600;
+        border-radius: 5px;
+        padding: 1px 7px;
+        white-space: nowrap;
+      }
+      .scope.prod {
+        color: var(--doc-danger);
+        background: var(--doc-danger-soft);
+        border: 1px solid #f0c4c0;
+      }
+      .scope.prev {
+        color: var(--doc-good);
+        background: var(--doc-good-soft);
+        border: 1px solid #bfe0d0;
+      }
+
+      /* step cards */
+      .step {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        background: var(--doc-surface);
+        border: 1px solid var(--doc-line);
+        border-radius: 12px;
+        box-shadow: var(--doc-shadow);
+        padding: 18px 20px;
+        margin: 0 0 14px;
+      }
+      .step .n {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--doc-ink);
+        color: #fff;
+        font-size: 14px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .step.mine .n {
+        background: var(--doc-good);
+      }
+      .step.matt .n {
+        background: var(--doc-danger);
+      }
+      .step .s-body {
+        flex: 1;
+        min-width: 0;
+      }
+      .step .s-title {
+        font-size: 15.5px;
+        font-weight: 600;
+        color: var(--doc-ink);
+        margin: 2px 0 6px;
+      }
+      .step .s-title .who {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        border-radius: 5px;
+        padding: 2px 7px;
+        margin-left: 8px;
+        vertical-align: middle;
+      }
+      .who.me {
+        color: var(--doc-good);
+        background: var(--doc-good-soft);
+        border: 1px solid #bfe0d0;
+      }
+      .who.you {
+        color: var(--doc-danger);
+        background: var(--doc-danger-soft);
+        border: 1px solid #f0c4c0;
+      }
+      .step .s-body p {
+        font-size: 14px;
+        color: var(--doc-ink-2);
+        margin: 0 0 8px;
+      }
+      .step .s-body ul {
+        font-size: 14px;
+        color: var(--doc-ink-2);
+        padding-left: 20px;
+        margin: 0 0 6px;
+      }
+      .step .s-body li {
+        margin: 5px 0;
+      }
+
+      /* checklist */
+      .check {
+        background: var(--doc-surface);
+        border: 1px solid var(--doc-line);
+        border-radius: 10px;
+        box-shadow: var(--doc-shadow);
+        padding: 6px 20px;
+        margin: 0 0 18px;
+      }
+      .check li {
+        list-style: none;
+        position: relative;
+        padding: 9px 0 9px 30px;
+        font-size: 14.5px;
+        color: var(--doc-ink-2);
+        border-bottom: 1px solid var(--doc-line);
+      }
+      .check {
+        padding-left: 0;
+        padding-right: 0;
+      }
+      .check ul {
+        list-style: none;
+        margin: 0;
+        padding: 0 20px;
+      }
+      .check li:last-child {
+        border-bottom: 0;
+      }
+      .check li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 11px;
+        width: 17px;
+        height: 17px;
+        border: 1.5px solid var(--doc-ink-3);
+        border-radius: 4px;
+      }
+      .check li strong {
+        color: var(--doc-ink);
+      }
+
+      footer.doc {
+        margin-top: 64px;
+        padding-top: 24px;
+        border-top: 1px solid var(--doc-line);
+        font-size: 12.5px;
+        color: var(--doc-ink-3);
+      }
+      footer.doc a {
+        color: var(--doc-ink-2);
+      }
+      .legend {
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+        font-size: 13px;
+        color: var(--doc-ink-2);
+        margin: 0 0 26px;
+      }
+      .legend .sw {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .legend .sw i {
+        width: 13px;
+        height: 13px;
+        border-radius: 4px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <p class="crumb">
+        <a href="../">← Brilliant With AI — Shared Artifacts</a>
+      </p>
+
+      <h1 class="doc">Stripe + Resend — go-live runbook</h1>
+      <p class="lede">
+        The code for self-serve Individual Mirror payments is built, merged, and
+        deployed. Nothing charges a real card yet because the live keys aren't
+        set. This runbook is the safe path from "deployed" to "taking real
+        money": test everything on a preview first, prove a full purchase and a
+        full refund work end-to-end, and only then flip on live keys in
+        production.
+      </p>
+
+      <div class="meta-pills">
+        <span class="pill good">Code shipped — keys not yet live</span>
+        <span class="pill">Stripe Checkout + webhook</span>
+        <span class="pill">Resend transactional email</span>
+        <span class="pill warn">Production env writes are Matt-only</span>
+      </div>
+
+      <div class="legend">
+        <span class="sw"
+          ><i style="background: var(--doc-good)"></i> Green = Claude can do it
+          (code, config files, preview verification)</span
+        >
+        <span class="sw"
+          ><i style="background: var(--doc-danger)"></i> Red = Matt only
+          (production keys, secrets, going live)</span
+        >
+      </div>
+
+      <!-- ============ 00 GOLDEN RULE ============ -->
+      <h2 class="doc"><span class="num">00</span> &nbsp;The one rule</h2>
+      <hr class="doc" />
+      <div class="callout danger">
+        <span class="ic">⚠️</span>
+        <div class="c-body">
+          <strong>Test mode first. Always.</strong> Stripe has two completely
+          separate worlds — <strong>test mode</strong> (fake cards, no money)
+          and <strong>live mode</strong> (real cards, real money). They have
+          different keys, different webhook endpoints, and different product
+          prices. We wire up and prove the entire flow in test mode on a preview
+          deployment. Live keys go into production <strong>last</strong>, only
+          after a test-mode purchase <em>and</em> a test-mode refund have both
+          worked end-to-end.
+        </div>
+      </div>
+      <div class="callout warn">
+        <span class="ic">🔒</span>
+        <div class="c-body">
+          <strong>Who flips the switches.</strong> Claude writes the code and
+          config files and runs the preview verification. But anything that
+          touches
+          <strong
+            >production environment variables, secrets, or the live Stripe
+            toggle</strong
+          >
+          is Matt's to do — those are customer-facing and
+          irreversible-by-surprise, so they never get done automatically. Every
+          such step below is marked <span class="scope prod">Matt only</span>.
+        </div>
+      </div>
+
+      <!-- ============ 01 MOVING PARTS ============ -->
+      <h2 class="doc">
+        <span class="num">01</span> &nbsp;What you're turning on
+      </h2>
+      <hr class="doc" />
+      <p class="body">Three pieces, already built and on <code>main</code>:</p>
+      <ul class="body">
+        <li>
+          <strong>Stripe Checkout → access grant.</strong> The buyer pays on
+          Stripe's hosted checkout. Stripe then calls our webhook, and the
+          webhook grants them access to Mirror Pro. (Built in #610.)
+        </li>
+        <li>
+          <strong>Refund / dispute → access revoke.</strong> If a payment is
+          refunded or disputed, the same webhook automatically revokes access,
+          fail-closed. (Built in #613.)
+        </li>
+        <li>
+          <strong>Transactional email.</strong> Sign-in links and the purchase
+          confirmation are delivered through Resend. While its keys are blank,
+          email is dormant and simply does nothing — no crash. (Built in #458.)
+        </li>
+      </ul>
+      <div class="callout info">
+        <span class="ic">🔌</span>
+        <div class="c-body">
+          The single webhook endpoint Stripe calls is
+          <code>/api/stripe/webhook</code>. It must be subscribed to exactly
+          three events: <code>checkout.session.completed</code> (grant),
+          <code>charge.refunded</code> and
+          <code>charge.dispute.created</code> (revoke). Configuring that
+          endpoint is Step&nbsp;3 below.
+        </div>
+      </div>
+
+      <!-- ============ 02 ENV VARS ============ -->
+      <h2 class="doc">
+        <span class="num">02</span> &nbsp;The environment variables
+      </h2>
+      <hr class="doc" />
+      <p class="body">
+        Six variables across two services. The
+        <span class="scope prev">Preview</span> column is what Claude/Matt set
+        on a preview deployment with <strong>test-mode</strong> values; the
+        <span class="scope prod">Production</span> column is the
+        <strong>live</strong> value Matt sets last. Every name below is the
+        exact string the code reads — see <code>apps/web/.env.example</code>.
+      </p>
+
+      <h3 class="doc">Stripe</h3>
+      <table class="env">
+        <thead>
+          <tr>
+            <th>Variable</th>
+            <th>What it is &amp; where it comes from</th>
+            <th>Scope</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="k"><code>STRIPE_SECRET_KEY</code></td>
+            <td>
+              The server API key. Stripe Dashboard → Developers → API keys. Test
+              value starts <code>sk_test_…</code>, live value
+              <code>sk_live_…</code>.
+            </td>
+            <td>
+              <span class="scope prev">Preview: test</span>
+              <span class="scope prod">Prod: live</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="k"><code>STRIPE_WEBHOOK_SECRET</code></td>
+            <td>
+              Signing secret that proves a webhook call really came from Stripe.
+              Created <em>per endpoint</em> when you add the webhook
+              (Step&nbsp;3), shown as <code>whsec_…</code>. Test and live
+              endpoints each have their own secret.
+            </td>
+            <td>
+              <span class="scope prev">Preview: test</span>
+              <span class="scope prod">Prod: live</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="k"><code>STRIPE_PRICE_INDIVIDUAL_MIRROR</code></td>
+            <td>
+              The price ID for the Individual Mirror product. Stripe Dashboard →
+              Product catalog → the product → its price, copy the
+              <code>price_…</code> ID. The test-mode and live-mode catalogs are
+              separate, so this ID differs between them.
+            </td>
+            <td>
+              <span class="scope prev">Preview: test</span>
+              <span class="scope prod">Prod: live</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout info">
+        <span class="ic">🧾</span>
+        <div class="c-body">
+          <strong>Sales tax (#615).</strong> Stripe Tax is configured in the
+          Stripe Dashboard (Settings → Tax), not via an env var. Turn on
+          automatic tax in test mode and confirm the checkout shows tax before
+          enabling it in live mode. <code>.env.example</code> carries a note
+          pointing here.
+        </div>
+      </div>
+
+      <h3 class="doc">Resend (email)</h3>
+      <table class="env">
+        <thead>
+          <tr>
+            <th>Variable</th>
+            <th>What it is &amp; where it comes from</th>
+            <th>Scope</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="k"><code>RESEND_API_KEY</code></td>
+            <td>
+              Resend API key. Resend dashboard → API Keys, shown as
+              <code>re_…</code>. Leave blank to keep email dormant.
+            </td>
+            <td>
+              <span class="scope prev">Preview</span>
+              <span class="scope prod">Prod</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="k"><code>EMAIL_FROM</code></td>
+            <td>
+              The "from" address, e.g.
+              <code>Mirror &lt;noreply@mail.brilliantwith.ai&gt;</code>. The
+              domain must be verified in Resend first (DNS records — see
+              Step&nbsp;2). Until verified, sends are rejected.
+            </td>
+            <td>
+              <span class="scope prev">Preview</span>
+              <span class="scope prod">Prod</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="k"><code>EMAIL_REPLY_TO</code></td>
+            <td>
+              A monitored reply-to address, e.g.
+              <code>support@brilliantwith.ai</code>. Optional but recommended so
+              replies reach a human.
+            </td>
+            <td>
+              <span class="scope prev">Preview</span>
+              <span class="scope prod">Prod</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout good">
+        <span class="ic">✅</span>
+        <div class="c-body">
+          All three Resend variables blank = email stays dormant and the app
+          runs fine. That means you can stand up and test the Stripe flow first,
+          and add email afterward, without breaking anything.
+        </div>
+      </div>
+
+      <!-- ============ 03 SEQUENCE ============ -->
+      <h2 class="doc">
+        <span class="num">03</span> &nbsp;The go-live sequence
+      </h2>
+      <hr class="doc" />
+      <p class="body">
+        Run these in order. Steps 1, 3, and 5 are Matt's (they set secrets or go
+        live); the rest Claude can drive.
+      </p>
+
+      <div class="step matt">
+        <span class="n">1</span>
+        <div class="s-body">
+          <p class="s-title">
+            Create test-mode keys &amp; the test product
+            <span class="who you">Matt only</span>
+          </p>
+          <p>
+            In the Stripe Dashboard, with the toggle set to
+            <strong>Test mode</strong>:
+          </p>
+          <ul>
+            <li>
+              Copy the test
+              <code>STRIPE_SECRET_KEY</code> (<code>sk_test_…</code>).
+            </li>
+            <li>
+              Create the Individual Mirror product + price, copy its
+              <code>price_…</code> for
+              <code>STRIPE_PRICE_INDIVIDUAL_MIRROR</code>.
+            </li>
+            <li>
+              Set both on the
+              <span class="scope prev">Preview</span> environment in Vercel
+              (Settings → Environment Variables). The webhook secret comes in
+              Step&nbsp;3.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step matt">
+        <span class="n">2</span>
+        <div class="s-body">
+          <p class="s-title">
+            Verify the email domain in Resend
+            <span class="who you">Matt only</span>
+          </p>
+          <p>
+            In Resend, add and verify the sending domain (it lists the DNS
+            records to add at your DNS provider). Once verified, set
+            <code>RESEND_API_KEY</code>, <code>EMAIL_FROM</code>, and
+            <code>EMAIL_REPLY_TO</code> on Preview. Email can also be left
+            dormant for the first Stripe test and added here afterward.
+          </p>
+        </div>
+      </div>
+
+      <div class="step matt">
+        <span class="n">3</span>
+        <div class="s-body">
+          <p class="s-title">
+            Add the test webhook endpoint
+            <span class="who you">Matt only</span>
+          </p>
+          <p>
+            Still in Test mode: Stripe Dashboard → Developers → Webhooks → Add
+            endpoint.
+          </p>
+          <ul>
+            <li>
+              URL =
+              <code
+                >https://&lt;your-preview-deployment&gt;/api/stripe/webhook</code
+              >
+            </li>
+            <li>
+              Subscribe to the three events:
+              <code>checkout.session.completed</code>,
+              <code>charge.refunded</code>, <code>charge.dispute.created</code>.
+            </li>
+            <li>
+              Copy the endpoint's signing secret (<code>whsec_…</code>) into
+              <code>STRIPE_WEBHOOK_SECRET</code> on Preview, then redeploy so it
+              picks up the value.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step mine">
+        <span class="n">4</span>
+        <div class="s-body">
+          <p class="s-title">
+            Prove it end-to-end in test mode
+            <span class="who me">Claude can drive</span>
+          </p>
+          <p>On the preview deployment, with Stripe in test mode:</p>
+          <ul>
+            <li>
+              <strong>Purchase:</strong> buy a Mirror with Stripe's test card
+              <code>4242 4242 4242 4242</code>. Confirm the buyer lands on the
+              claim page, claims the account, and ends up with Pro access.
+            </li>
+            <li>
+              <strong>Refund:</strong> refund that test payment from the Stripe
+              Dashboard. Confirm access is revoked automatically (the
+              <code>charge.refunded</code> path).
+            </li>
+            <li>
+              <strong>Email:</strong> if Resend is wired, confirm the sign-in
+              link and confirmation email actually arrive.
+            </li>
+            <li>
+              Check the webhook's delivery log in Stripe shows
+              <code>200</code> responses, not retries.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step matt">
+        <span class="n">5</span>
+        <div class="s-body">
+          <p class="s-title">
+            Go live — production keys last
+            <span class="who you">Matt only</span>
+          </p>
+          <p>
+            Only after Step&nbsp;4 fully passes. Flip Stripe to
+            <strong>Live mode</strong> and repeat the key collection for real:
+          </p>
+          <ul>
+            <li>
+              Live <code>STRIPE_SECRET_KEY</code> (<code>sk_live_…</code>) and
+              the live <code>STRIPE_PRICE_INDIVIDUAL_MIRROR</code> →
+              <span class="scope prod">Production</span> in Vercel.
+            </li>
+            <li>
+              Add a <strong>second, live-mode</strong> webhook endpoint pointing
+              at the production URL
+              (<code>https://brilliant-apps.vercel.app/api/stripe/webhook</code>),
+              same three events; put its <code>whsec_…</code> into the
+              Production <code>STRIPE_WEBHOOK_SECRET</code>.
+            </li>
+            <li>Set the live Resend values on Production.</li>
+            <li>Enable automatic tax in live mode (if using #615).</li>
+            <li>Redeploy production so it reads the new values.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ============ 04 SMOKE ============ -->
+      <h2 class="doc">
+        <span class="num">04</span> &nbsp;First-live smoke check
+      </h2>
+      <hr class="doc" />
+      <p class="body">
+        Immediately after going live, do one real low-value purchase yourself
+        and confirm each box, then refund it:
+      </p>
+      <div class="check">
+        <ul>
+          <li>Checkout completes and charges the real card.</li>
+          <li>
+            Buyer reaches the claim page and can claim via Google or magic link.
+          </li>
+          <li>Pro access is actually granted after claiming.</li>
+          <li>
+            Confirmation email arrives from the live <code>EMAIL_FROM</code>.
+          </li>
+          <li>
+            Stripe webhook log shows <code>200</code> for
+            <code>checkout.session.completed</code>.
+          </li>
+          <li>
+            <strong>Refund the test purchase</strong> — confirm access is
+            revoked.
+          </li>
+          <li>Tax line is correct on the receipt (if #615 is on).</li>
+        </ul>
+      </div>
+
+      <!-- ============ 05 ROLLBACK ============ -->
+      <h2 class="doc">
+        <span class="num">05</span> &nbsp;If something's wrong
+      </h2>
+      <hr class="doc" />
+      <div class="callout warn">
+        <span class="ic">↩️</span>
+        <div class="c-body">
+          <strong>Fastest kill switch:</strong> in Stripe, disable the live
+          webhook endpoint (Developers → Webhooks). Grants stop immediately
+          because the grant fires from that webhook. Existing customers keep
+          their access; no new ones are minted. Fix, re-enable, and Stripe will
+          replay the missed events. To stop new <em>purchases</em> too, take
+          down the checkout entry point or remove the live secret key — but
+          disabling the webhook is the surgical first move.
+        </div>
+      </div>
+      <div class="callout info">
+        <span class="ic">🔁</span>
+        <div class="c-body">
+          The webhook is idempotent — it remembers each Stripe event ID, so a
+          replay or duplicate delivery won't double-grant or double-revoke. Safe
+          to let Stripe retry.
+        </div>
+      </div>
+
+      <footer class="doc">
+        Runbook for epic
+        <a href="https://github.com/Brilliant-With-AI-Dev/bapps/issues/607"
+          >bapps&nbsp;#607</a
+        >
+        — self-serve Individual Mirror payments. Covers the shipped work:
+        Checkout→grant (#610), refund→revoke (#613), Stripe Tax (#615), and
+        transactional email (#458). Companion claim-page mockups:
+        <a href="../payments-claim-funnel/">payment-first claim funnel (#611)</a
+        >. Exact variable names mirror <code>apps/web/.env.example</code>.
+        Dashboard navigation is described at the level Stripe/Resend keep stable
+        — confirm the exact labels in the live dashboards as you go.
+      </footer>
+    </div>
+  </body>
+</html>

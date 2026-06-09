@@ -1,0 +1,1712 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Mirror — payment-first claim funnel: 3 treatments + full state set
+    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Outfit:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ===================================================================
+         PAGE CHROME — the review document frame (cool-slate, neutral).
+         The product MOCKUPS below render the real proposed brand: forest
+         green + navy + Newsreader/Outfit. Treatment-idiom = hardcoded hex
+         (no token indirection) so what you see is exactly the look.
+         =================================================================== */
+      :root {
+        --doc-bg: #f6f8fb;
+        --doc-surface: #ffffff;
+        --doc-ink: #0f1a2e;
+        --doc-ink-2: #3a4861;
+        --doc-ink-3: #6b7790;
+        --doc-line: #d6dde8;
+        --doc-accent: #2c6bed;
+        --doc-good: #157a4e;
+        --doc-good-soft: #e2f1ea;
+        --doc-warn: #b06b00;
+        --doc-warn-soft: #fbecd2;
+        --doc-gold: #b8860b;
+        --doc-gold-soft: #fdf4d3;
+        --doc-shadow:
+          0 1px 2px rgba(15, 26, 46, 0.04), 0 4px 12px rgba(15, 26, 46, 0.06);
+
+        /* ---- PRODUCT BRAND TOKENS (mirrors packages/design-system LEGACY
+               forest family + ConsumerAuthScreen look). Hardcoded on purpose
+               per the treatment-sandbox idiom. ---- */
+        --navy: #0a1628;
+        --navy-90: rgba(10, 22, 40, 0.9);
+        --navy-70: rgba(10, 22, 40, 0.7);
+        --navy-50: rgba(10, 22, 40, 0.5);
+        --navy-30: rgba(10, 22, 40, 0.3);
+        --navy-10: rgba(10, 22, 40, 0.1);
+        --navy-05: rgba(10, 22, 40, 0.05);
+        --off-white: #fafaf7;
+        --accent: #157a4e; /* forest — the brand green the deployed app renders */
+        --accent-bright: #1a9960;
+        --accent-glow: rgba(21, 122, 78, 0.12);
+        --accent-bg: rgba(21, 122, 78, 0.05);
+        --rose: #e11d48;
+        --rose-soft: rgba(225, 29, 72, 0.12);
+        --rose-faint: rgba(225, 29, 72, 0.05);
+        --font-display: "Newsreader", Georgia, serif;
+        --font-body: "Outfit", system-ui, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: var(--doc-bg);
+        color: var(--doc-ink);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .wrap {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 56px 32px 96px;
+      }
+      .crumb {
+        font-size: 13px;
+        color: var(--doc-ink-3);
+        margin-bottom: 16px;
+      }
+      .crumb a {
+        color: var(--doc-ink-3);
+      }
+      h1.doc {
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: -0.012em;
+        margin: 0 0 10px;
+        line-height: 1.25;
+        color: var(--doc-ink);
+      }
+      .lede {
+        font-size: 16px;
+        color: var(--doc-ink-2);
+        max-width: 760px;
+        margin: 0 0 24px;
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.9em;
+        background: #eef1f6;
+        border: 1px solid var(--doc-line);
+        border-radius: 5px;
+        padding: 1px 5px;
+      }
+      .meta-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 36px;
+      }
+      .pill {
+        font-size: 12.5px;
+        font-weight: 600;
+        padding: 5px 11px;
+        border-radius: 999px;
+        border: 1px solid var(--doc-line);
+        background: var(--doc-surface);
+        color: var(--doc-ink-2);
+      }
+      .pill.good {
+        background: var(--doc-good-soft);
+        border-color: #bfe0d0;
+        color: var(--doc-good);
+      }
+      .pill.warn {
+        background: var(--doc-warn-soft);
+        border-color: #ecd3a3;
+        color: var(--doc-warn);
+      }
+      h2.doc {
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: var(--doc-ink-3);
+        margin: 56px 0 6px;
+      }
+      h2.doc .num {
+        color: var(--doc-accent);
+      }
+      .section-sub {
+        font-size: 15px;
+        color: var(--doc-ink-2);
+        max-width: 820px;
+        margin: 0 0 24px;
+      }
+      hr.doc {
+        border: 0;
+        border-top: 1px solid var(--doc-line);
+        margin: 8px 0 0;
+      }
+
+      /* recommendation / constraint cards */
+      .reco {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        background: var(--doc-surface);
+        border: 1px solid var(--doc-line);
+        border-left: 4px solid var(--doc-accent);
+        border-radius: 10px;
+        box-shadow: var(--doc-shadow);
+        padding: 16px 18px;
+        margin: 0 0 16px;
+      }
+      .reco.gold {
+        border-left-color: var(--doc-gold);
+        background: #fffdf6;
+      }
+      .reco .medal {
+        font-size: 22px;
+        line-height: 1.3;
+        flex-shrink: 0;
+      }
+      .reco .body {
+        font-size: 14.5px;
+        color: var(--doc-ink-2);
+      }
+      .reco .body strong {
+        color: var(--doc-ink);
+      }
+      .constraints {
+        background: var(--doc-surface);
+        border: 1px solid var(--doc-line);
+        border-radius: 10px;
+        box-shadow: var(--doc-shadow);
+        padding: 8px 22px;
+        margin-bottom: 28px;
+      }
+      .constraints li {
+        margin: 10px 0;
+        font-size: 14.5px;
+        color: var(--doc-ink-2);
+      }
+      .constraints li strong {
+        color: var(--doc-ink);
+      }
+      .no {
+        color: var(--doc-warn);
+        font-weight: 600;
+      }
+      .yes {
+        color: var(--doc-good);
+        font-weight: 600;
+      }
+
+      /* mockup frame */
+      .variant-head {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        margin: 36px 0 4px;
+      }
+      .variant-head .tag {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #fff;
+        background: var(--doc-ink);
+        border-radius: 6px;
+        padding: 3px 9px;
+      }
+      .variant-head .tag.lead {
+        background: var(--doc-good);
+      }
+      .variant-head h3 {
+        font-size: 19px;
+        font-weight: 600;
+        margin: 0;
+        color: var(--doc-ink);
+      }
+      .variant-note {
+        font-size: 14px;
+        color: var(--doc-ink-3);
+        margin: 2px 0 16px;
+        max-width: 820px;
+      }
+      .frame {
+        border: 1px solid var(--doc-line);
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: var(--doc-shadow);
+        background: #fff;
+        margin-bottom: 14px;
+      }
+      .frame-bar {
+        height: 34px;
+        background: #eef1f6;
+        border-bottom: 1px solid var(--doc-line);
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 0 13px;
+      }
+      .frame-bar .dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: #cdd4e0;
+      }
+      .frame-bar .url {
+        margin-left: 10px;
+        font-size: 12px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        color: var(--doc-ink-3);
+        background: #fff;
+        border: 1px solid var(--doc-line);
+        border-radius: 6px;
+        padding: 2px 10px;
+      }
+      .stage {
+        /* the product canvas — neutral so the mockup's own off-white reads */
+        background: #e7e9e4;
+        padding: 0;
+      }
+
+      /* states grid */
+      .states {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 18px;
+        margin-bottom: 14px;
+      }
+      .state-cell {
+        border: 1px solid var(--doc-line);
+        border-radius: 12px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: var(--doc-shadow);
+      }
+      .state-label {
+        font-size: 11.5px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--doc-ink-3);
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--doc-line);
+        background: #f8fafc;
+      }
+      .state-label .badge {
+        float: right;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: var(--doc-good);
+        background: var(--doc-good-soft);
+        border: 1px solid #bfe0d0;
+        border-radius: 999px;
+        padding: 1px 7px;
+      }
+      .state-canvas {
+        background: #e7e9e4;
+        padding: 22px;
+        min-height: 320px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      footer.doc {
+        margin-top: 72px;
+        padding-top: 24px;
+        border-top: 1px solid var(--doc-line);
+        font-size: 12.5px;
+        color: var(--doc-ink-3);
+      }
+      footer.doc a {
+        color: var(--doc-ink-2);
+      }
+
+      /* ===================================================================
+         PRODUCT MOCKUP STYLES — ConsumerAuthScreen look, hardcoded.
+         =================================================================== */
+      .m-shell {
+        min-height: 560px;
+        background: var(--off-white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-body);
+        padding: 44px 24px;
+        width: 100%;
+      }
+      .m-card {
+        width: 100%;
+        max-width: 440px;
+        background: var(--off-white);
+        border-radius: 12px;
+        padding: 8px 4px;
+      }
+      /* framed card variant — elevated white surface w/ top accent stripe */
+      .m-card.framed {
+        background: #ffffff;
+        border: 1px solid var(--navy-10);
+        border-top: 3px solid var(--accent);
+        border-radius: 14px;
+        padding: 38px 36px 34px;
+        box-shadow:
+          0 1px 2px rgba(10, 22, 40, 0.04),
+          0 18px 40px rgba(10, 22, 40, 0.08);
+      }
+      .m-wordmark {
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: 14px;
+        letter-spacing: 0.14em;
+        color: var(--navy-30);
+        text-transform: uppercase;
+        margin-bottom: 22px;
+      }
+      .m-wordmark .w {
+        color: var(--accent);
+      }
+      .m-h1 {
+        font-family: var(--font-display);
+        font-size: 30px;
+        font-weight: 400;
+        letter-spacing: -0.01em;
+        color: var(--navy);
+        margin: 0 0 8px;
+      }
+      .m-sub {
+        font-size: 17px;
+        font-weight: 300;
+        line-height: 1.6;
+        color: var(--navy-50);
+        margin: 0 0 24px;
+      }
+      .m-sub .m-strong {
+        color: var(--navy);
+        font-weight: 600;
+      }
+      .m-form {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .m-field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .m-field-label {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--navy);
+      }
+      .m-input {
+        display: block;
+        width: 100%;
+        padding: 13px 15px;
+        font-size: 17px;
+        font-family: var(--font-body);
+        font-weight: 400;
+        color: var(--navy);
+        background: var(--off-white);
+        border: 1px solid var(--navy-10);
+        border-radius: 8px;
+        outline: none;
+      }
+      .m-card.framed .m-input {
+        background: #ffffff;
+      }
+      .m-input.placeholder {
+        color: var(--navy-30);
+      }
+
+      /* LOCKED email field — the purchase email, fixed by construction */
+      .m-input-locked {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding: 13px 15px;
+        font-size: 17px;
+        font-family: var(--font-body);
+        color: var(--navy);
+        background: var(--navy-05);
+        border: 1px solid var(--navy-10);
+        border-radius: 8px;
+      }
+      .m-input-locked .lock {
+        color: var(--navy-30);
+        flex-shrink: 0;
+      }
+      .m-input-locked .grow {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .m-lock-note {
+        font-size: 13px;
+        font-weight: 300;
+        color: var(--navy-50);
+        margin: -2px 0 2px;
+      }
+
+      /* RECEIPT strip — "payment received" confirmation */
+      .m-receipt {
+        display: flex;
+        align-items: flex-start;
+        gap: 11px;
+        padding: 13px 15px;
+        margin-bottom: 22px;
+        background: var(--accent-bg);
+        border: 1px solid var(--accent-glow);
+        border-radius: 10px;
+      }
+      .m-receipt .tick {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .m-receipt .r-body {
+        font-size: 14.5px;
+        line-height: 1.45;
+        color: var(--navy);
+      }
+      .m-receipt .r-body .r-amt {
+        font-weight: 600;
+      }
+      .m-receipt .r-body .r-meta {
+        display: block;
+        font-size: 13px;
+        font-weight: 300;
+        color: var(--navy-50);
+        margin-top: 1px;
+      }
+
+      .m-btn-primary {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 2px;
+        padding: 13px 16px;
+        font-size: 17px;
+        font-family: var(--font-body);
+        font-weight: 600;
+        color: var(--off-white);
+        background: var(--accent);
+        border: 1px solid var(--accent);
+        border-radius: 8px;
+        cursor: pointer;
+        text-align: center;
+      }
+      .m-btn-primary.disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+      .m-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 18px 0;
+        color: var(--navy-30);
+        font-size: 14px;
+      }
+      .m-divider .line {
+        flex: 1;
+        height: 1px;
+        background: var(--navy-10);
+      }
+      .m-btn-secondary {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        padding: 13px 16px;
+        font-size: 17px;
+        font-family: var(--font-body);
+        font-weight: 600;
+        color: var(--navy);
+        background: var(--off-white);
+        border: 1px solid var(--navy-10);
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .m-card.framed .m-btn-secondary {
+        background: #ffffff;
+      }
+      .m-note-info {
+        margin-bottom: 20px;
+        padding: 12px 14px;
+        font-size: 15px;
+        line-height: 1.5;
+        color: var(--navy);
+        background: var(--accent-bg);
+        border: 1px solid var(--accent-glow);
+        border-radius: 8px;
+      }
+      .m-note-info a {
+        color: var(--accent);
+        font-weight: 500;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+      .m-note-error {
+        margin-bottom: 18px;
+        padding: 12px 14px;
+        font-size: 15px;
+        line-height: 1.5;
+        color: var(--rose);
+        background: var(--rose-faint);
+        border: 1px solid var(--rose-soft);
+        border-radius: 8px;
+      }
+      .m-note-error .e-strong {
+        font-weight: 600;
+      }
+      .m-note-neutral {
+        margin: 14px 0 2px;
+        padding: 12px 14px;
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--navy-70);
+        background: var(--navy-05);
+        border: 1px solid var(--navy-10);
+        border-radius: 8px;
+      }
+      .m-note-neutral .n-strong {
+        color: var(--navy);
+        font-weight: 600;
+      }
+      .m-link-btn {
+        margin-top: 14px;
+        padding: 0;
+        font-size: 15px;
+        font-family: var(--font-body);
+        font-weight: 500;
+        color: var(--accent);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        display: inline-block;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+      .m-switch {
+        margin-top: 22px;
+        font-size: 15px;
+        font-weight: 300;
+        color: var(--navy-50);
+      }
+      .m-switch a {
+        font-weight: 500;
+        color: var(--accent);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+
+      /* SUCCESS hero — big check + headline */
+      .m-hero {
+        text-align: center;
+        padding: 8px 0 4px;
+      }
+      .m-hero-check {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        box-shadow: 0 8px 22px var(--accent-glow);
+      }
+      .m-hero .m-h1 {
+        text-align: center;
+      }
+      .m-hero .m-sub {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 300px;
+      }
+
+      /* STEPPER (Treatment C) */
+      .m-steps {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        margin: 2px 0 26px;
+      }
+      .m-step {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+      .m-step .dot {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 600;
+        flex-shrink: 0;
+      }
+      .m-step .dot.done {
+        background: var(--accent);
+        color: #fff;
+      }
+      .m-step .dot.now {
+        background: #fff;
+        color: var(--accent);
+        border: 2px solid var(--accent);
+      }
+      .m-step .dot.next {
+        background: var(--navy-05);
+        color: var(--navy-30);
+        border: 1px solid var(--navy-10);
+      }
+      .m-step .lbl {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--navy-50);
+      }
+      .m-step .lbl.now {
+        color: var(--navy);
+        font-weight: 600;
+      }
+      .m-step-line {
+        flex: 1;
+        height: 1px;
+        background: var(--navy-10);
+        margin: 0 10px;
+      }
+
+      /* split-panel (Treatment B) */
+      .m-split {
+        display: flex;
+        min-height: 560px;
+        width: 100%;
+        font-family: var(--font-body);
+      }
+      .m-split-left {
+        width: 44%;
+        min-width: 300px;
+        background: var(--navy);
+        position: relative;
+        overflow: hidden;
+        padding: 44px 46px;
+        display: flex;
+        flex-direction: column;
+        color: #fff;
+      }
+      .m-split-left .glow {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse 60% 50% at 50% 80%,
+          var(--accent-glow),
+          transparent
+        );
+        pointer-events: none;
+      }
+      .m-split-left .inner {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      .m-split-wordmark {
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: 14px;
+        letter-spacing: 0.14em;
+        color: rgba(255, 255, 255, 0.45);
+        text-transform: uppercase;
+        margin-bottom: 36px;
+      }
+      .m-split-wordmark .w {
+        color: var(--accent-bright);
+      }
+      .m-split-eyebrow {
+        font-size: 12.5px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent-bright);
+        margin: 0 0 12px;
+      }
+      .m-split-title {
+        font-family: var(--font-display);
+        font-size: 40px;
+        font-weight: 400;
+        line-height: 1.14;
+        letter-spacing: -0.02em;
+        color: #fff;
+        margin: 0 0 22px;
+      }
+      .m-split-title em {
+        font-style: italic;
+        color: var(--accent-bright);
+      }
+      .m-unlocked {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .m-unlocked li {
+        display: flex;
+        align-items: flex-start;
+        gap: 11px;
+        font-size: 16px;
+        font-weight: 300;
+        line-height: 1.45;
+        color: rgba(255, 255, 255, 0.72);
+      }
+      .m-unlocked .u-tick {
+        color: var(--accent-bright);
+        flex-shrink: 0;
+        margin-top: 3px;
+      }
+      .m-split-right {
+        flex: 1;
+        background: var(--off-white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 44px 40px;
+      }
+      .grow {
+        flex: 1;
+      }
+
+      @media (max-width: 640px) {
+        .m-split {
+          flex-direction: column;
+        }
+        .m-split-left {
+          width: 100%;
+          min-width: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <p class="crumb">
+        <a href="../">← Brilliant With AI — Shared Artifacts</a>
+      </p>
+
+      <h1 class="doc">Mirror — payment-first claim funnel: pick a direction</h1>
+      <p class="lede">
+        After someone pays for an Individual Mirror on Stripe, they land here:
+        the <strong>"claim your Mirror"</strong> page that turns a paid receipt
+        into a working account. Three on-brand treatments for that one screen,
+        plus the full state set — the new buyer, the returning customer, the
+        person who paid with their work email, and every error in between. Pick
+        a treatment — that pick unblocks the build of issue
+        <a href="https://github.com/Brilliant-With-AI-Dev/bapps/issues/611"
+          >#611</a
+        >.
+      </p>
+
+      <div class="meta-pills">
+        <span class="pill good"
+          >Payment already taken — money is not at risk</span
+        >
+        <span class="pill">Continue with Google + email magic link</span>
+        <span class="pill">Email is locked to the card you paid with</span>
+        <span class="pill warn">Mockups only — no repo code changed</span>
+      </div>
+
+      <!-- ================= HOW TO READ ================= -->
+      <h2 class="doc"><span class="num">00</span> &nbsp;How to read this</h2>
+      <hr class="doc" />
+      <p class="section-sub" style="margin-top: 20px">
+        <strong>Where this sits:</strong> Stripe hosts the checkout (card entry,
+        receipt). When payment succeeds, Stripe sends the buyer back to
+        <em>our</em> page at <code>/claim</code> — that page is everything you
+        see below. Its only job is to attach the Mirror they just paid for to a
+        real account they can sign back into. Section&nbsp;01 shows the three
+        treatments of that page in its first-time state. Section&nbsp;02 renders
+        every other screen a buyer can hit on the lead treatment, so the set is
+        complete before you choose. These are static HTML/CSS renders — faithful
+        to the proposed brand, not the live React build.
+      </p>
+
+      <div class="reco gold">
+        <span class="medal">🥇</span>
+        <div class="body">
+          <strong>Recommended lead: Treatment&nbsp;A (receipt card).</strong> A
+          single calm card that does two things in order — confirms the payment
+          landed ("Payment received — Mirror Pro"), then asks the buyer to
+          claim. It is the direct continuation of the existing
+          <code>ConsumerAuthScreen</code>, so it is the lowest-risk build, and a
+          receipt-first card is the strongest answer to the one question every
+          buyer has at this moment:
+          <em>"did my payment actually go through?"</em>
+          Treatment&nbsp;B (split celebration) is the pick if you want the
+          post-purchase moment to feel premium and list what they unlocked;
+          Treatment&nbsp;C (progress stepper) if reducing "what happens next?"
+          anxiety with an explicit Paid&nbsp;→&nbsp;Claim&nbsp;→&nbsp;Start path
+          matters more than calm.
+        </div>
+      </div>
+
+      <!-- ================= LOCKED DECISIONS ================= -->
+      <h2 class="doc">
+        <span class="num">01</span> &nbsp;Claim page — three treatments
+      </h2>
+      <hr class="doc" />
+      <p class="section-sub" style="margin-top: 20px">
+        These decisions are already locked (from
+        <a href="https://github.com/Brilliant-With-AI-Dev/bapps/issues/611"
+          >#611</a
+        >). The treatments differ only in chrome and tone — every one obeys all
+        of them.
+      </p>
+      <ul class="constraints">
+        <li>
+          <strong>The email is fixed — it cannot be retyped.</strong> Whatever
+          email the buyer paid with is the email the Mirror is tied to. The
+          magic-link path is correct
+          <span class="yes">by construction</span> (we mail that exact address);
+          the Google path <span class="yes">must match</span> the purchase email
+          or we re-prompt. No silent binding to a different account, ever.
+        </li>
+        <li>
+          <strong>Returning customers upgrade in place.</strong> If the buyer
+          already has a personal Mirror, claiming
+          <span class="yes">adds Pro to that existing account</span> — we never
+          mint a duplicate.
+        </li>
+        <li>
+          <strong>Paying with a work email is allowed and safe.</strong> If the
+          email belongs to a company (B2B) account, the purchase still goes
+          through and we create a
+          <span class="yes">separate personal Mirror</span> for them. Their
+          employer's workspace is <span class="no">never touched</span>.
+        </li>
+        <li>
+          <strong>We resolve, then create — never blind-create.</strong> The
+          server first looks for an existing personal account for that email and
+          reuses it; only if none exists does it make a new one. The buyer never
+          sees this — it is what keeps "upgrade in place" and "separate personal
+          Mirror" both true.
+        </li>
+      </ul>
+
+      <!-- ---------- TREATMENT A ---------- -->
+      <div class="variant-head">
+        <span class="tag lead">Treatment A · Lead</span>
+        <h3>Receipt card — confirm, then claim</h3>
+      </div>
+      <p class="variant-note">
+        The <code>ConsumerAuthScreen</code> card, opened with a forest receipt
+        strip so the buyer sees the payment landed before anything else. Locked
+        purchase email, Google as the instant path, magic link as the
+        no-password alternative. Calmest and lowest build risk.
+      </p>
+      <div class="frame">
+        <div class="frame-bar">
+          <span class="dot"></span><span class="dot"></span
+          ><span class="dot"></span>
+          <span class="url">brilliant-apps.vercel.app/claim?session=cs_…</span>
+        </div>
+        <div class="stage">
+          <div class="m-shell">
+            <div class="m-card">
+              <div class="m-wordmark">
+                BRILLIANT<span class="w">WITH</span>.AI
+              </div>
+              <div class="m-receipt">
+                <span class="tick">
+                  <svg
+                    width="13"
+                    height="13"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M20 6L9 17l-5-5" />
+                  </svg>
+                </span>
+                <span class="r-body">
+                  <span class="r-amt">Payment received — Mirror&nbsp;Pro</span>
+                  <span class="r-meta"
+                    >$240/year · receipt sent to your email</span
+                  >
+                </span>
+              </div>
+              <h1 class="m-h1">Claim your Mirror</h1>
+              <p class="m-sub">
+                Create your account to start. Your Mirror is tied to the email
+                you paid with.
+              </p>
+              <div class="m-form">
+                <label class="m-field">
+                  <span class="m-field-label">Your email</span>
+                  <span class="m-input-locked">
+                    <svg
+                      class="lock"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <rect x="4" y="11" width="16" height="9" rx="2" />
+                      <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+                    </svg>
+                    <span class="grow">jordan@example.com</span>
+                  </span>
+                </label>
+                <span class="m-lock-note"
+                  >Tied to the email you paid with.</span
+                >
+                <span class="m-btn-primary">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 11h8.5a8.5 8.5 0 1 1-2.4-5.1" />
+                  </svg>
+                  Continue with Google
+                </span>
+              </div>
+              <div class="m-divider">
+                <span class="line"></span><span>or</span
+                ><span class="line"></span>
+              </div>
+              <div class="m-btn-secondary">Email me a sign-in link</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---------- TREATMENT B ---------- -->
+      <div class="variant-head">
+        <span class="tag">Treatment B</span>
+        <h3>Split celebration — left rail lists what they unlocked</h3>
+      </div>
+      <p class="variant-note">
+        Keeps the branded navy panel from the B2B login, repurposed to celebrate
+        the purchase: "Welcome to Mirror Pro" plus the three things they just
+        unlocked. The claim actions sit on the right. The most premium-feeling
+        moment for someone who just spent money; collapses to one column on
+        narrow screens.
+      </p>
+      <div class="frame">
+        <div class="frame-bar">
+          <span class="dot"></span><span class="dot"></span
+          ><span class="dot"></span>
+          <span class="url">brilliant-apps.vercel.app/claim?session=cs_…</span>
+        </div>
+        <div class="stage">
+          <div class="m-split">
+            <div class="m-split-left">
+              <div class="glow"></div>
+              <div class="inner">
+                <div class="m-split-wordmark">
+                  BRILLIANT<span class="w">WITH</span>.AI
+                </div>
+                <div class="grow"></div>
+                <div>
+                  <p class="m-split-eyebrow">Payment received</p>
+                  <h1 class="m-split-title">
+                    Welcome to <em>Mirror&nbsp;Pro</em>
+                  </h1>
+                  <ul class="m-unlocked">
+                    <li>
+                      <svg
+                        class="u-tick"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M20 6L9 17l-5-5" />
+                      </svg>
+                      Your full AI-readiness Mirror, unlocked
+                    </li>
+                    <li>
+                      <svg
+                        class="u-tick"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M20 6L9 17l-5-5" />
+                      </svg>
+                      A full year of access
+                    </li>
+                    <li>
+                      <svg
+                        class="u-tick"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M20 6L9 17l-5-5" />
+                      </svg>
+                      Your results, saved and revisitable
+                    </li>
+                  </ul>
+                </div>
+                <div class="grow"></div>
+              </div>
+            </div>
+            <div class="m-split-right">
+              <div class="m-card" style="max-width: 380px">
+                <h1 class="m-h1">Claim your Mirror</h1>
+                <p class="m-sub">
+                  Create your account to start. Tied to the email you paid with.
+                </p>
+                <div class="m-form">
+                  <label class="m-field">
+                    <span class="m-field-label">Your email</span>
+                    <span class="m-input-locked">
+                      <svg
+                        class="lock"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <rect x="4" y="11" width="16" height="9" rx="2" />
+                        <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+                      </svg>
+                      <span class="grow">jordan@example.com</span>
+                    </span>
+                  </label>
+                  <span class="m-btn-primary">
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.7"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M12 11h8.5a8.5 8.5 0 1 1-2.4-5.1" />
+                    </svg>
+                    Continue with Google
+                  </span>
+                </div>
+                <div class="m-divider">
+                  <span class="line"></span><span>or</span
+                  ><span class="line"></span>
+                </div>
+                <div class="m-btn-secondary">Email me a sign-in link</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---------- TREATMENT C ---------- -->
+      <div class="variant-head">
+        <span class="tag">Treatment C</span>
+        <h3>Progress stepper — Paid → Claim → Start</h3>
+      </div>
+      <p class="variant-note">
+        Same centered card as Treatment&nbsp;A, with an explicit three-step
+        progress rail across the top: Payment (done), Claim account (now), Start
+        your Mirror (next). Best at answering "what happens after this?" for a
+        buyer who is unsure they are finished.
+      </p>
+      <div class="frame">
+        <div class="frame-bar">
+          <span class="dot"></span><span class="dot"></span
+          ><span class="dot"></span>
+          <span class="url">brilliant-apps.vercel.app/claim?session=cs_…</span>
+        </div>
+        <div class="stage">
+          <div class="m-shell">
+            <div class="m-card framed">
+              <div class="m-wordmark">
+                BRILLIANT<span class="w">WITH</span>.AI
+              </div>
+              <div class="m-steps">
+                <div class="m-step">
+                  <span class="dot done">
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="3"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M20 6L9 17l-5-5" />
+                    </svg>
+                  </span>
+                  <span class="lbl">Paid</span>
+                </div>
+                <span class="m-step-line"></span>
+                <div class="m-step">
+                  <span class="dot now">2</span>
+                  <span class="lbl now">Claim</span>
+                </div>
+                <span class="m-step-line"></span>
+                <div class="m-step">
+                  <span class="dot next">3</span>
+                  <span class="lbl">Start</span>
+                </div>
+              </div>
+              <h1 class="m-h1">Claim your Mirror</h1>
+              <p class="m-sub">
+                One step left. Create your account and your Mirror is ready.
+              </p>
+              <div class="m-form">
+                <label class="m-field">
+                  <span class="m-field-label">Your email</span>
+                  <span class="m-input-locked">
+                    <svg
+                      class="lock"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <rect x="4" y="11" width="16" height="9" rx="2" />
+                      <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+                    </svg>
+                    <span class="grow">jordan@example.com</span>
+                  </span>
+                </label>
+                <span class="m-lock-note"
+                  >Tied to the email you paid with.</span
+                >
+                <span class="m-btn-primary">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 11h8.5a8.5 8.5 0 1 1-2.4-5.1" />
+                  </svg>
+                  Continue with Google
+                </span>
+              </div>
+              <div class="m-divider">
+                <span class="line"></span><span>or</span
+                ><span class="line"></span>
+              </div>
+              <div class="m-btn-secondary">Email me a sign-in link</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= STATE SET ================= -->
+      <h2 class="doc">
+        <span class="num">02</span> &nbsp;State set — on the lead treatment
+      </h2>
+      <hr class="doc" />
+      <p class="section-sub" style="margin-top: 20px">
+        Every screen a buyer can land on, rendered on Treatment&nbsp;A so the
+        set is complete before you pick. The new-buyer state is in
+        Section&nbsp;01 above; the eight below cover returning customers, the
+        work-email case, both claim paths, success, and every error. If you pick
+        B or C, the same states port directly — only the chrome around the card
+        changes.
+      </p>
+      <div class="states">
+        <!-- returning consumer -->
+        <div class="state-cell">
+          <div class="state-label">
+            Returning customer <span class="badge">upgrade in place</span>
+          </div>
+          <div class="state-canvas">
+            <div class="m-card" style="max-width: 360px">
+              <div class="m-wordmark">
+                BRILLIANT<span class="w">WITH</span>.AI
+              </div>
+              <div class="m-receipt">
+                <span class="tick">
+                  <svg
+                    width="13"
+                    height="13"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M20 6L9 17l-5-5" />
+                  </svg>
+                </span>
+                <span class="r-body">
+                  <span class="r-amt">Payment received — Mirror&nbsp;Pro</span>
+                </span>
+              </div>
+              <h1 class="m-h1">Welcome back, Jordan</h1>
+              <p class="m-sub">
+                We added Pro to your existing Mirror. Sign in to pick up where
+                you left off.
+              </p>
+              <div class="m-form">
+                <span class="m-btn-primary">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 11h8.5a8.5 8.5 0 1 1-2.4-5.1" />
+                  </svg>
+                  Continue with Google
+                </span>
+                <div class="m-divider">
+                  <span class="line"></span><span>or</span
+                  ><span class="line"></span>
+                </div>
+                <div class="m-btn-secondary">Email me a sign-in link</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- B2B-member email -->
+        <div class="state-cell">
+          <div class="state-label">
+            Work email <span class="badge">separate Mirror</span>
+          </div>
+          <div class="state-canvas">
+            <div class="m-card" style="max-width: 360px">
+              <div class="m-wordmark">
+                BRILLIANT<span class="w">WITH</span>.AI
+              </div>
+              <h1 class="m-h1">Claim your Mirror</h1>
+              <p class="m-sub">
+                Create your account to start. Tied to
+                <span class="m-strong">jordan@acme.com</span>.
+              </p>
+              <div class="m-note-neutral">
+                <span class="n-strong">This is your personal Mirror.</span> It
+                is separate from your Acme&nbsp;Corp workspace — your employer
+                can't see it.
+              </div>
+              <div class="m-form">
+                <span class="m-btn-primary">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 11h8.5a8.5 8.5 0 1 1-2.4-5.1" />
+                  </svg>
+                  Continue with Google
+                </span>
+                <div class="m-divider">
+                  <span class="line"></span><span>or</span
+                  ><span class="line"></span>
+                </div>
+                <div class="m-btn-secondary">Email me a sign-in link</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- magic link sent -->
+        <div class="state-cell">
+          <div class="state-label">Magic link sent — check email</div>
+          <div class="state-canvas">
+            <div class="m-card" style="max-width: 360px">
+              <div class="m-wordmark">
+                BRILLIANT<span class="w">WITH</span>.AI
+              </div>
+              <h1 class="m-h1">Check your email</h1>
+              <p class="m-sub">
+                We sent a sign-in link to
+                <span class="m-strong">jordan@example.com</span>. Open it to
+                finish claiming your Mirror — it expires in 10 minutes.
+              </p>
+              <div class="m-note-info">
+                Your payment is safe. This link is the only thing left.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- google mismatch -->
+        <div class="state-cell">
+          <div class="state-label">
+            Google mismatch
+            <span
+              class="badge"
+              style="
+                color: var(--doc-warn);
+                background: var(--doc-warn-soft);
+                border-color: #ecd3a3;
+              "
+              >re-prompt</span
+            >
+          </div>
+          <div class="state-canvas">
+            <div class="m-card" style="max-width: 360px">
+              <div class="m-wordmark">
+                BRILLIANT<span class="w">WITH</span>.AI
+              </div>
+              <h1 class="m-h1">That's a different email</h1>
+              <p class="m-sub">
+                You signed in with Google as
+                <span class="m-strong">jordan.r@gmail.com</span>, but you paid
+                as <span class="m-strong">jordan@example.com</span>.
+              </p>
+              <div class="m-note-error">
+                <span class="e-strong"
+                  >We won't attach your Mirror to the wrong account.</span
+                >
+                Use Google with the email you paid with, or get a sign-in link
+                for it instead.
+              </div>
+              <div class="m-form">
+                <span class="m-btn-primary">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 11h8.5a8.5 8.5 0 1 1-2.4-5.1" />
+                  </svg>
+                  Try Google again
+                </span>
+                <div class="m-divider">
+                  <span class="line"></span><span>or</span
+                  ><span class="line"></span>
+                </div>
+                <div class="m-btn-secondary">
+                  Email a link to jordan@example.com
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- success -->
+        <div class="state-cell">
+          <div class="state-label">Success — access granted</div>
+          <div class="state-canvas">
+            <div class="m-card" style="max-width: 360px">
+              <div class="m-hero">
+                <div class="m-hero-check">
+                  <svg
+                    width="30"
+                    height="30"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M20 6L9 17l-5-5" />
+                  </svg>
+                </div>
+                <h1 class="m-h1">You're all set</h1>
+                <p class="m-sub">
+                  Your Mirror Pro is ready and tied to your account.
+                </p>
+                <span class="m-btn-primary" style="justify-content: center"
+                  >Open my Mirror</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- already claimed -->
+        <div class="state-cell">
+          <div class="state-label">Already claimed — return visit</div>
+          <div class="state-canvas">
+            <div class="m-card" style="max-width: 360px">
+              <div class="m-wordmark">
+                BRILLIANT<span class="w">WITH</span>.AI
+              </div>
+              <h1 class="m-h1">This Mirror is already claimed</h1>
+              <p class="m-sub">
+                You've already set up the account for
+                <span class="m-strong">jordan@example.com</span>. Sign in to get
+                back to it.
+              </p>
+              <div class="m-form">
+                <span class="m-btn-primary">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 11h8.5a8.5 8.5 0 1 1-2.4-5.1" />
+                  </svg>
+                  Continue with Google
+                </span>
+                <div class="m-divider">
+                  <span class="line"></span><span>or</span
+                  ><span class="line"></span>
+                </div>
+                <div class="m-btn-secondary">Email me a sign-in link</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- claim link invalid -->
+        <div class="state-cell">
+          <div class="state-label">Claim link invalid or expired</div>
+          <div class="state-canvas">
+            <div class="m-card" style="max-width: 360px">
+              <div class="m-wordmark">
+                BRILLIANT<span class="w">WITH</span>.AI
+              </div>
+              <h1 class="m-h1">We couldn't find that purchase</h1>
+              <p class="m-sub">
+                This claim link is invalid or has expired. Your payment is still
+                safe — we can find it by your email.
+              </p>
+              <div class="m-form">
+                <label class="m-field">
+                  <span class="m-field-label">Email you paid with</span>
+                  <span class="m-input placeholder">you@example.com</span>
+                </label>
+                <span class="m-btn-primary" style="justify-content: center"
+                  >Find my purchase</span
+                >
+              </div>
+              <div
+                class="m-note-info"
+                style="margin-top: 16px; margin-bottom: 0"
+              >
+                Still stuck? <a href="#">Contact support</a> — we'll sort it
+                out.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- submitting -->
+        <div class="state-cell">
+          <div class="state-label">Submitting — button busy</div>
+          <div class="state-canvas">
+            <div class="m-card" style="max-width: 360px">
+              <div class="m-wordmark">
+                BRILLIANT<span class="w">WITH</span>.AI
+              </div>
+              <div class="m-receipt">
+                <span class="tick">
+                  <svg
+                    width="13"
+                    height="13"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M20 6L9 17l-5-5" />
+                  </svg>
+                </span>
+                <span class="r-body">
+                  <span class="r-amt">Payment received — Mirror&nbsp;Pro</span>
+                </span>
+              </div>
+              <h1 class="m-h1">Claim your Mirror</h1>
+              <p class="m-sub">Create your account to start.</p>
+              <div class="m-form">
+                <label class="m-field">
+                  <span class="m-field-label">Your email</span>
+                  <span class="m-input-locked">
+                    <svg
+                      class="lock"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <rect x="4" y="11" width="16" height="9" rx="2" />
+                      <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+                    </svg>
+                    <span class="grow">jordan@example.com</span>
+                  </span>
+                </label>
+                <span class="m-btn-primary disabled">Sending link…</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= OPEN QUESTIONS ================= -->
+      <h2 class="doc">
+        <span class="num">03</span> &nbsp;What your pick decides
+      </h2>
+      <hr class="doc" />
+      <ul class="constraints" style="margin-top: 20px">
+        <li>
+          <strong>Which treatment?</strong> A (receipt card), B (split
+          celebration), or C (progress stepper). All three carry identical
+          actions and obey every locked decision — the choice is tone: calm
+          confirmation, premium celebration, or explicit progress.
+        </li>
+        <li>
+          <strong>Which claim path leads?</strong> The mockups put
+          <span class="yes">Continue with Google</span> first as the instant
+          path, with the magic link below. Flag if you'd rather lead with the
+          magic link (matches the plain sign-in page) — it's a one-line swap.
+        </li>
+        <li>
+          <strong>Show the price on the receipt strip?</strong> Mockups show
+          "$240/year." We can pull the real amount from the Stripe session, show
+          a generic "Mirror Pro," or drop the line entirely. Confirm the price
+          and whether to display it.
+        </li>
+        <li>
+          <strong>Heading copy.</strong> Mockups use "Claim your Mirror" /
+          "Welcome back" / "You're all set." Flag any you'd word differently.
+        </li>
+        <li>
+          <strong>Does success auto-forward?</strong> Mockups show an explicit
+          "Open my Mirror" button. Alternative: forward automatically after a
+          beat. The button is the safer default; say if you want auto-forward.
+        </li>
+      </ul>
+
+      <footer class="doc">
+        Mockups for
+        <a href="https://github.com/Brilliant-With-AI-Dev/bapps/issues/611"
+          >bapps&nbsp;#611</a
+        >
+        — payment-first claim funnel · part of epic
+        <a href="https://github.com/Brilliant-With-AI-Dev/bapps/issues/607"
+          >#607</a
+        >
+        (self-serve Stripe payments). Builds on the entitlement seam (#609),
+        Checkout→grant (#610), and transactional email (#458). Companion go-live
+        runbook:
+        <a href="../payments-go-live-runbook/">Stripe + Resend go-live</a>.
+        Static HTML treatment renders — no repo code was changed. Brand: forest
+        <code>#157a4e</code>, navy <code>#0a1628</code>, Newsreader + Outfit.
+      </footer>
+    </div>
+  </body>
+</html>

@@ -126,6 +126,37 @@
         <h2>Artifacts</h2>
         <ul class="artifacts">
           <li>
+            <a href="payments-claim-funnel/">
+              <p class="title">
+                Mirror — payment-first claim funnel (pick a direction)
+              </p>
+              <p class="meta">
+                2026-06-09 — three on-brand treatments for the "claim your
+                Mirror" page a buyer hits after paying on Stripe (receipt card ·
+                split celebration · progress stepper), plus the full state set:
+                new buyer, returning customer (upgrade in place), work-email
+                (separate personal Mirror), magic-link sent, Google email
+                mismatch, success, already-claimed, and error. Email locked to
+                the purchase card; forest green, Newsreader/Outfit. Matt's pick
+                unblocks build of #611.
+              </p>
+            </a>
+          </li>
+          <li>
+            <a href="payments-go-live-runbook/">
+              <p class="title">Stripe + Resend — go-live runbook</p>
+              <p class="meta">
+                2026-06-09 — the safe path from "payments code is deployed" to
+                "taking real money": test-mode-first sequence, the six exact env
+                variables (Stripe + Resend) and where each comes from, the
+                <code>/api/stripe/webhook</code> endpoint and its three events,
+                end-to-end purchase + refund verification, first-live smoke
+                checklist, and a webhook kill-switch rollback. Production key
+                writes flagged as Matt-only.
+              </p>
+            </a>
+          </li>
+          <li>
             <a href="feature-flags-guide/">
               <p class="title">
                 Testing new features before customers see them &mdash;
