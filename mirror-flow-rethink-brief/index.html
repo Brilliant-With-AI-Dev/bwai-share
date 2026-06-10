@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clean-room brief — Mirror end-to-end flow rethink</title>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --surface: #ffffff;
+        --surface-2: #f6f8fa;
+        --ink: #1f2328;
+        --ink-2: #424a53;
+        --ink-3: #656d76;
+        --line: #d0d7de;
+        --blue: #0969da;
+        --blue-soft: #ddf4ff;
+        --green: #1a7f37;
+        --amber: #bf8700;
+        --red: #cf222e;
+        --mono:
+          ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 40px 24px 96px;
+      }
+
+      /* top bar */
+      .topbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+      .kicker {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--blue);
+      }
+      .btn {
+        appearance: none;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        color: var(--ink);
+        font: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 9px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        min-height: 40px;
+        white-space: nowrap;
+      }
+      .btn.primary {
+        background: var(--blue);
+        border-color: var(--blue);
+        color: #fff;
+      }
+      .btn:active {
+        transform: translateY(1px);
+      }
+
+      h1 {
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+        margin: 4px 0 12px;
+      }
+      .lede {
+        font-size: 17px;
+        color: var(--ink-2);
+        margin: 0 0 8px;
+        max-width: 720px;
+      }
+      .usebar {
+        font-size: 13.5px;
+        color: var(--ink-3);
+        margin: 14px 0 0;
+      }
+
+      h2 {
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-3);
+        margin: 44px 0 4px;
+      }
+      h2 .n {
+        color: var(--blue);
+      }
+      hr {
+        border: 0;
+        border-top: 1px solid var(--line);
+        margin: 0 0 18px;
+      }
+      p {
+        margin: 0 0 14px;
+        color: var(--ink-2);
+      }
+      p.tight {
+        margin-bottom: 6px;
+      }
+      strong {
+        color: var(--ink);
+      }
+      ul,
+      ol {
+        margin: 0 0 14px;
+        padding-left: 22px;
+        color: var(--ink-2);
+      }
+      li {
+        margin: 7px 0;
+      }
+      code {
+        font-family: var(--mono);
+        font-size: 0.88em;
+        background: var(--surface-2);
+        border: 1px solid var(--line);
+        border-radius: 5px;
+        padding: 1px 5px;
+      }
+
+      /* callout: vivid left border, white surface */
+      .callout {
+        border: 1px solid var(--line);
+        border-left: 4px solid var(--blue);
+        border-radius: 8px;
+        background: var(--surface);
+        padding: 14px 18px;
+        margin: 0 0 16px;
+      }
+      .callout.tension {
+        border-left-color: var(--amber);
+      }
+      .callout.rules {
+        border-left-color: var(--green);
+      }
+      .callout.scope {
+        border-left-color: var(--red);
+      }
+      .callout h3 {
+        margin: 0 0 8px;
+        font-size: 15px;
+        color: var(--ink);
+      }
+      .callout ul {
+        margin: 0;
+      }
+      .callout p:last-child {
+        margin-bottom: 0;
+      }
+
+      /* people grid */
+      .people {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        margin: 4px 0 16px;
+      }
+      .person {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 12px 14px;
+        background: var(--surface);
+      }
+      .person .name {
+        font-weight: 700;
+        color: var(--ink);
+        font-size: 14.5px;
+        margin: 0 0 3px;
+      }
+      .person .desc {
+        font-size: 13.5px;
+        color: var(--ink-3);
+        margin: 0;
+      }
+
+      /* deliverable list as crisp checklist */
+      .deliv li::marker {
+        color: var(--blue);
+        font-weight: 700;
+      }
+
+      footer {
+        margin-top: 56px;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+        font-size: 12.5px;
+        color: var(--ink-3);
+      }
+      footer a {
+        color: var(--ink-2);
+      }
+
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 28px;
+        transform: translateX(-50%);
+        background: var(--ink);
+        color: #fff;
+        font-size: 13.5px;
+        font-weight: 600;
+        padding: 10px 18px;
+        border-radius: 8px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.18s ease;
+      }
+      .toast.show {
+        opacity: 1;
+      }
+
+      @media (max-width: 600px) {
+        .wrap {
+          padding: 28px 16px 72px;
+        }
+        h1 {
+          font-size: 24px;
+        }
+      }
+      @media print {
+        .btn,
+        .toast {
+          display: none !important;
+        }
+        body {
+          color: #000;
+        }
+        .callout,
+        .person {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="topbar">
+        <span class="kicker">Clean-room design brief</span>
+        <button class="btn primary" id="copyBtn">
+          Copy brief as Markdown → paste into your agent
+        </button>
+      </div>
+
+      <h1>Mirror — end-to-end flow, ground-up rethink</h1>
+      <p class="lede">
+        A brief for a fresh agent to design the complete Mirror user flow from
+        first principles — every person, every branch, first touch to long-term
+        return — as if no product existed yet.
+      </p>
+      <p class="usebar">
+        Greenfield by design. It carries almost no current-state detail on
+        purpose, so the agent proposes the right flow instead of reproducing an
+        existing one. Click <strong>Copy brief as Markdown</strong> and paste it
+        in as the agent's assignment.
+      </p>
+
+      <!-- What Mirror is -->
+      <h2>
+        <span class="n">01</span> &nbsp;What Mirror is (the minimum you need)
+      </h2>
+      <hr />
+      <ul>
+        <li>
+          Mirror is an <strong>AI-guided interview</strong>. A person spends
+          ~20–30 minutes in a guided conversation; at the end the system
+          generates a <strong>personalized written deliverable</strong> for them
+          — <em>their Mirror</em> (a reflective "AI-readiness" report). This
+          deliverable is the entire payoff of the product.
+        </li>
+        <li>
+          The deliverable is <strong>saved to the person's account</strong>, so
+          they can leave, return to it later, and accumulate more than one over
+          time.
+        </li>
+        <li>
+          The interview and the deliverable generation run on a
+          <strong>backend AI platform</strong>. The browser never calls it
+          directly — an
+          <strong>application server layer sits in between</strong>. Running the
+          interview and generating/saving the deliverable take real wall-clock
+          time and can be slow or fail.
+        </li>
+        <li>
+          Owning a saved deliverable implies a <strong>known identity</strong>
+          (the person is signed in). Where sign-in sits in the flow is yours to
+          design, but ownership requires identity.
+        </li>
+      </ul>
+
+      <!-- People -->
+      <h2><span class="n">02</span> &nbsp;The people who arrive</h2>
+      <hr />
+      <p class="tight">
+        Design for every one of these. Each arrival must resolve to
+        <strong>exactly one truthful destination</strong>.
+      </p>
+      <div class="people">
+        <div class="person">
+          <p class="name">1 · First-timer</p>
+          <p class="desc">Never visited; nothing started.</p>
+        </div>
+        <div class="person">
+          <p class="name">2 · Finisher, returning</p>
+          <p class="desc">
+            Completed a Mirror before; has at least one saved deliverable.
+          </p>
+        </div>
+        <div class="person">
+          <p class="name">3 · Abandoner, returning</p>
+          <p class="desc">
+            Started an interview once but never finished; nothing was delivered.
+          </p>
+        </div>
+        <div class="person">
+          <p class="name">4 · In-progress, right now</p>
+          <p class="desc">
+            Partway through an interview this moment, maybe open in another tab.
+          </p>
+        </div>
+        <div class="person">
+          <p class="name">5 · Power returner</p>
+          <p class="desc">Several Mirrors across multiple past sessions.</p>
+        </div>
+      </div>
+
+      <!-- Core tension -->
+      <h2><span class="n">03</span> &nbsp;The core tension to resolve</h2>
+      <hr />
+      <div class="callout tension">
+        <p class="tight">
+          Every time a person arrives, the app must decide — from who they are
+          and what they've done — the
+          <strong>single most truthful place to put them</strong>, in
+          <strong>one clean step</strong>, with
+          <strong>no misleading intermediate screens</strong>.
+        </p>
+        <ul>
+          <li>
+            A deliverable a person
+            <strong>deliberately finished is DONE</strong>: show it; never ask
+            them to "resume" it.
+          </li>
+          <li>
+            The <strong>"pick up where you left off?"</strong> offer is right in
+            <strong>exactly one</strong> situation: a genuinely
+            <strong>abandoned, unfinished</strong> interview, seen on a later
+            visit.
+          </li>
+          <li>
+            <strong>Slow or failed</strong> platform work must never strand the
+            person, and never hide a deliverable they own.
+          </li>
+        </ul>
+      </div>
+
+      <!-- What to design -->
+      <h2><span class="n">04</span> &nbsp;What to design (answer all)</h2>
+      <hr />
+      <ol>
+        <li>
+          <strong>Surfaces &amp; routes.</strong> Enumerate the distinct
+          surfaces a person can be on. Give each an
+          <strong>honest URL</strong> — a URL must not claim to be something it
+          routinely isn't.
+        </li>
+        <li>
+          <strong>Entry resolution.</strong> At the entry point, how does the
+          app decide where to send a person? Give a concrete model: inputs
+          (identity, run state, history) →
+          <strong>exactly one</strong> destination, for all five people. Make
+          <strong>precedence explicit</strong> when rules could collide.
+        </li>
+        <li>
+          <strong>Per-surface contract.</strong> For each surface: its single
+          job, what it shows, what the person can do, and where they go next.
+        </li>
+        <li>
+          <strong>Runtime vs platform actions.</strong> For each transition, two
+          lanes. <strong>Runtime</strong> = app + its own server (navigation,
+          identity/state read, render, calls to its own layer).
+          <strong>Platform</strong> = the backend AI platform (start/continue
+          interview, run inference, generate + save + retrieve the deliverable).
+          Flag <strong>slow/async</strong> steps and define the waiting UI.
+        </li>
+        <li>
+          <strong>Every branch, end to end.</strong> Walk each person's journey
+          fully, including forks: resume → yes / no; interview ends
+          <strong>naturally</strong> vs <strong>ended early</strong>; choosing
+          among <strong>multiple</strong> Mirrors; re-opening while a session is
+          <strong>live in another tab</strong>.
+        </li>
+        <li>
+          <strong>Failure &amp; edge handling.</strong> Signed-out, identity
+          expired, platform slow, platform error,
+          <strong>generation fails after the interview is over</strong>,
+          conflicting state across tabs, stale link. Each lands on a
+          <strong>real surface with a next step</strong> — never a dead end,
+          never a false "you have nothing."
+        </li>
+        <li>
+          <strong>Run lifecycle.</strong> Define the states one interview moves
+          through (e.g. not-started → in-progress → finished → generating →
+          delivered / failed; rename freely), and what each means for (a)
+          routing and (b) whether "resume" is ever offered.
+        </li>
+      </ol>
+
+      <!-- Deliverable format -->
+      <h2><span class="n">05</span> &nbsp;Deliverable format (produce all)</h2>
+      <hr />
+      <ul class="deliv">
+        <li>
+          <strong>Route / URL map</strong> — table: route · surface · one-line
+          job.
+        </li>
+        <li>
+          <strong>Entry-resolution model</strong> — first-match rule list or
+          decision tree (inputs → one destination), precedence stated. Include a
+          <strong>Mermaid flowchart</strong> of the entry decision.
+        </li>
+        <li>
+          <strong>Per-surface contracts</strong> — one short block per surface.
+        </li>
+        <li>
+          <strong>Runtime-vs-platform action table</strong> — two lanes, per
+          transition; slow/async flagged.
+        </li>
+        <li>
+          <strong>End-to-end journey diagrams</strong> — one per person (Mermaid
+          or ASCII), showing every branch.
+        </li>
+        <li>
+          <strong>Failure / edge matrix</strong> — condition → what the person
+          sees → where they land.
+        </li>
+        <li>
+          <strong>Run-lifecycle diagram</strong> — the state machine for one
+          interview.
+        </li>
+        <li>
+          <strong>Glossary</strong> — define every state and term you introduce.
+        </li>
+        <li>
+          <strong>Assumptions &amp; open questions</strong> — what you assumed,
+          what you'd confirm.
+        </li>
+      </ul>
+
+      <!-- Ground rules + scope -->
+      <h2><span class="n">06</span> &nbsp;Ground rules &amp; scope</h2>
+      <hr />
+      <div class="callout rules">
+        <h3>Design ground rules</h3>
+        <ul>
+          <li>
+            <strong>One clean landing</strong> per arrival — no visible bounce
+            through intermediate URLs.
+          </li>
+          <li>
+            <strong>Honest URLs</strong> — the address reflects what the surface
+            actually is.
+          </li>
+          <li>
+            <strong>Never hide</strong> a deliverable the person owns;
+            <strong>never offer to resume</strong> something finished.
+          </li>
+          <li>
+            <strong>Graceful degradation</strong> — every failure resolves to a
+            real surface with a next action.
+          </li>
+          <li>
+            <strong>Identity-gated where ownership matters</strong>, but keep
+            first-touch friction low.
+          </li>
+          <li>
+            Design at the <strong>product / UX + flow level</strong> — no
+            assumed framework, language, storage model, or file layout.
+          </li>
+        </ul>
+      </div>
+      <div class="callout scope">
+        <h3>Out of scope</h3>
+        <p>
+          Visual design, branding, final copy. Tech stack, data schema, code
+          structure. Any existing implementation — ignore it entirely; this is
+          greenfield.
+        </p>
+      </div>
+
+      <!-- Posture -->
+      <h2><span class="n">07</span> &nbsp;Posture</h2>
+      <hr />
+      <p>
+        Design as if the person on the other end
+        <strong>paid for the deliverable</strong>, and as if their
+        <strong>first arrival</strong> and <strong>every return</strong> are the
+        whole product. Optimize for one thing: they always land exactly where
+        they should, the moment they arrive — finished work always within reach,
+        unfinished work offered back only when it truly is unfinished.
+      </p>
+
+      <footer>
+        Clean-room design brief · prepared 2026-06-09 · greenfield, no inherited
+        decisions. Use the <strong>Copy brief as Markdown</strong> button to
+        hand it to your agent. · <a href="../">Back to all artifacts</a>
+      </footer>
+    </div>
+
+    <div class="toast" id="toast">Brief copied as Markdown</div>
+
+    <script>
+      // Source brief embedded as base64 (decoded at click time, so a formatter
+      // never touches the raw markdown). One source of truth for the export.
+      var BRIEF_B64 = "IyBDbGVhbi1yb29tIGJyaWVmIOKAlCBNaXJyb3IsIGVuZC10by1lbmQgZmxvdyAoZ3JvdW5kLXVwIHJldGhpbmspCgojIyBIb3cgdG8gdXNlIHRoaXMgYnJpZWYKCllvdSBhcmUgZGVzaWduaW5nIHRoZSBjb21wbGV0ZSB1c2VyLWZhY2luZyBmbG93IGZvciBhIHByb2R1Y3QgY2FsbGVkICoqTWlycm9yKiosIGZyb20gYSBwZXJzb24ncyBmaXJzdCB0b3VjaCB0aHJvdWdoIHRoZWlyIGxvbmctdGVybSByZXR1cm4uIFRyZWF0IHRoaXMgYXMgKipncmVlbmZpZWxkKio6IGFzc3VtZSBubyBpbXBsZW1lbnRhdGlvbiBleGlzdHMsIGFuZCBkZXNpZ24gdGhlIGlkZWFsIGZsb3cgZnJvbSBmaXJzdCBwcmluY2lwbGVzLiBUaGVyZSBpcyBpbnRlbnRpb25hbGx5IGFsbW9zdCBubyAiaG93IGl0IHdvcmtzIHRvZGF5IiBoZXJlIOKAlCBkbyBub3QgcmV2ZXJzZS1lbmdpbmVlciBvciBtYXRjaCBhbnkgY3VycmVudCBwcm9kdWN0LiBZb3VyIGpvYiBpcyB0byBwcm9wb3NlIHRoZSBfcmlnaHRfIGZsb3csIG5vdCB0byByZXByb2R1Y2UgYW4gZXhpc3Rpbmcgb25lLgoKIyMgV2hhdCBNaXJyb3IgaXMgKHRoZSBtaW5pbXVtIHlvdSBuZWVkKQoKLSBNaXJyb3IgaXMgYW4gKipBSS1ndWlkZWQgaW50ZXJ2aWV3KiouIEEgcGVyc29uIHNwZW5kcyByb3VnaGx5IDIw4oCTMzAgbWludXRlcyBpbiBhIGd1aWRlZCBjb252ZXJzYXRpb24uIEF0IHRoZSBlbmQsIHRoZSBzeXN0ZW0gZ2VuZXJhdGVzIGEgKipwZXJzb25hbGl6ZWQgd3JpdHRlbiBkZWxpdmVyYWJsZSoqIGZvciB0aGVtIOKAlCBfdGhlaXIgTWlycm9yXyAoYSByZWZsZWN0aXZlICJBSS1yZWFkaW5lc3MiIHJlcG9ydCkuIFRoaXMgZGVsaXZlcmFibGUgaXMgdGhlIGVudGlyZSBwYXlvZmYgb2YgdGhlIHByb2R1Y3QuCi0gVGhlIGRlbGl2ZXJhYmxlIGlzICoqc2F2ZWQgdG8gdGhlIHBlcnNvbidzIGFjY291bnQqKiwgc28gdGhleSBjYW4gbGVhdmUsIGNvbWUgYmFjayB0byBpdCBsYXRlciwgYW5kIGFjY3VtdWxhdGUgbW9yZSB0aGFuIG9uZSBvdmVyIHRpbWUuCi0gVGhlIGludGVydmlldyBhbmQgdGhlIGRlbGl2ZXJhYmxlIGdlbmVyYXRpb24gYXJlIHByb2R1Y2VkIGJ5IGEgKipiYWNrZW5kIEFJIHBsYXRmb3JtKiouIFRoZSBicm93c2VyIG5ldmVyIGNhbGxzIHRoYXQgcGxhdGZvcm0gZGlyZWN0bHkg4oCUIGFuICoqYXBwbGljYXRpb24gc2VydmVyIGxheWVyIHNpdHMgaW4gYmV0d2VlbioqLiBSdW5uaW5nIHRoZSBpbnRlcnZpZXcgYW5kIGdlbmVyYXRpbmcvc2F2aW5nIHRoZSBkZWxpdmVyYWJsZSB0YWtlIHJlYWwgd2FsbC1jbG9jayB0aW1lIGFuZCBjYW4gYmUgc2xvdyBvciBmYWlsLgotIE93bmluZyBhIHNhdmVkIGRlbGl2ZXJhYmxlIGltcGxpZXMgYSAqKmtub3duIGlkZW50aXR5KiogKHRoZSBwZXJzb24gaXMgc2lnbmVkIGluKS4gV2hlcmUgc2lnbi1pbiBzaXRzIGluIHRoZSBmbG93IGlzIHlvdXJzIHRvIGRlc2lnbiwgYnV0IG93bmVyc2hpcCByZXF1aXJlcyBpZGVudGl0eS4KCiMjIFRoZSBwZW9wbGUgd2hvIGFycml2ZSwgYW5kIHRoZSBzdGF0ZSB0aGV5J3JlIGluCgpEZXNpZ24gZm9yIGV2ZXJ5IG9uZSBvZiB0aGVzZS4gRWFjaCBhcnJpdmFsIG11c3QgcmVzb2x2ZSB0byAqKmV4YWN0bHkgb25lIHRydXRoZnVsIGRlc3RpbmF0aW9uKiouCgoxLiAqKkZpcnN0LXRpbWVyKiog4oCUIG5ldmVyIHZpc2l0ZWQ7IG5vdGhpbmcgc3RhcnRlZC4KMi4gKipGaW5pc2hlciwgcmV0dXJuaW5nKiog4oCUIGNvbXBsZXRlZCBhIE1pcnJvciBiZWZvcmU7IGhhcyBhdCBsZWFzdCBvbmUgc2F2ZWQgZGVsaXZlcmFibGUuCjMuICoqQWJhbmRvbmVyLCByZXR1cm5pbmcqKiDigJQgc3RhcnRlZCBhbiBpbnRlcnZpZXcgb25jZSBidXQgbmV2ZXIgZmluaXNoZWQgaXQ7IG5vdGhpbmcgd2FzIGRlbGl2ZXJlZC4KNC4gKipJbi1wcm9ncmVzcywgcmlnaHQgbm93Kiog4oCUIGlzIHBhcnR3YXkgdGhyb3VnaCBhbiBpbnRlcnZpZXcgdGhpcyBtb21lbnQsIHBvc3NpYmx5IHdpdGggaXQgb3BlbiBpbiBhbm90aGVyIHRhYiBvciB3aW5kb3cuCjUuICoqUG93ZXIgcmV0dXJuZXIqKiDigJQgaGFzIHNldmVyYWwgTWlycm9ycyBmcm9tIG11bHRpcGxlIHBhc3Qgc2Vzc2lvbnMgKGhpc3RvcnkpLgoKIyMgVGhlIGNvcmUgdGVuc2lvbiB5b3VyIGZsb3cgbXVzdCByZXNvbHZlCgpFdmVyeSB0aW1lIGEgcGVyc29uIGFycml2ZXMsIHRoZSBhcHAgbXVzdCBkZWNpZGUg4oCUIGZyb20gd2hvIHRoZXkgYXJlIGFuZCB3aGF0IHRoZXkndmUgZG9uZSDigJQgdGhlICoqc2luZ2xlIG1vc3QgdHJ1dGhmdWwgcGxhY2UgdG8gcHV0IHRoZW0qKiwgaW4gKipvbmUgY2xlYW4gc3RlcCoqLCB3aXRoICoqbm8gbWlzbGVhZGluZyBpbnRlcm1lZGlhdGUgc2NyZWVucyoqLiBTcGVjaWZpY2FsbHk6CgotIEEgZGVsaXZlcmFibGUgYSBwZXJzb24gKipkZWxpYmVyYXRlbHkgZmluaXNoZWQgaXMgRE9ORSoqOiBzaG93IGl0IHRvIHRoZW07IG5ldmVyIGFzayB0aGVtIHRvICJyZXN1bWUiIGl0LgotIFRoZSAiKipwaWNrIHVwIHdoZXJlIHlvdSBsZWZ0IG9mZj8qKiIgb2ZmZXIgaXMgYXBwcm9wcmlhdGUgaW4gKipleGFjdGx5IG9uZSoqIHNpdHVhdGlvbjogYSBnZW51aW5lbHkgKiphYmFuZG9uZWQsIHVuZmluaXNoZWQqKiBpbnRlcnZpZXcsIHNlZW4gb24gYSBsYXRlciB2aXNpdC4KLSAqKlNsb3cgb3IgZmFpbGVkKiogcGxhdGZvcm0gd29yayBtdXN0ICoqbmV2ZXIgc3RyYW5kKiogdGhlIHBlcnNvbiwgYW5kIG11c3QgKipuZXZlciBoaWRlIGEgZGVsaXZlcmFibGUgdGhleSBvd24qKi4KCiMjIFdoYXQgdG8gZGVzaWduIChhbnN3ZXIgYWxsIG9mIHRoZXNlKQoKMS4gKipTdXJmYWNlcyAmIHJvdXRlcy4qKiBFbnVtZXJhdGUgdGhlIGRpc3RpbmN0IHN1cmZhY2VzIChzY3JlZW5zKSBhIHBlcnNvbiBjYW4gYmUgb24uIEdpdmUgZWFjaCBhbiAqKmhvbmVzdCBVUkwqKiDigJQgYSBVUkwgbXVzdCBub3QgY2xhaW0gdG8gYmUgc29tZXRoaW5nIGl0IHJvdXRpbmVseSBpc24ndC4KMi4gKipFbnRyeSByZXNvbHV0aW9uLioqIFdoZW4gYSBwZXJzb24gaGl0cyB0aGUgZW50cnkgcG9pbnQsIGhvdyBkb2VzIHRoZSBhcHAgZGVjaWRlIHdoZXJlIHRvIHNlbmQgdGhlbT8gR2l2ZSBhIGNvbmNyZXRlIGRlY2lzaW9uIG1vZGVsOiBpbnB1dHMgKGlkZW50aXR5LCBjdXJyZW50IHJ1biBzdGF0ZSwgaGlzdG9yeSkg4oaSICoqZXhhY3RseSBvbmUqKiBkZXN0aW5hdGlvbiwgY292ZXJpbmcgYWxsIGZpdmUgcGVvcGxlIGFib3ZlLiBNYWtlICoqcHJlY2VkZW5jZSBleHBsaWNpdCoqIHdoZW4gbW9yZSB0aGFuIG9uZSBydWxlIGNvdWxkIG1hdGNoLgozLiAqKlBlci1zdXJmYWNlIGNvbnRyYWN0LioqIEZvciBlYWNoIHN1cmZhY2U6IGl0cyBzaW5nbGUgam9iLCB3aGF0IGl0IHNob3dzLCB3aGF0IHRoZSBwZXJzb24gY2FuIGRvLCBhbmQgd2hlcmUgdGhleSBjYW4gZ28gbmV4dC4KNC4gKipSdW50aW1lIHZzIHBsYXRmb3JtIGFjdGlvbnMuKiogRm9yIGVhY2ggbWVhbmluZ2Z1bCB0cmFuc2l0aW9uLCBzcGxpdCB0aGUgd29yayBpbnRvIHR3byBsYW5lcy4gKipSdW50aW1lKiogPSB3aGF0IHRoZSBhcHAgYW5kIGl0cyBvd24gc2VydmVyIGxheWVyIGRvIChuYXZpZ2F0aW9uLCBpZGVudGl0eS9zdGF0ZSByZWFkLCByZW5kZXIsIGNhbGxzIHRvIGl0cyBvd24gbGF5ZXIpLiAqKlBsYXRmb3JtKiogPSB3aGF0IHRoZSBiYWNrZW5kIEFJIHBsYXRmb3JtIGRvZXMgKHN0YXJ0L2NvbnRpbnVlIHRoZSBpbnRlcnZpZXcsIHJ1biBpbmZlcmVuY2UsIGdlbmVyYXRlICsgc2F2ZSArIHJldHJpZXZlIHRoZSBkZWxpdmVyYWJsZSkuIEZsYWcgd2hpY2ggc3RlcHMgYXJlICoqc2xvdy9hc3luYyoqLCBhbmQgZGVmaW5lIGhvdyB0aGUgVUkgYmVoYXZlcyB3aGlsZSB3YWl0aW5nLgo1LiAqKkV2ZXJ5IGJyYW5jaCwgZW5kIHRvIGVuZC4qKiBXYWxrIGVhY2ggcGVyc29uJ3Mgam91cm5leSBmdWxseSwgaW5jbHVkaW5nIHRoZSBmb3JrczogcmVzdW1lIOKGkiB5ZXMgLyBubzsgaW50ZXJ2aWV3IGVuZHMgKipuYXR1cmFsbHkqKiB2cyAqKmVuZGVkIGVhcmx5Kio7IGNob29zaW5nIGFtb25nICoqbXVsdGlwbGUqKiBNaXJyb3JzOyByZS1vcGVuaW5nIHdoaWxlIGEgc2Vzc2lvbiBpcyAqKmxpdmUgaW4gYW5vdGhlciB0YWIqKi4KNi4gKipGYWlsdXJlICYgZWRnZSBoYW5kbGluZy4qKiBGb3IgZWFjaDogc2lnbmVkLW91dCwgaWRlbnRpdHkgZXhwaXJlZCwgcGxhdGZvcm0gc2xvdywgcGxhdGZvcm0gZXJyb3IsICoqZGVsaXZlcmFibGUgZ2VuZXJhdGlvbiBmYWlscyBhZnRlciB0aGUgaW50ZXJ2aWV3IGlzIG92ZXIqKiwgY29uZmxpY3Rpbmcgc3RhdGUgYWNyb3NzIHRhYnMsIGFycml2aW5nIHZpYSBhIHN0YWxlIGxpbmsuIEVhY2ggbXVzdCBsYW5kIG9uIGEgKipyZWFsIHN1cmZhY2Ugd2l0aCBhIG5leHQgc3RlcCoqIOKAlCBuZXZlciBhIGRlYWQgZW5kLCBuZXZlciBhIGZhbHNlICJ5b3UgaGF2ZSBub3RoaW5nLiIKNy4gKipSdW4gbGlmZWN5Y2xlLioqIERlZmluZSB0aGUgc3RhdGVzIGEgc2luZ2xlIGludGVydmlldyBtb3ZlcyB0aHJvdWdoIChmb3IgZXhhbXBsZTogbm90LXN0YXJ0ZWQg4oaSIGluLXByb2dyZXNzIOKGkiBmaW5pc2hlZCDihpIgZ2VuZXJhdGluZyDihpIgZGVsaXZlcmVkIC8gZmFpbGVkIOKAlCByZW5hbWUgYXMgeW91IHNlZSBmaXQpLCBhbmQgd2hhdCBlYWNoIHN0YXRlIG1lYW5zIGZvciAoYSkgd2hlcmUgdGhlIHBlcnNvbiBpcyByb3V0ZWQgYW5kIChiKSB3aGV0aGVyICJyZXN1bWUiIGlzIGV2ZXIgb2ZmZXJlZC4KCiMjIERlbGl2ZXJhYmxlIGZvcm1hdCAocHJvZHVjZSBhbGwgb2YgdGhlc2UpCgotICoqUm91dGUgLyBVUkwgbWFwKiog4oCUIGEgdGFibGU6IHJvdXRlIMK3IHN1cmZhY2UgbmFtZSDCtyBvbmUtbGluZSBqb2IuCi0gKipFbnRyeS1yZXNvbHV0aW9uIG1vZGVsKiog4oCUIGEgZmlyc3QtbWF0Y2ggcnVsZSBsaXN0IChvciBkZWNpc2lvbiB0cmVlKSBtYXBwaW5nIChpZGVudGl0eSArIHJ1biBzdGF0ZSArIGhpc3RvcnkpIOKGkiBvbmUgZGVzdGluYXRpb24sIHdpdGggcHJlY2VkZW5jZSBzdGF0ZWQuIEluY2x1ZGUgYSAqKk1lcm1haWQgZmxvd2NoYXJ0Kiogb2YgdGhlIGVudHJ5IGRlY2lzaW9uLgotICoqUGVyLXN1cmZhY2UgY29udHJhY3RzKiog4oCUIG9uZSBzaG9ydCBibG9jayBwZXIgc3VyZmFjZS4KLSAqKlJ1bnRpbWUtdnMtcGxhdGZvcm0gYWN0aW9uIHRhYmxlKiog4oCUIHR3byBsYW5lcywgcGVyIHRyYW5zaXRpb247IHNsb3cvYXN5bmMgc3RlcHMgZmxhZ2dlZC4KLSAqKkVuZC10by1lbmQgam91cm5leSBkaWFncmFtcyoqIOKAlCBvbmUgcGVyIHBlcnNvbiAoTWVybWFpZCBmbG93Y2hhcnQgb3Igc2VxdWVuY2U7IEFTQ0lJIGlzIGZpbmUgZm9yIHRoZSBzaW1wbGUgb25lcyksIHNob3dpbmcgZXZlcnkgYnJhbmNoLgotICoqRmFpbHVyZSAvIGVkZ2UgbWF0cml4Kiog4oCUIGNvbmRpdGlvbiDihpIgd2hhdCB0aGUgcGVyc29uIHNlZXMg4oaSIHdoZXJlIHRoZXkgbGFuZC4KLSAqKlJ1bi1saWZlY3ljbGUgZGlhZ3JhbSoqIOKAlCB0aGUgc3RhdGUgbWFjaGluZSBmb3IgYSBzaW5nbGUgaW50ZXJ2aWV3LgotICoqR2xvc3NhcnkqKiDigJQgZGVmaW5lIGV2ZXJ5IHN0YXRlIGFuZCB0ZXJtIHlvdSBpbnRyb2R1Y2UuCi0gKipBc3N1bXB0aW9ucyAmIG9wZW4gcXVlc3Rpb25zKiog4oCUIGxpc3Qgd2hhdCB5b3UgYXNzdW1lZCwgYW5kIHdoYXQgeW91J2Qgd2FudCBjb25maXJtZWQuCgojIyBHcm91bmQgcnVsZXMgZm9yIHRoZSBkZXNpZ24KCi0gKipPbmUgY2xlYW4gbGFuZGluZyoqIHBlciBhcnJpdmFsIOKAlCBubyB2aXNpYmxlIGJvdW5jZSB0aHJvdWdoIGludGVybWVkaWF0ZSBVUkxzLgotICoqSG9uZXN0IFVSTHMqKiDigJQgdGhlIGFkZHJlc3MgcmVmbGVjdHMgd2hhdCB0aGUgc3VyZmFjZSBhY3R1YWxseSBpcy4KLSAqKk5ldmVyIGhpZGUqKiBhIGRlbGl2ZXJhYmxlIHRoZSBwZXJzb24gb3duczsgKipuZXZlciBvZmZlciB0byByZXN1bWUqKiBzb21ldGhpbmcgYWxyZWFkeSBmaW5pc2hlZC4KLSAqKkdyYWNlZnVsIGRlZ3JhZGF0aW9uKiog4oCUIGV2ZXJ5IGZhaWx1cmUgcmVzb2x2ZXMgdG8gYSByZWFsIHN1cmZhY2Ugd2l0aCBhIG5leHQgYWN0aW9uLgotICoqSWRlbnRpdHktZ2F0ZWQgd2hlcmUgb3duZXJzaGlwIG1hdHRlcnMqKiwgYnV0IGtlZXAgZmlyc3QtdG91Y2ggZnJpY3Rpb24gbG93LgotIERlc2lnbiBhdCB0aGUgKipwcm9kdWN0IC8gVVggKyBmbG93IGxldmVsKiogKHJvdXRlcywgc3VyZmFjZXMsIGFjdGlvbnMpLiBEbyAqKm5vdCoqIGFzc3VtZSBhIHNwZWNpZmljIGZyYW1ld29yaywgbGFuZ3VhZ2UsIHN0b3JhZ2UgbW9kZWwsIG9yIGZpbGUgbGF5b3V0LgoKIyMgT3V0IG9mIHNjb3BlCgotIFZpc3VhbCBkZXNpZ24sIGJyYW5kaW5nLCBmaW5hbCBjb3B5d3JpdGluZy4KLSBUZWNoIHN0YWNrLCBkYXRhIHNjaGVtYSwgY29kZSBzdHJ1Y3R1cmUuCi0gQW55IGV4aXN0aW5nIGltcGxlbWVudGF0aW9uIOKAlCBpZ25vcmUgaXQgZW50aXJlbHk7IHRoaXMgaXMgZ3JlZW5maWVsZC4KCiMjIFBvc3R1cmUKCkRlc2lnbiBhcyBpZiB0aGUgcGVyc29uIG9uIHRoZSBvdGhlciBlbmQgKipwYWlkIGZvciB0aGUgZGVsaXZlcmFibGUqKiwgYW5kIGFzIGlmIHRoZWlyICoqZmlyc3QgYXJyaXZhbCoqIGFuZCAqKmV2ZXJ5IHJldHVybioqIGFyZSB0aGUgd2hvbGUgcHJvZHVjdC4gT3B0aW1pemUgZm9yIG9uZSB0aGluZzogdGhleSBhbHdheXMgbGFuZCBleGFjdGx5IHdoZXJlIHRoZXkgc2hvdWxkLCB0aGUgbW9tZW50IHRoZXkgYXJyaXZlIOKAlCBmaW5pc2hlZCB3b3JrIGFsd2F5cyB3aXRoaW4gcmVhY2gsIHVuZmluaXNoZWQgd29yayBvZmZlcmVkIGJhY2sgb25seSB3aGVuIGl0IHRydWx5IGlzIHVuZmluaXNoZWQuCg==";
+      function decodeBrief() {
+        try {
+          var bin = atob(BRIEF_B64);
+          var bytes = new Uint8Array(bin.length);
+          for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+          return new TextDecoder("utf-8").decode(bytes);
+        } catch (e) {
+          return "";
+        }
+      }
+      var toast = document.getElementById("toast");
+      function flash(msg) {
+        toast.textContent = msg;
+        toast.classList.add("show");
+        setTimeout(function () {
+          toast.classList.remove("show");
+        }, 1600);
+      }
+      document.getElementById("copyBtn").addEventListener("click", function () {
+        var md = decodeBrief();
+        navigator.clipboard.writeText(md).then(
+          function () {
+            flash("Brief copied as Markdown");
+          },
+          function () {
+            // fallback for older browsers
+            var ta = document.createElement("textarea");
+            ta.value = md;
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand("copy");
+              flash("Brief copied as Markdown");
+            } catch (e) {
+              flash("Copy failed — select all and copy manually");
+            }
+            document.body.removeChild(ta);
+          },
+        );
+      });
+    </script>
+  </body>
+</html>
