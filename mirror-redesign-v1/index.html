@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Outfit:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <style>
@@ -29,11 +29,11 @@
         --green-faint: rgba(31, 92, 61, 0.045);
         --amber: #9a6b24; /* saved / emphasis */
         --amber-soft: rgba(154, 107, 36, 0.12);
-        --rose: #9e4a3c; /* the hard truth / challenge */
+        --rose: #9e4a3c; /* the hard truth / challenge / recording */
         --rose-soft: rgba(158, 74, 60, 0.1);
-        /* type */
+        /* type — Fraunces (display / the letter) + Outfit (the design-system body font) */
         --display: "Fraunces", Georgia, serif;
-        --sans: "Hanken Grotesk", -apple-system, system-ui, sans-serif;
+        --sans: "Outfit", -apple-system, system-ui, sans-serif;
         /* shape */
         --r-sm: 8px;
         --r: 13px;
@@ -482,6 +482,7 @@
         display: flex;
         flex-direction: column;
         border-right: 1px solid var(--line);
+        min-width: 0;
       }
       .convo.solo {
         border: none;
@@ -490,110 +491,122 @@
         width: 100%;
       }
       .convo.docked {
-        flex: 0 0 42%;
+        flex: 0 0 43%;
         max-width: 520px;
       }
       .thread {
         flex: 1;
         overflow: auto;
-        padding: 30px 30px 8px;
+        padding: 28px 28px 8px;
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
       }
       .thread.center {
-        padding: 44px 40px 8px;
-      }
-      /* messages */
-      .msg {
-        margin-bottom: 22px;
-        max-width: 92%;
-        animation: rise 0.5s both;
-      }
-      .msg {
-        width: 100%;
-      }
-      .msg > .body,
-      .msg > .ideas {
-        display: block;
-        width: 100%;
-      }
-      .msg.you {
-        align-self: flex-end;
-        text-align: right;
-      }
-      .msg .who {
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--green-deep);
-        margin-bottom: 7px;
-        display: flex;
-        align-items: center;
-        gap: 7px;
-      }
-      .msg.you .who {
-        color: var(--ink-3);
-        justify-content: flex-end;
-      }
-      .msg .who .tick {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--green);
-      }
-      .msg .body {
-        font-size: 15.5px;
-        line-height: 1.6;
-        color: var(--ink);
-      }
-      .msg.you .body {
-        display: inline-block;
-        text-align: left;
-        background: var(--paper-2);
-        border: 1px solid var(--line);
-        padding: 11px 15px;
-        border-radius: 14px 14px 4px 14px;
-        color: var(--ink-2);
-        font-size: 15px;
-      }
-      .msg .body p + p {
-        margin-top: 10px;
-      }
-      .msg .body em {
-        font-style: italic;
+        padding: 40px 36px 8px;
       }
 
-      /* big ideas list inside a Moe turn */
-      .ideas {
-        margin: 16px 0 4px;
+      /* ===== chat: avatar + asymmetric bubbles (Mirror DNA) ===== */
+      .msg {
+        display: flex;
+        gap: 11px;
+        margin-bottom: 20px;
+        animation: rise 0.5s both;
+      }
+      .msg.you {
+        justify-content: flex-end;
+      }
+      .av {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        flex: 0 0 auto;
+        margin-top: 2px;
+        background: radial-gradient(
+          circle at 35% 30%,
+          #2f7d56,
+          var(--green-deep)
+        );
+        position: relative;
+        box-shadow: 0 2px 8px -3px rgba(31, 92, 61, 0.5);
+      }
+      .av::after {
+        content: "";
+        position: absolute;
+        inset: 7px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(252, 250, 245, 0.92);
+        border-right-color: transparent;
+        transform: rotate(28deg);
+      }
+      .col {
+        min-width: 0;
+        max-width: 80%;
         display: flex;
         flex-direction: column;
         gap: 10px;
       }
+      .msg.you .col {
+        max-width: 76%;
+        align-items: flex-end;
+      }
+      .name {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--green-deep);
+        margin: 1px 0 -2px 3px;
+      }
+      .bubble {
+        font-size: 15px;
+        line-height: 1.55;
+        padding: 12px 15px;
+        border-radius: 5px 15px 15px 15px;
+        background: var(--raised);
+        border: 1px solid var(--line);
+        color: var(--ink);
+      }
+      .msg.you .bubble {
+        background: var(--ink);
+        color: #f3eee4;
+        border-color: var(--ink);
+        border-radius: 15px 15px 5px 15px;
+      }
+      .bubble p + p {
+        margin-top: 9px;
+      }
+      .bubble em {
+        font-style: italic;
+      }
+
+      /* big ideas inside a Moe turn */
+      .ideas {
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+      }
       .idea {
         display: flex;
         gap: 13px;
-        padding: 14px 16px;
+        padding: 13px 15px;
         background: var(--raised);
         border: 1px solid var(--line);
-        border-radius: 14px;
+        border-radius: 13px;
         box-shadow: var(--shadow-card);
         align-items: flex-start;
       }
       .idea .rank {
         font-family: var(--display);
-        font-size: 18px;
+        font-size: 17px;
+        font-weight: 500;
         color: var(--green);
         line-height: 1;
         flex: 0 0 auto;
         width: 18px;
+        margin-top: 1px;
       }
       .idea .it {
         flex: 1 1 auto;
         min-width: 0;
-        font-size: 15px;
+        font-size: 14.5px;
         line-height: 1.45;
       }
       .idea .it b {
@@ -610,9 +623,8 @@
         background: linear-gradient(var(--green-faint), var(--raised));
       }
 
-      /* inline note / challenge bubble */
+      /* inline note / challenge */
       .note {
-        margin: 14px 0 2px;
         border-left: 3px solid var(--green);
         background: var(--green-faint);
         border-radius: 0 12px 12px 0;
@@ -627,41 +639,160 @@
       .note b {
         color: var(--ink);
       }
-
-      /* composer */
-      .composer {
-        padding: 16px 26px 22px;
-        border-top: 1px solid var(--line);
-        background: rgba(252, 250, 245, 0.5);
+      .steerpeek {
+        font-size: 12px;
+        color: var(--green-deep);
+        background: var(--green-soft);
+        border-radius: 8px;
+        padding: 4px 9px;
+        display: inline-block;
+        margin-top: 8px;
+        font-weight: 600;
       }
-      .cbox {
+
+      /* ============ THE VOICE COMPOSER ============ */
+      .composer {
+        padding: 14px 24px 20px;
+        border-top: 1px solid var(--line);
+        background: rgba(252, 250, 245, 0.55);
+      }
+      /* one calm pill */
+      .vbox {
         display: flex;
-        align-items: flex-end;
-        gap: 10px;
+        align-items: center;
+        gap: 12px;
         background: var(--raised);
         border: 1px solid var(--line-2);
-        border-radius: 16px;
-        padding: 12px 12px 12px 16px;
+        border-radius: 17px;
+        padding: 9px 10px;
         box-shadow: var(--shadow-card);
       }
-      .cbox .ph {
+      /* the mic is the hero — evergreen, not red */
+      .mic {
+        width: 44px;
+        height: 44px;
+        border-radius: 13px;
+        flex: 0 0 auto;
+        background: var(--green);
+        color: #fcfaf5;
+        display: grid;
+        place-items: center;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 2px 10px -3px rgba(31, 92, 61, 0.55);
+      }
+      .mic svg {
+        width: 20px;
+        height: 20px;
+      }
+      .mic.ghost {
+        background: transparent;
+        color: var(--green);
+        border: 1px solid var(--line-2);
+        box-shadow: none;
+      }
+      .mic.rec {
+        background: var(--rose);
+        animation: micpulse 1.7s infinite;
+      }
+      @keyframes micpulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(158, 74, 60, 0.36);
+        }
+        70% {
+          box-shadow: 0 0 0 11px rgba(158, 74, 60, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(158, 74, 60, 0);
+        }
+      }
+      .vfield {
         flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        padding: 2px 0;
+      }
+      .vfield .ph {
         font-size: 15px;
         color: var(--ink-3);
-        padding: 3px 0;
       }
-      .cbox.locked {
-        border-color: var(--green);
-        background: var(--green-faint);
-      }
-      .cbox.locked .ph {
+      .vfield .typed {
+        font-size: 15px;
         color: var(--ink);
-        font-weight: 500;
+        line-height: 1.45;
+      }
+      .vfield .caret {
+        display: inline-block;
+        width: 2px;
+        height: 1.05em;
+        background: var(--green);
+        vertical-align: -2px;
+        margin-left: 1px;
+        animation: blink 1s steps(1) infinite;
+      }
+      .vhint {
+        font-size: 12px;
+        color: var(--ink-4);
+      }
+      /* live recording feedback — waveform + time + interim transcript */
+      .recline {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .wave {
+        display: flex;
+        align-items: center;
+        gap: 2.5px;
+        height: 22px;
+        flex: 0 0 auto;
+      }
+      .wave i {
+        width: 3px;
+        border-radius: 2px;
+        background: var(--green);
+        display: block;
+      }
+      .rectime {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--rose);
+        font-variant-numeric: tabular-nums;
+      }
+      .interim {
+        font-size: 14.5px;
+        color: var(--ink-2);
+        line-height: 1.4;
+      }
+      .interim .soft {
+        color: var(--ink-4);
+      }
+      .vtype {
+        width: 40px;
+        height: 40px;
+        border-radius: 11px;
+        flex: 0 0 auto;
+        background: transparent;
+        border: 1px solid var(--line);
+        color: var(--ink-3);
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+      }
+      .vtype:hover {
+        border-color: var(--line-2);
+        color: var(--ink-2);
+      }
+      .vtype svg {
+        width: 19px;
+        height: 19px;
       }
       .send {
-        width: 38px;
-        height: 38px;
-        border-radius: 11px;
+        width: 44px;
+        height: 44px;
+        border-radius: 13px;
         background: var(--green);
         color: #fcfaf5;
         display: grid;
@@ -669,10 +800,27 @@
         flex: 0 0 auto;
         border: none;
         cursor: pointer;
+        box-shadow: 0 2px 10px -3px rgba(31, 92, 61, 0.55);
       }
       .send svg {
-        width: 17px;
-        height: 17px;
+        width: 18px;
+        height: 18px;
+      }
+      .send.stop {
+        background: var(--rose);
+        box-shadow: none;
+      }
+      .send.stop svg {
+        width: 15px;
+        height: 15px;
+      }
+      /* prefilled, locked-but-sendable */
+      .vbox.locked {
+        border-color: var(--green);
+        background: var(--green-faint);
+      }
+      .vbox.locked .typed {
+        font-weight: 500;
       }
       .lockrow {
         display: flex;
@@ -730,6 +878,58 @@
       .cta-line .hint {
         font-size: 13px;
         color: var(--ink-3);
+      }
+
+      /* ============ COMPOSER STATES (component focus) ============ */
+      .swatch {
+        margin-top: 26px;
+        border-radius: var(--r-xl);
+        background: var(--paper);
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow-card);
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 13px;
+      }
+      .cstate {
+        display: grid;
+        grid-template-columns: 232px 1fr;
+        gap: 24px;
+        align-items: center;
+        padding: 18px 20px;
+        background: rgba(252, 250, 245, 0.55);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+      }
+      .clabel .t {
+        font-weight: 600;
+        font-size: 14.5px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .clabel .t i {
+        font-style: normal;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--green-soft);
+        color: var(--green-deep);
+        display: grid;
+        place-items: center;
+        font-size: 12px;
+        font-weight: 700;
+        flex: 0 0 auto;
+      }
+      .clabel p {
+        font-size: 13px;
+        color: var(--ink-3);
+        line-height: 1.45;
+        margin-top: 7px;
+      }
+      .cdemo {
+        min-width: 0;
       }
 
       /* document artifact */
@@ -898,18 +1098,6 @@
         margin-left: 1px;
       }
 
-      /* share shelf, version peek, etc small bits */
-      .steerpeek {
-        font-size: 12px;
-        color: var(--green-deep);
-        background: var(--green-soft);
-        border-radius: 8px;
-        padding: 4px 9px;
-        display: inline-block;
-        margin-top: 8px;
-        font-weight: 600;
-      }
-
       /* ============ misc ============ */
       @keyframes rise {
         from {
@@ -1003,34 +1191,11 @@
           border-bottom: 1px solid var(--line);
         }
       }
-      /* Robust message stacking — force vertical block flow in every chat surface */
-      .app .thread {
-        display: block !important;
-      }
-      .app .msg {
-        display: block !important;
-        float: none !important;
-        width: auto !important;
-      }
-      .app .msg > * {
-        display: block !important;
-        float: none !important;
-        width: auto !important;
-      }
-      .app .msg > .who {
-        display: flex !important;
-      }
-      .app .msg > .ideas {
-        display: flex !important;
-        flex-direction: column !important;
-        width: 100% !important;
-      }
-      .app .msg.you {
-        text-align: right !important;
-      }
-      .app .msg.you > .body {
-        display: inline-block !important;
-        width: auto !important;
+      @media (max-width: 760px) {
+        .cstate {
+          grid-template-columns: 1fr;
+          gap: 14px;
+        }
       }
     </style>
   </head>
@@ -1045,6 +1210,7 @@
           <a class="jump" href="#s1">First finish</a>
           <a class="jump" href="#s2">The workspace</a>
           <a class="jump" href="#s3">Refine</a>
+          <a class="jump" href="#s4">The composer</a>
           <a class="jump" href="#next">What's next</a>
         </div>
       </div>
@@ -1062,13 +1228,14 @@
         experience is wrong: two dead columns, plain chat bubbles, and a report
         that re-writes itself every time you ask for one small change. This is a
         proposal for what should be built instead — shown as static screens, not
-        code. Three moments first; the full journey once we agree on the feel.
+        code. The chat now wears the product's own design system; the voice
+        composer is rebuilt from the ground up.
       </p>
       <div class="meta">
         <span>Issue #706</span
         ><span
           >Conversation-led · document-as-artifact · Moe always present</span
-        ><span>Non-interactive mockups</span>
+        ><span>Design-system aligned</span>
       </div>
     </header>
 
@@ -1087,9 +1254,9 @@
             apps side-by-side, not one place.
           </p>
           <div class="fix">
-            <b>The fix →</b> One warm, considered surface. The layout
-            <b>grows with the work</b>: a focused conversation that the finished
-            letter joins, never an empty pane waiting.
+            <b>The fix →</b> One warm, considered surface — chat built from the
+            product's design system (avatar, asymmetric bubbles, one accent).
+            The layout <b>grows with the work</b>, never an empty pane waiting.
           </div>
         </div>
         <div class="tcard">
@@ -1111,17 +1278,18 @@
         <div class="tcard">
           <span class="n">Finding 03</span>
           <span class="bad"
-            ><small>Choices make you type</small>When Moe offers a specific next
-            step, you have to compose the reply yourself.</span
+            ><small>The composer is clunky</small>Two look-alike boxes that swap
+            by a hidden toggle, a red mic fighting a blue send, and blind
+            dictation.</span
           >
           <p>
-            The friction lands exactly where the moment should be effortless — a
-            single yes.
+            Voice is the heart of Mirror, but the input fights you: you speak
+            and watch a decorative waveform, never your actual words.
           </p>
           <div class="fix">
-            <b>The fix →</b> A <b>prefilled, locked-but-sendable</b> composer.
-            The suggested reply is already typed; you send it with one tap, or
-            clear it.
+            <b>The fix →</b> One calm pill. The <b>mic is the hero</b>, typing
+            is a tap away in the same box, <b>your words stream in live</b>, and
+            choice-moments arrive <b>prefilled and ready to send</b>.
           </div>
         </div>
       </div>
@@ -1138,8 +1306,9 @@
         <h2>You land in a conversation, not a teaser.</h2>
         <p class="why">
           Moe greets you and names the <b>three sharpest things</b> it heard —
-          sharpest first, right in the chat, <b>no document yet</b>. You can
-          push back or steer before a single word is written. When you're ready,
+          sharpest first, right in the chat, <b>no document yet</b>. The bubbles
+          now match the product: Moe has a face, your replies sit in a solid ink
+          bubble, and the mic is right there to talk back. When you're ready,
           one confident button writes the whole letter. Notice there is
           <b>no empty report pane</b> — the surface is just the conversation
           until you ask for the report.
@@ -1176,92 +1345,116 @@
             <div class="convo solo">
               <div class="thread center">
                 <div class="msg moe">
-                  <div class="who"><span class="tick"></span> Moe</div>
-                  <div class="body">
-                    <p>
-                      I've been through everything you told me, Priya. Before I
-                      write the whole thing — here are the three that matter
-                      most. The first one is the one I'd lead with.
-                    </p>
-                  </div>
-                  <div class="ideas">
-                    <div class="idea sharp">
-                      <span class="rank">1</span>
-                      <span class="it"
-                        ><b
-                          >You audit yourself to the decimal and estimate
-                          everyone else.</b
-                        ><span
-                          >You can describe your own AI usage exactly. Your
-                          team's? A guess. That gap is the whole story.</span
-                        ></span
-                      >
+                  <div class="av"></div>
+                  <div class="col">
+                    <div class="name">Moe</div>
+                    <div class="bubble">
+                      <p>
+                        I've been through everything you told me, Priya. Before
+                        I write the whole thing — here are the three that matter
+                        most. The first one is the one I'd lead with.
+                      </p>
                     </div>
-                    <div class="idea">
-                      <span class="rank">2</span>
-                      <span class="it"
-                        ><b>"No owner" is a decision, not weather.</b
-                        ><span
-                          >Twenty-one people are waiting for permission you
-                          haven't given — and you're calling it bottom-up
-                          adoption.</span
-                        ></span
-                      >
+                    <div class="ideas">
+                      <div class="idea sharp">
+                        <span class="rank">1</span>
+                        <span class="it"
+                          ><b
+                            >You audit yourself to the decimal and estimate
+                            everyone else.</b
+                          ><span
+                            >You can describe your own AI usage exactly. Your
+                            team's? A guess. That gap is the whole story.</span
+                          ></span
+                        >
+                      </div>
+                      <div class="idea">
+                        <span class="rank">2</span>
+                        <span class="it"
+                          ><b>"No owner" is a decision, not weather.</b
+                          ><span
+                            >Twenty-one people are waiting for permission you
+                            haven't given — and you're calling it bottom-up
+                            adoption.</span
+                          ></span
+                        >
+                      </div>
+                      <div class="idea">
+                        <span class="rank">3</span>
+                        <span class="it"
+                          ><b
+                            >Your efficiency target asks the bottleneck to
+                            dissolve itself.</b
+                          ><span
+                            >The CEO's number lands on the one person least able
+                            to admit they're the constraint.</span
+                          ></span
+                        >
+                      </div>
                     </div>
-                    <div class="idea">
-                      <span class="rank">3</span>
-                      <span class="it"
-                        ><b
-                          >Your efficiency target asks the bottleneck to
-                          dissolve itself.</b
-                        ><span
-                          >The CEO's number lands on the one person least able
-                          to admit they're the constraint.</span
-                        ></span
-                      >
+                    <div class="bubble">
+                      <p>
+                        Want me to go deeper on any of these first — or should I
+                        write your full report?
+                      </p>
                     </div>
-                  </div>
-                  <div class="body" style="margin-top: 14px">
-                    <p>
-                      Want me to go deeper on any of these first — or should I
-                      write your full report?
-                    </p>
                   </div>
                 </div>
 
                 <div class="msg you">
-                  <div class="who">You</div>
-                  <div class="body">
-                    Go deeper on the delegation one. That's the one I keep
-                    avoiding.
+                  <div class="col">
+                    <div class="bubble">
+                      Go deeper on the delegation one. That's the one I keep
+                      avoiding.
+                    </div>
                   </div>
                 </div>
 
                 <div class="msg moe">
-                  <div class="who"><span class="tick"></span> Moe</div>
-                  <div class="body">
-                    <p>
-                      Good — I'll make that the spine of the report.
-                      <span class="steerpeek"
-                        >↳ folding "go deeper on delegation" into your
-                        report</span
-                      >
-                    </p>
+                  <div class="av"></div>
+                  <div class="col">
+                    <div class="bubble">
+                      <p>
+                        Good — I'll make that the spine of the report.
+                        <span class="steerpeek"
+                          >↳ folding "go deeper on delegation" into your
+                          report</span
+                        >
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
 
               <div class="composer">
-                <div class="cbox">
-                  <div class="ph">Say more, or steer the report…</div>
-                  <button class="send">
+                <div class="vbox">
+                  <button class="mic" title="Tap to speak">
                     <svg
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
                       stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
                     >
-                      <path d="M5 12h14M13 6l6 6-6 6" />
+                      <rect x="9" y="2" width="6" height="12" rx="3" />
+                      <path d="M5 11a7 7 0 0 0 14 0M12 18v4" />
+                    </svg>
+                  </button>
+                  <div class="vfield">
+                    <div class="ph">Speak your answer — or tap to type</div>
+                  </div>
+                  <button class="vtype" title="Type instead">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <rect x="2" y="6" width="20" height="13" rx="2" />
+                      <path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10" />
                     </svg>
                   </button>
                 </div>
@@ -1334,40 +1527,48 @@
             <div class="convo docked">
               <div class="thread">
                 <div class="msg moe">
-                  <div class="who"><span class="tick"></span> Moe</div>
-                  <div class="body">
-                    <p>
-                      It's written — and it's honest, which means some of it
-                      will sting. Read it on the right.
-                    </p>
-                    <p>
-                      This is the start, not the finish. When something lands
-                      wrong, or you want a gentler version for someone else,
-                      just tell me. I'll talk it through before I change a word.
-                    </p>
+                  <div class="av"></div>
+                  <div class="col">
+                    <div class="bubble">
+                      <p>
+                        It's written — and it's honest, which means some of it
+                        will sting. Read it on the right.
+                      </p>
+                      <p>
+                        This is the start, not the finish. When something lands
+                        wrong, or you want a gentler version for someone else,
+                        just tell me. I'll talk it through before I change a
+                        word.
+                      </p>
+                    </div>
                   </div>
                 </div>
                 <div class="msg you">
-                  <div class="who">You</div>
-                  <div class="body">
-                    The "twenty-one people" line — it's actually twelve now. Two
-                    left.
+                  <div class="col">
+                    <div class="bubble">
+                      The "twenty-one people" line — it's actually twelve now.
+                      Two left.
+                    </div>
                   </div>
                 </div>
                 <div class="msg moe">
-                  <div class="who"><span class="tick"></span> Moe</div>
-                  <div class="body">
-                    <p>
-                      That's a fact, not a softening — I'll fix it everywhere it
-                      appears and keep the point intact. Want me to make that
-                      edit?
-                    </p>
+                  <div class="av"></div>
+                  <div class="col">
+                    <div class="bubble">
+                      <p>
+                        That's a fact, not a softening — I'll fix it everywhere
+                        it appears and keep the point intact. Want me to make
+                        that edit?
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="composer">
-                <div class="cbox locked">
-                  <div class="ph">Yes — correct it to twelve.</div>
+                <div class="vbox locked">
+                  <div class="vfield">
+                    <div class="typed">Yes — correct it to twelve.</div>
+                  </div>
                   <button class="send">
                     <svg
                       viewBox="0 0 24 24"
@@ -1526,37 +1727,44 @@
             <div class="convo docked">
               <div class="thread">
                 <div class="msg you">
-                  <div class="who">You</div>
-                  <div class="body">
-                    Can you soften the "least likely to admit" line? It feels
-                    harsh.
+                  <div class="col">
+                    <div class="bubble">
+                      Can you soften the "least likely to admit" line? It feels
+                      harsh.
+                    </div>
                   </div>
                 </div>
                 <div class="msg moe">
-                  <div class="who"><span class="tick"></span> Moe</div>
-                  <div class="body">
-                    <p>
-                      I can — but I think that line is the truest thing in here,
-                      and softening it on your own copy would cost you the part
-                      that's worth keeping.
-                    </p>
-                  </div>
-                  <div class="note challenge">
-                    <b>Here's a better deal:</b> let's keep your letter honest,
-                    and I'll make a <b>separate version for sharing</b> that
-                    lands gentler — boss-safe, no confessions. Same truth,
-                    different room.
-                  </div>
-                  <div class="body" style="margin-top: 12px">
-                    <p>
-                      Want that instead — or should I soften this one anyway?
-                    </p>
+                  <div class="av"></div>
+                  <div class="col">
+                    <div class="bubble">
+                      <p>
+                        I can — but I think that line is the truest thing in
+                        here, and softening it on your own copy would cost you
+                        the part that's worth keeping.
+                      </p>
+                    </div>
+                    <div class="note challenge">
+                      <b>Here's a better deal:</b> let's keep your letter
+                      honest, and I'll make a
+                      <b>separate version for sharing</b> that lands gentler —
+                      boss-safe, no confessions. Same truth, different room.
+                    </div>
+                    <div class="bubble">
+                      <p>
+                        Want that instead — or should I soften this one anyway?
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="composer">
-                <div class="cbox locked">
-                  <div class="ph">Yes — make a separate share version.</div>
+                <div class="vbox locked">
+                  <div class="vfield">
+                    <div class="typed">
+                      Yes — make a separate share version.
+                    </div>
+                  </div>
                   <button class="send">
                     <svg
                       viewBox="0 0 24 24"
@@ -1641,14 +1849,218 @@
       </div>
     </section>
 
+    <!-- ============ SCREEN 4: THE VOICE COMPOSER ============ -->
+    <section id="s4" class="wrap screen">
+      <div class="head">
+        <div class="stage">
+          <span class="dot"></span><span class="label">The voice composer</span
+          ><span class="sub">rebuilt — voice-first, one calm surface</span>
+        </div>
+        <h2>
+          One pill. Voice leads, typing is always there, dictation isn't blind.
+        </h2>
+        <p class="why">
+          The composer today is two look-alike boxes that swap by a hidden
+          toggle, a red mic fighting a blue send, and a stray checkbox — and
+          while you dictate you see only a decorative waveform, never your
+          words. This redesign keeps <b>voice at the center</b> but makes it one
+          surface: the mic is the hero, typing is one tap away in the same box,
+          and <b>your words stream in live as you speak</b> so you can trust it
+          heard you. One accent, no checkbox, no mode you can get lost in.
+        </p>
+        <span class="tagline"
+          >Voice-first · live transcript · one accent · type without switching
+          modes</span
+        >
+      </div>
+
+      <div class="swatch">
+        <!-- State 1 — voice ready -->
+        <div class="cstate">
+          <div class="clabel">
+            <div class="t"><i>1</i> Voice-ready</div>
+            <p>
+              The default. The mic invites you to speak; the keyboard is one tap
+              away in the same box. No empty textarea, no mode to choose.
+            </p>
+          </div>
+          <div class="cdemo">
+            <div class="vbox">
+              <button class="mic" title="Tap to speak">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="9" y="2" width="6" height="12" rx="3" />
+                  <path d="M5 11a7 7 0 0 0 14 0M12 18v4" />
+                </svg>
+              </button>
+              <div class="vfield">
+                <div class="ph">Speak your answer — or tap to type</div>
+              </div>
+              <button class="vtype" title="Type instead">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="6" width="20" height="13" rx="2" />
+                  <path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- State 2 — recording with live transcript -->
+        <div class="cstate">
+          <div class="clabel">
+            <div class="t"><i>2</i> Recording — live</div>
+            <p>
+              The pill becomes the recorder. A real level meter, the elapsed
+              time, and — the fix that matters —
+              <b>your words appear as you speak</b>. The one place red appears
+              is "stop."
+            </p>
+          </div>
+          <div class="cdemo">
+            <div class="vbox">
+              <button class="mic rec" title="Recording">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="9" y="2" width="6" height="12" rx="3" />
+                  <path d="M5 11a7 7 0 0 0 14 0M12 18v4" />
+                </svg>
+              </button>
+              <div class="vfield">
+                <div class="recline">
+                  <span class="wave">
+                    <i style="height: 6px"></i><i style="height: 11px"></i
+                    ><i style="height: 18px"></i><i style="height: 22px"></i
+                    ><i style="height: 14px"></i><i style="height: 9px"></i
+                    ><i style="height: 16px"></i><i style="height: 21px"></i
+                    ><i style="height: 12px"></i><i style="height: 7px"></i
+                    ><i style="height: 13px"></i><i style="height: 19px"></i
+                    ><i style="height: 10px"></i><i style="height: 5px"></i
+                    ><i style="height: 8px"></i>
+                  </span>
+                  <span class="rectime">0:08</span>
+                </div>
+                <div class="interim">
+                  …the real problem is I keep auditing myself but only
+                  <span class="soft">estimating the team</span>
+                </div>
+              </div>
+              <button class="send stop" title="Stop">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <rect x="6" y="6" width="12" height="12" rx="2" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- State 3 — transcribed, editable -->
+        <div class="cstate">
+          <div class="clabel">
+            <div class="t"><i>3</i> Yours to edit, then send</div>
+            <p>
+              Speech lands as editable text — fix a word, or just send. Typing
+              reaches this exact state, so voice and keyboard converge on one
+              surface instead of two.
+            </p>
+          </div>
+          <div class="cdemo">
+            <div class="vbox">
+              <button class="mic ghost" title="Speak again">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="9" y="2" width="6" height="12" rx="3" />
+                  <path d="M5 11a7 7 0 0 0 14 0M12 18v4" />
+                </svg>
+              </button>
+              <div class="vfield">
+                <div class="typed">
+                  The real problem is I keep auditing myself but only estimating
+                  the team.<span class="caret"></span>
+                </div>
+              </div>
+              <button class="send" title="Send">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- State 4 — prefilled, locked -->
+        <div class="cstate">
+          <div class="clabel">
+            <div class="t"><i>4</i> Prefilled &amp; locked</div>
+            <p>
+              At a choice-moment Moe writes your reply for you. One tap sends
+              it; clear it to say something else. The friction leaves exactly
+              where the moment should be a single yes.
+            </p>
+          </div>
+          <div class="cdemo">
+            <div class="vbox locked">
+              <div class="vfield">
+                <div class="typed">Yes — make a separate share version.</div>
+              </div>
+              <button class="send" title="Send">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </button>
+            </div>
+            <div class="lockrow">
+              <span class="chip">⌶ prefilled · tap to send</span>
+              <span>or <span class="ghost">clear and type your own</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- CALLOUT / NEXT -->
     <section id="next" class="wrap">
       <div class="callout">
         <div class="eyebrow">If this feel is right</div>
         <h2>I'll build the full end-to-end journey in this direction.</h2>
         <p>
-          These three screens are the hardest moments. Once you sign off on the
-          feel, the rest follows in the same language: report writing &amp;
+          These screens are the hardest moments. Once you sign off on the feel,
+          the rest follows in the same language: report writing &amp;
           failure-retry states, the share picker and provenance-stamped
           versions, the return experience with its recap, and the library + "how
           have I changed?" progression.
@@ -1669,8 +2081,8 @@
       </div>
       <div class="legend">
         <span>Conversation-led</span><span>Document-as-artifact</span
-        ><span>Moe always present</span><span>Negotiate, then redraw once</span
-        ><span>Locked one-tap choices</span>
+        ><span>Moe always present</span><span>Design-system aligned chat</span
+        ><span>Voice-first composer</span>
       </div>
     </footer>
     <script>
