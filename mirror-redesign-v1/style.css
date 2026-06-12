@@ -1810,7 +1810,7 @@
       }
 
       /* ============ FRAMING INDEX — leg entry cards + page nav ============ */
-      .legs { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 28px; }
+      .legs { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-top: 28px; }
       .legcard { display: flex; flex-direction: column; background: var(--raised); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 26px 26px 24px; box-shadow: var(--shadow-card); text-decoration: none; color: inherit; position: relative; overflow: hidden; transition: 0.15s; }
       .legcard::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--green); }
       .legcard:hover { border-color: var(--line-2); box-shadow: var(--shadow-pop); transform: translateY(-1px); }
@@ -1962,3 +1962,534 @@
           padding: 0 6px;
         }
       }
+
+      /* ============ ACT 3 — the thirty days between (v4 cycle one) ============ */
+      .act3note {
+        max-width: 880px;
+        margin: 26px auto 0;
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--ink-2);
+        background: var(--green-soft);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 14px 18px;
+      }
+      .act3note b {
+        color: var(--green-deep);
+      }
+
+      /* act 3 · callchoice */
+/* ============ ACT 3 · CALL CHOICE — calm binary, no assistant name ============ */
+/* topbar identity = product wordmark "Mirror" (no Moe block, no assistant name).
+         Mirrors the .moe layout + .mark dot, but reads as the product, not a person. */
+.cc-wordmark {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+.cc-wordmark .cc-word {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+/* the one calm card — centered in the stage-pad */
+.cc-card {
+  max-width: 560px;
+  margin: auto;
+  width: 100%;
+  background: var(--raised);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-letter);
+  padding: 40px 40px 34px;
+  text-align: center;
+}
+.cc-card .cc-eye {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green-deep);
+}
+.cc-card .cc-lede {
+  font-family: var(--display);
+  font-weight: 330;
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--ink);
+  margin: 16px auto 0;
+  max-width: 44ch;
+}
+
+/* two big stacked choices */
+.cc-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 28px;
+  text-align: left;
+}
+.cc-choice {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  font-family: var(--sans);
+  border: 1px solid var(--line-2);
+  background: var(--raised);
+  color: var(--ink);
+  border-radius: var(--r);
+  padding: 17px 20px;
+  cursor: pointer;
+  text-align: left;
+  transition: 0.15s;
+  box-shadow: var(--shadow-card);
+}
+.cc-choice:hover {
+  border-color: var(--green);
+}
+.cc-choice .cc-ct {
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+}
+.cc-choice .cc-cs {
+  font-size: 13px;
+  color: var(--ink-3);
+  line-height: 1.45;
+}
+/* primary = solid evergreen (scaled-up .tb-btn.solid) */
+.cc-choice.primary {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fcfaf5;
+  box-shadow: var(--shadow-pop);
+}
+.cc-choice.primary:hover {
+  background: var(--green-deep);
+  border-color: var(--green-deep);
+}
+.cc-choice.primary .cc-cs {
+  color: rgba(252, 250, 245, 0.78);
+}
+
+.cc-card .cc-note {
+  margin-top: 20px;
+  font-size: 12.5px;
+  color: var(--ink-3);
+}
+
+@media (max-width: 920px) {
+  .cc-card {
+    padding: 32px 28px 28px;
+  }
+}
+@media (max-width: 600px) {
+  .cc-card {
+    padding: 24px 18px 22px;
+    border-radius: 16px;
+  }
+  .cc-card .cc-lede {
+    font-size: 17.5px;
+  }
+  .cc-choice {
+    padding: 15px 16px;
+  }
+  .cc-choice .cc-ct {
+    font-size: 15.5px;
+  }
+}
+
+      /* act 3 · actionplan */
+/* ============ ACT 3 · ACTION PLAN — numbered moves inside the letter ============ */
+/* the plan body: three generously-spaced moves, in the letter's voice */
+.ap-plan {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 4px;
+}
+.ap-move {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+.ap-move:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+.ap-n {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1;
+  color: var(--green);
+  flex: 0 0 auto;
+  width: 30px;
+  text-align: center;
+  font-style: normal;
+}
+.ap-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.ap-t {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  font-style: normal;
+}
+.ap-do {
+  margin-top: 8px;
+  font-size: 16px;
+  line-height: 1.55;
+  color: #221f1a;
+}
+/* "why this, why now" — sourced to her own words, set apart and quieter */
+.ap-why {
+  margin-top: 12px;
+  font-family: var(--sans);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  border-left: 2px solid var(--line-2);
+  padding-left: 14px;
+  font-style: normal;
+}
+.ap-lbl {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--green-deep);
+  margin-bottom: 4px;
+}
+/* the quiet closing line — a check-in, not a measurement */
+.ap-foot {
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px dashed var(--line-2);
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+@media (max-width: 600px) {
+  .ap-plan {
+    gap: 18px;
+  }
+  .ap-move {
+    gap: 12px;
+    padding-top: 18px;
+  }
+  .ap-n {
+    font-size: 22px;
+    width: 24px;
+  }
+  .ap-t {
+    font-size: 18.5px;
+  }
+  .ap-do {
+    font-size: 15.5px;
+  }
+}
+
+      /* act 3 · checkin */
+/* ============ ACT 3 · CHECK-IN — extends the locked v2 language ============ */
+
+/* the explainable-nudge rule, on screen: a quiet why-row under the options */
+.ci-why {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 12px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--ink-3);
+}
+.ci-why b {
+  color: var(--ink-2);
+  font-weight: 600;
+}
+.ci-wd {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  flex: 0 0 auto;
+  margin-top: 5px;
+  opacity: 0.7;
+}
+
+@media (max-width: 600px) {
+  .ci-why {
+    font-size: 12px;
+    gap: 8px;
+  }
+}
+
+      /* act 3 · ready */
+/* ============ ACT 3 · home surface, return-ready ============ */
+/* column of home cards — current Mirror, plan, assistant, the return */
+.rr-home {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 760px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* a home card — echoes .mirrorcard's spine + border language */
+.rr-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: var(--raised);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  padding: 18px 20px 18px 16px;
+  position: relative;
+  overflow: hidden;
+  transition: 0.15s;
+  cursor: pointer;
+}
+.rr-card:hover {
+  border-color: var(--line-2);
+  box-shadow: var(--shadow-pop);
+  transform: translateY(-1px);
+}
+/* quiet/settled + alive + neutral states all read with a muted spine */
+.rr-card .rr-spine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--line-2);
+  flex: 0 0 auto;
+}
+.rr-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.rr-eye {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.rr-title {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+  margin-top: 5px;
+  max-width: 44ch;
+}
+.rr-meta {
+  font-size: 13px;
+  color: var(--ink-3);
+  line-height: 1.5;
+  margin-top: 6px;
+}
+.rr-act {
+  margin-left: auto;
+  align-self: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green-deep);
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+/* the assistant card carries the Moe mark — neutral, deliberately unnamed */
+.rr-mk {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  margin-top: 1px;
+  background: radial-gradient(circle at 35% 30%, #2f7d56, var(--green-deep));
+  position: relative;
+  box-shadow: 0 2px 8px -3px rgba(31, 92, 61, 0.5);
+}
+.rr-mk::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(252, 250, 245, 0.92);
+  border-right-color: transparent;
+  transform: rotate(28deg);
+}
+
+/* THE HERO — Return to Mirror, ready: green spine, slightly elevated */
+.rr-card.rr-hero {
+  cursor: default;
+  flex-direction: column;
+  gap: 0;
+  align-items: stretch;
+  padding: 22px 24px 22px 22px;
+  border-color: rgba(31, 92, 61, 0.34);
+  background: linear-gradient(var(--green-faint), var(--raised));
+  box-shadow: var(--shadow-pop);
+}
+.rr-card.rr-hero:hover {
+  transform: none;
+  box-shadow: var(--shadow-pop);
+  border-color: rgba(31, 92, 61, 0.34);
+}
+.rr-card.rr-hero .rr-spine {
+  width: 5px;
+  background: var(--green);
+}
+.rr-eye.rr-ready {
+  color: var(--green-deep);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.rr-eye.rr-ready::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 0 rgba(31, 92, 61, 0.4);
+  animation: rr-pulse 2.2s infinite;
+}
+@keyframes rr-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(31, 92, 61, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(31, 92, 61, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(31, 92, 61, 0);
+  }
+}
+.rr-card.rr-hero .rr-title {
+  font-size: 22px;
+  max-width: 30ch;
+}
+.rr-lede {
+  font-size: 15px;
+  color: var(--ink-2);
+  line-height: 1.55;
+  margin-top: 10px;
+  max-width: 62ch;
+}
+.rr-cta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.rr-begin {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 15px;
+  background: var(--green);
+  color: #fcfaf5;
+  border: none;
+  border-radius: 13px;
+  padding: 13px 22px;
+  cursor: pointer;
+  box-shadow: var(--shadow-pop);
+}
+.rr-begin:hover {
+  background: var(--green-deep);
+}
+.rr-later {
+  font-size: 13.5px;
+  color: var(--ink-3);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.rr-later:hover {
+  color: var(--ink-2);
+}
+/* the explainable "why now" — same evergreen note language */
+.rr-why {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+.rr-why-k {
+  font-weight: 700;
+  font-size: 10.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--green-deep);
+  margin-right: 8px;
+}
+
+/* the bridge into Act 2 — a small centered line under the frame */
+.rr-bridge {
+  max-width: 760px;
+  margin: 18px auto 0;
+  text-align: center;
+  font-size: 13.5px;
+  color: var(--ink-3);
+}
+.rr-bridge b {
+  color: var(--ink-2);
+  font-weight: 600;
+}
+.rr-bridge a {
+  color: var(--green-deep);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.rr-bridge a:hover {
+  color: var(--green);
+}
+
+@media (max-width: 600px) {
+  .rr-card {
+    flex-wrap: wrap;
+    padding: 16px 16px 16px 14px;
+  }
+  .rr-act {
+    margin-left: 0;
+    align-self: flex-start;
+    width: 100%;
+    margin-top: 4px;
+  }
+  .rr-card.rr-hero .rr-title {
+    font-size: 20px;
+  }
+  .rr-cta {
+    gap: 12px;
+  }
+  .rr-begin {
+    width: 100%;
+    text-align: center;
+  }
+  .rr-later {
+    width: 100%;
+    text-align: center;
+  }
+}
