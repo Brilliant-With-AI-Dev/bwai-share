@@ -1,0 +1,1432 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mirror v4 ↔ End-State Build Doc — alignment brief (June 2026)</title>
+    <style>
+      :root {
+        --bg: #f6f8fb;
+        --surface: #ffffff;
+        --surface-2: #f0f3f8;
+        --surface-3: #e9eef6;
+        --ink: #0f1a2e;
+        --ink-2: #3a4861;
+        --ink-3: #6b7790;
+        --line: #d6dde8;
+        --line-2: #b8c2d4;
+        --accent: #2c6bed;
+        --accent-soft: #e7efff;
+        --accent-2: #1f4fb5;
+        --good: #157a4e;
+        --good-soft: #e2f1ea;
+        --warn: #b06b00;
+        --warn-soft: #fbecd2;
+        --bad: #b8351a;
+        --bad-soft: #fbe2db;
+        --gold: #b8860b;
+        --gold-soft: #fdf4d3;
+        --silver: #6b7790;
+        --silver-soft: #eef2f8;
+        --shadow:
+          0 1px 2px rgba(15, 26, 46, 0.04), 0 4px 12px rgba(15, 26, 46, 0.05);
+        --shadow-2:
+          0 2px 4px rgba(15, 26, 46, 0.06), 0 12px 24px rgba(15, 26, 46, 0.08);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        font-size: 15px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .wrap {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 56px 32px 96px;
+      }
+
+      .crumb {
+        font-size: 13px;
+        color: var(--ink-3);
+        margin-bottom: 16px;
+      }
+      .crumb a {
+        color: var(--ink-3);
+      }
+
+      h1 {
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: -0.012em;
+        margin: 0 0 12px;
+        line-height: 1.25;
+      }
+      .lede {
+        font-size: 17px;
+        color: var(--ink-2);
+        margin: 0 0 12px;
+        max-width: 64ch;
+      }
+      .meta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin: 24px 0 40px;
+        font-size: 13px;
+        color: var(--ink-3);
+      }
+      .meta-row span {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 4px 12px;
+      }
+      .meta-row span.status {
+        background: var(--accent-soft);
+        border-color: var(--accent);
+        color: var(--accent-2);
+        font-weight: 600;
+      }
+
+      h2 {
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--ink-3);
+        margin: 48px 0 16px;
+      }
+      h2:first-of-type {
+        margin-top: 0;
+      }
+      h3 {
+        font-size: 20px;
+        font-weight: 600;
+        margin: 0 0 8px;
+        letter-spacing: -0.005em;
+        line-height: 1.3;
+      }
+      p {
+        margin: 0 0 14px;
+      }
+      .section-intro {
+        color: var(--ink-2);
+        max-width: 68ch;
+        margin: 0 0 16px;
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        padding: 24px 28px;
+      }
+
+      /* ---- The one question (loud lead callout) ---- */
+      .lead-callout {
+        background: linear-gradient(135deg, #fff8e6 0%, #fdf4d3 100%);
+        border: 2px solid var(--gold);
+        border-radius: 14px;
+        box-shadow: var(--shadow-2);
+        padding: 28px 32px;
+        margin: 0 0 8px;
+      }
+      .lead-callout .kicker {
+        display: inline-block;
+        background: var(--gold);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 4px 12px;
+        border-radius: 999px;
+        margin-bottom: 14px;
+      }
+      .lead-callout h2.loud {
+        font-size: 22px;
+        font-weight: 700;
+        text-transform: none;
+        letter-spacing: -0.01em;
+        color: var(--ink);
+        margin: 0 0 12px;
+        line-height: 1.3;
+      }
+      .lead-callout p {
+        color: var(--ink-2);
+        font-size: 15.5px;
+        margin: 0 0 10px;
+      }
+      .lead-callout p:last-child {
+        margin: 0;
+      }
+      .lead-callout strong {
+        color: var(--ink);
+      }
+
+      /* ---- Agree checklist ---- */
+      .check-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .check-list li {
+        position: relative;
+        padding: 12px 0 12px 32px;
+        border-top: 1px solid var(--line);
+        font-size: 14.5px;
+        color: var(--ink-2);
+      }
+      .check-list li:first-child {
+        border-top: 0;
+      }
+      .check-list li:before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        top: 12px;
+        color: var(--good);
+        font-weight: 700;
+        font-size: 15px;
+      }
+      .check-list li strong {
+        color: var(--ink);
+      }
+
+      /* ---- Decision cards ---- */
+      .decision {
+        border: 1px solid var(--line-2);
+        border-top: 4px solid var(--accent);
+        border-radius: 12px;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+        padding: 0;
+        margin: 0 0 8px;
+        overflow: hidden;
+      }
+      .decision > .d-head {
+        background: var(--surface-2);
+        border-bottom: 1px solid var(--line);
+        padding: 18px 28px;
+      }
+      .decision .d-tag {
+        display: inline-block;
+        background: var(--accent-soft);
+        color: var(--accent-2);
+        border: 1px solid var(--accent);
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 3px 10px;
+        border-radius: 999px;
+        margin-bottom: 10px;
+      }
+      .decision .d-head h3 {
+        margin: 0;
+      }
+      .decision .d-body {
+        padding: 24px 28px;
+      }
+      .decision .d-body > p {
+        color: var(--ink-2);
+      }
+      .decision .d-body strong {
+        color: var(--ink);
+      }
+      .sub-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-3);
+        margin: 22px 0 8px;
+      }
+      .sub-label:first-child {
+        margin-top: 0;
+      }
+
+      .propose {
+        background: var(--good-soft);
+        border: 1px solid var(--good);
+        border-radius: 8px;
+        padding: 14px 18px;
+        margin: 8px 0 4px;
+        color: var(--ink);
+        font-size: 14.5px;
+      }
+      .propose strong {
+        color: var(--good);
+      }
+
+      ul.bullets,
+      ol.bullets {
+        margin: 6px 0 6px;
+        padding-left: 20px;
+        color: var(--ink-2);
+        font-size: 14.5px;
+      }
+      ul.bullets li,
+      ol.bullets li {
+        margin-bottom: 8px;
+      }
+      ul.bullets li strong,
+      ol.bullets li strong {
+        color: var(--ink);
+      }
+
+      .guard-list {
+        list-style: none;
+        counter-reset: guard;
+        margin: 6px 0;
+        padding: 0;
+      }
+      .guard-list li {
+        position: relative;
+        counter-increment: guard;
+        padding: 12px 14px 12px 44px;
+        margin-bottom: 8px;
+        background: var(--surface-2);
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--accent);
+        border-radius: 8px;
+        font-size: 14px;
+        color: var(--ink-2);
+      }
+      .guard-list li:before {
+        content: counter(guard);
+        position: absolute;
+        left: 14px;
+        top: 12px;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+        background: var(--accent);
+        color: #fff;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .guard-list li strong {
+        color: var(--ink);
+      }
+
+      .foreclose-list {
+        list-style: none;
+        margin: 6px 0;
+        padding: 0;
+      }
+      .foreclose-list li {
+        position: relative;
+        padding: 10px 0 10px 28px;
+        border-top: 1px solid var(--line);
+        font-size: 14px;
+        color: var(--ink-2);
+      }
+      .foreclose-list li:first-child {
+        border-top: 0;
+      }
+      .foreclose-list li:before {
+        content: "⛔";
+        position: absolute;
+        left: 0;
+        top: 9px;
+        font-size: 13px;
+      }
+
+      /* ---- amber pushback callout ---- */
+      .pushback {
+        background: var(--warn-soft);
+        border: 1px solid var(--warn);
+        border-left: 4px solid var(--warn);
+        border-radius: 8px;
+        padding: 14px 18px;
+        margin: 18px 0 0;
+        font-size: 14px;
+        color: var(--ink-2);
+      }
+      .pushback .pb-label {
+        display: block;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--warn);
+        margin-bottom: 6px;
+      }
+      .pushback strong {
+        color: var(--ink);
+      }
+
+      /* ---- say-it-like-this quote script ---- */
+      .script {
+        background: var(--surface-2);
+        border-left: 4px solid var(--ink-2);
+        border-radius: 0 8px 8px 0;
+        padding: 16px 20px;
+        margin: 16px 0 0;
+        font-size: 15px;
+        font-style: italic;
+        color: var(--ink);
+        line-height: 1.55;
+      }
+      .script .scr-label {
+        display: block;
+        font-style: normal;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-3);
+        margin-bottom: 8px;
+      }
+      .script .scr-label:before {
+        content: "🗣 ";
+      }
+
+      /* ---- D1 comparison table ---- */
+      .compare {
+        overflow-x: auto;
+        margin: 6px 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        background: var(--surface);
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+      }
+      th,
+      td {
+        padding: 12px 16px;
+        text-align: left;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+      tr:last-child th,
+      tr:last-child td {
+        border-bottom: 0;
+      }
+      thead th {
+        background: var(--surface-2);
+        font-weight: 700;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--ink-2);
+        width: 50%;
+      }
+      tbody td {
+        color: var(--ink-2);
+      }
+      tbody td strong {
+        color: var(--ink);
+      }
+
+      /* ---- two-list grid ---- */
+      .duo-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+      }
+      @media (max-width: 700px) {
+        .duo-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .duo {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 20px 24px;
+        box-shadow: var(--shadow);
+      }
+      .duo.take {
+        border-top: 4px solid var(--accent);
+      }
+      .duo.offer {
+        border-top: 4px solid var(--good);
+      }
+      .duo .duo-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin: 0 0 12px;
+      }
+      .duo.take .duo-label {
+        color: var(--accent-2);
+      }
+      .duo.offer .duo-label {
+        color: var(--good);
+      }
+      .duo ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .duo ul li {
+        padding: 12px 0;
+        border-top: 1px solid var(--line);
+        font-size: 14px;
+        color: var(--ink-2);
+      }
+      .duo ul li:first-child {
+        border-top: 0;
+      }
+      .duo ul li strong {
+        color: var(--ink);
+      }
+
+      /* ---- internal docs highlighted block ---- */
+      .highlight-block {
+        background: var(--accent-soft);
+        border: 1px solid var(--accent);
+        border-radius: 12px;
+        padding: 22px 26px;
+        margin: 22px 0 0;
+      }
+      .highlight-block h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+      }
+      .highlight-block p {
+        color: var(--ink-2);
+        font-size: 14.5px;
+      }
+      .highlight-block strong {
+        color: var(--ink);
+      }
+      .gov-warn {
+        background: var(--warn-soft);
+        border: 1px solid var(--warn);
+        border-left: 4px solid var(--warn);
+        border-radius: 8px;
+        padding: 14px 18px;
+        margin: 16px 0 0;
+        font-size: 14px;
+        color: var(--ink-2);
+      }
+      .gov-warn .gw-label {
+        display: block;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--warn);
+        margin-bottom: 6px;
+      }
+      .gov-warn strong {
+        color: var(--ink);
+      }
+
+      /* ---- prefilled numbered ---- */
+      ol.numbered {
+        margin: 6px 0;
+        padding-left: 0;
+        list-style: none;
+        counter-reset: pf;
+      }
+      ol.numbered > li {
+        position: relative;
+        counter-increment: pf;
+        padding: 14px 16px 14px 52px;
+        margin-bottom: 10px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        font-size: 14.5px;
+        color: var(--ink-2);
+      }
+      ol.numbered > li:before {
+        content: counter(pf);
+        position: absolute;
+        left: 16px;
+        top: 14px;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        background: var(--accent);
+        color: #fff;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      ol.numbered > li strong {
+        color: var(--ink);
+      }
+      .nish-block {
+        background: var(--silver-soft);
+        border: 1px solid var(--line-2);
+        border-left: 3px solid var(--silver);
+        border-radius: 8px;
+        padding: 14px 18px;
+        margin: 16px 0 0;
+        font-size: 13.5px;
+        color: var(--ink-2);
+      }
+      .nish-block .nb-label {
+        display: block;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--silver);
+        margin-bottom: 6px;
+      }
+      .nish-block strong {
+        color: var(--ink);
+      }
+
+      /* ---- gallery buckets ---- */
+      .bucket-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+      }
+      @media (max-width: 700px) {
+        .bucket-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .bucket {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 18px 20px;
+        box-shadow: var(--shadow);
+      }
+      .bucket.b-new {
+        border-top: 4px solid var(--warn);
+      }
+      .bucket.b-edit {
+        border-top: 4px solid var(--accent);
+      }
+      .bucket.b-light {
+        border-top: 4px solid var(--good);
+      }
+      .bucket .b-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin: 0 0 8px;
+      }
+      .bucket.b-new .b-label {
+        color: var(--warn);
+      }
+      .bucket.b-edit .b-label {
+        color: var(--accent-2);
+      }
+      .bucket.b-light .b-label {
+        color: var(--good);
+      }
+      .bucket p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--ink-2);
+      }
+      .bucket p strong {
+        color: var(--ink);
+      }
+
+      /* ---- agenda ---- */
+      ol.agenda {
+        margin: 6px 0;
+        padding-left: 0;
+        list-style: none;
+        counter-reset: ag;
+      }
+      ol.agenda > li {
+        position: relative;
+        counter-increment: ag;
+        padding: 18px 20px 18px 56px;
+        margin-bottom: 12px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+      }
+      ol.agenda > li:before {
+        content: counter(ag);
+        position: absolute;
+        left: 18px;
+        top: 18px;
+        width: 26px;
+        height: 26px;
+        line-height: 26px;
+        text-align: center;
+        background: var(--ink);
+        color: #fff;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      ol.agenda .ag-title {
+        font-weight: 700;
+        color: var(--ink);
+        font-size: 15px;
+        margin: 0 0 8px;
+      }
+      ol.agenda .ag-open {
+        font-style: italic;
+        color: var(--ink-2);
+        font-size: 14px;
+        margin: 0 0 8px;
+        padding-left: 12px;
+        border-left: 3px solid var(--line-2);
+      }
+      ol.agenda .ag-done {
+        font-size: 13.5px;
+        color: var(--ink-3);
+        margin: 0;
+      }
+      ol.agenda .ag-done strong {
+        color: var(--good);
+      }
+
+      /* ---- open questions ---- */
+      .open-q {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        counter-reset: oq;
+      }
+      .open-q li {
+        position: relative;
+        counter-increment: oq;
+        padding: 14px 16px 14px 50px;
+        margin-bottom: 10px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-left: 4px solid var(--warn);
+        border-radius: 10px;
+        font-size: 14.5px;
+        color: var(--ink-2);
+      }
+      .open-q li:before {
+        content: "?";
+        position: absolute;
+        left: 14px;
+        top: 14px;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        background: var(--warn);
+        color: #fff;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 700;
+      }
+      .open-q li strong {
+        color: var(--ink);
+      }
+
+      .note {
+        font-size: 13.5px;
+        color: var(--ink-3);
+        margin-top: 14px;
+      }
+
+      footer {
+        margin-top: 64px;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+        font-size: 12.5px;
+        color: var(--ink-3);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <p class="crumb"><a href="../">← All artifacts</a></p>
+
+      <h1>Mirror v4 ↔ End-State Build Doc</h1>
+      <p class="lede">
+        Decision prep for the v4 alignment review with Adrian — what reconciles
+        the two docs, decision by decision, and the one disagreement worth
+        slowing down for.
+      </p>
+      <div class="meta-row">
+        <span>2026-06-12</span>
+        <span>For: Matt</span>
+        <span>Sources: v4 draft + end-state build doc + Slack</span>
+        <span class="status">Decision prep</span>
+      </div>
+
+      <!-- THE ONE QUESTION — loud lead -->
+      <section class="lead-callout">
+        <span class="kicker">⚡ The one question that could be a fight</span>
+        <h2 class="loud">
+          D1: what is the destination — an assistant that <em>becomes</em> the
+          product (end-state doc), or a multi-surface "exoskeleton" of product
+          experiences in which the assistant is one surface (v4)?
+        </h2>
+        <p>
+          Everything else in this meeting is sequencing, scoping, or naming. If
+          you only prep one section, prep D1.
+        </p>
+      </section>
+
+      <h2>Bottom line</h2>
+      <section class="card">
+        <p style="color: var(--ink-2)">
+          You agree on much more than the Slack thread suggested — the agreement
+          list below is long, and it includes the things Adrian praised in the
+          gallery. The disagreements cluster around a few separations v4 makes
+          <strong>deliberately</strong>: Mo separate from the refinement flows,
+          Return to Mirror as a distinct ceremony, the named assistant
+          introduced late, and BWAI-facing Internal Docs as primary outputs.
+        </p>
+        <p style="color: var(--ink-2)">
+          Your instinct from Slack —
+          <em>"it's more a timing thing"</em> — is a good reconciling frame, but
+          go in knowing Adrian may not accept it as-is: v4 reads its separations
+          as <strong>standing architecture</strong>, not as the early-months
+          view of the end-state doc's world. The way to make "timing" a real
+          decision instead of a vibe is the
+          <strong>"what cycle one must not foreclose"</strong> list under D1 — it
+          turns the frame into something testable.
+        </p>
+        <p style="color: var(--ink-2); margin-bottom: 0">
+          One housekeeping note: the end-state doc spells it "Moe," v4 spells it
+          "Mo." Same working title — and the two spellings in two docs are,
+          amusingly, Adrian's voice-transcription point proving itself.
+          Glossary: <strong>ICP</strong> = ideal customer profile;
+          <strong>GTM</strong> = go-to-market.
+        </p>
+      </section>
+
+      <h2>Where you already agree</h2>
+      <p class="section-intro">Don't spend meeting time here.</p>
+      <section class="card">
+        <ul class="check-list">
+          <li>
+            <strong>Mirror = the baseline/context ceremony.</strong> Voice-first,
+            resonance over diagnostics (it should feel true, not just be
+            accurate), useful discomfort.
+          </li>
+          <li>
+            <strong>Refinement is chat-based and section-by-section.</strong>
+            v4's "release the Mirror section by section conversationally" is the
+            same flow the end-state doc describes — and it's already mocked in
+            gallery Act 1 and the workspace prototype.
+          </li>
+          <li>
+            <strong>Versions: permanent, dated, latest-as-default,</strong> prior
+            versions retained and accessible. v4 lists this as resolved; the
+            end-state doc's data model matches; the gallery's library screen
+            (plus the click-to-open screen Adrian asked for) already depicts it.
+          </li>
+          <li>
+            <strong>Re-baselining is readiness-triggered, not on a fixed
+            calendar.</strong>
+            Small nuance: v4 allows "enough time has passed" as one trigger; the
+            end-state doc insists the refresh stays event-anchored and
+            user-initiated. Close, worth one sentence to confirm.
+          </li>
+          <li>
+            <strong>The ongoing assistant runs on accumulated Mirror
+            context.</strong>
+            Overlapping job description — v4: decision support, accountability,
+            pressure-testing, routing; the end-state doc adds the chief-of-staff
+            range and frontier-model orchestration on top. (That gap is exactly
+            what D1 is about, so don't claim "same.")
+          </li>
+          <li>
+            <strong>Self-serve, pause/resume anywhere, no required human
+            gate.</strong>
+            v4 carries Nish's correction; the end-state doc's "no re-onboarding
+            ever" is the same instinct for returning users.
+          </li>
+        </ul>
+      </section>
+
+      <!-- D1 -->
+      <h2>The three decisions</h2>
+      <section class="decision">
+        <div class="d-head">
+          <span class="d-tag">Decision 1 · the lead</span>
+          <h3>Destination: assistant-as-product, or exoskeleton?</h3>
+        </div>
+        <div class="d-body">
+          <p class="sub-label">What each doc actually says</p>
+          <div class="compare">
+            <table>
+              <thead>
+                <tr>
+                  <th>v4 says</th>
+                  <th>End-state doc says</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    The product is a <strong>BWAI exoskeleton</strong> — Mirror,
+                    refinements, Action Plan, check-ins, Mo, Team Experience,
+                    future tools, Return to Mirror. Mo is a separate,
+                    time-boxed assistant surface (a 30-day included window, with
+                    a paid-continuation hypothesis ~$150/mo for Nish).
+                  </td>
+                  <td>
+                    "From the user's perspective, Moe <strong>is</strong> the
+                    product." Mirror is the onboarding ritual that seeds it; the
+                    assistant is the primary navigation.
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Mo is one surface among many; the card grid is the home.
+                  </td>
+                  <td>
+                    Binding spec for a flag-gated demo build, distilled from
+                    founder decisions settled 2026-06-04 — carries
+                    founder-decision weight, but describes a demo, not a shipped
+                    product.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note">
+            These produce different products at month six even if months one
+            and two look identical.
+          </p>
+
+          <p class="sub-label">Your proposed position</p>
+          <div class="propose">
+            <strong>The end-state doc's destination, v4's first cycle.</strong>
+            The 30-day window and continuation pricing become the on-ramp to the
+            relationship, not a different product.
+          </div>
+
+          <p class="sub-label">Saying yes means</p>
+          <ul class="bullets">
+            <li>
+              We are building toward one product whose center is the assistant;
+              v4's first 30 days are the front door to it.
+            </li>
+            <li>
+              The homepage starts as v4's card grid and later inverts to
+              assistant-primary navigation — a known rebuild, accepted now.
+            </li>
+            <li>
+              The $150/mo continuation is a doorway into the relationship, not a
+              separate SKU with its own architecture.
+            </li>
+          </ul>
+
+          <p class="sub-label">
+            Three guardrails to state out loud (these prevent the month-six
+            fight)
+          </p>
+          <ol class="guard-list">
+            <li>
+              <strong>The 30-day window prices Mo's active guidance, never the
+              persistence of the user's context.</strong>
+              The profile and accumulated context persist permanently whether or
+              not the user continues — what lapses is proactive assistance, not
+              data or memory. If an engineer implements "30 days" as a data
+              window, the compounding bet dies silently.
+            </li>
+            <li>
+              <strong>"Your profile leaves with you."</strong> Personal
+              ownership and portability (end-state doc) must hold even when paid
+              continuation lapses. Ownership and the paywall need an explicit
+              boundary.
+            </li>
+            <li>
+              <strong>Honest open assumption:</strong> the compounding
+              relationship only exists for users who convert past day 30. If
+              conversion is low, the destination is unreachable for most users.
+              That's a product-model risk, not just Nish's pricing footnote.
+            </li>
+          </ol>
+
+          <p class="sub-label">
+            What cycle one must NOT foreclose (the test that makes "timing"
+            real)
+          </p>
+          <ul class="foreclose-list">
+            <li>
+              a persistent profile beyond 30 days (no expiry framing anywhere);
+            </li>
+            <li>
+              an information architecture that can later invert to
+              assistant-primary;
+            </li>
+            <li>work-centric data organization, not a chat-thread store;</li>
+            <li>
+              the returning-user experience stays a first-class build priority
+              (the end-state doc's principle #1), built in parallel — the
+              first-cycle funnel seeds it, it doesn't precede it.
+            </li>
+          </ul>
+
+          <div class="pushback">
+            <span class="pb-label">⚠ If Adrian pushes back</span>
+            <strong>("the exoskeleton IS the destination, not a phase"):</strong>
+            don't argue him out of it in the room. The fallback that still wins:
+            agree on the foreclosure list above. If cycle one forecloses none of
+            those four, both destinations stay reachable and the decision can be
+            made later with real usage data.
+          </div>
+
+          <div class="script">
+            <span class="scr-label">Say it like this</span>
+            "I think your v4 is the right first cycle, and I think the
+            destination is the assistant becoming the center. I might be wrong
+            about the destination — so let's agree on what cycle one must not
+            foreclose, and we both keep our bets alive."
+          </div>
+        </div>
+      </section>
+
+      <!-- D2 -->
+      <section class="decision">
+        <div class="d-head">
+          <span class="d-tag">Decision 2</span>
+          <h3>Return to Mirror: separate ceremony, or woven in?</h3>
+        </div>
+        <div class="d-body">
+          <p class="sub-label">The real disagreement</p>
+          <p>
+            <strong>v4:</strong> a distinct re-baselining ceremony — "not open
+            chat, not a rerun button" — with readiness triggers.
+            <strong>End-state doc:</strong> returning users land <em>with</em>
+            the assistant; the refresh is a targeted what-changed flow inside the
+            conversation. Adrian's worry (his words): merge them and "the ritual
+            gets lost in the noise"; his named open question: "how Mo's daily
+            work actually feeds the Return to Mirror moment."
+          </p>
+          <p>
+            <strong>On the gallery screen he flagged:</strong> Adrian's concern
+            is that Act 2 blends Mo and Return to Mirror into one interface, and
+            the ritual drowns. He's right that the screen blends them. The fix
+            isn't necessarily to un-blend — it's to make the ceremony's threshold
+            visible inside the relationship.
+          </p>
+
+          <p class="sub-label">Your proposed position — both, by role</p>
+          <div class="propose">
+            The <strong>moment</strong> is a ceremony (named, framed, entered
+            deliberately, with a beginning and an end), and the
+            <strong>relationship</strong> is how you arrive (the assistant
+            notices readiness, recommends it, hands you in, receives you back).
+          </div>
+
+          <p class="sub-label">
+            Honesty notes (volunteer before Adrian raises them)
+          </p>
+          <ul class="bullets">
+            <li>
+              <strong>His noise worry isn't fully answered by this.</strong> The
+              "it's time for your Mirror" signal has to live <em>outside</em> the
+              assistant's chat stream (homepage readiness state, email, a
+              distinct visual mode) or it does get lost. Concede that and design
+              for it.
+            </li>
+            <li>
+              <strong>This hybrid isn't free.</strong> One surface holding two
+              modes (open-ended and ceremonial) may cost more to build than two
+              clean surfaces. Confirm it's cheaper before adopting — Adrian
+              costed the two-surface option honestly; this option deserves the
+              same.
+            </li>
+          </ul>
+
+          <p class="sub-label">Leave open, with an owner</p>
+          <p>
+            The Mo→Return handoff (readiness detection, entering the ceremony,
+            exiting back to the assistant) is genuinely unsolved. Don't let the
+            meeting file it as settled — assign who designs it.
+          </p>
+
+          <p class="sub-label">One compliance check before agreeing</p>
+          <p>
+            v4's Return wording is "repeat Mirror onboarding with additional
+            context," and v4 requires refinements before any new Action Plan.
+            Confirm the Return ceremony reads as "checking what changed" (the
+            end-state doc's framing — "the system already knows me"), not as
+            repeating intake. Required-refinement gates on returning users is
+            exactly the re-onboarding the end-state doc bans.
+          </p>
+
+          <div class="pushback">
+            <span class="pb-label">⚠ If Adrian pushes back on cost</span>
+            Agreeing "ceremony-moment, relationship-arrival" is
+            <strong>not</strong> adding a surface — it's defining the threshold
+            between two things v4 already has. And the handoff he called the open
+            question is the same work under either answer; separating the
+            surfaces doesn't remove it.
+          </div>
+
+          <div class="script">
+            <span class="scr-label">Say it like this</span>
+            "I think Return to Mirror is both — a real ceremony with a clear
+            start and end, that you reach through the assistant, who notices it's
+            time and hands you in. Your noise worry is right, so the 'it's time'
+            signal lives outside the chat. And the handoff design is the real
+            open item — who takes it?"
+          </div>
+        </div>
+      </section>
+
+      <!-- D3 -->
+      <section class="decision">
+        <div class="d-head">
+          <span class="d-tag">Decision 3</span>
+          <h3>When is the named assistant introduced, and what is it called?</h3>
+        </div>
+        <div class="d-body">
+          <p class="sub-label">The two positions</p>
+          <p>
+            <strong>End-state doc:</strong> the assistant introduces itself
+            after the first report's <em>value lands</em> — at the emotional
+            beat, in possession of everything the Mirror learned.
+            <strong>v4:</strong> the refinement flows are deliberately
+            <em>not</em> visibly Mo; the named assistant appears after the Action
+            Plan, as the 30-day surface. You've already conceded the timing point
+            in Slack ("weird to introduce it — unless we did so very
+            deliberately. Time for that is not yet").
+          </p>
+
+          <p class="sub-label">Your proposed position</p>
+          <div class="propose">
+            Adopt v4's later, deliberate introduction for cycle one — with one
+            caveat that protects the core mechanic:
+            <strong>defer the name, not the sensation of being known.</strong>
+            Even unnamed, the refinement and Action Plan flows must visibly carry
+            the Mirror's context forward, so when the assistant finally
+            introduces itself, it confirms a relationship the user already felt
+            rather than starting a new one. If the first 30 days feel stateless,
+            the introduction lands as "yet another chatbot."
+          </div>
+
+          <p class="sub-label">On the name (the caveat)</p>
+          <p>
+            Your position is on record — "Moe/Mo" is working-title-only, never
+            market-facing (legal exposure on "Hey Moe!"), real name chosen when
+            one clears legal and everyone likes it. Note that v4 deliberately
+            lists the long-term public name as an open item, so treat it as a
+            <em>tracked</em> open question with your position recorded — park the
+            decision, don't dismiss the question. Adrian offered to suggest
+            transcription-clean candidates; let him.
+          </p>
+
+          <div class="pushback">
+            <span class="pb-label">⚠ If Adrian pushes back (unlikely)</span>
+            This mostly adopts his position. The only friction is the
+            felt-continuity caveat, and it's cheap — it constrains copy and
+            context-display, <strong>not architecture</strong>.
+          </div>
+
+          <div class="script">
+            <span class="scr-label">Say it like this</span>
+            "Agreed — introduce it late and deliberately, and it's not named Moe
+            in anything market-facing. One ask: even before it has a name, the
+            flows should obviously remember the Mirror. The user should feel
+            known before they're introduced."
+          </div>
+        </div>
+      </section>
+
+      <!-- What each doc gives the other -->
+      <h2>What each doc gives the other</h2>
+      <div class="duo-grid">
+        <section class="duo take">
+          <p class="duo-label">↙ Take from v4</p>
+          <ul>
+            <li>
+              <strong>Action Plan</strong> as a first-class, versioned artifact
+              with required refinements — the action spine the end-state doc
+              lacks. Sequencing note: its "permanently accessible, versioned"
+              promise depends on the end-state doc's artifact-lifecycle machinery
+              (statuses, save semantics) being built first. Dependency, not
+              parallel work.
+            </li>
+            <li>
+              <strong>The 30-day accountability loop</strong> (2–3 check-in
+              emails opening a plan-aware experience). The end-state doc's nudge
+              rules are the right constraints: every nudge can answer "why am I
+              seeing this," restraint by default, never generic reminders.
+            </li>
+            <li>
+              <strong>Call choice as signal.</strong> Not a UI detail:
+              <em>skipping</em> the call is itself signal that teaches BWAI how
+              valuable the human moment is and for whom — part of how self-serve
+              still produces relationship and Team Experience opportunities. Keep
+              the principle; framing strength is Nish's.
+            </li>
+            <li>
+              <strong>Entry modes and exact-resume</strong>
+              (schedule-a-focused-block; always return to the precise next step).
+            </li>
+          </ul>
+        </section>
+        <section class="duo offer">
+          <p class="duo-label">↗ Offer from the end-state doc</p>
+          <ul>
+            <li>
+              <strong>Leadership Profile — not a trade, a prerequisite.</strong>
+              v4 has no memory model; Mo can't ship even its 30-day form as
+              anything but a stateless chatbot without one. The profile (confirmed
+              vs. protected categories, "direct user correction outranks
+              inference," plain-language inspectability — "What are you assuming
+              about me?") is the cycle-one foundation and the answer to v4's open
+              question "how does Mo use history."
+            </li>
+            <li>
+              <strong>The share loop</strong> — boss-safe / spouse / peer
+              variants, derivation strips confessions, fears, and family
+              references, never auto-shares. Already a settled founder decision
+              (2026-06-04), already mocked in Act 1, already praised by Adrian.
+              It should slot into v4 as settled scope, not a new proposal.
+            </li>
+            <li>
+              <strong>Artifact lifecycle rules</strong> — when chat becomes an
+              artifact, save semantics, statuses. (The machinery the Action Plan
+              needs; see above.)
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="highlight-block">
+        <h3>Internal Docs / Assets — give this its own five minutes</h3>
+        <p>
+          v4 makes BWAI-facing readouts (ICP fit, operator snapshot, outreach
+          recommendation, Team Experience signal, risk notes, call angle)
+          <strong>primary outputs, not afterthoughts</strong> — they're the
+          mechanism that makes no-human-gate self-serve scale, which is Nish's
+          correction made real. Confirm they're first-class. Which assets ship
+          first is Nish's call.
+        </p>
+        <div class="gov-warn">
+          <span class="gw-label">⚠ Governance boundary to set before they ship</span>
+          The end-state doc marks categories of the profile as
+          <strong>protected</strong> (compensation, career ambitions, manager
+          dynamics — never silently acted on). BWAI-facing docs must
+          <strong>not</strong> mine protected context for sales routing. Define
+          the redaction line now.
+        </div>
+      </div>
+
+      <!-- Prefilled answers -->
+      <h2>Prefilled answers to v4's five questions for you</h2>
+      <p class="section-intro">
+        v4 explicitly reserves these for you. These are
+        <em>recommended positions with their source labeled</em> — yours to
+        confirm or overturn, and worth saying that in the room so the open
+        questions stay visibly yours.
+      </p>
+      <ol class="numbered">
+        <li>
+          <strong>Mo: one chat or multiple workstreams?</strong> Recommended
+          (from the end-state doc's "organize around work, not conversations"):
+          neither raw option — multiple <em>areas of active work</em> the
+          assistant organizes for you, because threads are temporary and work is
+          durable; a pile of user-managed chats makes the user do the filing.
+          This is a <strong>data-model fork</strong>, not UI labeling — a
+          chat-thread store built in cycle one is a rebuild later.
+        </li>
+        <li>
+          <strong>Strongest concrete Mo use cases?</strong> The end-state doc's
+          workflow shapes, in order: red-team a proposal · research preparation
+          (prepare the brief, hand off to a frontier tool, interpret the result)
+          · decision-support memo · prep for a team conversation. All four fit
+          the "unfreezing coach" arc.
+        </li>
+        <li>
+          <strong>Accountability loop?</strong> Yes to 2–3 check-ins, under the
+          nudge constraints above — plan-aware, explainable, restrained.
+        </li>
+        <li>
+          <strong>How does Mo use Mirror/Plan/check-in history?</strong> Through
+          the Leadership Profile — everything reads from and writes back to it
+          under its governance rules, because memory needs one accountable home:
+          the user can inspect it, correct it, and corrections stick. Retrieval
+          never silently changes what the system believes.
+        </li>
+        <li>
+          <strong>Where do future tools appear?</strong> Contextually, via the
+          assistant and homepage, never dumped up front. v4 states this; the
+          end-state doc is compatible (ask-first navigation, work-tied nudges)
+          though it never addresses a tools catalog directly — so confirm it
+          rather than calling it pre-agreed.
+        </li>
+      </ol>
+      <div class="nish-block">
+        <span class="nb-label">Nish-owned — hand him the list, don't adjudicate</span>
+        Continuation pricing (~$150/mo hypothesis) · call-choice framing strength
+        · <strong>Internal Docs/Assets v1 priority</strong> · Team Experience
+        routing aggressiveness.
+      </div>
+
+      <!-- Gallery buckets -->
+      <h2>What this means for the mockup gallery</h2>
+      <p class="section-intro">
+        Honest version — three buckets, not zero. Nothing blocks today, but
+        don't tell the room the gallery is untouched; it isn't, and saying so
+        costs credibility three weeks from now.
+      </p>
+      <div class="bucket-grid">
+        <section class="bucket b-new">
+          <p class="b-label">Net-new scope</p>
+          <p>
+            If v4's first cycle is adopted: <strong>Action Plan, check-ins, call
+            choice</strong> — an Act 3.
+          </p>
+        </section>
+        <section class="bucket b-edit">
+          <p class="b-label">Known edit · Act 1</p>
+          <p>
+            It currently shows the named Moe introducing itself right after the
+            first report. <strong>D3 moves the named introduction later</strong> —
+            Act 1's intro beat needs reconciling once D3 is decided. Scoped
+            rework, not a surprise.
+          </p>
+        </section>
+        <section class="bucket b-light">
+          <p class="b-label">Light edits · Act 2</p>
+          <p>
+            D2's "ceremony threshold inside the relationship" means welcome-back
+            screens should make the ritual's threshold more visible. The
+            <strong>bones survive</strong> (library, how-I've-changed, fresh
+            Mirror) — Adrian praised them.
+          </p>
+        </section>
+      </div>
+
+      <!-- Agenda -->
+      <h2>Suggested meeting agenda</h2>
+      <ol class="agenda">
+        <li>
+          <p class="ag-title">D1 — destination (10 min)</p>
+          <p class="ag-open">
+            "We agree on most of the mechanics — the one real question is whether
+            the destination is the assistant or the exoskeleton. Here's my read."
+          </p>
+          <p class="ag-done">
+            <strong>Done when:</strong> either destination is agreed, or the
+            foreclosure list is agreed and the destination is explicitly
+            deferred. Note it together.
+          </p>
+        </li>
+        <li>
+          <p class="ag-title">D2 — Return to Mirror (10 min)</p>
+          <p class="ag-open">
+            "I think it's both — ceremony moment, relationship arrival — and your
+            noise worry means the signal lives outside the chat."
+          </p>
+          <p class="ag-done">
+            <strong>Done when:</strong> the shape is agreed and the handoff
+            design has an owner.
+          </p>
+        </li>
+        <li>
+          <p class="ag-title">D3 — introduction + name (5 min)</p>
+          <p class="ag-open">
+            "Agreed on late and deliberate. One ask: the user should feel known
+            before the introduction."
+          </p>
+          <p class="ag-done">
+            <strong>Done when:</strong> intro timing agreed, name parked as a
+            tracked item with Adrian collecting candidates.
+          </p>
+        </li>
+        <li>
+          <p class="ag-title">Your five answers (10 min)</p>
+          <p class="ag-open">
+            "Let me walk these as positions to confirm — and flag #1, because
+            it's a data-model decision, not a label."
+          </p>
+          <p class="ag-done">
+            <strong>Done when:</strong> all five are confirmed or overturned, and
+            #1's data-model fork is named explicitly.
+          </p>
+        </li>
+        <li>
+          <p class="ag-title">Internal Docs / Assets (5 min)</p>
+          <p class="ag-open">
+            "These are primary outputs, not afterthoughts — and there's a
+            protected-context line we set before they ship."
+          </p>
+          <p class="ag-done">
+            <strong>Done when:</strong> first-class confirmed, the
+            protected-context redaction boundary is set, and Nish has his list.
+          </p>
+        </li>
+      </ol>
+
+      <!-- Open questions (house idiom) -->
+      <h2>Open questions</h2>
+      <p class="section-intro">
+        The items that genuinely aren't settled — carry them into the room as
+        open, don't let any get filed as decided.
+      </p>
+      <ol class="open-q">
+        <li>
+          <strong>Mo→Return handoff design.</strong> Readiness detection,
+          entering the ceremony, exiting back to the assistant — genuinely
+          unsolved and the same work under either D2 answer.
+          <strong>Needs an owner</strong> assigned in the meeting.
+        </li>
+        <li>
+          <strong>The public-facing name.</strong> "Moe/Mo" is working-title
+          only. Tracked open item with your position recorded; Adrian is
+          collecting transcription-clean candidates. Park the decision, keep the
+          question.
+        </li>
+        <li>
+          <strong>The day-30 conversion assumption.</strong> The compounding
+          destination only exists for users who convert past day 30. If
+          conversion is low, the destination is unreachable for most — a
+          product-model risk gating the whole D1 bet, not just a pricing
+          footnote.
+        </li>
+        <li>
+          <strong>v4's reserved-for-Matt questions.</strong> The five prefilled
+          answers above are recommendations — they stay open until confirmed or
+          overturned in the room, and #1 (one chat vs. workstreams) is a
+          data-model fork that locks early.
+        </li>
+      </ol>
+
+      <footer>
+        Alignment brief for the Mirror v4 review · 2026-06-12 · prepared for
+        Matt (Nish owns the business items). Sources: Adrian's
+        <em>Individual Mirror Product System v4 — Alignment Draft</em> (Linear,
+        2026-06-11), the <em>Moe End-State Build Bible</em>
+        (<code>feat/moe-end-state</code>, 2026-06-07), and the Slack exchange
+        (2026-06-12). This is peer alignment, not a sign-off — nothing here is
+        for Adrian to transcribe.
+      </footer>
+    </div>
+  </body>
+</html>
