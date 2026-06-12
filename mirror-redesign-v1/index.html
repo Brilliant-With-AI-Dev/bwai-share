@@ -1197,6 +1197,564 @@
           gap: 14px;
         }
       }
+
+      /* ============ NEW (Act journey) — extends the locked v2 language ============ */
+      /* nav act dividers */
+      .galnav .act {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-4);
+        padding: 7px 6px 7px 12px;
+        white-space: nowrap;
+        align-self: center;
+      }
+      .galnav .act:first-of-type {
+        padding-left: 6px;
+      }
+
+      /* paced reveal — "Next" / add-a-note controls under the letter */
+      .pacer {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin: 18px 30px 4px;
+        padding-top: 16px;
+        border-top: 1px dashed var(--line-2);
+      }
+      .pacer .next {
+        font-family: var(--sans);
+        font-weight: 600;
+        font-size: 14px;
+        background: var(--green);
+        color: #fcfaf5;
+        border: none;
+        border-radius: 11px;
+        padding: 10px 18px;
+        cursor: pointer;
+        box-shadow: var(--shadow-pop);
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .pacer .next:hover {
+        background: var(--green-deep);
+      }
+      .pacer .addnote {
+        font-size: 13px;
+        color: var(--ink-3);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        cursor: pointer;
+      }
+      .pacer .pcount {
+        margin-left: auto;
+        font-size: 12px;
+        color: var(--ink-4);
+      }
+      /* a captured note left against the letter */
+      .docnote {
+        margin: 14px 30px 0;
+        border-left: 3px solid var(--amber);
+        background: var(--amber-soft);
+        border-radius: 0 12px 12px 0;
+        padding: 11px 15px;
+        font-family: var(--sans);
+        font-size: 13.5px;
+        color: var(--ink-2);
+      }
+      .docnote b {
+        color: var(--amber);
+        font-weight: 700;
+        font-size: 11px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 3px;
+      }
+
+      /* version navigation (NOT undo) — used after a real, agreed edit */
+      .vbadge .nav {
+        color: var(--green-deep);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .vbadge .sep {
+        color: var(--ink-4);
+      }
+      /* a freshly rewritten section, localized diff */
+      .docbody .changed {
+        background: var(--green-faint);
+        border-left: 3px solid var(--green);
+        border-radius: 0 12px 12px 0;
+        padding: 12px 16px;
+        margin-bottom: 13px;
+      }
+      .docbody .changed .tag {
+        font-family: var(--sans);
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--green-deep);
+        display: block;
+        margin-bottom: 6px;
+      }
+
+      /* paused / graceful-failure — calm, no error chrome */
+      .doc.paused .docbody {
+        opacity: 0.42;
+        filter: saturate(0.7);
+      }
+      .pausetag {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 30px;
+        margin-top: 14px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--ink-3);
+        background: var(--paper-2);
+        border: 1px dashed var(--line-2);
+        border-radius: 999px;
+        padding: 5px 13px;
+        width: fit-content;
+      }
+      .pausetag .pd {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--amber);
+      }
+
+      /* share picker — guided option cards inside a Moe turn */
+      .pickcards {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .pickcard {
+        display: flex;
+        gap: 12px;
+        padding: 12px 14px;
+        background: var(--raised);
+        border: 1px solid var(--line);
+        border-radius: 13px;
+        box-shadow: var(--shadow-card);
+        align-items: flex-start;
+        cursor: pointer;
+      }
+      .pickcard:hover {
+        border-color: rgba(31, 92, 61, 0.3);
+      }
+      .pickcard .it {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+      .pickcard .who {
+        font-weight: 600;
+        font-size: 14.5px;
+      }
+      .pickcard .what {
+        display: block;
+        color: var(--ink-3);
+        font-size: 13px;
+        margin-top: 3px;
+        line-height: 1.45;
+      }
+      .pickcard .pchev {
+        margin-left: auto;
+        color: var(--green);
+        flex: 0 0 auto;
+        align-self: center;
+      }
+      .pickcard .pchev svg {
+        width: 17px;
+        height: 17px;
+      }
+      /* "…or just tell me" — open-mic divider that keeps the mic obvious */
+      .ormic {
+        margin-top: 12px;
+        font-size: 12.5px;
+        color: var(--ink-3);
+        text-align: center;
+      }
+      .ormic b {
+        color: var(--ink-2);
+        font-weight: 600;
+      }
+
+      /* prefilled-locked option stack (return next-moves) */
+      .optstack {
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+      }
+      .optstack .vbox.locked {
+        padding: 9px 12px;
+      }
+      .optstack .vbox.locked .typed {
+        font-size: 14.5px;
+      }
+
+      /* provenance stamp — small evergreen eyebrow on shared versions */
+      .provenance {
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--green-deep);
+        background: var(--green-soft);
+        border-radius: 8px;
+        padding: 6px 11px;
+        margin: 14px 30px 0;
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .provenance::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--green);
+        flex: 0 0 auto;
+      }
+
+      /* share shelf — two purpose-built versions, side by side then stacked */
+      .shareshelf {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        max-width: 980px;
+        margin: 0 auto;
+      }
+      .shareshelf .docwrap {
+        max-width: none;
+        margin: 0;
+      }
+      .syncline {
+        max-width: 980px;
+        margin: 0 auto 18px;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 13px;
+        color: var(--ink-2);
+        background: var(--green-faint);
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--green);
+        border-radius: 0 12px 12px 0;
+        padding: 11px 15px;
+      }
+      .syncline b {
+        color: var(--green-deep);
+        font-weight: 600;
+      }
+
+      /* collapsed artifact — the prior letter, quietly accessible on return */
+      .artifact-collapsed {
+        max-width: 720px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        background: var(--raised);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        box-shadow: var(--shadow-card);
+        padding: 14px 18px;
+        cursor: pointer;
+      }
+      .artifact-collapsed:hover {
+        border-color: var(--line-2);
+      }
+      .artifact-collapsed .acspine {
+        width: 4px;
+        align-self: stretch;
+        border-radius: 4px;
+        background: linear-gradient(var(--green), var(--amber));
+        flex: 0 0 auto;
+      }
+      .artifact-collapsed .ace {
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--green-deep);
+      }
+      .artifact-collapsed .act-t {
+        font-family: var(--display);
+        font-size: 15.5px;
+        line-height: 1.2;
+        margin-top: 2px;
+        color: var(--ink);
+      }
+      .artifact-collapsed .acopen {
+        margin-left: auto;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--green-deep);
+        white-space: nowrap;
+        flex: 0 0 auto;
+      }
+
+      /* then → now (progression), in Moe's voice, no scores */
+      .thennow {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 4px;
+      }
+      .tnpair {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        background: var(--raised);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        box-shadow: var(--shadow-card);
+        overflow: hidden;
+      }
+      .tnpair .then,
+      .tnpair .now {
+        padding: 15px 18px;
+      }
+      .tnpair .then {
+        background: var(--paper-2);
+        border-right: 1px solid var(--line);
+      }
+      .tnpair .lbl {
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 7px;
+      }
+      .tnpair .then .lbl {
+        color: var(--ink-3);
+      }
+      .tnpair .now .lbl {
+        color: var(--green-deep);
+      }
+      .tnpair .body {
+        font-size: 14.5px;
+        line-height: 1.5;
+        color: var(--ink);
+      }
+      .tnpair .src {
+        display: block;
+        margin-top: 8px;
+        font-size: 12px;
+        color: var(--ink-3);
+        font-style: italic;
+      }
+
+      /* library — dated co-equal Mirrors with nested share versions */
+      .library {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        max-width: 760px;
+        margin: 0 auto;
+        width: 100%;
+      }
+      .mirrorcard {
+        background: var(--raised);
+        border: 1px solid var(--line);
+        border-radius: var(--r-lg);
+        box-shadow: var(--shadow-card);
+        padding: 20px 22px;
+        position: relative;
+        overflow: hidden;
+      }
+      .mirrorcard::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--green);
+      }
+      .mirrorcard.past::before {
+        background: var(--line-2);
+      }
+      .mirrorcard .mc-head {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .mirrorcard .mc-date {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--green-deep);
+      }
+      .mirrorcard.past .mc-date {
+        color: var(--ink-3);
+      }
+      .mirrorcard .mc-cur {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--green-deep);
+        background: var(--green-soft);
+        border-radius: 999px;
+        padding: 3px 9px;
+      }
+      .mirrorcard .mc-title {
+        font-family: var(--display);
+        font-weight: 400;
+        font-size: 19px;
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+        margin-top: 8px;
+        max-width: 40ch;
+      }
+      .mirrorcard .mc-meta {
+        font-size: 12.5px;
+        color: var(--ink-3);
+        margin-top: 7px;
+      }
+      .mirrorcard .mc-shares {
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid var(--line);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .mirrorcard .mc-shares .sh-eye {
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+      }
+      .share-sub {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13.5px;
+        color: var(--ink-2);
+        padding: 9px 13px;
+        background: var(--paper-2);
+        border: 1px solid var(--line);
+        border-radius: 11px;
+      }
+      .share-sub .ssbranch {
+        color: var(--ink-4);
+        flex: 0 0 auto;
+        font-family: var(--display);
+      }
+      .share-sub b {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .share-sub .ssdate {
+        margin-left: auto;
+        font-size: 12px;
+        color: var(--ink-3);
+        white-space: nowrap;
+      }
+      .newmirror {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        justify-content: center;
+        border: 1px dashed var(--line-2);
+        border-radius: var(--r-lg);
+        padding: 18px;
+        color: var(--green-deep);
+        font-weight: 600;
+        font-size: 14.5px;
+        background: var(--green-faint);
+        cursor: pointer;
+      }
+      .newmirror:hover {
+        border-color: var(--green);
+      }
+      .libnote {
+        max-width: 760px;
+        margin: 16px auto 0;
+        font-size: 12.5px;
+        color: var(--ink-3);
+        text-align: center;
+      }
+
+      /* a centered single-column doc area (used by library / progression) */
+      .stage-pad {
+        flex: 1;
+        overflow: auto;
+        padding: 30px 34px 40px;
+        background: linear-gradient(var(--paper-2), transparent 120px);
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .stage-pad .padhead {
+        max-width: 760px;
+        margin: 0 auto 18px;
+        width: 100%;
+      }
+      .stage-pad .padhead .pe {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--green-deep);
+      }
+      .stage-pad .padhead h4 {
+        font-family: var(--display);
+        font-weight: 400;
+        font-size: 23px;
+        line-height: 1.18;
+        letter-spacing: -0.01em;
+        margin-top: 5px;
+      }
+      .progwrap {
+        max-width: 760px;
+        margin: 0 auto;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .progwrap .note {
+        font-size: 14.5px;
+      }
+      .progwrap .note b {
+        display: block;
+        margin-bottom: 4px;
+      }
+      .moe-sig {
+        font-family: var(--display);
+        font-style: italic;
+        font-size: 14.5px;
+        color: var(--ink-2);
+        margin-top: 4px;
+      }
+
+      @media (max-width: 920px) {
+        .shareshelf {
+          grid-template-columns: 1fr;
+        }
+        .tnpair {
+          grid-template-columns: 1fr;
+        }
+        .tnpair .then {
+          border-right: none;
+          border-bottom: 1px solid var(--line);
+        }
+      }
     </style>
   </head>
   <body>
@@ -1204,14 +1762,26 @@
     <nav class="galnav">
       <div class="wrap">
         <div class="brand"><span class="emblem"></span> Mirror redesign</div>
-        <span class="tagpill">Proposal v1 · feel-check</span>
+        <span class="tagpill">Proposal v1 · full journey</span>
         <div class="links">
-          <a class="jump" href="#thesis">The thesis</a>
+          <a class="jump" href="#thesis">Thesis</a>
+          <span class="act">Act 1 · First time</span>
           <a class="jump" href="#s1">First finish</a>
-          <a class="jump" href="#s2">The workspace</a>
+          <a class="jump" href="#write">Writing</a>
+          <a class="jump" href="#retry">Retry</a>
+          <a class="jump" href="#s2">Workspace</a>
           <a class="jump" href="#s3">Refine</a>
+          <a class="jump" href="#redraw">Redraw</a>
+          <a class="jump" href="#sharepick">Share picker</a>
+          <a class="jump" href="#shareversions">Share versions</a>
+          <span class="act">Act 2 · A month later</span>
+          <a class="jump" href="#return">Welcome back</a>
+          <a class="jump" href="#returnopts">Options</a>
+          <a class="jump" href="#refresh">Fresh Mirror</a>
+          <a class="jump" href="#progression">How I've changed</a>
+          <a class="jump" href="#library">Library</a>
+          <span class="act">·</span>
           <a class="jump" href="#s4">The composer</a>
-          <a class="jump" href="#next">What's next</a>
         </div>
       </div>
     </nav>
@@ -1227,15 +1797,17 @@
         The current prototype validated the <em>flow</em>. It also showed us the
         experience is wrong: two dead columns, plain chat bubbles, and a report
         that re-writes itself every time you ask for one small change. This is a
-        proposal for what should be built instead — shown as static screens, not
-        code. The chat now wears the product's own design system; the voice
+        proposal for what should be built instead — the
+        <em>complete journey</em>, shown as static screens, not code. Two acts:
+        finishing your first Mirror, then returning a month later to a Moe who
+        remembers. The chat now wears the product's own design system; the voice
         composer is rebuilt from the ground up.
       </p>
       <div class="meta">
         <span>Issue #706</span
         ><span
           >Conversation-led · document-as-artifact · Moe always present</span
-        ><span>Design-system aligned</span>
+        ><span>Act 1 · first time</span><span>Act 2 · a month later</span>
       </div>
     </header>
 
@@ -1271,8 +1843,9 @@
           </p>
           <div class="fix">
             <b>The fix →</b> Moe <b>talks the change through in chat</b>, then
-            the letter redraws <b>once</b>, on agreement — with a version bump,
-            a highlighted diff, and undo.
+            the letter redraws <b>once</b>, on agreement — only the changed
+            section, with a version bump, a highlighted diff, and your earlier
+            draft always one tap back.
           </div>
         </div>
         <div class="tcard">
@@ -1466,6 +2039,323 @@
                     >I'll write it into a letter on the right — about 10
                     seconds.</span
                   >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ACT 1 · WRITING (paced reveal) ============ -->
+    <section id="write" class="wrap screen">
+      <div class="head">
+        <div class="stage">
+          <span class="dot"></span
+          ><span class="label">Act 1 · Writing</span
+          ><span class="sub">Moe is writing the letter — you set the pace</span>
+        </div>
+        <h2>Moe writes the letter — you pace the reveal.</h2>
+        <p class="why">
+          The letter doesn't dump all at once. Moe reveals it
+          <b>a section at a time</b>, with a quiet writing cursor on the live
+          line so it still feels written, not generated. You tap
+          <b>Next</b> when you're ready for more, and you can
+          <b>flag anything as you go</b> — those notes are
+          <b>captured for after</b>, not applied live. The document is never
+          rewritten message-by-message; it completes whole, then you take it
+          apart together.
+        </p>
+        <span class="tagline"
+          >Self-paced reveal · notes captured for after · the letter completes
+          whole</span
+        >
+      </div>
+
+      <div class="frame">
+        <div class="titlebar">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="url">
+            mirror.brilliantwith.ai &nbsp;·&nbsp; your Mirror · writing…
+          </div>
+        </div>
+        <div class="app">
+          <div class="topbar">
+            <div class="moe">
+              <span class="mark"></span
+              ><span
+                ><span class="nm">Moe</span
+                ><span class="st">writing your letter…</span></span
+              >
+            </div>
+            <div class="crumbs">·&nbsp; <b>New Mirror</b> · just now</div>
+            <div class="right">
+              <button class="tb-btn">Your Mirrors</button>
+              <div class="avatar">P</div>
+            </div>
+          </div>
+
+          <div class="stage-area">
+            <div class="convo docked">
+              <div class="thread">
+                <div class="msg moe">
+                  <div class="av"></div>
+                  <div class="col">
+                    <div class="bubble">
+                      <p>
+                        I'm writing this the way I'd write it to you — not from a
+                        template. Read it a piece at a time; tap
+                        <b>Next</b> when you're ready, and flag anything as you
+                        go.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="msg you">
+                  <div class="col">
+                    <div class="bubble">
+                      The "to the decimal" line — that's exactly it. Don't lose
+                      that.
+                    </div>
+                  </div>
+                </div>
+                <div class="msg moe">
+                  <div class="av"></div>
+                  <div class="col">
+                    <div class="bubble">
+                      <p>Noted — let me finish, then we'll take it together.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="composer">
+                <div class="vbox">
+                  <button class="mic" title="Tap to speak">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <rect x="9" y="2" width="6" height="12" rx="3" />
+                      <path d="M5 11a7 7 0 0 0 14 0M12 18v4" />
+                    </svg>
+                  </button>
+                  <div class="vfield">
+                    <div class="ph">Flag a line as I write — I'll hold it</div>
+                  </div>
+                  <button class="vtype" title="Type instead">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <rect x="2" y="6" width="20" height="13" rx="2" />
+                      <path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="doc">
+              <div class="docwrap">
+                <div class="dochead">
+                  <div>
+                    <div class="eye">Your Mirror · May 2026</div>
+                    <div class="dt">
+                      A Letter to Priya Raman, Who Is Running an AI Mandate She
+                      Has Not Yet Decided to Lead
+                    </div>
+                  </div>
+                </div>
+                <div class="vbadge">
+                  <span class="v">Version 1</span> ·
+                  <span>being written</span>
+                </div>
+                <div class="docbody">
+                  <p class="standfirst">
+                    This is not a report. This is a mirror. Some of what you see
+                    will be uncomfortable. Read it anyway.
+                  </p>
+                  <div class="truth">
+                    <p>
+                      <b>The truth.</b> You are the most AI-fluent person in
+                      your building and the least likely to admit that fluency
+                      is now your bottleneck — twelve people waiting for
+                      permission you have not given them, and you are calling
+                      that "bottom-up adoption."
+                    </p>
+                    <p>
+                      <b>Do this now.</b> This week, name one person to own AI
+                      for the marketing org — not a side project, a line on
+                      their goals — and pick one workflow to run end-to-end in
+                      public, where the team can watch it beat the old way.<span
+                        class="writing-caret"
+                      ></span>
+                    </p>
+                  </div>
+                </div>
+                <div class="docnote">
+                  <b>You flagged · held for after</b>
+                  "The 'to the decimal' line — don't lose that." I'll bring it up
+                  when the letter's done.
+                </div>
+                <div class="pacer">
+                  <button class="next">
+                    Next
+                    <svg
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </button>
+                  <span class="addnote">add a note</span>
+                  <span class="pcount">2 of 4 sections written</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ACT 1 · RETRY (graceful failure) ============ -->
+    <section id="retry" class="wrap screen">
+      <div class="head">
+        <div class="stage">
+          <span class="dot"></span
+          ><span class="label">Act 1 · If it drops</span
+          ><span class="sub">something on Moe's end interrupted the writing</span>
+        </div>
+        <h2>If it drops, Moe owns it — gracefully.</h2>
+        <p class="why">
+          Things fail. When they do, you should never see a red banner, a stack
+          trace, or a spinner spinning into nothing. Moe takes responsibility in
+          <b>his own voice</b>, tells you plainly that
+          <b>nothing is lost</b>, and offers <b>one clear way to resume</b> —
+          right where it stopped. The work that was written stays on screen,
+          quietly paused. The machinery never shows.
+        </p>
+        <span class="tagline"
+          >Owner-voice failure · nothing lost · resume from where it stopped</span
+        >
+      </div>
+
+      <div class="frame">
+        <div class="titlebar">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="url">
+            mirror.brilliantwith.ai &nbsp;·&nbsp; your Mirror · paused
+          </div>
+        </div>
+        <div class="app">
+          <div class="topbar">
+            <div class="moe">
+              <span class="mark"></span
+              ><span
+                ><span class="nm">Moe</span
+                ><span class="st">paused</span></span
+              >
+            </div>
+            <div class="crumbs">·&nbsp; <b>New Mirror</b> · just now</div>
+            <div class="right">
+              <button class="tb-btn">Your Mirrors</button>
+              <div class="avatar">P</div>
+            </div>
+          </div>
+
+          <div class="stage-area">
+            <div class="convo docked">
+              <div class="thread">
+                <div class="msg moe">
+                  <div class="av"></div>
+                  <div class="col">
+                    <div class="bubble">
+                      <p>
+                        Something on my end dropped the thread while I was
+                        writing. Nothing you did, and nothing's lost — your
+                        conversation's right here, and so is what I'd written so
+                        far.
+                      </p>
+                      <p>Want me to pick it back up?</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="composer">
+                <div class="vbox locked">
+                  <div class="vfield">
+                    <div class="typed">
+                      Yes — pick it back up where you left off.
+                    </div>
+                  </div>
+                  <button class="send">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </button>
+                </div>
+                <div class="lockrow">
+                  <span class="chip">⌶ prefilled · tap to send</span>
+                  <span
+                    >or <span class="ghost">start this part over</span></span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="doc paused">
+              <div class="docwrap">
+                <div class="dochead">
+                  <div>
+                    <div class="eye">Your Mirror · May 2026</div>
+                    <div class="dt">
+                      A Letter to Priya Raman, Who Is Running an AI Mandate She
+                      Has Not Yet Decided to Lead
+                    </div>
+                  </div>
+                </div>
+                <div class="pausetag">
+                  <span class="pd"></span> Paused — nothing lost
+                </div>
+                <div class="docbody">
+                  <p class="standfirst">
+                    This is not a report. This is a mirror. Some of what you see
+                    will be uncomfortable. Read it anyway.
+                  </p>
+                  <div class="truth">
+                    <p>
+                      <b>The truth.</b> You are the most AI-fluent person in
+                      your building and the least likely to admit that fluency
+                      is now your bottleneck — twelve people waiting for
+                      permission you have not given them, and you are calling
+                      that "bottom-up adoption."
+                    </p>
+                    <p>
+                      <b>Do this now.</b> This week, name one person to own AI
+                      for the marketing org — not a side project, a line on
+                      their goals — and pick one workflow to run end-to-end in
+                      public, where the team can watch it beat the old way.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1849,6 +2739,1295 @@
       </div>
     </section>
 
+    <!-- ============ ACT 1 · REDRAW (section update + alignment, no undo) ============ -->
+    <section id="redraw" class="wrap screen">
+      <div class="head">
+        <div class="stage">
+          <span class="dot"></span
+          ><span class="label">Act 1 · Redraw</span
+          ><span class="sub">you agreed to a real edit — Moe redraws once</span>
+        </div>
+        <h2>Redraw on agreement: section update, alignment pass, no undo.</h2>
+        <p class="why">
+          You asked to tighten the opening, and you agreed. So Moe rewrites
+          <b>only that section</b>, then does a quiet <b>alignment pass</b> to
+          make sure the rest still reads with it. The version number is for the
+          whole letter — but the change is <b>local and highlighted</b>. There
+          is no destructive "undo" button: corrections happen the way everything
+          else does, <b>in conversation</b> (which would make a v3), and earlier
+          versions stay reachable through plain <b>version navigation</b>.
+          Nothing is ever thrown away.
+        </p>
+        <span class="tagline"
+          >Surgical section edit · alignment pass · non-destructive version
+          navigation</span
+        >
+      </div>
+
+      <div class="frame">
+        <div class="titlebar">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="url">
+            mirror.brilliantwith.ai &nbsp;·&nbsp; your Mirror · May 2026
+          </div>
+        </div>
+        <div class="app">
+          <div class="topbar">
+            <div class="moe">
+              <span class="mark"></span
+              ><span
+                ><span class="nm">Moe</span
+                ><span class="st">redrew the opening</span></span
+              >
+            </div>
+            <div class="crumbs">·&nbsp; <b>Your Mirror</b> · May 2026</div>
+            <div class="right">
+              <button class="tb-btn">Make a version to share</button>
+              <button class="tb-btn">Your Mirrors</button>
+              <div class="avatar">P</div>
+            </div>
+          </div>
+
+          <div class="stage-area">
+            <div class="convo docked">
+              <div class="thread">
+                <div class="msg you">
+                  <div class="col">
+                    <div class="bubble">
+                      The opening is a little slow. Can you tighten it?
+                    </div>
+                  </div>
+                </div>
+                <div class="msg moe">
+                  <div class="av"></div>
+                  <div class="col">
+                    <div class="bubble">
+                      <p>
+                        Agreed — it takes too long to land. I'll cut to the gap
+                        in the first line. This is a real edit, so I'll bump the
+                        version. Go ahead?
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="msg you">
+                  <div class="col">
+                    <div class="bubble">Yes — tighten it.</div>
+                  </div>
+                </div>
+                <div class="msg moe">
+                  <div class="av"></div>
+                  <div class="col">
+                    <div class="bubble">
+                      <p>
+                        Done — I rewrote just the opening and checked the rest
+                        still reads with it. Bumped this to v2; the change is
+                        highlighted.
+                      </p>
+                      <p>
+                        Want the old opening back? Just say so — I'll keep both.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="composer">
+                <div class="vbox locked">
+                  <div class="vfield">
+                    <div class="typed">That's better — leave it.</div>
+                  </div>
+                  <button class="send">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </button>
+                </div>
+                <div class="lockrow">
+                  <span class="chip">⌶ prefilled · tap to send</span>
+                  <span
+                    >or <span class="ghost">bring back the old opening</span></span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="doc">
+              <div class="docwrap">
+                <div class="dochead">
+                  <div>
+                    <div class="eye">Your Mirror · May 2026</div>
+                    <div class="dt">
+                      A Letter to Priya Raman, Who Is Running an AI Mandate She
+                      Has Not Yet Decided to Lead
+                    </div>
+                  </div>
+                  <div class="ctrls">
+                    <button class="icbtn" title="Copy">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <rect x="9" y="9" width="11" height="11" rx="2" />
+                        <path d="M5 15V5a2 2 0 0 1 2-2h10" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="vbadge">
+                  <span class="v">Version 2</span> · updated just now ·
+                  <span class="nav">compare to v1</span>
+                  <span class="sep">·</span>
+                  <span class="nav">back to v1</span>
+                </div>
+                <div class="docbody">
+                  <div class="changed">
+                    <span class="tag">↻ rewritten just now · the opening</span>
+                    <p class="standfirst" style="margin-bottom: 0">
+                      You can account for your own AI use to the decimal. Your
+                      team's, you estimate. That single gap is the letter.
+                    </p>
+                  </div>
+                  <div class="truth">
+                    <p>
+                      <b>The truth.</b> You are the most AI-fluent person in
+                      your building and the least likely to admit that fluency
+                      is now your bottleneck — twelve people waiting for
+                      permission you have not given them, and you are calling
+                      that "bottom-up adoption."
+                    </p>
+                    <p>
+                      <b>Do this now.</b> This week, name one person to own AI
+                      for the marketing org — not a side project, a line on
+                      their goals — and pick one workflow to run end-to-end in
+                      public, where the team can watch it beat the old way.
+                    </p>
+                  </div>
+                  <h3>The Mirror</h3>
+                  <p>
+                    You run a marketing org across brand, performance,
+                    lifecycle, and creative. You drove the agency-to-in-house arc
+                    twice. The rest of this section is untouched — only the
+                    opening moved, and it still reads straight into here.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ACT 1 · SHARE PICKER (guided + open mic) ============ -->
+    <section id="sharepick" class="wrap screen">
+      <div class="head">
+        <div class="stage">
+          <span class="dot"></span
+          ><span class="label">Act 1 · Share picker</span
+          ><span class="sub">a version made for one specific person</span>
+        </div>
+        <h2>Share is making a version for a specific person.</h2>
+        <p class="why">
+          Sharing isn't a link — it's <b>a new version of your letter, retoned
+          for one reader</b>, single-sourced from the one you already have. Moe
+          offers people <b>you named in your interview</b>, each with a plain
+          line about what changes. And — this matters — the
+          <b>open mic sits right beside the options</b>. You can tap a card,
+          or just say who it's for and how you want it to land. The guided path
+          is never forced.
+        </p>
+        <span class="tagline"
+          >Single-sourced versions · suggested from people you named · guided
+          and open-mic, side by side</span
+        >
+      </div>
+
+      <div class="frame">
+        <div class="titlebar">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="url">
+            mirror.brilliantwith.ai &nbsp;·&nbsp; your Mirror · make a version
+          </div>
+        </div>
+        <div class="app">
+          <div class="topbar">
+            <div class="moe">
+              <span class="mark"></span
+              ><span
+                ><span class="nm">Moe</span
+                ><span class="st">making a version to share</span></span
+              >
+            </div>
+            <div class="crumbs">·&nbsp; <b>Your Mirror</b> · May 2026</div>
+            <div class="right">
+              <button class="tb-btn">Your Mirrors</button>
+              <div class="avatar">P</div>
+            </div>
+          </div>
+
+          <div class="stage-area">
+            <div class="convo docked">
+              <div class="thread">
+                <div class="msg you">
+                  <div class="col">
+                    <div class="bubble">
+                      I want to share some of this — not all of it.
+                    </div>
+                  </div>
+                </div>
+                <div class="msg moe">
+                  <div class="av"></div>
+                  <div class="col">
+                    <div class="bubble">
+                      <p>
+                        Good instinct. I'll make a separate version so your own
+                        letter stays whole. Who's this for?
+                      </p>
+                    </div>
+                    <div class="pickcards">
+                      <div class="pickcard">
+                        <span class="it"
+                          ><span class="who">Marcus (your CEO)</span
+                          ><span class="what"
+                            >Boss-safe: keeps the plan, drops the
+                            confessions.</span
+                          ></span
+                        >
+                        <span class="pchev"
+                          ><svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path d="M9 6l6 6-6 6" /></svg
+                        ></span>
+                      </div>
+                      <div class="pickcard">
+                        <span class="it"
+                          ><span class="who">Your team / direct reports</span
+                          ><span class="what"
+                            >An invitation, not a confession — where you're
+                            taking them.</span
+                          ></span
+                        >
+                        <span class="pchev"
+                          ><svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path d="M9 6l6 6-6 6" /></svg
+                        ></span>
+                      </div>
+                      <div class="pickcard">
+                        <span class="it"
+                          ><span class="who">A peer leader</span
+                          ><span class="what"
+                            >Candid but collegial — one operator to
+                            another.</span
+                          ></span
+                        >
+                        <span class="pchev"
+                          ><svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path d="M9 6l6 6-6 6" /></svg
+                        ></span>
+                      </div>
+                      <div class="pickcard">
+                        <span class="it"
+                          ><span class="who">Someone else</span
+                          ><span class="what"
+                            >Tell me who, and I'll judge the room.</span
+                          ></span
+                        >
+                        <span class="pchev"
+                          ><svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path d="M9 6l6 6-6 6" /></svg
+                        ></span>
+                      </div>
+                    </div>
+                    <div class="ormic">
+                      <b>…or just tell me</b> who it's for, and how you want it
+                      to land.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="composer">
+                <div class="vbox">
+                  <button class="mic" title="Tap to speak">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <rect x="9" y="2" width="6" height="12" rx="3" />
+                      <path d="M5 11a7 7 0 0 0 14 0M12 18v4" />
+                    </svg>
+                  </button>
+                  <div class="vfield">
+                    <div class="ph">Say who it's for — or pick above</div>
+                  </div>
+                  <button class="vtype" title="Type instead">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <rect x="2" y="6" width="20" height="13" rx="2" />
+                      <path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="doc">
+              <div class="docwrap">
+                <div class="dochead">
+                  <div>
+                    <div class="eye">Your Mirror · May 2026 · source</div>
+                    <div class="dt">
+                      A Letter to Priya Raman, Who Is Running an AI Mandate She
+                      Has Not Yet Decided to Lead
+                    </div>
+                  </div>
+                </div>
+                <div class="vbadge">
+                  <span class="v">Version 2</span> ·
+                  <span>your letter stays whole — a share version is separate</span>
+                </div>
+                <div class="docbody">
+                  <p class="standfirst">
+                    This is not a report. This is a mirror. Some of what you see
+                    will be uncomfortable. Read it anyway.
+                  </p>
+                  <div class="truth">
+                    <p>
+                      <b>The truth.</b> You are the most AI-fluent person in
+                      your building and the least likely to admit that fluency
+                      is now your bottleneck — twelve people waiting for
+                      permission you have not given them.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ACT 1 · SHARE VERSIONS (provenance-stamped shelf) ============ -->
+    <section id="shareversions" class="wrap screen">
+      <div class="head">
+        <div class="stage">
+          <span class="dot"></span
+          ><span class="label">Act 1 · Share versions</span
+          ><span class="sub">two letters, retoned for two rooms</span>
+        </div>
+        <h2>Two purpose-built versions, provenance-stamped.</h2>
+        <p class="why">
+          Each share version is <b>single-sourced from your own letter</b> and
+          <b>retoned for its reader</b> — the CEO version leads with the plan
+          and reframes the hard truth as ownership; the team version turns the
+          challenge into a shared commitment. Every version carries a quiet
+          <b>provenance stamp</b> so it's clear where it came from. And because
+          they all trace back to your Mirror, <b>fix a fact once and it updates
+          everywhere</b>.
+        </p>
+        <span class="tagline"
+          >Single-sourced · retoned per audience · provenance-stamped ·
+          corrections propagate</span
+        >
+      </div>
+
+      <div class="frame">
+        <div class="titlebar">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="url">
+            mirror.brilliantwith.ai &nbsp;·&nbsp; your Mirror · versions to share
+          </div>
+        </div>
+        <div class="app">
+          <div class="topbar">
+            <div class="moe">
+              <span class="mark"></span
+              ><span
+                ><span class="nm">Moe</span
+                ><span class="st">made two versions to share</span></span
+              >
+            </div>
+            <div class="crumbs">·&nbsp; <b>Your Mirror</b> · May 2026</div>
+            <div class="right">
+              <button class="tb-btn">Your Mirrors</button>
+              <div class="avatar">P</div>
+            </div>
+          </div>
+
+          <div class="stage-area">
+            <div class="stage-pad">
+              <div class="syncline">
+                <span
+                  >Fix a fact once and it updates in every version — these stay
+                  in sync with your Mirror.</span
+                >
+              </div>
+              <div class="shareshelf">
+                <!-- FOR THE CEO -->
+                <div class="docwrap">
+                  <div class="dochead">
+                    <div>
+                      <div class="eye">Share version · for the CEO</div>
+                      <div class="dt">
+                        Where I'm Taking Marketing With AI — and What Changes Now
+                      </div>
+                    </div>
+                  </div>
+                  <div class="provenance">
+                    Prepared for Marcus Hale · derived from your Mirror v2 · May
+                    2026
+                  </div>
+                  <div class="docbody">
+                    <p class="standfirst">
+                      Marcus — here's the plan, in plain terms, and the one
+                      decision I've made to back it.
+                    </p>
+                    <div class="truth">
+                      <p>
+                        <b>What I'm changing.</b> I'm naming a single owner for
+                        AI across marketing — a line on their goals, not a side
+                        project — and running one workflow end-to-end in public
+                        so the team can see it beat the old way.
+                      </p>
+                      <p>
+                        <b>Why now.</b> The efficiency target is real, and the
+                        fastest path to it isn't me working faster — it's twelve
+                        people working with permission they've been waiting for.
+                      </p>
+                    </div>
+                    <h3>The plan</h3>
+                    <p>
+                      I'll report the first result in four weeks: one workflow,
+                      old way versus new, in numbers you can take upstairs.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- FOR THE TEAM -->
+                <div class="docwrap">
+                  <div class="dochead">
+                    <div>
+                      <div class="eye">Share version · for your team</div>
+                      <div class="dt">
+                        Where We're Going With AI — and What I Need From You
+                      </div>
+                    </div>
+                  </div>
+                  <div class="provenance">
+                    Prepared for your team · derived from your Mirror v2 · May
+                    2026
+                  </div>
+                  <div class="docbody">
+                    <p class="standfirst">
+                      This is an invitation, not a memo. Here's where we're
+                      headed, and the part that's yours.
+                    </p>
+                    <div class="truth">
+                      <p>
+                        <b>What I'm asking.</b> I've been the bottleneck on AI —
+                        holding decisions I should have handed you. That stops.
+                        One of you will own this, and all of you have permission
+                        to build in the open.
+                      </p>
+                      <p>
+                        <b>Our commitment.</b> We pick one workflow, run it
+                        end-to-end together, and let the result speak. Bring me
+                        the friction — I'll clear it.
+                      </p>
+                    </div>
+                    <h3>Where you come in</h3>
+                    <p>
+                      Tell me which workflow you'd put first. The one you'd most
+                      like to never do by hand again — that's where we start.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ACT 2 · WELCOME BACK (continuity, not a dashboard) ============ -->
+    <section id="return" class="wrap screen">
+      <div class="head">
+        <div class="stage">
+          <span class="dot"></span
+          ><span class="label">Act 2 · Welcome back</span
+          ><span class="sub">five weeks later — Moe catches up</span>
+        </div>
+        <h2>Welcome back — Moe catches up. Continuity, not a dashboard.</h2>
+        <p class="why">
+          You return weeks later and there's no changelog, no metrics, no "since
+          your last visit" panel. Your May letter sits <b>quietly accessible</b>
+          as a single collapsed line — but the moment is Moe, who
+          <b>remembers what you were avoiding and asks how it went</b>. Progress
+          here is something you <b>tell him</b>, not something the product
+          measures or scrapes. It's a relationship picking back up.
+        </p>
+        <span class="tagline"
+          >Moe remembers and asks · progress is what you tell him · continuity,
+          not a dashboard</span
+        >
+      </div>
+
+      <div class="frame">
+        <div class="titlebar">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="url">
+            mirror.brilliantwith.ai &nbsp;·&nbsp; welcome back, Priya
+          </div>
+        </div>
+        <div class="app">
+          <div class="topbar">
+            <div class="moe">
+              <span class="mark"></span
+              ><span
+                ><span class="nm">Moe</span
+                ><span class="st">picking up where we left off</span></span
+              >
+            </div>
+            <div class="crumbs">·&nbsp; <b>Back after</b> · 5 weeks</div>
+            <div class="right">
+              <button class="tb-btn">Your Mirrors</button>
+              <div class="avatar">P</div>
+            </div>
+          </div>
+
+          <div class="stage-area">
+            <div class="convo solo">
+              <div class="thread center">
+                <div class="artifact-collapsed">
+                  <span class="acspine"></span>
+                  <div>
+                    <div class="ace">Your May Mirror</div>
+                    <div class="act-t">
+                      A Letter to Priya Raman, Who Is Running an AI Mandate…
+                    </div>
+                  </div>
+                  <span class="acopen">Open it →</span>
+                </div>
+
+                <div class="msg moe" style="margin-top: 22px">
+                  <div class="av"></div>
+                  <div class="col">
+                    <div class="bubble">
+                      <p>
+                        It's been five weeks, Priya. Last time, the whole thing
+                        was naming someone to own AI for marketing — and you were
+                        avoiding it. I've been holding that.
+                      </p>
+                      <p>How did it go?</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="msg you">
+                  <div class="col">
+                    <div class="bubble">
+                      Actually did it — named an owner, ran one workflow in
+                      public. It went better than I expected.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="msg moe">
+                  <div class="av"></div>
+                  <div class="col">
+                    <div class="bubble">
+                      <p>
+                        That's the thing you'd been circling for months. Tell me
+                        what happened — and then let's decide what this version
+                        of you needs next.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="composer">
+                <div class="vbox">
+                  <button class="mic" title="Tap to speak">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <rect x="9" y="2" width="6" height="12" rx="3" />
+                      <path d="M5 11a7 7 0 0 0 14 0M12 18v4" />
+                    </svg>
+                  </button>
+                  <div class="vfield">
+                    <div class="ph">Tell Moe how it went — or tap to type</div>
+                  </div>
+                  <button class="vtype" title="Type instead">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <rect x="2" y="6" width="20" height="13" rx="2" />
+                      <path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ACT 2 · OPTIONS (prefilled-locked + open mic) ============ -->
+    <section id="returnopts" class="wrap screen">
+      <div class="head">
+        <div class="stage">
+          <span class="dot"></span
+          ><span class="label">Act 2 · Options</span
+          ><span class="sub">you caught Moe up — now what?</span>
+        </div>
+        <h2>Options, prefilled and ready — plus the open mic.</h2>
+        <p class="why">
+          Once Moe knows where you are, he offers the moves that fit — each one
+          <b>already written and one tap from sending</b>, so guidance never
+          costs you a sentence. And right beneath them, the
+          <b>open mic</b>: when you'd rather think out loud than pick, just talk.
+          Both are always there. The product never makes you choose the guided
+          path.
+        </p>
+        <span class="tagline"
+          >One-tap tailored options · the open mic for thinking out loud · both
+          always available</span
+        >
+      </div>
+
+      <div class="frame">
+        <div class="titlebar">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="url">
+            mirror.brilliantwith.ai &nbsp;·&nbsp; what's next, Priya
+          </div>
+        </div>
+        <div class="app">
+          <div class="topbar">
+            <div class="moe">
+              <span class="mark"></span
+              ><span
+                ><span class="nm">Moe</span
+                ><span class="st">deciding what's next with you</span></span
+              >
+            </div>
+            <div class="crumbs">·&nbsp; <b>Back after</b> · 5 weeks</div>
+            <div class="right">
+              <button class="tb-btn">Your Mirrors</button>
+              <div class="avatar">P</div>
+            </div>
+          </div>
+
+          <div class="stage-area">
+            <div class="convo solo">
+              <div class="thread center">
+                <div class="msg you">
+                  <div class="col">
+                    <div class="bubble">
+                      The owner's running with it. I'm not sure what I should be
+                      working on now.
+                    </div>
+                  </div>
+                </div>
+                <div class="msg moe">
+                  <div class="av"></div>
+                  <div class="col">
+                    <div class="bubble">
+                      <p>
+                        Then let's mark the shift. Here are three places I'd go
+                        next — pick one, or just talk to me.
+                      </p>
+                    </div>
+                    <div class="optstack">
+                      <div class="vbox locked">
+                        <div class="vfield">
+                          <div class="typed">
+                            Write me a fresh Mirror that reflects where I am now.
+                          </div>
+                        </div>
+                        <button class="send">
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <path d="M5 12h14M13 6l6 6-6 6" />
+                          </svg>
+                        </button>
+                      </div>
+                      <div class="vbox locked">
+                        <div class="vfield">
+                          <div class="typed">
+                            Show me how I've changed since May.
+                          </div>
+                        </div>
+                        <button class="send">
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <path d="M5 12h14M13 6l6 6-6 6" />
+                          </svg>
+                        </button>
+                      </div>
+                      <div class="vbox locked">
+                        <div class="vfield">
+                          <div class="typed">
+                            Make a version to share the progress with my team.
+                          </div>
+                        </div>
+                        <button class="send">
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <path d="M5 12h14M13 6l6 6-6 6" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="lockrow">
+                      <span class="chip">⌶ prefilled · tap any to send</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="composer">
+                <div class="vbox">
+                  <button class="mic" title="Tap to speak">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <rect x="9" y="2" width="6" height="12" rx="3" />
+                      <path d="M5 11a7 7 0 0 0 14 0M12 18v4" />
+                    </svg>
+                  </button>
+                  <div class="vfield">
+                    <div class="ph">…or just talk to me</div>
+                  </div>
+                  <button class="vtype" title="Type instead">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <rect x="2" y="6" width="20" height="13" rx="2" />
+                      <path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ACT 2 · FRESH MIRROR (a new co-equal version) ============ -->
+    <section id="refresh" class="wrap screen">
+      <div class="head">
+        <div class="stage">
+          <span class="dot"></span
+          ><span class="label">Act 2 · Fresh Mirror</span
+          ><span class="sub">a new version reflecting where you are now</span>
+        </div>
+        <h2>A fresh Mirror that reflects where you are now.</h2>
+        <p class="why">
+          This is a <b>new, co-equal version</b> — the June Mirror — written the
+          same calm way as your first: <b>a section at a time</b>, with a
+          writing cursor and the same Next-when-you're-ready rhythm. Its voice
+          <b>acknowledges real movement</b>, because you reported it. It carries
+          a provenance stamp tying it to what's changed since May, and a quiet
+          link to see exactly how the two differ.
+        </p>
+        <span class="tagline"
+          >New version from your reported progress · same calm reveal · Moe
+          names the movement</span
+        >
+      </div>
+
+      <div class="frame">
+        <div class="titlebar">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="url">
+            mirror.brilliantwith.ai &nbsp;·&nbsp; your Mirror · June 2026
+          </div>
+        </div>
+        <div class="app">
+          <div class="topbar">
+            <div class="moe">
+              <span class="mark"></span
+              ><span
+                ><span class="nm">Moe</span
+                ><span class="st">writing your June Mirror…</span></span
+              >
+            </div>
+            <div class="crumbs">·&nbsp; <b>Your Mirror</b> · June 2026</div>
+            <div class="right">
+              <button class="tb-btn">Make a version to share</button>
+              <button class="tb-btn">Your Mirrors</button>
+              <div class="avatar">P</div>
+            </div>
+          </div>
+
+          <div class="stage-area">
+            <div class="convo docked">
+              <div class="thread">
+                <div class="msg moe">
+                  <div class="av"></div>
+                  <div class="col">
+                    <div class="bubble">
+                      <p>
+                        You did the thing you'd been avoiding, so this letter
+                        starts somewhere different. Same way as before — read it a
+                        piece at a time, and flag anything.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="msg you">
+                  <div class="col">
+                    <div class="bubble">
+                      It feels strange to not be the one doing it all.
+                    </div>
+                  </div>
+                </div>
+                <div class="msg moe">
+                  <div class="av"></div>
+                  <div class="col">
+                    <div class="bubble">
+                      <p>
+                        That strangeness is the new edge. Hold it — let me get it
+                        down, then we'll look at it.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="composer">
+                <div class="vbox">
+                  <button class="mic" title="Tap to speak">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <rect x="9" y="2" width="6" height="12" rx="3" />
+                      <path d="M5 11a7 7 0 0 0 14 0M12 18v4" />
+                    </svg>
+                  </button>
+                  <div class="vfield">
+                    <div class="ph">Flag a line as I write — I'll hold it</div>
+                  </div>
+                  <button class="vtype" title="Type instead">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <rect x="2" y="6" width="20" height="13" rx="2" />
+                      <path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="doc">
+              <div class="docwrap">
+                <div class="dochead">
+                  <div>
+                    <div class="eye">Your Mirror · June 2026</div>
+                    <div class="dt">
+                      A Letter to Priya Raman, Who Stopped Holding the Thing She
+                      Was Afraid to Hand Over
+                    </div>
+                  </div>
+                </div>
+                <div class="provenance">
+                  Refreshed June 2026 · reflects what's changed since your May
+                  Mirror
+                </div>
+                <div class="vbadge">
+                  <span class="v">Version 1</span> · being written ·
+                  <span class="nav">see how this differs from May</span>
+                </div>
+                <div class="docbody">
+                  <p class="standfirst">
+                    You did the thing you were avoiding. That changes the letter
+                    — and it's starting to change you.
+                  </p>
+                  <div class="truth">
+                    <p>
+                      <b>The truth.</b> You named an owner and ran a workflow in
+                      public, and the building didn't fall down — it sped up. The
+                      bottleneck wasn't the team's readiness. It was your grip.
+                    </p>
+                    <p>
+                      <b>Do this now.</b> Resist taking it back. The next test
+                      isn't whether AI works for marketing — you proved that. It's
+                      whether you can stay out of the workflow you just handed
+                      away.<span class="writing-caret"></span>
+                    </p>
+                  </div>
+                </div>
+                <div class="pacer">
+                  <button class="next">
+                    Next
+                    <svg
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </button>
+                  <span class="addnote">add a note</span>
+                  <span class="pcount">2 of 4 sections written</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ACT 2 · HOW I'VE CHANGED (qualitative, caveated) ============ -->
+    <section id="progression" class="wrap screen">
+      <div class="head">
+        <div class="stage">
+          <span class="dot"></span
+          ><span class="label">Act 2 · How I've changed</span
+          ><span class="sub">a reflection, honestly caveated</span>
+        </div>
+        <h2>How have I changed? — honest, caveated, no scores.</h2>
+        <p class="why">
+          No numbers, no percentages, no confidence meters, no dashboards. Moe
+          opens by saying exactly what this is — <b>what he's hearing across
+          your conversations, not a measurement</b> — and then lays out a few
+          honest <b>then → now</b> pairs, each grounded in something you
+          actually said and clear about what's inferred versus told. It reads
+          like a person who's been paying attention, not an analytics page.
+        </p>
+        <span class="tagline"
+          >Qualitative and caveated · grounded in your words · zero fake
+          confidence</span
+        >
+      </div>
+
+      <div class="frame">
+        <div class="titlebar">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="url">
+            mirror.brilliantwith.ai &nbsp;·&nbsp; how you've changed
+          </div>
+        </div>
+        <div class="app">
+          <div class="topbar">
+            <div class="moe">
+              <span class="mark"></span
+              ><span
+                ><span class="nm">Moe</span
+                ><span class="st">reflecting on what's changed</span></span
+              >
+            </div>
+            <div class="crumbs">·&nbsp; <b>May</b> → <b>June</b></div>
+            <div class="right">
+              <button class="tb-btn">Your Mirrors</button>
+              <div class="avatar">P</div>
+            </div>
+          </div>
+
+          <div class="stage-area">
+            <div class="stage-pad">
+              <div class="padhead">
+                <div class="pe">A reflection · May → June</div>
+                <h4>What I'm hearing has changed in you.</h4>
+              </div>
+              <div class="progwrap">
+                <div class="note">
+                  <b>Before you read this —</b>
+                  This is what I'm hearing across our conversations: a
+                  reflection, not a measurement. I don't have dashboards on you;
+                  I have your words.
+                </div>
+
+                <div class="thennow">
+                  <div class="tnpair">
+                    <div class="then">
+                      <div class="lbl">In May</div>
+                      <div class="body">
+                        You described delegation as something you'd "get to."
+                        <span class="src">— what you told me</span>
+                      </div>
+                    </div>
+                    <div class="now">
+                      <div class="lbl">Now</div>
+                      <div class="body">
+                        You'd named an owner and run a workflow in public.
+                        <span class="src">— what you told me</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tnpair">
+                    <div class="then">
+                      <div class="lbl">In May</div>
+                      <div class="body">
+                        You called "no owner" bottom-up adoption — naming it as
+                        weather, not a decision.
+                        <span class="src">— what you told me</span>
+                      </div>
+                    </div>
+                    <div class="now">
+                      <div class="lbl">Now</div>
+                      <div class="body">
+                        You're talking about it as a choice you made and can
+                        defend.
+                        <span class="src">— what I'm inferring from how you
+                          said it</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tnpair">
+                    <div class="then">
+                      <div class="lbl">In May</div>
+                      <div class="body">
+                        The hard part was admitting you were the bottleneck.
+                        <span class="src">— what you told me</span>
+                      </div>
+                    </div>
+                    <div class="now">
+                      <div class="lbl">Now</div>
+                      <div class="body">
+                        The hard part is staying out of the work you handed away —
+                        it "feels strange not to be the one doing it all."
+                        <span class="src">— your words, this week</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="note challenge">
+                  <b>Where I'd be careful —</b>
+                  I'm hearing momentum, not proof. One workflow in public isn't a
+                  changed org yet, and the pull to take it back is strongest right
+                  after it works. I'll keep watching for that with you.
+                </div>
+
+                <div class="moe-sig">
+                  This is what I see. Tell me where I've got you wrong — I'll
+                  trust your read over mine.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ACT 2 · LIBRARY (dated Mirrors over time) ============ -->
+    <section id="library" class="wrap screen">
+      <div class="head">
+        <div class="stage">
+          <span class="dot"></span
+          ><span class="label">Act 2 · Library</span
+          ><span class="sub">your Mirrors over time</span>
+        </div>
+        <h2>Your library — dated Mirrors over time.</h2>
+        <p class="why">
+          Every Mirror you've made is here, <b>dated and co-equal</b>, with its
+          <b>share versions nested underneath</b>. A newer Mirror doesn't
+          replace an older one — it <b>supersedes</b> it. Nothing is deleted;
+          your May letter is history, not trash. This is how you watch yourself
+          move: not a score going up, but a <b>shelf of letters</b> you can open
+          any time.
+        </p>
+        <span class="tagline"
+          >Dated, co-equal Mirrors · share versions nested · supersede, never
+          delete</span
+        >
+      </div>
+
+      <div class="frame">
+        <div class="titlebar">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="url">
+            mirror.brilliantwith.ai &nbsp;·&nbsp; your Mirrors
+          </div>
+        </div>
+        <div class="app">
+          <div class="topbar">
+            <div class="moe">
+              <span class="mark"></span
+              ><span
+                ><span class="nm">Moe</span
+                ><span class="st">everything you've made, kept</span></span
+              >
+            </div>
+            <div class="crumbs">·&nbsp; <b>Your Mirrors</b> · 2 letters</div>
+            <div class="right">
+              <button class="tb-btn solid">Start a new Mirror</button>
+              <div class="avatar">P</div>
+            </div>
+          </div>
+
+          <div class="stage-area">
+            <div class="stage-pad">
+              <div class="library">
+                <!-- JUNE (current) -->
+                <div class="mirrorcard">
+                  <div class="mc-head">
+                    <span class="mc-date">June 2026</span>
+                    <span class="mc-cur">Current</span>
+                  </div>
+                  <div class="mc-title">
+                    A Letter to Priya Raman, Who Stopped Holding the Thing She
+                    Was Afraid to Hand Over
+                  </div>
+                  <div class="mc-meta">Version 1 · refreshed this month</div>
+                  <div class="mc-shares">
+                    <span class="sh-eye">Versions to share</span>
+                    <div class="share-sub">
+                      <span class="ssbranch">↳</span>
+                      <span>For <b>your team</b> — the progress update</span>
+                      <span class="ssdate">June 2026</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- MAY (history) -->
+                <div class="mirrorcard past">
+                  <div class="mc-head">
+                    <span class="mc-date">May 2026</span>
+                  </div>
+                  <div class="mc-title">
+                    A Letter to Priya Raman, Who Is Running an AI Mandate She Has
+                    Not Yet Decided to Lead
+                  </div>
+                  <div class="mc-meta">Version 2 · your first Mirror</div>
+                  <div class="mc-shares">
+                    <span class="sh-eye">Versions to share</span>
+                    <div class="share-sub">
+                      <span class="ssbranch">↳</span>
+                      <span>For <b>Marcus Hale</b> (your CEO)</span>
+                      <span class="ssdate">May 2026</span>
+                    </div>
+                    <div class="share-sub">
+                      <span class="ssbranch">↳</span>
+                      <span>For <b>your team</b> — the invitation</span>
+                      <span class="ssdate">May 2026</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="newmirror">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M12 5v14M5 12h14" />
+                  </svg>
+                  Start a new Mirror
+                </div>
+              </div>
+              <div class="libnote">
+                Nothing here is ever deleted. A new Mirror supersedes the last —
+                older letters stay, dated, as your history.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ SCREEN 4: THE VOICE COMPOSER ============ -->
     <section id="s4" class="wrap screen">
       <div class="head">
@@ -2053,36 +4232,39 @@
       </div>
     </section>
 
-    <!-- CALLOUT / NEXT -->
-    <section id="next" class="wrap">
+    <!-- CALLOUT / CLOSE -->
+    <section id="close" class="wrap">
       <div class="callout">
-        <div class="eyebrow">If this feel is right</div>
-        <h2>I'll build the full end-to-end journey in this direction.</h2>
+        <div class="eyebrow">The complete journey</div>
+        <h2>This is the whole arc, end to end — in one warm language.</h2>
         <p>
-          These screens are the hardest moments. Once you sign off on the feel,
-          the rest follows in the same language: report writing &amp;
-          failure-retry states, the share picker and provenance-stamped
-          versions, the return experience with its recap, and the library + "how
-          have I changed?" progression.
+          From the first finish to a month later: Moe greets you, writes the
+          letter at your pace, recovers gracefully if it drops, redraws only on
+          agreement, makes provenance-stamped versions for the people you name —
+          and when you come back, remembers what you were avoiding, asks how it
+          went, and writes the next version of you. One conversation, one
+          document-as-artifact, one Moe who stays. If the feel is right, this is
+          the direction we build.
         </p>
         <div class="q">
-          <span>Coming next · Report writing / retry</span>
-          <span>Share → target versions</span>
-          <span>Return + recap</span>
-          <span>Library + progression</span>
+          <span>Act 1 · finishing your first Mirror</span>
+          <span>Act 2 · returning a month later</span>
+          <span>Conversation-led · document-as-artifact</span>
+          <span>Moe always present</span>
         </div>
       </div>
     </section>
 
     <footer>
       <div>
-        <b>Mirror redesign — proposal v1.</b> Static, non-interactive mockups
-        for sign-off on the target experience. Issue #706.
+        <b>Mirror redesign — proposal v1.</b> The complete end-to-end journey as
+        static, non-interactive mockups for sign-off on the target experience.
+        Issue #706.
       </div>
       <div class="legend">
         <span>Conversation-led</span><span>Document-as-artifact</span
         ><span>Moe always present</span><span>Design-system aligned chat</span
-        ><span>Voice-first composer</span>
+        ><span>Voice-first composer</span><span>Two acts · full journey</span>
       </div>
     </footer>
     <script>
