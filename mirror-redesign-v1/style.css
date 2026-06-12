@@ -2493,3 +2493,1612 @@
     text-align: center;
   }
 }
+
+      /* ============ ACT 4 — months in (end-state, visualized) ============ */
+
+      /* act 4 · daythirty */
+/* ============ ACT 4 · DAY THIRTY — the honest threshold, inside the surface ============ */
+/* The day the included thirty days end. Rendered as one assistant turn in
+         the conversation she's always used — never a paywall modal. Four beats:
+         what stays hers (free, forever) · what pauses (proactive guidance only) ·
+         continue-the-relationship offer (no price) · a respectful not-now path.
+         All built from the locked v2 language — .convo.solo / .thread.center /
+         .msg.moe / .bubble / .composer carry the frame; these dt- blocks are the
+         turn's content. */
+
+/* a content block inside the turn — quiet card, echoes .note's spine idiom */
+.dt-block {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--raised);
+  box-shadow: var(--shadow-card);
+  padding: 16px 18px;
+  margin-top: 4px;
+}
+.dt-bhead {
+  margin-bottom: 10px;
+}
+.dt-bk {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 5px 11px;
+}
+.dt-bk::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+/* (a) what stays — evergreen, the reassuring beat */
+.dt-block.dt-stays {
+  border-color: rgba(31, 92, 61, 0.3);
+  background: linear-gradient(var(--green-faint), var(--raised));
+}
+.dt-bk-stays {
+  color: var(--green-deep);
+  background: var(--green-soft);
+}
+.dt-bk-stays::before {
+  background: var(--green);
+}
+/* (b) what pauses — amber/emphasis, the honest beat (warning, not alarm) */
+.dt-bk-pauses {
+  color: var(--amber);
+  background: var(--amber-soft);
+}
+.dt-bk-pauses::before {
+  background: var(--amber);
+}
+
+/* the lists in both blocks — plain, readable, her own categories */
+.dt-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+.dt-list li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.dt-list li b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.dt-list li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+}
+.dt-list-pause li::before {
+  background: var(--amber);
+}
+
+.dt-pintro {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  margin-bottom: 11px;
+}
+.dt-pintro b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.dt-pintro em {
+  font-style: italic;
+}
+.dt-keepsline {
+  margin-top: 12px;
+  padding-top: 11px;
+  border-top: 1px solid var(--line);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  font-style: italic;
+}
+
+/* (c) the continuation offer — continuing the relationship, never renting history.
+         Quietly elevated, evergreen, but no price anywhere. */
+.dt-offer {
+  margin-top: 4px;
+  border: 1px solid rgba(31, 92, 61, 0.34);
+  border-radius: 16px;
+  background: linear-gradient(var(--green-faint), var(--raised));
+  box-shadow: var(--shadow-pop);
+  padding: 20px 22px;
+}
+.dt-okhead {
+  margin-bottom: 2px;
+}
+.dt-okeye {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green-deep);
+}
+.dt-oktitle {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-top: 5px;
+  max-width: 34ch;
+}
+.dt-okbody {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  margin-top: 11px;
+  max-width: 60ch;
+}
+.dt-okcta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.dt-okbtn {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 15px;
+  background: var(--green);
+  color: #fcfaf5;
+  border: none;
+  border-radius: 13px;
+  padding: 13px 22px;
+  cursor: pointer;
+  box-shadow: var(--shadow-pop);
+}
+.dt-okbtn:hover {
+  background: var(--green-deep);
+}
+.dt-oknote {
+  font-size: 13px;
+  color: var(--ink-3);
+}
+/* the open-business-item annotation chip — pricing is not shown, and that's on purpose */
+.dt-pricing {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+.dt-pricing b {
+  color: var(--ink-2);
+  font-weight: 600;
+}
+.dt-pd {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--amber);
+  flex: 0 0 auto;
+  margin-top: 5px;
+}
+
+/* (d) the respectful not-now path — calm, no penalty, door stays open */
+.dt-notnow {
+  margin-top: 4px;
+  border-left: 3px solid var(--green);
+  background: var(--green-faint);
+  border-radius: 0 12px 12px 0;
+  padding: 14px 16px;
+}
+.dt-nnk {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--green-deep);
+  margin-bottom: 6px;
+}
+.dt-nntext {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.dt-nnrow {
+  margin-top: 12px;
+}
+.dt-nnlink {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--green-deep);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.dt-nnlink:hover {
+  color: var(--green);
+}
+
+@media (max-width: 600px) {
+  .dt-block,
+  .dt-offer {
+    padding: 14px 15px;
+  }
+  .dt-oktitle {
+    font-size: 18.5px;
+  }
+  .dt-okbtn {
+    width: 100%;
+    text-align: center;
+  }
+  .dt-okcta {
+    gap: 12px;
+  }
+}
+
+      /* act 4 · homebase */
+/* ============ ACT 4 · HOME BASE — months in, organized around work ============ */
+/* The workspace home, long-relationship state. Reuses the app chrome
+         (.frame/.app/.topbar/.moe/.stage-pad/.padhead) and the home-card spine
+         language from Act 3 (.rr-card). Everything new here is hb-prefixed. */
+
+/* the assistant as ambient entry point — woven across the top of the page,
+         not a tile. Carries the Moe mark, but reads as a calm open mic + entry. */
+.hb-ask {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 760px;
+  margin: 0 auto 22px;
+  width: 100%;
+  background: linear-gradient(var(--green-faint), var(--raised));
+  border: 1px solid rgba(31, 92, 61, 0.22);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  padding: 16px 18px;
+}
+.hb-ask-mk {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  background: radial-gradient(circle at 35% 30%, #2f7d56, var(--green-deep));
+  position: relative;
+  box-shadow: 0 2px 8px -3px rgba(31, 92, 61, 0.5);
+}
+.hb-ask-mk::after {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(252, 250, 245, 0.92);
+  border-right-color: transparent;
+  transform: rotate(28deg);
+}
+.hb-ask-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.hb-ask-line {
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+.hb-ask-line b {
+  font-weight: 600;
+  color: var(--green-deep);
+}
+.hb-ask-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 9px;
+}
+.hb-ask-chip {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  background: rgba(252, 250, 245, 0.7);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: 0.15s;
+}
+.hb-ask-chip:hover {
+  border-color: rgba(31, 92, 61, 0.3);
+  color: var(--green-deep);
+}
+.hb-ask-mic {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  flex: 0 0 auto;
+  align-self: center;
+  background: var(--green);
+  color: #fcfaf5;
+  display: grid;
+  place-items: center;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 10px -3px rgba(31, 92, 61, 0.55);
+}
+.hb-ask-mic svg {
+  width: 19px;
+  height: 19px;
+}
+
+/* a labelled band — "Active work" */
+.hb-section {
+  max-width: 760px;
+  margin: 0 auto;
+  width: 100%;
+}
+.hb-sec-eye {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green-deep);
+  margin: 6px 2px 12px;
+}
+.hb-work {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* an area of active work — echoes .rr-card's spine + raised-card language */
+.hb-area {
+  position: relative;
+  overflow: hidden;
+  background: var(--raised);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  padding: 18px 20px 16px 20px;
+  transition: 0.15s;
+}
+.hb-area:hover {
+  border-color: var(--line-2);
+  box-shadow: var(--shadow-pop);
+}
+.hb-area-spine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--green);
+  flex: 0 0 auto;
+}
+.hb-area.hb-cool .hb-area-spine {
+  background: var(--line-2);
+}
+.hb-area-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.hb-area-eye {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green-deep);
+}
+.hb-area.hb-cool .hb-area-eye {
+  color: var(--ink-3);
+}
+.hb-area-title {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+  margin-top: 5px;
+  max-width: 50ch;
+  color: var(--ink);
+}
+
+/* temperature pill — Active / Picking back up / Parked */
+.hb-temp {
+  margin-left: auto;
+  flex: 0 0 auto;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 4px 11px;
+  white-space: nowrap;
+}
+.hb-hot {
+  color: var(--green-deep);
+  background: var(--green-soft);
+}
+.hb-warm {
+  color: var(--amber);
+  background: var(--amber-soft);
+}
+.hb-cold {
+  color: var(--ink-3);
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+}
+
+/* the exact-step resume row — the heart of the card */
+.hb-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+  padding: 13px 15px;
+  background: var(--green-faint);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--green);
+  border-radius: 0 12px 12px 0;
+}
+.hb-area.hb-cool .hb-step {
+  background: var(--paper-2);
+  border-left-color: var(--line-2);
+}
+.hb-step-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  background: var(--green);
+  box-shadow: 0 0 0 0 rgba(31, 92, 61, 0.4);
+  animation: hb-pulse 2.4s infinite;
+}
+.hb-area.hb-cool .hb-step-dot {
+  background: var(--line-2);
+  animation: none;
+}
+@keyframes hb-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(31, 92, 61, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 7px rgba(31, 92, 61, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(31, 92, 61, 0);
+  }
+}
+.hb-step-body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.hb-step-state {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.hb-step-where {
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.45;
+}
+.hb-resume {
+  flex: 0 0 auto;
+  align-self: center;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 13.5px;
+  background: var(--green);
+  color: #fcfaf5;
+  border: none;
+  border-radius: 11px;
+  padding: 10px 16px;
+  cursor: pointer;
+  box-shadow: var(--shadow-pop);
+  white-space: nowrap;
+}
+.hb-resume:hover {
+  background: var(--green-deep);
+}
+.hb-resume.hb-resume-quiet {
+  background: transparent;
+  color: var(--green-deep);
+  border: 1px solid var(--line-2);
+  box-shadow: none;
+}
+.hb-resume.hb-resume-quiet:hover {
+  border-color: var(--green);
+  background: var(--green-faint);
+}
+
+/* card foot — open loops + the work assets that live in this area */
+.hb-area-foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 13px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.hb-area-foot .hb-loop {
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.hb-area-foot .hb-arts {
+  margin-left: auto;
+  color: var(--ink-3);
+}
+
+/* a future tool, surfacing INSIDE a work area (never a tool grid) */
+.hb-tool {
+  display: flex;
+  gap: 13px;
+  align-items: flex-start;
+  margin-top: 12px;
+  padding: 13px 15px;
+  background: var(--raised);
+  border: 1px dashed var(--line-2);
+  border-radius: 13px;
+}
+.hb-tool-mk {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  margin-top: 1px;
+  background: radial-gradient(circle at 35% 30%, #2f7d56, var(--green-deep));
+  position: relative;
+  box-shadow: 0 2px 7px -3px rgba(31, 92, 61, 0.5);
+}
+.hb-tool-mk::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  border: 1.3px solid rgba(252, 250, 245, 0.92);
+  border-right-color: transparent;
+  transform: rotate(28deg);
+}
+.hb-tool-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.hb-tool-eye {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--green-deep);
+  margin-bottom: 5px;
+}
+.hb-tool-line {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.hb-tool-line b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.hb-tool-go {
+  margin-top: 10px;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--green-deep);
+  background: var(--green-soft);
+  border: none;
+  border-radius: 9px;
+  padding: 8px 13px;
+  cursor: pointer;
+}
+.hb-tool-go:hover {
+  background: rgba(31, 92, 61, 0.16);
+}
+
+/* the quiet ceremony suggestion — a new Mirror may be due, with a why-line.
+         Sits below active work, deliberately calmer than the Act 3 hero. */
+.hb-ceremony {
+  position: relative;
+  overflow: hidden;
+  max-width: 760px;
+  margin: 22px auto 0;
+  width: 100%;
+  background: linear-gradient(var(--green-faint), var(--raised));
+  border: 1px solid rgba(31, 92, 61, 0.26);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  padding: 20px 22px 20px 22px;
+}
+.hb-cer-spine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--green);
+}
+.hb-cer-eye {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green-deep);
+}
+.hb-cer-title {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  margin-top: 5px;
+  color: var(--ink);
+}
+.hb-cer-lede {
+  font-size: 14.5px;
+  color: var(--ink-2);
+  line-height: 1.55;
+  margin-top: 9px;
+  max-width: 64ch;
+}
+.hb-cer-cta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.hb-cer-begin {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 14.5px;
+  background: var(--green);
+  color: #fcfaf5;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 20px;
+  cursor: pointer;
+  box-shadow: var(--shadow-pop);
+}
+.hb-cer-begin:hover {
+  background: var(--green-deep);
+}
+.hb-cer-later {
+  font-size: 13.5px;
+  color: var(--ink-3);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.hb-cer-later:hover {
+  color: var(--ink-2);
+}
+/* the explainable why — same idiom as Act 3's .ci-why nudge row */
+.hb-cer-why {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+.hb-cer-why b {
+  color: var(--ink-2);
+  font-weight: 600;
+}
+.hb-cer-wd {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  flex: 0 0 auto;
+  margin-top: 5px;
+  opacity: 0.7;
+}
+
+/* a quiet closing line — the archive exists, but home opens on work */
+.hb-footnote {
+  max-width: 760px;
+  margin: 18px auto 0;
+  width: 100%;
+  font-size: 12.5px;
+  color: var(--ink-3);
+  text-align: center;
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .hb-ask {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px 14px;
+  }
+  .hb-ask-mic {
+    order: 2;
+  }
+  .hb-area {
+    padding: 16px 16px 14px 16px;
+  }
+  .hb-area-head {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .hb-temp {
+    margin-left: 0;
+  }
+  .hb-step {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .hb-resume {
+    width: 100%;
+    text-align: center;
+  }
+  .hb-area-foot .hb-arts {
+    margin-left: 0;
+    width: 100%;
+  }
+  .hb-tool {
+    padding: 12px 13px;
+  }
+  .hb-ceremony {
+    padding: 18px 16px;
+  }
+  .hb-cer-title {
+    font-size: 19px;
+  }
+  .hb-cer-begin {
+    width: 100%;
+    text-align: center;
+  }
+  .hb-cer-later {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+      /* act 4 · profile */
+/* ============ ACT 4 · LEADERSHIP PROFILE — the profile, made inspectable ============ */
+/* the profile is the product's center: one plain-language document Priya can
+         open and read, every line carrying where it came from. Built on the existing
+         .stage-pad / .padhead chrome; everything below is profile-specific. */
+
+/* the document column — a single readable foundation, not a dashboard */
+.lp-doc {
+  max-width: 760px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* legend — provenance is the whole point, so name the four stamps up front */
+.lp-legend {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  padding: 13px 16px;
+  background: rgba(252, 250, 245, 0.55);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+.lp-legtail {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  margin-left: auto;
+}
+
+/* the provenance chip — small evergreen stamp, four variants */
+.lp-prov {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 4px 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+.lp-prov::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+/* told = direct from her words (evergreen, the most grounded) */
+.lp-told {
+  color: var(--green-deep);
+  background: var(--green-soft);
+}
+.lp-told::before {
+  background: var(--green);
+}
+/* confirmed = she agreed when it was said back (evergreen, hollow dot) */
+.lp-confirmed {
+  color: var(--green-deep);
+  background: var(--green-faint);
+}
+.lp-confirmed::before {
+  background: transparent;
+  border: 1.5px solid var(--green);
+  width: 7px;
+  height: 7px;
+}
+/* inferred = a read it made (amber — emphasis it's a guess, not gospel) */
+.lp-inferred {
+  color: var(--amber);
+  background: var(--amber-soft);
+}
+.lp-inferred::before {
+  background: var(--amber);
+}
+/* her correction = the strongest claim of all (ink — her own hand) */
+.lp-yours {
+  color: #f3eee4;
+  background: var(--ink);
+}
+.lp-yours::before {
+  background: #f3eee4;
+}
+
+/* a sensibly-grouped section: working style · current focus · growth edges */
+.lp-group {
+  background: var(--raised);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  padding: 4px 22px 8px;
+  position: relative;
+  overflow: hidden;
+}
+.lp-group::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--green);
+}
+.lp-ghead {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 18px 0 14px;
+  border-bottom: 1px solid var(--line);
+}
+.lp-gname {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.lp-gnote {
+  font-size: 12.5px;
+  color: var(--ink-3);
+}
+
+/* one assumption: claim on top, provenance footer beneath */
+.lp-line {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.lp-line:last-child {
+  border-bottom: none;
+}
+.lp-claim {
+  font-family: var(--display);
+  font-weight: 330;
+  font-size: 16.5px;
+  line-height: 1.55;
+  color: #221f1a;
+}
+.lp-claim em {
+  font-style: italic;
+}
+.lp-foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 11px;
+}
+.lp-src {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  line-height: 1.45;
+  font-style: italic;
+}
+/* "Why do you think that?" — the inspectability affordance, quiet evergreen */
+.lp-ask {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--green-deep);
+  background: var(--green-soft);
+  border-radius: 999px;
+  padding: 4px 11px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.lp-ask:hover {
+  background: rgba(31, 92, 61, 0.16);
+}
+
+/* (d) where this assumption is READ — which surfaces use it */
+.lp-readers {
+  margin-top: 14px;
+  padding: 13px 15px;
+  background: var(--green-faint);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--green);
+  border-radius: 0 12px 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+.lp-readers-k {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--green-deep);
+  flex: 0 0 auto;
+}
+.lp-reader {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  background: var(--raised);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 11px;
+  white-space: nowrap;
+}
+.lp-readers-off {
+  font-size: 12px;
+  color: var(--ink-3);
+  font-style: italic;
+  width: 100%;
+  margin-top: 2px;
+}
+
+/* (b) DIRECT CORRECTION — her edit visibly outranks the inference */
+.lp-corrected {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin: 6px 0;
+}
+.lp-was-eye {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  margin-bottom: 5px;
+}
+/* the struck inference — visibly retired, the system's old guess */
+.lp-struck {
+  text-decoration: line-through;
+  text-decoration-color: var(--ink-4);
+  color: var(--ink-3);
+  font-style: italic;
+}
+.lp-foot-was {
+  opacity: 0.7;
+}
+/* her correction, standing — elevated, ink-spined, the winning claim */
+.lp-stands {
+  margin-top: 14px;
+  padding: 14px 16px;
+  background: var(--raised);
+  border: 1px solid var(--line-2);
+  border-left: 3px solid var(--ink);
+  border-radius: 0 12px 12px 0;
+  box-shadow: var(--shadow-card);
+}
+.lp-stands-eye {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.lp-claim-now {
+  font-style: italic;
+  color: var(--ink);
+}
+
+/* (c) PROTECTED CATEGORIES — visibly walled off */
+.lp-walled {
+  background: var(--raised);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  padding: 22px 24px;
+  position: relative;
+  overflow: hidden;
+  /* a quiet diagonal hatch to read as "sealed", not just another card */
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 13px,
+    rgba(28, 26, 23, 0.022) 13px,
+    rgba(28, 26, 23, 0.022) 14px
+  );
+}
+.lp-walled::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--ink);
+}
+.lp-wall-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.lp-lock {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  flex: 0 0 auto;
+  background: var(--ink);
+  position: relative;
+}
+/* a small drawn padlock — shackle + body, no image */
+.lp-lock::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 11px;
+  border: 2px solid rgba(244, 239, 230, 0.92);
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+}
+.lp-lock::after {
+  content: "";
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 11px;
+  border-radius: 3px;
+  background: rgba(244, 239, 230, 0.92);
+}
+.lp-wall-eye {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.lp-wall-title {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.28;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-top: 5px;
+  max-width: 52ch;
+}
+.lp-wall-cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin: 16px 0 4px;
+}
+.lp-cat {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+  background: var(--paper-2);
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  padding: 6px 14px 6px 28px;
+  position: relative;
+  white-space: nowrap;
+}
+/* each protected category carries its own little lock dot */
+.lp-cat::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--ink-3);
+  box-shadow: 0 -3px 0 -1px var(--ink-3);
+}
+.lp-wall-foot {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  max-width: 70ch;
+}
+.lp-wall-foot b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* the closing inspectability promise */
+.lp-footline {
+  font-size: 13px;
+  color: var(--ink-3);
+  line-height: 1.55;
+  text-align: center;
+  max-width: 64ch;
+  margin: 4px auto 0;
+}
+.lp-footline em {
+  font-style: italic;
+  color: var(--ink-2);
+}
+
+@media (max-width: 600px) {
+  .lp-doc {
+    gap: 16px;
+  }
+  .lp-legend {
+    gap: 7px;
+    padding: 12px 14px;
+  }
+  .lp-legtail {
+    margin-left: 0;
+    width: 100%;
+    margin-top: 2px;
+  }
+  .lp-group {
+    padding: 4px 16px 6px;
+  }
+  .lp-gname {
+    font-size: 17.5px;
+  }
+  .lp-claim {
+    font-size: 16px;
+  }
+  .lp-corrected {
+    padding: 14px 14px;
+  }
+  .lp-walled {
+    padding: 18px 16px;
+  }
+  .lp-wall-title {
+    font-size: 16.5px;
+  }
+}
+
+      /* act 4 · boundary */
+/* ============ ACT 4 · THE BOUNDARY — personal ownership vs what an employer sees ============ */
+/* two stacked zones across one line: the personal zone (hers forever) and the
+         crossing zone (only what she chose to share). Reuses the gallery's spine + card
+         language; everything here is pb-prefixed and self-contained. */
+.pb-board {
+  max-width: 760px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* a zone = a labelled region of the board */
+.pb-zone {
+  border-radius: var(--r-lg);
+  border: 1px solid var(--line);
+  padding: 20px 22px 22px;
+  position: relative;
+  overflow: hidden;
+}
+.pb-yours {
+  background: linear-gradient(var(--green-faint), var(--raised));
+  border-color: rgba(31, 92, 61, 0.26);
+}
+.pb-crossed {
+  background: var(--raised);
+}
+.pb-zone::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+.pb-yours::before {
+  background: var(--green);
+}
+.pb-crossed::before {
+  background: linear-gradient(90deg, var(--green), var(--amber));
+}
+
+/* zone header */
+.pb-zhead {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.pb-ztag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 4px 11px;
+}
+.pb-ztag-yours {
+  color: var(--green-deep);
+  background: var(--green-soft);
+}
+.pb-ztag-crossed {
+  color: var(--amber);
+  background: var(--amber-soft);
+}
+.pb-zsub {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  line-height: 1.45;
+}
+
+/* owned items — a tight grid of what stays home */
+.pb-owns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.pb-own {
+  display: flex;
+  gap: 13px;
+  background: var(--raised);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-card);
+  padding: 14px 15px 14px 13px;
+  position: relative;
+  overflow: hidden;
+}
+.pb-ospine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--green);
+  flex: 0 0 auto;
+}
+.pb-obody {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-left: 6px;
+}
+.pb-oe {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--green-deep);
+}
+.pb-ot {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+  margin-top: 4px;
+  color: var(--ink);
+}
+.pb-om {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  line-height: 1.5;
+  margin-top: 6px;
+}
+
+/* the never-crosses list — protected categories + the redaction-line rule */
+.pb-never {
+  margin-top: 16px;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 15px 17px 16px;
+}
+.pb-never-h {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.pb-lock {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  color: var(--green-deep);
+  background: var(--green-soft);
+}
+.pb-lock svg {
+  width: 14px;
+  height: 14px;
+}
+.pb-never-list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.pb-never-list li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.pb-never-list li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 8px;
+  width: 8px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--rose);
+}
+.pb-never-list li b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.pb-never-rule {
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line-2);
+}
+.pb-never-rule::before {
+  background: var(--green);
+  top: 20px;
+}
+.pb-never-rule b {
+  color: var(--green-deep);
+}
+
+/* THE LINE — the explicit, controllable boundary between the two zones */
+.pb-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0;
+  padding: 16px 8px;
+}
+.pb-line-rail {
+  flex: 1 1 auto;
+  height: 2px;
+  border-radius: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--line-2) 0,
+    var(--line-2) 7px,
+    transparent 7px,
+    transparent 13px
+  );
+}
+.pb-line-tag {
+  flex: 0 0 auto;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green-deep);
+  background: var(--green-soft);
+  border-radius: 999px;
+  padding: 5px 13px;
+}
+.pb-line-note {
+  flex: 0 0 auto;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+/* the one shared artifact, with its full state line */
+.pb-shared {
+  display: flex;
+  gap: 0;
+  background: var(--raised);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+.pb-shared-spine {
+  width: 5px;
+  align-self: stretch;
+  flex: 0 0 auto;
+  background: linear-gradient(var(--green), var(--amber));
+}
+.pb-shared-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 16px 18px 16px 17px;
+}
+.pb-shared-eye {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.pb-shared-t {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin-top: 4px;
+  color: var(--ink);
+  max-width: 40ch;
+}
+.pb-shared-prov {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  line-height: 1.5;
+  margin-top: 6px;
+}
+.pb-shared-state {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 13px;
+  padding-top: 13px;
+  border-top: 1px solid var(--line);
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+.pb-state-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--green-soft);
+  color: var(--green-deep);
+  border-radius: 999px;
+  padding: 4px 11px;
+  font-weight: 600;
+}
+.pb-state-chip b {
+  font-weight: 700;
+}
+.pb-state-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  flex: 0 0 auto;
+}
+.pb-state-sep {
+  color: var(--ink-4);
+}
+.pb-state-version {
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.pb-revoke {
+  font-weight: 600;
+  color: var(--rose);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.pb-revoke:hover {
+  color: var(--ink);
+}
+
+.pb-crossed-foot {
+  margin-top: 14px;
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--ink-3);
+  line-height: 1.5;
+}
+
+/* the closing promise line */
+.pb-coda {
+  max-width: 760px;
+  margin: 18px auto 0;
+  width: 100%;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  background: var(--green-faint);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--green);
+  border-radius: 0 12px 12px 0;
+  padding: 14px 18px;
+}
+.pb-coda-k {
+  font-weight: 700;
+  font-size: 10.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--green-deep);
+  margin-right: 8px;
+}
+
+@media (max-width: 760px) {
+  .pb-owns {
+    grid-template-columns: 1fr;
+  }
+  .pb-line {
+    flex-wrap: wrap;
+  }
+  .pb-line-rail {
+    flex-basis: 100%;
+  }
+}
+@media (max-width: 600px) {
+  .pb-zone {
+    padding: 16px 16px 18px;
+  }
+  .pb-shared-t {
+    font-size: 16.5px;
+  }
+}
