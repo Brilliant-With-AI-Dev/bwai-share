@@ -768,6 +768,52 @@
           animation: none;
         }
       }
+      /* ===== real-browser-window scroll: chrome stays, content scrolls inside ===== */
+      .frame {
+        display: flex;
+        flex-direction: column;
+        height: clamp(500px, 78vh, 880px);
+        margin-bottom: 44px;
+      }
+      .frame .titlebar {
+        flex: 0 0 auto;
+      }
+      .app {
+        display: block;
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+        overscroll-behavior: contain;
+      }
+      .app > .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 6;
+        background: rgba(252, 250, 245, 0.92);
+        backdrop-filter: saturate(1.1) blur(8px);
+        -webkit-backdrop-filter: saturate(1.1) blur(8px);
+      }
+      .app::-webkit-scrollbar {
+        width: 12px;
+      }
+      .app::-webkit-scrollbar-thumb {
+        background: var(--line-2);
+        border-radius: 999px;
+        border: 3px solid var(--paper);
+      }
+      .app::-webkit-scrollbar-thumb:hover {
+        background: var(--ink-3);
+      }
+      .app::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .app {
+          scroll-behavior: auto;
+        }
+      }
     </style>
   </head>
   <body>
