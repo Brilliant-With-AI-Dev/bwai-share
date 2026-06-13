@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mirror redesign — Option C · Inline assistant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Outfit:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/mirror-redesign-v1/style.css" />
+    <style>
+      /* ============ OPTION C — inline-in-place assistant answer ============ */
+      /* All new classes prefixed ex-. Reuses existing tokens only; no :root. */
+
+      /* one-line caption strip under the gallery nav */
+      .ex-caption {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 18px 32px 0;
+        font-size: 14px;
+        line-height: 1.55;
+        color: var(--ink-2);
+      }
+      .ex-caption b {
+        color: var(--green-deep);
+        font-weight: 600;
+      }
+
+      /* the ambient strip's composer carries Priya's question, aimed at a card.
+         Extends .hb-ask language: same green-faint band, but in an "asked" state. */
+      .ex-asked {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+      }
+      .ex-asked-q {
+        align-self: flex-start;
+        max-width: 92%;
+        font-size: 14px;
+        line-height: 1.45;
+        color: #f3eee4;
+        background: var(--ink);
+        border: 1px solid var(--ink);
+        border-radius: 14px 14px 14px 5px;
+        padding: 9px 14px;
+      }
+      .ex-asked-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: var(--ink-3);
+      }
+      .ex-asked-meta .ex-target {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 600;
+        color: var(--green-deep);
+        background: var(--green-soft);
+        border-radius: 999px;
+        padding: 3px 10px;
+      }
+      .ex-asked-meta .ex-target::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--green);
+        flex: 0 0 auto;
+      }
+
+      /* the card that was asked about — a quiet evergreen ring so the eye knows
+         WHERE the answer landed, without moving anything. */
+      .hb-area.ex-focused {
+        border-color: rgba(31, 92, 61, 0.4);
+        box-shadow:
+          0 0 0 3px var(--green-faint),
+          var(--shadow-pop);
+      }
+
+      /* THE INLINE ANSWER — nested INSIDE the re-org card, below its step row.
+         Contained, belongs to this work item. Echoes .hb-tool's nested idiom
+         but reads as an answer (solid evergreen rule + green-faint fill),
+         not a dashed tool offer. */
+      .ex-answer {
+        position: relative;
+        margin-top: 14px;
+        padding: 14px 16px 14px 16px;
+        background: linear-gradient(var(--green-faint), var(--raised));
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--green);
+        border-radius: 0 13px 13px 0;
+        animation: rise 0.5s both;
+      }
+      .ex-answer-head {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin-bottom: 9px;
+      }
+      .ex-answer-mk {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        flex: 0 0 auto;
+        background: radial-gradient(
+          circle at 35% 30%,
+          #2f7d56,
+          var(--green-deep)
+        );
+        position: relative;
+        box-shadow: 0 2px 7px -3px rgba(31, 92, 61, 0.5);
+      }
+      .ex-answer-mk::after {
+        content: "";
+        position: absolute;
+        inset: 6px;
+        border-radius: 50%;
+        border: 1.3px solid rgba(252, 250, 245, 0.92);
+        border-right-color: transparent;
+        transform: rotate(28deg);
+      }
+      .ex-answer-who {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--green-deep);
+        letter-spacing: -0.01em;
+      }
+      .ex-answer-tag {
+        margin-left: auto;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--green-deep);
+        background: var(--green-soft);
+        border-radius: 999px;
+        padding: 3px 9px;
+      }
+      .ex-answer-body {
+        font-size: 14.5px;
+        line-height: 1.58;
+        color: var(--ink);
+      }
+      .ex-answer-body b {
+        font-weight: 600;
+      }
+      .ex-answer-body em {
+        font-style: italic;
+        color: var(--ink-2);
+      }
+
+      /* the inline follow-up affordance — ask again / continue, in place */
+      .ex-followup {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 13px;
+        padding-top: 12px;
+        border-top: 1px solid var(--line);
+        flex-wrap: wrap;
+      }
+      .ex-fu-pill {
+        flex: 1 1 auto;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--raised);
+        border: 1px solid var(--line-2);
+        border-radius: 13px;
+        padding: 8px 10px 8px 14px;
+        box-shadow: var(--shadow-card);
+        cursor: text;
+      }
+      .ex-fu-pill .ex-fu-ph {
+        flex: 1 1 auto;
+        min-width: 0;
+        font-size: 13.5px;
+        color: var(--ink-3);
+      }
+      .ex-fu-mic {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        flex: 0 0 auto;
+        background: var(--green);
+        color: #fcfaf5;
+        display: grid;
+        place-items: center;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 2px 9px -3px rgba(31, 92, 61, 0.55);
+      }
+      .ex-fu-mic svg {
+        width: 16px;
+        height: 16px;
+      }
+      .ex-fu-chip {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--green-deep);
+        background: var(--green-soft);
+        border: none;
+        border-radius: 999px;
+        padding: 7px 13px;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      .ex-fu-chip:hover {
+        background: rgba(31, 92, 61, 0.16);
+      }
+
+      @media (max-width: 600px) {
+        .ex-caption {
+          padding: 14px 18px 0;
+          font-size: 13px;
+        }
+        .ex-answer {
+          padding: 12px 13px;
+        }
+        .ex-followup {
+          gap: 8px;
+        }
+        .ex-fu-pill {
+          flex-basis: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="galnav">
+      <div class="wrap">
+        <a
+          class="brand"
+          href="/mirror-redesign-v1/"
+          style="text-decoration: none; color: inherit"
+          ><span class="emblem"></span> Mirror redesign</a
+        ><span class="tagpill">Exploring · assistant interaction</span>
+        <div class="links">
+          <span
+            class="jump"
+            style="background: var(--green-soft); color: var(--green-deep)"
+            >Option C · Inline</span
+          >
+        </div>
+      </div>
+    </nav>
+
+    <p class="ex-caption">
+      <b>Option C</b> — she asks about the re-org proposal; the answer appears
+      in place, attached to that work. No panel, no new screen. The assistant
+      lives inside the work.
+    </p>
+
+    <section id="homebase" class="wrap screen">
+      <div class="head">
+        <div class="stage">
+          <span class="dot"></span><span class="label">Act 4 · Home base</span
+          ><span class="sub">five months in — the long relationship</span>
+        </div>
+        <h2>Months in, home is your work — not a list of chats.</h2>
+        <p class="why">
+          Priya opens the same place she always does, and it's organized around
+          <b>what she's actually moving</b> — two or three live areas of work,
+          each one resuming at the <b>exact step she left it</b>, never a wall
+          of past conversations to dig through. The assistant isn't a tile she
+          visits; it's <b>woven through the page</b>, the voice that opened
+          these areas and the one line away when she wants to think out loud.
+          The tools she needs surface <b>inside the work that needs them</b>,
+          and when enough has changed, a quiet card says a fresh Mirror might be
+          due — and tells her exactly why it's asking.
+        </p>
+        <span class="tagline"
+          >organize around work, not conversations · one relationship, many
+          surfaces · resume to the exact step</span
+        >
+      </div>
+
+      <div class="frame">
+        <div class="titlebar">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="url">
+            mirror.brilliantwith.ai &nbsp;·&nbsp; home · Priya Raman
+          </div>
+        </div>
+        <div class="app">
+          <div class="topbar">
+            <div class="moe">
+              <span class="mark"></span
+              ><span
+                ><span class="nm">Your assistant</span
+                ><span class="st"
+                  >good to see you, Priya — I kept everything warm</span
+                ></span
+              >
+            </div>
+            <div class="crumbs">·&nbsp; <b>Home</b> · month 5</div>
+            <div class="right">
+              <button class="tb-btn">Your Mirrors</button>
+              <button class="tb-btn">Everything you've made</button>
+              <div class="avatar">P</div>
+            </div>
+          </div>
+
+          <div class="stage-area">
+            <div class="stage-pad">
+              <div class="padhead">
+                <div class="pe">What are we working on?</div>
+                <h4>
+                  Three things are live right now. Pick up exactly where you
+                  left any of them.
+                </h4>
+              </div>
+
+              <!-- the assistant as ambient entry point — now carrying Priya's
+                   just-asked question, aimed at the re-org proposal -->
+              <div class="hb-ask">
+                <span class="hb-ask-mk"></span>
+                <div class="hb-ask-body">
+                  <div class="hb-ask-line">
+                    Ask me to start something, or just talk it through —
+                    <b>I already hold all of this.</b>
+                  </div>
+                  <div class="ex-asked">
+                    <div class="ex-asked-q">
+                      "Where did the re-org proposal land after the
+                      span-of-control critique?"
+                    </div>
+                    <div class="ex-asked-meta">
+                      <span class="ex-target"
+                        >Answered on · Re-org proposal</span
+                      >
+                      <span
+                        >I answered right on the card below — nothing
+                        moved.</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <button class="hb-ask-mic" title="Tap to speak">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="9" y="2" width="6" height="12" rx="3" />
+                    <path d="M5 11a7 7 0 0 0 14 0M12 18v4" />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- ACTIVE WORK -->
+              <div class="hb-section">
+                <div class="hb-sec-eye">Active work</div>
+
+                <div class="hb-work">
+                  <!-- area 1 — the asked-about card; answer lands INSIDE it -->
+                  <div class="hb-area ex-focused">
+                    <span class="hb-area-spine"></span>
+                    <div class="hb-area-head">
+                      <div>
+                        <div class="hb-area-eye">Re-org proposal</div>
+                        <div class="hb-area-title">
+                          The marketing org you've been redrawing since the
+                          owner handoff worked.
+                        </div>
+                      </div>
+                      <span class="hb-temp hb-hot">Active</span>
+                    </div>
+                    <div class="hb-step">
+                      <span class="hb-step-dot"></span>
+                      <div class="hb-step-body">
+                        <span class="hb-step-state"
+                          >Red-team · round 2 of 3</span
+                        >
+                        <span class="hb-step-where"
+                          >You stopped on the "span of control" critique — I
+                          drafted a reply, it's waiting for your read.</span
+                        >
+                      </div>
+                      <button class="hb-resume">Resume →</button>
+                    </div>
+
+                    <!-- THE INLINE ANSWER — nested in this card, in place -->
+                    <div class="ex-answer">
+                      <div class="ex-answer-head">
+                        <span class="ex-answer-mk"></span>
+                        <span class="ex-answer-who">Your assistant</span>
+                        <span class="ex-answer-tag">Answered here</span>
+                      </div>
+                      <div class="ex-answer-body">
+                        It landed mid red-team — <b>round 2 of 3</b>. Your
+                        span-of-control critique held: I tightened
+                        <b>Draft v4</b> so every lead carries six to eight
+                        reports instead of the eleven that triggered the flag,
+                        and I left a reply to that note
+                        <em>waiting for your read</em>. Two loops are still open
+                        — the dual-reporting line for the AI guild, and whether
+                        Growth rolls under Brand. Resume and you're back exactly
+                        on the critique you paused on.
+                      </div>
+
+                      <!-- inline follow-up affordance, in place -->
+                      <div class="ex-followup">
+                        <div class="ex-fu-pill">
+                          <span class="ex-fu-ph">Ask again, right here…</span>
+                          <button class="ex-fu-mic" title="Tap to speak">
+                            <svg
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            >
+                              <rect x="9" y="2" width="6" height="12" rx="3" />
+                              <path d="M5 11a7 7 0 0 0 14 0M12 18v4" />
+                            </svg>
+                          </button>
+                        </div>
+                        <button class="ex-fu-chip">
+                          Show me the open loops
+                        </button>
+                        <button class="ex-fu-chip">Continue red-team →</button>
+                      </div>
+                    </div>
+
+                    <div class="hb-area-foot">
+                      <span class="hb-loop"
+                        >2 open loops · last worked Tuesday</span
+                      >
+                      <span class="hb-arts"
+                        >Draft v4 · Risk review · Improvement plan</span
+                      >
+                    </div>
+                  </div>
+
+                  <!-- area 2 — research, a future tool surfacing INSIDE the work -->
+                  <div class="hb-area">
+                    <span class="hb-area-spine"></span>
+                    <div class="hb-area-head">
+                      <div>
+                        <div class="hb-area-eye">Leadership offsite</div>
+                        <div class="hb-area-title">
+                          The Q4 offsite where you make the case for the new
+                          structure.
+                        </div>
+                      </div>
+                      <span class="hb-temp hb-warm">Picking back up</span>
+                    </div>
+                    <div class="hb-step">
+                      <span class="hb-step-dot"></span>
+                      <div class="hb-step-body">
+                        <span class="hb-step-state"
+                          >Research prep · brief ready for you</span
+                        >
+                        <span class="hb-step-where"
+                          >You asked me to pull how three peer orgs structured
+                          AI ownership. The brief's done — resume to send it
+                          out.</span
+                        >
+                      </div>
+                      <button class="hb-resume">Resume →</button>
+                    </div>
+
+                    <!-- the future tool, surfacing contextually inside this work -->
+                    <div class="hb-tool">
+                      <span class="hb-tool-mk"></span>
+                      <div class="hb-tool-body">
+                        <span class="hb-tool-eye">Ready inside this work</span>
+                        <span class="hb-tool-line"
+                          >Your brief is built for outside research. I can
+                          package it as a <b>Deep Research prompt</b> — paste it
+                          into ChatGPT or Claude, bring the result back, and
+                          I'll fold it into the offsite deck.</span
+                        >
+                        <button class="hb-tool-go">Package the prompt →</button>
+                      </div>
+                    </div>
+
+                    <div class="hb-area-foot">
+                      <span class="hb-loop"
+                        >1 open loop · last worked last week</span
+                      >
+                      <span class="hb-arts">Research brief · Peer scan</span>
+                    </div>
+                  </div>
+
+                  <!-- area 3 — a decision, quieter -->
+                  <div class="hb-area hb-cool">
+                    <span class="hb-area-spine"></span>
+                    <div class="hb-area-head">
+                      <div>
+                        <div class="hb-area-eye">Your own next role</div>
+                        <div class="hb-area-title">
+                          The "best marketer vs. makes twelve better" decision
+                          from your first Action Plan — still open, on purpose.
+                        </div>
+                      </div>
+                      <span class="hb-temp hb-cold">Parked by you</span>
+                    </div>
+                    <div class="hb-step">
+                      <span class="hb-step-dot"></span>
+                      <div class="hb-step-body">
+                        <span class="hb-step-state"
+                          >Decision support · paused at tradeoffs</span
+                        >
+                        <span class="hb-step-where"
+                          >You asked to sit with this one. I'm not nudging —
+                          it's here when you want it.</span
+                        >
+                      </div>
+                      <button class="hb-resume hb-resume-quiet">
+                        Resume →
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- THE QUIET CEREMONY SUGGESTION — contextual, with a why-line -->
+              <div class="hb-ceremony">
+                <span class="hb-cer-spine"></span>
+                <div class="hb-cer-body">
+                  <div class="hb-cer-eye">A gentle suggestion</div>
+                  <div class="hb-cer-title">
+                    It might be time for a new Mirror.
+                  </div>
+                  <p class="hb-cer-lede">
+                    Your last one was in June. Since then the owner stuck, the
+                    offsite became real, and the way you talk about your own job
+                    has shifted. A fresh letter would see who you are now — not
+                    who you were five months ago.
+                  </p>
+                  <div class="hb-cer-cta">
+                    <button class="hb-cer-begin">Look at a new Mirror</button>
+                    <span class="hb-cer-later"
+                      >Not now — maybe after the offsite</span
+                    >
+                  </div>
+                  <div class="hb-cer-why">
+                    <span class="hb-cer-wd"></span>
+                    <span
+                      ><b>Why you're seeing this:</b> five months since your
+                      June Mirror, two Action Plan moves completed, and your own
+                      words about the role have changed. I only raise this when
+                      enough has actually accumulated — never on a timer.</span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="hb-footnote">
+                Everything you've ever made is still here, dated and kept — but
+                home opens on what's moving, not an archive.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

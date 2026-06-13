@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mirror redesign — exploring the assistant interaction</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/mirror-redesign-v1/style.css" />
+    <style>
+      .xb-wrap { max-width: 1480px; margin: 0 auto; padding: 28px 32px 64px; }
+      .xb-lede { max-width: 760px; font-size: 15px; line-height: 1.65; color: var(--ink-2); margin: 8px 0 28px; }
+      .xb-lede b { color: var(--green-deep); }
+      .xb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+      @media (max-width: 1040px) { .xb-grid { grid-template-columns: 1fr; } }
+      .xb-card { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: var(--paper, #fff); display: flex; flex-direction: column; text-decoration: none; color: inherit; transition: box-shadow .15s, transform .15s; }
+      .xb-card:hover { box-shadow: 0 12px 32px rgba(20,40,30,.12); transform: translateY(-2px); }
+      .xb-head { padding: 16px 18px 12px; }
+      .xb-opt { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--green-deep); background: var(--green-soft); border-radius: 999px; padding: 3px 11px; }
+      .xb-cap { font-size: 13px; line-height: 1.5; color: var(--ink-2); margin: 10px 0 0; }
+      .xb-frameclip { height: 360px; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); position: relative; background: var(--paper-2, #faf8f4); }
+      .xb-frameclip iframe { width: 1280px; height: 1180px; border: 0; transform: scale(.355); transform-origin: top left; pointer-events: none; }
+      .xb-foot { padding: 13px 18px; font-size: 13px; font-weight: 600; color: var(--green-deep); }
+      .xb-foot span { float: right; opacity: .6; font-weight: 500; }
+    </style>
+  </head>
+  <body>
+    <nav class="galnav">
+      <div class="wrap">
+        <a class="brand" href="/mirror-redesign-v1/" style="text-decoration:none;color:inherit"><span class="emblem"></span> Mirror redesign</a>
+        <span class="tagpill">Exploring · assistant interaction</span>
+        <div class="links">
+          <a class="jump" href="/mirror-redesign-v1/">Overview</a>
+          <a class="jump" href="/mirror-redesign-v1/months-in">Act 4</a>
+        </div>
+      </div>
+    </nav>
+    <div class="xb-wrap">
+      <h1 style="font-family:var(--font-display,var(--font-serif,serif));font-weight:400;font-size:34px;margin:18px 0 0">She taps the assistant. Where does the conversation go?</h1>
+      <p class="xb-lede">Same screen — Priya's home, months in, mid red-team on the re-org proposal. The only thing that changes is <b>what happens when she talks to it</b>. Click any option to open it full. This is a feel-check, not a decision — the bigger open question (is the assistant the product, or one room in the house?) stays open behind all three.</p>
+      <div class="xb-grid">
+        <a class="xb-card" href="/mirror-redesign-v1/explore-assistant-a">
+          <div class="xb-head"><span class="xb-opt">Option A · Docked panel</span><p class="xb-cap">Conversation docks beside her work. The work stays on screen. The assistant serves the work.</p></div>
+          <div class="xb-frameclip"><iframe src="/mirror-redesign-v1/explore-assistant-a" loading="lazy" title="Option A"></iframe></div>
+          <div class="xb-foot">Open full <span>↗</span></div>
+        </a>
+        <a class="xb-card" href="/mirror-redesign-v1/explore-assistant-b">
+          <div class="xb-head"><span class="xb-opt">Option B · Full screen</span><p class="xb-cap">The conversation becomes the whole screen. Work recedes behind it. The assistant feels like home.</p></div>
+          <div class="xb-frameclip"><iframe src="/mirror-redesign-v1/explore-assistant-b" loading="lazy" title="Option B"></iframe></div>
+          <div class="xb-foot">Open full <span>↗</span></div>
+        </a>
+        <a class="xb-card" href="/mirror-redesign-v1/explore-assistant-c">
+          <div class="xb-head"><span class="xb-opt">Option C · Inline</span><p class="xb-cap">The answer appears in place, attached to that work. No panel, no new screen. The assistant lives inside the work.</p></div>
+          <div class="xb-frameclip"><iframe src="/mirror-redesign-v1/explore-assistant-c" loading="lazy" title="Option C"></iframe></div>
+          <div class="xb-foot">Open full <span>↗</span></div>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

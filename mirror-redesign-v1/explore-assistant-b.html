@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mirror redesign — Option B · the assistant is the front door</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Outfit:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/mirror-redesign-v1/style.css" />
+    <style>
+      /* ============ EXPLORE · OPTION B — full-screen assistant takeover ============
+         New classes only, all prefixed ex-. Reuses existing tokens:
+         --paper / --raised / --green / --green-deep / --green-soft / --green-faint
+         --ink* / --line* / --display / --sans / --shadow-* / --r* and the
+         locked .av crescent-mark + .msg/.bubble chat DNA. */
+
+      /* one-line caption strip under the gallery nav */
+      .ex-caption {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 16px 32px 4px;
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--ink-2);
+      }
+      .ex-caption b {
+        color: var(--green-deep);
+        font-weight: 600;
+      }
+
+      /* the takeover stage — a calm, full-bleed paper field the convo owns */
+      .ex-stage {
+        min-height: calc(100vh - 60px);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+
+      /* quiet top rail: the only trace of "your work" is one faint way back */
+      .ex-toprail {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 18px 32px 0;
+        max-width: 1180px;
+        width: 100%;
+        margin: 0 auto;
+      }
+      .ex-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: var(--ink-3);
+        background: transparent;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 7px 14px 7px 11px;
+        cursor: pointer;
+        font-family: inherit;
+        transition: 0.15s;
+      }
+      .ex-back:hover {
+        border-color: var(--line-2);
+        color: var(--ink-2);
+      }
+      .ex-back svg {
+        width: 15px;
+        height: 15px;
+      }
+      .ex-rail-spacer {
+        margin-left: auto;
+      }
+      /* a whisper of context — never a tile, just a held status */
+      .ex-held {
+        font-size: 12px;
+        color: var(--ink-4);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .ex-held .ex-held-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--green);
+        opacity: 0.7;
+      }
+      .ex-avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--amber-soft);
+        color: var(--amber);
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        font-size: 13px;
+        flex: 0 0 auto;
+      }
+
+      /* the centered, generous conversation column — the whole screen now */
+      .ex-convo {
+        flex: 1;
+        width: 100%;
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 34px 32px 8px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* opening crest — the assistant greets, unnamed, picking up the thread */
+      .ex-open {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 14px;
+        margin: 8px 0 30px;
+      }
+      .ex-crest {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        flex: 0 0 auto;
+        background: radial-gradient(
+          circle at 35% 30%,
+          #2f7d56,
+          var(--green-deep)
+        );
+        position: relative;
+        box-shadow: 0 6px 22px -8px rgba(31, 92, 61, 0.6);
+      }
+      .ex-crest::after {
+        content: "";
+        position: absolute;
+        inset: 13px;
+        border-radius: 50%;
+        border: 2px solid rgba(252, 250, 245, 0.92);
+        border-right-color: transparent;
+        transform: rotate(28deg);
+      }
+      .ex-open .ex-who {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--green-deep);
+      }
+      .ex-open .ex-time {
+        font-size: 12.5px;
+        color: var(--ink-4);
+      }
+
+      /* reuse .msg/.av/.col/.name/.bubble — these ex- helpers just tune layout */
+      .ex-thread {
+        display: flex;
+        flex-direction: column;
+      }
+      /* assistant turns sit a touch wider here than the docked default */
+      .ex-thread .col {
+        max-width: 86%;
+      }
+      .ex-thread .msg.you .col {
+        max-width: 80%;
+      }
+      .ex-thread .bubble {
+        font-size: 15.5px;
+        line-height: 1.6;
+      }
+
+      /* the first greeting reads warmer/larger — like being met at the door */
+      .ex-greet .bubble {
+        font-size: 17px;
+        line-height: 1.58;
+        background: linear-gradient(var(--green-faint), var(--raised));
+        border-color: rgba(31, 92, 61, 0.22);
+      }
+      .ex-greet .bubble b {
+        font-weight: 600;
+        color: var(--ink);
+      }
+
+      /* the magic line: "it knows me" — work named, hanging off the talk.
+         two soft chips referencing her actual live work, not a menu of tiles */
+      .ex-knows {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 13px;
+      }
+      .ex-knows-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: var(--green-deep);
+        background: var(--green-soft);
+        border: 1px solid rgba(31, 92, 61, 0.18);
+        border-radius: 999px;
+        padding: 6px 13px 6px 11px;
+        cursor: pointer;
+        transition: 0.15s;
+        line-height: 1.3;
+      }
+      .ex-knows-chip:hover {
+        border-color: var(--green);
+      }
+      .ex-knows-chip .ex-chip-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        flex: 0 0 auto;
+      }
+      .ex-knows-chip .ex-chip-dot.hot {
+        background: var(--green);
+      }
+      .ex-knows-chip .ex-chip-dot.warm {
+        background: var(--amber);
+      }
+      .ex-knows-chip b {
+        font-weight: 600;
+      }
+      .ex-knows-chip .ex-chip-sub {
+        color: var(--ink-3);
+        font-weight: 400;
+      }
+
+      /* the prominent composer — pinned, the front door's threshold */
+      .ex-composer {
+        position: sticky;
+        bottom: 0;
+        background: linear-gradient(rgba(244, 239, 230, 0), var(--paper) 38%);
+        padding: 18px 32px 26px;
+      }
+      .ex-composer-inner {
+        max-width: 720px;
+        margin: 0 auto;
+        width: 100%;
+      }
+      /* bigger, calmer pill than the docked composer — it is the hero surface */
+      .ex-vbox {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        background: var(--raised);
+        border: 1px solid var(--line-2);
+        border-radius: 19px;
+        padding: 11px 13px;
+        box-shadow:
+          0 1px 2px rgba(28, 26, 23, 0.05),
+          0 18px 44px -26px rgba(28, 26, 23, 0.34);
+      }
+      .ex-mic {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        flex: 0 0 auto;
+        background: var(--green);
+        color: #fcfaf5;
+        display: grid;
+        place-items: center;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 3px 12px -3px rgba(31, 92, 61, 0.55);
+        transition: 0.15s;
+      }
+      .ex-mic:hover {
+        background: var(--green-deep);
+      }
+      .ex-mic svg {
+        width: 21px;
+        height: 21px;
+      }
+      .ex-vfield {
+        flex: 1;
+        min-width: 0;
+        font-size: 16px;
+        color: var(--ink-3);
+        padding: 2px 0;
+      }
+      .ex-vsend {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        flex: 0 0 auto;
+        background: transparent;
+        border: 1px solid var(--line);
+        color: var(--ink-3);
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        transition: 0.15s;
+      }
+      .ex-vsend:hover {
+        border-color: var(--line-2);
+        color: var(--ink-2);
+      }
+      .ex-vsend svg {
+        width: 19px;
+        height: 19px;
+      }
+      .ex-comphint {
+        margin-top: 11px;
+        text-align: center;
+        font-size: 12.5px;
+        color: var(--ink-4);
+      }
+      .ex-comphint b {
+        color: var(--ink-3);
+        font-weight: 600;
+      }
+
+      @media (max-width: 760px) {
+        .ex-toprail {
+          padding: 14px 18px 0;
+        }
+        .ex-convo {
+          padding: 26px 18px 6px;
+        }
+        .ex-greet .bubble {
+          font-size: 16px;
+        }
+        .ex-composer {
+          padding: 14px 18px 20px;
+        }
+        .ex-thread .col,
+        .ex-thread .msg.you .col {
+          max-width: 92%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="galnav">
+      <div class="wrap">
+        <a
+          class="brand"
+          href="/mirror-redesign-v1/"
+          style="text-decoration: none; color: inherit"
+          ><span class="emblem"></span> Mirror redesign</a
+        ><span class="tagpill">Exploring · assistant interaction</span>
+        <div class="links">
+          <span
+            class="jump"
+            style="background: var(--green-soft); color: var(--green-deep)"
+            >Option B · Full screen</span
+          >
+        </div>
+      </div>
+    </nav>
+
+    <p class="ex-caption">
+      Option B — she taps the assistant; the conversation becomes the whole
+      screen. Her work recedes behind it. <b>The assistant feels like home.</b>
+    </p>
+
+    <main class="ex-stage">
+      <!-- the only trace of "your work": one quiet way back, top-left -->
+      <div class="ex-toprail">
+        <button
+          class="ex-back"
+          title="Your work is held, exactly where you left it"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+          Back to your work
+        </button>
+        <span class="ex-rail-spacer"></span>
+        <span class="ex-held">
+          <span class="ex-held-dot"></span> 3 things held, kept warm
+        </span>
+        <span class="ex-avatar">P</span>
+      </div>
+
+      <!-- the conversation now OWNS the screen -->
+      <section class="ex-convo">
+        <div class="ex-open">
+          <span class="ex-crest"></span>
+          <span class="ex-who">Your assistant</span>
+          <span class="ex-time">Friday morning · month 5</span>
+        </div>
+
+        <div class="ex-thread">
+          <!-- 1 · the assistant greets, picking up exactly where she left off -->
+          <div class="msg ex-greet">
+            <span class="av"></span>
+            <div class="col">
+              <span class="name">Your assistant</span>
+              <div class="bubble">
+                <p>
+                  Welcome back, Priya. You're mid red-team on the
+                  <b>re-org proposal</b> — round 2 of 3. You stopped on the
+                  "span of control" critique, and the reply I drafted is waiting
+                  for your read.
+                </p>
+                <p>
+                  Want to keep going there, or look at the
+                  <b>leadership offsite</b>? Your research brief came back ready
+                  while you were out.
+                </p>
+                <!-- "it knows me": her real live work, hanging off the talk -->
+                <div class="ex-knows">
+                  <span class="ex-knows-chip">
+                    <span class="ex-chip-dot hot"></span>
+                    <span
+                      ><b>Re-org proposal</b>
+                      <span class="ex-chip-sub"
+                        >· red-team, round 2 of 3</span
+                      ></span
+                    >
+                  </span>
+                  <span class="ex-knows-chip">
+                    <span class="ex-chip-dot warm"></span>
+                    <span
+                      ><b>Q4 offsite</b>
+                      <span class="ex-chip-sub"
+                        >· brief ready for you</span
+                      ></span
+                    >
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2 · her reply — work surfaces through the conversation -->
+          <div class="msg you">
+            <div class="col">
+              <div class="bubble">
+                Let's finish the red-team first. Read me the reply you drafted
+                on span of control — then I want to think out loud about whether
+                Marcus will buy it.
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 · one more assistant turn — it already holds the context -->
+          <div class="msg">
+            <span class="av"></span>
+            <div class="col">
+              <span class="name">Your assistant</span>
+              <div class="bubble">
+                <p>
+                  Here it is. Your critic argued seven direct reports flattens
+                  the org too far for a function this contested — your draft
+                  reply leans on the two pod leads absorbing coordination, so
+                  the number reads bigger than the real load.
+                </p>
+                <p>
+                  On whether Marcus buys it: last quarter he pushed back on
+                  anything that looked like "more managers." This framing gives
+                  him the opposite — fewer layers, clearer ownership. That's the
+                  angle I'd lead with. Want me to open the draft so we can
+                  sharpen it together?
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- prominent composer — the threshold of the front door -->
+      <div class="ex-composer">
+        <div class="ex-composer-inner">
+          <div class="ex-vbox">
+            <button class="ex-mic" title="Tap to speak">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="9" y="2" width="6" height="12" rx="3" />
+                <path d="M5 11a7 7 0 0 0 14 0M12 18v4" />
+              </svg>
+            </button>
+            <span class="ex-vfield">Talk it through, or ask for anything…</span>
+            <button class="ex-vsend" title="Send">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </button>
+          </div>
+          <p class="ex-comphint">
+            Everything you're working on lives inside this conversation —
+            <b>just say the word.</b>
+          </p>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
