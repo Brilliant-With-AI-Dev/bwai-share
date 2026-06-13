@@ -1,0 +1,1282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mirror redesign — Option B in motion · the assistant takeover</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Outfit:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/mirror-redesign-v1/style.css" />
+    <style>
+      /* ============ EXPLORE · OPTION B IN MOTION — the takeover, animated ============
+         CSS-only, JS-free, infinite loop (~8s). All new classes prefixed xa-.
+         Reuses existing tokens only — never redefines :root:
+         --paper / --paper-2 / --raised / --green / --green-deep / --green-soft
+         --green-faint / --amber / --amber-soft / --ink* / --line* / --display
+         --sans / --r* / --shadow-*. */
+
+      /* ---- caption strip under the gallery nav ---- */
+      .xa-caption {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 16px 32px 4px;
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--ink-2);
+      }
+      .xa-caption b {
+        color: var(--green-deep);
+        font-weight: 600;
+      }
+
+      /* ---- the fixed, tall stage: both layers stack here, nothing clips ---- */
+      .xa-stagewrap {
+        max-width: 1180px;
+        margin: 22px auto 64px;
+        padding: 0 32px;
+      }
+      .xa-stage {
+        position: relative;
+        min-height: 880px;
+        border-radius: var(--r-xl);
+        background: var(--paper);
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow-letter);
+        overflow: hidden;
+      }
+      /* both layers fill the same box, absolutely positioned */
+      .xa-layer {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        will-change: transform, opacity;
+      }
+
+      /* =====================================================================
+         LAYER 1 · WORK HOME (the BEFORE) — active-work cards, calm.
+         Phase 1 holds it. Phase 2 it recedes: scale .96 + drift back + fade.
+         Phase 4 it cross-fades back so the loop is seamless.
+         ===================================================================== */
+      .xa-home {
+        transform-origin: 50% 42%;
+        animation: xa-home-recede 8s ease-in-out infinite;
+      }
+      @keyframes xa-home-recede {
+        0% {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+        18% {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+        /* the takeover: work recedes behind the conversation */
+        38% {
+          opacity: 0;
+          transform: scale(0.96) translateY(-22px);
+        }
+        82% {
+          opacity: 0;
+          transform: scale(0.96) translateY(-22px);
+        }
+        /* gentle return, then a flat plateau at the seam so the loop is clean */
+        96% {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+
+      .xa-topbar {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 14px 24px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(252, 250, 245, 0.6);
+        flex: 0 0 auto;
+      }
+      .xa-moe {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+      }
+      .xa-mark {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 35% 30%,
+          #2f7d56,
+          var(--green-deep)
+        );
+        position: relative;
+        box-shadow: 0 2px 8px -2px rgba(31, 92, 61, 0.5);
+        flex: 0 0 auto;
+      }
+      .xa-mark::after {
+        content: "";
+        position: absolute;
+        inset: 7px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(252, 250, 245, 0.92);
+        border-right-color: transparent;
+        transform: rotate(28deg);
+      }
+      .xa-nm {
+        font-weight: 600;
+        font-size: 15px;
+        letter-spacing: -0.01em;
+      }
+      .xa-st {
+        font-size: 12px;
+        color: var(--ink-3);
+        display: block;
+        margin-top: -2px;
+      }
+      .xa-crumbs {
+        font-size: 13px;
+        color: var(--ink-3);
+        margin-left: 6px;
+      }
+      .xa-crumbs b {
+        color: var(--ink-2);
+        font-weight: 500;
+      }
+      .xa-tbright {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .xa-tb-btn {
+        font-size: 13px;
+        color: var(--ink-2);
+        background: transparent;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 7px 14px;
+        font-family: inherit;
+      }
+      .xa-avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--amber-soft);
+        color: var(--amber);
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        font-size: 13px;
+        flex: 0 0 auto;
+      }
+
+      .xa-pad {
+        flex: 1;
+        padding: 28px 34px 34px;
+        background: linear-gradient(var(--paper-2), transparent 120px);
+        overflow: hidden;
+      }
+      .xa-padhead {
+        max-width: 760px;
+        margin: 0 auto 16px;
+      }
+      .xa-pe {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--green-deep);
+      }
+      .xa-padhead h4 {
+        font-family: var(--display);
+        font-weight: 400;
+        font-size: 23px;
+        line-height: 1.18;
+        letter-spacing: -0.01em;
+        margin-top: 5px;
+      }
+
+      /* the assistant woven in at the top of home — where she taps */
+      .xa-ask {
+        position: relative;
+        max-width: 760px;
+        margin: 0 auto 20px;
+        display: flex;
+        gap: 13px;
+        align-items: flex-start;
+        background: linear-gradient(var(--green-faint), var(--raised));
+        border: 1px solid rgba(31, 92, 61, 0.2);
+        border-radius: 16px;
+        padding: 15px 16px;
+        box-shadow: var(--shadow-card);
+      }
+      .xa-ask-mk {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        flex: 0 0 auto;
+        background: radial-gradient(
+          circle at 35% 30%,
+          #2f7d56,
+          var(--green-deep)
+        );
+        position: relative;
+        box-shadow: 0 2px 8px -3px rgba(31, 92, 61, 0.5);
+      }
+      .xa-ask-mk::after {
+        content: "";
+        position: absolute;
+        inset: 7px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(252, 250, 245, 0.92);
+        border-right-color: transparent;
+        transform: rotate(28deg);
+      }
+      .xa-ask-line {
+        font-size: 14.5px;
+        line-height: 1.5;
+        color: var(--ink);
+      }
+      .xa-ask-line b {
+        font-weight: 600;
+      }
+      .xa-ask-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-top: 10px;
+      }
+      .xa-ask-chip {
+        font-size: 12.5px;
+        color: var(--ink-2);
+        background: var(--raised);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 5px 11px;
+      }
+      .xa-ask-mic {
+        width: 42px;
+        height: 42px;
+        border-radius: 13px;
+        flex: 0 0 auto;
+        background: var(--green);
+        color: #fcfaf5;
+        display: grid;
+        place-items: center;
+        border: none;
+        box-shadow: 0 2px 10px -3px rgba(31, 92, 61, 0.55);
+        margin-left: auto;
+        align-self: center;
+      }
+      .xa-ask-mic svg {
+        width: 19px;
+        height: 19px;
+      }
+
+      /* "she taps" — a cursor + pulse over the assistant strip, phase 1 only */
+      .xa-tap {
+        position: absolute;
+        right: 30px;
+        top: 50%;
+        width: 30px;
+        height: 30px;
+        margin: -15px 0 0 0;
+        pointer-events: none;
+        animation: xa-tap-show 8s ease-in-out infinite;
+      }
+      .xa-tap::before {
+        /* expanding ring */
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        border: 2px solid var(--green);
+        animation: xa-tap-ring 8s ease-out infinite;
+      }
+      .xa-tap::after {
+        /* the pointer dot */
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 11px;
+        height: 11px;
+        margin: -5.5px 0 0 -5.5px;
+        border-radius: 50%;
+        background: var(--green);
+        box-shadow: 0 0 0 4px rgba(31, 92, 61, 0.18);
+      }
+      @keyframes xa-tap-show {
+        0% {
+          opacity: 0;
+        }
+        4% {
+          opacity: 1;
+        }
+        18% {
+          opacity: 1;
+        }
+        24% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+      @keyframes xa-tap-ring {
+        0% {
+          transform: scale(0.5);
+          opacity: 0;
+        }
+        6% {
+          transform: scale(0.7);
+          opacity: 0.9;
+        }
+        16% {
+          transform: scale(1.9);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1.9);
+          opacity: 0;
+        }
+      }
+
+      .xa-section-eye {
+        max-width: 760px;
+        margin: 0 auto 10px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+      }
+      .xa-work {
+        max-width: 760px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 13px;
+      }
+      .xa-area {
+        position: relative;
+        background: var(--raised);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        box-shadow: var(--shadow-card);
+        padding: 16px 18px 14px 22px;
+        overflow: hidden;
+      }
+      .xa-area-spine {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: var(--green);
+      }
+      .xa-area.cool .xa-area-spine {
+        background: var(--line-2);
+      }
+      .xa-area-head {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .xa-area-eye {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--green-deep);
+      }
+      .xa-area.cool .xa-area-eye {
+        color: var(--ink-3);
+      }
+      .xa-area-title {
+        font-size: 14.5px;
+        line-height: 1.4;
+        margin-top: 4px;
+        color: var(--ink);
+        max-width: 50ch;
+      }
+      .xa-temp {
+        margin-left: auto;
+        flex: 0 0 auto;
+        font-size: 11px;
+        font-weight: 600;
+        border-radius: 999px;
+        padding: 4px 11px;
+      }
+      .xa-hot {
+        color: var(--green-deep);
+        background: var(--green-soft);
+      }
+      .xa-warm {
+        color: var(--amber);
+        background: var(--amber-soft);
+      }
+      .xa-cold {
+        color: var(--ink-3);
+        background: var(--paper-2);
+      }
+      .xa-step {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid var(--line);
+      }
+      .xa-step-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--green);
+        flex: 0 0 auto;
+      }
+      .xa-area.cool .xa-step-dot {
+        background: var(--line-2);
+      }
+      .xa-step-body {
+        flex: 1;
+        min-width: 0;
+      }
+      .xa-step-state {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .xa-step-where {
+        display: block;
+        font-size: 12.5px;
+        color: var(--ink-3);
+        line-height: 1.45;
+        margin-top: 2px;
+      }
+      .xa-resume {
+        flex: 0 0 auto;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--green-deep);
+        background: var(--green-soft);
+        border: 1px solid rgba(31, 92, 61, 0.18);
+        border-radius: 999px;
+        padding: 7px 14px;
+        font-family: inherit;
+      }
+      .xa-area.cool .xa-resume {
+        color: var(--ink-3);
+        background: transparent;
+        border-color: var(--line);
+      }
+
+      /* =====================================================================
+         LAYER 2 · CHAT (the AFTER) — full-screen conversation.
+         Phase 1 hidden. Phase 2 it rises (translateY 16->0) + fades in.
+         Phase 3 owns the screen; turns stagger in. Phase 4 fades back out.
+         ===================================================================== */
+      .xa-chat {
+        z-index: 2;
+        animation: xa-chat-rise 8s ease-in-out infinite;
+      }
+      @keyframes xa-chat-rise {
+        0% {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        18% {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        /* the takeover: conversation rises to fill the screen */
+        38% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        82% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        /* cross-fade back to work-home, then hold hidden at the seam */
+        96% {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+      }
+
+      /* quiet top rail — the only trace of "your work" is one way back */
+      .xa-toprail {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 18px 32px 0;
+        flex: 0 0 auto;
+      }
+      .xa-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: var(--ink-3);
+        background: transparent;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 7px 14px 7px 11px;
+        font-family: inherit;
+      }
+      .xa-back svg {
+        width: 15px;
+        height: 15px;
+      }
+      .xa-rail-spacer {
+        margin-left: auto;
+      }
+      .xa-held {
+        font-size: 12px;
+        color: var(--ink-4);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .xa-held-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--green);
+        opacity: 0.7;
+      }
+
+      .xa-convo {
+        flex: 1;
+        width: 100%;
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 30px 32px 8px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .xa-open {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 12px;
+        margin: 4px 0 26px;
+      }
+      .xa-crest {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        flex: 0 0 auto;
+        background: radial-gradient(
+          circle at 35% 30%,
+          #2f7d56,
+          var(--green-deep)
+        );
+        position: relative;
+        box-shadow: 0 6px 22px -8px rgba(31, 92, 61, 0.6);
+      }
+      .xa-crest::after {
+        content: "";
+        position: absolute;
+        inset: 13px;
+        border-radius: 50%;
+        border: 2px solid rgba(252, 250, 245, 0.92);
+        border-right-color: transparent;
+        transform: rotate(28deg);
+      }
+      .xa-who {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--green-deep);
+      }
+      .xa-time {
+        font-size: 12.5px;
+        color: var(--ink-4);
+      }
+
+      .xa-thread {
+        display: flex;
+        flex-direction: column;
+      }
+      /* base chat DNA, re-expressed locally (no JS, no shared .msg dependency) */
+      .xa-msg {
+        display: flex;
+        gap: 11px;
+        margin-bottom: 18px;
+      }
+      .xa-msg.you {
+        justify-content: flex-end;
+      }
+      .xa-av {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        flex: 0 0 auto;
+        margin-top: 2px;
+        background: radial-gradient(
+          circle at 35% 30%,
+          #2f7d56,
+          var(--green-deep)
+        );
+        position: relative;
+        box-shadow: 0 2px 8px -3px rgba(31, 92, 61, 0.5);
+      }
+      .xa-av::after {
+        content: "";
+        position: absolute;
+        inset: 7px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(252, 250, 245, 0.92);
+        border-right-color: transparent;
+        transform: rotate(28deg);
+      }
+      .xa-col {
+        min-width: 0;
+        max-width: 86%;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .xa-msg.you .xa-col {
+        max-width: 80%;
+        align-items: flex-end;
+      }
+      .xa-name {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--green-deep);
+        margin: 1px 0 -2px 3px;
+      }
+      .xa-bubble {
+        font-size: 15.5px;
+        line-height: 1.6;
+        padding: 12px 15px;
+        border-radius: 5px 15px 15px 15px;
+        background: var(--raised);
+        border: 1px solid var(--line);
+        color: var(--ink);
+      }
+      .xa-msg.you .xa-bubble {
+        background: var(--ink);
+        color: #f3eee4;
+        border-color: var(--ink);
+        border-radius: 15px 15px 5px 15px;
+        font-size: 15px;
+      }
+      .xa-bubble p + p {
+        margin-top: 9px;
+      }
+      .xa-bubble b {
+        font-weight: 600;
+        color: var(--ink);
+      }
+      /* the greeting reads warmer/larger — being met at the door */
+      .xa-greet .xa-bubble {
+        font-size: 17px;
+        line-height: 1.58;
+        background: linear-gradient(var(--green-faint), var(--raised));
+        border-color: rgba(31, 92, 61, 0.22);
+      }
+
+      /* "it knows me" — her real live work, hanging off the talk */
+      .xa-knows {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 13px;
+      }
+      .xa-knows-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: var(--green-deep);
+        background: var(--green-soft);
+        border: 1px solid rgba(31, 92, 61, 0.18);
+        border-radius: 999px;
+        padding: 6px 13px 6px 11px;
+        line-height: 1.3;
+      }
+      .xa-chip-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        flex: 0 0 auto;
+      }
+      .xa-chip-dot.hot {
+        background: var(--green);
+      }
+      .xa-chip-dot.warm {
+        background: var(--amber);
+      }
+      .xa-chip-sub {
+        color: var(--ink-3);
+        font-weight: 400;
+      }
+
+      /* turns arrive in sequence during phase 3 (stagger their fade-in) */
+      .xa-t1 {
+        animation: xa-turn 8s ease-out infinite;
+      }
+      .xa-t2 {
+        animation: xa-turn 8s ease-out infinite;
+      }
+      .xa-t3 {
+        animation: xa-turn 8s ease-out infinite;
+      }
+      /* one shared keyframe; the per-turn delay is faked through different
+         hold points so all three resolve before the phase-3 hold ends */
+      @keyframes xa-turn {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        38% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      /* stagger: greeting first, her reply next, second assistant turn last */
+      .xa-t1 {
+        animation-name: xa-turn1;
+      }
+      .xa-t2 {
+        animation-name: xa-turn2;
+      }
+      .xa-t3 {
+        animation-name: xa-turn3;
+      }
+      @keyframes xa-turn1 {
+        0%,
+        38% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        46% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        82% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+      }
+      @keyframes xa-turn2 {
+        0%,
+        50% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        58% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        82% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+      }
+      @keyframes xa-turn3 {
+        0%,
+        62% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        72% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        82% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+      }
+
+      /* prominent composer — the threshold of the front door */
+      .xa-composer {
+        flex: 0 0 auto;
+        background: linear-gradient(rgba(244, 239, 230, 0), var(--paper) 38%);
+        padding: 14px 32px 26px;
+      }
+      .xa-composer-inner {
+        max-width: 720px;
+        margin: 0 auto;
+        width: 100%;
+      }
+      .xa-vbox {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        background: var(--raised);
+        border: 1px solid var(--line-2);
+        border-radius: 19px;
+        padding: 11px 13px;
+        box-shadow:
+          0 1px 2px rgba(28, 26, 23, 0.05),
+          0 18px 44px -26px rgba(28, 26, 23, 0.34);
+      }
+      .xa-mic {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        flex: 0 0 auto;
+        background: var(--green);
+        color: #fcfaf5;
+        display: grid;
+        place-items: center;
+        border: none;
+        box-shadow: 0 3px 12px -3px rgba(31, 92, 61, 0.55);
+      }
+      .xa-mic svg {
+        width: 21px;
+        height: 21px;
+      }
+      .xa-vfield {
+        flex: 1;
+        min-width: 0;
+        font-size: 16px;
+        color: var(--ink-3);
+        padding: 2px 0;
+      }
+      .xa-vsend {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        flex: 0 0 auto;
+        background: transparent;
+        border: 1px solid var(--line);
+        color: var(--ink-3);
+        display: grid;
+        place-items: center;
+      }
+      .xa-vsend svg {
+        width: 19px;
+        height: 19px;
+      }
+      .xa-comphint {
+        margin-top: 11px;
+        text-align: center;
+        font-size: 12.5px;
+        color: var(--ink-4);
+      }
+      .xa-comphint b {
+        color: var(--ink-3);
+        font-weight: 600;
+      }
+
+      /* respect reduced-motion: settle on the takeover, no looping */
+      @media (prefers-reduced-motion: reduce) {
+        .xa-home,
+        .xa-chat,
+        .xa-tap,
+        .xa-t1,
+        .xa-t2,
+        .xa-t3 {
+          animation: none !important;
+        }
+        .xa-home {
+          opacity: 0;
+        }
+        .xa-chat {
+          opacity: 1;
+          transform: none;
+        }
+        .xa-t1,
+        .xa-t2,
+        .xa-t3 {
+          opacity: 1;
+          transform: none;
+        }
+        .xa-tap {
+          display: none;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .xa-stagewrap {
+          padding: 0 14px;
+        }
+        .xa-stage {
+          min-height: 820px;
+        }
+        .xa-pad {
+          padding: 20px 16px 24px;
+        }
+        .xa-convo {
+          padding: 24px 18px 6px;
+        }
+        .xa-composer {
+          padding: 12px 18px 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="galnav">
+      <div class="wrap">
+        <a
+          class="brand"
+          href="/mirror-redesign-v1/"
+          style="text-decoration: none; color: inherit"
+          ><span class="emblem"></span> Mirror redesign</a
+        ><span class="tagpill">Exploring · assistant interaction</span>
+        <div class="links">
+          <span
+            class="jump"
+            style="background: var(--green-soft); color: var(--green-deep)"
+            >Option B · how the takeover feels</span
+          >
+        </div>
+      </div>
+    </nav>
+
+    <p class="xa-caption">
+      Option B in motion — she taps the assistant; her work recedes and the
+      conversation rises to fill the screen. <b>Loops.</b>
+    </p>
+
+    <div class="xa-stagewrap">
+      <div class="xa-stage">
+        <!-- ===== LAYER 1 · WORK HOME (the BEFORE) ===== -->
+        <div class="xa-layer xa-home">
+          <div class="xa-topbar">
+            <div class="xa-moe">
+              <span class="xa-mark"></span>
+              <span>
+                <span class="xa-nm">Your assistant</span>
+                <span class="xa-st"
+                  >good to see you, Priya — I kept everything warm</span
+                >
+              </span>
+            </div>
+            <div class="xa-crumbs">·&nbsp; <b>Home</b> · month 5</div>
+            <div class="xa-tbright">
+              <button class="xa-tb-btn">Your Mirrors</button>
+              <div class="xa-avatar">P</div>
+            </div>
+          </div>
+
+          <div class="xa-pad">
+            <div class="xa-padhead">
+              <div class="xa-pe">What are we working on?</div>
+              <h4>
+                Three things are live right now. Pick up exactly where you left
+                any of them.
+              </h4>
+            </div>
+
+            <!-- the assistant, woven in at the top — this is where she taps -->
+            <div class="xa-ask">
+              <span class="xa-ask-mk"></span>
+              <div>
+                <div class="xa-ask-line">
+                  Ask me to start something, or just talk it through —
+                  <b>I already hold all of this.</b>
+                </div>
+                <div class="xa-ask-chips">
+                  <span class="xa-ask-chip"
+                    >"Where did the re-org proposal land?"</span
+                  >
+                  <span class="xa-ask-chip"
+                    >"What's the next move on the offsite?"</span
+                  >
+                  <span class="xa-ask-chip">"Catch me up on everything."</span>
+                </div>
+              </div>
+              <button class="xa-ask-mic" title="Tap to speak">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="9" y="2" width="6" height="12" rx="3" />
+                  <path d="M5 11a7 7 0 0 0 14 0M12 18v4" />
+                </svg>
+              </button>
+              <!-- "she taps" — cursor + pulse, phase 1 only -->
+              <span class="xa-tap"></span>
+            </div>
+
+            <div class="xa-section-eye">Active work</div>
+            <div class="xa-work">
+              <!-- area 1 -->
+              <div class="xa-area">
+                <span class="xa-area-spine"></span>
+                <div class="xa-area-head">
+                  <div>
+                    <div class="xa-area-eye">Re-org proposal</div>
+                    <div class="xa-area-title">
+                      The marketing org you've been redrawing since the owner
+                      handoff worked.
+                    </div>
+                  </div>
+                  <span class="xa-temp xa-hot">Active</span>
+                </div>
+                <div class="xa-step">
+                  <span class="xa-step-dot"></span>
+                  <div class="xa-step-body">
+                    <span class="xa-step-state">Red-team · round 2 of 3</span>
+                    <span class="xa-step-where"
+                      >You stopped on the "span of control" critique — I drafted
+                      a reply, it's waiting for your read.</span
+                    >
+                  </div>
+                  <button class="xa-resume">Resume →</button>
+                </div>
+              </div>
+
+              <!-- area 2 -->
+              <div class="xa-area">
+                <span class="xa-area-spine"></span>
+                <div class="xa-area-head">
+                  <div>
+                    <div class="xa-area-eye">Leadership offsite</div>
+                    <div class="xa-area-title">
+                      The Q4 offsite where you make the case for the new
+                      structure.
+                    </div>
+                  </div>
+                  <span class="xa-temp xa-warm">Picking back up</span>
+                </div>
+                <div class="xa-step">
+                  <span class="xa-step-dot"></span>
+                  <div class="xa-step-body">
+                    <span class="xa-step-state"
+                      >Research prep · brief ready for you</span
+                    >
+                    <span class="xa-step-where"
+                      >Your brief came back ready while you were out — resume to
+                      send it out.</span
+                    >
+                  </div>
+                  <button class="xa-resume">Resume →</button>
+                </div>
+              </div>
+
+              <!-- area 3 -->
+              <div class="xa-area cool">
+                <span class="xa-area-spine"></span>
+                <div class="xa-area-head">
+                  <div>
+                    <div class="xa-area-eye">Your own next role</div>
+                    <div class="xa-area-title">
+                      The "best marketer vs. makes twelve better" decision from
+                      your first Action Plan — still open, on purpose.
+                    </div>
+                  </div>
+                  <span class="xa-temp xa-cold">Parked by you</span>
+                </div>
+                <div class="xa-step">
+                  <span class="xa-step-dot"></span>
+                  <div class="xa-step-body">
+                    <span class="xa-step-state"
+                      >Decision support · paused at tradeoffs</span
+                    >
+                    <span class="xa-step-where"
+                      >You asked to sit with this one. I'm not nudging — it's
+                      here when you want it.</span
+                    >
+                  </div>
+                  <button class="xa-resume">Resume →</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== LAYER 2 · CHAT (the AFTER) ===== -->
+        <div class="xa-layer xa-chat">
+          <!-- the only trace of "your work": one quiet way back -->
+          <div class="xa-toprail">
+            <button
+              class="xa-back"
+              title="Your work is held, exactly where you left it"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+              Back to your work
+            </button>
+            <span class="xa-rail-spacer"></span>
+            <span class="xa-held"
+              ><span class="xa-held-dot"></span> 3 things held, kept warm</span
+            >
+            <span class="xa-avatar">P</span>
+          </div>
+
+          <!-- the conversation now OWNS the screen -->
+          <section class="xa-convo">
+            <div class="xa-open xa-t1">
+              <span class="xa-crest"></span>
+              <span class="xa-who">Your assistant</span>
+              <span class="xa-time">Friday morning · month 5</span>
+            </div>
+
+            <div class="xa-thread">
+              <!-- 1 · the assistant greets, picking up where she left off -->
+              <div class="xa-msg xa-greet xa-t1">
+                <span class="xa-av"></span>
+                <div class="xa-col">
+                  <span class="xa-name">Your assistant</span>
+                  <div class="xa-bubble">
+                    <p>
+                      Welcome back, Priya. You're mid red-team on the
+                      <b>re-org proposal</b> — round 2 of 3. You stopped on the
+                      "span of control" critique, and the reply I drafted is
+                      waiting for your read.
+                    </p>
+                    <p>
+                      Want to keep going there, or look at the
+                      <b>leadership offsite</b>? Your research brief came back
+                      ready while you were out.
+                    </p>
+                    <div class="xa-knows">
+                      <span class="xa-knows-chip">
+                        <span class="xa-chip-dot hot"></span>
+                        <span
+                          ><b>Re-org proposal</b>
+                          <span class="xa-chip-sub"
+                            >· red-team, round 2 of 3</span
+                          ></span
+                        >
+                      </span>
+                      <span class="xa-knows-chip">
+                        <span class="xa-chip-dot warm"></span>
+                        <span
+                          ><b>Q4 offsite</b>
+                          <span class="xa-chip-sub"
+                            >· brief ready for you</span
+                          ></span
+                        >
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2 · her reply -->
+              <div class="xa-msg you xa-t2">
+                <div class="xa-col">
+                  <div class="xa-bubble">
+                    Let's finish the red-team first. Read me the reply you
+                    drafted on span of control — then I want to think out loud
+                    about whether Marcus will buy it.
+                  </div>
+                </div>
+              </div>
+
+              <!-- 3 · one more assistant turn — it already holds the context -->
+              <div class="xa-msg xa-t3">
+                <span class="xa-av"></span>
+                <div class="xa-col">
+                  <span class="xa-name">Your assistant</span>
+                  <div class="xa-bubble">
+                    <p>
+                      Here it is. Your critic argued seven direct reports
+                      flattens the org too far for a function this contested —
+                      your draft reply leans on the two pod leads absorbing
+                      coordination, so the number reads bigger than the real
+                      load.
+                    </p>
+                    <p>
+                      On whether Marcus buys it: last quarter he pushed back on
+                      anything that looked like "more managers." This framing
+                      gives him the opposite — fewer layers, clearer ownership.
+                      That's the angle I'd lead with. Want me to open the draft
+                      so we can sharpen it together?
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- prominent composer — the threshold of the front door -->
+          <div class="xa-composer">
+            <div class="xa-composer-inner">
+              <div class="xa-vbox">
+                <button class="xa-mic" title="Tap to speak">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="9" y="2" width="6" height="12" rx="3" />
+                    <path d="M5 11a7 7 0 0 0 14 0M12 18v4" />
+                  </svg>
+                </button>
+                <span class="xa-vfield"
+                  >Talk it through, or ask for anything…</span
+                >
+                <button class="xa-vsend" title="Send">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </button>
+              </div>
+              <p class="xa-comphint">
+                Everything you're working on lives inside this conversation —
+                <b>just say the word.</b>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

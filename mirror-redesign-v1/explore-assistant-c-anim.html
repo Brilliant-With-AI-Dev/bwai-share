@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      Mirror redesign — Option C in motion · inline assistant answer
+    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Outfit:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/mirror-redesign-v1/style.css" />
+    <style>
+      /* ============ OPTION C — IN MOTION ============
+         CSS-only, self-playing loop. All new classes prefixed xa-.
+         Reuses existing tokens only; never redefines :root.
+         One ~8s timeline, animation-iteration-count: infinite, every
+         moving part keyed to the SAME keyframe percentages so the
+         "answer grows in place + the card below makes room" reads as
+         a single coordinated motion. */
+
+      /* caption strip under the gallery nav */
+      .xa-caption {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 18px 32px 0;
+        font-size: 14px;
+        line-height: 1.55;
+        color: var(--ink-2);
+      }
+      .xa-caption b {
+        color: var(--green-deep);
+        font-weight: 600;
+      }
+
+      /* fixed tall stage so nothing clips across the loop */
+      .xa-stage {
+        min-height: 1000px;
+      }
+
+      /* ----- Phase 1: composer tap pulse on the strip ----- */
+      .xa-pulse {
+        position: relative;
+      }
+      .xa-pulse::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        pointer-events: none;
+        animation: xa-tap 8s ease-out infinite;
+      }
+      @keyframes xa-tap {
+        /* a single soft green ring ripple early in the loop */
+        0% {
+          box-shadow: 0 0 0 0 rgba(31, 92, 61, 0);
+        }
+        4% {
+          box-shadow: 0 0 0 0 rgba(31, 92, 61, 0.4);
+        }
+        14% {
+          box-shadow: 0 0 0 12px rgba(31, 92, 61, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(31, 92, 61, 0);
+        }
+      }
+
+      /* ----- Phase 2: her question appears in the strip ----- */
+      .xa-asked {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+        overflow: hidden;
+        animation: xa-asked-open 8s ease-in-out infinite;
+      }
+      .xa-asked-q {
+        align-self: flex-start;
+        max-width: 92%;
+        font-size: 14px;
+        line-height: 1.45;
+        color: #f3eee4;
+        background: var(--ink);
+        border: 1px solid var(--ink);
+        border-radius: 14px 14px 14px 5px;
+        padding: 9px 14px;
+      }
+      .xa-asked-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: var(--ink-3);
+      }
+      .xa-asked-meta .xa-target {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 600;
+        color: var(--green-deep);
+        background: var(--green-soft);
+        border-radius: 999px;
+        padding: 3px 10px;
+      }
+      .xa-asked-meta .xa-target::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--green);
+        flex: 0 0 auto;
+      }
+      @keyframes xa-asked-open {
+        0% {
+          max-height: 0;
+          opacity: 0;
+          transform: translateY(-6px);
+          margin-top: 0;
+        }
+        16% {
+          max-height: 0;
+          opacity: 0;
+          transform: translateY(-6px);
+          margin-top: 0;
+        }
+        /* question slides + fades in */
+        30% {
+          max-height: 140px;
+          opacity: 1;
+          transform: translateY(0);
+          margin-top: 10px;
+        }
+        84% {
+          max-height: 140px;
+          opacity: 1;
+          transform: translateY(0);
+          margin-top: 10px;
+        }
+        /* collapse back for a seamless loop */
+        100% {
+          max-height: 0;
+          opacity: 0;
+          transform: translateY(-6px);
+          margin-top: 0;
+        }
+      }
+
+      /* ----- Phase 3: soft green ring on the asked-about card ----- */
+      .xa-focused {
+        animation: xa-ring 8s ease-in-out infinite;
+      }
+      @keyframes xa-ring {
+        0%,
+        16% {
+          border-color: var(--line);
+          box-shadow: var(--shadow-card);
+        }
+        /* ring blooms as the answer grows */
+        38%,
+        84% {
+          border-color: rgba(31, 92, 61, 0.4);
+          box-shadow:
+            0 0 0 3px var(--green-faint),
+            var(--shadow-pop);
+        }
+        /* fades on collapse */
+        100% {
+          border-color: var(--line);
+          box-shadow: var(--shadow-card);
+        }
+      }
+
+      /* ----- Phase 3/4/5: THE INLINE ANSWER grows IN PLACE inside the card ----- */
+      .xa-answer {
+        position: relative;
+        overflow: hidden;
+        margin-top: 0;
+        padding: 0 16px;
+        background: linear-gradient(var(--green-faint), var(--raised));
+        border-left: 3px solid var(--green);
+        border-radius: 0 13px 13px 0;
+        /* height + opacity + spacing animate as one — sprouts then folds back */
+        animation: xa-grow 8s ease-in-out infinite;
+      }
+      @keyframes xa-grow {
+        0%,
+        16% {
+          max-height: 0;
+          opacity: 0;
+          margin-top: 0;
+          padding-top: 0;
+          padding-bottom: 0;
+          border-left-width: 0;
+        }
+        /* grows open */
+        30% {
+          max-height: 0;
+          opacity: 0;
+          margin-top: 0;
+          padding-top: 0;
+          padding-bottom: 0;
+          border-left-width: 0;
+        }
+        60% {
+          max-height: 400px;
+          opacity: 1;
+          margin-top: 14px;
+          padding-top: 14px;
+          padding-bottom: 14px;
+          border-left-width: 3px;
+        }
+        /* hold fully expanded */
+        84% {
+          max-height: 400px;
+          opacity: 1;
+          margin-top: 14px;
+          padding-top: 14px;
+          padding-bottom: 14px;
+          border-left-width: 3px;
+        }
+        /* collapse back in place */
+        100% {
+          max-height: 0;
+          opacity: 0;
+          margin-top: 0;
+          padding-top: 0;
+          padding-bottom: 0;
+          border-left-width: 0;
+        }
+      }
+      .xa-answer-head {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin-bottom: 9px;
+      }
+      .xa-answer-mk {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        flex: 0 0 auto;
+        background: radial-gradient(
+          circle at 35% 30%,
+          #2f7d56,
+          var(--green-deep)
+        );
+        position: relative;
+        box-shadow: 0 2px 7px -3px rgba(31, 92, 61, 0.5);
+      }
+      .xa-answer-mk::after {
+        content: "";
+        position: absolute;
+        inset: 6px;
+        border-radius: 50%;
+        border: 1.3px solid rgba(252, 250, 245, 0.92);
+        border-right-color: transparent;
+        transform: rotate(28deg);
+      }
+      .xa-answer-who {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--green-deep);
+        letter-spacing: -0.01em;
+      }
+      .xa-answer-tag {
+        margin-left: auto;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--green-deep);
+        background: var(--green-soft);
+        border-radius: 999px;
+        padding: 3px 9px;
+      }
+      .xa-answer-body {
+        font-size: 14.5px;
+        line-height: 1.58;
+        color: var(--ink);
+      }
+      .xa-answer-body b {
+        font-weight: 600;
+      }
+      .xa-answer-body em {
+        font-style: italic;
+        color: var(--ink-2);
+      }
+
+      /* inline follow-up affordance — part of the answer block */
+      .xa-followup {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 13px;
+        padding-top: 12px;
+        border-top: 1px solid var(--line);
+        flex-wrap: wrap;
+      }
+      .xa-fu-pill {
+        flex: 1 1 auto;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--raised);
+        border: 1px solid var(--line-2);
+        border-radius: 13px;
+        padding: 8px 10px 8px 14px;
+        box-shadow: var(--shadow-card);
+      }
+      .xa-fu-pill .xa-fu-ph {
+        flex: 1 1 auto;
+        min-width: 0;
+        font-size: 13.5px;
+        color: var(--ink-3);
+      }
+      .xa-fu-mic {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        flex: 0 0 auto;
+        background: var(--green);
+        color: #fcfaf5;
+        display: grid;
+        place-items: center;
+        border: none;
+        box-shadow: 0 2px 9px -3px rgba(31, 92, 61, 0.55);
+      }
+      .xa-fu-mic svg {
+        width: 16px;
+        height: 16px;
+      }
+      .xa-fu-chip {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--green-deep);
+        background: var(--green-soft);
+        border: none;
+        border-radius: 999px;
+        padding: 7px 13px;
+        white-space: nowrap;
+      }
+
+      /* ----- Phase 3/4/5: the cards BELOW make room ------------------------
+         The answer block (.xa-answer) is a normal-flow child of the re-org
+         card, so as its max-height + margin + padding grow, the card itself
+         grows taller and the document below is pushed DOWN by normal flow —
+         automatically, by exactly the answer's real height, no magic number.
+         This wrapper just gets a matching ease so the descent reads smooth
+         and the lower cards visibly slide down in lockstep with the answer. */
+      .xa-pushdown {
+        transition: none;
+        will-change: transform;
+      }
+
+      @media (max-width: 600px) {
+        .xa-caption {
+          padding: 14px 18px 0;
+          font-size: 13px;
+        }
+        .xa-followup {
+          gap: 8px;
+        }
+        .xa-fu-pill {
+          flex-basis: 100%;
+        }
+      }
+
+      /* honor reduced-motion: hold the expanded, legible state */
+      @media (prefers-reduced-motion: reduce) {
+        .xa-pulse::after,
+        .xa-asked,
+        .xa-focused,
+        .xa-answer,
+        .xa-pushdown {
+          animation: none;
+        }
+        .xa-asked {
+          max-height: none;
+          opacity: 1;
+          transform: none;
+        }
+        .xa-focused {
+          border-color: rgba(31, 92, 61, 0.4);
+          box-shadow:
+            0 0 0 3px var(--green-faint),
+            var(--shadow-pop);
+        }
+        .xa-answer {
+          max-height: none;
+          opacity: 1;
+          margin-top: 14px;
+          padding: 14px 16px;
+          border-left-width: 3px;
+        }
+        .xa-pushdown {
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="galnav">
+      <div class="wrap">
+        <a
+          class="brand"
+          href="/mirror-redesign-v1/"
+          style="text-decoration: none; color: inherit"
+          ><span class="emblem"></span> Mirror redesign</a
+        ><span class="tagpill">Exploring · assistant interaction</span>
+        <div class="links">
+          <span
+            class="jump"
+            style="background: var(--green-soft); color: var(--green-deep)"
+            >Option C · how the inline answer feels</span
+          >
+        </div>
+      </div>
+    </nav>
+
+    <p class="xa-caption">
+      <b>Option C in motion</b> — she asks about the re-org proposal; the answer
+      grows in place, inside that card, and the cards below make room. Nothing
+      else moves. Loops.
+    </p>
+
+    <section id="homebase" class="wrap screen xa-stage">
+      <div class="head">
+        <div class="stage">
+          <span class="dot"></span><span class="label">Act 4 · Home base</span
+          ><span class="sub">five months in — the long relationship</span>
+        </div>
+        <h2>The answer sprouts in place — everything else makes room.</h2>
+        <p class="why">
+          Priya asks about the re-org from the assistant strip. No panel opens,
+          no new screen loads. The answer
+          <b>grows inside the work item it's about</b>, and the cards beneath it
+          slide down to make space — so she never loses where she is.
+        </p>
+        <span class="tagline"
+          >answer in place · nothing else moves · resume to the exact step</span
+        >
+      </div>
+
+      <div class="frame">
+        <div class="titlebar">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="url">
+            mirror.brilliantwith.ai &nbsp;·&nbsp; home · Priya Raman
+          </div>
+        </div>
+        <div class="app">
+          <div class="topbar">
+            <div class="moe">
+              <span class="mark"></span
+              ><span
+                ><span class="nm">Your assistant</span
+                ><span class="st"
+                  >good to see you, Priya — I kept everything warm</span
+                ></span
+              >
+            </div>
+            <div class="crumbs">·&nbsp; <b>Home</b> · month 5</div>
+            <div class="right">
+              <button class="tb-btn">Your Mirrors</button>
+              <button class="tb-btn">Everything you've made</button>
+              <div class="avatar">P</div>
+            </div>
+          </div>
+
+          <div class="stage-area">
+            <div class="stage-pad">
+              <div class="padhead">
+                <div class="pe">What are we working on?</div>
+                <h4>
+                  Three things are live right now. Pick up exactly where you
+                  left any of them.
+                </h4>
+              </div>
+
+              <!-- the assistant strip — composer pulses, then carries Priya's question -->
+              <div class="hb-ask xa-pulse">
+                <span class="hb-ask-mk"></span>
+                <div class="hb-ask-body">
+                  <div class="hb-ask-line">
+                    Ask me to start something, or just talk it through —
+                    <b>I already hold all of this.</b>
+                  </div>
+                  <div class="xa-asked">
+                    <div class="xa-asked-q">
+                      "Where did I land on the span-of-control question?"
+                    </div>
+                    <div class="xa-asked-meta">
+                      <span class="xa-target"
+                        >Answering on · Re-org proposal</span
+                      >
+                      <span
+                        >I'll answer right on the card below — nothing
+                        moves.</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <button class="hb-ask-mic" title="Tap to speak">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="9" y="2" width="6" height="12" rx="3" />
+                    <path d="M5 11a7 7 0 0 0 14 0M12 18v4" />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- ACTIVE WORK -->
+              <div class="hb-section">
+                <div class="hb-sec-eye">Active work</div>
+
+                <div class="hb-work">
+                  <!-- area 1 — the asked-about card; answer grows INSIDE it -->
+                  <div class="hb-area xa-focused">
+                    <span class="hb-area-spine"></span>
+                    <div class="hb-area-head">
+                      <div>
+                        <div class="hb-area-eye">Re-org proposal</div>
+                        <div class="hb-area-title">
+                          The marketing org you've been redrawing since the
+                          owner handoff worked.
+                        </div>
+                      </div>
+                      <span class="hb-temp hb-hot">Active</span>
+                    </div>
+                    <div class="hb-step">
+                      <span class="hb-step-dot"></span>
+                      <div class="hb-step-body">
+                        <span class="hb-step-state"
+                          >Red-team · round 2 of 3</span
+                        >
+                        <span class="hb-step-where"
+                          >You stopped on the "span of control" critique — I
+                          drafted a reply, it's waiting for your read.</span
+                        >
+                      </div>
+                      <button class="hb-resume">Resume →</button>
+                    </div>
+
+                    <!-- THE INLINE ANSWER — nested in this card, grows in place -->
+                    <div class="xa-answer">
+                      <div class="xa-answer-head">
+                        <span class="xa-answer-mk"></span>
+                        <span class="xa-answer-who">Your assistant</span>
+                        <span class="xa-answer-tag">Answered here</span>
+                      </div>
+                      <div class="xa-answer-body">
+                        It landed mid red-team — <b>round 2 of 3</b>. Your
+                        span-of-control critique held: I tightened
+                        <b>Draft v4</b> so every lead carries six to eight
+                        reports instead of the eleven that triggered the flag,
+                        and I left a reply to that note
+                        <em>waiting for your read</em>. Two loops are still open
+                        — the dual-reporting line for the AI guild, and whether
+                        Growth rolls under Brand. Resume and you're back exactly
+                        on the critique you paused on.
+                      </div>
+
+                      <!-- inline follow-up affordance, in place -->
+                      <div class="xa-followup">
+                        <div class="xa-fu-pill">
+                          <span class="xa-fu-ph">Ask again, right here…</span>
+                          <button class="xa-fu-mic" title="Tap to speak">
+                            <svg
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            >
+                              <rect x="9" y="2" width="6" height="12" rx="3" />
+                              <path d="M5 11a7 7 0 0 0 14 0M12 18v4" />
+                            </svg>
+                          </button>
+                        </div>
+                        <button class="xa-fu-chip">
+                          Show me the open loops
+                        </button>
+                        <button class="xa-fu-chip">Continue red-team →</button>
+                      </div>
+                    </div>
+
+                    <div class="hb-area-foot">
+                      <span class="hb-loop"
+                        >2 open loops · last worked Tuesday</span
+                      >
+                      <span class="hb-arts"
+                        >Draft v4 · Risk review · Improvement plan</span
+                      >
+                    </div>
+                  </div>
+
+                  <!-- the cards BELOW — translate down in lockstep to make room -->
+                  <div class="xa-pushdown">
+                    <!-- area 2 — the Q4 leadership offsite -->
+                    <div class="hb-area">
+                      <span class="hb-area-spine"></span>
+                      <div class="hb-area-head">
+                        <div>
+                          <div class="hb-area-eye">Leadership offsite</div>
+                          <div class="hb-area-title">
+                            The Q4 offsite where you make the case for the new
+                            structure.
+                          </div>
+                        </div>
+                        <span class="hb-temp hb-warm">Picking back up</span>
+                      </div>
+                      <div class="hb-step">
+                        <span class="hb-step-dot"></span>
+                        <div class="hb-step-body">
+                          <span class="hb-step-state"
+                            >Research prep · brief ready for you</span
+                          >
+                          <span class="hb-step-where"
+                            >You asked me to pull how three peer orgs structured
+                            AI ownership. The brief's done — resume to send it
+                            out.</span
+                          >
+                        </div>
+                        <button class="hb-resume">Resume →</button>
+                      </div>
+
+                      <!-- the future tool, surfacing contextually inside this work -->
+                      <div class="hb-tool">
+                        <span class="hb-tool-mk"></span>
+                        <div class="hb-tool-body">
+                          <span class="hb-tool-eye"
+                            >Ready inside this work</span
+                          >
+                          <span class="hb-tool-line"
+                            >Your brief is built for outside research. I can
+                            package it as a <b>Deep Research prompt</b> — paste
+                            it into ChatGPT or Claude, bring the result back,
+                            and I'll fold it into the offsite deck.</span
+                          >
+                          <button class="hb-tool-go">
+                            Package the prompt →
+                          </button>
+                        </div>
+                      </div>
+
+                      <div class="hb-area-foot">
+                        <span class="hb-loop"
+                          >1 open loop · last worked last week</span
+                        >
+                        <span class="hb-arts">Research brief · Peer scan</span>
+                      </div>
+                    </div>
+
+                    <!-- area 3 — a decision, quieter -->
+                    <div class="hb-area hb-cool">
+                      <span class="hb-area-spine"></span>
+                      <div class="hb-area-head">
+                        <div>
+                          <div class="hb-area-eye">Your own next role</div>
+                          <div class="hb-area-title">
+                            The "best marketer vs. makes twelve better" decision
+                            from your first Action Plan — still open, on
+                            purpose.
+                          </div>
+                        </div>
+                        <span class="hb-temp hb-cold">Parked by you</span>
+                      </div>
+                      <div class="hb-step">
+                        <span class="hb-step-dot"></span>
+                        <div class="hb-step-body">
+                          <span class="hb-step-state"
+                            >Decision support · paused at tradeoffs</span
+                          >
+                          <span class="hb-step-where"
+                            >You asked to sit with this one. I'm not nudging —
+                            it's here when you want it.</span
+                          >
+                        </div>
+                        <button class="hb-resume hb-resume-quiet">
+                          Resume →
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /xa-pushdown -->
+                </div>
+              </div>
+
+              <div class="hb-footnote">
+                Everything you've ever made is still here, dated and kept — but
+                home opens on what's moving, not an archive.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
