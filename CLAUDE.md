@@ -1,8 +1,14 @@
 # bwai-share — agent guide
 
-Single-branch static-HTML site. Every push to `main` deploys to https://bwai-share.vercel.app/.
+Astro + Starlight docs site. Every push to `main` builds and deploys to https://bwai-share.vercel.app/. Other branches/PRs get Vercel preview URLs.
 
-**Adding an artifact:** see `README.md`. Drop a dir with `index.html`, link from root `index.html`, push.
+**Two content types** (see `README.md` and `/guides/adding-content/`):
+- **Markdown/MDX docs** → `src/content/docs/`, registered in the `sidebar` in `astro.config.mjs`.
+- **Self-contained HTML artifacts** → `public/<slug>/index.html`, linked from the Artifacts `<CardGrid>` in `src/content/docs/index.mdx`. Served verbatim at `/<slug>/`; shared styles at `/assets/bwai-doc.css`.
+
+**Build:** `npm install` then `npm run dev` (4321) / `npm run build` (→ `dist/`). `dist/` and `.astro/` are git-ignored — never commit them. Vercel auto-detects Astro; config pinned in `vercel.json`.
+
+**There is a build step now.** This was previously a no-build raw-HTML site; it was migrated to Astro Starlight (rationale in `/reference/framework-choice/`). The bespoke HTML artifacts were intentionally NOT converted to MDX — they stay in `public/`.
 
 ## Non-obvious context for AI assistants
 

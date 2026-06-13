@@ -1,0 +1,88 @@
+---
+title: Add content
+description: How to add a Markdown/MDX doc or a self-contained HTML artifact.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+This site holds **two kinds of content**. Pick the one that fits what you're sharing.
+
+## 1. A Markdown / MDX doc
+
+For anything that is mostly prose, tables, code, callouts, or steps — write
+Markdown. Starlight renders it with the shared theme, sidebar, and search
+automatically.
+
+1. Create a file under `src/content/docs/`, e.g.
+   `src/content/docs/guides/my-thing.md`.
+2. Give it frontmatter:
+
+   ```md
+   ---
+   title: My thing
+   description: One line for search + social previews.
+   ---
+
+   Your content here.
+   ```
+
+3. Add it to the sidebar in `astro.config.mjs` (the `sidebar` array). The
+   `slug` is the path under `src/content/docs/` without the extension —
+   `guides/my-thing`.
+4. Commit and push. The URL is `/guides/my-thing/`.
+
+You get for free: responsive layout, dark/light toggle, full-text search,
+"on this page" table of contents, and prev/next links.
+
+### Components you can use in `.mdx`
+
+Import from `@astrojs/starlight/components`:
+
+```mdx
+import { Aside, Tabs, TabItem, Card, CardGrid, LinkCard, Steps, Code, FileTree } from '@astrojs/starlight/components';
+```
+
+- **Callouts**: `<Aside type="note|tip|caution|danger">…</Aside>`
+- **Tabs**: `<Tabs><TabItem label="npm">…</TabItem></Tabs>`
+- **Cards / links**: `<CardGrid>`, `<Card>`, `<LinkCard>`
+- **Steps**: wrap an ordered list in `<Steps>`
+- Code blocks support syntax highlighting, titles, line highlights, and diffs
+  out of the box (powered by Expressive Code).
+
+<Aside type="note">
+Use the `.mdx` extension when you want components like the ones above; plain
+`.md` is fine for text-only docs.
+</Aside>
+
+## 2. A self-contained HTML artifact
+
+For bespoke, interactive deliverables — mockups, GUIs, flow diagrams, one-off
+tools — that are **not** prose. These are served **verbatim**, untouched by the
+framework, exactly as before.
+
+1. Create a directory under `public/`, slug-cased: `public/<slug>/`.
+2. Drop a self-contained `index.html` (plus any sibling assets — images, CSS,
+   JS) inside it.
+3. Add a `<LinkCard>` for it to the **Artifacts** grid in
+   `src/content/docs/index.mdx`:
+
+   ```mdx
+   <LinkCard
+     title="My artifact"
+     href="/<slug>/"
+     description="2026-06-13 — one-line summary."
+   />
+   ```
+
+4. Commit and push. The URL is `/<slug>/`.
+
+Anything inside `public/` is copied to the site root at build time, so existing
+URLs like `/m2m-shapes/` keep working unchanged. Shared document styles live at
+`/assets/bwai-doc.css` — link them from an artifact with
+`<link rel="stylesheet" href="/assets/bwai-doc.css" />`.
+
+<Aside type="tip">
+Rule of thumb: **prose → Markdown doc** (`src/content/docs/`), **bespoke
+interactive page → HTML artifact** (`public/`). When in doubt, prose is cheaper
+to maintain — prefer it.
+</Aside>

@@ -1,0 +1,113 @@
+---
+title: Brilliant With AI — Shared Artifacts
+description: Static artifacts and docs shared from Claude Code sessions, for review.
+template: splash
+hero:
+  tagline: Self-contained HTML deliverables and Markdown docs from Claude Code sessions. Stable, forwardable, cmd-clickable URLs.
+  actions:
+    - text: How to add content
+      link: /guides/adding-content/
+      icon: right-arrow
+    - text: Why this framework
+      link: /reference/framework-choice/
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard, Aside } from '@astrojs/starlight/components';
+
+<Aside type="caution" title="This is a share / research surface, not production">
+Anyone with the URL can read the contents. Do not paste secrets, customer data,
+or credentials. For lightweight team-only access, see
+[Access control](/reference/access-control/).
+</Aside>
+
+## Artifacts
+
+Each card is a self-contained deliverable served verbatim at a stable URL.
+
+<CardGrid>
+  <LinkCard
+    title="Mirror v4 ↔ End-State Build Doc — alignment brief"
+    href="/mirror-v4-alignment/"
+    description="2026-06-12 — decision prep for the v4 review with Adrian: where the two docs agree, the three real decisions (destination, Return to Mirror, assistant introduction), prefilled answers, and a meeting agenda."
+  />
+  <LinkCard
+    title="Mirror redesign — direction sample (the Letter)"
+    href="/mirror-redesign-v1/"
+    description="2026-06-11 — a static feel-check for the Mirror Workspace redesign (#706): warm paper, ink, evergreen accent, Fraunces + Hanken Grotesk, on the three hardest screens (first-finish, workspace, refine)."
+  />
+  <LinkCard
+    title="Mirror — clean-room flow rethink (design brief)"
+    href="/mirror-flow-rethink-brief/"
+    description="2026-06-09 — a greenfield brief to hand a fresh agent: design the entire Mirror flow from first principles, first touch to long-term return. Routes, runtime vs platform actions, per-surface contracts, failure handling, diagrams. Copy-as-Markdown."
+  />
+  <LinkCard
+    title="BWAI Doc — design system"
+    href="/design-system/"
+    description="2026-06-09 — the shared calm light-theme document frame (cool slate, one blue accent): header block, section headers, callouts, constraint lists, flow chips, journey cards, before/now pairs. Link assets/bwai-doc.css and copy the markup."
+  />
+  <LinkCard
+    title="Mirror — payment-first claim funnel (pick a direction)"
+    href="/payments-claim-funnel/"
+    description="2026-06-09 — three on-brand treatments for the post-Stripe 'claim your Mirror' page, plus the full state set (new buyer, returning, work-email, magic-link sent, mismatch, success, already-claimed, error). Unblocks #611."
+  />
+  <LinkCard
+    title="Stripe + Resend — go-live runbook"
+    href="/payments-go-live-runbook/"
+    description="2026-06-09 — the safe path from 'payments code deployed' to 'taking real money': test-mode-first sequence, the six exact env vars, the webhook endpoint and its three events, end-to-end purchase + refund verification, smoke checklist, kill-switch rollback."
+  />
+  <LinkCard
+    title="Testing new features before customers see them — business-team guide"
+    href="/feature-flags-guide/"
+    description="2026-06-08 — plain-language walkthrough of feature flags for the business & marketing team: preview links, flipping a flag on via the Vercel Toolbar, and full launch. Annotated screenshots, a find-your-path picker, setup checklist, copy-as-Markdown."
+  />
+  <LinkCard
+    title="Mirror — unified custom sign-in (pick a direction)"
+    href="/mirror-unified-signin/"
+    description="2026-06-04 — three on-brand treatments for the identity-first sign-in surface replacing the Stytch widget (centered card · split-panel · framed card), plus the 2+-org picker and the full state set. Unblocks build item C2."
+  />
+  <LinkCard
+    title="brilliant-apps — repo state survey"
+    href="/repo-survey/"
+    description="2026-05-31 — interactive snapshot of everything in flight: 68-commit release gap, 14 open PRs, 35 issues, 199 local branches, 66 worktrees. Filter chips, branch search, ranked cleanup actions. Export as JSON or summary Markdown."
+  />
+  <LinkCard
+    title="Prompt Upgrader — rethink (flow diagram)"
+    href="/prompt-upgrader-rethink/"
+    description="2026-05-19 — mid-design flow diagram of the pared-down tester build. Hover any node to peek the screen (S0 → S1.0/S1.1 → metaprompt → S3.0a streaming + hardening Q&A → S3.0b settled). Reusable-template checkbox routes between two metaprompts."
+  />
+  <LinkCard
+    title="Prompt Upgrader — spike walkthrough"
+    href="/prompt-upgrader-spike/"
+    description="2026-05-18 — high-fidelity, non-functional walk through the v1 Prompt Upgrader UX. Library, intake with mock context, two-pane workspace with Improve / Tailor / Clone, versioning, copy modes. Dev-panel toggles flip every state."
+  />
+  <LinkCard
+    title="Mirror-next interview spike"
+    href="/mirror-next-spike/"
+    description="2026-05-18 — a scripted walk through the rebuilt mirror-next interview, end-to-end, on an alternate stack. Shows the interaction shape and the Insights Snapshot payoff before committing engineering to the rebuild."
+  />
+  <LinkCard
+    title="How should BWAI send email? (May 2026 snapshot)"
+    href="/email-architecture/"
+    description="Frozen explainer — team review of the AI-writes-&-sends direction, with Adrian's two-tier framing (instant snapshots vs delayed, evaluated Mirror reports). Live work moved to bapps#458 under the B2C-payments project."
+  />
+  <LinkCard
+    title="Staged Prompts — Review"
+    href="/staged-prompts-review/"
+    description="2026-05-14 — inline comment tool for 8 staged-prompt drafts with seam decisions and YAML export."
+  />
+  <LinkCard
+    title="M2M migration shapes — explainer + GUI"
+    href="/m2m-shapes/"
+    description="2026-05-12 — interactive walkthrough of the m2m export schema and migration shapes."
+  />
+</CardGrid>
+
+## Docs
+
+<CardGrid>
+  <LinkCard title="Add content" href="/guides/adding-content/" description="Two content types: Markdown/MDX docs and self-contained HTML artifacts. How to add each." />
+  <LinkCard title="Deploy" href="/guides/deploying/" description="How the Vercel build works and how a push reaches the live site." />
+  <LinkCard title="Why this framework" href="/reference/framework-choice/" description="The research and ranked reasoning behind choosing Astro Starlight." />
+  <LinkCard title="Access control" href="/reference/access-control/" description="Vercel Password Protection vs Vercel Authentication, plan caveats, and how to enable." />
+</CardGrid>

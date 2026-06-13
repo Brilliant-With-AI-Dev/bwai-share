@@ -1,0 +1,18 @@
+/* BWAI accent tuning for Starlight.
+   Keeps the existing brand blue (#2c6bed) used across the artifacts.
+   Starlight ships a clean light theme + a dark toggle; we only retint the
+   accent so almost no custom CSS is needed. */
+
+/* Light mode */
+:root[data-theme='light'] {
+  --sl-color-accent-low: #dfe9fd;
+  --sl-color-accent: #2c6bed;
+  --sl-color-accent-high: #16306b;
+}
+
+/* Dark mode */
+:root[data-theme='dark'] {
+  --sl-color-accent-low: #0e244d;
+  --sl-color-accent: #4f86f0;
+  --sl-color-accent-high: #cdddfb;
+}
