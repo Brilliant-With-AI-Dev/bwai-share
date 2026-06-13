@@ -8,8 +8,10 @@ Built with [Astro](https://astro.build) + [Starlight](https://starlight.astro.bu
 a static docs framework for the Markdown pages, with self-contained HTML
 artifacts served verbatim alongside them.
 
-> **Share / research surface, not production.** Anyone with the URL can read it.
-> Do not paste secrets, customer data, or credentials. For team-only access, see
+> **Team-only review surface.** Access is gated by Vercel Authentication — you
+> must be signed in to a Vercel account on the Brilliant-With-AI team to view
+> the site. It's still a shared surface, so don't paste secrets, customer data,
+> or credentials. Details:
 > [`reference/access-control`](https://bwai-share.vercel.app/reference/access-control/).
 
 ## Two kinds of content

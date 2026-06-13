@@ -3,11 +3,16 @@ title: Access control
 description: Locking the site down to team-only with Vercel — options, caveats, and how.
 ---
 
-By default this site is **public** — anyone with a URL can read it. Vercel
-offers two ways to gate it, both applied at the edge, so they work identically
-for the Starlight pages and the static HTML artifacts (no code changes needed).
+:::note[Current status: gated]
+This site is **not public**. **Vercel Authentication** is turned on, so you must
+be signed in to a Vercel account with access to the Brilliant-With-AI team to
+view any page — both the Starlight docs and the static HTML artifacts.
+:::
 
-BWAI is on the **Vercel Pro** plan. Here's what that means in practice.
+Vercel offers two ways to gate the site, both applied at the edge, so they work
+identically for the Starlight pages and the static HTML artifacts (no code
+changes needed). BWAI is on the **Vercel Pro** plan; here's what that means in
+practice.
 
 ## The two options
 
@@ -18,14 +23,17 @@ BWAI is on the **Vercel Pro** plan. Here's what that means in practice.
 
 Both can protect **Preview and Production** deployments.
 
-## Recommendation
+## What's in use
 
-- If everyone who needs access already has (or can have) a Vercel account on the
-  team → use **Vercel Authentication**. It's free on your Pro plan, turn it on
-  in seconds, no add-on.
-- If you need to hand a **single shared password** to people outside the team
-  (reviewers, contractors) → that's **Password Protection**, which requires the
-  paid Advanced Deployment Protection add-on.
+**Vercel Authentication is enabled** — the free option on Pro. Viewers sign in
+with a Vercel account on the team; no add-on, no shared secret to manage. This
+is the right default while everyone who needs access has (or can be invited to)
+the team.
+
+If you later need to share with people **outside** the team (reviewers,
+contractors) without giving them team access, switch on **Password Protection**
+— a single shared password — which requires the paid Advanced Deployment
+Protection add-on.
 
 :::caution[The shared-password caveat]
 A shared password is **not** part of base Pro. Budget for the **Advanced
@@ -35,9 +43,14 @@ pricing)**. Vercel Authentication has no such cost.
 
 ## How to enable
 
-**Dashboard:** Vercel → project `bwai-share` → **Settings → Deployment
-Protection** → choose *Vercel Authentication* or *Password Protection* and pick
-which deployments it applies to (Production, Preview, or both).
+**Toggle protection — Dashboard:** Vercel → project `bwai-share` → **Settings →
+Deployment Protection** → choose *Vercel Authentication* or *Password
+Protection* and pick which deployments it applies to (Production, Preview, or
+both).
+
+**Grant someone access (with Vercel Authentication on):** invite them to the
+Vercel team — Vercel → **Team Settings → Members → Invite**. Once they accept
+and sign in, they can view the site. Removing them from the team revokes it.
 
 **Password Protection via API** (only after the add-on is active):
 
