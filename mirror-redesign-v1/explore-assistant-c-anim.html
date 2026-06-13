@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>
-      Mirror redesign — Option C in motion · inline assistant answer
+      Mirror redesign — Option C · inline assistant answer (interactive)
     </title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,13 +14,13 @@
     />
     <link rel="stylesheet" href="/mirror-redesign-v1/style.css" />
     <style>
-      /* ============ OPTION C — IN MOTION ============
-         CSS-only, self-playing loop. All new classes prefixed xa-.
+      /* ============ OPTION C — INTERACTIVE ============
+         Click-triggered, real JS. All new classes prefixed xa-.
          Reuses existing tokens only; never redefines :root.
-         One ~8s timeline, animation-iteration-count: infinite, every
-         moving part keyed to the SAME keyframe percentages so the
-         "answer grows in place + the card below makes room" reads as
-         a single coordinated motion. */
+         The inline sprout: the answer grows IN PLACE inside the re-org
+         proposal card; the card BELOW it slides down (normal flow, so it
+         moves by exactly the answer's real height) to make room. Nothing
+         else moves. Played ONCE per click via CSS transition. */
 
       /* caption strip under the gallery nav */
       .xa-caption {
@@ -35,203 +35,153 @@
         color: var(--green-deep);
         font-weight: 600;
       }
-
-      /* fixed tall stage so nothing clips across the loop */
-      .xa-stage {
-        min-height: 1000px;
+      .xa-caption kbd {
+        font-family: var(--sans);
+        font-weight: 600;
+        font-size: 12.5px;
+        color: var(--green-deep);
+        background: var(--green-soft);
+        border-radius: 6px;
+        padding: 1px 6px;
       }
 
-      /* ----- Phase 1: composer tap pulse on the strip ----- */
-      .xa-pulse {
+      /* ---------- THE ASK TRIGGER — on the re-org card ---------- */
+      /* sits above the inline answer; the single obvious thing to click */
+      .xa-askrow {
+        margin-top: 14px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .xa-askbtn {
         position: relative;
+        font-family: var(--sans);
+        font-weight: 600;
+        font-size: 14.5px;
+        color: #fcfaf5;
+        background: var(--green);
+        border: none;
+        border-radius: 13px;
+        padding: 12px 18px;
+        cursor: pointer;
+        box-shadow: var(--shadow-pop);
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        line-height: 1.25;
+        text-align: left;
+        transition:
+          background 0.15s,
+          transform 0.15s;
       }
-      .xa-pulse::after {
+      .xa-askbtn:hover {
+        background: var(--green-deep);
+      }
+      .xa-askbtn:active {
+        transform: translateY(1px);
+      }
+      .xa-askbtn .xa-askq {
+        max-width: 30ch;
+      }
+      .xa-askbtn .xa-arrow {
+        font-weight: 500;
+        opacity: 0.85;
+      }
+      /* soft pulsing ring — the unmistakable "click me" cue */
+      .xa-askbtn::after {
         content: "";
         position: absolute;
         inset: 0;
         border-radius: inherit;
         pointer-events: none;
-        animation: xa-tap 8s ease-out infinite;
+        animation: xa-ringpulse 2.1s ease-out infinite;
       }
-      @keyframes xa-tap {
-        /* a single soft green ring ripple early in the loop */
+      @keyframes xa-ringpulse {
         0% {
-          box-shadow: 0 0 0 0 rgba(31, 92, 61, 0);
+          box-shadow: 0 0 0 0 rgba(31, 92, 61, 0.42);
         }
-        4% {
-          box-shadow: 0 0 0 0 rgba(31, 92, 61, 0.4);
-        }
-        14% {
+        70% {
           box-shadow: 0 0 0 12px rgba(31, 92, 61, 0);
         }
         100% {
           box-shadow: 0 0 0 0 rgba(31, 92, 61, 0);
         }
       }
-
-      /* ----- Phase 2: her question appears in the strip ----- */
-      .xa-asked {
-        margin-top: 10px;
-        display: flex;
-        flex-direction: column;
-        gap: 9px;
-        overflow: hidden;
-        animation: xa-asked-open 8s ease-in-out infinite;
-      }
-      .xa-asked-q {
-        align-self: flex-start;
-        max-width: 92%;
-        font-size: 14px;
-        line-height: 1.45;
-        color: #f3eee4;
-        background: var(--ink);
-        border: 1px solid var(--ink);
-        border-radius: 14px 14px 14px 5px;
-        padding: 9px 14px;
-      }
-      .xa-asked-meta {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 12px;
+      .xa-askhint {
+        font-size: 12.5px;
         color: var(--ink-3);
-      }
-      .xa-asked-meta .xa-target {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        font-weight: 600;
-        color: var(--green-deep);
-        background: var(--green-soft);
-        border-radius: 999px;
-        padding: 3px 10px;
       }
-      .xa-asked-meta .xa-target::before {
+      .xa-askhint::before {
         content: "";
         width: 6px;
         height: 6px;
         border-radius: 50%;
         background: var(--green);
         flex: 0 0 auto;
+        animation: xa-dot 2.1s ease-in-out infinite;
       }
-      @keyframes xa-asked-open {
-        0% {
-          max-height: 0;
-          opacity: 0;
-          transform: translateY(-6px);
-          margin-top: 0;
-        }
-        16% {
-          max-height: 0;
-          opacity: 0;
-          transform: translateY(-6px);
-          margin-top: 0;
-        }
-        /* question slides + fades in */
-        30% {
-          max-height: 140px;
-          opacity: 1;
-          transform: translateY(0);
-          margin-top: 10px;
-        }
-        84% {
-          max-height: 140px;
-          opacity: 1;
-          transform: translateY(0);
-          margin-top: 10px;
-        }
-        /* collapse back for a seamless loop */
-        100% {
-          max-height: 0;
-          opacity: 0;
-          transform: translateY(-6px);
-          margin-top: 0;
-        }
-      }
-
-      /* ----- Phase 3: soft green ring on the asked-about card ----- */
-      .xa-focused {
-        animation: xa-ring 8s ease-in-out infinite;
-      }
-      @keyframes xa-ring {
+      @keyframes xa-dot {
         0%,
-        16% {
-          border-color: var(--line);
-          box-shadow: var(--shadow-card);
-        }
-        /* ring blooms as the answer grows */
-        38%,
-        84% {
-          border-color: rgba(31, 92, 61, 0.4);
-          box-shadow:
-            0 0 0 3px var(--green-faint),
-            var(--shadow-pop);
-        }
-        /* fades on collapse */
         100% {
-          border-color: var(--line);
-          box-shadow: var(--shadow-card);
+          opacity: 0.35;
+        }
+        50% {
+          opacity: 1;
         }
       }
+      /* once asked, the trigger row is removed from flow */
+      .hb-area.is-open .xa-askrow {
+        display: none;
+      }
 
-      /* ----- Phase 3/4/5: THE INLINE ANSWER grows IN PLACE inside the card ----- */
+      /* ---------- THE INLINE ANSWER — grows in place ---------- */
+      /* collapsed by default; .is-open on the card transitions it open.
+         It is a normal-flow child of the re-org card, so as it grows the
+         card grows taller and the cards below are pushed DOWN automatically
+         by exactly the answer's real height — no magic numbers. */
       .xa-answer {
         position: relative;
         overflow: hidden;
+        max-height: 0;
+        opacity: 0;
         margin-top: 0;
         padding: 0 16px;
+        border-left: 0 solid var(--green);
         background: linear-gradient(var(--green-faint), var(--raised));
-        border-left: 3px solid var(--green);
         border-radius: 0 13px 13px 0;
-        /* height + opacity + spacing animate as one — sprouts then folds back */
-        animation: xa-grow 8s ease-in-out infinite;
+        transition:
+          max-height 0.62s cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 0.42s ease 0.08s,
+          margin-top 0.62s cubic-bezier(0.22, 1, 0.36, 1),
+          padding-top 0.62s cubic-bezier(0.22, 1, 0.36, 1),
+          padding-bottom 0.62s cubic-bezier(0.22, 1, 0.36, 1),
+          border-left-width 0.62s cubic-bezier(0.22, 1, 0.36, 1);
       }
-      @keyframes xa-grow {
-        0%,
-        16% {
-          max-height: 0;
-          opacity: 0;
-          margin-top: 0;
-          padding-top: 0;
-          padding-bottom: 0;
-          border-left-width: 0;
-        }
-        /* grows open */
-        30% {
-          max-height: 0;
-          opacity: 0;
-          margin-top: 0;
-          padding-top: 0;
-          padding-bottom: 0;
-          border-left-width: 0;
-        }
-        60% {
-          max-height: 400px;
-          opacity: 1;
-          margin-top: 14px;
-          padding-top: 14px;
-          padding-bottom: 14px;
-          border-left-width: 3px;
-        }
-        /* hold fully expanded */
-        84% {
-          max-height: 400px;
-          opacity: 1;
-          margin-top: 14px;
-          padding-top: 14px;
-          padding-bottom: 14px;
-          border-left-width: 3px;
-        }
-        /* collapse back in place */
-        100% {
-          max-height: 0;
-          opacity: 0;
-          margin-top: 0;
-          padding-top: 0;
-          padding-bottom: 0;
-          border-left-width: 0;
-        }
+      .hb-area.is-open .xa-answer {
+        max-height: 460px;
+        opacity: 1;
+        margin-top: 14px;
+        padding: 14px 16px;
+        border-left-width: 3px;
       }
+
+      /* soft green focus ring on the card as the answer blooms */
+      .hb-area.xa-focusable {
+        transition:
+          border-color 0.45s ease,
+          box-shadow 0.45s ease;
+      }
+      .hb-area.xa-focusable.is-open {
+        border-color: rgba(31, 92, 61, 0.4);
+        box-shadow:
+          0 0 0 3px var(--green-faint),
+          var(--shadow-pop);
+      }
+
       .xa-answer-head {
         display: flex;
         align-items: center;
@@ -311,6 +261,7 @@
         border-radius: 13px;
         padding: 8px 10px 8px 14px;
         box-shadow: var(--shadow-card);
+        cursor: text;
       }
       .xa-fu-pill .xa-fu-ph {
         flex: 1 1 auto;
@@ -328,6 +279,7 @@
         display: grid;
         place-items: center;
         border: none;
+        cursor: pointer;
         box-shadow: 0 2px 9px -3px rgba(31, 92, 61, 0.55);
       }
       .xa-fu-mic svg {
@@ -342,19 +294,249 @@
         border: none;
         border-radius: 999px;
         padding: 7px 13px;
+        cursor: pointer;
         white-space: nowrap;
       }
+      .xa-fu-chip:hover {
+        background: rgba(31, 92, 61, 0.16);
+      }
 
-      /* ----- Phase 3/4/5: the cards BELOW make room ------------------------
-         The answer block (.xa-answer) is a normal-flow child of the re-org
-         card, so as its max-height + margin + padding grow, the card itself
-         grows taller and the document below is pushed DOWN by normal flow —
-         automatically, by exactly the answer's real height, no magic number.
-         This wrapper just gets a matching ease so the descent reads smooth
-         and the lower cards visibly slide down in lockstep with the answer. */
+      /* the small "↻ Clear" control, revealed after the answer plays */
+      .xa-clearrow {
+        display: none;
+        align-items: center;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .hb-area.is-open .xa-clearrow {
+        display: flex;
+      }
+      .xa-clear {
+        font-family: var(--sans);
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--ink-3);
+        background: transparent;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 6px 13px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        transition: 0.15s;
+      }
+      .xa-clear:hover {
+        border-color: var(--line-2);
+        color: var(--ink-2);
+      }
+      .xa-clear .xa-rev {
+        font-size: 14px;
+        line-height: 1;
+      }
+      .xa-clearnote {
+        font-size: 12px;
+        color: var(--ink-4);
+      }
+
+      /* ----- the cards BELOW make room (normal flow) ----- */
       .xa-pushdown {
-        transition: none;
         will-change: transform;
+      }
+
+      /* =========================================================
+         ACTIVE-WORK CARD AFFORDANCES — quiet "Not now ▾" cluster
+         on EVERY work card (top-right, distinct from the green ask).
+         ========================================================= */
+      /* the controls sit in the card head, after the temperature pill */
+      .xa-ctrls {
+        position: relative;
+        flex: 0 0 auto;
+        margin-left: 8px;
+      }
+      .xa-notnow {
+        font-family: var(--sans);
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--ink-3);
+        background: transparent;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 4px 10px;
+        cursor: pointer;
+        white-space: nowrap;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        transition: 0.15s;
+      }
+      .xa-notnow:hover {
+        border-color: var(--line-2);
+        color: var(--ink-2);
+      }
+      .xa-notnow .xa-caret {
+        font-size: 9px;
+        opacity: 0.7;
+      }
+      /* the little menu that opens under it */
+      .xa-menu {
+        position: absolute;
+        top: calc(100% + 6px);
+        right: 0;
+        z-index: 5;
+        min-width: 210px;
+        background: var(--raised);
+        border: 1px solid var(--line);
+        border-radius: 13px;
+        box-shadow: var(--shadow-pop);
+        padding: 6px;
+        display: none;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .xa-ctrls.is-menu-open .xa-menu {
+        display: flex;
+      }
+      .xa-menu-item {
+        font-family: var(--sans);
+        font-size: 13px;
+        color: var(--ink);
+        background: transparent;
+        border: none;
+        border-radius: 9px;
+        padding: 9px 11px;
+        text-align: left;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .xa-menu-item:hover {
+        background: var(--green-faint);
+      }
+      .xa-menu-item .xa-mi-sub {
+        font-size: 11.5px;
+        color: var(--ink-3);
+      }
+      /* the inline "say why" capture, revealed in the menu */
+      .xa-why {
+        display: none;
+        flex-direction: column;
+        gap: 8px;
+        padding: 8px 9px 6px;
+        border-top: 1px solid var(--line);
+        margin-top: 4px;
+      }
+      .xa-ctrls.is-why-open .xa-why {
+        display: flex;
+      }
+      .xa-ctrls.is-why-open .xa-menu-item.xa-why-toggle {
+        background: var(--green-faint);
+      }
+      .xa-why-input {
+        font-family: var(--sans);
+        font-size: 13px;
+        color: var(--ink);
+        background: var(--paper);
+        border: 1px solid var(--line-2);
+        border-radius: 10px;
+        padding: 8px 11px;
+        width: 100%;
+      }
+      .xa-why-input::placeholder {
+        color: var(--ink-4);
+      }
+      .xa-why-input:focus {
+        outline: none;
+        border-color: var(--green);
+        box-shadow: 0 0 0 3px var(--green-faint);
+      }
+      .xa-why-confirm {
+        align-self: flex-end;
+        font-family: var(--sans);
+        font-size: 12.5px;
+        font-weight: 600;
+        color: #fcfaf5;
+        background: var(--green);
+        border: none;
+        border-radius: 999px;
+        padding: 7px 15px;
+        cursor: pointer;
+      }
+      .xa-why-confirm:hover {
+        background: var(--green-deep);
+      }
+
+      /* the card collapsing OUT of the active list on dismiss */
+      .hb-area.xa-dismissable {
+        transition:
+          max-height 0.45s ease,
+          opacity 0.35s ease,
+          margin 0.45s ease,
+          padding 0.45s ease,
+          border-width 0.45s ease;
+        max-height: 900px;
+      }
+      .hb-area.is-dismissed {
+        max-height: 0 !important;
+        opacity: 0;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        border-width: 0 !important;
+        box-shadow: none !important;
+        pointer-events: none;
+      }
+      /* the subtle "Dismissed · Undo" stub left in the list */
+      .xa-dismissed-stub {
+        display: none;
+        align-items: center;
+        gap: 12px;
+        background: var(--paper-2);
+        border: 1px dashed var(--line-2);
+        border-radius: var(--r);
+        padding: 12px 16px;
+        font-size: 13px;
+        color: var(--ink-3);
+      }
+      .xa-dismissed-stub.is-shown {
+        display: flex;
+      }
+      .xa-dismissed-stub .xa-ds-label {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .xa-dismissed-stub .xa-ds-title {
+        font-weight: 600;
+        color: var(--ink-2);
+      }
+      .xa-dismissed-stub .xa-ds-note {
+        font-size: 12px;
+        color: var(--ink-3);
+        font-style: italic;
+      }
+      .xa-dismissed-stub .xa-ds-note span {
+        color: var(--amber);
+        font-style: normal;
+        font-weight: 600;
+      }
+      .xa-undo {
+        margin-left: auto;
+        font-family: var(--sans);
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--green-deep);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        flex: 0 0 auto;
+      }
+      .xa-undo:hover {
+        color: var(--green);
       }
 
       @media (max-width: 600px) {
@@ -362,43 +544,30 @@
           padding: 14px 18px 0;
           font-size: 13px;
         }
+        .xa-askbtn .xa-askq {
+          max-width: none;
+        }
         .xa-followup {
           gap: 8px;
         }
         .xa-fu-pill {
           flex-basis: 100%;
         }
+        .xa-menu {
+          min-width: 180px;
+        }
       }
 
-      /* honor reduced-motion: hold the expanded, legible state */
+      /* honor reduced-motion: clicking SNAPS, no transition */
       @media (prefers-reduced-motion: reduce) {
-        .xa-pulse::after,
-        .xa-asked,
-        .xa-focused,
-        .xa-answer,
-        .xa-pushdown {
+        .xa-askbtn::after,
+        .xa-askhint::before {
           animation: none;
         }
-        .xa-asked {
-          max-height: none;
-          opacity: 1;
-          transform: none;
-        }
-        .xa-focused {
-          border-color: rgba(31, 92, 61, 0.4);
-          box-shadow:
-            0 0 0 3px var(--green-faint),
-            var(--shadow-pop);
-        }
-        .xa-answer {
-          max-height: none;
-          opacity: 1;
-          margin-top: 14px;
-          padding: 14px 16px;
-          border-left-width: 3px;
-        }
-        .xa-pushdown {
-          transform: none;
+        .xa-answer,
+        .hb-area.xa-focusable,
+        .hb-area.xa-dismissable {
+          transition: none;
         }
       }
     </style>
@@ -416,30 +585,32 @@
           <span
             class="jump"
             style="background: var(--green-soft); color: var(--green-deep)"
-            >Option C · how the inline answer feels</span
+            >Option C · inline · interactive</span
           >
         </div>
       </div>
     </nav>
 
     <p class="xa-caption">
-      <b>Option C in motion</b> — she asks about the re-org proposal; the answer
-      grows in place, inside that card, and the cards below make room. Nothing
-      else moves. Loops.
+      <b>Option C</b> — click the highlighted prompt on the re-org card to ask
+      about it. The answer grows in place, inside that card, and the cards below
+      make room. Nothing else moves. Click <kbd>↻</kbd> to clear.
     </p>
 
-    <section id="homebase" class="wrap screen xa-stage">
+    <section id="homebase" class="wrap screen">
       <div class="head">
         <div class="stage">
           <span class="dot"></span><span class="label">Act 4 · Home base</span
           ><span class="sub">five months in — the long relationship</span>
         </div>
-        <h2>The answer sprouts in place — everything else makes room.</h2>
+        <h2>Ask where the work is — the answer sprouts in place.</h2>
         <p class="why">
-          Priya asks about the re-org from the assistant strip. No panel opens,
-          no new screen loads. The answer
+          Priya asks about the re-org from the card itself. No panel opens, no
+          new screen loads. The answer
           <b>grows inside the work item it's about</b>, and the cards beneath it
-          slide down to make space — so she never loses where she is.
+          slide down to make space — so she never loses where she is. Each card
+          also carries a quiet <b>"Not now"</b> so she can clear it from view —
+          with a note, if she wants — and the assistant remembers why.
         </p>
         <span class="tagline"
           >answer in place · nothing else moves · resume to the exact step</span
@@ -482,27 +653,13 @@
                 </h4>
               </div>
 
-              <!-- the assistant strip — composer pulses, then carries Priya's question -->
-              <div class="hb-ask xa-pulse">
+              <!-- the ambient assistant strip — quiet entry point -->
+              <div class="hb-ask">
                 <span class="hb-ask-mk"></span>
                 <div class="hb-ask-body">
                   <div class="hb-ask-line">
                     Ask me to start something, or just talk it through —
                     <b>I already hold all of this.</b>
-                  </div>
-                  <div class="xa-asked">
-                    <div class="xa-asked-q">
-                      "Where did I land on the span-of-control question?"
-                    </div>
-                    <div class="xa-asked-meta">
-                      <span class="xa-target"
-                        >Answering on · Re-org proposal</span
-                      >
-                      <span
-                        >I'll answer right on the card below — nothing
-                        moves.</span
-                      >
-                    </div>
                   </div>
                 </div>
                 <button class="hb-ask-mic" title="Tap to speak">
@@ -525,8 +682,13 @@
                 <div class="hb-sec-eye">Active work</div>
 
                 <div class="hb-work">
-                  <!-- area 1 — the asked-about card; answer grows INSIDE it -->
-                  <div class="hb-area xa-focused">
+                  <!-- area 1 — the re-org card; carries the ask trigger
+                       AND a quiet dismiss cluster; answer grows INSIDE it -->
+                  <div
+                    class="hb-area xa-focusable xa-dismissable"
+                    id="xa-reorg"
+                    data-title="Re-org proposal"
+                  >
                     <span class="hb-area-spine"></span>
                     <div class="hb-area-head">
                       <div>
@@ -537,7 +699,43 @@
                         </div>
                       </div>
                       <span class="hb-temp hb-hot">Active</span>
+
+                      <!-- quiet dismiss cluster (secondary) -->
+                      <div class="xa-ctrls" data-ctrls>
+                        <button class="xa-notnow" data-notnow>
+                          Not now <span class="xa-caret">▾</span>
+                        </button>
+                        <div class="xa-menu">
+                          <button class="xa-menu-item" data-dismiss>
+                            Not now
+                            <span class="xa-mi-sub"
+                              >Clear it from active for today</span
+                            >
+                          </button>
+                          <button
+                            class="xa-menu-item xa-why-toggle"
+                            data-whytoggle
+                          >
+                            Not now — say why
+                            <span class="xa-mi-sub"
+                              >I'll resurface it at the right time</span
+                            >
+                          </button>
+                          <div class="xa-why">
+                            <input
+                              class="xa-why-input"
+                              type="text"
+                              placeholder="blocked on Marcus's reply…"
+                              data-whyinput
+                            />
+                            <button class="xa-why-confirm" data-whyconfirm>
+                              Dismiss with note
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
+
                     <div class="hb-step">
                       <span class="hb-step-dot"></span>
                       <div class="hb-step-body">
@@ -552,8 +750,20 @@
                       <button class="hb-resume">Resume →</button>
                     </div>
 
-                    <!-- THE INLINE ANSWER — nested in this card, grows in place -->
-                    <div class="xa-answer">
+                    <!-- THE ASK TRIGGER — primary, green, pulsing ring -->
+                    <div class="xa-askrow">
+                      <button class="xa-askbtn" id="xa-ask" data-ask>
+                        <span class="xa-askq"
+                          >Ask about this — where did I land on
+                          span-of-control?</span
+                        >
+                        <span class="xa-arrow">→</span>
+                      </button>
+                      <span class="xa-askhint">click to see it happen</span>
+                    </div>
+
+                    <!-- THE INLINE ANSWER — nested here, grows in place -->
+                    <div class="xa-answer" id="xa-answer">
                       <div class="xa-answer-head">
                         <span class="xa-answer-mk"></span>
                         <span class="xa-answer-who">Your assistant</span>
@@ -594,6 +804,17 @@
                         </button>
                         <button class="xa-fu-chip">Continue red-team →</button>
                       </div>
+
+                      <!-- ↻ Clear — revealed after the answer plays -->
+                      <div class="xa-clearrow">
+                        <button class="xa-clear" data-clear>
+                          <span class="xa-rev">↻</span> Clear
+                        </button>
+                        <span class="xa-clearnote"
+                          >collapses the answer · the card below comes back
+                          up</span
+                        >
+                      </div>
                     </div>
 
                     <div class="hb-area-foot">
@@ -606,10 +827,13 @@
                     </div>
                   </div>
 
-                  <!-- the cards BELOW — translate down in lockstep to make room -->
+                  <!-- the cards BELOW — pushed down in lockstep (normal flow) -->
                   <div class="xa-pushdown">
                     <!-- area 2 — the Q4 leadership offsite -->
-                    <div class="hb-area">
+                    <div
+                      class="hb-area xa-dismissable"
+                      data-title="Leadership offsite"
+                    >
                       <span class="hb-area-spine"></span>
                       <div class="hb-area-head">
                         <div>
@@ -620,7 +844,42 @@
                           </div>
                         </div>
                         <span class="hb-temp hb-warm">Picking back up</span>
+
+                        <div class="xa-ctrls" data-ctrls>
+                          <button class="xa-notnow" data-notnow>
+                            Not now <span class="xa-caret">▾</span>
+                          </button>
+                          <div class="xa-menu">
+                            <button class="xa-menu-item" data-dismiss>
+                              Not now
+                              <span class="xa-mi-sub"
+                                >Clear it from active for today</span
+                              >
+                            </button>
+                            <button
+                              class="xa-menu-item xa-why-toggle"
+                              data-whytoggle
+                            >
+                              Not now — say why
+                              <span class="xa-mi-sub"
+                                >I'll resurface it at the right time</span
+                              >
+                            </button>
+                            <div class="xa-why">
+                              <input
+                                class="xa-why-input"
+                                type="text"
+                                placeholder="waiting on the venue quote…"
+                                data-whyinput
+                              />
+                              <button class="xa-why-confirm" data-whyconfirm>
+                                Dismiss with note
+                              </button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
+
                       <div class="hb-step">
                         <span class="hb-step-dot"></span>
                         <div class="hb-step-body">
@@ -663,8 +922,22 @@
                       </div>
                     </div>
 
+                    <!-- dismissed stub for the offsite card (sits right after it) -->
+                    <div class="xa-dismissed-stub" data-stub>
+                      <div class="xa-ds-label">
+                        <span class="xa-ds-title"
+                          >Dismissed · Leadership offsite</span
+                        >
+                        <span class="xa-ds-note" data-stubnote></span>
+                      </div>
+                      <button class="xa-undo" data-undo>Undo</button>
+                    </div>
+
                     <!-- area 3 — a decision, quieter -->
-                    <div class="hb-area hb-cool">
+                    <div
+                      class="hb-area hb-cool xa-dismissable"
+                      data-title="Your own next role"
+                    >
                       <span class="hb-area-spine"></span>
                       <div class="hb-area-head">
                         <div>
@@ -676,7 +949,42 @@
                           </div>
                         </div>
                         <span class="hb-temp hb-cold">Parked by you</span>
+
+                        <div class="xa-ctrls" data-ctrls>
+                          <button class="xa-notnow" data-notnow>
+                            Not now <span class="xa-caret">▾</span>
+                          </button>
+                          <div class="xa-menu">
+                            <button class="xa-menu-item" data-dismiss>
+                              Not now
+                              <span class="xa-mi-sub"
+                                >Clear it from active for today</span
+                              >
+                            </button>
+                            <button
+                              class="xa-menu-item xa-why-toggle"
+                              data-whytoggle
+                            >
+                              Not now — say why
+                              <span class="xa-mi-sub"
+                                >I'll resurface it at the right time</span
+                              >
+                            </button>
+                            <div class="xa-why">
+                              <input
+                                class="xa-why-input"
+                                type="text"
+                                placeholder="not until the re-org lands…"
+                                data-whyinput
+                              />
+                              <button class="xa-why-confirm" data-whyconfirm>
+                                Dismiss with note
+                              </button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
+
                       <div class="hb-step">
                         <span class="hb-step-dot"></span>
                         <div class="hb-step-body">
@@ -693,8 +1001,34 @@
                         </button>
                       </div>
                     </div>
+
+                    <!-- dismissed stub for the next-role card -->
+                    <div class="xa-dismissed-stub" data-stub>
+                      <div class="xa-ds-label">
+                        <span class="xa-ds-title"
+                          >Dismissed · Your own next role</span
+                        >
+                        <span class="xa-ds-note" data-stubnote></span>
+                      </div>
+                      <button class="xa-undo" data-undo>Undo</button>
+                    </div>
                   </div>
                   <!-- /xa-pushdown -->
+
+                  <!-- dismissed stub for the re-org card (explicit pairing) -->
+                  <div
+                    class="xa-dismissed-stub"
+                    data-stub
+                    data-stub-for="xa-reorg"
+                  >
+                    <div class="xa-ds-label">
+                      <span class="xa-ds-title"
+                        >Dismissed · Re-org proposal</span
+                      >
+                      <span class="xa-ds-note" data-stubnote></span>
+                    </div>
+                    <button class="xa-undo" data-undo>Undo</button>
+                  </div>
                 </div>
               </div>
 
@@ -707,5 +1041,186 @@
         </div>
       </div>
     </section>
+
+    <script>
+      (function () {
+        "use strict";
+
+        /* ---------- THE INLINE ASK ---------- */
+        var card = document.getElementById("xa-reorg");
+        var askBtn = document.getElementById("xa-ask");
+        var answer = document.getElementById("xa-answer");
+
+        function openAnswer() {
+          card.classList.add("is-open");
+          // bring the freshly-grown answer comfortably into view
+          window.requestAnimationFrame(function () {
+            try {
+              answer.scrollIntoView({ block: "nearest", behavior: "smooth" });
+            } catch (e) {
+              /* older browsers: no-op */
+            }
+          });
+        }
+        function clearAnswer() {
+          card.classList.remove("is-open");
+        }
+
+        if (askBtn) {
+          askBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            openAnswer();
+          });
+        }
+        // delegated ↻ Clear (inside the answer block)
+        card.addEventListener("click", function (e) {
+          var clr = e.target.closest("[data-clear]");
+          if (clr) {
+            e.stopPropagation();
+            clearAnswer();
+          }
+        });
+
+        /* ---------- "NOT NOW" DISMISS CLUSTERS ---------- */
+        var clusters = document.querySelectorAll("[data-ctrls]");
+
+        function closeAllMenus(except) {
+          clusters.forEach(function (c) {
+            if (c !== except) {
+              c.classList.remove("is-menu-open", "is-why-open");
+            }
+          });
+        }
+
+        function escapeHtml(s) {
+          return s.replace(/[<>&"]/g, function (ch) {
+            return {
+              "<": "&lt;",
+              ">": "&gt;",
+              "&": "&amp;",
+              '"': "&quot;",
+            }[ch];
+          });
+        }
+
+        // find the dismissed-stub paired with a given card
+        function stubFor(workCard) {
+          var id = workCard.id;
+          if (id) {
+            var explicit = document.querySelector(
+              '[data-stub-for="' + id + '"]',
+            );
+            if (explicit) return explicit;
+          }
+          // otherwise: the next stub element after the card
+          var n = workCard.nextElementSibling;
+          while (n) {
+            if (n.matches && n.matches("[data-stub]")) return n;
+            n = n.nextElementSibling;
+          }
+          return null;
+        }
+
+        function dismissCard(workCard, note) {
+          var stub = stubFor(workCard);
+          workCard.classList.add("is-dismissed");
+          if (stub) {
+            var noteEl = stub.querySelector("[data-stubnote]");
+            if (note && note.trim()) {
+              noteEl.innerHTML =
+                'Remembered: <span>"' +
+                escapeHtml(note.trim()) +
+                "\"</span> — I'll resurface it then.";
+            } else {
+              noteEl.textContent = "I'll bring it back when it's relevant.";
+            }
+            stub.classList.add("is-shown");
+          }
+        }
+
+        function restoreCard(workCard, stub) {
+          workCard.classList.remove("is-dismissed");
+          if (stub) stub.classList.remove("is-shown");
+        }
+
+        clusters.forEach(function (cluster) {
+          var workCard = cluster.closest(".hb-area");
+          var notnow = cluster.querySelector("[data-notnow]");
+          var dismiss = cluster.querySelector("[data-dismiss]");
+          var whyToggle = cluster.querySelector("[data-whytoggle]");
+          var whyInput = cluster.querySelector("[data-whyinput]");
+          var whyConfirm = cluster.querySelector("[data-whyconfirm]");
+
+          notnow.addEventListener("click", function (e) {
+            e.stopPropagation();
+            var willOpen = !cluster.classList.contains("is-menu-open");
+            closeAllMenus(cluster);
+            cluster.classList.toggle("is-menu-open", willOpen);
+            if (!willOpen) cluster.classList.remove("is-why-open");
+          });
+
+          dismiss.addEventListener("click", function (e) {
+            e.stopPropagation();
+            cluster.classList.remove("is-menu-open", "is-why-open");
+            dismissCard(workCard, "");
+          });
+
+          whyToggle.addEventListener("click", function (e) {
+            e.stopPropagation();
+            cluster.classList.toggle("is-why-open");
+            if (cluster.classList.contains("is-why-open")) {
+              window.setTimeout(function () {
+                whyInput.focus();
+              }, 0);
+            }
+          });
+
+          function confirmWhy() {
+            cluster.classList.remove("is-menu-open", "is-why-open");
+            dismissCard(workCard, whyInput.value);
+            whyInput.value = "";
+          }
+          whyConfirm.addEventListener("click", function (e) {
+            e.stopPropagation();
+            confirmWhy();
+          });
+          whyInput.addEventListener("keydown", function (e) {
+            e.stopPropagation();
+            if (e.key === "Enter") confirmWhy();
+          });
+          whyInput.addEventListener("click", function (e) {
+            e.stopPropagation();
+          });
+        });
+
+        // wire every Undo
+        document.querySelectorAll("[data-undo]").forEach(function (btn) {
+          btn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            var stub = btn.closest("[data-stub]");
+            var target = null;
+            var forId = stub.getAttribute("data-stub-for");
+            if (forId) {
+              target = document.getElementById(forId);
+            } else {
+              var p = stub.previousElementSibling;
+              while (p) {
+                if (p.matches && p.matches(".hb-area")) {
+                  target = p;
+                  break;
+                }
+                p = p.previousElementSibling;
+              }
+            }
+            if (target) restoreCard(target, stub);
+          });
+        });
+
+        // click-away closes any open menu
+        document.addEventListener("click", function () {
+          closeAllMenus(null);
+        });
+      })();
+    </script>
   </body>
 </html>

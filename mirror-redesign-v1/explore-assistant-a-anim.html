@@ -3,709 +3,49 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Mirror redesign — Option A in motion · the docked panel</title>
+    <title>Mirror redesign — Option A · docked panel · interactive</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Outfit:wght@300..700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,330;0,9..144,380;0,9..144,400;0,9..144,500;1,9..144,330;1,9..144,400&family=Outfit:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/mirror-redesign-v1/style.css" />
     <style>
-      /* ============ OPTION A — IN MOTION · the docked panel ============
-         CSS-only, self-playing, JS-free, infinite loop (~8s). All new
-         classes prefixed xa-. Reuses existing tokens only — never
-         redefines :root:
-         --paper / --paper-2 / --raised / --green / --green-deep
-         --green-soft / --green-faint / --amber / --amber-soft / --ink*
-         --line* / --display / --sans / --r* / --shadow-*.
+      /* ===== Option A — docked assistant panel. NEW classes only, all ex-. ===== */
 
-         The two zones live in ONE flex row inside a fixed, tall stage.
-         Every moving part is keyed to the SAME timeline so the panel
-         sliding in + the work column narrowing read as one motion:
-           Phase 1 (0–16%)   work full width, calm. Tap pulse on the strip.
-           Phase 2 (16–36%)  the panel's width grows 0→380px (its content
-                             revealed via overflow:hidden) WHILE the work
-                             column flex-fills the shrinking remainder — it is
-                             pushed leftward, never a blank gap — and the
-                             re-org card lights to "In focus".
-           Phase 3 (36–82%)  panel docked; question + answer stagger in.
-                             The work stays visible on the left.
-           Phase 4 (82–100%) panel slides back out + work re-widens for a
-                             seamless loop. */
-
-      /* caption strip under the gallery nav */
-      .xa-caption {
-        max-width: 1180px;
-        margin: 0 auto;
-        padding: 18px 32px 0;
-        font-size: 14px;
-        line-height: 1.55;
-        color: var(--ink-2);
-      }
-      .xa-caption b {
-        color: var(--green-deep);
-        font-weight: 600;
-      }
-
-      /* the fixed, tall stage: nothing clips across the loop */
-      .xa-stagewrap {
-        max-width: 1180px;
-        margin: 22px auto 64px;
-        padding: 0 32px;
-      }
-      .xa-stage {
-        position: relative;
-        min-height: 920px;
-        border-radius: var(--r-xl);
-        background: var(--raised);
-        border: 1px solid var(--line);
-        box-shadow: var(--shadow-letter);
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-      }
-
-      /* ---- app top bar ---- */
-      .xa-titlebar {
-        height: 40px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 0 16px;
-        border-bottom: 1px solid var(--line);
-        background: linear-gradient(var(--raised), var(--paper-2));
-        flex: 0 0 auto;
-      }
-      .xa-dots {
-        display: flex;
-        gap: 7px;
-      }
-      .xa-dots i {
-        width: 11px;
-        height: 11px;
-        border-radius: 50%;
-        background: var(--line-2);
-        display: block;
-      }
-      .xa-url {
-        margin: 0 auto;
-        font-size: 12px;
-        color: var(--ink-3);
-        background: var(--paper);
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        padding: 4px 16px;
-      }
-
-      .xa-topbar {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        padding: 14px 24px;
-        border-bottom: 1px solid var(--line);
-        background: rgba(252, 250, 245, 0.6);
-        flex: 0 0 auto;
-      }
-      .xa-moe {
-        display: flex;
-        align-items: center;
-        gap: 11px;
-      }
-      .xa-mark {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background: radial-gradient(
-          circle at 35% 30%,
-          #2f7d56,
-          var(--green-deep)
-        );
-        position: relative;
-        box-shadow: 0 2px 8px -2px rgba(31, 92, 61, 0.5);
-        flex: 0 0 auto;
-      }
-      .xa-mark::after {
-        content: "";
-        position: absolute;
-        inset: 7px;
-        border-radius: 50%;
-        border: 1.5px solid rgba(252, 250, 245, 0.92);
-        border-right-color: transparent;
-        transform: rotate(28deg);
-      }
-      .xa-nm {
-        font-weight: 600;
-        font-size: 15px;
-        letter-spacing: -0.01em;
-      }
-      .xa-st {
-        font-size: 12px;
-        color: var(--ink-3);
-        display: block;
-        margin-top: -2px;
-      }
-      .xa-crumbs {
-        font-size: 13px;
-        color: var(--ink-3);
-        margin-left: 6px;
-      }
-      .xa-crumbs b {
-        color: var(--ink-2);
-        font-weight: 500;
-      }
-      .xa-tbright {
-        margin-left: auto;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .xa-tb-btn {
-        font-size: 13px;
-        color: var(--ink-2);
-        background: transparent;
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        padding: 7px 14px;
-        font-family: inherit;
-      }
-      .xa-avatar {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background: var(--amber-soft);
-        color: var(--amber);
-        display: grid;
-        place-items: center;
-        font-weight: 700;
-        font-size: 13px;
-        flex: 0 0 auto;
-      }
-
-      /* =====================================================================
-         THE TWO-ZONE BODY — one flex row, work column + docked panel.
-         ===================================================================== */
-      .xa-body {
+      /* the active-work column narrows but never disappears */
+      .ex-stage-area {
         flex: 1;
         display: flex;
         min-height: 0;
         align-items: stretch;
       }
-
-      /* ---- the active-work column: pure flex-filler ----
-         It takes ALL space the panel leaves (flex:1 1 0%), so its width is
-         ALWAYS container-width minus the panel's current width. It is NOT
-         animated itself — it is shoved left in perfect lockstep as the
-         panel's width grows, and re-expands as the panel's width collapses.
-         Total (work + panel) always equals the container → never a gap, and
-         the panel never travels across blank canvas. */
-      .xa-work-col {
-        flex: 1 1 0%;
-        min-width: 0;
-        overflow: hidden;
-      }
-      .xa-pad {
-        padding: 26px 30px 30px;
-        background: linear-gradient(var(--paper-2), transparent 120px);
-      }
-      .xa-padhead {
-        margin-bottom: 16px;
-      }
-      .xa-pe {
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--green-deep);
-      }
-      .xa-padhead h4 {
-        font-family: var(--display);
-        font-weight: 400;
-        font-size: 22px;
-        line-height: 1.2;
-        letter-spacing: -0.01em;
-        margin-top: 5px;
-        max-width: 40ch;
-      }
-
-      /* ambient assistant strip — the thing she taps in phase 1 */
-      .xa-ask {
-        position: relative;
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        background: linear-gradient(var(--green-faint), var(--raised));
-        border: 1px solid var(--line);
-        border-radius: var(--r-lg);
-        box-shadow: var(--shadow-card);
-        padding: 15px 18px;
-        margin-bottom: 22px;
-      }
-      .xa-ask-mk {
-        width: 34px;
-        height: 34px;
-        border-radius: 50%;
-        flex: 0 0 auto;
-        background: radial-gradient(
-          circle at 35% 30%,
-          #2f7d56,
-          var(--green-deep)
-        );
-        position: relative;
-        box-shadow: 0 2px 8px -2px rgba(31, 92, 61, 0.5);
-      }
-      .xa-ask-mk::after {
-        content: "";
-        position: absolute;
-        inset: 8px;
-        border-radius: 50%;
-        border: 1.5px solid rgba(252, 250, 245, 0.92);
-        border-right-color: transparent;
-        transform: rotate(28deg);
-      }
-      .xa-ask-body {
+      .ex-work-col {
         flex: 1 1 auto;
         min-width: 0;
-      }
-      .xa-ask-line {
-        font-size: 14.5px;
-        color: var(--ink-2);
-        line-height: 1.45;
-      }
-      .xa-ask-line b {
-        color: var(--ink);
-        font-weight: 600;
-      }
-      .xa-ask-state {
-        font-size: 12px;
-        font-weight: 600;
-        color: var(--green-deep);
-        margin-top: 4px;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-      }
-      .xa-ask-state::before {
-        content: "";
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--green);
-        flex: 0 0 auto;
+        overflow: auto;
       }
 
-      /* "she taps" — a cursor + ripple over the strip, phase 1 only */
-      .xa-tap {
-        position: absolute;
-        right: 30px;
-        top: 50%;
-        width: 30px;
-        height: 30px;
-        margin: -15px 0 0 0;
-        pointer-events: none;
-        animation: xa-tap-show 8s ease-in-out infinite;
-      }
-      .xa-tap::before {
-        /* expanding ring */
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: 50%;
-        border: 2px solid var(--green);
-        animation: xa-tap-ring 8s ease-out infinite;
-      }
-      .xa-tap::after {
-        /* the pointer dot */
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 11px;
-        height: 11px;
-        margin: -5.5px 0 0 -5.5px;
-        border-radius: 50%;
-        background: var(--green);
-        box-shadow: 0 0 0 4px rgba(31, 92, 61, 0.18);
-      }
-      @keyframes xa-tap-show {
-        0% {
-          opacity: 0;
-        }
-        3% {
-          opacity: 1;
-        }
-        14% {
-          opacity: 1;
-        }
-        20% {
-          opacity: 0;
-        }
-        100% {
-          opacity: 0;
-        }
-      }
-      @keyframes xa-tap-ring {
-        0% {
-          transform: scale(0.5);
-          opacity: 0;
-        }
-        5% {
-          transform: scale(0.7);
-          opacity: 0.9;
-        }
-        15% {
-          transform: scale(1.9);
-          opacity: 0;
-        }
-        100% {
-          transform: scale(1.9);
-          opacity: 0;
-        }
-      }
-
-      .xa-section {
-        margin-bottom: 10px;
-      }
-      .xa-sec-eye {
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--green-deep);
-        margin-bottom: 12px;
-      }
-      .xa-cards {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-      }
-      .xa-area {
-        position: relative;
-        background: var(--raised);
-        border: 1px solid var(--line);
-        border-radius: var(--r-lg);
-        box-shadow: var(--shadow-card);
-        padding: 18px 20px 16px 24px;
-        overflow: hidden;
-      }
-      .xa-area-spine {
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        width: 4px;
-        background: var(--line-2);
-      }
-      .xa-area-head {
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-      }
-      .xa-area-eye {
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.07em;
-        text-transform: uppercase;
-        color: var(--green-deep);
-      }
-      .xa-area-title {
-        font-family: var(--display);
-        font-weight: 400;
-        font-size: 18px;
-        line-height: 1.22;
-        letter-spacing: -0.01em;
-        margin-top: 4px;
-        max-width: 46ch;
-      }
-      .xa-cool .xa-area-eye {
-        color: var(--ink-3);
-      }
-      .xa-cool .xa-area-title {
-        color: var(--ink-2);
-      }
-      .xa-temp {
-        margin-left: auto;
-        flex: 0 0 auto;
-        font-size: 11px;
-        font-weight: 600;
-        border-radius: 999px;
-        padding: 4px 11px;
-        white-space: nowrap;
-      }
-      .xa-warm {
-        color: var(--amber);
-        background: var(--amber-soft);
-      }
-      .xa-cold {
-        color: var(--ink-3);
-        background: var(--paper-2);
-        border: 1px solid var(--line);
-      }
-      .xa-step {
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-        margin-top: 14px;
-        padding: 13px 15px;
-        background: var(--paper-2);
-        border: 1px solid var(--line);
-        border-radius: var(--r);
-      }
-      .xa-step-dot {
-        width: 9px;
-        height: 9px;
-        border-radius: 50%;
-        background: var(--green);
-        flex: 0 0 auto;
-        margin-top: 5px;
-      }
-      .xa-cool .xa-step-dot {
-        background: var(--line-2);
-      }
-      .xa-step-body {
-        flex: 1 1 auto;
-        min-width: 0;
-      }
-      .xa-step-state {
-        display: block;
-        font-weight: 600;
-        font-size: 13.5px;
-      }
-      .xa-step-where {
-        display: block;
-        font-size: 13.5px;
-        color: var(--ink-2);
-        line-height: 1.45;
-        margin-top: 3px;
-      }
-      .xa-resume {
-        flex: 0 0 auto;
-        align-self: center;
-        font-family: var(--sans);
-        font-weight: 600;
-        font-size: 13.5px;
-        color: #fcfaf5;
-        background: var(--green);
-        border: none;
-        border-radius: 10px;
-        padding: 9px 15px;
-        box-shadow: var(--shadow-pop);
-      }
-      .xa-resume-quiet {
-        background: transparent;
-        color: var(--green-deep);
-        border: 1px solid var(--line-2);
-        box-shadow: none;
-      }
-      .xa-area-foot {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        margin-top: 13px;
-        padding-top: 12px;
-        border-top: 1px solid var(--line);
-        font-size: 12px;
-        color: var(--ink-3);
-        flex-wrap: wrap;
-      }
-      .xa-arts {
-        margin-left: auto;
-        color: var(--ink-4);
-      }
-
-      /* ===== the re-org card lights to "In focus" as the panel docks ===== */
-      .xa-focus {
-        animation: xa-focus-light 8s ease-in-out infinite;
-      }
-      @keyframes xa-focus-light {
-        0%,
-        16% {
-          border-color: var(--line);
-          background: var(--raised);
-          box-shadow: var(--shadow-card);
-        }
-        /* lights as the subject of the conversation */
-        36%,
-        82% {
-          border-color: rgba(31, 92, 61, 0.42);
-          background: linear-gradient(var(--green-faint), var(--raised));
-          box-shadow:
-            0 0 0 1px rgba(31, 92, 61, 0.18),
-            var(--shadow-card);
-        }
-        100% {
-          border-color: var(--line);
-          background: var(--raised);
-          box-shadow: var(--shadow-card);
-        }
-      }
-      /* the spine greens up in focus */
-      .xa-focus .xa-area-spine {
-        animation: xa-focus-spine 8s ease-in-out infinite;
-      }
-      @keyframes xa-focus-spine {
-        0%,
-        16% {
-          background: var(--line-2);
-        }
-        36%,
-        82% {
-          background: var(--green);
-        }
-        100% {
-          background: var(--line-2);
-        }
-      }
-      /* the "In focus" badge fades in with the panel */
-      .xa-focus-tag {
-        margin-left: auto;
-        flex: 0 0 auto;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 10.5px;
-        font-weight: 700;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        color: var(--green-deep);
-        background: var(--green-soft);
-        border-radius: 999px;
-        padding: 4px 10px;
-        white-space: nowrap;
-        animation: xa-focus-tag 8s ease-in-out infinite;
-      }
-      .xa-focus-tag::before {
-        content: "";
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--green);
-        box-shadow: 0 0 0 3px rgba(31, 92, 61, 0.18);
-        flex: 0 0 auto;
-      }
-      @keyframes xa-focus-tag {
-        0%,
-        18% {
-          opacity: 0;
-          transform: translateY(-4px);
-        }
-        34% {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        82% {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        92%,
-        100% {
-          opacity: 0;
-          transform: translateY(-4px);
-        }
-      }
-
-      /* the quiet ceremony suggestion at the foot of the work column */
-      .xa-ceremony {
-        position: relative;
-        margin-top: 16px;
-        background: var(--paper-2);
-        border: 1px solid var(--line);
-        border-radius: var(--r-lg);
-        padding: 18px 22px 18px 24px;
-        overflow: hidden;
-      }
-      .xa-cer-spine {
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        width: 4px;
-        background: linear-gradient(var(--green), var(--amber));
-      }
-      .xa-cer-eye {
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.07em;
-        text-transform: uppercase;
-        color: var(--amber);
-      }
-      .xa-cer-title {
-        font-family: var(--display);
-        font-weight: 400;
-        font-size: 19px;
-        line-height: 1.2;
-        margin-top: 5px;
-      }
-      .xa-cer-lede {
-        font-size: 13.5px;
-        color: var(--ink-2);
-        line-height: 1.5;
-        margin-top: 8px;
-        max-width: 70ch;
-      }
-
-      /* =====================================================================
-         THE DOCKED PANEL — its WIDTH animates 0 → 380px. It does NOT slide
-         over blank canvas: as the width grows, the flex-filler work column
-         loses exactly that much space and is shoved left in lockstep, so the
-         panel's left edge stays flush against the work column the whole time.
-         overflow:hidden clips the fixed-width inner, so the conversation is
-         REVEALED as the carved-out space opens. On loop reset the width
-         collapses back to 0 and the work re-expands to full — again in
-         lockstep, no gap, no empty right-hand track. */
-      .xa-panel {
-        flex: 0 0 auto;
-        width: 0;
-        min-width: 0;
-        overflow: hidden;
-        will-change: width;
-        animation: xa-panel-dock 8s ease-in-out infinite;
-      }
-      /* fixed-width inner so the conversation's layout never reflows while the
-         outer panel's width animates — it is uncovered, not re-wrapped */
-      .xa-panel-inner {
-        width: 380px;
-        flex: 0 0 380px;
-        height: 100%;
+      /* the docked assistant panel — companion, not replacement */
+      .ex-panel {
+        flex: 0 0 392px;
+        max-width: 392px;
         display: flex;
         flex-direction: column;
         min-width: 0;
         border-left: 1px solid var(--line);
         background: rgba(252, 250, 245, 0.66);
-        /* anchor the inner to the panel's right edge, so as width grows the
-           content is revealed from the docking seam outward */
-        margin-left: auto;
       }
-      @keyframes xa-panel-dock {
-        0% {
-          width: 0;
-        }
-        16% {
-          width: 0;
-        }
-        /* the panel carves out its space; the work is shoved left to match */
-        36% {
-          width: 380px;
-        }
-        82% {
-          width: 380px;
-        }
-        /* collapses back to 0; the work re-expands to full for a clean loop */
-        100% {
-          width: 0;
-        }
-      }
-
-      .xa-panel-head {
+      .ex-panel-head {
         display: flex;
         align-items: center;
         gap: 11px;
         padding: 14px 16px 13px;
         border-bottom: 1px solid var(--line);
         background: rgba(252, 250, 245, 0.7);
-        flex: 0 0 auto;
       }
-      .xa-panel-mk {
+      .ex-panel-mk {
         width: 30px;
         height: 30px;
         border-radius: 50%;
@@ -718,7 +58,7 @@
         position: relative;
         box-shadow: 0 2px 8px -2px rgba(31, 92, 61, 0.5);
       }
-      .xa-panel-mk::after {
+      .ex-panel-mk::after {
         content: "";
         position: absolute;
         inset: 7px;
@@ -727,17 +67,17 @@
         border-right-color: transparent;
         transform: rotate(28deg);
       }
-      .xa-panel-id {
+      .ex-panel-id {
         display: flex;
         flex-direction: column;
         min-width: 0;
       }
-      .xa-panel-nm {
+      .ex-panel-nm {
         font-weight: 600;
         font-size: 15px;
         letter-spacing: -0.01em;
       }
-      .xa-panel-ctx {
+      .ex-panel-ctx {
         font-size: 12px;
         color: var(--ink-3);
         margin-top: -1px;
@@ -745,11 +85,11 @@
         overflow: hidden;
         text-overflow: ellipsis;
       }
-      .xa-panel-ctx b {
+      .ex-panel-ctx b {
         color: var(--green-deep);
         font-weight: 600;
       }
-      .xa-close {
+      .ex-close {
         margin-left: auto;
         width: 32px;
         height: 32px;
@@ -759,15 +99,20 @@
         color: var(--ink-3);
         display: grid;
         place-items: center;
+        cursor: pointer;
         flex: 0 0 auto;
       }
-      .xa-close svg {
+      .ex-close:hover {
+        border-color: var(--line-2);
+        color: var(--ink);
+      }
+      .ex-close svg {
         width: 15px;
         height: 15px;
       }
 
       /* a thin "talking about" rail tying the panel to the focused work */
-      .xa-subjectbar {
+      .ex-subjectbar {
         display: flex;
         align-items: center;
         gap: 8px;
@@ -776,98 +121,26 @@
         color: var(--green-deep);
         background: var(--green-soft);
         border-bottom: 1px solid var(--line);
-        flex: 0 0 auto;
       }
-      .xa-subjectbar svg {
+      .ex-subjectbar svg {
         width: 13px;
         height: 13px;
         flex: 0 0 auto;
       }
-      .xa-subjectbar b {
+      .ex-subjectbar b {
         font-weight: 600;
       }
 
-      .xa-thread {
+      .ex-thread {
         flex: 1;
-        overflow: hidden;
+        overflow: auto;
         padding: 22px 18px 10px;
         display: flex;
         flex-direction: column;
       }
 
-      /* chat DNA, re-expressed locally (no shared .msg dependency) */
-      .xa-msg {
-        display: flex;
-        gap: 11px;
-        margin-bottom: 18px;
-      }
-      .xa-msg.you {
-        justify-content: flex-end;
-      }
-      .xa-av {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        flex: 0 0 auto;
-        margin-top: 2px;
-        background: radial-gradient(
-          circle at 35% 30%,
-          #2f7d56,
-          var(--green-deep)
-        );
-        position: relative;
-        box-shadow: 0 2px 8px -3px rgba(31, 92, 61, 0.5);
-      }
-      .xa-av::after {
-        content: "";
-        position: absolute;
-        inset: 7px;
-        border-radius: 50%;
-        border: 1.5px solid rgba(252, 250, 245, 0.92);
-        border-right-color: transparent;
-        transform: rotate(28deg);
-      }
-      .xa-col {
-        min-width: 0;
-        max-width: 86%;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-      .xa-msg.you .xa-col {
-        max-width: 82%;
-        align-items: flex-end;
-      }
-      .xa-name {
-        font-size: 12px;
-        font-weight: 600;
-        color: var(--green-deep);
-        margin: 1px 0 -2px 3px;
-      }
-      .xa-bubble {
-        font-size: 14.5px;
-        line-height: 1.58;
-        padding: 12px 15px;
-        border-radius: 5px 15px 15px 15px;
-        background: var(--raised);
-        border: 1px solid var(--line);
-        color: var(--ink);
-      }
-      .xa-msg.you .xa-bubble {
-        background: var(--ink);
-        color: #f3eee4;
-        border-color: var(--ink);
-        border-radius: 15px 15px 5px 15px;
-      }
-      .xa-bubble p + p {
-        margin-top: 9px;
-      }
-      .xa-bubble em {
-        font-style: italic;
-      }
-
       /* a small "referencing your plan" stamp on the assistant's answer */
-      .xa-cite {
+      .ex-cite {
         display: inline-flex;
         align-items: center;
         gap: 6px;
@@ -880,7 +153,7 @@
         margin-top: 9px;
         width: fit-content;
       }
-      .xa-cite::before {
+      .ex-cite::before {
         content: "";
         width: 5px;
         height: 5px;
@@ -889,111 +162,13 @@
         flex: 0 0 auto;
       }
 
-      /* the turns reveal in staggered sequence during phase 3 */
-      .xa-t1 {
-        animation: xa-turn1 8s ease-out infinite;
-      }
-      .xa-t2 {
-        animation: xa-turn2 8s ease-out infinite;
-      }
-      @keyframes xa-turn1 {
-        0%,
-        36% {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        46% {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        82% {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        92%,
-        100% {
-          opacity: 0;
-          transform: translateY(6px);
-        }
-      }
-      @keyframes xa-turn2 {
-        0%,
-        52% {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        64% {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        82% {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        92%,
-        100% {
-          opacity: 0;
-          transform: translateY(6px);
-        }
-      }
-
-      /* panel composer — leans on the gallery .vbox idiom, re-expressed */
-      .xa-composer {
+      /* panel composer — leans on the gallery .vbox idiom */
+      .ex-composer {
         padding: 12px 16px 16px;
         border-top: 1px solid var(--line);
         background: rgba(252, 250, 245, 0.6);
-        flex: 0 0 auto;
       }
-      .xa-vbox {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        background: var(--raised);
-        border: 1px solid var(--line-2);
-        border-radius: 17px;
-        padding: 9px 10px;
-        box-shadow: var(--shadow-card);
-      }
-      .xa-mic {
-        width: 44px;
-        height: 44px;
-        border-radius: 13px;
-        flex: 0 0 auto;
-        background: var(--green);
-        color: #fcfaf5;
-        display: grid;
-        place-items: center;
-        border: none;
-        box-shadow: 0 2px 10px -3px rgba(31, 92, 61, 0.55);
-      }
-      .xa-mic svg {
-        width: 20px;
-        height: 20px;
-      }
-      .xa-vfield {
-        flex: 1;
-        min-width: 0;
-        font-size: 14px;
-        color: var(--ink-3);
-        padding: 2px 0;
-      }
-      .xa-send {
-        width: 44px;
-        height: 44px;
-        border-radius: 13px;
-        flex: 0 0 auto;
-        background: var(--green);
-        color: #fcfaf5;
-        display: grid;
-        place-items: center;
-        border: none;
-        box-shadow: 0 2px 10px -3px rgba(31, 92, 61, 0.55);
-      }
-      .xa-send svg {
-        width: 18px;
-        height: 18px;
-      }
-      .xa-companion-note {
+      .ex-companion-note {
         font-size: 11.5px;
         color: var(--ink-4);
         text-align: center;
@@ -1001,106 +176,596 @@
         line-height: 1.4;
       }
 
-      /* respect reduced-motion: settle on the docked end-state, no loop.
-         Panel holds its full 380px width; the flex-filler work column
-         auto-fills the rest, so both rest exactly as they do mid-loop. */
-      @media (prefers-reduced-motion: reduce) {
-        .xa-panel,
-        .xa-focus,
-        .xa-focus .xa-area-spine,
-        .xa-focus-tag,
-        .xa-t1,
-        .xa-t2,
-        .xa-tap {
-          animation: none !important;
-        }
-        .xa-panel {
-          width: 380px;
-        }
-        .xa-focus {
-          border-color: rgba(31, 92, 61, 0.42);
-          background: linear-gradient(var(--green-faint), var(--raised));
-          box-shadow:
-            0 0 0 1px rgba(31, 92, 61, 0.18),
-            var(--shadow-card);
-        }
-        .xa-focus .xa-area-spine {
-          background: var(--green);
-        }
-        .xa-focus-tag {
-          opacity: 1;
-          transform: none;
-        }
-        .xa-t1,
-        .xa-t2 {
-          opacity: 1;
-          transform: none;
-        }
-        .xa-tap {
-          display: none;
-        }
+      /* ===== the focused work card — "in view, in focus" ===== */
+      .ex-focus {
+        border-color: rgba(31, 92, 61, 0.42) !important;
+        background: linear-gradient(var(--green-faint), var(--raised));
+        box-shadow:
+          0 0 0 1px rgba(31, 92, 61, 0.18),
+          var(--shadow-card);
+      }
+      .ex-focus .hb-area-spine {
+        background: var(--green) !important;
+      }
+      .ex-focus-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--green-deep);
+        background: var(--green-soft);
+        border-radius: 999px;
+        padding: 4px 10px;
+      }
+      .ex-focus-tag::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--green);
+        box-shadow: 0 0 0 3px rgba(31, 92, 61, 0.18);
+        flex: 0 0 auto;
+      }
+
+      /* ===== home-base layout classes (mirrors base screen, ex- prefixed) ===== */
+      .ex-ask {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        background: linear-gradient(var(--green-faint), var(--raised));
+        border: 1px solid var(--line);
+        border-radius: var(--r-lg);
+        box-shadow: var(--shadow-card);
+        padding: 15px 18px;
+        margin-bottom: 24px;
+      }
+      .ex-ask-mk {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        flex: 0 0 auto;
+        background: radial-gradient(
+          circle at 35% 30%,
+          #2f7d56,
+          var(--green-deep)
+        );
+        position: relative;
+        box-shadow: 0 2px 8px -2px rgba(31, 92, 61, 0.5);
+      }
+      .ex-ask-mk::after {
+        content: "";
+        position: absolute;
+        inset: 8px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(252, 250, 245, 0.92);
+        border-right-color: transparent;
+        transform: rotate(28deg);
+      }
+      .ex-ask-body {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+      .ex-ask-line {
+        font-size: 14.5px;
+        color: var(--ink-2);
+        line-height: 1.45;
+      }
+      .ex-ask-line b {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .ex-ask-state {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--green-deep);
+        margin-top: 4px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .ex-ask-state::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--green);
+        animation: micpulse 1.7s infinite;
+        flex: 0 0 auto;
+      }
+
+      .ex-section {
+        margin-bottom: 10px;
+      }
+      .ex-sec-eye {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--green-deep);
+        margin-bottom: 12px;
+      }
+      .ex-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .ex-area {
+        position: relative;
+        background: var(--raised);
+        border: 1px solid var(--line);
+        border-radius: var(--r-lg);
+        box-shadow: var(--shadow-card);
+        padding: 18px 20px 16px 24px;
+        overflow: hidden;
+      }
+      .hb-area-spine {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 4px;
+        background: var(--line-2);
+      }
+      .ex-area-head {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .hb-area-eye {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--green-deep);
+      }
+      .hb-area-title {
+        font-family: var(--display);
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 1.22;
+        letter-spacing: -0.01em;
+        margin-top: 4px;
+        max-width: 46ch;
+      }
+      .hb-temp {
+        margin-left: auto;
+        flex: 0 0 auto;
+        font-size: 11px;
+        font-weight: 600;
+        border-radius: 999px;
+        padding: 4px 11px;
+        white-space: nowrap;
+      }
+      .hb-hot {
+        color: var(--green-deep);
+        background: var(--green-soft);
+      }
+      .hb-warm {
+        color: var(--amber);
+        background: var(--amber-soft);
+      }
+      .hb-cold {
+        color: var(--ink-3);
+        background: var(--paper-2);
+        border: 1px solid var(--line);
+      }
+      .hb-step {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-top: 14px;
+        padding: 13px 15px;
+        background: var(--paper-2);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+      }
+      .hb-step-dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--green);
+        flex: 0 0 auto;
+        margin-top: 5px;
+      }
+      .hb-step-body {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+      .hb-step-state {
+        display: block;
+        font-weight: 600;
+        font-size: 13.5px;
+      }
+      .hb-step-where {
+        display: block;
+        font-size: 13.5px;
+        color: var(--ink-2);
+        line-height: 1.45;
+        margin-top: 3px;
+      }
+      .hb-resume {
+        flex: 0 0 auto;
+        align-self: center;
+        font-family: var(--sans);
+        font-weight: 600;
+        font-size: 13.5px;
+        color: #fcfaf5;
+        background: var(--green);
+        border: none;
+        border-radius: 10px;
+        padding: 9px 15px;
+        cursor: pointer;
+        box-shadow: var(--shadow-pop);
+      }
+      .hb-resume:hover {
+        background: var(--green-deep);
+      }
+      .hb-resume-quiet {
+        background: transparent;
+        color: var(--green-deep);
+        border: 1px solid var(--line-2);
+        box-shadow: none;
+      }
+      .ex-area-foot {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-top: 13px;
+        padding-top: 12px;
+        border-top: 1px solid var(--line);
+        font-size: 12px;
+        color: var(--ink-3);
+        flex-wrap: wrap;
+      }
+      .hb-arts {
+        margin-left: auto;
+        color: var(--ink-4);
+      }
+      .ex-cool .hb-area-title {
+        color: var(--ink-2);
+      }
+
+      /* the ceremony suggestion — quiet */
+      .ex-ceremony {
+        position: relative;
+        margin-top: 16px;
+        background: var(--paper-2);
+        border: 1px solid var(--line);
+        border-radius: var(--r-lg);
+        padding: 18px 22px 18px 24px;
+        overflow: hidden;
+      }
+      .ex-cer-spine {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(var(--green), var(--amber));
+      }
+      .hb-cer-eye {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--amber);
+      }
+      .hb-cer-title {
+        font-family: var(--display);
+        font-weight: 400;
+        font-size: 19px;
+        line-height: 1.2;
+        margin-top: 5px;
+      }
+      .hb-cer-lede {
+        font-size: 13.5px;
+        color: var(--ink-2);
+        line-height: 1.5;
+        margin-top: 8px;
+        max-width: 70ch;
+      }
+      .hb-cer-cta {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-top: 14px;
+      }
+      .hb-cer-begin {
+        font-family: var(--sans);
+        font-weight: 600;
+        font-size: 13.5px;
+        color: var(--green-deep);
+        background: var(--green-soft);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 9px 15px;
+        cursor: pointer;
+      }
+      .hb-cer-begin:hover {
+        border-color: var(--green);
+      }
+      .hb-cer-later {
+        font-size: 13px;
+        color: var(--ink-3);
+        cursor: pointer;
+      }
+
+      .ex-footnote {
+        margin-top: 22px;
+        font-size: 12.5px;
+        color: var(--ink-3);
+        text-align: center;
+      }
+
+      /* caption strip */
+      .ex-caption {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 18px 32px 0;
+      }
+      .ex-caption .ex-cap-inner {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 14px;
+        color: var(--ink-2);
+        line-height: 1.5;
+        background: var(--green-faint);
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--green);
+        border-radius: 0 12px 12px 0;
+        padding: 12px 16px;
+      }
+      .ex-caption b {
+        color: var(--green-deep);
+        font-weight: 600;
       }
 
       @media (max-width: 920px) {
-        .xa-body {
+        .ex-stage-area {
           flex-direction: column;
         }
-        /* stacked: panel sits below the work, both full width, no slide */
-        .xa-panel {
+        .ex-panel {
           flex: none;
-          width: auto;
-          overflow: visible;
-          animation: none;
-        }
-        .xa-panel-inner {
-          width: auto;
-          flex: none;
-          margin-left: 0;
+          max-width: none;
           border-left: none;
           border-top: 1px solid var(--line);
         }
-        .xa-t1,
-        .xa-t2,
-        .xa-focus,
-        .xa-focus .xa-area-spine,
-        .xa-focus-tag {
-          animation: none;
-        }
-        .xa-focus {
-          border-color: rgba(31, 92, 61, 0.42);
-          background: linear-gradient(var(--green-faint), var(--raised));
-        }
-        .xa-focus .xa-area-spine {
-          background: var(--green);
-        }
-        .xa-focus-tag,
-        .xa-t1,
-        .xa-t2 {
-          opacity: 1;
-          transform: none;
-        }
       }
-      @media (max-width: 760px) {
-        .xa-stagewrap {
-          padding: 0 14px;
+      @media (max-width: 600px) {
+        .ex-caption {
+          padding: 14px 18px 0;
         }
-        .xa-pad {
-          padding: 20px 16px 24px;
+        .ex-thread {
+          padding: 16px 14px 6px;
         }
-        .xa-thread {
-          padding: 18px 14px 6px;
-        }
-        .xa-composer {
+        .ex-composer {
           padding: 12px 14px 14px;
         }
       }
-      @media (max-width: 600px) {
-        .xa-caption {
-          padding: 14px 18px 0;
-          font-size: 13px;
+      /* ===== INTERACTIVE: panel collapsed until the trigger is clicked ===== */
+      .ex-panel {
+        transition:
+          flex-basis 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+          max-width 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.45s ease,
+          border-color 0.4s ease;
+      }
+      .ex-work-col {
+        transition: all 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .ex-stage-area:not(.is-open) .ex-panel {
+        flex-basis: 0;
+        max-width: 0;
+        opacity: 0;
+        border-left-color: transparent;
+        overflow: hidden;
+        pointer-events: none;
+      }
+      .ex-stage-area:not(.is-open) .ex-focus-tag,
+      .ex-stage-area:not(.is-open) .ex-ask-state {
+        display: none;
+      }
+      /* trigger */
+      .ex-trigger-row {
+        margin-top: 13px;
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        flex-wrap: wrap;
+      }
+      .ex-stage-area.is-open .ex-trigger-row {
+        display: none;
+      }
+      .ex-trigger {
+        appearance: none;
+        border: 0;
+        cursor: pointer;
+        font:
+          600 14.5px/1.25 "Outfit",
+          sans-serif;
+        color: #fff;
+        background: var(--green-deep);
+        padding: 12px 18px;
+        border-radius: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        box-shadow: 0 2px 12px -2px rgba(31, 92, 61, 0.55);
+        position: relative;
+      }
+      .ex-trigger::after {
+        content: "";
+        position: absolute;
+        inset: -5px;
+        border-radius: 17px;
+        border: 2px solid var(--green-deep);
+        opacity: 0.5;
+        animation: ex-pulse 1.9s ease-out infinite;
+        pointer-events: none;
+      }
+      @keyframes ex-pulse {
+        0% {
+          transform: scale(0.985);
+          opacity: 0.55;
         }
-        .xa-titlebar {
-          display: none;
+        70% {
+          transform: scale(1.07);
+          opacity: 0;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+      .ex-trigger-hint {
+        font:
+          400 13px/1.3 "Outfit",
+          sans-serif;
+        color: var(--ink-2);
+        opacity: 0.85;
+      }
+      /* ===== dismiss cluster (injected into each work card) ===== */
+      .ex-area {
+        transition:
+          height 0.4s ease,
+          opacity 0.38s ease,
+          margin 0.4s ease,
+          padding 0.4s ease;
+        overflow: visible;
+      }
+      .ex-dismiss {
+        position: relative;
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 12px;
+      }
+      .ex-nn {
+        appearance: none;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.7);
+        color: var(--ink-2);
+        font:
+          500 12px/1 "Outfit",
+          sans-serif;
+        cursor: pointer;
+        padding: 6px 10px;
+        border-radius: 8px;
+        display: inline-flex;
+        gap: 5px;
+        align-items: center;
+      }
+      .ex-nn:hover {
+        color: var(--ink);
+        border-color: var(--ink-2);
+      }
+      .ex-nnmenu {
+        position: absolute;
+        right: 0;
+        bottom: calc(100% + 6px);
+        width: 252px;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        box-shadow: 0 14px 36px -10px rgba(20, 40, 30, 0.28);
+        padding: 6px;
+        z-index: 8;
+      }
+      .ex-nnmenu[hidden] {
+        display: none;
+      }
+      .ex-nnmenu > button {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+        width: 100%;
+        text-align: left;
+        border: 0;
+        background: none;
+        cursor: pointer;
+        padding: 9px 11px;
+        border-radius: 8px;
+        font:
+          600 13px/1.2 "Outfit",
+          sans-serif;
+        color: var(--ink);
+      }
+      .ex-nnmenu > button:hover {
+        background: var(--green-soft);
+      }
+      .ex-nn-sub {
+        font:
+          400 11.5px/1.25 "Outfit",
+          sans-serif;
+        color: var(--ink-2);
+      }
+      .ex-why {
+        display: flex;
+        gap: 6px;
+        padding: 6px;
+      }
+      .ex-why[hidden] {
+        display: none;
+      }
+      .ex-why-in {
+        flex: 1;
+        min-width: 0;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 7px 9px;
+        font:
+          400 12.5px "Outfit",
+          sans-serif;
+        color: var(--ink);
+      }
+      .ex-why-go {
+        border: 0;
+        background: var(--green-deep);
+        color: #fff;
+        cursor: pointer;
+        border-radius: 8px;
+        padding: 0 13px;
+        font:
+          600 12.5px "Outfit",
+          sans-serif;
+      }
+      .ex-stub {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 12px 16px;
+        margin: 0 0 14px;
+        border: 1px dashed var(--line);
+        border-radius: 13px;
+        color: var(--ink-2);
+        font:
+          400 13px/1.35 "Outfit",
+          sans-serif;
+        background: rgba(252, 250, 245, 0.5);
+      }
+      .ex-undo {
+        border: 0;
+        background: none;
+        color: var(--green-deep);
+        cursor: pointer;
+        font:
+          600 13px "Outfit",
+          sans-serif;
+        text-decoration: underline;
+        flex: 0 0 auto;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .ex-panel,
+        .ex-work-col,
+        .ex-area {
+          transition: none !important;
+        }
+        .ex-trigger::after {
+          animation: none;
         }
       }
     </style>
@@ -1118,210 +783,246 @@
           <span
             class="jump"
             style="background: var(--green-soft); color: var(--green-deep)"
-            >Option A · how the docked panel feels</span
+            >Option A · docked panel · interactive</span
           >
         </div>
       </div>
     </nav>
 
-    <p class="xa-caption">
-      <b>Option A in motion</b> — she taps the assistant; a conversation docks
-      in from the right while her work stays in view and narrows to make room.
-      <b>Loops.</b>
-    </p>
+    <div class="ex-caption">
+      <div class="ex-cap-inner">
+        <span
+          ><b>Option A</b> — click the highlighted prompt to ask the assistant. A conversation docks in and pushes your work aside to make room; the work stays in view. Click the panel's ✕ to replay. Each card also has a quiet “Not now”.</span
+        >
+      </div>
+    </div>
 
-    <div class="xa-stagewrap">
-      <div class="xa-stage">
-        <div class="xa-titlebar">
-          <div class="xa-dots"><i></i><i></i><i></i></div>
-          <div class="xa-url">
+    <section id="homebase" class="wrap screen">
+      <div class="head">
+        <div class="stage">
+          <span class="dot"></span><span class="label">Act 4 · Home base</span
+          ><span class="sub">five months in — the long relationship</span>
+        </div>
+        <h2>She asked the assistant — and the work never left the room.</h2>
+        <p class="why">
+          Priya taps the assistant about the re-org proposal. A conversation
+          <b>docks to the right</b> while her active work
+          <b>stays in view on the left</b> — the proposal card lit as the thing
+          they're talking about. The assistant answers from
+          <b>her actual plan</b>, in two or three sentences, then steps back. It
+          is a companion to the work, not a replacement for it.
+        </p>
+        <span class="tagline"
+          >talk about it while it stays on screen · the assistant serves the
+          work · answers from her real plan</span
+        >
+      </div>
+
+      <div class="frame">
+        <div class="titlebar">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="url">
             mirror.brilliantwith.ai &nbsp;·&nbsp; home · Priya Raman
           </div>
         </div>
-
-        <div class="xa-topbar">
-          <div class="xa-moe">
-            <span class="xa-mark"></span>
-            <span>
-              <span class="xa-nm">Your assistant</span>
-              <span class="xa-st"
-                >docked on the re-org proposal — your work stays in view</span
+        <div class="app">
+          <div class="topbar">
+            <div class="moe">
+              <span class="mark"></span
+              ><span
+                ><span class="nm">Your assistant</span
+                ><span class="st"
+                  >docked on the re-org proposal — your work stays in view</span
+                ></span
               >
-            </span>
-          </div>
-          <div class="xa-crumbs">·&nbsp; <b>Home</b> · month 5</div>
-          <div class="xa-tbright">
-            <button class="xa-tb-btn">Your Mirrors</button>
-            <div class="xa-avatar">P</div>
-          </div>
-        </div>
-
-        <!-- ===== THE TWO-ZONE BODY ===== -->
-        <div class="xa-body">
-          <!-- LEFT: active work stays on screen, narrows as the panel docks -->
-          <div class="xa-work-col">
-            <div class="xa-pad">
-              <div class="xa-padhead">
-                <div class="xa-pe">What are we working on?</div>
-                <h4>
-                  Three things are live. The assistant opens on one of them —
-                  the rest stay right here.
-                </h4>
-              </div>
-
-              <!-- the strip she taps -->
-              <div class="xa-ask">
-                <span class="xa-ask-mk"></span>
-                <div class="xa-ask-body">
-                  <div class="xa-ask-line">
-                    Ask me to start something, or just talk it through —
-                    <b>I already hold all of this.</b>
-                  </div>
-                  <span class="xa-ask-state"
-                    >Open on the re-org proposal →</span
-                  >
-                </div>
-                <!-- "she taps" — cursor + ripple, phase 1 only -->
-                <span class="xa-tap"></span>
-              </div>
-
-              <!-- ACTIVE WORK -->
-              <div class="xa-section">
-                <div class="xa-sec-eye">Active work</div>
-
-                <div class="xa-cards">
-                  <!-- area 1 — THE SUBJECT, lights to "In focus" as panel docks -->
-                  <div class="xa-area xa-focus">
-                    <span class="xa-area-spine"></span>
-                    <div class="xa-area-head">
-                      <div>
-                        <div class="xa-area-eye">Re-org proposal</div>
-                        <div class="xa-area-title">
-                          The marketing org you've been redrawing since the
-                          owner handoff worked.
-                        </div>
-                      </div>
-                      <span class="xa-focus-tag">In focus</span>
-                    </div>
-                    <div class="xa-step">
-                      <span class="xa-step-dot"></span>
-                      <div class="xa-step-body">
-                        <span class="xa-step-state"
-                          >Red-team · round 2 of 3</span
-                        >
-                        <span class="xa-step-where"
-                          >You stopped on the "span of control" critique — I
-                          drafted a reply, it's waiting for your read.</span
-                        >
-                      </div>
-                      <button class="xa-resume">Resume →</button>
-                    </div>
-                    <div class="xa-area-foot">
-                      <span>2 open loops · last worked Tuesday</span>
-                      <span class="xa-arts"
-                        >Draft v4 · Risk review · Improvement plan</span
-                      >
-                    </div>
-                  </div>
-
-                  <!-- area 2 — still in view, untouched -->
-                  <div class="xa-area">
-                    <span class="xa-area-spine"></span>
-                    <div class="xa-area-head">
-                      <div>
-                        <div class="xa-area-eye">Leadership offsite</div>
-                        <div class="xa-area-title">
-                          The Q4 offsite where you make the case for the new
-                          structure.
-                        </div>
-                      </div>
-                      <span class="xa-temp xa-warm">Picking back up</span>
-                    </div>
-                    <div class="xa-step">
-                      <span class="xa-step-dot"></span>
-                      <div class="xa-step-body">
-                        <span class="xa-step-state"
-                          >Research prep · brief ready for you</span
-                        >
-                        <span class="xa-step-where"
-                          >You asked me to pull how three peer orgs structured
-                          AI ownership. The brief's done — resume to send it
-                          out.</span
-                        >
-                      </div>
-                      <button class="xa-resume">Resume →</button>
-                    </div>
-                    <div class="xa-area-foot">
-                      <span>1 open loop · last worked last week</span>
-                      <span class="xa-arts">Research brief · Peer scan</span>
-                    </div>
-                  </div>
-
-                  <!-- area 3 — quieter, parked -->
-                  <div class="xa-area xa-cool">
-                    <span class="xa-area-spine"></span>
-                    <div class="xa-area-head">
-                      <div>
-                        <div class="xa-area-eye">Your own next role</div>
-                        <div class="xa-area-title">
-                          The "best marketer vs. makes twelve better" decision
-                          from your first Action Plan — still open, on purpose.
-                        </div>
-                      </div>
-                      <span class="xa-temp xa-cold">Parked by you</span>
-                    </div>
-                    <div class="xa-step">
-                      <span class="xa-step-dot"></span>
-                      <div class="xa-step-body">
-                        <span class="xa-step-state"
-                          >Decision support · paused at tradeoffs</span
-                        >
-                        <span class="xa-step-where"
-                          >You asked to sit with this one. I'm not nudging —
-                          it's here when you want it.</span
-                        >
-                      </div>
-                      <button class="xa-resume xa-resume-quiet">
-                        Resume →
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- quiet ceremony suggestion -->
-              <div class="xa-ceremony">
-                <span class="xa-cer-spine"></span>
-                <div>
-                  <div class="xa-cer-eye">A gentle suggestion</div>
-                  <div class="xa-cer-title">
-                    It might be time for a new Mirror.
-                  </div>
-                  <p class="xa-cer-lede">
-                    Your last one was in June. Since then the owner stuck, the
-                    offsite became real, and the way you talk about your own job
-                    has shifted. A fresh letter would see who you are now — not
-                    who you were five months ago.
-                  </p>
-                </div>
-              </div>
+            </div>
+            <div class="crumbs">·&nbsp; <b>Home</b> · month 5</div>
+            <div class="right">
+              <button class="tb-btn">Your Mirrors</button>
+              <button class="tb-btn">Everything you've made</button>
+              <div class="avatar">P</div>
             </div>
           </div>
 
-          <!-- RIGHT: the docked assistant conversation.
-               .xa-panel is the width-animated clip; .xa-panel-inner holds the
-               fixed-width content that gets revealed as the space opens. -->
-          <aside class="xa-panel">
-            <div class="xa-panel-inner">
-              <div class="xa-panel-head">
-                <span class="xa-panel-mk"></span>
-                <div class="xa-panel-id">
-                  <span class="xa-panel-nm">Your assistant</span>
-                  <span class="xa-panel-ctx"
+          <div class="ex-stage-area">
+            <!-- LEFT: active work stays on screen, narrowed -->
+            <div class="ex-work-col">
+              <div class="stage-pad">
+                <div class="padhead">
+                  <div class="pe">What are we working on?</div>
+                  <h4>
+                    Three things are live. The assistant is open on one of them
+                    — the rest stay right here.
+                  </h4>
+                </div>
+
+                <!-- ambient assistant strip, now showing the open state -->
+                <div class="ex-ask">
+                  <span class="ex-ask-mk"></span>
+                  <div class="ex-ask-body">
+                    <div class="ex-ask-line">
+                      Ask me to start something, or just talk it through —
+                      <b>I already hold all of this.</b>
+                    </div>
+                    <span class="ex-ask-state"
+                      >Open on the re-org proposal →</span
+                    >
+                    <div class="ex-trigger-row">
+                      <button class="ex-trigger" id="ex-trigger" type="button">
+                        Ask: where did I land on span-of-control?
+                        <span aria-hidden="true">→</span>
+                      </button>
+                      <span class="ex-trigger-hint">click to see it happen</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ACTIVE WORK -->
+                <div class="ex-section">
+                  <div class="ex-sec-eye">Active work</div>
+
+                  <div class="ex-cards">
+                    <!-- area 1 — THE SUBJECT IN FOCUS -->
+                    <div class="ex-area ex-focus">
+                      <span class="hb-area-spine"></span>
+                      <div class="ex-area-head">
+                        <div>
+                          <div class="hb-area-eye">Re-org proposal</div>
+                          <div class="hb-area-title">
+                            The marketing org you've been redrawing since the
+                            owner handoff worked.
+                          </div>
+                        </div>
+                        <span class="ex-focus-tag">In focus</span>
+                      </div>
+                      <div class="hb-step">
+                        <span class="hb-step-dot"></span>
+                        <div class="hb-step-body">
+                          <span class="hb-step-state"
+                            >Red-team · round 2 of 3</span
+                          >
+                          <span class="hb-step-where"
+                            >You stopped on the "span of control" critique — I
+                            drafted a reply, it's waiting for your read.</span
+                          >
+                        </div>
+                        <button class="hb-resume">Resume →</button>
+                      </div>
+                      <div class="ex-area-foot">
+                        <span>2 open loops · last worked Tuesday</span>
+                        <span class="hb-arts"
+                          >Draft v4 · Risk review · Improvement plan</span
+                        >
+                      </div>
+                    </div>
+
+                    <!-- area 2 — still in view, untouched -->
+                    <div class="ex-area">
+                      <span class="hb-area-spine"></span>
+                      <div class="ex-area-head">
+                        <div>
+                          <div class="hb-area-eye">Leadership offsite</div>
+                          <div class="hb-area-title">
+                            The Q4 offsite where you make the case for the new
+                            structure.
+                          </div>
+                        </div>
+                        <span class="hb-temp hb-warm">Picking back up</span>
+                      </div>
+                      <div class="hb-step">
+                        <span class="hb-step-dot"></span>
+                        <div class="hb-step-body">
+                          <span class="hb-step-state"
+                            >Research prep · brief ready for you</span
+                          >
+                          <span class="hb-step-where"
+                            >You asked me to pull how three peer orgs structured
+                            AI ownership. The brief's done — resume to send it
+                            out.</span
+                          >
+                        </div>
+                        <button class="hb-resume">Resume →</button>
+                      </div>
+                      <div class="ex-area-foot">
+                        <span>1 open loop · last worked last week</span>
+                        <span class="hb-arts">Research brief · Peer scan</span>
+                      </div>
+                    </div>
+
+                    <!-- area 3 — quieter, parked -->
+                    <div class="ex-area ex-cool">
+                      <span class="hb-area-spine"></span>
+                      <div class="ex-area-head">
+                        <div>
+                          <div class="hb-area-eye">Your own next role</div>
+                          <div class="hb-area-title">
+                            The "best marketer vs. makes twelve better" decision
+                            from your first Action Plan — still open, on
+                            purpose.
+                          </div>
+                        </div>
+                        <span class="hb-temp hb-cold">Parked by you</span>
+                      </div>
+                      <div class="hb-step">
+                        <span class="hb-step-dot"></span>
+                        <div class="hb-step-body">
+                          <span class="hb-step-state"
+                            >Decision support · paused at tradeoffs</span
+                          >
+                          <span class="hb-step-where"
+                            >You asked to sit with this one. I'm not nudging —
+                            it's here when you want it.</span
+                          >
+                        </div>
+                        <button class="hb-resume hb-resume-quiet">
+                          Resume →
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- quiet ceremony suggestion -->
+                <div class="ex-ceremony">
+                  <span class="ex-cer-spine"></span>
+                  <div>
+                    <div class="hb-cer-eye">A gentle suggestion</div>
+                    <div class="hb-cer-title">
+                      It might be time for a new Mirror.
+                    </div>
+                    <p class="hb-cer-lede">
+                      Your last one was in June. Since then the owner stuck, the
+                      offsite became real, and the way you talk about your own
+                      job has shifted. A fresh letter would see who you are now
+                      — not who you were five months ago.
+                    </p>
+                    <div class="hb-cer-cta">
+                      <button class="hb-cer-begin">Look at a new Mirror</button>
+                      <span class="hb-cer-later"
+                        >Not now — maybe after the offsite</span
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ex-footnote">
+                  Everything you've ever made is still here, dated and kept —
+                  but home opens on what's moving, not an archive.
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT: the docked assistant conversation -->
+            <aside class="ex-panel">
+              <div class="ex-panel-head">
+                <span class="ex-panel-mk"></span>
+                <div class="ex-panel-id">
+                  <span class="ex-panel-nm">Your assistant</span>
+                  <span class="ex-panel-ctx"
                     >on <b>Re-org proposal</b> · Draft v4</span
                   >
                 </div>
-                <button class="xa-close" title="Close — keep working">
+                <button class="ex-close" title="Close — keep working">
                   <svg
                     viewBox="0 0 24 24"
                     fill="none"
@@ -1335,7 +1036,7 @@
                 </button>
               </div>
 
-              <div class="xa-subjectbar">
+              <div class="ex-subjectbar">
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -1348,42 +1049,40 @@
                   <path d="M21 12a9 9 0 1 1-3.5-7.1" />
                 </svg>
                 <span
-                  >Talking about the proposal on your left — it stays
-                  open.</span
+                  >Talking about the Re-org proposal — it stays in view while you talk.</span
                 >
               </div>
 
-              <div class="xa-thread">
+              <div class="ex-thread">
                 <!-- Priya asks -->
-                <div class="xa-msg you xa-t1">
-                  <div class="xa-col">
-                    <div class="xa-bubble">
+                <div class="msg you">
+                  <div class="col">
+                    <div class="bubble">
                       Where did I land on the span-of-control question?
                     </div>
                   </div>
                 </div>
 
                 <!-- the assistant answers from her real plan -->
-                <div class="xa-msg xa-t2">
-                  <span class="xa-av"></span>
-                  <div class="xa-col">
-                    <span class="xa-name">Your assistant</span>
-                    <div class="xa-bubble">
+                <div class="msg">
+                  <span class="av"></span>
+                  <div class="col">
+                    <span class="name">Your assistant</span>
+                    <div class="bubble">
                       <p>
                         In Draft v4 you settled on a band of
-                        <em>six to eight</em>
-                        direct reports per lead — wider than your first instinct
-                        — and you backed it with the rule that any manager with
-                        fewer than five reports folds into a peer team within
-                        two quarters.
+                        <em>six to eight</em> direct reports per lead — wider
+                        than your first instinct — and you backed it with the
+                        rule that any manager with fewer than five reports folds
+                        into a peer team within two quarters.
                       </p>
                       <p>
-                        Your open thread is the <em>creative function</em>: you
-                        flagged that it may need a narrower span, and you
-                        haven't reconciled that against Marcus's "no exceptions"
-                        note from the round-1 review.
+                        Your open thread is the
+                        <em>creative function</em>: you flagged that it may need
+                        a narrower span, and you haven't reconciled that against
+                        Marcus's "no exceptions" note from the round-1 review.
                       </p>
-                      <span class="xa-cite"
+                      <span class="ex-cite"
                         >From your Draft v4 · §2 Structure</span
                       >
                     </div>
@@ -1391,9 +1090,9 @@
                 </div>
               </div>
 
-              <div class="xa-composer">
-                <div class="xa-vbox">
-                  <button class="xa-mic" title="Tap to speak">
+              <div class="ex-composer">
+                <div class="vbox">
+                  <button class="mic" title="Tap to speak">
                     <svg
                       viewBox="0 0 24 24"
                       fill="none"
@@ -1406,10 +1105,12 @@
                       <path d="M5 11a7 7 0 0 0 14 0M12 18v4" />
                     </svg>
                   </button>
-                  <span class="xa-vfield"
-                    >Ask about the proposal, or talk it through…</span
-                  >
-                  <button class="xa-send" title="Send">
+                  <div class="vfield">
+                    <span class="ph"
+                      >Ask about the proposal, or talk it through…</span
+                    >
+                  </div>
+                  <button class="send" title="Send">
                     <svg
                       viewBox="0 0 24 24"
                       fill="none"
@@ -1422,15 +1123,138 @@
                     </svg>
                   </button>
                 </div>
-                <div class="xa-companion-note">
+                <div class="ex-companion-note">
                   Answers stay on this proposal. Close anytime — your work
                   doesn't move.
                 </div>
               </div>
-            </div>
-          </aside>
+            </aside>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
+    <script>
+      (function () {
+        var stage = document.querySelector(".ex-stage-area");
+        var trigger = document.getElementById("ex-trigger");
+        var reduce = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+        if (trigger)
+          trigger.addEventListener("click", function () {
+            stage.classList.add("is-open");
+          });
+        var closeBtn = document.querySelector(".ex-close");
+        if (closeBtn)
+          closeBtn.addEventListener("click", function () {
+            stage.classList.remove("is-open");
+          });
+
+        document.querySelectorAll(".ex-area").forEach(function (card) {
+          var cluster = document.createElement("div");
+          cluster.className = "ex-dismiss";
+          cluster.innerHTML =
+            '<button class="ex-nn" type="button">Not now <span aria-hidden="true">▾</span></button>' +
+            '<div class="ex-nnmenu" hidden>' +
+            '<button class="ex-nn-now" type="button">Not now<span class="ex-nn-sub">clear it off your plate — not deleted</span></button>' +
+            '<button class="ex-nn-why" type="button">Not now — say why<span class="ex-nn-sub">the assistant remembers, and resurfaces it</span></button>' +
+            '<div class="ex-why" hidden><input class="ex-why-in" type="text" placeholder="e.g. blocked on Marcus’s reply" /><button class="ex-why-go" type="button">Dismiss</button></div>' +
+            "</div>";
+          card.appendChild(cluster);
+          var menu = cluster.querySelector(".ex-nnmenu");
+          var why = cluster.querySelector(".ex-why");
+          var input = cluster.querySelector(".ex-why-in");
+          cluster
+            .querySelector(".ex-nn")
+            .addEventListener("click", function (e) {
+              e.stopPropagation();
+              var willOpen = menu.hasAttribute("hidden");
+              document.querySelectorAll(".ex-nnmenu").forEach(function (m) {
+                m.setAttribute("hidden", "");
+              });
+              why.setAttribute("hidden", "");
+              if (willOpen) menu.removeAttribute("hidden");
+            });
+          function dismiss(note) {
+            var h = card.offsetHeight;
+            card.style.height = h + "px";
+            void card.offsetHeight;
+            requestAnimationFrame(function () {
+              card.style.height = "0px";
+              card.style.opacity = "0";
+              card.style.marginTop = "0px";
+              card.style.marginBottom = "0px";
+              card.style.paddingTop = "0px";
+              card.style.paddingBottom = "0px";
+              card.style.overflow = "hidden";
+            });
+            setTimeout(
+              function () {
+                card.style.display = "none";
+                var stub = document.createElement("div");
+                stub.className = "ex-stub";
+                stub.innerHTML =
+                  "<span>Dismissed — off your plate" +
+                  (note
+                    ? ' · <i>“' +
+                      note.replace(/</g, "&lt;") +
+                      '”</i> noted'
+                    : "") +
+                  "</span>" +
+                  '<button type="button" class="ex-undo">Undo</button>';
+                card.parentNode.insertBefore(stub, card);
+                stub
+                  .querySelector(".ex-undo")
+                  .addEventListener("click", function () {
+                    stub.remove();
+                    card.style.display = "";
+                    card.style.height = "";
+                    card.style.opacity = "";
+                    card.style.marginTop = "";
+                    card.style.marginBottom = "";
+                    card.style.paddingTop = "";
+                    card.style.paddingBottom = "";
+                    card.style.overflow = "";
+                  });
+              },
+              reduce ? 0 : 430,
+            );
+          }
+          cluster
+            .querySelector(".ex-nn-now")
+            .addEventListener("click", function (e) {
+              e.stopPropagation();
+              menu.setAttribute("hidden", "");
+              dismiss("");
+            });
+          cluster
+            .querySelector(".ex-nn-why")
+            .addEventListener("click", function (e) {
+              e.stopPropagation();
+              why.removeAttribute("hidden");
+              input.focus();
+            });
+          cluster
+            .querySelector(".ex-why-go")
+            .addEventListener("click", function (e) {
+              e.stopPropagation();
+              menu.setAttribute("hidden", "");
+              dismiss(input.value.trim());
+            });
+          input.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              menu.setAttribute("hidden", "");
+              dismiss(input.value.trim());
+            }
+          });
+        });
+        document.addEventListener("click", function () {
+          document.querySelectorAll(".ex-nnmenu").forEach(function (m) {
+            m.setAttribute("hidden", "");
+          });
+        });
+      })();
+    </script>
   </body>
 </html>
