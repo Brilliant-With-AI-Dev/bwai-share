@@ -9,7 +9,6 @@
 :root {
   --bwai-indigo: #4f46e5;
   --bwai-indigo-bright: #6366f1;
-  --bwai-violet: #7c3aed;
   --bwai-warm: #ff6b4a; /* coral pop */
   --bwai-warm-deep: #e0502f;
   --bwai-card-shadow:
@@ -59,36 +58,10 @@
 }
 
 /* ============================ splash hero ============================ */
-.hero {
-  position: relative;
-}
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: -25% -10% auto -10%;
-  height: 420px;
-  background: radial-gradient(
-    60% 80% at 50% 0%,
-    rgba(99, 102, 241, 0.18),
-    rgba(124, 58, 237, 0.07) 45%,
-    transparent 72%
-  );
-  z-index: -1;
-  pointer-events: none;
-}
 .hero h1 {
   font-size: clamp(2.6rem, 6vw, 4.25rem);
   font-weight: 800;
   line-height: 1.04;
-  background: linear-gradient(
-    115deg,
-    var(--bwai-indigo) 0%,
-    var(--bwai-violet) 52%,
-    var(--bwai-warm) 125%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
 }
 .hero .tagline {
   font-size: clamp(1.05rem, 2.2vw, 1.3rem);
@@ -140,7 +113,7 @@
   top: 0;
   bottom: 0;
   width: 3px;
-  background: linear-gradient(var(--bwai-indigo), var(--bwai-warm));
+  background: var(--bwai-indigo);
   transform: scaleY(0);
   transform-origin: top;
   transition: transform 0.2s ease;
