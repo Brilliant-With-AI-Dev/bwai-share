@@ -1,18 +1,187 @@
-/* BWAI accent tuning for Starlight.
-   Keeps the existing brand blue (#2c6bed) used across the artifacts.
-   Starlight ships a clean light theme + a dark toggle; we only retint the
-   accent so almost no custom CSS is needed. */
+/* ============================================================================
+   BWAI — Starlight theme
+   Indigo primary + warm coral pop. Apple/Stripe-minimal: lots of white, crisp
+   tight type, soft depth — bright color reserved for emphasis and interest.
+   Only the framework "shell" (landing + doc pages) is styled here; the
+   self-contained artifacts in public/ keep their own deliberate designs.
+   ========================================================================== */
 
-/* Light mode */
-:root[data-theme='light'] {
-  --sl-color-accent-low: #dfe9fd;
-  --sl-color-accent: #2c6bed;
-  --sl-color-accent-high: #16306b;
+:root {
+  --bwai-indigo: #4f46e5;
+  --bwai-indigo-bright: #6366f1;
+  --bwai-violet: #7c3aed;
+  --bwai-warm: #ff6b4a; /* coral pop */
+  --bwai-warm-deep: #e0502f;
+  --bwai-card-shadow:
+    0 1px 2px rgba(16, 24, 64, 0.04), 0 8px 24px rgba(16, 24, 64, 0.06);
+  --bwai-card-shadow-hover:
+    0 4px 12px rgba(79, 70, 229, 0.12), 0 18px 40px rgba(79, 70, 229, 0.16);
 }
 
-/* Dark mode */
+/* ---- accent tokens ---- */
+:root[data-theme='light'] {
+  --sl-color-accent-low: #e0e7ff;
+  --sl-color-accent: #4f46e5;
+  --sl-color-accent-high: #312e81;
+  --sl-color-text-accent: #4f46e5;
+}
 :root[data-theme='dark'] {
-  --sl-color-accent-low: #0e244d;
-  --sl-color-accent: #4f86f0;
-  --sl-color-accent-high: #cdddfb;
+  --sl-color-accent-low: #1e1b4b;
+  --sl-color-accent: #818cf8;
+  --sl-color-accent-high: #e0e7ff;
+  --sl-color-text-accent: #a5b4fc;
+}
+
+/* ---- crisp, tight, bold type ---- */
+.site-title {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.sl-markdown-content h1,
+.sl-markdown-content h2,
+.sl-markdown-content h3,
+.hero h1 {
+  letter-spacing: -0.02em;
+}
+.sl-markdown-content h2 {
+  font-weight: 700;
+  margin-top: 2.75rem;
+}
+
+/* ---- prose links: indigo with a warm underline tell ---- */
+.sl-markdown-content a:not(:where(.not-content *)) {
+  color: var(--sl-color-text-accent);
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, var(--bwai-warm) 55%, transparent);
+}
+.sl-markdown-content a:not(:where(.not-content *)):hover {
+  text-decoration-color: var(--bwai-warm);
+}
+
+/* ============================ splash hero ============================ */
+.hero {
+  position: relative;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: -25% -10% auto -10%;
+  height: 420px;
+  background: radial-gradient(
+    60% 80% at 50% 0%,
+    rgba(99, 102, 241, 0.18),
+    rgba(124, 58, 237, 0.07) 45%,
+    transparent 72%
+  );
+  z-index: -1;
+  pointer-events: none;
+}
+.hero h1 {
+  font-size: clamp(2.6rem, 6vw, 4.25rem);
+  font-weight: 800;
+  line-height: 1.04;
+  background: linear-gradient(
+    115deg,
+    var(--bwai-indigo) 0%,
+    var(--bwai-violet) 52%,
+    var(--bwai-warm) 125%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero .tagline {
+  font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+  color: var(--sl-color-gray-2);
+  max-width: 46ch;
+}
+
+/* hero CTAs: pill buttons, filled indigo + warm hover accent */
+.hero .actions .action.primary {
+  background: var(--bwai-indigo);
+  border-color: var(--bwai-indigo);
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.28);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+.hero .actions .action.primary:hover {
+  background: var(--bwai-indigo-bright);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(79, 70, 229, 0.36);
+}
+.hero .actions .action.minimal {
+  border-radius: 999px;
+}
+.hero .actions .action.minimal:hover {
+  color: var(--bwai-warm-deep);
+}
+
+/* ============================ link cards ============================ */
+.sl-link-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--sl-color-gray-5) 65%, transparent);
+  box-shadow: var(--bwai-card-shadow);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
+}
+.sl-link-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(var(--bwai-indigo), var(--bwai-warm));
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.2s ease;
+}
+.sl-link-card:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--bwai-indigo) 45%, transparent);
+  box-shadow: var(--bwai-card-shadow-hover);
+}
+.sl-link-card:hover::before {
+  transform: scaleY(1);
+}
+.sl-link-card .title {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  transition: color 0.18s ease;
+}
+.sl-link-card:hover .title {
+  color: var(--sl-color-text-accent);
+}
+
+/* ============================ asides ============================ */
+.starlight-aside--tip {
+  --sl-color-asides-text-accent: var(--bwai-indigo);
+  --sl-color-asides-border: var(--bwai-indigo);
+}
+.starlight-aside--caution {
+  --sl-color-asides-text-accent: var(--bwai-warm-deep);
+  --sl-color-asides-border: var(--bwai-warm);
+}
+
+/* ============================ tables on mobile ============================ */
+/* Narrow viewports: let wide tables scroll instead of crushing columns. */
+@media (max-width: 50rem) {
+  .sl-markdown-content table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    font-size: var(--sl-text-sm);
+  }
+  .sl-markdown-content table :is(td, th) {
+    min-width: 8.5rem;
+  }
 }
