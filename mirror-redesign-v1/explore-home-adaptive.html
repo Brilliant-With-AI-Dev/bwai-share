@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mirror redesign — Explore · Adaptive home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/mirror-redesign-v1/style.css" />
+    <style>
+      /* ===== adaptive-home explore: only the deltas locked this round ===== */
+      /* explainable priority — the "why this is on top" micro-line (Q11) */
+      .ahb-why {
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+        margin: 10px 0 0;
+        padding: 9px 12px;
+        border-radius: 10px;
+        background: var(--green-faint);
+        border: 1px solid var(--green-soft);
+      }
+      .ahb-why-mk {
+        flex: 0 0 auto;
+        margin-top: 2px;
+        font-size: 12px;
+        line-height: 1;
+        color: var(--green-deep);
+        font-weight: 700;
+      }
+      .ahb-why-tx {
+        font-size: 12.5px;
+        line-height: 1.5;
+        color: var(--ink-2);
+      }
+      .ahb-why-tx b { color: var(--green-deep); }
+      /* override — she outranks the ranking (Q11) */
+      .ahb-ctrls {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+        flex-wrap: wrap;
+      }
+      .ahb-ctrl {
+        font: inherit;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--ink-2);
+        background: transparent;
+        border: 1px solid var(--line-2);
+        border-radius: 999px;
+        padding: 5px 12px;
+        cursor: pointer;
+        display: inline-flex;
+        gap: 6px;
+        align-items: center;
+      }
+      .ahb-ctrl:hover { color: var(--green-deep); border-color: var(--green); }
+      .ahb-ctrl .gl { font-size: 11px; opacity: .7; }
+      /* the quiet section — work collapsed to one-line rows (Q11 adaptive) */
+      .ahb-collapsed {
+        margin-top: 8px;
+        border: 1px solid var(--line-2);
+        border-radius: 14px;
+        overflow: hidden;
+        background: var(--paper);
+      }
+      .ahb-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 16px;
+        border-top: 1px solid var(--line-2);
+      }
+      .ahb-row:first-child { border-top: none; }
+      .ahb-row-dot {
+        flex: 0 0 auto;
+        width: 9px; height: 9px;
+        border-radius: 999px;
+        background: var(--ink-4);
+      }
+      .ahb-row-dot.warm { background: #c98a2b; }
+      .ahb-row-dot.cold { background: var(--ink-4); }
+      .ahb-row-main { flex: 1 1 auto; min-width: 0; }
+      .ahb-row-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--ink);
+        margin: 0 0 1px;
+      }
+      .ahb-row-state {
+        font-size: 12.5px;
+        color: var(--ink-3);
+      }
+      .ahb-row-state b { color: var(--ink-2); font-weight: 600; }
+      .ahb-row .hb-resume { flex: 0 0 auto; }
+      .ahb-collapsed-foot {
+        font-size: 12px;
+        color: var(--ink-3);
+        padding: 11px 16px;
+        border-top: 1px solid var(--line-2);
+        background: var(--green-faint);
+      }
+      /* ===== real-browser-window scroll: chrome stays, content scrolls inside ===== */
+      .frame {
+        display: flex;
+        flex-direction: column;
+        height: clamp(500px, 78vh, 880px);
+        margin-bottom: 44px;
+      }
+      .frame .titlebar { flex: 0 0 auto; }
+      .app {
+        display: block;
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+        overscroll-behavior: contain;
+      }
+      .app > .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 6;
+        background: rgba(252, 250, 245, 0.92);
+        backdrop-filter: saturate(1.1) blur(8px);
+        -webkit-backdrop-filter: saturate(1.1) blur(8px);
+      }
+      .app::-webkit-scrollbar { width: 12px; }
+      .app::-webkit-scrollbar-thumb {
+        background: var(--line-2);
+        border-radius: 999px;
+        border: 3px solid var(--paper);
+      }
+      .app::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+      .app::-webkit-scrollbar-track { background: transparent; }
+      @media (prefers-reduced-motion: reduce) {
+        .app { scroll-behavior: auto; }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="galnav">
+      <div class="wrap">
+        <a class="brand" href="/mirror-redesign-v1/" style="text-decoration:none;color:inherit"><span class="emblem"></span> Mirror redesign</a>
+        <span class="tagpill">Exploration · adaptive home</span>
+        <div class="links">
+          <a class="jump" href="/mirror-redesign-v1/">Overview</a>
+          <a class="jump" href="/mirror-redesign-v1/months-in">Act 4</a>
+          <a class="jump" href="/mirror-redesign-v1/explore-assistant">Assistant explore</a>
+        </div>
+      </div>
+    </nav>
+
+    <section class="wrap" style="padding-bottom:0">
+      <div class="act3note">
+        <b>What this exploration is.</b> The Act 4 home, taken one step further on
+        the decisions locked this round. The home stops being a flat list of equal
+        cards and becomes a <b>priority surface</b>: the system does the triage —
+        the one thing that needs Priya now opens up, everything else collapses to a
+        quiet line. Every ranking is <b>explainable</b> ("why this is on top") and
+        <b>overridable</b> (pin / snooze). New work is always <b>proposed, never
+        auto-created</b> — a clearly-marked suggestion she accepts or waves off, with
+        its reason shown. The assistant stays deliberately unnamed.
+      </div>
+    </section>
+
+    <section id="adaptivehome" class="wrap screen">
+      <div class="head">
+        <div class="stage">
+          <span class="dot"></span><span class="label">Explore · Adaptive home</span
+          ><span class="sub">five months in — the system triages, she stays in charge</span>
+        </div>
+        <h2>Home reads the room: what needs you now is big, the rest goes quiet.</h2>
+        <p class="why">
+          Same Priya, same three live areas as Act 4 — rendered so she doesn't have
+          to be the triage engine every morning. One area is <b>surfaced and
+          open</b> because something actually changed; the others <b>collapse to a
+          single line</b> she can resume in one tap. The card that's on top
+          <b>says why it's on top</b>, and she can always <b>pin or snooze</b> to
+          overrule the system. A new piece of work only ever arrives as a
+          <b>suggestion with its reason attached</b> — nothing lands on her plate
+          until she says so.
+        </p>
+        <span class="tagline"
+          >the system triages, never silently · priority is explainable and
+          overridable · suggested, never auto-created</span
+        >
+      </div>
+
+      <div class="frame">
+        <div class="titlebar">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="url">mirror.brilliantwith.ai &nbsp;·&nbsp; home · Priya Raman</div>
+        </div>
+        <div class="app">
+          <div class="topbar">
+            <div class="moe">
+              <span class="mark"></span
+              ><span
+                ><span class="nm">Your assistant</span
+                ><span class="st">one thing moved since Tuesday — I put it up top</span></span
+              >
+            </div>
+            <div class="crumbs">·&nbsp; <b>Home</b> · month 5</div>
+            <div class="right">
+              <button class="tb-btn">Your Mirrors</button>
+              <button class="tb-btn">Everything you've made</button>
+              <div class="avatar">P</div>
+            </div>
+          </div>
+
+          <div class="stage-area">
+            <div class="stage-pad">
+              <div class="padhead">
+                <div class="pe">What needs you now?</div>
+                <h4>
+                  One thing's waiting on you. Two are quiet. Nothing here is asking
+                  for attention it didn't earn.
+                </h4>
+              </div>
+
+              <!-- talk-to-it strip (Q15): ephemeral by default, always feeds the model -->
+              <div class="hb-ask">
+                <span class="hb-ask-mk"></span>
+                <div class="hb-ask-body">
+                  <div class="hb-ask-line">
+                    Ask me to start something, or just talk it through —
+                    <b>nothing becomes "work" until you say so, but I'll remember it either way.</b>
+                  </div>
+                  <div class="hb-ask-chips">
+                    <span class="hb-ask-chip">"Where did the re-org proposal land?"</span>
+                    <span class="hb-ask-chip">"I'm uneasy about the offsite — talk me through it."</span>
+                    <span class="hb-ask-chip">"Catch me up on everything."</span>
+                  </div>
+                </div>
+                <button class="hb-ask-mic" title="Tap to speak">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="2" width="6" height="12" rx="3" />
+                    <path d="M5 11a7 7 0 0 0 14 0M12 18v4" />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- NEEDS YOU NOW — the one surfaced, expanded area (Q11) -->
+              <div class="hb-section">
+                <div class="hb-sec-eye">Needs you now</div>
+
+                <div class="hb-area">
+                  <span class="hb-area-spine"></span>
+                  <div class="hb-area-head">
+                    <div>
+                      <div class="hb-area-eye">Re-org proposal</div>
+                      <div class="hb-area-title">
+                        The marketing org you've been redrawing since the owner
+                        handoff worked.
+                      </div>
+                    </div>
+                    <span class="hb-temp hb-hot">Active</span>
+                  </div>
+                  <div class="hb-step">
+                    <span class="hb-step-dot"></span>
+                    <div class="hb-step-body">
+                      <span class="hb-step-state">Red-team · round 2 of 3</span>
+                      <span class="hb-step-where"
+                        >You stopped on the "span of control" critique — I drafted a
+                        reply, it's waiting for your read.</span
+                      >
+                    </div>
+                    <button class="hb-resume">Resume →</button>
+                  </div>
+
+                  <!-- explainable priority (Q11): why this is on top -->
+                  <div class="ahb-why">
+                    <span class="ahb-why-mk">↑</span>
+                    <span class="ahb-why-tx"
+                      ><b>Why this is first:</b> you left a reply half-drafted, and
+                      the offsite that leans on this re-org is <b>9 days out</b>.
+                      That's the only thing that changed since Tuesday — so it's the
+                      only thing I raised.</span
+                    >
+                  </div>
+
+                  <!-- override (Q11): she outranks the ranking -->
+                  <div class="ahb-ctrls">
+                    <button class="ahb-ctrl"><span class="gl">📌</span> Pin to top</button>
+                    <button class="ahb-ctrl"><span class="gl">🌙</span> Snooze till the offsite</button>
+                    <button class="ahb-ctrl"><span class="gl">↓</span> Not today</button>
+                  </div>
+
+                  <div class="hb-area-foot">
+                    <span class="hb-loop">2 open loops · last worked Tuesday</span>
+                    <span class="hb-arts">Draft v4 · Risk review · Improvement plan</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SUGGESTED — proposed, never auto-created (Q12) + a ceremony (Q13) -->
+              <div class="hb-section">
+                <div class="hb-sec-eye">Suggested for you</div>
+                <div class="hb-ceremony">
+                  <span class="hb-cer-spine"></span>
+                  <div class="hb-cer-body">
+                    <div class="hb-cer-eye">A suggestion · not on your plate yet</div>
+                    <div class="hb-cer-title">It might be time for a new Mirror.</div>
+                    <p class="hb-cer-lede">
+                      Your last one was in June. Since then the owner stuck, the
+                      offsite became real, and the way you talk about your own job
+                      has shifted. A fresh letter would see who you are now.
+                    </p>
+                    <div class="hb-cer-cta">
+                      <button class="hb-cer-begin">Add it to my work</button>
+                      <span class="hb-cer-later">Not now — maybe after the offsite</span>
+                    </div>
+                    <div class="hb-cer-why">
+                      <span class="hb-cer-wd"></span>
+                      <span
+                        ><b>Why you're seeing this:</b> five months since your June
+                        Mirror, two Action Plan moves completed, and your own words
+                        about the role have changed. I only raise this when enough
+                        has actually accumulated — never on a timer, and it stays a
+                        suggestion until you accept it.</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- QUIETER — the rest, collapsed to one-line rows (Q11 adaptive) -->
+              <div class="hb-section">
+                <div class="hb-sec-eye">Quieter — waiting on others, or parked by you</div>
+                <div class="ahb-collapsed">
+                  <div class="ahb-row">
+                    <span class="ahb-row-dot warm"></span>
+                    <div class="ahb-row-main">
+                      <div class="ahb-row-title">Leadership offsite</div>
+                      <div class="ahb-row-state"><b>Ready when you are</b> · research brief built, waiting for you to send it out</div>
+                    </div>
+                    <button class="hb-resume">Resume →</button>
+                  </div>
+                  <div class="ahb-row">
+                    <span class="ahb-row-dot cold"></span>
+                    <div class="ahb-row-main">
+                      <div class="ahb-row-title">Your own next role</div>
+                      <div class="ahb-row-state"><b>Parked by you</b> · the "best marketer vs. makes twelve better" call — I'm not nudging</div>
+                    </div>
+                    <button class="hb-resume hb-resume-quiet">Resume →</button>
+                  </div>
+                  <div class="ahb-collapsed-foot">
+                    These stay quiet on purpose — one's waiting on you, one you asked
+                    to sit with. Tap either to open it full, exactly where you left it.
+                  </div>
+                </div>
+              </div>
+
+              <div class="hb-footnote">
+                Everything you've ever made is still here, dated and kept — but home
+                opens on what's moving, ranked for a reason you can see, and yours to
+                overrule.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" style="padding-bottom:8px">
+      <div class="legnav">
+        <a href="/mirror-redesign-v1/months-in">← Act 4 · Months in</a>
+        <a href="/mirror-redesign-v1/" class="primary">Back to the overview →</a>
+      </div>
+    </section>
+
+    <footer>
+      <div>
+        <b>Mirror redesign — proposal v1.</b> Adaptive-home exploration: the work
+        decisions locked this round (priority surfacing, explainable + overridable
+        ranking, propose-don't-create), rendered on the Act 4 home.
+      </div>
+      <div class="legend">
+        <span>System triages</span><span>Priority is explainable</span
+        ><span>Overridable — pin / snooze</span><span>Suggested, never auto-created</span
+        ><span>Resume to the exact step</span><span>Assistant deliberately unnamed</span>
+      </div>
+    </footer>
+    <script>
+      // Capture helper — only active with ?cap=<id>. Renders one screen in isolation
+      // for clean retina screenshots. Inert for normal viewing / sharing.
+      (function () {
+        var m = location.search.match(/cap=([\w-]+)/);
+        if (!m) return;
+        var keep = [m[1]];
+        document.documentElement.style.scrollBehavior = "auto";
+        document.body.classList.add("capmode");
+        document
+          .querySelectorAll("body > nav, body > header, body > section, body > footer")
+          .forEach(function (s) {
+            if (keep.indexOf(s.id) === -1) s.style.display = "none";
+            else {
+              s.style.paddingTop = "36px";
+              s.style.paddingBottom = "40px";
+            }
+          });
+      })();
+    </script>
+  </body>
+</html>
