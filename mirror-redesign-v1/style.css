@@ -3656,8 +3656,8 @@
   width: 8px;
   height: 7px;
   border-radius: 2px;
-  background: var(--ink-3);
-  box-shadow: 0 -3px 0 -1px var(--ink-3);
+  background: var(--ink-4);
+  box-shadow: 0 -3px 0 -1px var(--ink-4);
 }
 .lp-wall-foot {
   font-size: 13.5px;
