@@ -11,50 +11,38 @@
     <style>
       /* ===== resume-landing explore: what happens AFTER she taps Resume (Q10) ===== */
 
-      /* the restore confirmation — a quiet line, never a wall */
+      /* the restore confirmation — a quiet line */
       .rl-restored {
-        display: flex;
-        align-items: center;
-        gap: 9px;
         font-size: 12.5px;
-        color: var(--ink-3);
-        margin: 0 0 14px;
-        padding: 8px 13px;
+        color: var(--ink-2);
+        margin: 0 0 16px;
+        padding: 8px 14px;
         border-radius: 999px;
         background: var(--green-faint);
         border: 1px solid var(--green-soft);
         width: fit-content;
         max-width: 100%;
       }
-      .rl-restored .gl { font-size: 12px; }
       .rl-restored b { color: var(--green-deep); font-weight: 600; }
 
-      /* the staleness-aware recap — COLD state, thickened to last·loops·next.
-         attached ABOVE the restore point; the work sits right behind it. */
+      /* the staleness-aware recap — COLD state: last·loops·next.
+         the distinctive element, sits above the restore point; light, not a panel. */
       .rl-recap {
         position: relative;
         border: 1px solid var(--line-2);
-        border-radius: 16px;
+        border-left: 3px solid var(--amber);
+        border-radius: var(--r-lg);
         background: var(--raised);
-        box-shadow: var(--shadow-card);
         padding: 0;
         overflow: hidden;
-        margin: 0 0 10px;
-      }
-      .rl-recap::before {
-        content: "";
-        position: absolute;
-        left: 0; top: 0; bottom: 0;
-        width: 4px;
-        background: linear-gradient(180deg, var(--amber), #c98a2b);
+        margin: 0 0 4px;
       }
       .rl-recap-head {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 12px;
-        padding: 13px 18px 11px 22px;
-        border-bottom: 1px solid var(--line);
+        padding: 12px 18px 11px;
       }
       .rl-recap-eye {
         display: inline-flex;
@@ -69,11 +57,10 @@
       .rl-recap-eye .rl-staledot {
         width: 8px; height: 8px;
         border-radius: 999px;
-        background: #c98a2b;
-        box-shadow: 0 0 0 4px var(--amber-soft);
+        background: var(--amber);
       }
       .rl-recap-eye span.thin {
-        color: var(--ink-3);
+        color: var(--ink-2);
         font-weight: 600;
         letter-spacing: 0;
         text-transform: none;
@@ -83,11 +70,11 @@
         font: inherit;
         font-size: 12px;
         font-weight: 600;
-        color: var(--ink-3);
+        color: var(--ink-2);
         background: transparent;
         border: 1px solid var(--line-2);
         border-radius: 999px;
-        padding: 4px 12px;
+        padding: 4px 13px;
         cursor: pointer;
         white-space: nowrap;
       }
@@ -97,9 +84,10 @@
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         gap: 0;
+        border-top: 1px solid var(--line);
       }
       .rl-cell {
-        padding: 15px 18px 16px;
+        padding: 13px 18px 14px;
         border-left: 1px solid var(--line);
       }
       .rl-cell:first-child { border-left: none; }
@@ -108,7 +96,7 @@
         font-weight: 700;
         letter-spacing: 0.06em;
         text-transform: uppercase;
-        color: var(--ink-3);
+        color: var(--ink-2);
         margin: 0 0 7px;
       }
       .rl-cell-v {
@@ -116,7 +104,6 @@
         line-height: 1.5;
         color: var(--ink);
       }
-      .rl-cell-v.muted { color: var(--ink-2); }
       .rl-loop {
         display: flex;
         gap: 8px;
@@ -140,43 +127,33 @@
         justify-content: center;
         margin-top: 1px;
       }
-      .rl-next-v {
-        font-size: 13.5px;
-        line-height: 1.5;
-        color: var(--ink);
-      }
-      .rl-next-v b { color: var(--green-deep); }
+      .rl-next-v { font-size: 13.5px; line-height: 1.5; color: var(--ink); }
+      .rl-next-v b { color: var(--amber); font-weight: 700; }
 
       .rl-recap-foot {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        gap: 14px;
+        gap: 12px;
         flex-wrap: wrap;
-        padding: 11px 18px 12px 22px;
+        padding: 11px 18px 12px;
         border-top: 1px solid var(--line);
-        background: var(--green-faint);
       }
-      .rl-recap-foot-tx {
-        font-size: 12.5px;
-        line-height: 1.45;
-        color: var(--ink-2);
-        max-width: 60ch;
-      }
-      .rl-recap-foot-tx b { color: var(--green-deep); font-weight: 600; }
-      /* "open the full room" — deliberately SECONDARY, not the resume target */
+      .rl-recap-foot-tx { font-size: 12.5px; color: var(--ink-2); }
+      /* "see every version & thread" — a clear but secondary control, not the resume target */
       .rl-room {
         font-size: 12.5px;
         font-weight: 600;
-        color: var(--ink-3);
+        color: var(--ink-2);
         text-decoration: none;
-        border-bottom: 1px dashed var(--line-2);
-        padding-bottom: 1px;
+        background: var(--paper-2);
+        border: 1px solid var(--line-2);
+        border-radius: 999px;
+        padding: 5px 13px;
         white-space: nowrap;
       }
       .rl-room:hover { color: var(--green-deep); border-color: var(--green); }
 
-      /* the restore point marker — where the recap hands off to the live work */
+      /* the restore point marker — recap hands off to the live work */
       .rl-anchor {
         display: flex;
         align-items: center;
@@ -188,22 +165,37 @@
         text-transform: uppercase;
         color: var(--green-deep);
       }
-      .rl-anchor::before,
-      .rl-anchor::after {
-        content: "";
-        height: 1px;
-        background: var(--green-soft);
-      }
-      .rl-anchor::before { flex: 0 0 16px; }
-      .rl-anchor::after { flex: 1 1 auto; }
+      .rl-anchor::before { content: ""; flex: 0 0 16px; height: 1px; background: var(--green-soft); }
+      .rl-anchor::after { content: ""; flex: 1 1 auto; height: 1px; background: var(--green-soft); }
 
-      /* the live work, exactly where she left it — the composer holds her draft */
-      .rl-compose {
-        margin-top: 13px;
-        border: 1.5px solid var(--green);
-        border-radius: 14px;
+      /* the live work, exactly where she left it — the composer holds her draft.
+         calm, not a green halo: the recap above is the distinctive element. */
+      .rl-work {
+        border: 1px solid var(--line-2);
+        border-left: 3px solid var(--green);
+        border-radius: var(--r-lg);
         background: var(--raised);
-        box-shadow: 0 0 0 4px var(--green-soft);
+        overflow: hidden;
+      }
+      .rl-work-head { padding: 15px 18px 0; }
+      .rl-work-eye {
+        font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
+        text-transform: uppercase; color: var(--green-deep); margin: 0 0 8px;
+      }
+      .rl-crit-k { font-size: 12px; color: var(--ink-2); margin: 0 0 3px; }
+      .rl-crit { font-size: 15px; line-height: 1.5; color: var(--ink); margin: 0; }
+      .rl-step {
+        display: flex; gap: 11px; align-items: flex-start;
+        padding: 13px 18px 0; font-size: 12.5px; color: var(--ink-2); line-height: 1.5;
+      }
+      .rl-step-dot { flex: 0 0 auto; width: 8px; height: 8px; border-radius: 999px; background: var(--green); margin-top: 5px; }
+      .rl-step b { color: var(--ink); font-weight: 600; }
+
+      .rl-compose {
+        margin: 12px 18px 0;
+        border: 1px solid var(--green-soft);
+        border-radius: var(--r);
+        background: var(--paper);
         overflow: hidden;
       }
       .rl-compose-head {
@@ -211,50 +203,27 @@
         align-items: center;
         justify-content: space-between;
         gap: 10px;
-        padding: 9px 14px;
+        padding: 8px 14px;
         border-bottom: 1px solid var(--line);
-        background: var(--green-faint);
       }
       .rl-compose-eye {
-        font-size: 11.5px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        color: var(--green-deep);
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
+        font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em;
+        text-transform: uppercase; color: var(--green-deep);
       }
-      .rl-compose-eye .dotpulse {
-        width: 7px; height: 7px; border-radius: 999px; background: var(--green);
-      }
-      .rl-compose-meta { font-size: 11.5px; color: var(--ink-3); }
-      .rl-compose-body { padding: 14px 16px 8px; }
-      .rl-draft {
-        font-size: 14px;
-        line-height: 1.6;
-        color: var(--ink);
-      }
+      .rl-compose-meta { font-size: 11.5px; color: var(--ink-2); }
+      .rl-compose-body { padding: 13px 16px 8px; }
+      .rl-draft { font-size: 14px; line-height: 1.6; color: var(--ink); }
       .rl-caret {
-        display: inline-block;
-        width: 2px;
-        height: 1.05em;
-        background: var(--green);
-        vertical-align: text-bottom;
-        margin-left: 1px;
-        animation: rlblink 1.05s step-end infinite;
+        display: inline-block; width: 2px; height: 1.05em;
+        background: var(--green); vertical-align: text-bottom;
+        margin-left: 1px; animation: rlblink 1.05s step-end infinite;
       }
       @keyframes rlblink { 50% { opacity: 0; } }
       @media (prefers-reduced-motion: reduce) { .rl-caret { animation: none; } }
       .rl-compose-foot {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        padding: 9px 14px 12px;
+        display: flex; align-items: center; justify-content: flex-end;
+        gap: 8px; padding: 8px 14px 12px;
       }
-      .rl-compose-hint { font-size: 12px; color: var(--ink-3); }
-      .rl-compose-actions { display: flex; gap: 8px; }
       .rl-btn-ghost {
         font: inherit; font-size: 12.5px; font-weight: 600;
         color: var(--ink-2); background: transparent;
@@ -267,40 +236,42 @@
         border: 1px solid var(--green); border-radius: 999px;
         padding: 6px 16px; cursor: pointer;
       }
+      .rl-work-foot {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 12px; flex-wrap: wrap;
+        padding: 13px 18px; margin-top: 13px;
+        border-top: 1px solid var(--line);
+        font-size: 12px; color: var(--ink-2);
+      }
+      .rl-work-foot b { color: var(--ink); font-weight: 600; }
 
       /* the split: restored work column + the docked assistant panel (Q9) */
-      .rl-split { display: flex; gap: 16px; align-items: stretch; }
+      .rl-split { display: flex; gap: 16px; align-items: flex-start; }
       .rl-workcol { flex: 1 1 auto; min-width: 0; }
       .rl-dock {
-        flex: 0 0 314px;
-        align-self: stretch;
+        flex: 0 1 340px;
+        min-width: 0;
         border: 1px solid var(--line-2);
-        border-radius: 16px;
+        border-radius: var(--r-lg);
         background: var(--paper-2);
         display: flex;
         flex-direction: column;
         overflow: hidden;
       }
       .rl-dock-head {
-        padding: 12px 14px 11px;
+        padding: 12px 15px 11px;
         border-bottom: 1px solid var(--line);
         background: var(--raised);
       }
       .rl-dock-eye {
         font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em;
-        text-transform: uppercase; color: var(--ink-3);
+        text-transform: uppercase; color: var(--ink-2);
         display: flex; align-items: center; gap: 8px;
       }
-      .rl-dock-eye .mk {
-        width: 16px; height: 16px; border-radius: 6px;
-        background: var(--green); flex: 0 0 auto;
-      }
-      .rl-dock-reopened {
-        font-size: 12px; color: var(--ink-2); margin-top: 6px; line-height: 1.45;
-      }
-      .rl-dock-reopened b { color: var(--green-deep); font-weight: 600; }
-      .rl-dock-thread { padding: 13px 14px; display: flex; flex-direction: column; gap: 11px; flex: 1 1 auto; }
-      .rl-msg { font-size: 12.5px; line-height: 1.5; max-width: 92%; }
+      .rl-dock-eye .mk { width: 16px; height: 16px; border-radius: 6px; background: var(--green); flex: 0 0 auto; }
+      .rl-dock-sub { font-size: 12px; color: var(--ink-2); margin-top: 6px; line-height: 1.45; }
+      .rl-dock-thread { padding: 14px 15px; display: flex; flex-direction: column; gap: 11px; }
+      .rl-msg { font-size: 12.5px; line-height: 1.5; max-width: 96%; }
       .rl-msg-you {
         align-self: flex-end;
         background: var(--green); color: #fff;
@@ -312,12 +283,12 @@
         border: 1px solid var(--line);
         padding: 8px 12px; border-radius: 13px 13px 13px 4px;
       }
-      .rl-msg-ago { font-size: 10.5px; color: var(--ink-4); align-self: center; }
+      .rl-msg-ago { font-size: 11px; color: var(--ink-2); align-self: center; }
       .rl-dock-foot {
-        padding: 10px 14px 12px;
+        padding: 10px 15px 12px;
         border-top: 1px solid var(--line);
-        font-size: 11.5px; color: var(--ink-3);
-        display: flex; align-items: center; gap: 8px;
+        font-size: 11.5px; color: var(--ink-2);
+        display: flex; align-items: center; gap: 9px;
       }
       .rl-dock-foot .mic {
         width: 22px; height: 22px; border-radius: 999px;
@@ -327,12 +298,12 @@
       }
       .rl-dock-foot .mic svg { width: 12px; height: 12px; }
 
-      @media (max-width: 860px) {
+      @media (max-width: 960px) {
         .rl-recap-grid { grid-template-columns: 1fr; }
         .rl-cell { border-left: none; border-top: 1px solid var(--line); }
         .rl-cell:first-child { border-top: none; }
         .rl-split { flex-direction: column; }
-        .rl-dock { flex: 1 1 auto; }
+        .rl-dock { flex: 1 1 auto; width: 100%; }
       }
 
       /* ===== real-browser-window scroll: chrome stays, content scrolls inside ===== */
@@ -388,16 +359,12 @@
 
     <section class="wrap" style="padding-bottom:0">
       <div class="act3note">
-        <b>What this exploration is.</b> The adaptive home shows the Resume button.
-        This shows <b>where the button lands</b> — and the case that earns the
-        product its "it remembers me" reputation: she taps Resume after
-        <b>twelve days away</b>. There is no welcome screen to clear. She drops
-        back <b>exactly where she left off</b> — same scroll, her half-typed reply
-        still in the box, the side conversation reopened. The one new thing is a
-        <b>recap that thickens because she's been gone</b>: last time · open loops ·
-        next, sitting <em>above</em> the work, never in front of it. The full
-        archive is a deliberate second click, never the landing. The assistant
-        stays unnamed.
+        <b>What this exploration is.</b> The adaptive home shows the Resume button. This
+        shows where it lands. Priya taps Resume after twelve days away — and there's no
+        welcome screen to clear. Her scroll, her half-typed reply, and the conversation
+        that was open beside it are all back. The one extra thing is a short recap: because
+        the work has gone cold, it carries <b>last time, open loops, and next</b> — above the
+        work, not in front of it. The full archive is one more click. The assistant stays unnamed.
       </div>
     </section>
 
@@ -405,23 +372,19 @@
       <div class="head">
         <div class="stage">
           <span class="dot"></span><span class="label">Explore · Resume landing</span
-          ><span class="sub">the cold case — twelve days away, dropped back into the work</span>
+          ><span class="sub">the cold case — twelve days away, back in the work</span>
         </div>
-        <h2>Resume doesn't open a door. It puts her back in the chair.</h2>
+        <h2>Twelve days later, Resume drops her back into the work — not a summary.</h2>
         <p class="why">
-          Tapping <b>Resume</b> never routes Priya to a summary she has to read and
-          dismiss. It restores the work itself — <b>her scroll position, the reply
-          she'd half-drafted, the conversation that was docked beside it</b> — in
-          one move. Because she's been gone twelve days, a single
-          <b>staleness-aware recap</b> thickens to re-anchor her:
-          <b>last time · open loops · next</b>. It's pinned <em>above</em> the
-          restore point with the live work right behind it — a reminder, not a gate.
-          The whole archive (every version, every thread) stays one
-          <b>deliberate second click</b> away.
+          Tapping <b>Resume</b> restores the work itself: her scroll position, the reply she'd
+          half-drafted, and the conversation that was open beside it. Because she's been gone
+          twelve days, a short recap sits above it — <b>last time, open loops, next</b> — to
+          re-anchor her. On a normal day it's one quiet line, or nothing. The full archive,
+          every version and thread, is one more click away — never the place Resume lands.
         </p>
         <span class="tagline"
-          >exact-restore, never a gating screen · recap thickens only because it's
-          cold · the full room is a second click, not the landing</span
+          >restores the work, not a summary · the recap shows up only when it's cold · the
+          archive is one click away</span
         >
       </div>
 
@@ -436,7 +399,7 @@
               <span class="mark"></span
               ><span
                 ><span class="nm">Welcome back</span
-                ><span class="st">picked up exactly where you left off — twelve days ago</span></span
+                ><span class="st">right where you left off, twelve days back</span></span
               >
             </div>
             <div class="crumbs">·&nbsp; Home · <b>Re-org proposal</b></div>
@@ -450,13 +413,12 @@
           <div class="stage-area">
             <div class="stage-pad">
               <div class="rl-restored">
-                <span class="gl">↩</span>
-                <span>Restored — your <b>scroll position</b>, your <b>half-written reply</b>, and <b>this conversation</b> are exactly as you left them.</span>
+                Back where you were — your <b>scroll</b>, your <b>half-written reply</b>, and <b>this conversation</b>.
               </div>
 
               <div class="rl-split">
                 <div class="rl-workcol">
-                  <!-- the COLD recap: thickens because she's been gone (Q10) -->
+                  <!-- the COLD recap: short, sits above the work (Q10) -->
                   <div class="rl-recap">
                     <div class="rl-recap-head">
                       <div class="rl-recap-eye">
@@ -464,111 +426,91 @@
                         While you were away
                         <span class="thin">· last opened 12 days ago</span>
                       </div>
-                      <button class="rl-recap-collapse">Got it — hide ↑</button>
+                      <button class="rl-recap-collapse">Hide</button>
                     </div>
 
                     <div class="rl-recap-grid">
                       <div class="rl-cell">
                         <div class="rl-cell-k">Last time</div>
-                        <div class="rl-cell-v muted">
-                          You red-teamed the <b style="color:var(--ink);font-weight:600">"span of control"</b>
-                          critique and started writing back — then stepped away mid-sentence.
+                        <div class="rl-cell-v">
+                          You red-teamed the <b>"span of control"</b> critique and started writing
+                          back — then stopped mid-sentence.
                         </div>
                       </div>
                       <div class="rl-cell">
                         <div class="rl-cell-k">Open loops</div>
                         <div class="rl-cell-v">
-                          <span class="rl-loop"><span class="rl-loop-n">1</span> Your reply to the span-of-control critique — half-drafted, in the box below.</span>
-                          <span class="rl-loop"><span class="rl-loop-n">2</span> Marcus (your CEO) wants the revised structure before the offsite — he hasn&rsquo;t seen round&nbsp;2 yet.</span>
+                          <span class="rl-loop"><span class="rl-loop-n">1</span> Your reply to the span-of-control critique — half-written, in the box below.</span>
+                          <span class="rl-loop"><span class="rl-loop-n">2</span> Marcus expects the revised structure before the offsite — you haven't sent him a boss-safe version yet.</span>
                         </div>
                       </div>
                       <div class="rl-cell">
                         <div class="rl-cell-k">Next</div>
                         <div class="rl-next-v">
-                          Finish the reply — it's the last thing between <b>round&nbsp;2</b> and round&nbsp;3.
-                          The offsite that leans on this re-org is now <b>9 days out</b>.
+                          Finish the reply — it's the last step before round&nbsp;3. The offsite it
+                          feeds is now <b>3 days out</b>; it was over two weeks off when you last
+                          touched this.
                         </div>
                       </div>
                     </div>
 
                     <div class="rl-recap-foot">
-                      <span class="rl-recap-foot-tx">
-                        This is a <b>re-anchor, not a stop</b> — the work it describes is right below, live.
-                        I only thicken this when you've been away a while; on a normal day it's one grey line, or nothing.
-                      </span>
-                      <a class="rl-room" href="#">Open the full room — every version &amp; thread →</a>
+                      <span class="rl-recap-foot-tx">The work is right below.</span>
+                      <a class="rl-room" href="#">See every version &amp; thread →</a>
                     </div>
                   </div>
 
-                  <div class="rl-anchor">You were here</div>
+                  <div class="rl-anchor">Where you stopped</div>
 
-                  <!-- the live work, restored: the red-team round 2, her draft in the box -->
-                  <div class="hb-section">
-                    <div class="hb-sec-eye">Northwind marketing re-org · red-team · round 2 of 3</div>
-                    <div class="hb-area">
-                      <span class="hb-area-spine"></span>
-                      <div class="hb-area-head">
-                        <div>
-                          <div class="hb-area-eye">The critique you were answering</div>
-                          <div class="hb-area-title">
-                            "Twelve direct reports to the new Growth lead is too wide a
-                            span — decisions will bottleneck on one person."
-                          </div>
-                        </div>
-                        <span class="hb-temp hb-hot">Open</span>
-                      </div>
-                      <div class="hb-step">
-                        <span class="hb-step-dot"></span>
-                        <div class="hb-step-body">
-                          <span class="hb-step-state">Your reply · in progress</span>
-                          <span class="hb-step-where"
-                            >Focus is back in the box, at the word you stopped on. Keep typing, or ask me to take a pass.</span
-                          >
-                        </div>
-                      </div>
+                  <!-- the live work, restored -->
+                  <div class="rl-work">
+                    <div class="rl-work-head">
+                      <div class="rl-work-eye">Northwind marketing re-org · red-team · round 2 of 3</div>
+                      <div class="rl-crit-k">The critique you were answering</div>
+                      <p class="rl-crit">"Twelve direct reports to the new Growth lead is too wide a span — decisions will bottleneck on one person."</p>
+                    </div>
+                    <div class="rl-step">
+                      <span class="rl-step-dot"></span>
+                      <div>Your cursor's back in the box, where you stopped. <b>Keep typing, or ask me to take a pass.</b></div>
+                    </div>
 
-                      <div class="rl-compose">
-                        <div class="rl-compose-head">
-                          <span class="rl-compose-eye"><span class="dotpulse"></span> Your reply — restored draft</span>
-                          <span class="rl-compose-meta">autosaved 12 days ago · cursor where you left it</span>
-                        </div>
-                        <div class="rl-compose-body">
-                          <div class="rl-draft">
-                            Fair on the span. But the bottleneck is a sequencing problem,
-                            not a structural one — for the first two quarters the Growth
-                            lead only owns four of the twelve directly; the other eight
-                            report through interim pods until<span class="rl-caret"></span>
-                          </div>
-                        </div>
-                        <div class="rl-compose-foot">
-                          <span class="rl-compose-hint">Twelve days don't change the draft — it's the same words you left.</span>
-                          <div class="rl-compose-actions">
-                            <button class="rl-btn-ghost">Ask me to finish the thought</button>
-                            <button class="rl-btn-go">Keep writing</button>
-                          </div>
+                    <div class="rl-compose">
+                      <div class="rl-compose-head">
+                        <span class="rl-compose-eye">Your reply — draft</span>
+                        <span class="rl-compose-meta">autosaved 12 days ago</span>
+                      </div>
+                      <div class="rl-compose-body">
+                        <div class="rl-draft">
+                          Fair on the span. But the bottleneck is a sequencing problem, not a
+                          structural one — for the first two quarters the Growth lead only owns
+                          four of the twelve directly; the other eight report through interim pods
+                          until<span class="rl-caret"></span>
                         </div>
                       </div>
+                      <div class="rl-compose-foot">
+                        <button class="rl-btn-ghost">Ask me to finish it</button>
+                        <button class="rl-btn-go">Keep writing</button>
+                      </div>
+                    </div>
 
-                      <div class="hb-area-foot">
-                        <span class="hb-loop">2 open loops · last worked 12 days ago</span>
-                        <span class="hb-arts">Draft v4 · Risk review · Improvement plan</span>
-                      </div>
+                    <div class="rl-work-foot">
+                      <span>2 open loops · last worked <b>12 days ago</b></span>
+                      <span>Draft v4 · Risk review · Improvement plan</span>
                     </div>
                   </div>
                 </div>
 
-                <!-- the docked assistant panel (Q9), reopened to prior conversation -->
-                <aside class="rl-dock">
+                <!-- the docked assistant panel (Q9), back to the prior conversation -->
+                <aside class="rl-dock" aria-labelledby="rl-dock-eye">
                   <div class="rl-dock-head">
-                    <div class="rl-dock-eye"><span class="mk"></span> The conversation, reopened</div>
-                    <div class="rl-dock-reopened">Docked right where it was — <b>I kept our place</b>, so you don't re-explain.</div>
+                    <div class="rl-dock-eye" id="rl-dock-eye"><span class="mk"></span> Your conversation</div>
+                    <div class="rl-dock-sub">Picked up where you stopped — no need to re-explain.</div>
                   </div>
                   <div class="rl-dock-thread">
                     <span class="rl-msg-ago">12 days ago</span>
                     <div class="rl-msg rl-msg-you">Help me red-team this re-org before the offsite. Be blunt.</div>
-                    <div class="rl-msg rl-msg-it">Sharpest hole first: a 12-wide span on the new Growth lead. Reviewers will read it as a bottleneck. Want a reply or a re-draw?</div>
-                    <div class="rl-msg rl-msg-you">A reply. The span is fine if I phase it —</div>
-                    <div class="rl-msg rl-msg-it">You started typing that and stopped. It's still in the box. Pick it up, or I'll finish the phasing argument for your read.</div>
+                    <div class="rl-msg rl-msg-it">Sharpest hole first: a 12-wide span on the new Growth lead reads as a bottleneck. Want a reply, or a re-draw?</div>
+                    <div class="rl-msg rl-msg-it">You started a reply and stopped — it's still in the box. Pick it up, or I'll finish the phasing argument.</div>
                   </div>
                   <div class="rl-dock-foot">
                     <span class="mic">
@@ -577,15 +519,13 @@
                         <path d="M5 11a7 7 0 0 0 14 0M12 18v4" />
                       </svg>
                     </span>
-                    Pick up the thread — type or talk. Nothing here was lost.
+                    Pick up the thread — type or talk.
                   </div>
                 </aside>
               </div>
 
               <div class="hb-footnote">
-                No landing page, no "here's what you missed" wall. Resume restores the
-                room you were in; the recap only leans in because you've been gone.
-                Everything you've ever made is still one click away — just not in your way.
+                Everything you've made is still one click away — it's just not in front of you.
               </div>
             </div>
           </div>
@@ -602,16 +542,16 @@
 
     <footer>
       <div>
-        <b>Mirror redesign — proposal v1.</b> Resume-landing exploration (Q10): tapping
-        Resume restores the work itself — scroll, draft, and the docked conversation —
-        with a staleness-aware recap that thickens only when the work has gone cold.
-        The full archive is a deliberate second click, never the landing.
+        <b>Mirror redesign — proposal v1.</b> Resume-landing exploration (Q10): tapping Resume
+        restores the work — scroll, draft, and the conversation beside it — with a short recap
+        that shows up only when the work has gone cold. The full archive is one more click,
+        never the landing.
       </div>
       <div class="legend">
-        <span>Exact-restore, no gating screen</span><span>Recap thickens only when cold</span
-        ><span>Last time · open loops · next</span><span>Draft &amp; scroll preserved</span
-        ><span>Conversation reopened in place</span><span>Full room = a second click</span
-        ><span>Assistant deliberately unnamed</span>
+        <span>Restores the work, not a summary</span><span>Recap only when cold</span
+        ><span>Last time · open loops · next</span><span>Draft &amp; scroll kept</span
+        ><span>Conversation back in place</span><span>Archive is one click</span
+        ><span>Assistant unnamed</span>
       </div>
     </footer>
     <script>

@@ -10,19 +10,18 @@
     <link rel="stylesheet" href="/mirror-redesign-v1/style.css" />
     <style>
       /* ===== reflective lens (B): the growth-arc DESTINATION (Q14) ===== */
-      /* same model as the live profile (lens A), read as a story over time.
-         pull-only — you arrive here from the monthly reflection, never pushed. */
+      /* same model as the live profile (lens A), read as history. pull-only. */
 
-      /* the on-ramp banner: how she got here, and why it isn't on her home */
+      /* the on-ramp banner: how she got here, and that it isn't on her home */
       .ga-onramp {
         display: flex;
         gap: 14px;
         align-items: flex-start;
         padding: 15px 18px;
-        border-radius: 16px;
-        background: linear-gradient(180deg, var(--green-faint), transparent);
+        border-radius: var(--r-lg);
+        background: var(--green-faint);
         border: 1px solid var(--green-soft);
-        margin: 0 0 8px;
+        margin: 0 0 12px;
       }
       .ga-onramp-mk {
         flex: 0 0 auto;
@@ -30,52 +29,38 @@
         border-radius: 11px;
         background: var(--green);
         display: inline-flex; align-items: center; justify-content: center;
-        color: #fff; font-size: 16px;
+        color: #fff;
       }
+      .ga-onramp-mk svg { width: 18px; height: 18px; }
       .ga-onramp-body { flex: 1 1 auto; min-width: 0; }
       .ga-onramp-eye {
         font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
         text-transform: uppercase; color: var(--green-deep); margin: 1px 0 5px;
       }
-      .ga-onramp-tx {
-        font-size: 13.5px; line-height: 1.55; color: var(--ink-2);
-      }
+      .ga-onramp-tx { font-size: 13.5px; line-height: 1.55; color: var(--ink-2); }
       .ga-onramp-tx b { color: var(--ink); font-weight: 600; }
-      .ga-onramp-pull {
-        display: inline-flex; align-items: center; gap: 7px;
-        margin-top: 9px;
-        font-size: 12px; color: var(--ink-3);
-        background: var(--paper-2);
-        border: 1px solid var(--line);
-        border-radius: 999px; padding: 4px 12px;
-      }
-      .ga-onramp-pull b { color: var(--green-deep); font-weight: 600; }
 
-      /* the read/write relationship to lens A — same model, two surfaces */
+      /* the read/write relationship to lens A — one line, no metaphor */
       .ga-twosurf {
-        display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-        font-size: 12px; color: var(--ink-3);
-        margin: 0 0 22px; padding: 9px 16px;
-        border-radius: 999px; background: var(--paper-2); border: 1px solid var(--line);
-        width: fit-content; max-width: 100%;
+        font-size: 12.5px; line-height: 1.55; color: var(--ink-2);
+        margin: 0 0 24px; padding: 0 2px;
       }
-      .ga-twosurf b { color: var(--ink-2); font-weight: 600; }
-      .ga-twosurf a { color: var(--green-deep); font-weight: 600; text-decoration: none; border-bottom: 1px dashed var(--green-soft); }
+      .ga-twosurf b { color: var(--ink); font-weight: 600; }
+      .ga-twosurf a { color: var(--green-deep); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--green-soft); }
       .ga-twosurf a:hover { border-color: var(--green); }
-      .ga-twosurf .sep { color: var(--line-2); }
 
       /* the arc — a vertical spine with chapter "movements" */
       .ga-arc { position: relative; margin-top: 6px; }
       .ga-spine {
-        position: absolute; left: 19px; top: 8px; bottom: 40px;
+        position: absolute; left: 19px; top: 20px; bottom: 18px;
         width: 2px;
         background: linear-gradient(180deg, var(--line-2), var(--green-soft) 30%, var(--green) 92%);
       }
       .ga-period {
         display: flex; align-items: center; gap: 12px;
-        margin: 0 0 16px; padding-left: 0;
+        margin: 0 0 16px;
         font-size: 11px; font-weight: 700; letter-spacing: 0.07em;
-        text-transform: uppercase; color: var(--ink-3);
+        text-transform: uppercase; color: var(--ink-2);
       }
       .ga-period .mk {
         position: relative; z-index: 2;
@@ -83,9 +68,8 @@
         border-radius: 999px; background: var(--paper);
         border: 2px solid var(--line-2);
         display: inline-flex; align-items: center; justify-content: center;
-        color: var(--ink-3); font-size: 10px; line-height: 1.05; text-align: center;
+        color: var(--ink-2); font-size: 10px; line-height: 1.05; text-align: center;
       }
-      .ga-period.start .mk { border-color: var(--line-2); }
       .ga-period.now .mk { border-color: var(--green); color: var(--green-deep); background: var(--green-faint); }
 
       .ga-move {
@@ -95,16 +79,15 @@
       }
       .ga-move::before {
         content: "";
-        position: absolute; left: 12px; top: 26px;
+        position: absolute; left: 12px; top: 24px;
         width: 16px; height: 16px; border-radius: 999px;
         background: var(--raised); border: 2px solid var(--green);
         z-index: 2;
       }
       .ga-card {
         border: 1px solid var(--line-2);
-        border-radius: 16px;
+        border-radius: var(--r-lg);
         background: var(--raised);
-        box-shadow: var(--shadow-card);
         overflow: hidden;
       }
       .ga-card-head { padding: 15px 18px 13px; }
@@ -114,82 +97,94 @@
       }
       .ga-move-title {
         font-family: var(--display);
-        font-size: 21px; font-weight: 400; line-height: 1.25;
+        font-size: 20px; font-weight: 400; line-height: 1.28;
         color: var(--ink); margin: 0;
         letter-spacing: -0.01em;
       }
-      .ga-move-shift {
-        display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-        margin-top: 11px; font-size: 12.5px;
+      /* then -> now, with labels (not color alone) */
+      .ga-shift {
+        display: flex; align-items: stretch; gap: 0;
+        margin-top: 13px;
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        overflow: hidden;
       }
-      .ga-then {
-        color: var(--ink-3);
-        text-decoration: line-through;
-        text-decoration-color: var(--line-2);
+      .ga-sh { flex: 1 1 0; padding: 9px 13px; font-size: 12.5px; line-height: 1.4; }
+      .ga-sh-then { background: var(--paper-2); color: var(--ink-2); }
+      .ga-sh-then .t { text-decoration: line-through; text-decoration-color: var(--ink-3); }
+      .ga-sh-now { background: var(--green-faint); color: var(--ink); border-left: 1px solid var(--line); }
+      .ga-sh-l {
+        display: block; font-size: 10px; font-weight: 700;
+        letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 3px;
       }
-      .ga-to { color: var(--green); font-weight: 700; }
-      .ga-now { color: var(--green-deep); font-weight: 600; }
+      .ga-sh-then .ga-sh-l { color: var(--ink-3); }
+      .ga-sh-now .ga-sh-l { color: var(--green-deep); }
 
       .ga-narr {
         padding: 0 18px 14px;
-        font-size: 14px; line-height: 1.62; color: var(--ink);
+        font-size: 14px; line-height: 1.6; color: var(--ink);
       }
       .ga-narr em { font-style: italic; color: var(--ink-2); }
       .ga-narr b { font-weight: 600; }
 
-      /* the evidence trail — moments that prove the arc; read-only, traceable */
+      /* the evidence trail — the moments behind the arc; read-only */
       .ga-evid {
         display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-        padding: 11px 18px 14px;
+        padding: 11px 18px 13px;
         border-top: 1px solid var(--line);
         background: var(--green-faint);
       }
       .ga-evid-k {
         font-size: 10.5px; font-weight: 700; letter-spacing: 0.05em;
-        text-transform: uppercase; color: var(--ink-3); margin-right: 2px;
+        text-transform: uppercase; color: var(--ink-2); margin-right: 2px;
       }
       .ga-chip {
         font-size: 12px; color: var(--ink-2);
         background: var(--raised);
-        border: 1px solid var(--line);
+        border: 1px solid var(--line-2);
         border-radius: 999px; padding: 4px 11px;
-        white-space: nowrap;
       }
       .ga-chip .d { color: var(--green-deep); font-weight: 600; }
 
-      /* the constant — what didn't move; the steady spine under the change */
+      /* movement 3 is the smallest — render it lighter */
+      .ga-move.minor .ga-card { background: var(--paper); }
+      .ga-move.minor .ga-move-title { font-size: 18px; }
+
+      /* the constant — what didn't move */
       .ga-constant {
-        margin: 6px 0 0 54px;
+        margin: 4px 0 0 54px;
         position: relative;
         border: 1px dashed var(--line-2);
-        border-radius: 16px;
+        border-radius: var(--r-lg);
         background: var(--paper-2);
         padding: 15px 18px;
       }
       .ga-constant::before {
-        content: "=";
-        position: absolute; left: -42px; top: 22px;
+        content: "";
+        position: absolute; left: -42px; top: 20px;
         width: 16px; height: 16px; border-radius: 999px;
-        background: var(--paper-2); border: 2px solid var(--ink-3);
-        color: var(--ink-3); font-size: 11px; font-weight: 700;
-        display: inline-flex; align-items: center; justify-content: center;
+        background-color: var(--paper-2);
+        border: 2px solid var(--ink-3);
+        background-image: linear-gradient(var(--ink-2), var(--ink-2)), linear-gradient(var(--ink-2), var(--ink-2));
+        background-size: 7px 1.5px, 7px 1.5px;
+        background-position: center calc(50% - 2px), center calc(50% + 2px);
+        background-repeat: no-repeat;
         z-index: 2;
       }
       .ga-constant-eye {
         font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
-        text-transform: uppercase; color: var(--ink-3); margin: 0 0 6px;
+        text-transform: uppercase; color: var(--ink-2); margin: 0 0 6px;
       }
       .ga-constant-tx { font-size: 13.5px; line-height: 1.55; color: var(--ink-2); }
       .ga-constant-tx b { color: var(--ink); font-weight: 600; }
 
-      /* close: this is a reading, and it stays yours */
+      /* close: a reading, and it stays hers */
       .ga-close {
-        margin: 24px 0 0 54px;
+        margin: 22px 0 0 54px;
         padding: 16px 18px;
-        border-radius: 16px;
+        border-radius: var(--r-lg);
         background: var(--raised);
         border: 1px solid var(--green-soft);
-        box-shadow: var(--shadow-card);
       }
       .ga-close-t {
         font-family: var(--display); font-size: 17px; font-weight: 400;
@@ -202,6 +197,8 @@
       @media (max-width: 720px) {
         .ga-move { padding-left: 44px; }
         .ga-constant, .ga-close { margin-left: 44px; }
+        .ga-shift { flex-direction: column; }
+        .ga-sh-now { border-left: none; border-top: 1px solid var(--line); }
       }
 
       /* ===== real-browser-window scroll: chrome stays, content scrolls inside ===== */
@@ -257,15 +254,13 @@
 
     <section class="wrap" style="padding-bottom:0">
       <div class="act3note">
-        <b>What this exploration is.</b> The profile has <b>two lenses on one model</b>.
-        Act&nbsp;4's <a href="/mirror-redesign-v1/months-in#profile" style="color:var(--green-deep)">live profile</a>
-        is <b>lens&nbsp;A</b> — what the product assumes about you <em>right now</em>, every line
-        editable, your correction outranking its guess. This is <b>lens&nbsp;B</b>: the same
-        beliefs read as a <b>story over time</b> — the arc of who Priya has become across five
-        months. The hard rule (locked): <b>lens&nbsp;B is a place you go, never a thing that
-        comes to you</b>. It isn't on the home, it isn't pinned, it isn't a default tab. The only
-        on-ramp is the recurring reflection — "look at yourself" is offered on a cadence, never the
-        daily default. The assistant stays unnamed.
+        <b>What this exploration is.</b> The profile has two lenses on one model. Act&nbsp;4's
+        <a href="/mirror-redesign-v1/months-in#profile" style="color:var(--green-deep)">live profile</a>
+        is <b>lens&nbsp;A</b> — what the product believes about you now, every line editable, your
+        correction winning over its guess. This is <b>lens&nbsp;B</b>: the same beliefs read back
+        as five months of change. It's <b>pull-only</b> — reached from the monthly reflection, never
+        on the home and never pinned — so looking at yourself stays something you choose, not a daily
+        default. The assistant stays unnamed.
       </div>
     </section>
 
@@ -273,20 +268,19 @@
       <div class="head">
         <div class="stage">
           <span class="dot"></span><span class="label">Explore · The reflective lens</span
-          ><span class="sub">lens B — the growth arc, pulled into from the monthly reflection</span>
+          ><span class="sub">lens B — the growth arc, reached from the monthly reflection</span>
         </div>
-        <h2>Same model as the live profile — read as the story of who you've become.</h2>
+        <h2>The same profile, read as five months of change.</h2>
         <p class="why">
           Lens&nbsp;A answers <em>"what are you assuming about me?"</em> and lets her fix it.
-          Lens&nbsp;B answers a slower question — <em>"who have I become?"</em> — by rendering the
-          <b>same underlying model as an arc across five months</b>: where she started, where she
-          is now, and the moments that moved her. It's a <b>reading, not a dashboard</b>: no scores,
-          nothing to manage. And it's <b>pull-only</b> — she reaches it from the monthly reflection,
-          so the Mirror's "look at yourself" heritage is honored without making self-scrutiny the
-          thing she opens every morning.
+          Lens&nbsp;B answers a slower question — <em>"what's changed?"</em> — by reading the
+          <b>same model back across five months</b>: where she started, where she is now, and the
+          moments in between. No scores, nothing to manage. And it's <b>pull-only</b> — she reaches
+          it from the monthly reflection, so the Mirror's "look at yourself" idea stays a choice,
+          not the thing she opens every morning.
         </p>
         <span class="tagline"
-          >one model, two lenses · A is the working draft, B is the rendered history · a destination,
+          >one model, two lenses · A is where you correct, B is where you read · a place you go,
           never a daily push</span
         >
       </div>
@@ -302,7 +296,7 @@
               <span class="mark"></span
               ><span
                 ><span class="nm">Your reflection</span
-                ><span class="st">who you've become — five months, read as one story</span></span
+                ><span class="st">five months of your work, in one view</span></span
               >
             </div>
             <div class="crumbs">·&nbsp; Monthly reflection · <b>The arc so far</b></div>
@@ -314,33 +308,35 @@
 
           <div class="stage-area">
             <div class="stage-pad">
-              <!-- the on-ramp: how she got here, and why this page never comes to her -->
+              <!-- the on-ramp: how she got here, and that this page never comes to her -->
               <div class="ga-onramp">
-                <span class="ga-onramp-mk">↪</span>
+                <span class="ga-onramp-mk">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 10l5 5-5 5" /><path d="M4 4v7a4 4 0 0 0 4 4h12" />
+                  </svg>
+                </span>
                 <div class="ga-onramp-body">
                   <div class="ga-onramp-eye">You came here from your monthly reflection</div>
                   <div class="ga-onramp-tx">
-                    Five months in, the recurring reflection asked if you wanted to step back and
-                    read the arc. You said yes — so <b>here it is</b>. This isn't a tab you have to
-                    keep up with; it sits quietly until a reflection invites you in.
+                    Five months in, the monthly reflection asked if you wanted to step back and read
+                    the arc. You said yes, so here it is. <b>Pull-only — it's never on your home or
+                    pinned.</b> You won't see it again until a future reflection brings you back.
                   </div>
-                  <span class="ga-onramp-pull">📍 <b>Pull-only</b> · not on your home · not pinned · you come to it, it never comes to you</span>
                 </div>
               </div>
 
               <div class="ga-twosurf">
                 <b>One model, two lenses.</b>
-                <span class="sep">·</span>
-                <a href="/mirror-redesign-v1/months-in#profile">Lens&nbsp;A — the live profile</a> is where you read &amp; correct what I believe today
-                <span class="sep">·</span>
-                Lens&nbsp;B (here) renders those same beliefs as history. <b>A is the working draft; B is the printed story.</b>
+                <a href="/mirror-redesign-v1/months-in#profile">Lens&nbsp;A</a> is where you correct
+                what I believe now. Lens&nbsp;B (here) reads those same beliefs back as history —
+                correct something in A and this updates to match.
               </div>
 
               <div class="ga-arc">
                 <div class="ga-spine"></div>
 
                 <div class="ga-period start">
-                  <span class="mk">Jan<br />Day 0</span>
+                  <span class="mk">Day 0</span>
                   Where you started
                 </div>
 
@@ -349,87 +345,78 @@
                   <div class="ga-card">
                     <div class="ga-card-head">
                       <div class="ga-move-eye">The deciding</div>
-                      <h3 class="ga-move-title">You stopped guarding every call — and designed yourself out of the bottleneck.</h3>
-                      <div class="ga-move-shift">
-                        <span class="ga-then">holds the deciding too long, "keeps finding reasons to wait"</span>
-                        <span class="ga-to">→</span>
-                        <span class="ga-now">phases the work so the decision doesn't route through her</span>
+                      <h3 class="ga-move-title">You stopped holding every decision yourself.</h3>
+                      <div class="ga-shift">
+                        <span class="ga-sh ga-sh-then"><span class="ga-sh-l">Then</span><span class="t">you'd hold the deciding too long — "I keep finding reasons to wait"</span></span>
+                        <span class="ga-sh ga-sh-now"><span class="ga-sh-l">Now</span>you phase the work so the call isn't yours to sit on</span>
                       </div>
                     </div>
                     <div class="ga-narr">
-                      In January you told me, in your own words, <em>"I keep finding reasons to
-                      wait."</em> You delegated the doing but held the deciding. Five months on,
-                      the Northwind re-org you're red-teaming this week <b>phases eight of twelve
-                      reports through interim pods</b> — you built a structure where the call isn't yours to
-                      sit on. The growth edge you named is the exact thing the work now shows you
-                      doing differently.
+                      Early on you told me, in your own words, <em>"I keep finding reasons to wait."</em>
+                      You delegated the doing but held the deciding. The Northwind re-org you're
+                      red-teaming this week <b>phases eight of twelve reports through interim pods</b> —
+                      you built a structure where the call isn't yours to sit on. The thing you said
+                      you wanted to change is the thing this re-org changes.
                     </div>
                     <div class="ga-evid">
                       <span class="ga-evid-k">The moments</span>
                       <span class="ga-chip"><span class="d">Day-12 check-in</span> · "I keep finding reasons to wait"</span>
-                      <span class="ga-chip"><span class="d">Month 5</span> · the phased Growth re-org, in red-team now</span>
+                      <span class="ga-chip"><span class="d">Month 5</span> · the phased re-org, in red-team now</span>
                     </div>
                   </div>
                 </div>
 
-                <!-- MOVEMENT 2 — title vs capability -->
+                <!-- MOVEMENT 2 — focus, corrected (capability, not the walled-off ambition) -->
                 <div class="ga-move">
                   <div class="ga-card">
                     <div class="ga-card-head">
-                      <div class="ga-move-eye">The title vs. the capability</div>
-                      <h3 class="ga-move-title">You let go of the title you never actually wanted, and built the thing instead.</h3>
-                      <div class="ga-move-shift">
-                        <span class="ga-then">read as "weighing a Chief AI Officer move"</span>
-                        <span class="ga-to">→</span>
-                        <span class="ga-now">building the AI capability inside Ops, no title chase</span>
+                      <div class="ga-move-eye">Focus, corrected</div>
+                      <h3 class="ga-move-title">You're building the capability inside Ops — and you made me stop reading ambition into it.</h3>
+                      <div class="ga-shift">
+                        <span class="ga-sh ga-sh-then"><span class="ga-sh-l">Then</span><span class="t">I'd read your AI-mandate questions as positioning</span></span>
+                        <span class="ga-sh ga-sh-now"><span class="ga-sh-l">Now</span>I read them as operational — capability, not a title play</span>
                       </div>
                     </div>
                     <div class="ga-narr">
-                      Early on I <b>misread</b> your frequent AI-mandate questions as ambition for a
-                      Chief-AI-Officer seat. On your 9th visit you corrected me — <em>"I'm building
-                      the capability inside Ops, not chasing a title. Don't read ambition into
-                      operational questions."</em> That correction <b>stuck</b>, and the months since
-                      proved it: the work has been capability, not positioning. The arc here is partly
-                      yours and partly mine — you got clearer, and you made me get you right.
+                      I used to misread your frequent AI-mandate questions. On your 9th visit you set me
+                      straight — <em>"I'm building the capability inside Ops, not chasing a title. Don't
+                      read ambition into operational questions."</em> Your correction holds, and I won't
+                      walk it back. The months since have borne it out: this has been capability, not
+                      positioning.
                     </div>
                     <div class="ga-evid">
                       <span class="ga-evid-k">The moments</span>
-                      <span class="ga-chip"><span class="d">Early</span> · inferred: "weighing a CAIO move"</span>
-                      <span class="ga-chip"><span class="d">9th visit</span> · your correction — it outranks the guess</span>
-                      <span class="ga-chip"><span class="d">Month 5</span> · capability shipping inside Ops</span>
+                      <span class="ga-chip"><span class="d">9th visit</span> · your correction — it outranks my guess</span>
+                      <span class="ga-chip"><span class="d">Month 5</span> · the capability is shipping inside Ops</span>
                     </div>
                   </div>
                 </div>
 
-                <!-- MOVEMENT 3 — learning in public -->
-                <div class="ga-move">
+                <!-- MOVEMENT 3 — learning in public (the smallest; rendered lighter) -->
+                <div class="ga-move minor">
                   <div class="ga-card">
                     <div class="ga-card-head">
-                      <div class="ga-move-eye">How you learn</div>
-                      <h3 class="ga-move-title">You stopped studying alone and started running it in front of people.</h3>
-                      <div class="ga-move-shift">
-                        <span class="ga-then">would prep a new tool privately first</span>
-                        <span class="ga-to">→</span>
-                        <span class="ga-now">learns fastest by doing it live, in the open</span>
+                      <div class="ga-move-eye">How you learn · the small one</div>
+                      <h3 class="ga-move-title">You stopped studying alone and started doing it in the open.</h3>
+                      <div class="ga-shift">
+                        <span class="ga-sh ga-sh-then"><span class="ga-sh-l">Then</span><span class="t">you'd prep a new tool privately first</span></span>
+                        <span class="ga-sh ga-sh-now"><span class="ga-sh-l">Now</span>you learn fastest running it in front of people</span>
                       </div>
                     </div>
                     <div class="ga-narr">
                       The move you <b>finished first</b> this spring was the public-workflow one — you
-                      ran the new AI process in front of your org rather than piloting it quietly. I
-                      read that as a pattern: you learn a tool fastest by using it where people can see,
-                      not by studying it alone. It's the smallest of the three arcs, and maybe the most
-                      telling — <em>it's how the other two got built.</em>
+                      ran the new AI process in front of your org rather than piloting it quietly. It's
+                      the smallest of the three, and it's underneath the other two.
                     </div>
                     <div class="ga-evid">
                       <span class="ga-evid-k">The moments</span>
                       <span class="ga-chip"><span class="d">Spring</span> · public-workflow move finished first</span>
-                      <span class="ga-chip"><span class="d">Inferred</span> · "learns by doing it in front of people"</span>
                     </div>
                   </div>
                 </div>
 
                 <div class="ga-period now">
-                  <span class="mk">Jun<br />Now</span>
+                  <span class="mk">Month 5<br />now</span>
                   Where you are
                 </div>
 
@@ -437,23 +424,20 @@
                 <div class="ga-constant">
                   <div class="ga-constant-eye">And the thing that didn't move</div>
                   <div class="ga-constant-tx">
-                    From your very first intake you said <b>"don't soften it"</b> — you've wanted the
-                    hard read first and the reassurance second the whole way through. Five months of
-                    change, and that one's been the <b>fixed point</b> the rest moved around. An arc
-                    is only legible against something that holds still — for you, it's this.
+                    From your first intake you said <b>"don't soften it"</b> — you've wanted the hard
+                    read first the whole way through. Five months of change, and that one never moved.
                   </div>
                 </div>
               </div>
 
-              <!-- close: it's a reading, and it stays yours -->
+              <!-- close: a reading, and it stays hers -->
               <div class="ga-close">
-                <div class="ga-close-t">This is a reading, not a verdict — and it's still yours to argue with.</div>
+                <div class="ga-close-t">This is one reading of your work — and you can argue with all of it.</div>
                 <p class="ga-close-p">
-                  Every line here traces back to a moment you can open, and every belief it's built on
-                  lives in <a href="/mirror-redesign-v1/months-in#profile">the live profile (lens&nbsp;A)</a>,
-                  where you can correct any of it. Change a belief there and the story here re-renders —
-                  same model, just read forward instead of edited in place. You won't see this page again
-                  until the next reflection asks you in.
+                  Every line traces to a moment you can open, and every belief behind it lives in
+                  <a href="/mirror-redesign-v1/months-in#profile">the live profile (lens&nbsp;A)</a>,
+                  where you can correct any of it. Correct a belief there and this updates to match.
+                  You won't see this page again until your next reflection.
                 </p>
               </div>
             </div>
@@ -472,15 +456,15 @@
     <footer>
       <div>
         <b>Mirror redesign — proposal v1.</b> Reflective-lens exploration (Q14): the same profile
-        model as Act 4's live lens, rendered as a five-month growth arc. A pull-only destination —
-        on-ramped from the recurring reflection, never on the home, never pinned — so "look at
-        yourself" honors the Mirror heritage without becoming the daily default.
+        model as Act 4's live lens, read as a five-month arc. A pull-only destination — reached from
+        the monthly reflection, never on the home, never pinned — so "look at yourself" stays a
+        choice, not an everyday thing.
       </div>
       <div class="legend">
-        <span>One model, two lenses</span><span>A edits, B reads</span
-        ><span>The arc across five months</span><span>Then → now, with the moments</span
+        <span>One model, two lenses</span><span>A corrects, B reads</span
+        ><span>The arc across five months</span><span>Then &amp; now, with the moments</span
         ><span>One thing that didn't move</span><span>Pull-only — never a daily push</span
-        ><span>Assistant deliberately unnamed</span>
+        ><span>Assistant unnamed</span>
       </div>
     </footer>
     <script>
