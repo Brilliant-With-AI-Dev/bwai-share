@@ -1,0 +1,779 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agent Run — internal explainer</title>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --surface: #f6f8fa;
+        --text: #1f2328;
+        --muted: #59636e;
+        --border: #d0d7de;
+        --accent: #0969da;
+        --ok: #1a7f37;
+        --warn: #bf8700;
+        --crit: #cf222e;
+        --maxw: 820px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        line-height: 1.6;
+        font-size: 17px;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 0 20px 96px;
+      }
+      header.masthead {
+        border-bottom: 1px solid var(--border);
+        padding: 40px 0 24px;
+        margin-bottom: 8px;
+      }
+      .eyebrow {
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 600;
+        margin: 0 0 8px;
+      }
+      h1 {
+        font-size: 32px;
+        line-height: 1.2;
+        margin: 0 0 8px;
+        letter-spacing: -0.02em;
+      }
+      .subtitle {
+        color: var(--muted);
+        font-size: 18px;
+        margin: 0;
+      }
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 20px;
+      }
+      button.copy {
+        font: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--accent);
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 8px 14px;
+        cursor: pointer;
+        min-height: 40px;
+      }
+      button.copy:hover {
+        background: var(--surface);
+        border-color: var(--accent);
+      }
+      button.copy:active {
+        transform: translateY(1px);
+      }
+
+      nav.toc {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 16px 20px;
+        margin: 28px 0;
+      }
+      nav.toc p {
+        margin: 0 0 8px;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        font-weight: 700;
+      }
+      nav.toc ol {
+        margin: 0;
+        padding-left: 20px;
+      }
+      nav.toc li {
+        margin: 3px 0;
+      }
+      nav.toc a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      nav.toc a:hover {
+        text-decoration: underline;
+      }
+
+      section {
+        margin: 40px 0;
+        scroll-margin-top: 16px;
+      }
+      h2 {
+        font-size: 23px;
+        letter-spacing: -0.01em;
+        margin: 0 0 14px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid var(--border);
+      }
+      h3 {
+        font-size: 18px;
+        margin: 22px 0 8px;
+      }
+      p {
+        margin: 0 0 14px;
+      }
+      a {
+        color: var(--accent);
+      }
+      strong {
+        font-weight: 650;
+      }
+
+      .card {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 18px 20px;
+        margin: 18px 0;
+        background: #fff;
+      }
+      .card.lead {
+        background: var(--surface);
+      }
+      .card h3:first-child,
+      .card p:first-child {
+        margin-top: 0;
+      }
+
+      /* state-delta */
+      .delta {
+        display: grid;
+        gap: 12px;
+        margin: 18px 0;
+      }
+      .delta .lane {
+        border-left: 4px solid var(--border);
+        padding: 4px 0 4px 16px;
+      }
+      .delta .today {
+        border-left-color: var(--muted);
+      }
+      .delta .after {
+        border-left-color: var(--ok);
+      }
+      .delta .why {
+        border-left-color: var(--accent);
+      }
+      .delta .lane .lbl {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        margin: 0 0 2px;
+      }
+      .delta .lane p.body {
+        margin: 0;
+      }
+
+      /* callouts via colored left border */
+      .note {
+        border-left: 4px solid var(--accent);
+        background: var(--surface);
+        padding: 12px 16px;
+        border-radius: 0 8px 8px 0;
+        margin: 16px 0;
+      }
+      .note.honest {
+        border-left-color: var(--warn);
+      }
+      .note .tag {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--warn);
+        margin-right: 6px;
+      }
+      .note.info .tag {
+        color: var(--accent);
+      }
+      .note p:last-child {
+        margin-bottom: 0;
+      }
+
+      ol.steps {
+        padding-left: 0;
+        counter-reset: step;
+        list-style: none;
+        margin: 0;
+      }
+      ol.steps > li {
+        position: relative;
+        padding: 0 0 14px 44px;
+        margin: 0 0 6px;
+      }
+      ol.steps > li::before {
+        counter-increment: step;
+        content: counter(step);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        font-weight: 700;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      ol.steps > li .st {
+        font-weight: 650;
+      }
+
+      ul.tight {
+        margin: 8px 0 14px;
+        padding-left: 22px;
+      }
+      ul.tight li {
+        margin: 4px 0;
+      }
+
+      pre.ascii {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 16px;
+        overflow-x: auto;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 13px;
+        line-height: 1.45;
+        margin: 16px 0;
+      }
+
+      .table-scroll {
+        overflow-x: auto;
+        margin: 16px 0;
+        -webkit-overflow-scrolling: touch;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        min-width: 560px;
+        font-size: 15px;
+      }
+      th,
+      td {
+        border: 1px solid var(--border);
+        padding: 10px 12px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: var(--surface);
+        font-weight: 650;
+      }
+      td .scope {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      footer {
+        margin-top: 56px;
+        padding-top: 18px;
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: var(--text);
+        color: #fff;
+        padding: 10px 18px;
+        border-radius: 8px;
+        font-size: 14px;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.2s,
+          transform 0.2s;
+        z-index: 50;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      @media (max-width: 600px) {
+        body {
+          font-size: 16px;
+        }
+        h1 {
+          font-size: 27px;
+        }
+        h2 {
+          font-size: 20px;
+        }
+        .wrap {
+          padding: 0 16px 72px;
+        }
+        header.masthead {
+          padding: 28px 0 20px;
+        }
+      }
+
+      @media print {
+        nav.toc,
+        .toolbar,
+        .toast {
+          display: none;
+        }
+        body {
+          font-size: 12pt;
+          color: #000;
+        }
+        a {
+          color: #000;
+          text-decoration: none;
+        }
+        section,
+        .card {
+          page-break-inside: avoid;
+        }
+        .table-scroll {
+          overflow: visible;
+        }
+        table {
+          min-width: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="masthead">
+        <p class="eyebrow">Internal — Brilliant With AI</p>
+        <h1>Agent Run — internal explainer</h1>
+        <p class="subtitle">
+          What the demo shows, what it remembers, and what's real vs. staged.
+        </p>
+        <div class="toolbar">
+          <button class="copy" id="copyMd">Copy as Markdown</button>
+          <button class="copy" onclick="window.print()">
+            Print / Save PDF
+          </button>
+        </div>
+      </header>
+
+      <nav class="toc">
+        <p>On this page</p>
+        <ol>
+          <li><a href="#overview">Plain English overview</a></li>
+          <li><a href="#delta">Today vs. After vs. Why</a></li>
+          <li><a href="#tldr">TL;DR (technical)</a></li>
+          <li><a href="#flow">The step-by-step flow</a></li>
+          <li><a href="#context-asset">What a "context asset" is</a></li>
+          <li><a href="#memory">The three memory layers</a></li>
+          <li><a href="#gate">The demo gate (sign-in)</a></li>
+          <li><a href="#docent">The docent (in-app guide)</a></li>
+          <li><a href="#real">Real vs. demo-grade</a></li>
+          <li><a href="#access">How to get in</a></li>
+        </ol>
+      </nav>
+
+      <section id="overview">
+        <h2>Plain English overview</h2>
+        <div class="card lead">
+          <p>
+            <strong>What is this?</strong> A live demo of our platform. You tell
+            it what you need ("a board update," "a hiring memo"). An AI scopes
+            the deliverable with you, designs a small team of AI workers, and
+            runs them like a relay until you get a finished document.
+          </p>
+          <p>
+            <strong>Who is it for?</strong> Busy managers and leaders —
+            nontechnical. The demo is meant to be watched and understood without
+            an engineering background.
+          </p>
+          <p style="margin-bottom: 0">
+            <strong>What you get?</strong> A real, finished deliverable produced
+            by genuine platform calls — not a canned animation. The on-screen
+            tagline: <em>"Scope it. Staff it. Watch it run."</em>
+          </p>
+        </div>
+      </section>
+
+      <section id="delta">
+        <h2>Today vs. After vs. Why it matters</h2>
+        <div class="delta">
+          <div class="lane today">
+            <p class="lbl">Today</p>
+            <p class="body">
+              You re-explain who you are and what you want on every new piece of
+              work. AI tools forget you between sessions.
+            </p>
+          </div>
+          <div class="lane after">
+            <p class="lbl">After</p>
+            <p class="body">
+              The demo remembers three things — who you are, what happened
+              before, and what's happening right now — so you stop repeating
+              yourself and the work picks up where it left off.
+            </p>
+          </div>
+          <div class="lane why">
+            <p class="lbl">Why it matters</p>
+            <p class="body">
+              Less re-explaining, faster setup, and recurring work (a weekly
+              update) that genuinely remembers last period.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="tldr">
+        <h2>TL;DR (for the technically curious)</h2>
+        <ul class="tight">
+          <li>
+            Single-file demo: a Node server boots the live platform in-process
+            and drives it through four steps with real permissions.
+          </li>
+          <li>
+            Three memory layers map to platform context-asset scopes: identity
+            profile (user/org scope), workflow memory (custom workflow scope),
+            within-run relay (task scope).
+          </li>
+          <li>
+            A demo gate (three named sign-ins over one shared account) segments
+            each person's profile, workflows, and memory. It's a curtain for
+            demo hygiene, not production auth.
+          </li>
+          <li>
+            An in-app docent answers questions about the demo — itself a
+            platform chat call, grounded in a written doc plus a live snapshot
+            of the current user's state.
+          </li>
+          <li>
+            The run's live state is in-memory and wiped on restart. Saved
+            workflows and durable memory persist through the platform.
+          </li>
+        </ul>
+      </section>
+
+      <section id="flow">
+        <h2>The step-by-step flow</h2>
+        <p>
+          A "deliverable" is the finished thing you asked for — a document, a
+          plan, a draft. The demo moves through four visible steps:
+        </p>
+        <ol class="steps">
+          <li>
+            <span class="st">Scope.</span> You describe what you want. The AI
+            proposes a clear objective and a few alternative framings, so you
+            pick the one you mean before any work starts.
+          </li>
+          <li>
+            <span class="st">Discovery.</span> A second AI gathers the details
+            it needs — but only asks what it can't already figure out from what
+            you've told it. Fewer questions is better.
+          </li>
+          <li>
+            <span class="st">Design the team.</span> A third AI designs the
+            smallest team of AI workers (usually two to four) that can produce
+            the deliverable. Each worker gets a role and a goal.
+          </li>
+          <li>
+            <span class="st">Run (the relay).</span> Workers run in order, left
+            to right. Each finishes its part and hands the next a
+            <strong>brief</strong> — a short hand-off note. That brief is the
+            baton. The relay ends in the finished deliverable.
+          </li>
+        </ol>
+        <pre class="ascii">
+  Scope  ─▶  Discovery  ─▶  Design team  ─▶  Run (relay)  ─▶  Deliverable
+                                            │
+                          ┌─────────────────┴─────────────────┐
+                       Worker 1  ──brief──▶  Worker 2  ──brief──▶  Worker 3
+                       (gather)             (draft)              (polish)
+                          the "brief" is the baton passed left → right
+        </pre>
+        <p>
+          After the run, if the work recurs, you can
+          <strong>save it as a reusable workflow</strong> and re-run it in two
+          clicks.
+        </p>
+      </section>
+
+      <section id="context-asset">
+        <h2>What a "context asset" is (no jargon)</h2>
+        <p>
+          A <strong>context asset</strong> is a small saved piece of information
+          the platform keeps and hands to the right AI step at the right moment
+          — like a sticky note the system files away and pulls out exactly when
+          a worker needs it.
+        </p>
+        <p>
+          The useful idea is <strong>scope</strong>: how widely a note applies
+          and how long it sticks around. Three sizes:
+        </p>
+        <ul class="tight">
+          <li>
+            <strong>This run only</strong> — matters for one job, thrown away
+            after (the briefs workers pass).
+          </li>
+          <li>
+            <strong>This workflow</strong> — tied to a recurring piece of work,
+            kept across every run (what happened last week).
+          </li>
+          <li>
+            <strong>This person / company</strong> — about you or your
+            organization, kept across all your work (your role, company,
+            audience).
+          </li>
+        </ul>
+        <p>
+          You don't manage these notes yourself; the platform decides which to
+          hand to which worker, when.
+        </p>
+      </section>
+
+      <section id="memory">
+        <h2>The three memory layers</h2>
+        <p>
+          This is the question managers ask most:
+          <em>"what does it remember about me?"</em> Three distinct layers, each
+          remembering different things.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Layer</th>
+                <th>Scope</th>
+                <th>Remembers</th>
+                <th>When it's used</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Identity profile</strong></td>
+                <td><span class="scope">You / your company</span></td>
+                <td>
+                  <strong>WHO</strong> you are — name, role, company, industry,
+                  audience
+                </td>
+                <td>
+                  Answered once, saved by your choice; Discovery pre-fills or
+                  skips these basics afterward
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Workflow memory</strong></td>
+                <td><span class="scope">This workflow</span></td>
+                <td>
+                  <strong>WHAT</strong> happened — a rolling summary plus an
+                  append-only history of past runs
+                </td>
+                <td>
+                  Only for recurring saved workflows; opens the next run with a
+                  short "Previously…" recap
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Within-run relay</strong></td>
+                <td><span class="scope">This run only</span></td>
+                <td>The briefs and outputs workers hand each other</td>
+                <td>During a single run; not carried forward</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          A quick way to hold all three:
+          <strong
+            >profile = who you are, workflow memory = what happened before, the
+            relay = what's happening right now.</strong
+          >
+        </p>
+        <div class="note honest">
+          <p>
+            <span class="tag">Honesty point</span> A saved fact is reference
+            material, not gospel. Pre-fills are labeled "from your profile" and
+            are one keystroke to override. A confidently wrong pre-filled answer
+            is worse than a blank one — if your role changes, update it. The
+            recap is framed as history, possibly stale, not current truth. The
+            system never saves silently; saving is always your explicit choice.
+          </p>
+        </div>
+        <p>
+          Personal facts (your name, title) are kept for you. Shared facts
+          (company, industry, audience, voice) are kept for the whole
+          organization, so a teammate's first build is already grounded.
+        </p>
+      </section>
+
+      <section id="gate">
+        <h2>The demo gate (the sign-in)</h2>
+        <p>
+          The demo offers <strong>three named sign-ins</strong> so that during a
+          live demo each teammate can sign in and see their own profile, their
+          own saved workflows, and their own memory — as if they each had a
+          separate account.
+        </p>
+        <div class="note honest">
+          <p>
+            <span class="tag">Be honest about what this is</span> Under the hood
+            it's all one shared demo account. The three names are a
+            <strong>curtain, not real security</strong> — a convenience so
+            people's demo content doesn't collide, not a protected login. There
+            are basic measures so it isn't trivially bypassed (signed sign-in
+            tokens, no passwords or keys in the code), but it is a demo
+            convenience, never production-grade login.
+          </p>
+        </div>
+      </section>
+
+      <section id="docent">
+        <h2>The docent (in-app guide)</h2>
+        <p>
+          The page has a built-in guide — a chatbot you can ask "what does this
+          remember about me?" or "is this real?" in plain language. It is itself
+          a genuine platform chat call. It's grounded in a written explainer
+          plus a live, privacy-safe snapshot of the current user's own state, so
+          its answers match what you're actually looking at. It won't reveal
+          credentials or internal details, and it admits when something is
+          outside what it can see.
+        </p>
+      </section>
+
+      <section id="real">
+        <h2>Real vs. demo-grade</h2>
+        <p>
+          On screen: <em>"What you are watching is real, not a mock-up."</em>
+        </p>
+        <div class="note info">
+          <p><span class="tag">Real</span></p>
+          <ul class="tight">
+            <li>
+              Every step is a genuine call to the live platform, with real
+              permissions — not a canned animation.
+            </li>
+            <li>
+              The AI workers are created on the fly, the moment each is needed.
+              Nothing is staged in advance.
+            </li>
+            <li>The deliverable produced is a real deliverable.</li>
+          </ul>
+        </div>
+        <div class="note honest">
+          <p><span class="tag">Demo-grade (staged)</span></p>
+          <ul class="tight">
+            <li>
+              The three-name sign-in gate — a curtain over one shared account.
+            </li>
+            <li>
+              The in-memory database — the live state of a run (which step is
+              next, the team, the goal) is held in memory and wiped when the
+              server restarts. Saved workflows and durable memory/profile
+              records persist through the platform, but an in-progress run does
+              not survive a restart, and you can't pause and resume a
+              half-finished run.
+            </li>
+          </ul>
+        </div>
+        <p>
+          If someone asks "is this actually doing the work or just showing me a
+          movie?" — it's actually doing the work.
+        </p>
+      </section>
+
+      <section id="access">
+        <h2>How to get in</h2>
+        <p>
+          Access is shared internally. Ask Matt for the demo link and your
+          sign-in — each teammate gets their own named sign-in so your profile
+          and saved work stay separate from everyone else's.
+        </p>
+      </section>
+
+      <footer>
+        <p>
+          Internal explainer · Brilliant With AI · 2026-06-14. Self-contained —
+          no network calls at open time. Use "Copy as Markdown" to round-trip
+          the source.
+        </p>
+      </footer>
+    </div>
+
+    <div class="toast" id="toast">Copied</div>
+
+    <script>
+      // Source markdown is base64-embedded (not a raw markdown script tag) so
+      // formatter hooks can't corrupt the byte-exact round-trip.
+      var MD_B64 =
+        "IyBBZ2VudCBSdW4g4oCUIGludGVybmFsIGV4cGxhaW5lcgoKX1doYXQgdGhlIGRlbW8gc2hvd3MsIHdoYXQgaXQgcmVtZW1iZXJzLCBhbmQgd2hhdCdzIHJlYWwgdnMuIHN0YWdlZC5fCgojIyBQbGFpbiBFbmdsaXNoIG92ZXJ2aWV3CgoqKldoYXQgaXMgdGhpcz8qKiBBIGxpdmUgZGVtbyBvZiBvdXIgcGxhdGZvcm0uIFlvdSB0ZWxsIGl0IHdoYXQgeW91IG5lZWQgKCJhIGJvYXJkIHVwZGF0ZSwiICJhIGhpcmluZyBtZW1vIikuIEFuIEFJIHNjb3BlcyB0aGUgZGVsaXZlcmFibGUgd2l0aCB5b3UsIGRlc2lnbnMgYSBzbWFsbCB0ZWFtIG9mIEFJIHdvcmtlcnMsIGFuZCBydW5zIHRoZW0gbGlrZSBhIHJlbGF5IHVudGlsIHlvdSBnZXQgYSBmaW5pc2hlZCBkb2N1bWVudC4KCioqV2hvIGlzIGl0IGZvcj8qKiBCdXN5IG1hbmFnZXJzIGFuZCBsZWFkZXJzIOKAlCBub250ZWNobmljYWwuIFRoZSBkZW1vIGlzIG1lYW50IHRvIGJlIHdhdGNoZWQgYW5kIHVuZGVyc3Rvb2Qgd2l0aG91dCBlbmdpbmVlcmluZyBiYWNrZ3JvdW5kLgoKKipXaGF0IHlvdSBnZXQ/KiogQSByZWFsLCBmaW5pc2hlZCBkZWxpdmVyYWJsZSBwcm9kdWNlZCBieSBnZW51aW5lIHBsYXRmb3JtIGNhbGxzIOKAlCBub3QgYSBjYW5uZWQgYW5pbWF0aW9uLiBUYWdsaW5lIG9uIHNjcmVlbjogXyJTY29wZSBpdC4gU3RhZmYgaXQuIFdhdGNoIGl0IHJ1bi4iXwoKIyMgVG9kYXkgdnMuIEFmdGVyIHZzLiBXaHkgaXQgbWF0dGVycwoKLSAqKlRvZGF5OioqIFlvdSByZS1leHBsYWluIHdobyB5b3UgYXJlIGFuZCB3aGF0IHlvdSB3YW50IG9uIGV2ZXJ5IG5ldyBwaWVjZSBvZiB3b3JrLiBBSSB0b29scyBmb3JnZXQgeW91IGJldHdlZW4gc2Vzc2lvbnMuCi0gKipBZnRlcjoqKiBUaGUgZGVtbyByZW1lbWJlcnMgdGhyZWUgdGhpbmdzIOKAlCB3aG8geW91IGFyZSwgd2hhdCBoYXBwZW5lZCBiZWZvcmUsIGFuZCB3aGF0J3MgaGFwcGVuaW5nIHJpZ2h0IG5vdyDigJQgc28geW91IHN0b3AgcmVwZWF0aW5nIHlvdXJzZWxmIGFuZCB0aGUgd29yayBwaWNrcyB1cCB3aGVyZSBpdCBsZWZ0IG9mZi4KLSAqKldoeSBpdCBtYXR0ZXJzOioqIExlc3MgcmUtZXhwbGFpbmluZywgZmFzdGVyIHNldHVwLCBhbmQgcmVjdXJyaW5nIHdvcmsgKGEgd2Vla2x5IHVwZGF0ZSkgdGhhdCBnZW51aW5lbHkgcmVtZW1iZXJzIGxhc3QgcGVyaW9kLgoKIyMgVEw7RFIgKGZvciB0aGUgdGVjaG5pY2FsbHkgY3VyaW91cykKCi0gU2luZ2xlLWZpbGUgZGVtbzogYSBOb2RlIHNlcnZlciBib290cyB0aGUgbGl2ZSBwbGF0Zm9ybSBpbi1wcm9jZXNzIGFuZCBkcml2ZXMgaXQgdGhyb3VnaCBmb3VyIHN0ZXBzIHdpdGggcmVhbCBwZXJtaXNzaW9ucy4KLSBUaHJlZSBtZW1vcnkgbGF5ZXJzIG1hcCB0byBwbGF0Zm9ybSBjb250ZXh0LWFzc2V0IHNjb3BlczogaWRlbnRpdHkgcHJvZmlsZSAodXNlci9vcmcgc2NvcGUpLCB3b3JrZmxvdyBtZW1vcnkgKGN1c3RvbSB3b3JrZmxvdyBzY29wZSksIHdpdGhpbi1ydW4gcmVsYXkgKHRhc2sgc2NvcGUpLgotIEEgZGVtbyBnYXRlICh0aHJlZSBuYW1lZCBzaWduLWlucyBvdmVyIG9uZSBzaGFyZWQgYWNjb3VudCkgc2VnbWVudHMgZWFjaCBwZXJzb24ncyBwcm9maWxlLCB3b3JrZmxvd3MsIGFuZCBtZW1vcnkuIEl0IGlzIGEgY3VydGFpbiBmb3IgZGVtbyBoeWdpZW5lLCBub3QgcHJvZHVjdGlvbiBhdXRoLgotIEFuIGluLWFwcCBkb2NlbnQgYW5zd2VycyBxdWVzdGlvbnMgYWJvdXQgdGhlIGRlbW8g4oCUIGl0c2VsZiBhIHBsYXRmb3JtIGNoYXQgY2FsbCwgZ3JvdW5kZWQgaW4gYSB3cml0dGVuIGRvYyBwbHVzIGEgbGl2ZSBzbmFwc2hvdCBvZiB0aGUgY3VycmVudCB1c2VyJ3Mgc3RhdGUuCi0gVGhlIHJ1bidzIGxpdmUgc3RhdGUgaXMgaW4tbWVtb3J5IGFuZCB3aXBlZCBvbiByZXN0YXJ0LiBTYXZlZCB3b3JrZmxvd3MgYW5kIGR1cmFibGUgbWVtb3J5IHBlcnNpc3QgdGhyb3VnaCB0aGUgcGxhdGZvcm0uCgojIyBUaGUgc3RlcC1ieS1zdGVwIGZsb3cKCkEgImRlbGl2ZXJhYmxlIiBpcyB0aGUgZmluaXNoZWQgdGhpbmcgeW91IGFza2VkIGZvciDigJQgYSBkb2N1bWVudCwgYSBwbGFuLCBhIGRyYWZ0LiBGb3VyIHZpc2libGUgc3RlcHM6CgoxLiAqKlNjb3BlLioqIFlvdSBkZXNjcmliZSB3aGF0IHlvdSB3YW50LiBUaGUgQUkgcHJvcG9zZXMgYSBjbGVhciBvYmplY3RpdmUgYW5kIGEgZmV3IGFsdGVybmF0aXZlIGZyYW1pbmdzLCBzbyB5b3UgcGljayB0aGUgb25lIHlvdSBtZWFuIGJlZm9yZSBhbnkgd29yayBzdGFydHMuCjIuICoqRGlzY292ZXJ5LioqIEEgc2Vjb25kIEFJIGdhdGhlcnMgdGhlIGRldGFpbHMgaXQgbmVlZHMg4oCUIGJ1dCBvbmx5IGFza3Mgd2hhdCBpdCBjYW4ndCBhbHJlYWR5IGZpZ3VyZSBvdXQgZnJvbSB3aGF0IHlvdSd2ZSB0b2xkIGl0LiBGZXdlciBxdWVzdGlvbnMgaXMgYmV0dGVyLgozLiAqKkRlc2lnbiB0aGUgdGVhbS4qKiBBIHRoaXJkIEFJIGRlc2lnbnMgdGhlIHNtYWxsZXN0IHRlYW0gb2YgQUkgd29ya2VycyAodXN1YWxseSB0d28gdG8gZm91cikgdGhhdCBjYW4gcHJvZHVjZSB0aGUgZGVsaXZlcmFibGUuIEVhY2ggd29ya2VyIGdldHMgYSByb2xlIGFuZCBhIGdvYWwuCjQuICoqUnVuICh0aGUgcmVsYXkpLioqIFdvcmtlcnMgcnVuIGluIG9yZGVyLCBsZWZ0IHRvIHJpZ2h0LiBFYWNoIGZpbmlzaGVzIGl0cyBwYXJ0IGFuZCBoYW5kcyB0aGUgbmV4dCBhIGJyaWVmIOKAlCBhIHNob3J0IGhhbmQtb2ZmIG5vdGUuIFRoYXQgYnJpZWYgaXMgdGhlIGJhdG9uLiBUaGUgcmVsYXkgZW5kcyBpbiB0aGUgZmluaXNoZWQgZGVsaXZlcmFibGUuCgpBZnRlciB0aGUgcnVuLCBpZiB0aGUgd29yayByZWN1cnMsIHlvdSBjYW4gc2F2ZSBpdCBhcyBhIHJldXNhYmxlIHdvcmtmbG93IGFuZCByZS1ydW4gaXQgaW4gdHdvIGNsaWNrcy4KCiMjIFdoYXQgYSAiY29udGV4dCBhc3NldCIgaXMgKG5vIGphcmdvbikKCkEgY29udGV4dCBhc3NldCBpcyBhIHNtYWxsIHNhdmVkIHBpZWNlIG9mIGluZm9ybWF0aW9uIHRoZSBwbGF0Zm9ybSBrZWVwcyBhbmQgaGFuZHMgdG8gdGhlIHJpZ2h0IEFJIHN0ZXAgYXQgdGhlIHJpZ2h0IG1vbWVudCDigJQgbGlrZSBhIHN0aWNreSBub3RlIHRoZSBzeXN0ZW0gZmlsZXMgYXdheSBhbmQgcHVsbHMgb3V0IGV4YWN0bHkgd2hlbiBhIHdvcmtlciBuZWVkcyBpdC4KClRoZSB1c2VmdWwgaWRlYSBpcyBzY29wZTogaG93IHdpZGVseSBhIG5vdGUgYXBwbGllcyBhbmQgaG93IGxvbmcgaXQgc3RpY2tzIGFyb3VuZC4gVGhyZWUgc2l6ZXM6CgotICoqVGhpcyBydW4gb25seSoqIOKAlCBtYXR0ZXJzIGZvciBvbmUgam9iLCB0aHJvd24gYXdheSBhZnRlciAodGhlIGJyaWVmcyB3b3JrZXJzIHBhc3MpLgotICoqVGhpcyB3b3JrZmxvdyoqIOKAlCB0aWVkIHRvIGEgcmVjdXJyaW5nIHBpZWNlIG9mIHdvcmssIGtlcHQgYWNyb3NzIGV2ZXJ5IHJ1biAod2hhdCBoYXBwZW5lZCBsYXN0IHdlZWspLgotICoqVGhpcyBwZXJzb24gLyBjb21wYW55Kiog4oCUIGFib3V0IHlvdSBvciB5b3VyIG9yZ2FuaXphdGlvbiwga2VwdCBhY3Jvc3MgYWxsIHlvdXIgd29yayAoeW91ciByb2xlLCBjb21wYW55LCBhdWRpZW5jZSkuCgpZb3UgZG9uJ3QgbWFuYWdlIHRoZXNlIG5vdGVzIHlvdXJzZWxmOyB0aGUgcGxhdGZvcm0gZGVjaWRlcyB3aGljaCB0byBoYW5kIHRvIHdoaWNoIHdvcmtlciwgd2hlbi4KCiMjIFRoZSB0aHJlZSBtZW1vcnkgbGF5ZXJzCgpUaGlzIGlzIHRoZSBxdWVzdGlvbiBtYW5hZ2VycyBhc2sgbW9zdDogXyJ3aGF0IGRvZXMgaXQgcmVtZW1iZXIgYWJvdXQgbWU/Il8gVGhyZWUgZGlzdGluY3QgbGF5ZXJzLCBlYWNoIHJlbWVtYmVyaW5nIGRpZmZlcmVudCB0aGluZ3MuCgp8IExheWVyICAgICAgICAgICAgICAgIHwgU2NvcGUgICAgICAgICAgICAgIHwgUmVtZW1iZXJzICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCBXaGVuIGl0J3MgdXNlZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKfCAtLS0tLS0tLS0tLS0tLS0tLS0tLSB8IC0tLS0tLS0tLS0tLS0tLS0tLSB8IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tIHwgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSB8CnwgKipJZGVudGl0eSBwcm9maWxlKiogfCBZb3UgLyB5b3VyIGNvbXBhbnkgfCBXSE8geW91IGFyZSDigJQgbmFtZSwgcm9sZSwgY29tcGFueSwgaW5kdXN0cnksIGF1ZGllbmNlICAgICAgICAgICAgICAgICAgICAgIHwgQW5zd2VyZWQgb25jZSwgc2F2ZWQgYnkgeW91ciBjaG9pY2U7IERpc2NvdmVyeSBwcmUtZmlsbHMgb3Igc2tpcHMgdGhlc2UgYmFzaWNzIGFmdGVyd2FyZCB8CnwgKipXb3JrZmxvdyBtZW1vcnkqKiAgfCBUaGlzIHdvcmtmbG93ICAgICAgfCBXSEFUIGhhcHBlbmVkIOKAlCBhIHJvbGxpbmcgc3VtbWFyeSBwbHVzIGFuIGFwcGVuZC1vbmx5IGhpc3Rvcnkgb2YgcGFzdCBydW5zIHwgT25seSBmb3IgcmVjdXJyaW5nIHNhdmVkIHdvcmtmbG93czsgb3BlbnMgdGhlIG5leHQgcnVuIHdpdGggYSBzaG9ydCAiUHJldmlvdXNseeKApiIgcmVjYXAgIHwKfCAqKldpdGhpbi1ydW4gcmVsYXkqKiB8IFRoaXMgcnVuIG9ubHkgICAgICB8IFRoZSBicmllZnMgYW5kIG91dHB1dHMgd29ya2VycyBoYW5kIGVhY2ggb3RoZXIgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgRHVyaW5nIGEgc2luZ2xlIHJ1bjsgbm90IGNhcnJpZWQgZm9yd2FyZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8CgpBIHF1aWNrIHdheSB0byBob2xkIGFsbCB0aHJlZTogKipwcm9maWxlID0gd2hvIHlvdSBhcmUsIHdvcmtmbG93IG1lbW9yeSA9IHdoYXQgaGFwcGVuZWQgYmVmb3JlLCB0aGUgcmVsYXkgPSB3aGF0J3MgaGFwcGVuaW5nIHJpZ2h0IG5vdy4qKgoKKipIb25lc3R5IHBvaW50OioqIGEgc2F2ZWQgZmFjdCBpcyByZWZlcmVuY2UgbWF0ZXJpYWwsIG5vdCBnb3NwZWwuIFByZS1maWxscyBhcmUgbGFiZWxlZCAiZnJvbSB5b3VyIHByb2ZpbGUiIGFuZCBhcmUgb25lIGtleXN0cm9rZSB0byBvdmVycmlkZS4gQSBjb25maWRlbnRseSB3cm9uZyBwcmUtZmlsbGVkIGFuc3dlciBpcyB3b3JzZSB0aGFuIGEgYmxhbmsgb25lIOKAlCBpZiB5b3VyIHJvbGUgY2hhbmdlcywgdXBkYXRlIGl0LiBUaGUgcmVjYXAgaXMgZnJhbWVkIGFzIGhpc3RvcnksIHBvc3NpYmx5IHN0YWxlLCBub3QgY3VycmVudCB0cnV0aC4gVGhlIHN5c3RlbSBuZXZlciBzYXZlcyBzaWxlbnRseTsgc2F2aW5nIGlzIGFsd2F5cyB5b3VyIGV4cGxpY2l0IGNob2ljZS4KClBlcnNvbmFsIGZhY3RzICh5b3VyIG5hbWUsIHRpdGxlKSBhcmUga2VwdCBmb3IgeW91LiBTaGFyZWQgZmFjdHMgKGNvbXBhbnksIGluZHVzdHJ5LCBhdWRpZW5jZSwgdm9pY2UpIGFyZSBrZXB0IGZvciB0aGUgd2hvbGUgb3JnYW5pemF0aW9uLCBzbyBhIHRlYW1tYXRlJ3MgZmlyc3QgYnVpbGQgaXMgYWxyZWFkeSBncm91bmRlZC4KCiMjIFRoZSBkZW1vIGdhdGUgKHRoZSBzaWduLWluKQoKVGhlIGRlbW8gb2ZmZXJzIHRocmVlIG5hbWVkIHNpZ24taW5zIHNvIHRoYXQgZHVyaW5nIGEgbGl2ZSBkZW1vIGVhY2ggdGVhbW1hdGUgY2FuIHNpZ24gaW4gYW5kIHNlZSB0aGVpciBvd24gcHJvZmlsZSwgdGhlaXIgb3duIHNhdmVkIHdvcmtmbG93cywgYW5kIHRoZWlyIG93biBtZW1vcnkg4oCUIGFzIGlmIHRoZXkgZWFjaCBoYWQgYSBzZXBhcmF0ZSBhY2NvdW50LgoKKipCZSBob25lc3QgYWJvdXQgd2hhdCB0aGlzIGlzOioqIHVuZGVyIHRoZSBob29kIGl0J3MgYWxsIG9uZSBzaGFyZWQgZGVtbyBhY2NvdW50LiBUaGUgdGhyZWUgbmFtZXMgYXJlIGEgY3VydGFpbiwgbm90IHJlYWwgc2VjdXJpdHkg4oCUIGEgY29udmVuaWVuY2Ugc28gcGVvcGxlJ3MgZGVtbyBjb250ZW50IGRvZXNuJ3QgY29sbGlkZSwgbm90IGEgcHJvdGVjdGVkIGxvZ2luLiBUaGVyZSBhcmUgYmFzaWMgbWVhc3VyZXMgc28gaXQgaXNuJ3QgdHJpdmlhbGx5IGJ5cGFzc2VkIChzaWduZWQgc2lnbi1pbiB0b2tlbnMsIG5vIHBhc3N3b3JkcyBvciBrZXlzIGluIHRoZSBjb2RlKSwgYnV0IGl0IGlzIGEgZGVtbyBjb252ZW5pZW5jZSwgbmV2ZXIgcHJvZHVjdGlvbi1ncmFkZSBsb2dpbi4KCiMjIFRoZSBkb2NlbnQgKGluLWFwcCBndWlkZSkKClRoZSBwYWdlIGhhcyBhIGJ1aWx0LWluIGd1aWRlIOKAlCBhIGNoYXRib3QgeW91IGNhbiBhc2sgIndoYXQgZG9lcyB0aGlzIHJlbWVtYmVyIGFib3V0IG1lPyIgb3IgImlzIHRoaXMgcmVhbD8iIGluIHBsYWluIGxhbmd1YWdlLiBJdCBpcyBpdHNlbGYgYSBnZW51aW5lIHBsYXRmb3JtIGNoYXQgY2FsbC4gSXQncyBncm91bmRlZCBpbiBhIHdyaXR0ZW4gZXhwbGFpbmVyIHBsdXMgYSBsaXZlLCBwcml2YWN5LXNhZmUgc25hcHNob3Qgb2YgdGhlIGN1cnJlbnQgdXNlcidzIG93biBzdGF0ZSwgc28gaXRzIGFuc3dlcnMgbWF0Y2ggd2hhdCB5b3UncmUgYWN0dWFsbHkgbG9va2luZyBhdC4gSXQgd29uJ3QgcmV2ZWFsIGNyZWRlbnRpYWxzIG9yIGludGVybmFsIGRldGFpbHMsIGFuZCBpdCBhZG1pdHMgd2hlbiBzb21ldGhpbmcgaXMgb3V0c2lkZSB3aGF0IGl0IGNhbiBzZWUuCgojIyBSZWFsIHZzLiBkZW1vLWdyYWRlCgpPbiBzY3JlZW46IF8iV2hhdCB5b3UgYXJlIHdhdGNoaW5nIGlzIHJlYWwsIG5vdCBhIG1vY2stdXAuIl8KCioqUmVhbDoqKgoKLSBFdmVyeSBzdGVwIGlzIGEgZ2VudWluZSBjYWxsIHRvIHRoZSBsaXZlIHBsYXRmb3JtLCB3aXRoIHJlYWwgcGVybWlzc2lvbnMg4oCUIG5vdCBhIGNhbm5lZCBhbmltYXRpb24uCi0gVGhlIEFJIHdvcmtlcnMgYXJlIGNyZWF0ZWQgb24gdGhlIGZseSwgdGhlIG1vbWVudCBlYWNoIGlzIG5lZWRlZC4gTm90aGluZyBpcyBzdGFnZWQgaW4gYWR2YW5jZS4KLSBUaGUgZGVsaXZlcmFibGUgcHJvZHVjZWQgaXMgYSByZWFsIGRlbGl2ZXJhYmxlLgoKKipEZW1vLWdyYWRlIChzdGFnZWQgZm9yIHRoZSBkZW1vKToqKgoKLSBUaGUgdGhyZWUtbmFtZSBzaWduLWluIGdhdGUg4oCUIGEgY3VydGFpbiBvdmVyIG9uZSBzaGFyZWQgYWNjb3VudC4KLSBUaGUgaW4tbWVtb3J5IGRhdGFiYXNlIOKAlCB0aGUgbGl2ZSBzdGF0ZSBvZiBhIHJ1biAod2hpY2ggc3RlcCBpcyBuZXh0LCB0aGUgdGVhbSwgdGhlIGdvYWwpIGlzIGhlbGQgaW4gbWVtb3J5IGFuZCB3aXBlZCB3aGVuIHRoZSBzZXJ2ZXIgcmVzdGFydHMuIFNhdmVkIHdvcmtmbG93cyBhbmQgZHVyYWJsZSBtZW1vcnkvcHJvZmlsZSByZWNvcmRzIHBlcnNpc3QgdGhyb3VnaCB0aGUgcGxhdGZvcm0sIGJ1dCBhbiBpbi1wcm9ncmVzcyBydW4gZG9lcyBub3Qgc3Vydml2ZSBhIHJlc3RhcnQsIGFuZCB5b3UgY2FuJ3QgcGF1c2UgYW5kIHJlc3VtZSBhIGhhbGYtZmluaXNoZWQgcnVuLgoKSWYgc29tZW9uZSBhc2tzICJpcyB0aGlzIGFjdHVhbGx5IGRvaW5nIHRoZSB3b3JrIG9yIGp1c3Qgc2hvd2luZyBtZSBhIG1vdmllPyIg4oCUIGl0J3MgYWN0dWFsbHkgZG9pbmcgdGhlIHdvcmsuCgojIyBIb3cgdG8gZ2V0IGluCgpBY2Nlc3MgaXMgc2hhcmVkIGludGVybmFsbHkuIEFzayBNYXR0IGZvciB0aGUgZGVtbyBsaW5rIGFuZCB5b3VyIHNpZ24taW4g4oCUIGVhY2ggdGVhbW1hdGUgZ2V0cyB0aGVpciBvd24gbmFtZWQgc2lnbi1pbiBzbyB5b3VyIHByb2ZpbGUgYW5kIHNhdmVkIHdvcmsgc3RheSBzZXBhcmF0ZSBmcm9tIGV2ZXJ5b25lIGVsc2Uncy4K";
+      function decodeMd() {
+        var bin = atob(MD_B64);
+        var bytes = new Uint8Array(bin.length);
+        for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        return new TextDecoder("utf-8").decode(bytes);
+      }
+      function toast(msg) {
+        var t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(function () {
+          t.classList.remove("show");
+        }, 1600);
+      }
+      document.getElementById("copyMd").addEventListener("click", function () {
+        var md = decodeMd();
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(md).then(
+            function () {
+              toast("Markdown copied to clipboard");
+            },
+            function () {
+              fallbackCopy(md);
+            },
+          );
+        } else {
+          fallbackCopy(md);
+        }
+      });
+      function fallbackCopy(text) {
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand("copy");
+          toast("Markdown copied");
+        } catch (e) {
+          toast("Copy failed — select manually");
+        }
+        document.body.removeChild(ta);
+      }
+    </script>
+  </body>
+</html>
