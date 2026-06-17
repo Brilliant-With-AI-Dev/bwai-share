@@ -11,7 +11,11 @@
       rel="stylesheet"
     />
     <style>
-      /* ── Real design tokens (packages/design-system/tokens.css) ───────── */
+      /* ── Values copied verbatim from packages/design-system/tokens.css ──
+         A static mockup can't import the Tailwind v4 @theme build, so these
+         literals MIRROR the live tokens 1:1. The real build consumes the token
+         vars (bg-surface-page, text-text-primary, …) — never raw hex; the
+         ds/* eslint rules forbid it. This file is a visual, not the source. */
       :root {
         --surface-page: #fcfcfd;
         --surface-floating: #ffffff;
@@ -21,12 +25,14 @@
         --text-secondary: rgba(10, 22, 40, 0.7);
         --text-tertiary: rgba(10, 22, 40, 0.5);
         --text-on-accent: #fcfcfd;
+        --text-on-navy: #fcfcfd;
         --border-subtle: #e2e6ed;
         --border-strong: rgba(10, 22, 40, 0.3);
         --success: #157a4e; /* forest accent */
         --success-bg: rgba(21, 122, 78, 0.05);
         --success-glow: rgba(21, 122, 78, 0.12);
         --warning: #c4920a;
+        --warning-bg: rgba(196, 146, 10, 0.08);
         --off-white: #fafaf7;
         --cream: #ede8dc;
         --font-display: "Newsreader", Georgia, serif;
@@ -70,12 +76,12 @@
         color: var(--text-secondary);
         font-weight: 300;
         font-size: 15px;
-        max-width: 640px;
+        max-width: 660px;
         margin: 0 auto;
       }
-      .gate-note {
+      .note {
         margin: 14px auto 0;
-        max-width: 640px;
+        max-width: 660px;
         font-size: 13px;
         background: var(--success-bg);
         border: 1px solid var(--border-subtle);
@@ -85,9 +91,22 @@
         text-align: left;
         color: var(--text-secondary);
       }
-      .gate-note b {
+      .note b {
         color: var(--success);
         font-weight: 600;
+      }
+      .note code {
+        background: var(--surface-recessed);
+        border-radius: 4px;
+        padding: 1px 5px;
+        font-size: 12px;
+      }
+      .note.warn {
+        background: var(--warning-bg);
+        border-left-color: var(--warning);
+      }
+      .note.warn b {
+        color: var(--warning);
       }
 
       .stage {
@@ -99,7 +118,6 @@
         gap: 18px;
       }
 
-      /* ── Phone frame ──────────────────────────────────────────────────── */
       .phone {
         position: relative;
         width: 390px;
@@ -117,7 +135,6 @@
         text-align: center;
         padding: 40px 28px;
       }
-
       .col {
         display: flex;
         flex-direction: column;
@@ -154,20 +171,17 @@
         max-width: 300px;
       }
 
-      /* collapsed hero (phases 1-2) */
       .phone[data-phase="1"] h2.hero,
       .phone[data-phase="2"] h2.hero {
         font-size: 24px;
       }
       .phone[data-phase="1"] .subhead,
+      .phone[data-phase="1"] .stats,
+      .phone[data-phase="2"] .subhead,
       .phone[data-phase="2"] .stats {
         display: none;
       }
-      .phone[data-phase="2"] .subhead {
-        display: none;
-      }
 
-      /* ── Stat strip ───────────────────────────────────────────────────── */
       .stats {
         display: flex;
         align-items: center;
@@ -202,7 +216,6 @@
         background: var(--border-subtle);
       }
 
-      /* ── Progressive action block ─────────────────────────────────────── */
       .action {
         width: 100%;
         display: flex;
@@ -220,12 +233,14 @@
       .done-row {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
         font-size: 13px;
         font-weight: 500;
         color: var(--success);
+        flex-wrap: wrap;
+        justify-content: center;
       }
-      .done-row .chip {
+      .chip {
         display: inline-flex;
         align-items: center;
         gap: 5px;
@@ -234,10 +249,14 @@
         border-radius: 999px;
         padding: 4px 11px;
       }
-      .done-row .chip.text-mode {
+      .chip.text-mode {
         color: var(--warning);
-        background: rgba(196, 146, 10, 0.07);
-        border-color: rgba(196, 146, 10, 0.18);
+        background: var(--warning-bg);
+        border-color: rgba(196, 146, 10, 0.2);
+      }
+      .chip.proposed {
+        outline: 1.5px dashed var(--warning);
+        outline-offset: 2px;
       }
       .dot {
         color: var(--border-strong);
@@ -285,15 +304,7 @@
         color: var(--text-secondary);
         margin: 0;
       }
-      .text-mode-msg {
-        font-size: 12px;
-        color: var(--text-secondary);
-        max-width: 280px;
-        margin: 0;
-        line-height: 1.5;
-      }
 
-      /* ── Modals (faux) ────────────────────────────────────────────────── */
       .scrim {
         position: absolute;
         inset: 0;
@@ -364,6 +375,58 @@
         color: var(--text-tertiary);
         margin: 0 0 4px;
       }
+      .err-title {
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: 18px;
+        color: var(--text-primary);
+        margin: 0 0 10px;
+      }
+      .err-body {
+        font-size: 13px;
+        line-height: 1.5;
+        color: var(--text-secondary);
+        margin: 0 0 10px;
+        text-align: left;
+      }
+      .err-tip {
+        font-size: 13px;
+        line-height: 1.5;
+        color: var(--text-tertiary);
+        margin: 0 0 10px;
+        text-align: left;
+      }
+      .err-tip code {
+        background: var(--surface-recessed);
+        border-radius: 4px;
+        padding: 1px 5px;
+        font-size: 12px;
+      }
+      .err-box {
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.4;
+        color: var(--text-primary);
+        background: var(--surface-recessed);
+        border-radius: var(--radius-lg);
+        padding: 10px 12px;
+        margin: 0 0 16px;
+        text-align: left;
+      }
+      .spinner {
+        width: 30px;
+        height: 30px;
+        border: 3px solid var(--border-subtle);
+        border-top-color: var(--success);
+        border-radius: 50%;
+        margin: 8px auto 14px;
+        animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
       .modal-actions {
         display: flex;
         gap: 10px;
@@ -383,7 +446,6 @@
         margin-top: 12px;
       }
 
-      /* ── Controls ─────────────────────────────────────────────────────── */
       .controls {
         display: flex;
         flex-wrap: wrap;
@@ -411,14 +473,15 @@
       .caption {
         font-size: 12px;
         color: var(--text-tertiary);
-        max-width: 390px;
+        max-width: 420px;
         text-align: center;
         margin: 4px auto 0;
+        min-height: 32px;
       }
 
       .legend {
         max-width: 920px;
-        margin: 40px auto 0;
+        margin: 36px auto 0;
         display: flex;
         flex-wrap: wrap;
         gap: 14px;
@@ -443,16 +506,27 @@
     <div class="page-head">
       <h1>Mirror — progressive start flow</h1>
       <p>
-        Fidelity 3 mockup, real design-system tokens. The two pre-interview
-        checks (orientation video, mic test) become required gates revealed one
-        at a time. Click through it — the existing modals do the focused work;
-        the base screen just guides and gates.
+        Mockup for bapps#772. The two pre-interview checks (orientation video,
+        mic test) become required gates, revealed one at a time on one morphing
+        screen (not a wizard). The existing modals do the focused work; the base
+        screen guides and gates. Click through it.
       </p>
-      <p class="gate-note">
+      <p class="note">
         <b>The gate is completion, not a pass.</b> You must run the mic test and
-        land on a result — but a corporate-network block or an explicit "type
-        instead" both satisfy it and route you into the text interview. Nobody
-        gets locked out; nobody gets through without engaging.
+        land on a result. A skip or a network block both satisfy the gate and
+        route you into the existing text interview (<code
+          >micInputMode: "classic"</code
+        >). Nobody is locked out; nobody gets through without engaging.
+      </p>
+      <p class="note warn">
+        <b>Grounded vs. open.</b> The mic flow, its states, the verbatim "voice
+        unavailable" copy, and the passed / skipped / blocked → voice / text
+        routing all mirror what ships today (<code>useMicTest</code> +
+        <code>MicTestModal</code>). The block is detected when you
+        <i>run</i> the test — token fetch + a Deepgram websocket with a ~10s
+        timeout — not on arrival. <b>Dashed-outline</b> elements are
+        proposed-new and need a real decision: today the start screen shows a
+        badge only for a passed mic, nothing for skipped / blocked.
       </p>
     </div>
 
@@ -494,40 +568,20 @@
           </div>
         </div>
 
-        <!-- Mic modal (success state) -->
+        <!-- Mic modal — multi-state, mirrors MicTestModal -->
         <div class="scrim" id="micScrim">
-          <div class="modal">
-            <p class="mic-ok">&#10003; Microphone working</p>
-            <p class="mic-sub">We heard:</p>
-            <div class="mic-quote">
-              "The quick brown fox jumps over the lazy dog"
-            </div>
-            <div class="modal-actions">
-              <button class="btn btn-secondary" onclick="closeMic()">
-                Try again
-              </button>
-              <button class="btn btn-primary" onclick="finishMic('voice')">
-                Looks good &#10003;
-              </button>
-            </div>
-            <button class="link" onclick="finishMic('text')">
-              Skip and type instead
-            </button>
-          </div>
+          <div class="modal" id="micModal"><!-- rendered by JS --></div>
         </div>
       </div>
 
       <div class="controls">
         <button onclick="reset()">↺ Reset</button>
         <label
-          ><input type="checkbox" id="corpNet" /> Simulate corporate network
-          (voice blocked)</label
+          ><input type="checkbox" id="corpNet" /> Simulate a network that blocks
+          voice (Deepgram unreachable)</label
         >
       </div>
-      <p class="caption" id="caption">
-        Phase 0 — hero + one clear action. "Begin" doesn't exist yet, so there's
-        no greyed-button confusion.
-      </p>
+      <p class="caption" id="caption"></p>
     </div>
 
     <div class="legend">
@@ -540,21 +594,22 @@
         #0a1628</span
       >
       <span class="swatch"
-        ><span class="sw" style="background: #fafaf7"></span> off-white
-        #fafaf7</span
+        ><span class="sw" style="background: #c4920a"></span> warning
+        #c4920a</span
       >
       <span class="swatch"
-        ><span class="sw" style="background: #fcfcfd"></span> surface-page
-        #fcfcfd</span
+        ><span class="sw" style="background: #fafaf7"></span> off-white
+        #fafaf7</span
       >
       <span class="swatch">Newsreader (display) · Outfit (body)</span>
     </div>
 
     <script>
-      const state = { video: false, mic: false, micMode: null };
+      const state = { video: false, mic: false, micMode: null }; // micMode: 'voice' | 'text'
       const phone = document.getElementById("phone");
       const action = document.getElementById("action");
       const caption = document.getElementById("caption");
+      const micModal = document.getElementById("micModal");
 
       function phase() {
         if (state.video && state.mic) return 2;
@@ -565,32 +620,30 @@
       function render() {
         const p = phase();
         phone.setAttribute("data-phase", p);
-
         let html = "";
 
-        // completed rows
         const rows = [];
         if (state.video)
           rows.push('<span class="chip">&#10003; Orientation</span>');
         if (state.mic) {
           rows.push(
             state.micMode === "text"
-              ? '<span class="chip text-mode">&#9000; Text mode</span>'
+              ? '<span class="chip text-mode proposed">&#9000; Text mode</span>'
               : '<span class="chip">&#10003; Mic ready</span>',
           );
         }
-        if (rows.length) {
+        if (rows.length)
           html +=
             '<div class="done-row">' +
             rows.join('<span class="dot">&middot;</span>') +
             "</div>";
-        }
 
         if (p < 2) {
-          // next required action
           if (!state.video) {
-            if (p === 0) html += '<p class="step-label">Start here</p>';
-            else html += '<p class="step-label">Now — watch the intro</p>';
+            html +=
+              p === 0
+                ? '<p class="step-label">Start here</p>'
+                : '<p class="step-label">Now — watch the intro</p>';
             html +=
               '<button class="btn btn-secondary" onclick="openVideo()">Watch the 60-second orientation &#9655;</button>';
           } else if (!state.mic) {
@@ -601,25 +654,23 @@
           if (p === 0)
             html += '<p class="helper">Begin unlocks after both checks.</p>';
         } else {
-          // phase 2 — the payoff
           html +=
             '<button class="btn btn-primary" onclick="begin()">Begin Experience &#8594;</button>';
-          if (state.micMode === "text") {
-            html +=
-              '<p class="text-mode-msg">Voice wasn’t available on your network — you’ll type your answers. You can re-test from Settings.</p>';
-          }
           html += '<p class="footer-note">You can pause and return anytime</p>';
         }
-
         action.innerHTML = html;
+
         const caps = [
-          "Phase 0 — hero + one clear action. “Begin” doesn’t exist yet, so there’s no greyed-button confusion.",
-          "Phase 1 — hero collapses, one remaining action is highlighted.",
-          "Phase 2 — both checks done. The payoff (“Begin”) appears, enabled.",
+          "Phase 0 — hero + one clear action. “Begin” doesn’t exist yet, so there’s no greyed-button to explain.",
+          "Phase 1 — hero collapses; the one remaining check is highlighted.",
+          state.micMode === "text"
+            ? "Phase 2 — both done via the text fallback. The “Text mode” chip is proposed-new (dashed) — today the start screen shows nothing for a blocked mic. Real decision needed."
+            : "Phase 2 — both checks done. The payoff (“Begin”) appears, enabled.",
         ];
-        caption.textContent = caps[p];
+        caption.innerHTML = caps[p];
       }
 
+      /* ── Video ── */
       function openVideo() {
         document.getElementById("videoScrim").classList.add("open");
       }
@@ -628,19 +679,67 @@
         state.video = true;
         render();
       }
+
+      /* ── Mic modal: ready → connecting → success | connection-error ── */
       function openMic() {
         document.getElementById("micScrim").classList.add("open");
+        renderMicReady();
       }
       function closeMic() {
         document.getElementById("micScrim").classList.remove("open");
       }
+
+      function renderMicReady() {
+        micModal.innerHTML =
+          "<h3>Test your microphone</h3>" +
+          '<p class="mic-sub" style="margin-bottom:14px">Press “Start test”, allow access, read the phrase aloud.</p>' +
+          '<button class="btn btn-primary" onclick="micStart()">Start test</button>' +
+          '<button class="link" onclick="finishMic(\'text\')">Skip and type instead</button>';
+      }
+
+      function micStart() {
+        const blocked = document.getElementById("corpNet").checked;
+        micModal.innerHTML =
+          '<div class="spinner"></div>' +
+          '<p class="mic-sub">Connecting — allow microphone access if your browser asks</p>' +
+          (blocked
+            ? '<p class="helper" style="margin-top:8px">(on a blocked network this times out after ~10s)</p>'
+            : "");
+        setTimeout(
+          () => (blocked ? renderMicError() : renderMicSuccess()),
+          blocked ? 1600 : 900,
+        );
+      }
+
+      function renderMicSuccess() {
+        micModal.innerHTML =
+          '<p class="mic-ok">&#10003; Microphone working</p>' +
+          '<p class="mic-sub">We heard:</p>' +
+          '<div class="mic-quote">"The quick brown fox jumps over the lazy dog"</div>' +
+          '<div class="modal-actions">' +
+          '<button class="btn btn-secondary" onclick="renderMicReady()">Try again</button>' +
+          '<button class="btn btn-primary" onclick="finishMic(\'voice\')">Looks good &#10003;</button>' +
+          "</div>";
+      }
+
+      // Copy below is VERBATIM from MicTestModal.tsx connection-error branch.
+      function renderMicError() {
+        micModal.innerHTML =
+          '<p class="err-title">Voice unavailable on this network</p>' +
+          '<p class="err-body">We couldn’t reach our speech service. This is common on corporate networks where outbound connections are restricted. You can complete the interview by typing instead.</p>' +
+          '<p class="err-tip"><b>Tip:</b> your IT team can allow voice input by whitelisting <code>api.deepgram.com</code> on port 443.</p>' +
+          '<p class="err-box">Once enabled, re-test from <b>Settings</b> in the top-right.</p>' +
+          '<button class="btn btn-primary" onclick="finishMic(\'text\')">Continue with text</button>' +
+          '<button class="link" onclick="renderMicReady()">Try voice again</button>';
+      }
+
       function finishMic(mode) {
-        const corp = document.getElementById("corpNet").checked;
-        document.getElementById("micScrim").classList.remove("open");
+        closeMic();
         state.mic = true;
-        state.micMode = corp ? "text" : mode;
+        state.micMode = mode; // 'voice' → passed/voice-first; 'text' → skipped|blocked/classic
         render();
       }
+
       function begin() {
         action.innerHTML =
           '<p class="step-label">&#10003; Starting your interview…</p>';
@@ -652,15 +751,6 @@
         document.getElementById("corpNet").checked = false;
         render();
       }
-
-      // corp-net toggle pre-empts the mic modal's voice path
-      document.getElementById("corpNet").addEventListener("change", (e) => {
-        const micBtn = document.querySelector("#micScrim .btn-primary");
-        if (micBtn)
-          micBtn.textContent = e.target.checked
-            ? "Continue with text"
-            : "Looks good ✓";
-      });
 
       render();
     </script>
