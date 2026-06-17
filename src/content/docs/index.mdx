@@ -13,13 +13,13 @@ hero:
       variant: minimal
 ---
 
-import { Card, CardGrid, LinkCard, Aside } from '@astrojs/starlight/components';
+import { Card, CardGrid, LinkCard, Aside } from "@astrojs/starlight/components";
 
 <Aside type="note" title="Team-only — sign in to Vercel">
-Access is gated by **Vercel Authentication**: you must be signed in to a Vercel
-account on the Brilliant-With-AI team to view this site. It's still a shared
-review surface, so don't paste secrets, customer data, or credentials. Details:
-[Access control](/reference/access-control/).
+  Access is gated by **Vercel Authentication**: you must be signed in to a
+  Vercel account on the Brilliant-With-AI team to view this site. It's still a
+  shared review surface, so don't paste secrets, customer data, or credentials.
+  Details: [Access control](/reference/access-control/).
 </Aside>
 
 ## Artifacts
@@ -27,6 +27,11 @@ review surface, so don't paste secrets, customer data, or credentials. Details:
 Each card is a self-contained deliverable served verbatim at a stable URL.
 
 <CardGrid>
+  <LinkCard
+    title="Mirror — progressive start flow (mockup)"
+    href="/mirror-start-progressive/"
+    description="2026-06-16 — fidelity-3 mockup for bapps#772 (force mic test + video). The two pre-interview checks become required gates, revealed one at a time on one morphing screen (not a wizard); existing modals do the focused work. Click through the phases; corporate-network toggle shows the text-mode fallback. Real design-system tokens. Gate = completion, not a pass."
+  />
   <LinkCard
     title="Mirror v4 ↔ End-State Build Doc — alignment brief"
     href="/mirror-v4-alignment/"
@@ -107,8 +112,24 @@ Each card is a self-contained deliverable served verbatim at a stable URL.
 ## Docs
 
 <CardGrid>
-  <LinkCard title="Add content" href="/guides/adding-content/" description="Two content types: Markdown/MDX docs and self-contained HTML artifacts. How to add each." />
-  <LinkCard title="Deploy" href="/guides/deploying/" description="How the Vercel build works and how a push reaches the live site." />
-  <LinkCard title="Why this framework" href="/reference/framework-choice/" description="The research and ranked reasoning behind choosing Astro Starlight." />
-  <LinkCard title="Access control" href="/reference/access-control/" description="Vercel Password Protection vs Vercel Authentication, plan caveats, and how to enable." />
+  <LinkCard
+    title="Add content"
+    href="/guides/adding-content/"
+    description="Two content types: Markdown/MDX docs and self-contained HTML artifacts. How to add each."
+  />
+  <LinkCard
+    title="Deploy"
+    href="/guides/deploying/"
+    description="How the Vercel build works and how a push reaches the live site."
+  />
+  <LinkCard
+    title="Why this framework"
+    href="/reference/framework-choice/"
+    description="The research and ranked reasoning behind choosing Astro Starlight."
+  />
+  <LinkCard
+    title="Access control"
+    href="/reference/access-control/"
+    description="Vercel Password Protection vs Vercel Authentication, plan caveats, and how to enable."
+  />
 </CardGrid>
