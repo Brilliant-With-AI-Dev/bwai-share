@@ -524,6 +524,17 @@
           display: revert !important;
         }
       }
+
+      /* mobile overflow fix: grid/flex children default to min-width:auto and
+         refuse to shrink, so wide tables widen the whole page instead of
+         scrolling inside .table-scroll. Force them to be shrinkable. */
+      html, body { max-width: 100%; overflow-x: hidden; }
+      .layout { width: 100%; }
+      .layout > * { min-width: 0; }
+      main { min-width: 0; max-width: 100%; }
+      .table-scroll { max-width: 100%; }
+      td { overflow-wrap: anywhere; }
+      .src, .idcell, td.nowrap, th { overflow-wrap: normal; }
     </style>
   </head>
   <body data-view="all">
