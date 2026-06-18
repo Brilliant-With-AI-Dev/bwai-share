@@ -535,6 +535,32 @@
       .table-scroll { max-width: 100%; }
       td { overflow-wrap: anywhere; }
       .src, .idcell, td.nowrap, th { overflow-wrap: normal; }
+
+      /* Phone: table rows collapse to labeled cards (no horizontal scroll) */
+      @media (max-width: 720px) {
+        .table-scroll { border: none; overflow: visible; }
+        .table-scroll table, .table-scroll tbody, .table-scroll tr, .table-scroll td { display: block; width: auto; max-width: 100%; }
+        .table-scroll thead { display: none; }
+        .table-scroll tr {
+          border: 1px solid var(--border); border-left: 4px solid var(--accent);
+          border-radius: 10px; background: var(--surface); box-shadow: var(--shadow);
+          padding: 10px 14px; margin: 0 0 12px;
+        }
+        .table-scroll tr:hover { background: var(--surface); }
+        .table-scroll td {
+          padding: 6px 0; border: none; border-bottom: 1px dashed var(--border);
+          overflow-wrap: anywhere; font-size: 14px;
+        }
+        .table-scroll td:last-child { border-bottom: none; }
+        .table-scroll td::before {
+          content: attr(data-label); display: block;
+          font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em;
+          color: var(--muted); font-weight: 700; margin-bottom: 2px;
+        }
+        .table-scroll td:empty { display: none; }
+        .table-scroll td.idcell, .table-scroll td:first-child { color: var(--text); font-weight: 600; }
+        .src { white-space: normal; }
+      }
     </style>
   </head>
   <body data-view="all">
@@ -4032,6 +4058,16 @@
       document
         .getElementById("copy-tldr")
         .addEventListener("click", (e) => copyText(TLDR, e.target));
+
+      // Phone card mode: label each cell from its column header (no hand-tagging).
+      (function () {
+        document.querySelectorAll(".table-scroll table").forEach(function (t) {
+          var ths = Array.prototype.map.call(t.querySelectorAll("thead th"), function (th) { return th.textContent.trim(); });
+          t.querySelectorAll("tbody tr").forEach(function (tr) {
+            Array.prototype.forEach.call(tr.children, function (td, i) { if (ths[i]) td.setAttribute("data-label", ths[i]); });
+          });
+        });
+      })();
     </script>
   </body>
 </html>
