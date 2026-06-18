@@ -136,7 +136,6 @@
         border-radius: var(--radius-lg);
         box-shadow: 0 10px 34px rgba(10, 22, 40, 0.1);
         position: relative;
-        transition: width 0.2s ease;
       }
       .device.desktop {
         width: 760px;
@@ -335,6 +334,11 @@
         background: var(--cream);
         border-radius: 0 0 var(--radius-lg) var(--radius-lg);
       }
+      /* taller phone so a bottom sheet covers only the lower portion —
+         the top bar + question stay visible behind the scrim */
+      .mobile .body {
+        min-height: 360px;
+      }
       .body .q {
         font-family: var(--font-display);
         font-size: 19px;
@@ -395,6 +399,9 @@
         padding: 8px 10px 22px;
         box-shadow: 0 -10px 30px rgba(10, 22, 40, 0.18);
         display: none;
+        /* never taller than 70% of the phone — the top bar must stay visible */
+        max-height: 70%;
+        overflow-y: auto;
       }
       .sheet.open {
         display: block;
