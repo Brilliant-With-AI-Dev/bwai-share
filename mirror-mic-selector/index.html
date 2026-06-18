@@ -860,7 +860,7 @@
       const micbtn = document.getElementById("micbtn");
       let vp = "desktop",
         perm = "granted",
-        status = "tested",
+        micStatus = "tested",
         cap = "idle";
 
       function seg(id, cb) {
@@ -892,7 +892,7 @@
         closeAll();
       });
       seg("status", (s) => {
-        status = s;
+        micStatus = s;
         applyStatus();
       });
       seg("cap", (c) => {
@@ -902,7 +902,7 @@
 
       function applyStatus() {
         // desktop always shows the device name in forest; mobile shows status color
-        pill.dataset.status = vp === "mobile" ? status : "tested";
+        pill.dataset.status = vp === "mobile" ? micStatus : "tested";
       }
 
       pill.addEventListener("click", (e) => {
@@ -932,8 +932,8 @@
           if (o.dataset.dev)
             o.setAttribute("aria-selected", o.dataset.dev === dev);
         });
-        if (vp === "mobile" && status !== "tested") {
-          status = "tested";
+        if (vp === "mobile" && micStatus !== "tested") {
+          micStatus = "tested";
           [...document.getElementById("status").children].forEach((x) =>
             x.setAttribute("aria-pressed", x.dataset.status === "tested"),
           );
