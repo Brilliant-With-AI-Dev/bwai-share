@@ -1,0 +1,981 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mirror — Top-bar mic selector (DEV-235) · design mockup</title>
+    <style>
+      /* ───────────────────────────────────────────────────────────────
+         Tokens copied VERBATIM from the live source so the mockup mirrors
+         shipping values, not invented ones:
+           packages/design-system/tokens.css  +  apps/web/app/globals.css
+         Mirror is a LEGACY-forest surface → --accent #157a4e (NOT emerald).
+         ─────────────────────────────────────────────────────────────── */
+      :root {
+        --accent: #157a4e; /* forest — legacy primitive */
+        --accent-bright: #1a9960;
+        --accent-glow: rgba(21, 122, 78, 0.12);
+        --accent-bg: rgba(21, 122, 78, 0.05);
+        --off-white: #fafaf7;
+        --cream: #ede8dc;
+        --navy: #0a1628;
+        --navy-70: rgba(10, 22, 40, 0.7);
+        --navy-50: rgba(10, 22, 40, 0.5);
+        --navy-30: rgba(10, 22, 40, 0.3);
+        --navy-10: rgba(10, 22, 40, 0.1);
+        --navy-05: rgba(10, 22, 40, 0.05);
+        --amber: #d97706; /* --accent-pop-amber → "not tested" */
+        --rose: #e11d48; /* --accent-pop-rose  → "blocked"     */
+        --radius-sm: 6px;
+        --radius-md: 8px;
+        --radius-lg: 12px;
+        --font-body: "Outfit", system-ui, sans-serif;
+        --font-display: "Newsreader", Georgia, serif;
+        /* page chrome (mockup harness only — not product tokens) */
+        --page: #eef1f6;
+        --panel: #ffffff;
+        --line: #d6dde8;
+        --ink-3: #6b7790;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: var(--page);
+        color: var(--navy);
+        font-family: var(--font-body);
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.5;
+      }
+      .wrap {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 32px 20px 80px;
+      }
+      h1 {
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: 28px;
+        margin: 0 0 4px;
+      }
+      .sub {
+        color: var(--ink-3);
+        font-size: 14px;
+        margin: 0 0 24px;
+      }
+      .sub code {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 1px 5px;
+        font-size: 12px;
+      }
+
+      /* control bar */
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 18px;
+        align-items: center;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        padding: 14px 16px;
+        margin-bottom: 22px;
+      }
+      .ctl-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .ctl-group > span {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--ink-3);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .seg {
+        display: inline-flex;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+      .seg button {
+        border: 0;
+        background: #fff;
+        color: var(--navy-70);
+        font-family: var(--font-body);
+        font-size: 13px;
+        font-weight: 600;
+        padding: 6px 14px;
+        cursor: pointer;
+      }
+      .seg button[aria-pressed="true"] {
+        background: var(--navy);
+        color: #fff;
+      }
+
+      /* stage */
+      .stage {
+        display: flex;
+        justify-content: center;
+        padding: 28px 0 8px;
+      }
+      .device {
+        background: linear-gradient(180deg, #fbfbf9, #f3f2ec);
+        border: 1px solid var(--navy-10);
+        border-radius: var(--radius-lg);
+        box-shadow: 0 10px 34px rgba(10, 22, 40, 0.1);
+        overflow: hidden;
+        position: relative;
+        transition: width 0.25s ease;
+      }
+      .device.desktop {
+        width: 760px;
+      }
+      .device.mobile {
+        width: 372px;
+      }
+
+      /* ───── product header (real proportions) ───── */
+      .hdr {
+        display: grid;
+        align-items: center;
+        background: var(--off-white);
+        border-bottom: 1px solid var(--navy-10);
+        padding: 0 14px;
+      }
+      .desktop .hdr {
+        grid-template-columns: 1fr auto 1fr;
+        height: 56px;
+      }
+      .mobile .hdr {
+        grid-template-columns: 1fr auto;
+        height: 72px;
+      }
+      .brand {
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: 15px;
+        color: var(--navy);
+      }
+      .product {
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--navy-50);
+        letter-spacing: 0.02em;
+      }
+      .mobile .product {
+        display: none;
+      } /* yields under width pressure */
+      .hdr-right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+
+      /* gear (real .user-float-trigger spec) */
+      .gear {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 1.5px solid var(--navy-10);
+        background: var(--off-white);
+        color: var(--navy-50);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex: none;
+      }
+      .gear svg {
+        width: 15px;
+        height: 15px;
+      }
+
+      /* ───── [NEW] mic pill ───── */
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        height: 32px;
+        padding: 0 10px;
+        border: 1.5px solid var(--navy-10);
+        border-radius: 999px;
+        background: var(--off-white);
+        color: var(--navy);
+        font-family: var(--font-body);
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+        position: relative;
+      }
+      .pill:hover {
+        border-color: var(--accent-glow);
+        background: var(--accent-bg);
+      }
+      .pill .mic {
+        width: 15px;
+        height: 15px;
+        color: var(--accent);
+        flex: none;
+      }
+      .pill .label {
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .pill .chev {
+        width: 13px;
+        height: 13px;
+        color: var(--navy-50);
+        flex: none;
+      }
+      .mobile .pill {
+        padding: 0 8px;
+        min-width: 44px;
+        min-height: 44px;
+        height: 44px;
+        justify-content: center;
+      }
+      .mobile .pill .label {
+        display: none;
+      }
+
+      /* status colors (mobile icon) */
+      .pill[data-status="tested"] .mic {
+        color: var(--accent);
+      }
+      .pill[data-status="default"] .mic {
+        color: var(--navy-50);
+      }
+      .pill[data-status="blocked"] .mic {
+        color: var(--rose);
+      }
+      .pill .bang {
+        display: none;
+        font-weight: 700;
+        color: var(--rose);
+        margin-left: -3px;
+      }
+      .pill[data-status="blocked"] .bang {
+        display: inline;
+      }
+
+      /* desktop dropdown */
+      .menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        width: 248px;
+        background: #fff;
+        border: 1px solid var(--navy-10);
+        border-radius: var(--radius-md);
+        box-shadow: 0 12px 30px rgba(10, 22, 40, 0.16);
+        padding: 6px;
+        z-index: 30;
+        display: none;
+      }
+      .menu.open {
+        display: block;
+      }
+      .menu-h {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        color: var(--navy-50);
+        text-transform: uppercase;
+        padding: 8px 10px 6px;
+      }
+      .opt {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 10px;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        font-size: 14px;
+        color: var(--navy);
+      }
+      .opt:hover {
+        background: var(--navy-05);
+      }
+      .opt .ck {
+        width: 15px;
+        color: var(--accent);
+        flex: none;
+        visibility: hidden;
+      }
+      .opt[aria-selected="true"] .ck {
+        visibility: visible;
+      }
+      .opt[aria-selected="true"] {
+        font-weight: 600;
+      }
+      .menu-div {
+        height: 1px;
+        background: var(--navy-10);
+        margin: 6px 4px;
+      }
+      .opt.test {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      /* faux interview backdrop */
+      .body {
+        padding: 26px 22px 30px;
+        min-height: 150px;
+        background: var(--cream);
+      }
+      .body .q {
+        font-family: var(--font-display);
+        font-size: 19px;
+        color: var(--navy);
+        margin: 0 0 14px;
+        max-width: 38ch;
+      }
+      .composer {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #fff;
+        border: 1.5px solid var(--navy-10);
+        border-radius: var(--radius-md);
+        padding: 10px 12px;
+      }
+      .composer .ph {
+        flex: 1;
+        color: var(--navy-50);
+        font-size: 14px;
+      }
+      .micbtn {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+      }
+      .micbtn.live {
+        box-shadow: 0 0 0 4px var(--accent-glow);
+      }
+
+      /* mobile bottom sheet */
+      .scrim {
+        position: absolute;
+        inset: 0;
+        background: rgba(10, 22, 40, 0.32);
+        z-index: 25;
+        display: none;
+      }
+      .scrim.open {
+        display: block;
+      }
+      .sheet {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 26;
+        background: #fff;
+        border-radius: 16px 16px 0 0;
+        padding: 8px 10px 22px;
+        box-shadow: 0 -10px 30px rgba(10, 22, 40, 0.18);
+        transform: translateY(100%);
+        transition: transform 0.22s ease;
+      }
+      .sheet.open {
+        transform: translateY(0);
+      }
+      .grab {
+        width: 38px;
+        height: 4px;
+        border-radius: 2px;
+        background: var(--navy-10);
+        margin: 8px auto 10px;
+      }
+
+      /* mock mic-test modal (pre-permission path) */
+      .modal {
+        position: absolute;
+        inset: 0;
+        z-index: 40;
+        display: none;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal.open {
+        display: flex;
+      }
+      .modal .card {
+        width: 300px;
+        background: var(--off-white);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--navy-10);
+        box-shadow: 0 18px 44px rgba(10, 22, 40, 0.22);
+        padding: 20px;
+        text-align: center;
+      }
+      .modal .card h3 {
+        font-family: var(--font-display);
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+      .modal .card p {
+        color: var(--navy-70);
+        font-size: 13px;
+        margin: 0 0 16px;
+      }
+      .modal .card .go {
+        background: var(--accent);
+        color: #fff;
+        border: 0;
+        border-radius: var(--radius-md);
+        padding: 10px 18px;
+        font-weight: 600;
+        font-family: var(--font-body);
+        cursor: pointer;
+      }
+      .reuse {
+        font-size: 11px;
+        color: var(--navy-50);
+        margin-top: 12px;
+      }
+
+      /* annotations */
+      .annot {
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+        margin: 18px auto 0;
+        max-width: 760px;
+        font-size: 13px;
+        color: var(--navy-70);
+      }
+      .pin {
+        font-size: 11px;
+        font-weight: 700;
+        color: #fff;
+        background: var(--accent);
+        border-radius: 4px;
+        padding: 2px 6px;
+        flex: none;
+      }
+
+      /* legend */
+      .legend {
+        margin: 30px auto 0;
+        max-width: 760px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        padding: 16px 18px;
+      }
+      .legend h2 {
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--ink-3);
+        margin: 0 0 10px;
+      }
+      .legend ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+      .legend li {
+        font-size: 13px;
+        margin: 5px 0;
+        color: var(--navy-70);
+      }
+      .tag {
+        font-size: 11px;
+        font-weight: 700;
+        border-radius: 4px;
+        padding: 1px 6px;
+      }
+      .tag.new {
+        background: var(--accent-bg);
+        color: var(--accent);
+        border: 1px solid var(--accent-glow);
+      }
+      .tag.reuse {
+        background: var(--navy-05);
+        color: var(--navy-50);
+        border: 1px solid var(--navy-10);
+      }
+      .foot {
+        text-align: center;
+        color: var(--ink-3);
+        font-size: 12px;
+        margin-top: 34px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Mirror — top-bar microphone selector</h1>
+      <p class="sub">
+        DEV-235 design mockup · rung 3 (on-token) · forest
+        <code>--accent #157a4e</code> · gated by
+        <code>release.mic-device-persistence</code> · reads/writes the same
+        device store as #803/#805
+      </p>
+
+      <div class="controls">
+        <div class="ctl-group">
+          <span>Viewport</span>
+          <div class="seg" id="vp">
+            <button data-vp="desktop" aria-pressed="true">Desktop</button>
+            <button data-vp="mobile" aria-pressed="false">Mobile</button>
+          </div>
+        </div>
+        <div class="ctl-group">
+          <span>Mic permission</span>
+          <div class="seg" id="perm">
+            <button data-perm="granted" aria-pressed="true">Granted</button>
+            <button data-perm="none" aria-pressed="false">Not yet</button>
+          </div>
+        </div>
+        <div class="ctl-group" id="statusGroup">
+          <span>Mobile status</span>
+          <div class="seg" id="status">
+            <button data-status="tested" aria-pressed="true">Tested</button>
+            <button data-status="default" aria-pressed="false">Default</button>
+            <button data-status="blocked" aria-pressed="false">Blocked</button>
+          </div>
+        </div>
+        <div class="ctl-group">
+          <span>Capture</span>
+          <div class="seg" id="cap">
+            <button data-cap="idle" aria-pressed="true">Idle</button>
+            <button data-cap="live" aria-pressed="false">Live</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage">
+        <div class="device desktop" id="device">
+          <!-- header -->
+          <div class="hdr">
+            <div class="brand">BrilliantWith.ai</div>
+            <div class="product">Mirror</div>
+            <div class="hdr-right">
+              <!-- [NEW] mic pill -->
+              <button
+                class="pill"
+                id="pill"
+                data-status="tested"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <svg
+                  class="mic"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"
+                  />
+                  <path d="M19 10v1a7 7 0 0 1-14 0v-1" />
+                  <line x1="12" y1="18" x2="12" y2="22" />
+                </svg>
+                <span class="bang">!</span>
+                <span class="label" id="pillLabel">Tonor Mic</span>
+                <svg
+                  class="chev"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              <!-- gear (existing) -->
+              <div class="gear" title="Settings (existing)">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="3" />
+                  <path
+                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
+                  />
+                </svg>
+              </div>
+
+              <!-- desktop dropdown -->
+              <div class="menu" id="menu">
+                <div class="menu-h">Microphone</div>
+                <div
+                  class="opt"
+                  role="option"
+                  aria-selected="true"
+                  data-dev="Tonor Mic"
+                >
+                  <svg
+                    class="ck"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="20 6 9 17 4 12" /></svg
+                  >Tonor Mic
+                </div>
+                <div
+                  class="opt"
+                  role="option"
+                  aria-selected="false"
+                  data-dev="MacBook Pro Microphone"
+                >
+                  <svg
+                    class="ck"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="20 6 9 17 4 12" /></svg
+                  >MacBook Pro Microphone
+                </div>
+                <div
+                  class="opt"
+                  role="option"
+                  aria-selected="false"
+                  data-dev="External USB Audio"
+                >
+                  <svg
+                    class="ck"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="20 6 9 17 4 12" /></svg
+                  >External USB Audio
+                </div>
+                <div class="menu-div"></div>
+                <div class="opt test" id="openTestD">⤺ Test microphone…</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- faux interview body -->
+          <div class="body">
+            <p class="q">
+              What's the one decision this quarter you keep circling back to?
+            </p>
+            <div class="composer">
+              <div class="ph">Tap the mic and speak, or type…</div>
+              <div class="micbtn" id="micbtn">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"
+                  />
+                  <path d="M19 10v1a7 7 0 0 1-14 0v-1" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- bottom sheet (mobile) -->
+          <div class="scrim" id="scrim"></div>
+          <div class="sheet" id="sheet">
+            <div class="grab"></div>
+            <div class="menu-h">Choose microphone</div>
+            <div
+              class="opt"
+              role="option"
+              aria-selected="true"
+              data-dev="Tonor Mic"
+            >
+              <svg
+                class="ck"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" /></svg
+              >Tonor Mic
+            </div>
+            <div
+              class="opt"
+              role="option"
+              aria-selected="false"
+              data-dev="MacBook Pro Microphone"
+            >
+              <svg
+                class="ck"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" /></svg
+              >MacBook Pro Microphone
+            </div>
+            <div
+              class="opt"
+              role="option"
+              aria-selected="false"
+              data-dev="External USB Audio"
+            >
+              <svg
+                class="ck"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" /></svg
+              >External USB Audio
+            </div>
+            <div class="menu-div"></div>
+            <div class="opt test" id="openTestM">⤺ Test microphone…</div>
+          </div>
+
+          <!-- mock MicTestModal (pre-permission) -->
+          <div class="modal" id="modal">
+            <div class="card">
+              <h3>Set up microphone</h3>
+              <p>
+                We need permission to list your microphones and run a quick
+                test.
+              </p>
+              <button class="go" id="modalGo">Start mic test</button>
+              <div class="reuse">
+                Reuses the existing MicTestModal · onDismiss(result, deviceId)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="annot">
+        <span class="pin">D3</span>
+        <div>
+          <strong>Switch while dictating:</strong> set Capture → <em>Live</em>,
+          open the pill, pick another device — capture stops on the old mic and
+          restarts on the new one automatically; the pill updates and dictation
+          continues. No re-tap needed.
+        </div>
+      </div>
+
+      <div class="legend">
+        <h2>Grounded vs. proposed-new</h2>
+        <ul>
+          <li>
+            <span class="tag new">NEW</span> The mic pill, dropdown, mobile
+            status-colors, bottom-sheet, and the strings “Choose microphone” /
+            “Test microphone…”.
+          </li>
+          <li>
+            <span class="tag reuse">REUSE</span> Forest
+            <code>--accent #157a4e</code>, <code>--navy-*</code>,
+            <code>--off-white</code>, the <code>.user-float-trigger</code> 32px
+            gear spec, the <code>MicTestModal</code> +
+            <code>onDismiss(result, deviceId)</code> contract,
+            <code>setMicDeviceId</code> / <code>getEffectiveMicDeviceId</code>,
+            and the existing “Set up / Re-test microphone” copy.
+          </li>
+          <li>
+            <strong>Visibility (D1):</strong> rendered only when
+            <code>useMicDevicePersistenceFlag() === true</code> (hidden while
+            <code>null</code>, hidden when off).
+          </li>
+          <li>
+            <strong>Pre-permission (D2):</strong> labels are empty until a
+            <code>getUserMedia</code> grant, so before permission the pill opens
+            the MicTestModal rather than a name-less dropdown.
+          </li>
+          <li>
+            <strong>Mobile:</strong> the center “Mirror” label hides &lt;640px;
+            the pill collapses to an icon whose color is the status
+            (forest=tested · navy=default · rose=blocked); the picker is a
+            thumb-reachable bottom sheet.
+          </li>
+        </ul>
+      </div>
+
+      <p class="foot">
+        Interactive mockup — a visual, not the build. Every color/size literal
+        mirrors a live token. Toggle the controls above to walk the states.
+      </p>
+    </div>
+
+    <script>
+      const device = document.getElementById("device");
+      const pill = document.getElementById("pill");
+      const pillLabel = document.getElementById("pillLabel");
+      const menu = document.getElementById("menu");
+      const sheet = document.getElementById("sheet");
+      const scrim = document.getElementById("scrim");
+      const modal = document.getElementById("modal");
+      const micbtn = document.getElementById("micbtn");
+      let vp = "desktop",
+        perm = "granted",
+        status = "tested",
+        cap = "idle";
+
+      function seg(id, cb) {
+        const root = document.getElementById(id);
+        root.addEventListener("click", (e) => {
+          const b = e.target.closest("button");
+          if (!b) return;
+          [...root.children].forEach((x) =>
+            x.setAttribute("aria-pressed", x === b),
+          );
+          cb(b.dataset[Object.keys(b.dataset)[0]]);
+        });
+      }
+      function closeAll() {
+        menu.classList.remove("open");
+        sheet.classList.remove("open");
+        scrim.classList.remove("open");
+        pill.setAttribute("aria-expanded", "false");
+      }
+
+      seg("vp", (v) => {
+        vp = v;
+        device.className = "device " + v;
+        closeAll();
+        applyStatus();
+      });
+      seg("perm", (p) => {
+        perm = p;
+        closeAll();
+      });
+      seg("status", (s) => {
+        status = s;
+        applyStatus();
+      });
+      seg("cap", (c) => {
+        cap = c;
+        micbtn.classList.toggle("live", c === "live");
+      });
+
+      function applyStatus() {
+        // desktop always shows the device name in forest; mobile shows status color
+        pill.dataset.status = vp === "mobile" ? status : "tested";
+      }
+
+      pill.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (perm === "none") {
+          modal.classList.add("open");
+          return;
+        }
+        if (vp === "mobile") {
+          const open = sheet.classList.toggle("open");
+          scrim.classList.toggle("open", open);
+        } else {
+          const open = menu.classList.toggle("open");
+          pill.setAttribute("aria-expanded", open);
+        }
+      });
+
+      function pick(dev, scope) {
+        pillLabel.textContent = dev;
+        scope
+          .querySelectorAll(".opt[role=option]")
+          .forEach((o) =>
+            o.setAttribute("aria-selected", o.dataset.dev === dev),
+          );
+        // mirror selection in the other surface too
+        document.querySelectorAll(".opt[role=option]").forEach((o) => {
+          if (o.dataset.dev)
+            o.setAttribute("aria-selected", o.dataset.dev === dev);
+        });
+        if (vp === "mobile" && status !== "tested") {
+          status = "tested";
+          [...document.getElementById("status").children].forEach((x) =>
+            x.setAttribute("aria-pressed", x.dataset.status === "tested"),
+          );
+          applyStatus();
+        }
+        closeAll();
+      }
+      menu
+        .querySelectorAll(".opt[role=option]")
+        .forEach((o) =>
+          o.addEventListener("click", () => pick(o.dataset.dev, menu)),
+        );
+      sheet
+        .querySelectorAll(".opt[role=option]")
+        .forEach((o) =>
+          o.addEventListener("click", () => pick(o.dataset.dev, sheet)),
+        );
+
+      document.getElementById("openTestD").addEventListener("click", () => {
+        closeAll();
+        modal.classList.add("open");
+      });
+      document.getElementById("openTestM").addEventListener("click", () => {
+        closeAll();
+        modal.classList.add("open");
+      });
+      document.getElementById("modalGo").addEventListener("click", () => {
+        modal.classList.remove("open");
+        // simulate a granted permission + a tested device after the modal
+        perm = "granted";
+        [...document.getElementById("perm").children].forEach((x) =>
+          x.setAttribute("aria-pressed", x.dataset.perm === "granted"),
+        );
+        pick("Tonor Mic", menu);
+      });
+      scrim.addEventListener("click", closeAll);
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) modal.classList.remove("open");
+      });
+      document.addEventListener("click", closeAll);
+
+      applyStatus();
+    </script>
+  </body>
+</html>
