@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="en" data-theme="refined">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mirror — theme + compact-card preview</title>
+    <style>
+      /* ---------- theme variables ---------- */
+      [data-theme="refined"] {
+        --bg: #ffffff;
+        --surface: #ffffff;
+        --text: #1b1c22;
+        --muted: #6b7280;
+        --border: #e7e8ee;
+        --accent: #5b5bd6;
+        --soft: #efeefe;
+        --th: #f7f7fb;
+        --ok: #127a40;
+        --okS: #dcfbe7;
+        --warn: #9a6700;
+        --warnS: #fef0d3;
+        --crit: #cf2b2b;
+        --critS: #fde4e4;
+        --laneT: #f8f8fb;
+        --laneA: #effaf3;
+        --laneAb: #c7eed5;
+        --laneW: #efeefe;
+        --laneWb: #cdcbfa;
+        --font:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        --fhead: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      [data-theme="calm"] {
+        --bg: #faf8f2;
+        --surface: #fffdf7;
+        --text: #272219;
+        --muted: #7c7263;
+        --border: #e6ddcd;
+        --accent: #9c4a3c;
+        --soft: #f5ece1;
+        --th: #f3ece0;
+        --ok: #4d5a30;
+        --okS: #e9eddc;
+        --warn: #9a6b21;
+        --warnS: #f5ead2;
+        --crit: #9a4434;
+        --critS: #f3e0da;
+        --laneT: #f4efe6;
+        --laneA: #eef0e2;
+        --laneAb: #d8dec3;
+        --laneW: #f3e9e3;
+        --laneWb: #e4cfc6;
+        --font: "Iowan Old Style", Georgia, Palatino, serif;
+        --fhead: "Iowan Old Style", Georgia, serif;
+      }
+      [data-theme="bold"] {
+        --bg: #ffffff;
+        --surface: #ffffff;
+        --text: #0e1116;
+        --muted: #5b6470;
+        --border: #0e1116;
+        --accent: #0b5fff;
+        --gold: #e0a400;
+        --soft: #eaf1ff;
+        --th: #0e1116;
+        --ok: #0a7d33;
+        --okS: #d8f5e0;
+        --warn: #a65a00;
+        --warnS: #ffeccc;
+        --crit: #c91f1f;
+        --critS: #ffe0e0;
+        --laneT: #f4f5f6;
+        --laneA: #e9fbef;
+        --laneAb: #9be3b1;
+        --laneW: #eaf1ff;
+        --laneWb: #a9c8ff;
+        --font:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        --fhead: Georgia, "Times New Roman", serif;
+      }
+
+      /* ---------- base ---------- */
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font);
+        font-size: 15px;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 22px 80px;
+        min-width: 0;
+      }
+      h1 {
+        font-family: var(--fhead);
+        font-size: 30px;
+        line-height: 1.12;
+        margin: 0 0 6px;
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 13px;
+        margin: 0 0 18px;
+      }
+      details.sec {
+        margin: 18px 0;
+      }
+      details.sec > summary {
+        font-family: var(--fhead);
+        font-size: 21px;
+        font-weight: 700;
+        cursor: pointer;
+        list-style: none;
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        padding: 6px 0;
+        border-bottom: 2px solid var(--accent);
+      }
+      details.sec > summary::-webkit-details-marker {
+        display: none;
+      }
+      details.sec > summary::before {
+        content: "▾";
+        color: var(--accent);
+        font-size: 14px;
+      }
+      details.sec:not([open]) > summary::before {
+        content: "▸";
+      }
+      details.sec > summary .cnt {
+        font-family: var(--font);
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--muted);
+      }
+      .num {
+        color: var(--accent);
+      }
+      .tldr {
+        background: var(--soft);
+        border-left: 4px solid var(--accent);
+        border-radius: 0 10px 10px 0;
+        padding: 12px 16px;
+        margin: 0 0 16px;
+      }
+      .tldr h3 {
+        margin: 0 0 6px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--accent);
+      }
+      .tldr ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+      .tldr li {
+        margin: 3px 0;
+        font-size: 14px;
+      }
+      .pq {
+        font-family: var(--fhead);
+        font-style: italic;
+        font-size: 20px;
+        margin: 16px 0;
+        color: var(--text);
+      }
+      .state-delta {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin: 14px 0;
+      }
+      @media (max-width: 700px) {
+        .state-delta {
+          grid-template-columns: 1fr;
+        }
+      }
+      .lane {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px 14px;
+      }
+      .lane h3 {
+        margin: 0 0 8px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        font-weight: 700;
+      }
+      .lane ul {
+        margin: 0;
+        padding-left: 16px;
+        font-size: 13px;
+      }
+      .lane.today {
+        background: var(--laneT);
+      }
+      .lane.after {
+        background: var(--laneA);
+        border-color: var(--laneAb);
+      }
+      .lane.why {
+        background: var(--laneW);
+        border-color: var(--laneWb);
+      }
+      .lane.after h3 {
+        color: var(--ok);
+      }
+      .lane.why h3 {
+        color: var(--accent);
+      }
+      .table-scroll {
+        overflow-x: auto;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        margin: 10px 0;
+        min-width: 0;
+        max-width: 100%;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 13px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+        overflow-wrap: anywhere;
+      }
+      th {
+        background: var(--th);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      [data-theme="bold"] th {
+        color: #fff;
+      }
+      tbody tr:last-child td {
+        border-bottom: none;
+      }
+      .idcell {
+        font-weight: 700;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      [data-theme="bold"] .badge {
+        border-radius: 4px;
+      }
+      .b-ok {
+        background: var(--okS);
+        color: var(--ok);
+      }
+      .b-warn {
+        background: var(--warnS);
+        color: var(--warn);
+      }
+      .b-crit {
+        background: var(--critS);
+        color: var(--crit);
+      }
+      h1[data-bold] {
+      }
+      [data-theme="bold"] h1 {
+        font-size: 42px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        border-bottom: 5px solid var(--accent);
+        padding-bottom: 8px;
+      }
+      [data-theme="bold"] details.sec > summary {
+        font-weight: 800;
+        border-bottom-width: 3px;
+        border-bottom-color: var(--text);
+      }
+      [data-theme="bold"] .pq {
+        font-size: 26px;
+        font-weight: 700;
+        font-style: normal;
+        border-left: 6px solid var(--gold);
+        padding-left: 16px;
+      }
+      [data-theme="calm"] h1 {
+        text-align: left;
+      }
+      [data-theme="calm"] .pq {
+        text-align: center;
+        color: #5e5346;
+      }
+      [data-theme="refined"] .wrap > header {
+        background: linear-gradient(135deg, #f3f1ff, #fbfaff 60%, #fff);
+        border: 1px solid #ececf6;
+        border-radius: 16px;
+        padding: 22px 22px;
+        margin-bottom: 16px;
+        box-shadow: 0 10px 30px -20px rgba(91, 91, 214, 0.5);
+      }
+      [data-theme="refined"] h1 {
+        font-size: 30px;
+        font-weight: 700;
+        background: linear-gradient(90deg, #4f46e5, #7c6cf5);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      [data-theme="refined"] .table-scroll {
+        box-shadow: 0 6px 20px -16px rgba(20, 20, 40, 0.4);
+      }
+
+      /* theme switcher */
+      .switch {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        flex-wrap: wrap;
+        background: color-mix(in srgb, var(--bg) 88%, transparent);
+        backdrop-filter: blur(8px);
+        padding: 10px 0;
+        margin: 0 0 8px;
+        border-bottom: 1px solid var(--border);
+      }
+      .switch .lbl {
+        font-size: 12px;
+        color: var(--muted);
+        margin-right: 2px;
+      }
+      .switch button {
+        font: inherit;
+        font-size: 13px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text);
+        cursor: pointer;
+        min-height: 40px;
+      }
+      .switch button.on {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+
+      /* ---------- compact cards on phones ---------- */
+      @media (max-width: 720px) {
+        .table-scroll {
+          border: none;
+          overflow: visible;
+        }
+        table,
+        tbody,
+        tr,
+        td {
+          display: block;
+          width: auto;
+          max-width: 100%;
+        }
+        thead {
+          display: none;
+        }
+        tr {
+          border: 1px solid var(--border);
+          border-left: 4px solid var(--accent);
+          border-radius: 10px;
+          background: var(--surface);
+          padding: 9px 12px 10px;
+          margin: 0 0 10px;
+        }
+        td {
+          display: grid;
+          grid-template-columns: 96px 1fr;
+          gap: 10px;
+          padding: 2px 0;
+          border: none;
+          font-size: 13px;
+          align-items: start;
+        }
+        td::before {
+          content: attr(data-label);
+          font-size: 10px;
+          text-transform: uppercase;
+          letter-spacing: 0.04em;
+          color: var(--muted);
+          font-weight: 700;
+          padding-top: 2px;
+        }
+        td:empty {
+          display: none;
+        }
+        td.c-id {
+          display: block;
+          color: var(--accent);
+          font-weight: 800;
+          font-size: 12px;
+          margin-bottom: 1px;
+        }
+        td.c-id::before {
+          display: none;
+        }
+        td.c-head {
+          display: block;
+          font-size: 15px;
+          font-weight: 700;
+          line-height: 1.3;
+          margin-bottom: 4px;
+        }
+        td.c-head::before {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="switch no-print">
+        <span class="lbl">Theme:</span>
+        <button data-set="refined" class="on">Refined SaaS</button>
+        <button data-set="bold">Bold editorial</button>
+        <button data-set="calm">Editorial calm</button>
+      </div>
+
+      <header>
+        <h1>Mirror — Cross-Meeting Synthesis</h1>
+        <p class="meta">
+          Theme + compact-card preview · tap a theme above · open on your phone
+          to see the cards
+        </p>
+      </header>
+
+      <aside class="tldr">
+        <h3>TL;DR</h3>
+        <ul>
+          <li>
+            Mirror became a two-product system: individual + facilitated group.
+          </li>
+          <li>Central reversal: gates → guideposts.</li>
+          <li>Critical path to the July 14 Gotu on-site.</li>
+        </ul>
+      </aside>
+
+      <blockquote class="pq">
+        “The moat is context capture, not the report.”
+      </blockquote>
+
+      <section class="state-delta">
+        <div class="lane today">
+          <h3>Started (06-04)</h3>
+          <ul>
+            <li>Signup + one-shot report.</li>
+            <li>Gate behind a call.</li>
+          </ul>
+        </div>
+        <div class="lane after">
+          <h3>Landed (06-16)</h3>
+          <ul>
+            <li>Two products.</li>
+            <li>Guideposts, not gates.</li>
+          </ul>
+        </div>
+        <div class="lane why">
+          <h3>Why it matters</h3>
+          <ul>
+            <li>Context is the moat.</li>
+            <li>Roadmap bends to July 14.</li>
+          </ul>
+        </div>
+      </section>
+
+      <details class="sec" open>
+        <summary>
+          <span class="num">05</span> Product Backlog
+          <span class="cnt">— 6 of 61 shown</span>
+        </summary>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Item</th>
+                <th>Category</th>
+                <th>Impact</th>
+                <th>Effort</th>
+                <th>Urgency</th>
+                <th>Conf.</th>
+                <th>Sources</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="idcell">1</td>
+                <td>
+                  Retune Mirror prompt: one question per topic (non-negotiable
+                  for Gotu)
+                </td>
+                <td><span class="badge b-crit">Fix</span></td>
+                <td>High</td>
+                <td>Low</td>
+                <td>High</td>
+                <td>High</td>
+                <td>06-15, 06-16</td>
+              </tr>
+              <tr>
+                <td class="idcell">2</td>
+                <td>Force mic-test step into standard flow</td>
+                <td><span class="badge b-crit">Fix</span></td>
+                <td>High</td>
+                <td>Low</td>
+                <td>High</td>
+                <td>High</td>
+                <td>06-04, 06-16</td>
+              </tr>
+              <tr>
+                <td class="idcell">4</td>
+                <td>
+                  Interactive, refinable insight cards (commit-on-confirm)
+                </td>
+                <td><span class="badge b-warn">Feature</span></td>
+                <td>High</td>
+                <td>Medium</td>
+                <td>High</td>
+                <td>High</td>
+                <td>06-15</td>
+              </tr>
+              <tr>
+                <td class="idcell">12</td>
+                <td>
+                  Group-level synthesis deliverable (anonymized maturity /
+                  alignment)
+                </td>
+                <td><span class="badge b-warn">Feature</span></td>
+                <td>High</td>
+                <td>High</td>
+                <td>High</td>
+                <td>Medium</td>
+                <td>06-15, 06-16</td>
+              </tr>
+              <tr>
+                <td class="idcell">13</td>
+                <td>
+                  Live in-room AI facilitator (human-filtered; end-of-session
+                  artifact)
+                </td>
+                <td><span class="badge b-warn">Feature</span></td>
+                <td>High</td>
+                <td>High</td>
+                <td>Medium</td>
+                <td>Medium</td>
+                <td>06-16</td>
+              </tr>
+              <tr>
+                <td class="idcell">25</td>
+                <td>Define the doer/IC deliverable (name + contents)</td>
+                <td><span class="badge b-ok">Discovery</span></td>
+                <td>High</td>
+                <td>Medium</td>
+                <td>Medium</td>
+                <td>Medium</td>
+                <td>06-16</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <details class="sec" open>
+        <summary>
+          <span class="num">02</span> Decision Log
+          <span class="cnt">— 4 of 30 shown</span>
+        </summary>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Decision</th>
+                <th>Status</th>
+                <th>Evolution</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="idcell">D5</td>
+                <td>Post-report next step</td>
+                <td><span class="badge b-ok">Decided</span></td>
+                <td>Gate (06-04) → fork (06-09) → guideposts (06-15).</td>
+              </tr>
+              <tr>
+                <td class="idcell">D13</td>
+                <td>Retune Mirror prompt: one question per topic</td>
+                <td><span class="badge b-ok">Decided</span></td>
+                <td>Tuning fix (06-15) → non-negotiable for Gotu (06-16).</td>
+              </tr>
+              <tr>
+                <td class="idcell">D25</td>
+                <td>Live in-room AI facilitation component</td>
+                <td><span class="badge b-warn">Proposed</span></td>
+                <td>Headline group-product idea (06-16); mode open.</td>
+              </tr>
+              <tr>
+                <td class="idcell">D7</td>
+                <td>A “middle-ground” third experience mode</td>
+                <td><span class="badge b-crit">Rejected</span></td>
+                <td>“Don't look for middle ground” (06-09).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </div>
+
+    <script>
+      // theme switcher
+      document.querySelectorAll(".switch button").forEach(function (b) {
+        b.addEventListener("click", function () {
+          document.documentElement.setAttribute("data-theme", b.dataset.set);
+          document.querySelectorAll(".switch button").forEach(function (x) {
+            x.classList.remove("on");
+          });
+          b.classList.add("on");
+        });
+      });
+      // compact-card classification from headers
+      var HEAD = [
+        "decision",
+        "item",
+        "problem",
+        "risk",
+        "question",
+        "action",
+        "opportunity",
+      ];
+      var IDC = ["#", "id"];
+      document.querySelectorAll(".table-scroll table").forEach(function (t) {
+        var ths = Array.prototype.map.call(
+          t.querySelectorAll("thead th"),
+          function (x) {
+            return x.textContent.trim();
+          },
+        );
+        var lc = ths.map(function (s) {
+          return s.toLowerCase();
+        });
+        t.querySelectorAll("tbody tr").forEach(function (tr) {
+          Array.prototype.forEach.call(tr.children, function (td, i) {
+            if (ths[i]) td.setAttribute("data-label", ths[i]);
+            if (IDC.indexOf(lc[i]) > -1) td.classList.add("c-id");
+            else if (HEAD.indexOf(lc[i]) > -1) td.classList.add("c-head");
+          });
+        });
+      });
+      // collapse long sections by default on phones
+      if (window.matchMedia("(max-width:720px)").matches) {
+        document.querySelectorAll("details.sec").forEach(function (d) {
+          d.open = false;
+        });
+      }
+    </script>
+  </body>
+</html>
