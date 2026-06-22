@@ -1,0 +1,1178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Mirror vs Alt-Mirror — side by side</title>
+    <style>
+      :root {
+        --canvas: #ffffff;
+        --subtle: #f6f8fa;
+        --border: #d0d7de;
+        --hair: #d8dce1;
+        --ink: #1f2328;
+        --muted: #656d76;
+        --blue: #0969da;
+        --blue-soft: #ddf0ff;
+        --purple: #8250df;
+        --purple-soft: #efe7ff;
+        --green: #1a7f37;
+        --amber: #9a6700;
+        --red: #cf222e;
+        --serif:
+          "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+        --sans:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+          sans-serif;
+        --mono: "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        margin: 0;
+        background: var(--subtle);
+        color: var(--ink);
+        font-family: var(--sans);
+        font-size: 16px;
+        line-height: 1.55;
+        overflow-x: hidden;
+      }
+      .wrap {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 28px 20px 64px;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--serif);
+        font-weight: 600;
+        line-height: 1.2;
+      }
+      h1 {
+        font-size: 30px;
+        margin: 0 0 6px;
+      }
+      h2 {
+        font-size: 22px;
+        margin: 34px 0 12px;
+      }
+      h3 {
+        font-size: 17px;
+        margin: 0 0 8px;
+        font-family: var(--sans);
+        font-weight: 600;
+      }
+      p {
+        margin: 0 0 12px;
+      }
+      a {
+        color: var(--blue);
+      }
+      .sub {
+        color: var(--muted);
+        font-size: 15px;
+        margin: 0 0 4px;
+      }
+      .card {
+        background: var(--canvas);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 18px 18px;
+        margin: 0 0 16px;
+      }
+      .min0 {
+        min-width: 0;
+      }
+      .badge {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        padding: 3px 7px;
+        border-radius: 5px;
+        border: 1px solid var(--border);
+        background: var(--subtle);
+        color: var(--muted);
+        vertical-align: middle;
+      }
+      .badge.m {
+        background: var(--purple-soft);
+        border-color: #d7c5ff;
+        color: #5a2ca0;
+      }
+      .badge.a {
+        background: var(--blue-soft);
+        border-color: #add5ff;
+        color: #0a4da3;
+      }
+      .badge.lvl {
+        background: var(--blue);
+        border-color: var(--blue);
+        color: #fff;
+        font-size: 13px;
+        padding: 4px 9px;
+      }
+
+      /* plain english + state */
+      .plain {
+        border-left: 4px solid var(--ink);
+      }
+      .plain dl {
+        display: grid;
+        grid-template-columns: 130px 1fr;
+        gap: 6px 14px;
+        margin: 10px 0 0;
+      }
+      .plain dt {
+        font-weight: 700;
+        color: var(--muted);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+      .plain dd {
+        margin: 0;
+      }
+
+      /* tabs */
+      .tabs {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin: 8px 0 18px;
+        position: sticky;
+        top: 0;
+        background: var(--subtle);
+        padding: 10px 0;
+        z-index: 5;
+        border-bottom: 1px solid var(--hair);
+      }
+      .tab {
+        font: inherit;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        border: 1px solid var(--border);
+        background: var(--canvas);
+        color: var(--ink);
+        padding: 8px 14px;
+        border-radius: 6px;
+        min-height: 40px;
+      }
+      .tab[aria-selected="true"] {
+        background: var(--ink);
+        color: #fff;
+        border-color: var(--ink);
+      }
+      .panel[hidden] {
+        display: none;
+      }
+
+      /* two-up */
+      .duo {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .lane {
+        background: var(--canvas);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 16px;
+        min-width: 0;
+      }
+      .lane.m {
+        border-top: 4px solid var(--purple);
+      }
+      .lane.a {
+        border-top: 4px solid var(--blue);
+      }
+      .lane h3 .who {
+        font-size: 11px;
+        color: var(--muted);
+        font-weight: 600;
+        display: block;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      /* compare grid */
+      .cmp {
+        background: var(--canvas);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .cmp-row {
+        display: grid;
+        grid-template-columns: 170px 1fr 1fr;
+      }
+      .cmp-row > div {
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--hair);
+        min-width: 0;
+      }
+      .cmp-head > div {
+        background: var(--ink);
+        color: #fff;
+        font-weight: 700;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        border-bottom: none;
+      }
+      .cmp-head .ch-m {
+        background: #5a2ca0;
+      }
+      .cmp-head .ch-a {
+        background: #0a4da3;
+      }
+      .cmp-dim {
+        font-weight: 700;
+        color: var(--ink);
+        background: var(--subtle);
+      }
+      .cmp-m {
+        border-left: 3px solid var(--purple);
+      }
+      .cmp-a {
+        border-left: 3px solid var(--blue);
+      }
+      .cmp-row:last-child > div {
+        border-bottom: none;
+      }
+
+      /* interview turns */
+      .turn-label {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin: 18px 0 8px;
+      }
+      .qa .q {
+        font-weight: 600;
+        color: var(--ink);
+        margin: 0 0 8px;
+      }
+      .qa .a {
+        color: #3a4048;
+        font-size: 14.5px;
+        border-top: 1px dashed var(--hair);
+        padding-top: 8px;
+        margin: 0;
+      }
+      .ql {
+        font-family: var(--mono);
+        font-size: 11px;
+        font-weight: 700;
+        margin-right: 5px;
+      }
+      .ql.q {
+        color: var(--ink);
+      }
+      .ql.a {
+        color: var(--muted);
+      }
+
+      /* mirror letter render */
+      .truthblock {
+        border-left: 4px solid var(--purple);
+        background: #faf7ff;
+        border-radius: 0 6px 6px 0;
+        padding: 12px 14px;
+        margin: 0 0 14px;
+      }
+      .truthblock p {
+        margin: 0 0 8px;
+      }
+      .truthblock p:last-child {
+        margin: 0;
+      }
+      .truthblock b {
+        color: #5a2ca0;
+      }
+      .seclist {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .seclist li {
+        padding: 9px 0;
+        border-top: 1px solid var(--hair);
+      }
+      .seclist li:first-child {
+        border-top: none;
+      }
+      .seclist .sh {
+        font-weight: 700;
+        font-family: var(--serif);
+        font-size: 15px;
+      }
+      .seclist .se {
+        color: #3a4048;
+        font-size: 14px;
+        margin: 3px 0 0;
+      }
+
+      /* score bars */
+      .dim {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 4px 10px;
+        align-items: center;
+        padding: 7px 0;
+        border-top: 1px solid var(--hair);
+      }
+      .dim:first-of-type {
+        border-top: none;
+      }
+      .dim .nm {
+        font-size: 14px;
+      }
+      .dim .meta {
+        font-size: 12px;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+      }
+      .bar {
+        grid-column: 1/3;
+        display: flex;
+        gap: 4px;
+        margin-top: 2px;
+      }
+      .seg {
+        height: 7px;
+        flex: 1;
+        border-radius: 3px;
+        background: #e7eaee;
+      }
+      .seg.on {
+        background: var(--blue);
+      }
+      .dim.none .nm {
+        color: var(--muted);
+      }
+      .dim.none .seg {
+        background: repeating-linear-gradient(
+          45deg,
+          #eef0f2,
+          #eef0f2 4px,
+          #e4e7ea 4px,
+          #e4e7ea 8px
+        );
+      }
+
+      .note {
+        border-left: 4px solid var(--amber);
+        background: #fff8e6;
+        border-radius: 0 6px 6px 0;
+        padding: 12px 14px;
+      }
+      .note.good {
+        border-color: var(--green);
+        background: #eafaf0;
+      }
+      .note h3 {
+        margin-bottom: 4px;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 8px 0;
+      }
+      .chip {
+        font-size: 12px;
+        font-weight: 600;
+        background: var(--blue-soft);
+        color: #0a4da3;
+        border: 1px solid #add5ff;
+        border-radius: 5px;
+        padding: 3px 8px;
+      }
+
+      .btn {
+        font: inherit;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        background: var(--ink);
+        color: #fff;
+        border: 1px solid var(--ink);
+        border-radius: 6px;
+        padding: 9px 15px;
+        min-height: 40px;
+      }
+      .btn:active {
+        transform: translateY(1px);
+      }
+      footer {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 30px;
+        border-top: 1px solid var(--hair);
+        padding-top: 14px;
+      }
+
+      @media (max-width: 720px) {
+        .wrap {
+          padding: 20px 14px 48px;
+        }
+        h1 {
+          font-size: 25px;
+        }
+        .duo {
+          grid-template-columns: 1fr;
+        }
+        .plain dl {
+          grid-template-columns: 1fr;
+          gap: 2px;
+        }
+        .plain dt {
+          margin-top: 8px;
+        }
+        .cmp-row {
+          grid-template-columns: 1fr;
+        }
+        .cmp-head {
+          display: none;
+        }
+        .cmp-row > div {
+          border-bottom: none;
+        }
+        .cmp-row {
+          border-bottom: 1px solid var(--hair);
+          padding: 4px 0 10px;
+        }
+        .cmp-row:last-child {
+          border-bottom: none;
+        }
+        .cmp-dim {
+          background: transparent;
+          font-size: 13px;
+          text-transform: uppercase;
+          letter-spacing: 0.03em;
+          color: var(--muted);
+          padding-bottom: 2px;
+        }
+        .cmp-m::before {
+          content: "Mirror — ";
+          font-weight: 700;
+          color: #5a2ca0;
+          font-size: 12px;
+        }
+        .cmp-a::before {
+          content: "Alt-Mirror — ";
+          font-weight: 700;
+          color: #0a4da3;
+          font-size: 12px;
+        }
+        .cmp-m,
+        .cmp-a {
+          padding-top: 4px;
+          padding-bottom: 4px;
+        }
+      }
+      @media print {
+        body {
+          background: #fff;
+        }
+        .tabs {
+          display: none;
+        }
+        .panel[hidden] {
+          display: block !important;
+        }
+        .card,
+        .lane,
+        .cmp {
+          break-inside: avoid;
+          border-color: #bbb;
+        }
+        .btn {
+          display: none;
+        }
+        a {
+          color: #000;
+          text-decoration: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <p class="sub">AI maturity diagnostic · live comparison</p>
+        <h1>Two ways to mirror a person</h1>
+        <p class="sub">
+          The same operations manager (Dana Reyes) was interviewed by
+          <b>two different engines</b> running on the same live backend. Here is
+          how they ask, and what each hands back.
+        </p>
+        <p>
+          <span class="badge m">Real Mirror</span> &nbsp;<span class="badge a"
+            >Alt-Mirror</span
+          >
+        </p>
+      </header>
+
+      <section class="card plain">
+        <h3>Plain-English overview</h3>
+        <dl>
+          <dt>What this is</dt>
+          <dd>
+            A side-by-side of two AI-interview products that diagnose how
+            someone works with AI — built from one real, recorded run.
+          </dd>
+          <dt>Who it's for</dt>
+          <dd>
+            Deciding which experience we want to build: a
+            <b>narrative wake-up letter</b>, or a <b>scored skills report</b>.
+          </dd>
+          <dt>What you get</dt>
+          <dd>
+            The voice difference (watch them interview), the two finished
+            deliverables, and an honest read on which is further along.
+          </dd>
+        </dl>
+      </section>
+
+      <nav class="tabs" role="tablist" aria-label="Views">
+        <button
+          class="tab"
+          role="tab"
+          id="t-glance"
+          aria-selected="true"
+          aria-controls="p-glance"
+        >
+          At a glance
+        </button>
+        <button
+          class="tab"
+          role="tab"
+          id="t-interview"
+          aria-selected="false"
+          aria-controls="p-interview"
+        >
+          Watch them interview
+        </button>
+        <button
+          class="tab"
+          role="tab"
+          id="t-deliver"
+          aria-selected="false"
+          aria-controls="p-deliver"
+        >
+          What you get
+        </button>
+        <button
+          class="tab"
+          role="tab"
+          id="t-verdict"
+          aria-selected="false"
+          aria-controls="p-verdict"
+        >
+          Honest read
+        </button>
+      </nav>
+
+      <!-- AT A GLANCE -->
+      <section
+        class="panel"
+        id="p-glance"
+        role="tabpanel"
+        aria-labelledby="t-glance"
+      >
+        <div class="cmp">
+          <div class="cmp-row cmp-head">
+            <div>&nbsp;</div>
+            <div class="ch-m">Real Mirror</div>
+            <div class="ch-a">Alt-Mirror</div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-dim">What it is</div>
+            <div class="cmp-m">A narrative identity interview</div>
+            <div class="cmp-a">An evidence-scored maturity diagnostic</div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-dim">Voice</div>
+            <div class="cmp-m">
+              Forensic &amp; curious — a blend of Terry Gross, Krista Tippett,
+              and Anthony Bourdain. Goes after the uncomfortable truth.
+            </div>
+            <div class="cmp-a">
+              Clinical diagnostician. Warm but methodical; chases dated,
+              specific examples and proof.
+            </div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-dim">How it interviews</div>
+            <div class="cmp-m">
+              Follows the emotional and political signal — &ldquo;what's
+              <i>really</i> going on here?&rdquo;
+            </div>
+            <div class="cmp-a">
+              Walks a fixed coverage map, extracting countable evidence for each
+              skill.
+            </div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-dim">The deliverable</div>
+            <div class="cmp-m">
+              A 2,000–3,000 word <b>letter</b>, addressed to you by name. No
+              scores.
+            </div>
+            <div class="cmp-a">
+              A <b>scored report</b> (0–4 per skill) + a reusable AI
+              &ldquo;working context&rdquo; profile.
+            </div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-dim">Artifacts</div>
+            <div class="cmp-m">
+              Three — on-screen insights, emailed letter, JSON profile.
+            </div>
+            <div class="cmp-a">Two — scored report, profile.</div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-dim">Mechanism</div>
+            <div class="cmp-m">
+              &ldquo;Structural vulnerability&rdquo; — wants vs. doing, blind
+              spots, identity.
+            </div>
+            <div class="cmp-a">
+              Counted evidence &rarr; deterministic skill levels.
+            </div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-dim">Best for</div>
+            <div class="cmp-m">
+              Motivation, self-recognition, a wake-up call.
+            </div>
+            <div class="cmp-a">
+              Benchmarking, tracking progress, feeding personalization.
+            </div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-dim">Maturity today</div>
+            <div class="cmp-m">
+              Polished, emotionally resonant, ready to ship.
+            </div>
+            <div class="cmp-a">
+              Scoring engine works live; narrative &amp; profile still thin.
+            </div>
+          </div>
+        </div>
+        <p class="sub" style="margin-top: 10px">
+          The interview <i>engines</i> are nearly identical (the model proposes,
+          the app decides). Only the <b>surface</b> differs: narrative vs.
+          scores.
+        </p>
+      </section>
+
+      <!-- INTERVIEW -->
+      <section
+        class="panel"
+        id="p-interview"
+        role="tabpanel"
+        aria-labelledby="t-interview"
+        hidden
+      >
+        <p class="sub">
+          Real excerpts from the live run. Same person, same moment in the
+          conversation — read the two columns against each other.
+        </p>
+
+        <div class="turn-label">Turn 1 · the opening</div>
+        <div class="duo">
+          <div class="lane m min0">
+            <h3>Real Mirror <span class="who">narrative</span></h3>
+            <div class="qa">
+              <p class="q">
+                <span class="ql q">Q</span>What are you personally accountable
+                for right now — the 2–3 outcomes that, if they don't move, you
+                &ldquo;lose the year&rdquo;? Think make-or-break, not the
+                nice-to-haves from the strategy deck.
+              </p>
+              <p class="a">
+                <span class="ql a">A</span>Three things: on-time delivery in my
+                region, cost-to-ship staying within plan, and weekly capacity
+                accuracy. If those slip for a couple weeks, I'm in escalation
+                mode and it becomes the story of the quarter.
+              </p>
+            </div>
+          </div>
+          <div class="lane a min0">
+            <h3>Alt-Mirror <span class="who">scored</span></h3>
+            <div class="qa">
+              <p class="q">
+                <span class="ql q">Q</span>To start, what's your current role
+                and the kind of work you do week-to-week — team, industry, and
+                your main responsibilities?
+              </p>
+              <p class="a">
+                <span class="ql a">A</span>Senior Operations Manager at
+                Northwind Logistics, running regional fulfilment across a few
+                sites. Capacity planning, service-level performance, carrier
+                exception triage, plus weekly forecasts and KPI rollups.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="turn-label">Turn 2 · chasing the signal</div>
+        <div class="duo">
+          <div class="lane m min0">
+            <h3>Real Mirror <span class="who">narrative</span></h3>
+            <div class="qa">
+              <p class="q">
+                <span class="ql q">Q</span>When your director starts escalating,
+                what do they <i>actually</i> blame first? I'm not asking what's
+                fair; I'm asking where the heat tends to land in the real
+                post-mortem.
+              </p>
+              <p class="a">
+                <span class="ql a">A</span>My planning process first —
+                &ldquo;why didn't we see it coming.&rdquo; Carrier performance
+                second, demand volatility only as a fallback once I've shown I
+                had a plan.
+              </p>
+            </div>
+          </div>
+          <div class="lane a min0">
+            <h3>Alt-Mirror <span class="who">scored</span></h3>
+            <div class="qa">
+              <p class="q">
+                <span class="ql q">Q</span>Where are you using AI in that weekly
+                cadence right now — name the tool(s) and walk me through one
+                specific recent task: what you input, what you got out, how you
+                used it.
+              </p>
+              <p class="a">
+                <span class="ql a">A</span>Claude in the chat window, manual.
+                Last Tuesday I pasted ~200 lines of carrier exceptions, had it
+                bucket them and draft a carrier email; I checked a few rows and
+                sent it.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="turn-label">Turn 5 · the high-signal probe</div>
+        <div class="duo">
+          <div class="lane m min0">
+            <h3>Real Mirror <span class="who">narrative</span></h3>
+            <div class="qa">
+              <p class="q">
+                <span class="ql q">Q</span>What's the most valuable thing you've
+                used AI for this month — the one use you'd be annoyed to lose
+                tomorrow? Keep it concrete.
+              </p>
+              <p class="a">
+                <span class="ql a">A</span>Carrier-exception summaries, hands
+                down. A clean narrative in 15–20 minutes instead of an hour of
+                manual pivoting — it plugs straight into my on-time and cost
+                story.
+              </p>
+            </div>
+          </div>
+          <div class="lane a min0">
+            <h3>Alt-Mirror <span class="who">scored</span></h3>
+            <div class="qa">
+              <p class="q">
+                <span class="ql q">Q</span>Tell me about one specific time (give
+                the date) when Claude's output was wrong or risky — what it
+                recommended, how you caught it, what you changed before acting.
+              </p>
+              <p class="a">
+                <span class="ql a">A</span>Week of April 15th it invented a
+                throughput rate I never gave it. The number didn't match our
+                dashboard, so I removed it, re-ran with real figures, and added
+                &ldquo;do not infer rates.&rdquo;
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="turn-label">Turn 9 · reading the room</div>
+        <div class="duo">
+          <div class="lane m min0">
+            <h3>Real Mirror <span class="who">narrative</span></h3>
+            <div class="qa">
+              <p class="q">
+                <span class="ql q">Q</span>What's the AI vibe across your
+                8-person team — who's quietly good at it, who's allergic, and
+                what's the dominant emotion? Name archetypes if that's easier.
+              </p>
+              <p class="a">
+                <span class="ql a">A</span>Indifferent-to-curious; nobody uses
+                it daily but me. My analysts are the likeliest to get good but
+                wary of sending a wrong number; dispatchers are allergic,
+                supervisors overwhelmed.
+              </p>
+            </div>
+          </div>
+          <div class="lane a min0">
+            <h3>Alt-Mirror <span class="who">scored</span></h3>
+            <div class="qa">
+              <p class="q">
+                <span class="ql q">Q</span>For your May 9 rollup note about the
+                93.4% vs 95.1% discrepancy, did you use AI to draft it? If yes,
+                paste the exact prompt and what you edited before sending.
+              </p>
+              <p class="a">
+                <span class="ql a">A</span>Yes. Prompt asked for a 3–5 sentence
+                explanation, the number we're using and why, the fix and owner.
+                I cut a line blaming the carrier and added the ~80-shipment
+                impact.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <p class="sub" style="margin-top: 18px">
+          Notice: Mirror pushes toward <b>identity and politics</b> (&ldquo;what
+          do they <i>actually</i> blame&rdquo;); Alt-Mirror pushes toward
+          <b>verifiable evidence</b> (&ldquo;give the date, paste the
+          prompt&rdquo;). Same person, two different things surfaced.
+        </p>
+      </section>
+
+      <!-- DELIVERABLES -->
+      <section
+        class="panel"
+        id="p-deliver"
+        role="tabpanel"
+        aria-labelledby="t-deliver"
+        hidden
+      >
+        <p class="sub">
+          What each engine handed back at the end of the same interview.
+        </p>
+        <div class="duo">
+          <!-- mirror letter -->
+          <div class="lane m min0">
+            <h3>
+              Real Mirror — the letter
+              <span class="who">~2,500 words · no scores</span>
+            </h3>
+            <p
+              style="
+                font-family: var(--serif);
+                font-size: 16px;
+                margin: 0 0 6px;
+              "
+            >
+              <i
+                >&ldquo;A Letter to Dana, Who Is Being Judged for
+                Weather&rdquo;</i
+              >
+            </p>
+            <p class="sub" style="font-size: 13px">
+              &ldquo;This is not a report. This is a mirror. Some of what you
+              see will be uncomfortable. Read it anyway.&rdquo;
+            </p>
+            <div class="truthblock">
+              <p>
+                <b>The truth:</b> You're not failing at operations — you're
+                failing at <i>courtroom-speed proof</i>, and that's why
+                &ldquo;two bad weeks&rdquo; turns political.
+              </p>
+              <p>
+                <b>Do this now:</b> Build a weekly &ldquo;receipts packet&rdquo;
+                that reconciles your three systems in under 30 minutes.
+              </p>
+              <p>
+                <b>Do this next:</b> Turn carrier exceptions into a repeatable
+                scoreboard so escalations become a pattern conversation, not a
+                blame conversation.
+              </p>
+              <p>
+                <b>Before it's too late:</b> Stop being the human integration
+                layer — that role becomes a permanent escalation sponge.
+              </p>
+            </div>
+            <ul class="seclist">
+              <li>
+                <div class="sh">The Lie</div>
+                <p class="se">
+                  Three comfortable stories — &ldquo;leadership just wants us to
+                  explore it safely,&rdquo; &ldquo;the dashboard is
+                  truth,&rdquo; &ldquo;AI isn't worth it because it
+                  hallucinates&rdquo; — and why each one is quietly costing her.
+                </p>
+              </li>
+              <li>
+                <div class="sh">The Blind Spots</div>
+                <p class="se">
+                  &ldquo;You think you're evaluated on outcomes; you're
+                  evaluated on <i>foresight</i>.&rdquo; &ldquo;You're becoming
+                  the irreplaceable bottleneck you'll later resent.&rdquo;
+                </p>
+              </li>
+              <li>
+                <div class="sh">What You Have That Most Don't</div>
+                <p class="se">
+                  She can see patterns <i>and</i> write the narrative leadership
+                  reads — the exact interface between messy execution and
+                  executive action.
+                </p>
+              </li>
+              <li>
+                <div class="sh">The Compass Heading</div>
+                <p class="se">
+                  Concrete moves at three horizons: this week, this quarter,
+                  this year — receipts packet, exception taxonomy,
+                  volatility-aware planning.
+                </p>
+              </li>
+            </ul>
+          </div>
+
+          <!-- alt scored -->
+          <div class="lane a min0">
+            <h3>
+              Alt-Mirror — the scored diagnostic
+              <span class="who">levels + profile</span>
+            </h3>
+            <p style="margin: 0 0 8px">
+              <span class="badge lvl">Capability: Level 3 / 4</span>
+            </p>
+            <p class="sub" style="font-size: 13px">Headline focus areas:</p>
+            <div class="chips">
+              <span class="chip">output evaluation</span
+              ><span class="chip">tool fluency</span
+              ><span class="chip">workflow integration</span>
+            </div>
+
+            <h3 style="margin-top: 12px">Per-skill (from counted evidence)</h3>
+            <div class="dim">
+              <span class="nm">Tool fluency</span
+              ><span class="meta">3 · 6 ev</span>
+              <div class="bar">
+                <i class="seg on"></i><i class="seg on"></i
+                ><i class="seg on"></i><i class="seg"></i>
+              </div>
+            </div>
+            <div class="dim">
+              <span class="nm">Prompting quality</span
+              ><span class="meta">3 · 4 ev</span>
+              <div class="bar">
+                <i class="seg on"></i><i class="seg on"></i
+                ><i class="seg on"></i><i class="seg"></i>
+              </div>
+            </div>
+            <div class="dim">
+              <span class="nm">Workflow integration</span
+              ><span class="meta">3 · 7 ev</span>
+              <div class="bar">
+                <i class="seg on"></i><i class="seg on"></i
+                ><i class="seg on"></i><i class="seg"></i>
+              </div>
+            </div>
+            <div class="dim">
+              <span class="nm">Output evaluation</span
+              ><span class="meta">2 · 5 ev</span>
+              <div class="bar">
+                <i class="seg on"></i><i class="seg on"></i><i class="seg"></i
+                ><i class="seg"></i>
+              </div>
+            </div>
+            <div class="dim">
+              <span class="nm">Risk &amp; governance</span
+              ><span class="meta">2 · 4 ev</span>
+              <div class="bar">
+                <i class="seg on"></i><i class="seg on"></i><i class="seg"></i
+                ><i class="seg"></i>
+              </div>
+            </div>
+            <div class="dim">
+              <span class="nm">Strategic understanding</span
+              ><span class="meta">1 · 1 ev</span>
+              <div class="bar">
+                <i class="seg on"></i><i class="seg"></i><i class="seg"></i
+                ><i class="seg"></i>
+              </div>
+            </div>
+            <div class="dim none">
+              <span class="nm">Delegation skill</span
+              ><span class="meta">insufficient</span>
+              <div class="bar">
+                <i class="seg"></i><i class="seg"></i><i class="seg"></i
+                ><i class="seg"></i>
+              </div>
+            </div>
+            <div class="dim none">
+              <span class="nm">Experimentation</span
+              ><span class="meta">insufficient</span>
+              <div class="bar">
+                <i class="seg"></i><i class="seg"></i><i class="seg"></i
+                ><i class="seg"></i>
+              </div>
+            </div>
+            <div class="dim none">
+              <span class="nm">Learning velocity</span
+              ><span class="meta">insufficient</span>
+              <div class="bar">
+                <i class="seg"></i><i class="seg"></i><i class="seg"></i
+                ><i class="seg"></i>
+              </div>
+            </div>
+            <div class="dim none">
+              <span class="nm">Personal-OS integration</span
+              ><span class="meta">insufficient</span>
+              <div class="bar">
+                <i class="seg"></i><i class="seg"></i><i class="seg"></i
+                ><i class="seg"></i>
+              </div>
+            </div>
+            <div class="dim none">
+              <span class="nm">Organizational leverage</span
+              ><span class="meta">insufficient</span>
+              <div class="bar">
+                <i class="seg"></i><i class="seg"></i><i class="seg"></i
+                ><i class="seg"></i>
+              </div>
+            </div>
+
+            <p class="sub" style="margin-top: 10px; font-size: 13px">
+              6 of 11 skills scored from 27 counted evidence items.
+            </p>
+            <div class="note">
+              <h3>Where this run fell short</h3>
+              <p style="margin: 0; font-size: 14px">
+                No high-value opportunity or confirmed blind spot surfaced, and
+                the personalization profile came back mostly empty (&ldquo;ask
+                user&rdquo;). The scoring spine is real; the narrative and
+                profile layers still need wiring.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VERDICT -->
+      <section
+        class="panel"
+        id="p-verdict"
+        role="tabpanel"
+        aria-labelledby="t-verdict"
+        hidden
+      >
+        <div class="card note good">
+          <h3>What's working</h3>
+          <p style="margin: 0">
+            Both ran end-to-end on the live backend, interviewing the same
+            person in parallel. Real Mirror's letter is genuinely strong —
+            identity-level, motivating, ready. Alt-Mirror's
+            <b>scoring engine works live</b>, deriving sensible skill levels
+            from counted evidence.
+          </p>
+        </div>
+
+        <div class="card note">
+          <h3>The honest gap</h3>
+          <p style="margin: 0">
+            Today, Real Mirror's letter is the richer human artifact.
+            Alt-Mirror's report and profile are <b>thin</b> — it scores skills
+            well but doesn't yet surface opportunities, blind spots, or a
+            filled-in profile. Those are wiring gaps, not engine failures.
+          </p>
+        </div>
+
+        <div class="card" style="border-left: 4px solid var(--blue)">
+          <h3>The decision in front of us</h3>
+          <p>
+            The two engines are almost the same machine. The real choice is the
+            <b>surface</b>:
+          </p>
+          <p style="margin: 0 0 6px">
+            <span class="badge m">A · keep them distinct</span> &nbsp;Run both
+            as foils — feel the scored report <i>against</i> the narrative
+            letter.
+            <span class="sub" style="display: inline">(current path)</span>
+          </p>
+          <p style="margin: 0">
+            <span class="badge a">B · converge</span> &nbsp;Keep Alt-Mirror's
+            scoring as the hidden engine and render a Mirror-style
+            <b>letter</b> on top. Scores power the machine; the human gets the
+            letter.
+          </p>
+        </div>
+
+        <button class="btn" id="copyMd" type="button">
+          Copy summary as Markdown
+        </button>
+      </section>
+
+      <footer>
+        Generated from one live run (Dana Reyes persona, 10 turns) on the dev
+        backend. Excerpts are real; long answers trimmed for reading. GitHub
+        Primer light theme.
+      </footer>
+    </div>
+
+    <script>
+      (function () {
+        var tabs = [].slice.call(document.querySelectorAll(".tab"));
+        function sel(id) {
+          tabs.forEach(function (t) {
+            var on = t.id === id;
+            t.setAttribute("aria-selected", on ? "true" : "false");
+            document.getElementById(t.getAttribute("aria-controls")).hidden =
+              !on;
+          });
+        }
+        tabs.forEach(function (t) {
+          t.addEventListener("click", function () {
+            sel(t.id);
+          });
+        });
+
+        var B64 = "IyBNaXJyb3IgdnMgQWx0LU1pcnJvciDigJQgc2lkZS1ieS1zaWRlCgpTYW1lIHBlcnNvbiAoRGFuYSBSZXllcywgU2VuaW9yIE9wZXJhdGlvbnMgTWFuYWdlcikgaW50ZXJ2aWV3ZWQgYnkgdHdvIGVuZ2luZXMgb24gdGhlIHNhbWUgbGl2ZSBiYWNrZW5kLgoKIyMgVGhlIHR3byBlbmdpbmVzCgoqKlJlYWwgTWlycm9yKiog4oCUIGEgbmFycmF0aXZlIGlkZW50aXR5IGludGVydmlldy4gRm9yZW5zaWMsIGN1cmlvdXMgdm9pY2UgKFRlcnJ5IEdyb3NzICsgS3Jpc3RhIFRpcHBldHQgKyBBbnRob255IEJvdXJkYWluKS4gUHJvZHVjZXMgYSAyLDAwMOKAkzMsMDAwIHdvcmQgbGV0dGVyIGFkZHJlc3NlZCB0byB5b3UgYnkgbmFtZS4gTm8gc2NvcmVzLiBUaHJlZSBhcnRpZmFjdHMgKG9uLXNjcmVlbiBpbnNpZ2h0cywgZW1haWxlZCBsZXR0ZXIsIEpTT04gcHJvZmlsZSkuIE1lY2hhbmlzbTogInN0cnVjdHVyYWwgdnVsbmVyYWJpbGl0eSIg4oCUIHdhbnRzIHZzIGRvaW5nLCBibGluZCBzcG90cywgaWRlbnRpdHkuCgoqKkFsdC1NaXJyb3IqKiDigJQgYW4gZXZpZGVuY2Utc2NvcmVkIG1hdHVyaXR5IGRpYWdub3N0aWMuIENsaW5pY2FsIHZvaWNlOyBjaGFzZXMgZGF0ZWQsIHNwZWNpZmljIGV4YW1wbGVzLiBQcm9kdWNlcyBhIHNjb3JlZCByZXBvcnQgKDDigJM0IHBlciBza2lsbCkgcGx1cyBhIHJldXNhYmxlIEFJICJ3b3JraW5nIGNvbnRleHQiIHByb2ZpbGUuIFR3byBhcnRpZmFjdHMuIE1lY2hhbmlzbTogY291bnRlZCBldmlkZW5jZSDihpIgZGV0ZXJtaW5pc3RpYyBsZXZlbHMuCgojIyBWb2ljZSBjb250cmFzdCAodHVybiAyLCBzYW1lIHBlcnNvbikKCi0gUmVhbCBNaXJyb3I6ICJXaGVuIHlvdXIgZGlyZWN0b3Igc3RhcnRzIGVzY2FsYXRpbmcsIHdoYXQgZG8gdGhleSAqYWN0dWFsbHkqIGJsYW1lIGZpcnN0PyBJJ20gbm90IGFza2luZyB3aGF0J3MgZmFpcjsgSSdtIGFza2luZyB3aGF0IHRoZSBoZWF0IHRlbmRzIHRvIGxhbmQgb24uIgotIEFsdC1NaXJyb3I6ICJOYW1lIHRoZSB0b29sKHMpIGFuZCB3YWxrIG1lIHRocm91Z2ggb25lIHNwZWNpZmljIHJlY2VudCB0YXNrIGl0IGhlbHBlZCB3aXRoIOKAlCB3aGF0IHlvdSBpbnB1dCwgd2hhdCB5b3UgZ290IG91dCwgYW5kIGhvdyB5b3UgdXNlZCB0aGUgcmVzdWx0LiIKCiMjIFdoYXQgZWFjaCBwcm9kdWNlZAoKKipSZWFsIE1pcnJvciDigJQgdGhlIGxldHRlcioqIChleGNlcnB0KTogIllvdSdyZSBub3QgZmFpbGluZyBhdCBvcGVyYXRpb25zIOKAlCB5b3UncmUgZmFpbGluZyBhdCBjb3VydHJvb20tc3BlZWQgcHJvb2YsIGFuZCB0aGF0J3Mgd2h5ICd0d28gYmFkIHdlZWtzJyB0dXJucyBwb2xpdGljYWwuIiBTdHJ1Y3R1cmU6IFRoZSBNaXJyb3Ig4oaSIFRoZSBMaWUg4oaSIFRoZSBCbGluZCBTcG90cyDihpIgV2hhdCBZb3UgSGF2ZSDihpIgVGhlIENvbXBhc3MgSGVhZGluZy4gSWRlbnRpdHktbGV2ZWwsIG1vdGl2YXRpb25hbC4KCioqQWx0LU1pcnJvciDigJQgdGhlIHNjb3JlZCBkaWFnbm9zdGljKio6IENhcGFiaWxpdHkgaGVhZGxpbmUgbGV2ZWwgMy4gUGVyLXNraWxsIChldmlkZW5jZS1kZXJpdmVkKTogdG9vbCBmbHVlbmN5IDMsIHByb21wdGluZyAzLCB3b3JrZmxvdyBpbnRlZ3JhdGlvbiAzLCBvdXRwdXQgZXZhbHVhdGlvbiAyLCByaXNrICYgZ292ZXJuYW5jZSAyLCBzdHJhdGVnaWMgdW5kZXJzdGFuZGluZyAxOyBkZWxlZ2F0aW9uIC8gZXhwZXJpbWVudGF0aW9uIC8gbGVhcm5pbmcgdmVsb2NpdHkgLyBwZXJzb25hbC1PUyAvIG9yZyBsZXZlcmFnZSA9IGluc3VmZmljaWVudCBldmlkZW5jZS4gNi8xMSBza2lsbHMgc2NvcmVkIGZyb20gMjcgZXZpZGVuY2UgaXRlbXMuCgojIyBIb25lc3Qgc3RhdGUKCi0gUmVhbCBNaXJyb3IncyBsZXR0ZXIgaXMgdGhlIHJpY2hlciBodW1hbiBhcnRpZmFjdCB0b2RheTogcG9saXNoZWQsIGVtb3Rpb25hbGx5IHJlc29uYW50LCByZWFkeS4KLSBBbHQtTWlycm9yJ3Mgc2NvcmluZyBzcGluZSB3b3JrcyBsaXZlLCBidXQgaXRzIG5hcnJhdGl2ZSBhbmQgcHJvZmlsZSBsYXllcnMgYXJlIHN0aWxsIHRoaW4g4oCUIG5vIG9wcG9ydHVuaXR5IG9yIGJsaW5kLXNwb3Qgc3VyZmFjZWQsIHByb2ZpbGUgbW9zdGx5IGVtcHR5LgotIFRoZSBlbmdpbmVzIGFyZSBuZWFybHkgaWRlbnRpY2FsIChtb2RlbCBwcm9wb3NlcywgYXBwIGRpc3Bvc2VzKS4gT25seSB0aGUgc3VyZmFjZSBkaXZlcmdlczogbmFycmF0aXZlIHZzIHNjb3Jlcy4KCiMjIFRoZSBkZWNpc2lvbgoKS2VlcCB0aGVtIGFzIGRpc3RpbmN0IGZvaWxzIChjaG9zZW4pLCBvciBjb252ZXJnZToga2VlcCBhbHQtTWlycm9yJ3Mgc2NvcmluZyBhcyB0aGUgaW50ZXJuYWwgc3BpbmUgYW5kIHJlbmRlciBhIE1pcnJvci1zdHlsZSBsZXR0ZXIgb24gdG9wLiBTY29yZXMgcG93ZXIgdGhlIG1hY2hpbmU7IHRoZSBodW1hbiBnZXRzIHRoZSBsZXR0ZXIuCg==";
+        function decode(b) {
+          return decodeURIComponent(escape(window.atob(b)));
+        }
+        var btn = document.getElementById("copyMd");
+        btn.addEventListener("click", function () {
+          var md = decode(B64);
+          navigator.clipboard
+            .writeText(md)
+            .then(function () {
+              var o = btn.textContent;
+              btn.textContent = "Copied ✓";
+              setTimeout(function () {
+                btn.textContent = o;
+              }, 1600);
+            })
+            .catch(function () {
+              var ta = document.createElement("textarea");
+              ta.value = md;
+              document.body.appendChild(ta);
+              ta.select();
+              try {
+                document.execCommand("copy");
+              } catch (e) {}
+              document.body.removeChild(ta);
+              btn.textContent = "Copied ✓";
+              setTimeout(function () {
+                btn.textContent = "Copy summary as Markdown";
+              }, 1600);
+            });
+        });
+      })();
+    </script>
+  </body>
+</html>
