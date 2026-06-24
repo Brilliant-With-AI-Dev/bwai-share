@@ -126,10 +126,10 @@
         box-shadow: var(--shadow);
       }
       .stat .num {
-        font-size: 26px;
+        font-size: 22px;
         font-weight: 600;
         letter-spacing: -0.02em;
-        line-height: 1.1;
+        line-height: 1.15;
         color: var(--ink);
       }
       .stat .num.win {
@@ -159,6 +159,12 @@
         font-size: 16px;
         color: var(--ink-2);
         margin: 0 0 18px;
+      }
+      p.lead + p.lead {
+        margin-top: -6px;
+      }
+      .lead strong {
+        color: var(--ink);
       }
 
       /* Contenders */
@@ -204,6 +210,84 @@
         font-size: 14px;
         color: var(--ink-2);
         margin: 0;
+      }
+
+      /* Method box */
+      .method-box {
+        background: var(--canvas-subtle);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 22px 22px 18px;
+        margin: 0 0 8px;
+      }
+      .flow {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: stretch;
+        gap: 0;
+        margin: 4px 0 18px;
+      }
+      .flow .node {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        padding: 13px 14px;
+        box-shadow: var(--shadow);
+        text-align: center;
+      }
+      .flow .node .role {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--accent);
+        margin: 0 0 3px;
+      }
+      .flow .node .desc {
+        font-size: 13px;
+        color: var(--ink-2);
+        margin: 0;
+      }
+      .flow .arrow {
+        align-self: center;
+        color: var(--ink-3);
+        font-size: 18px;
+        padding: 0 12px;
+      }
+      .flow-judge {
+        background: var(--success-soft);
+        border: 1px solid var(--success-line);
+        border-radius: 9px;
+        padding: 13px 16px;
+        text-align: center;
+      }
+      .flow-judge .role {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--success);
+        margin: 0 0 3px;
+      }
+      .flow-judge .desc {
+        font-size: 13px;
+        color: #1a4a2a;
+        margin: 0;
+      }
+      .method-box ol {
+        margin: 0;
+        padding-left: 20px;
+        font-size: 14.5px;
+        color: var(--ink-2);
+      }
+      .method-box ol li {
+        margin-bottom: 7px;
+      }
+      .method-box ol li:last-child {
+        margin-bottom: 0;
+      }
+      .method-box ol strong {
+        color: var(--ink);
       }
 
       /* Score table */
@@ -336,50 +420,11 @@
         margin: 0;
       }
 
-      /* Quotes */
-      .quotes {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 14px;
-      }
-      blockquote {
-        margin: 0;
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: 10px;
-        padding: 16px 18px;
-        box-shadow: var(--shadow);
-      }
-      blockquote.chal {
-        border-top: 3px solid var(--success);
-      }
-      blockquote.ctrl {
-        border-top: 3px solid var(--ink-3);
-      }
-      blockquote .src {
-        font-size: 11px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: var(--ink-3);
-        margin: 0 0 8px;
-      }
-      blockquote.chal .src {
-        color: var(--success);
-      }
-      blockquote .q {
-        font-size: 14.5px;
-        color: var(--ink);
-        margin: 0;
-        font-style: italic;
-        line-height: 1.5;
-      }
-
       /* Paired comparisons */
       .pairs {
         display: flex;
         flex-direction: column;
-        gap: 18px;
+        gap: 20px;
       }
       .pair {
         border: 1px solid var(--line);
@@ -389,17 +434,19 @@
         background: var(--surface);
       }
       .pair .topic {
-        font-size: 13px;
+        font-size: 14.5px;
         font-weight: 600;
         color: var(--ink);
-        padding: 11px 16px;
+        padding: 12px 16px;
         background: var(--canvas-subtle);
         border-bottom: 1px solid var(--line);
       }
       .pair .topic .moment {
+        display: block;
         font-weight: 400;
         color: var(--ink-3);
         font-size: 12.5px;
+        margin-top: 2px;
       }
       .pair-cols {
         display: grid;
@@ -420,37 +467,82 @@
         text-transform: uppercase;
         letter-spacing: 0.05em;
         color: var(--ink-3);
-        margin: 0 0 7px;
+        margin: 0 0 9px;
       }
       .pair-cell.chal .who {
         color: var(--success);
       }
-      .pair-cell .line {
+      .qa-label {
+        font-size: 10.5px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--ink-3);
+        margin: 0 0 3px;
+      }
+      .pair-cell.chal .qa-label {
+        color: #2c7a45;
+      }
+      .qa-q {
         font-size: 14px;
         line-height: 1.5;
         color: var(--ink);
+        margin: 0 0 12px;
+      }
+      .qa-a {
+        font-size: 13.5px;
+        line-height: 1.5;
+        color: var(--ink-2);
         margin: 0;
         font-style: italic;
-      }
-      .pair-cell .line + .line {
-        margin-top: 8px;
-      }
-      .pair-cell .line .strip {
-        font-style: normal;
-        color: var(--ink-3);
-        font-size: 12.5px;
       }
       .pair .takeaway {
         font-size: 13.5px;
         color: var(--ink-2);
-        font-style: italic;
-        padding: 11px 16px;
+        padding: 12px 16px;
         background: var(--canvas-subtle);
         border-top: 1px solid var(--line-soft);
       }
       .pair .takeaway strong {
-        font-style: normal;
         color: var(--success);
+      }
+
+      /* Credit-where-due list (control's strengths) */
+      .credit {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .credit li {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--ink-3);
+        border-radius: 8px;
+        padding: 14px 18px;
+        box-shadow: var(--shadow);
+      }
+      .credit .h {
+        font-weight: 600;
+        font-size: 15px;
+        margin: 0 0 5px;
+      }
+      .credit .b {
+        font-size: 14.5px;
+        color: var(--ink-2);
+        margin: 0;
+      }
+      .credit blockquote {
+        margin: 8px 0 0;
+        padding: 10px 14px;
+        background: var(--canvas-subtle);
+        border-radius: 7px;
+        font-size: 14px;
+        font-style: italic;
+        color: var(--ink);
+        border-left: 2px solid var(--line);
       }
 
       /* Caveat */
@@ -488,41 +580,25 @@
       .next h3 {
         border: none;
         padding: 0;
-        margin: 0 0 8px;
+        margin: 0 0 10px;
         color: var(--accent);
       }
       .next p {
-        margin: 0;
+        margin: 0 0 10px;
         font-size: 15px;
         color: #0a3a6b;
       }
-
-      /* Methodology box */
-      .method {
-        background: var(--canvas-subtle);
-        border: 1px solid var(--line);
-        border-radius: 10px;
-        padding: 18px 20px;
-      }
-      .method h3 {
-        border: none;
-        padding: 0;
-        margin: 0 0 12px;
-      }
-      .method dl {
+      .next ol {
         margin: 0;
-        display: grid;
-        grid-template-columns: 180px 1fr;
-        gap: 7px 16px;
-        font-size: 14px;
+        padding-left: 20px;
+        font-size: 15px;
+        color: #0a3a6b;
       }
-      .method dt {
-        color: var(--ink-3);
-        font-weight: 500;
+      .next ol li {
+        margin-bottom: 6px;
       }
-      .method dd {
-        margin: 0;
-        color: var(--ink-2);
+      .next ol li:last-child {
+        margin-bottom: 0;
       }
 
       footer.disclaimer {
@@ -537,20 +613,20 @@
       @media (max-width: 640px) {
         .stats,
         .vs,
-        .quotes,
-        .pair-cols {
+        .pair-cols,
+        .flow {
           grid-template-columns: 1fr;
+        }
+        .flow {
+          gap: 8px;
+        }
+        .flow .arrow {
+          transform: rotate(90deg);
+          padding: 0;
         }
         .pair-cell.ctrl {
           border-right: none;
           border-bottom: 1px solid var(--line-soft);
-        }
-        .method dl {
-          grid-template-columns: 1fr;
-          gap: 2px 0;
-        }
-        .method dt {
-          margin-top: 8px;
         }
         h1 {
           font-size: 25px;
@@ -560,107 +636,203 @@
   </head>
   <body>
     <div class="wrap">
+      <!-- 1. TITLE + ONE-SENTENCE TAKEAWAY -->
       <p class="eyebrow">Executive Readout · Mirror</p>
-      <h1>Mirror Interview Prompt — A/B Test Readout</h1>
+      <h1>Can a simpler, warmer prompt run a better AI interview?</h1>
       <p class="dateline">
-        2026-06-23 · Head-to-head test of two interviewer designs
+        2026-06-23 · A head-to-head test of two ways to steer Mirror's AI
+        interviewer
       </p>
 
-      <!-- RESULT BANNER -->
       <div class="banner">
-        <span class="badge">Winner: the simpler prompt</span>
+        <span class="badge">Result: yes — the simpler prompt</span>
         <h2>
-          The warmer prompt ran a more natural conversation — and drew out the
-          one thing the other one didn't: how Matt feels about his own role in
-          this.
+          We pitted our current, elaborate interviewer instructions against a
+          single short, warm one. The simple one ran the more natural
+          conversation and drew the person out further — including the one
+          honest admission the other interview never reached.
         </h2>
         <p>
-          Mirror runs an AI interview that produces a personal leadership read.
-          Both interviewers were competent and both covered the right ground —
-          this isn't about one breaking rules. Judged on
-          <strong
-            >how the conversation actually felt and what it surfaced</strong
-          >, the simpler prompt read more like a real dialogue, kept its
-          momentum, pulled out sharper specifics, and got Matt to talk about
-          <em>himself</em> — not just his org. For producing a truer Mirror
-          report on this person, that's the better raw material.
+          This was <strong>one simulated interview each</strong>, judged by
+          reading the two transcripts. That makes it directional, not proof —
+          but the difference was clear and consistent enough to act on. The rest
+          of this page explains what Mirror is, exactly what we compared, how we
+          tested it, and shows you the same questions asked two ways so you can
+          judge for yourself.
         </p>
       </div>
 
       <div class="stats">
         <div class="stat">
-          <div class="num win">More natural</div>
+          <div class="num win">Felt like a conversation</div>
           <div class="lbl">
-            read like a conversation, not a structured questionnaire
+            not a structured questionnaire being worked through
           </div>
         </div>
         <div class="stat">
-          <div class="num win">Sharper detail</div>
+          <div class="num win">Sharper, concrete detail</div>
           <div class="lbl">
-            pinned down real numbers and dated incidents, not generalities
+            pinned down real numbers and a dated incident, not generalities
           </div>
         </div>
         <div class="stat">
-          <div class="num win">Personal truth</div>
+          <div class="num win">Got him to open up</div>
           <div class="lbl">
-            got Matt to name himself as the bottleneck — the heart of the read
+            named himself as the bottleneck — the heart of a leadership read
           </div>
         </div>
       </div>
 
-      <!-- CONTENDERS -->
+      <!-- 2. WHAT THIS IS ABOUT -->
       <section>
-        <h3>What we put head-to-head</h3>
+        <h3>What this is about</h3>
         <p class="lead">
-          One AI played the interviewer (each prompt in turn). A second AI
-          played the
-          <em>same</em> realistic person both times — "Matt, Head of Creative
-          Operations at Wayfair," a calm VP quietly anxious about AI. Only the
-          interviewer's prompt changed. A separate, different AI then read both
-          transcripts and judged the <em>quality of the conversation</em> — how
-          natural it felt, how well it flowed, how much it drew the person out,
-          and how rich the material it produced.
+          <strong>Mirror is an AI-led interview.</strong> A person sits down
+          with an AI interviewer that asks them a series of questions about
+          their work and how they lead. From that conversation, Mirror writes a
+          personal leadership "read" of them — a short
+          <em>Insights Snapshot</em> and a longer personal
+          <em>Mirror Report</em>.
+        </p>
+        <p class="lead">
+          The quality of that read depends entirely on the quality of the
+          interview. A flat, mechanical conversation produces a thin, generic
+          report; a natural one that genuinely draws the person out produces a
+          richer, truer one.
+        </p>
+        <p class="lead">
+          <strong>What steers the interviewer is a "system prompt"</strong> — a
+          block of written instructions, invisible to the person being
+          interviewed, that tells the AI how to behave. Our current prompt is
+          large and intricate. The question we wanted to answer: could a much
+          simpler, warmer prompt do the job as well, or better? So we ran a
+          head-to-head test.
+        </p>
+      </section>
+
+      <!-- 3. WHAT WE COMPARED -->
+      <section>
+        <h3>What we compared</h3>
+        <p class="lead">
+          Two sets of instructions for the same AI interviewer. Nothing else
+          about the test changed between them.
         </p>
         <div class="vs">
           <div class="card">
-            <p class="tag">Control · today's prompt</p>
-            <p class="name">The 16-module system</p>
-            <p class="size">~27,000 characters of orchestration</p>
+            <p class="tag">Option A · what we use today</p>
+            <p class="name">The elaborate prompt</p>
+            <p class="size">~27,000 characters of structured orchestration</p>
             <p class="note">
-              Elaborate and thorough. Works a structured coverage plan and
-              reflects each answer back before moving on — by design. It earned
-              genuinely strong strategic context, but it reads more like a
-              well-run questionnaire than a conversation.
+              Internally we call it the "16-module" prompt. It lays out distinct
+              phases, a coverage checklist of topics to hit, and strict rules
+              for how to ask. Thorough and disciplined by design — but it reads
+              more like a well-run questionnaire than a conversation.
             </p>
           </div>
           <div class="card winner">
-            <p class="tag">Challenger · the experiment</p>
-            <p class="name">One warm, simple prompt</p>
-            <p class="size">~5,800 characters</p>
+            <p class="tag">Option B · the challenger</p>
+            <p class="name">The simple, warm prompt</p>
+            <p class="size">~5,800 characters — roughly one fifth the size</p>
             <p class="note">
-              A single short instruction with a conversational tone. Opened like
-              a real conversation, built each question on the last, pressed for
-              specifics, and got the interviewee to talk about himself.
+              A single short instruction written in a warm, conversational tone.
+              No phase map, no checklist — just a clear brief to be curious, ask
+              one good question at a time, and follow the person. The experiment
+              we wanted to validate.
             </p>
           </div>
         </div>
       </section>
 
-      <!-- SCORE TABLE -->
+      <!-- 4. HOW WE TESTED IT -->
       <section>
-        <h3>
-          The scorecard — judged on conversation quality (1–5, higher is better)
-        </h3>
+        <h3>How we tested it</h3>
         <p class="lead">
-          Five qualitative axes, scored from the transcripts. Not "did it follow
-          its rules" — both did. The question is which one ran the better
-          interview and produced the better material for a Mirror report.
+          We can't run a test like this on a different live human each time — so
+          we simulated it with AI, holding everything fixed except the one thing
+          we wanted to test.
+        </p>
+        <div class="method-box">
+          <div class="flow">
+            <div class="node">
+              <p class="role">The interviewer</p>
+              <p class="desc">
+                One AI, run twice — once with each prompt. This is the only
+                thing that changed.
+              </p>
+            </div>
+            <div class="arrow">↔</div>
+            <div class="node">
+              <p class="role">The interviewee</p>
+              <p class="desc">
+                A second AI playing the <em>same</em> pretend person both times.
+                Identical in every run.
+              </p>
+            </div>
+          </div>
+          <div style="text-align: center; margin: -6px 0 14px">
+            <span style="color: var(--ink-3); font-size: 18px">↓</span>
+          </div>
+          <div class="flow-judge" style="margin-bottom: 16px">
+            <p class="role">The judge</p>
+            <p class="desc">
+              A third AI — from a different company (Anthropic's Claude) — read
+              both transcripts and scored them, to avoid any home-team bias.
+            </p>
+          </div>
+          <ol>
+            <li>
+              <strong>The pretend interviewee was held constant.</strong> Both
+              times, the interviewee was "Matt, Head of Creative Operations at
+              Wayfair" — a calm VP two levels below the CEO who runs a
+              ~90-person content-production org, and who is quietly anxious
+              about what AI means for his team and his own relevance. Same
+              person, same backstory, both runs.
+            </li>
+            <li>
+              <strong>Only the interviewer's prompt changed.</strong> Run 1 used
+              the elaborate prompt; run 2 used the simple prompt. Everything
+              else was identical, so any difference in the conversation traces
+              back to the prompt.
+            </li>
+            <li>
+              <strong>A different AI company judged the result.</strong> Using a
+              model from another vendor to grade the transcripts keeps us from
+              marking our own homework.
+            </li>
+          </ol>
+        </div>
+        <p class="lead" style="margin-top: 14px">
+          The interviewer and interviewee were both OpenAI's gpt-5.2. The judge
+          was Anthropic's Claude. We judged the conversations qualitatively — by
+          reading them — on five things: how <strong>natural</strong> they felt,
+          how well they <strong>flowed</strong>, how much
+          <strong>rapport and candor</strong> they built, how
+          <strong>rich</strong> the material they elicited was, and how
+          <strong>ready</strong> that material was to become a good report.
+          Those five matter because a more natural conversation that genuinely
+          draws a person out is what yields a richer, truer leadership read.
+        </p>
+      </section>
+
+      <!-- 5. WHAT WE FOUND -->
+      <section>
+        <h3>What we found</h3>
+        <p class="lead">
+          <strong
+            >Both interviewers were competent and both covered the right
+            ground</strong
+          >
+          — this is not a story about one breaking down. The simpler prompt won
+          on the quality of the conversation: it read more like a real dialogue,
+          kept its momentum, drew out sharper specifics, and got the person to
+          talk about <em>himself</em>, not just his organization. Scored 1–5,
+          higher is better.
         </p>
         <table>
           <thead>
             <tr>
               <th>What we judged</th>
-              <th class="col-score">Today (16-module)</th>
+              <th class="col-score">Elaborate prompt</th>
               <th class="col-score col-chal">Simple prompt</th>
               <th>Winner</th>
             </tr>
@@ -728,141 +900,190 @@
         </table>
       </section>
 
-      <!-- SAME MOMENT, TWO INTERVIEWERS -->
+      <!-- 6. SEE FOR YOURSELF -->
       <section>
-        <h3>Same moment, two interviewers</h3>
+        <h3>See for yourself: the same topic, two interviewers</h3>
         <p class="lead">
-          Both interviewers reached the same topics with the same person. Here
-          are six moments side by side — Control (today's prompt) on the left,
-          the simple prompt on the right, in their own words. Read them as
-          conversation: which one feels alive, and which one gets the more
-          revealing answer.
+          Both interviewers reached the same topics with the same person. Below
+          are five moments side by side. For each one we first name the topic in
+          plain words, then show you the
+          <strong>exact question each interviewer asked</strong> and the
+          <strong>exact answer it got</strong> — verbatim from the transcripts,
+          trimmed only with "…", never reworded. The elaborate (current) prompt
+          is on the left; the simple prompt is on the right, tinted green.
         </p>
         <div class="pairs">
-          <!-- 1. The opening -->
+          <!-- 1. The opening line -->
           <div class="pair">
             <p class="topic">
-              The opening line
-              <span class="moment">· first thing each interviewer said</span>
-            </p>
-            <div class="pair-cols">
-              <div class="pair-cell ctrl">
-                <p class="who">Control · today's prompt</p>
-                <p class="line">
-                  "Before I dig in, here's what I'm picking up:
-                  <strong>Your day job:</strong> you run the content factory…
-                  <strong>Your 'team' is a machine:</strong> a ~90-person
-                  mixed-discipline org…
-                  <strong>The AI ask is political now</strong>… Does that feel
-                  right?"
-                </p>
-              </div>
-              <div class="pair-cell chal">
-                <p class="who">Simple prompt</p>
-                <p class="line">
-                  "Creative ops is one of those worlds where 'AI' isn't
-                  abstract: it hits the throughput math, the on-brand
-                  guardrails, and the human pride of craft all at once, and
-                  suddenly you're responsible for all three. Where are your work
-                  hours actually going right now?"
-                </p>
-              </div>
-            </div>
-            <p class="takeaway">
-              <strong
-                >One opened like a briefing; one opened like a
-                conversation.</strong
+              1. How each interview opened
+              <span class="moment"
+                >The very first thing each interviewer said, before any
+                answers</span
               >
-              Control led with a tidy summary of what it already knew and asked
-              Matt to confirm it. The simple prompt named the human tension —
-              pride of craft, "responsible for all three" — then handed him the
-              floor. The first invites a yes/no; the second invites him to talk.
-            </p>
-          </div>
-
-          <!-- 2. The Firefly numbers -->
-          <div class="pair">
-            <p class="topic">
-              The Firefly retouch pilot
-              <span class="moment">· "what did it actually save?"</span>
             </p>
             <div class="pair-cols">
               <div class="pair-cell ctrl">
-                <p class="who">Control · today's prompt</p>
-                <p class="line">
-                  "It does save minutes, but it also goes off-brand or
-                  introduces weird artifacts often enough that we've kept it
-                  very scoped… anything that creates even a 10% rework rate at
-                  our volumes is basically a non-starter."
+                <p class="who">Elaborate prompt · what we use today</p>
+                <p class="qa-label">Interviewer opened with</p>
+                <p class="qa-q">
+                  "Hey Matt — good to have you here. We've got about 30–45
+                  minutes… Before I dig in, here's what I'm picking up:
+                  <em>Your day job:</em> you run the content factory…
+                  <em>Your 'team' is a machine:</em> a ~90-person
+                  mixed-discipline org…
+                  <em>The AI ask is political now:</em> leadership wants your
+                  point of view soon… Does that feel right? You can say 'yes,'
+                  or give me as much feedback as you want."
                 </p>
               </div>
               <div class="pair-cell chal">
                 <p class="who">Simple prompt</p>
-                <p class="line">
+                <p class="qa-label">Interviewer opened with</p>
+                <p class="qa-q">
+                  "Matt — thanks for making the time. Creative ops is one of
+                  those worlds where 'AI' isn't abstract: it hits the throughput
+                  math, the on-brand guardrails, and the human pride of craft
+                  all at once, and suddenly you're responsible for all three.
+                  Where are your work hours actually going right now — what are
+                  the 2–3 things that eat most of your week?"
+                </p>
+              </div>
+            </div>
+            <p class="takeaway">
+              <strong>More natural.</strong> The current prompt opened with a
+              tidy summary of what it already knew and asked Matt to confirm it
+              — which invites a yes/no. The simple prompt named the human
+              tension ("the human pride of craft," "responsible for all three")
+              and then handed him an open question — which invites him to
+              actually talk.
+            </p>
+          </div>
+
+          <!-- 2. Failed AI tool experiment -->
+          <div class="pair">
+            <p class="topic">
+              2. Probing a failed AI tool experiment
+              <span class="moment"
+                >Both asked about the same real pilot: using an Adobe tool
+                called Firefly to auto-fill image backgrounds and speed up photo
+                retouching</span
+              >
+            </p>
+            <div class="pair-cols">
+              <div class="pair-cell ctrl">
+                <p class="who">Elaborate prompt · what we use today</p>
+                <p class="qa-label">It asked</p>
+                <p class="qa-q">
+                  "In those 'pockets of testing,' what AI use cases are actually
+                  in production right now (even if small), and which ones have
+                  been tried and dropped?"
+                </p>
+                <p class="qa-label">And got</p>
+                <p class="qa-a">
+                  "The one that's closest to 'real' is Firefly generative fill
+                  in Photoshop for certain background extensions or cleanup… It
+                  does save minutes, but it also goes off-brand or introduces
+                  weird artifacts often enough that we've kept it very scoped…
+                  anything that creates even a 10% rework rate at our volumes is
+                  basically a non-starter."
+                </p>
+              </div>
+              <div class="pair-cell chal">
+                <p class="who">Simple prompt</p>
+                <p class="qa-label">It asked</p>
+                <p class="qa-q">
+                  "In that Firefly pilot, what was the actual before/after on
+                  time per asset and the QA loop — how many minutes saved in
+                  retouch, and how many minutes added back in
+                  review/escalation?"
+                </p>
+                <p class="qa-label">And got</p>
+                <p class="qa-a">
                   "Directionally the retouch step might drop from, say, 10–15
-                  minutes down to 5–8 when it's a straightforward extension… The
-                  problem is the QA loop can go from essentially 'quick check'
-                  to 10+ minutes of scrutiny… on the good assets you net a few
-                  minutes, and on the bad ones you lose a lot more than you
-                  saved."
+                  minutes down to 5–8 when it's a straightforward extension… the
+                  QA loop can go from essentially 'quick check' to 10+ minutes
+                  of scrutiny… So on the good assets you net a few minutes, and
+                  on the bad ones you lose a lot more than you saved."
                 </p>
               </div>
             </div>
             <p class="takeaway">
-              <strong>Richer answer.</strong> Both heard about the same pilot.
-              Control got a clear qualitative read — "saves minutes," but "weird
-              artifacts." The simple prompt's next question pressed for the
-              actual before/after and surfaced the hidden trap: the time saved
-              comes right back in QA. Same topic, more usable material.
+              <strong>Richer answer.</strong> Both heard about the same tool.
+              The current prompt got a clear qualitative read — "saves minutes,"
+              but "weird artifacts." The simple prompt pressed one level further
+              and surfaced the hidden trap with real numbers: the time the tool
+              saves comes straight back in extra checking. Same topic, far more
+              usable material.
             </p>
           </div>
 
-          <!-- 3. Reflect-back vs build-forward -->
+          <!-- 3. Reflect back vs build forward -->
           <div class="pair">
             <p class="topic">
-              After the pipeline walkthrough
-              <span class="moment">· what the interviewer said next</span>
+              3. What each interviewer did right after a long answer
+              <span class="moment"
+                >Right after Matt walked through how content moves through his
+                pipeline — the choice between summarizing it back versus digging
+                deeper</span
+              >
             </p>
             <div class="pair-cols">
               <div class="pair-cell ctrl">
-                <p class="who">Control · today's prompt</p>
-                <p class="line">
-                  <span class="strip">[reflected the answer back]</span> "So the
-                  pain isn't 'creative magic' — it's inputs, handoffs, and
-                  rework loops that eat the gains."
+                <p class="who">Elaborate prompt · what we use today</p>
+                <p class="qa-label">It reflected the answer back</p>
+                <p class="qa-q">
+                  "So the pain isn't 'creative magic' — it's inputs, handoffs,
+                  and rework loops that eat the gains."
                 </p>
+                <p class="qa-label">…then moved to its next planned topic.</p>
               </div>
               <div class="pair-cell chal">
                 <p class="who">Simple prompt</p>
-                <p class="line">
-                  <span class="strip">[built on it, one level deeper]</span> "On
-                  the metadata/ingestion break, what's the most common concrete
-                  error — wrong filename, missing attribute, wrong channel spec,
-                  version confusion — and how often does it happen (rough % of
-                  SKUs)?"
+                <p class="qa-label">It dug one level deeper</p>
+                <p class="qa-q">
+                  "On the metadata/ingestion break, what's the most common
+                  concrete error — wrong filename, missing attribute, wrong
+                  channel spec, version confusion — and how often does it happen
+                  (rough % of SKUs)?"
+                </p>
+                <p class="qa-label">
+                  …and got: "maybe 3–5% have some kind of ingestion or tagging
+                  issue."
                 </p>
               </div>
             </div>
             <p class="takeaway">
-              <strong>Reflect back vs. build forward.</strong> Control closes
-              the topic by summarizing it back — accurate, and exactly what its
-              design asks for. The simple prompt uses the same turn to push the
-              conversation forward, which is how it reached the "3–5% of SKUs"
-              figure below. Both are valid moves; the second one keeps the
-              dialogue moving and gains ground.
+              <strong>Kept the momentum.</strong> The current prompt closes the
+              topic by summarizing it back — accurate, and exactly what its
+              design tells it to do. The simple prompt used the same turn to
+              push forward, which is how it reached the concrete "3–5% of SKUs"
+              figure. Both are valid moves; the second one compounds instead of
+              resetting.
             </p>
           </div>
 
-          <!-- 4. The data situation -->
+          <!-- 4. Messy-data problem -->
           <div class="pair">
             <p class="topic">
-              The messy-data problem
-              <span class="moment">· how bad is it, exactly?</span>
+              4. How bad is the data, exactly?
+              <span class="moment"
+                >Both explored whether Matt's team has clean enough records to
+                make their workflow smarter with AI</span
+              >
             </p>
             <div class="pair-cols">
               <div class="pair-cell ctrl">
-                <p class="who">Control · today's prompt</p>
-                <p class="line">
+                <p class="who">Elaborate prompt · what we use today</p>
+                <p class="qa-label">It asked</p>
+                <p class="qa-q">
+                  "What's your data situation for making routing or QA smarter —
+                  do you have clean tags on what got rejected, why, how long it
+                  sat in each stage, which vendors/studios performed well,
+                  etc.?"
+                </p>
+                <p class="qa-label">And got</p>
+                <p class="qa-a">
                   "We have some data, but I wouldn't call it clean or
                   consistently structured… the 'why' is often buried in comments
                   or inconsistent codes… we're not instrumented the way an
@@ -871,263 +1092,196 @@
               </div>
               <div class="pair-cell chal">
                 <p class="who">Simple prompt</p>
-                <p class="line">
+                <p class="qa-label">It asked</p>
+                <p class="qa-q">
+                  "On the metadata/ingestion break, what's the most common
+                  concrete error… and how often does it happen (rough % of
+                  SKUs)?"
+                </p>
+                <p class="qa-label">And got</p>
+                <p class="qa-a">
                   "Roughly, I'd say it shows up in the low single digits of SKUs
                   in any given week — maybe 3–5% have some kind of ingestion or
                   tagging issue that requires human intervention. It doesn't
-                  sound huge, but at our volume it's constant noise."
+                  sound huge, but at our volume it's constant noise…"
                 </p>
               </div>
             </div>
             <p class="takeaway">
-              <strong>Specifics vs. generalities.</strong> Same underlying
-              problem — unreliable asset data. Control captured the shape of it
-              well ("it's messy, the truth lives in comments"). The simple
-              prompt got a quantified failure rate and, right after, a dated
-              rollback incident — the vivid, concrete detail a credible report
-              is built from.
+              <strong>Specifics, not generalities.</strong> Same underlying
+              problem — unreliable asset data. The current prompt captured the
+              shape of it well ("it's messy, the truth lives in comments"). The
+              simple prompt got a quantified failure rate, and right after it, a
+              dated rollback story — the concrete detail a credible report is
+              built from.
             </p>
           </div>
 
           <!-- 5. The personal bottleneck -->
           <div class="pair">
             <p class="topic">
-              What's holding this up
-              <span class="moment">· the most candid moment in each</span>
+              5. What's really holding this up — and is it him?
+              <span class="moment"
+                >The most candid moment each interview reached. The difference
+                here is the whole point.</span
+              >
             </p>
             <div class="pair-cols">
               <div class="pair-cell ctrl">
-                <p class="who">Control · today's prompt</p>
-                <p class="line">
+                <p class="who">Elaborate prompt · what we use today</p>
+                <p class="qa-label">It asked</p>
+                <p class="qa-q">
+                  "What have I not asked that you think is the real crux — one
+                  uncomfortable truth about your factory, your stakeholders, or
+                  AI — that you want reflected before you put your name on a
+                  plan?"
+                </p>
+                <p class="qa-label">And got (a truth about the org)</p>
+                <p class="qa-a">
                   "The uncomfortable truth is that the hardest part isn't
                   generating pixels or words — it's getting the organization to
-                  agree on what 'good' is and then stick to it."
-                  <span class="strip"
-                    >(a truth about the org, not about himself)</span
-                  >
+                  agree on what 'good' is and then stick to it…"
                 </p>
               </div>
               <div class="pair-cell chal">
                 <p class="who">Simple prompt</p>
-                <p class="line">
+                <p class="qa-label">It asked</p>
+                <p class="qa-q">
+                  "If you're brutally honest, what's the biggest bottleneck you
+                  personally are right now in all of this?"
+                </p>
+                <p class="qa-label">And got (a truth about himself)</p>
+                <p class="qa-a">
                   "I'm probably the bottleneck in how quickly we move from
-                  'pilot' to 'standard'… on AI the blast radius feels bigger
-                  than a normal tooling change. So I tend to push for discipline
-                  and proof, and I'm aware that can read as slower than what
-                  leadership wants."
+                  'pilot' to 'standard,' because I default to wanting the
+                  process and controls clear before I scale… on AI the blast
+                  radius feels bigger than a normal tooling change… I'm aware
+                  that can read as slower than what leadership wants."
                 </p>
               </div>
             </div>
             <p class="takeaway">
-              <strong>The most important difference.</strong> Both reached a
-              candid moment. Control's pointed outward — a sharp, honest truth
-              about the <em>organization</em>. The simple prompt asked the blunt
-              personal question and got Matt to turn the lens on
-              <em>himself</em>: "I'm probably the bottleneck." For a leadership
-              read, the admission about the person is the gold — and only one
-              interview went there.
-            </p>
-          </div>
-
-          <!-- 6. The ending -->
-          <div class="pair">
-            <p class="topic">
-              How the conversation landed
-              <span class="moment">· last turn of each transcript</span>
-            </p>
-            <div class="pair-cols">
-              <div class="pair-cell ctrl">
-                <p class="who">Control · today's prompt</p>
-                <p class="line">
-                  <span class="strip"
-                    >Still opening new operational threads at the end:</span
-                  >
-                  "What's the first concrete milestone you'd put on the calendar
-                  that forces cross-functional alignment…"
-                </p>
-              </div>
-              <div class="pair-cell chal">
-                <p class="who">Simple prompt</p>
-                <p class="line">
-                  <span class="strip"
-                    >Closed on a question about the person:</span
-                  >
-                  "Thanks — that's clear. …would you rather be remembered for
-                  hitting the cost-out number even if it annoyed creatives, or
-                  for protecting craft even if it missed the savings target —
-                  and why?"
-                </p>
-              </div>
-            </div>
-            <p class="takeaway">
-              <strong>Where each chose to end.</strong> Control's last beats
-              keep mining operational detail — thorough, and consistent with its
-              long, coverage-driven design. The simple prompt arced toward a
-              human capstone: a values question that asks who Matt wants to be.
-              One ends like a working session; the other ends like a portrait.
+              <strong>Drew him out — about himself.</strong> Both reached a
+              candid moment, but they point in opposite directions. The current
+              prompt got a sharp, honest truth about the <em>organization</em>.
+              The simple prompt asked the blunt <em>personal</em> question and
+              got Matt to turn the lens on himself: "I'm probably the
+              bottleneck." For a personal leadership read, that admission is the
+              gold — and only one interview reached it.
             </p>
           </div>
         </div>
       </section>
 
-      <!-- WHY IT WON -->
+      <!-- 7. WHERE THE CURRENT PROMPT WAS GENUINELY GOOD -->
       <section>
-        <h3>Why the simpler prompt produced the better interview</h3>
-        <ul class="reasons">
+        <h3>Where the current prompt was genuinely good</h3>
+        <p class="lead">
+          This isn't a one-sided result. The elaborate prompt earned real
+          strengths — and on a couple of moments it was the better interviewer.
+          Credit where it's due:
+        </p>
+        <ul class="credit">
           <li>
-            <p class="h">It felt like a conversation, not a questionnaire.</p>
+            <p class="h">
+              It earned the single sharpest line in either interview.
+            </p>
             <p class="b">
-              The simple prompt opened by naming the human tension and asking an
-              open question, then let each answer steer the next one. The
-              16-module is built to work a coverage plan and reflect each answer
-              back before advancing — competent and thorough, but it reads as a
-              well-run interview protocol rather than a dialogue. For a Mirror
-              read, how the conversation <em>feels</em> shapes how much the
-              person gives you.
+              Pushed for the "uncomfortable truth," the current prompt drew out
+              a strategic insight neither prompt beat:
+            </p>
+            <blockquote>
+              "…the hardest part isn't generating pixels or words — it's getting
+              the organization to agree on what 'good' is and then stick to it."
+            </blockquote>
+          </li>
+          <li>
+            <p class="h">
+              It surfaced the leadership-vs-operator expectation gap.
+            </p>
+            <p class="b">
+              Early on, it pinned down a tension that goes to the core of Matt's
+              situation: what he thinks is realistically achievable versus what
+              leadership is demanding. In his words, "if we can take even 10–15%
+              out of turnaround… that's meaningful in my world; leadership tends
+              to talk like 25–40% cost-out, and I'm not convinced that's
+              realistic." That gap is exactly the kind of strategic material a
+              report needs — and the structured prompt's coverage discipline is
+              what got there.
             </p>
           </li>
           <li>
-            <p class="h">It kept its momentum — questions built on answers.</p>
+            <p class="h">Thoroughness is a real feature, not just a cost.</p>
             <p class="b">
-              Watch the chain: pipeline walkthrough → "which break hurts most?"
-              → "what's the most common error, and how often?" → "% of SKUs?" →
-              a dated rollback story. Each turn earns the next. The control's
-              cadence — ask, then summarize back — is steady and accurate, but
-              it resets the energy at every step instead of compounding it.
-            </p>
-          </li>
-          <li>
-            <p class="h">It got him to talk about himself, not just his org.</p>
-            <p class="b">
-              This is the decisive difference. The simple prompt asked the blunt
-              personal question and got "I'm probably the bottleneck… I'm aware
-              that can read as slower than what leadership wants" — and ended on
-              a values question about who he wants to be remembered as. The
-              control surfaced genuinely sharp truths, but they pointed at the
-              <em>organization</em> and the system, not the man. A leadership
-              read lives on the personal layer.
-            </p>
-          </li>
-          <li>
-            <p class="h">Its specifics were sharper and more quotable.</p>
-            <p class="b">
-              Real numbers and vivid incidents — retouch "10–15 minutes down to
-              5–8," tagging issues on "3–5% of SKUs," the copywriter who pasted
-              PIM notes into personal ChatGPT, the lifestyle image rolled back
-              after it went live. The control earned strong strategic material
-              too (the 10–15% vs 25–40% expectation gap is excellent), but the
-              simple prompt's detail is the kind that makes a report feel true
-              rather than summarized.
+              The elaborate prompt's habit of reflecting each answer back and
+              working a coverage checklist makes it dependable: it is unlikely
+              to miss a topic it was told to hit. For some uses — a structured
+              audit, a guarded subject who needs the conversation steered — that
+              discipline may be worth more than warmth. This test doesn't settle
+              that; it only tested one kind of person.
             </p>
           </li>
         </ul>
       </section>
 
-      <!-- QUOTES -->
-      <section>
-        <h3>The best moment each one earned</h3>
-        <div class="quotes">
-          <blockquote class="chal">
-            <p class="src">Simple prompt — the personal truth</p>
-            <p class="q">
-              "I'm probably the bottleneck in how quickly we move from 'pilot'
-              to 'standard'… on AI the blast radius feels bigger than a normal
-              tooling change."
-            </p>
-          </blockquote>
-          <blockquote class="ctrl">
-            <p class="src">16-module — its sharpest strategic read</p>
-            <p class="q">
-              "The uncomfortable truth is that the hardest part isn't generating
-              pixels or words — it's getting the organization to agree on what
-              'good' is and then stick to it."
-            </p>
-          </blockquote>
-        </div>
-        <p class="lead" style="margin-top: 14px">
-          Both are strong. The difference is the lens: the control's best line
-          is a crisp truth about the <em>system</em> Matt runs; the simple
-          prompt's is a confession about <em>Matt</em>. For a personal
-          leadership read, the second is the one you build around.
-        </p>
-      </section>
-
-      <!-- CAVEAT -->
+      <!-- 8. WHAT TO KEEP IN MIND -->
       <section class="caveat">
-        <h3>Honest caveats &amp; the fine print</h3>
+        <h3>What to keep in mind</h3>
         <p>
-          <strong>This is a quality judgment, not a quality verdict.</strong>
-          It's one persona, one run each, judged by reading two transcripts.
-          It's directional and it's persuasive — but it isn't a generalized
-          result yet.
+          <strong>This is one pretend interviewee, run once each.</strong> The
+          result is directional and persuasive — but it is not proof. A single
+          simulated person can't tell us how the two prompts behave with a
+          guarded skeptic, a chatty over-sharer, or a junior employee. Treat
+          this as a strong signal pointing to the next test, not a final
+          verdict.
         </p>
         <p>
-          <strong>A machine-signal artifact affects both arms equally.</strong>
-          Each turn, the interviewer is supposed to emit small hidden "control
-          signals" (how far along it is, what topic, whether it's done) that the
-          real platform uses to drive flow. This test ran on gpt-5.2
-          <strong>through a gateway, outside our production platform</strong>,
-          and both prompts dropped those signals on most turns. That's a
-          plumbing artifact of where we ran the test, not a sign of either
-          prompt's conversation quality — and our production platform enforces
-          the structure far more strictly. It needs verifying on the real
-          platform, but it doesn't change the qualitative read either way.
+          <strong>The models used.</strong> The AI interviewer and the AI
+          interviewee were both OpenAI's gpt-5.2. The judge was Anthropic's
+          Claude — deliberately a different company, so the grading wasn't
+          home-team marking its own work.
         </p>
         <p>
-          <strong>One minor glitch worth noting:</strong> in the control run the
-          interviewer asked the same enforcement question twice in a row, nearly
-          verbatim. A small hiccup, not a pattern — flagged here for honesty,
-          not as part of the verdict.
+          <strong
+            >A minor setup artifact, not a quality issue, affected both
+            prompts.</strong
+          >
+          Each turn, the interviewer is meant to emit small hidden "machine
+          signals" — how far along it is, what topic it's on, whether it's done
+          — that the real Mirror platform uses to drive the flow. This test ran
+          off the production platform (through a gateway), and on most turns
+          both prompts dropped those signals. That's an artifact of where we ran
+          the test, not a reflection of either prompt's conversation quality,
+          and it doesn't change the read. We'll confirm the signals behave on
+          the real platform, where the structure is enforced far more strictly.
         </p>
       </section>
 
-      <!-- NEXT STEP -->
+      <!-- 9. RECOMMENDATION / NEXT STEP -->
       <section class="next">
-        <h3>Recommended next step</h3>
+        <h3>Recommendation &amp; next step</h3>
         <p>
-          Run the same head-to-head across 3–4 more interviewee personalities —
-          a guarded skeptic, a chatty over-sharer, a junior IC — to see whether
-          the warmer prompt keeps drawing people out, or whether the structured
-          approach earns its keep with harder subjects. If the conversational
-          edge holds, the simpler prompt is a strong candidate to replace
-          today's system. Verify the control-signal behavior on the production
-          platform in parallel.
+          The simple, warm prompt is a strong candidate to replace today's
+          elaborate one — but on a sample of one we shouldn't switch yet. Two
+          steps to get to a real decision:
         </p>
-      </section>
-
-      <!-- METHODOLOGY -->
-      <section class="method">
-        <h3>Test details (small print)</h3>
-        <dl>
-          <dt>Interviewer model</dt>
-          <dd>OpenAI gpt-5.2 (via Vercel AI Gateway)</dd>
-          <dt>Judge model</dt>
-          <dd>
-            Anthropic Claude Sonnet 4.6 — deliberately a different model family,
-            to avoid bias
-          </dd>
-          <dt>Judged on</dt>
-          <dd>
-            conversation quality — naturalness, flow, rapport &amp; candor,
-            richness of context, output-readiness. Not rule-compliance: both
-            prompts followed their own designs.
-          </dd>
-          <dt>Interviewee</dt>
-          <dd>
-            One persona: a Wayfair creative-operations VP, calm but quietly
-            anxious about AI
-          </dd>
-          <dt>Both runs</dt>
-          <dd>
-            40-turn safety cap; identical interviewee, only the interviewer
-            prompt differed
-          </dd>
-          <dt>Scope</dt>
-          <dd>
-            This is one persona —
-            <strong>directional, not yet a generalized result.</strong>
-          </dd>
-        </dl>
+        <ol>
+          <li>
+            <strong
+              >Run the same head-to-head across more interviewee types</strong
+            >
+            — a guarded skeptic, a chatty over-sharer, a junior individual
+            contributor — to see whether the warmer prompt keeps drawing people
+            out, or whether the structured prompt earns its keep with harder
+            subjects.
+          </li>
+          <li>
+            <strong>Verify on the production platform</strong> — re-run on the
+            real Mirror platform to confirm the hidden machine signals behave as
+            intended once the structure is enforced, ruling out the setup
+            artifact above.
+          </li>
+        </ol>
       </section>
 
       <footer class="disclaimer">
