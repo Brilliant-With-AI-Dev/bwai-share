@@ -13,10 +13,7 @@
       rel="stylesheet"
     />
     <style>
-      /* ───────────────────────────────────────────────────────────────
-         TOKENS — verbatim from packages/design-system/tokens.css +
-         apps/web/app/globals.css. Literals mirror live tokens.
-         ─────────────────────────────────────────────────────────────── */
+      /* TOKENS — verbatim from packages/design-system/tokens.css + apps/web/app/globals.css */
       :root {
         --navy: #0a1628;
         --off-white: #fafaf7;
@@ -34,7 +31,6 @@
         --border-strong: rgba(26, 26, 26, 0.28);
         --feedback-success: #16a34a;
         --feedback-success-bg: rgba(22, 163, 74, 0.08);
-        --feedback-success-glow: rgba(22, 163, 74, 0.14);
         --feedback-warning: #b7791f;
         --feedback-warning-bg: rgba(183, 121, 31, 0.1);
         --surface-overlay: rgba(10, 22, 40, 0.55);
@@ -259,38 +255,13 @@
         flex-direction: column;
       }
 
+      /* one shared step shell: scrolling body + anchored footer action row */
       .step {
         flex: 1;
         display: flex;
         flex-direction: column;
         min-height: 0;
         position: relative;
-      }
-      .step-head {
-        flex: none;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        padding: 0 16px;
-      }
-      .back {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--text-tertiary);
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 8px 6px;
-        border-radius: var(--radius-sm);
-      }
-      .back:hover {
-        color: var(--text-secondary);
-      }
-      .back[hidden] {
-        visibility: hidden;
       }
       .step-body {
         flex: 1;
@@ -299,21 +270,33 @@
         flex-direction: column;
         align-items: center;
         text-align: center;
-        padding: 6px 30px 18px;
+        padding: 44px 30px 14px;
         gap: 18px;
       }
       .step-foot {
         flex: none;
-        padding: 16px 30px 26px;
+        padding: 14px 30px 28px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
         background: linear-gradient(
           to top,
-          var(--surface-page) 70%,
+          var(--surface-page) 72%,
           transparent
         );
+      }
+      .foot-secondary {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+      } /* sits ABOVE the action row, never pushes the CTA off the bottom */
+      .foot-actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
       }
       .step-inner {
         width: 100%;
@@ -408,8 +391,24 @@
         color: var(--text-secondary);
         border: 1px solid var(--border-subtle);
       }
-      .btn-block {
-        width: 100%;
+      /* back: ghost, left of the CTA in the action row */
+      .back {
+        font-family: var(--font-body);
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        border-radius: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .back:hover {
+        color: var(--text-primary);
+        background: var(--surface-recessed);
       }
       .micro {
         font-size: 12px;
@@ -427,31 +426,23 @@
         color: var(--text-tertiary);
         text-decoration: underline;
         text-underline-offset: 3px;
-        padding: 8px;
+        padding: 6px;
       }
       .optout:hover {
         color: var(--text-secondary);
       }
 
-      /* intro-video — existing dark dialog, kept */
-      .video-step {
-        background: #07101e;
-      }
-      .video-step .back {
-        color: rgba(255, 255, 255, 0.7);
-      }
-      .video-step .back:hover {
-        color: #fff;
-      }
+      /* intro-video — light page chrome, dark video box only */
       .video-box {
         width: 100%;
         aspect-ratio: 16/9;
         border-radius: var(--radius-lg);
         overflow: hidden;
-        background: #000;
+        background: #07101e;
         display: flex;
         align-items: center;
         justify-content: center;
+        box-shadow: 0 12px 30px -16px rgba(10, 22, 40, 0.5);
       }
       .video-box .play {
         width: 60px;
@@ -469,16 +460,14 @@
         border-bottom: 10px solid transparent;
         margin-left: 4px;
       }
-      .video-step .step-foot {
-        background: none;
-      }
       .video-cap {
-        font-size: 13px;
-        color: rgba(255, 255, 255, 0.7);
+        font-size: 14px;
+        color: var(--text-secondary);
         margin: 0;
+        max-width: 22rem;
       }
 
-      /* mic-check — OPAQUE PAGE (setup) + recording MODAL over it */
+      /* mic-check — opaque page (setup) + recording modal over it */
       .setup {
         list-style: none;
         padding: 0;
@@ -510,14 +499,13 @@
         justify-content: center;
       }
       .mtitle {
-        font-size: 22px;
-        font-weight: 500;
+        font-size: 30px;
+        font-weight: 400;
         font-family: var(--font-display);
+        letter-spacing: var(--tracking-tight);
         color: var(--text-primary);
         margin: 0;
       }
-
-      /* recording modal: floats over the mic-check page, dim backdrop */
       .overlay {
         position: absolute;
         inset: 0;
@@ -666,7 +654,6 @@
         gap: 6px;
         flex-wrap: wrap;
         justify-content: center;
-        margin-bottom: 2px;
       }
       .mic-states button {
         font-family: var(--font-body);
@@ -740,12 +727,10 @@
         <h1>Mirror FTUE Gate — forced intro-video + mic-check</h1>
         <p>
           design-ladder <b>rung 3</b>. Steps:
-          <code>start → intro-video → mic-check → form</code>.
-          <b>mic-check is its own opaque page</b> (setup + Start test + opt-out
-          as page content); the
-          <b>live recording is a modal over that page</b> — never over the
-          video. Reuses <code>MicTestModal</code> internals +
-          <code>useMicTest</code> + <code>micInputMode</code>.
+          <code>start → intro-video → mic-check → form</code>. mic-check is its
+          own opaque page; the live recording is a modal over it. One shared
+          footer pattern across all steps: secondary action above, anchored
+          <code>[‹ Back] [primary]</code> row pinned to the bottom.
         </p>
         <div class="meta">
           Tokens verbatim from <code>tokens.css</code>/<code>globals.css</code>;
@@ -787,9 +772,6 @@
           <!-- ════ 1 · START ════ -->
           <section class="screen active" data-screen="start">
             <div class="step">
-              <div class="step-head">
-                <button class="back" hidden>‹ Back</button>
-              </div>
               <div class="step-body">
                 <div class="step-inner">
                   <p class="eyebrow">AI Mirror Experience</p>
@@ -816,97 +798,80 @@
                   </div>
                   <div class="anno">
                     <div class="anno-box">
-                      <b>REMOVED here</b> (now their own steps):
-                      <s>“✓ Mic ready” badge</s> ·
+                      <b>REMOVED here</b>: <s>“✓ Mic ready” badge</s> ·
                       <s>“Test your microphone” link</s> ·
-                      <s>“Orientation video” link</s> · <s>?intro=1</s>. Pitch +
-                      CTA + prewarm kept.
+                      <s>“Orientation video” link</s> · <s>?intro=1</s> ·
+                      <s>“You can pause and return anytime”</s>. Pitch + CTA +
+                      prewarm kept.
                     </div>
                   </div>
                 </div>
               </div>
               <div class="step-foot">
-                <button class="btn btn-primary" onclick="go('video')">
-                  Begin Experience
-                </button>
-                <p class="micro">You can pause and return anytime</p>
+                <div class="foot-actions">
+                  <button class="btn btn-primary" onclick="go('video')">
+                    Begin Experience
+                  </button>
+                </div>
               </div>
             </div>
           </section>
 
           <!-- ════ 2 · INTRO VIDEO ════ -->
           <section class="screen" data-screen="video">
-            <div class="step video-step">
-              <div class="step-head">
-                <button class="back" onclick="go('start')">‹ Back</button>
-              </div>
+            <div class="step">
               <div class="step-body">
                 <div class="step-inner">
+                  <p class="eyebrow">Orientation</p>
                   <div class="video-box"><div class="play"></div></div>
+                  <p class="video-cap">
+                    A two-minute orientation before we begin.
+                  </p>
                   <div class="anno">
-                    <div
-                      class="anno-box"
-                      style="
-                        color: #e8b04a;
-                        border-color: #e8b04a;
-                        background: rgba(232, 176, 74, 0.12);
-                      "
-                    >
-                      Reuses
-                      <code
-                        style="
-                          background: rgba(255, 255, 255, 0.1);
-                          color: #fff;
-                        "
-                        >NEXT_PUBLIC_INTRO_VIDEO_ID</code
-                      >
-                      · autoplay · start/complete analytics.
-                      <b style="color: #e8b04a">Forced:</b> close “×” removed —
-                      only Back or Continue. Not watch-to-complete.
+                    <div class="anno-box">
+                      Caption above is <b>▓ proposed-new copy</b> — needs your
+                      sign-off. Video reuses
+                      <code>NEXT_PUBLIC_INTRO_VIDEO_ID</code> · autoplay ·
+                      start/complete analytics. <b>Forced:</b> close “×” removed
+                      — only Back or Continue. Not watch-to-complete.
                     </div>
                   </div>
                 </div>
               </div>
               <div class="step-foot">
-                <button class="btn btn-primary btn-block" onclick="go('mic')">
-                  Continue
-                </button>
-                <p class="video-cap">
-                  ▓ proposed-new caption. Draft: “A two-minute orientation
-                  before we begin.”
-                </p>
+                <div class="foot-actions">
+                  <button class="back" onclick="go('start')">‹ Back</button>
+                  <button class="btn btn-primary" onclick="go('mic')">
+                    Continue
+                  </button>
+                </div>
               </div>
             </div>
           </section>
 
-          <!-- ════ 3 · MIC CHECK — opaque page + recording modal ════ -->
+          <!-- ════ 3 · MIC CHECK ════ -->
           <section class="screen" data-screen="mic">
-            <div class="step" style="background: var(--surface-page)">
-              <div class="step-head">
-                <button class="back" onclick="go('video')">‹ Back</button>
-                <div
-                  style="margin-left: auto"
-                  class="mic-states"
-                  role="tablist"
-                >
-                  <button aria-selected="true" data-m="setup">
-                    Page: setup
-                  </button>
-                  <button aria-selected="false" data-m="recording">
-                    Modal: recording
-                  </button>
-                  <button aria-selected="false" data-m="passed">
-                    Modal: passed
-                  </button>
-                  <button aria-selected="false" data-m="error">
-                    Modal: unavailable
-                  </button>
-                </div>
-              </div>
-
-              <!-- PAGE: setup (page content) -->
+            <div class="step">
               <div class="step-body">
                 <div class="step-inner">
+                  <div
+                    class="mic-states"
+                    role="tablist"
+                    style="margin-bottom: 6px"
+                  >
+                    <button aria-selected="true" data-m="setup">
+                      Page: setup
+                    </button>
+                    <button aria-selected="false" data-m="recording">
+                      Modal: recording
+                    </button>
+                    <button aria-selected="false" data-m="passed">
+                      Modal: passed
+                    </button>
+                    <button aria-selected="false" data-m="error">
+                      Modal: unavailable
+                    </button>
+                  </div>
                   <p class="eyebrow">Mic check</p>
                   <h1 class="mtitle">Test your microphone</h1>
                   <ol class="setup">
@@ -927,36 +892,39 @@
                   </ol>
                   <div class="anno">
                     <div class="anno-box">
-                      This whole screen is an <b>opaque page</b> (replaces the
-                      video). Setup lives here. <b>Start test</b> opens the
-                      recording <b>modal over this page</b> — so the dimmed
-                      background is the mic-check page, not the video.
+                      Opaque page (replaces the video). <b>Start test</b> opens
+                      the recording modal <b>over this page</b>. Opt-out sits
+                      ABOVE the action row so it can’t push the CTA up.
                     </div>
                   </div>
                 </div>
               </div>
               <div class="step-foot">
-                <button class="btn btn-primary" onclick="mic('recording')">
-                  Start test
-                </button>
-                <button
-                  class="optout"
-                  onclick="
-                    alert('→ advance() to form · micInputMode = classic')
-                  "
-                >
-                  No microphone? Continue and type instead
-                </button>
-                <div class="anno">
-                  <div class="anno-box">
-                    ▓ Opt-out replaces the removed casual “Skip and type
-                    instead” — deliberate, page-level, accessibility-respecting
-                    → <code>classic</code>.
+                <div class="foot-secondary">
+                  <button
+                    class="optout"
+                    onclick="
+                      alert('→ advance() to form · micInputMode = classic')
+                    "
+                  >
+                    No microphone? Continue and type instead
+                  </button>
+                  <div class="anno">
+                    <div class="anno-box">
+                      ▓ Replaces the removed casual “Skip and type instead” —
+                      deliberate, page-level → <code>classic</code>.
+                    </div>
                   </div>
+                </div>
+                <div class="foot-actions">
+                  <button class="back" onclick="go('video')">‹ Back</button>
+                  <button class="btn btn-primary" onclick="mic('recording')">
+                    Start test
+                  </button>
                 </div>
               </div>
 
-              <!-- MODAL: recording / passed / error (over the page) -->
+              <!-- recording modal over the page -->
               <div class="overlay" id="overlay">
                 <div class="modal-card">
                   <div class="mstate" data-m="recording">
@@ -1037,6 +1005,7 @@
                     <div class="modal-foot">
                       <button
                         class="btn btn-primary btn-block"
+                        style="width: 100%"
                         onclick="
                           document.getElementById('t-err').textContent =
                             '→ advance() to form · micInputMode = classic'
@@ -1055,19 +1024,16 @@
 
         <aside class="side">
           <div class="panel">
-            <h3>Page vs. modal</h3>
+            <h3>Footer pattern</h3>
             <ul>
               <li>
-                <b>mic-check page</b> (opaque): setup, Start test, opt-out
+                Anchored action row: <code>[‹ Back] [primary]</code> pinned to
+                bottom — CTA holds position across steps
               </li>
               <li>
-                <b>Recording modal</b>: over the mic-check page — Stop, result,
-                errors
+                Secondary (opt-out) sits ABOVE the row, never shifts the CTA
               </li>
-              <li>
-                Modal opens at <code>recording</code> (existing
-                <code>startTest()</code>) so “ready” isn’t shown twice
-              </li>
+              <li>Start has no Back (first step)</li>
             </ul>
           </div>
           <div class="panel">
@@ -1088,7 +1054,10 @@
           </div>
           <div class="panel open">
             <h3>Open · your call</h3>
-            <p><b>Video caption</b> copy (screen 2).</p>
+            <p>
+              <b>Video caption</b> — “A two-minute orientation before we begin.”
+              approve/reword.
+            </p>
             <p>
               <b>Continue timing</b>: immediate (rec.) vs. after
               <code>video:start</code>.
@@ -1099,8 +1068,7 @@
             <h3>How to read</h3>
             <p>
               Toggle <span class="legend-chip">Annotations</span> for reviewer
-              notes. On screen 3, the state row switches between the page and
-              the modal-over-page.
+              notes. Screen 3 state row flips page ↔ modal-over-page.
             </p>
           </div>
         </aside>
@@ -1147,9 +1115,8 @@
           t2 = document.getElementById("t-err");
         if (t1) t1.textContent = "";
         if (t2) t2.textContent = "";
-        if (m === "setup") {
-          overlay.classList.remove("show");
-        } else {
+        if (m === "setup") overlay.classList.remove("show");
+        else {
           overlay.classList.add("show");
           document
             .querySelectorAll(".overlay .mstate")
