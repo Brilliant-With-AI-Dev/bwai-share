@@ -17,44 +17,35 @@
          TOKENS — copied VERBATIM from the live source, not invented:
            packages/design-system/tokens.css   (--navy/--accent/--off-white/--tracking-tight)
            apps/web/app/globals.css             (--color-* semantic light-theme layer)
-         These literals mirror live tokens; a static mockup can't import them.
+         The literals mirror live tokens; a static mockup can't import them.
          ─────────────────────────────────────────────────────────────── */
       :root {
         --navy: #0a1628;
         --off-white: #fafaf7;
-        --accent: #157a4e; /* forest — brand primitive */
-        --accent-bright: #1a9960;
+        --accent: #157a4e;
         --tracking-tight: -0.02em;
-
         --surface-page: #fafafa;
         --surface-floating: #ffffff;
         --surface-recessed: #f1f1f1;
-
         --text-primary: #1a1a1a;
         --text-secondary: #555555;
         --text-tertiary: #888888;
         --text-on-accent: #ffffff;
         --text-on-navy: #ffffff;
-
         --border-subtle: #e2e2e2;
         --border-strong: rgba(26, 26, 26, 0.28);
-
         --feedback-success: #16a34a; /* Button variant="primary" maps here */
         --feedback-success-bg: rgba(22, 163, 74, 0.08);
         --feedback-success-glow: rgba(22, 163, 74, 0.14);
         --feedback-warning: #b7791f;
         --feedback-warning-bg: rgba(183, 121, 31, 0.1);
-
         --radius: 0.625rem;
         --radius-sm: calc(var(--radius) * 0.6);
         --radius-md: calc(var(--radius) * 0.8);
         --radius-lg: var(--radius);
-        --radius-xl: calc(var(--radius) * 1.4);
-
         --font-display: "Newsreader", Georgia, serif;
         --font-body: "Outfit", system-ui, sans-serif;
       }
-
       * {
         box-sizing: border-box;
       }
@@ -70,15 +61,10 @@
         -webkit-font-smoothing: antialiased;
         line-height: 1.5;
       }
-
-      /* ── page scaffold ── */
       .wrap {
         max-width: 1180px;
         margin: 0 auto;
         padding: 28px 20px 80px;
-      }
-      header.doc {
-        margin-bottom: 22px;
       }
       header.doc h1 {
         font-family: var(--font-body);
@@ -92,56 +78,33 @@
         margin: 0;
         font-size: 13.5px;
         color: var(--text-secondary);
-        max-width: 760px;
+        max-width: 800px;
       }
       header.doc .meta {
         margin-top: 8px;
         font-size: 12px;
         color: var(--text-tertiary);
       }
+      code {
+        background: var(--surface-recessed);
+        border-radius: 4px;
+        padding: 1px 5px;
+        font-size: 0.92em;
+        color: var(--text-primary);
+      }
 
-      .legend {
+      /* ── controls row ── */
+      .controls {
         display: flex;
         flex-wrap: wrap;
-        gap: 14px;
+        gap: 14px 22px;
         align-items: center;
-        margin: 14px 0 22px;
-        padding: 11px 14px;
-        background: var(--surface-floating);
-        border: 1px solid var(--border-subtle);
-        border-radius: var(--radius-md);
-        font-size: 12.5px;
-        color: var(--text-secondary);
+        margin: 18px 0 8px;
       }
-      .legend b {
-        color: var(--text-primary);
-        font-weight: 600;
-      }
-      .chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 2px 9px;
-        border-radius: 999px;
-        font-size: 11.5px;
-        font-weight: 600;
-      }
-      .chip.new {
-        background: var(--feedback-warning-bg);
-        color: var(--feedback-warning);
-        border: 1px dashed var(--feedback-warning);
-      }
-      .chip.kept {
-        background: var(--feedback-success-bg);
-        color: var(--feedback-success);
-      }
-
-      /* ── step switcher ── */
       .switch {
         display: flex;
         gap: 8px;
         flex-wrap: wrap;
-        margin-bottom: 8px;
       }
       .switch button {
         font-family: var(--font-body);
@@ -180,34 +143,99 @@
       .switch .new-dot {
         color: var(--feedback-warning);
         margin-left: 6px;
-        font-size: 14px;
-        line-height: 0;
+        font-size: 13px;
       }
 
-      /* ── viewport frame ── */
+      .anno-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        cursor: pointer;
+        user-select: none;
+      }
+      .anno-toggle .track {
+        width: 38px;
+        height: 22px;
+        border-radius: 999px;
+        background: var(--surface-recessed);
+        border: 1px solid var(--border-subtle);
+        position: relative;
+        transition: background 0.15s;
+      }
+      .anno-toggle .track::after {
+        content: "";
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 16px;
+        height: 16px;
+        border-radius: 999px;
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        transition: transform 0.15s;
+      }
+      body.show-anno .anno-toggle .track {
+        background: var(--feedback-warning);
+        border-color: var(--feedback-warning);
+      }
+      body.show-anno .anno-toggle .track::after {
+        transform: translateX(16px);
+      }
+
+      /* annotation layer — hidden unless body.show-anno */
+      .anno {
+        display: none;
+      }
+      body.show-anno .anno {
+        display: block;
+      }
+      .anno-box {
+        width: 100%;
+        border: 1px dashed var(--feedback-warning);
+        border-radius: var(--radius-md);
+        padding: 9px 12px;
+        font-size: 11.5px;
+        color: var(--feedback-warning);
+        text-align: left;
+        background: var(--feedback-warning-bg);
+        margin-top: 4px;
+      }
+      .anno-box s {
+        color: var(--text-tertiary);
+      }
+      .anno-box b {
+        color: var(--feedback-warning);
+      }
+
+      /* ── stage ── */
       .stage {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 300px;
+        grid-template-columns: minmax(0, 1fr) 290px;
         gap: 20px;
         align-items: start;
+        margin-top: 14px;
       }
       @media (max-width: 880px) {
         .stage {
           grid-template-columns: 1fr;
         }
       }
+
       .frame {
         background: var(--surface-page);
         border: 1px solid var(--border-subtle);
         border-radius: 16px;
         overflow: hidden;
         box-shadow: 0 18px 50px -28px rgba(10, 22, 40, 0.45);
-        min-height: 620px;
+        height: 660px;
         position: relative;
         display: flex;
         flex-direction: column;
       }
-      .frame .browserbar {
+      .browserbar {
         height: 34px;
         flex: none;
         display: flex;
@@ -217,37 +245,95 @@
         background: var(--surface-recessed);
         border-bottom: 1px solid var(--border-subtle);
       }
-      .frame .browserbar i {
+      .browserbar i {
         width: 9px;
         height: 9px;
         border-radius: 999px;
         background: #cdcdcd;
       }
-      .frame .browserbar span {
+      .browserbar span {
         margin-left: 10px;
         font-size: 11px;
         color: var(--text-tertiary);
       }
+
       .screen {
         flex: 1;
         display: none;
-        padding: 40px 30px;
+        position: relative;
       }
       .screen.active {
         display: flex;
+        flex-direction: column;
       }
-      .screen-inner {
-        margin: auto;
-        width: 100%;
-        max-width: 26rem;
+
+      /* step chrome: header (back) / body (scroll) / footer (anchored CTA) */
+      .step {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+      .step-head {
+        flex: none;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+      }
+      .back {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-tertiary);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px 6px;
+        border-radius: var(--radius-sm);
+      }
+      .back:hover {
+        color: var(--text-secondary);
+      }
+      .back[hidden] {
+        visibility: hidden;
+      }
+      .step-body {
+        flex: 1;
+        overflow: auto;
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
-        gap: 22px;
+        padding: 6px 30px 18px;
+        gap: 18px;
+      }
+      .step-foot {
+        flex: none;
+        padding: 16px 30px 26px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        background: linear-gradient(
+          to top,
+          var(--surface-page) 70%,
+          transparent
+        );
+      }
+      .step-inner {
+        width: 100%;
+        max-width: 25rem;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
       }
 
-      /* ── shared atoms (mirror the real component classes) ── */
+      /* atoms mirroring real components */
       .eyebrow {
         font-size: 12px;
         font-weight: 600;
@@ -260,7 +346,7 @@
         font-weight: 400;
         line-height: 1.1;
         letter-spacing: var(--tracking-tight);
-        font-size: 40px;
+        font-size: 38px;
         margin: 0;
         color: var(--text-primary);
       }
@@ -276,7 +362,7 @@
         background: var(--surface-floating);
         border: 1px solid var(--border-subtle);
         border-radius: var(--radius-lg);
-        padding: 18px 22px;
+        padding: 16px 22px;
         display: flex;
         align-items: center;
         gap: 22px;
@@ -301,10 +387,9 @@
       }
       .stat-div {
         width: 1px;
-        height: 36px;
+        height: 34px;
         background: var(--border-subtle);
       }
-
       .btn {
         font-family: var(--font-body);
         font-size: 16px;
@@ -321,8 +406,6 @@
       }
       .btn-primary:hover {
         background: #15913f;
-        transform: translateY(-1px);
-        box-shadow: 0 10px 24px -12px var(--feedback-success-glow);
       }
       .btn-dark {
         background: var(--text-primary);
@@ -343,99 +426,105 @@
         color: var(--text-secondary);
         margin: 0;
       }
-
-      /* ── removed-marker (start screen) ── */
-      .removed {
-        width: 100%;
-        border: 1px dashed var(--border-strong);
-        border-radius: var(--radius-md);
-        padding: 10px 12px;
-        font-size: 11.5px;
+      .optout {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: var(--font-body);
+        font-size: 13px;
+        font-weight: 500;
         color: var(--text-tertiary);
-        background: repeating-linear-gradient(
-          45deg,
-          transparent,
-          transparent 8px,
-          rgba(0, 0, 0, 0.015) 8px,
-          rgba(0, 0, 0, 0.015) 16px
-        );
-        text-align: left;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        padding: 8px;
       }
-      .removed b {
-        color: var(--feedback-warning);
-        font-weight: 600;
-      }
-      .removed s {
-        color: var(--text-tertiary);
+      .optout:hover {
+        color: var(--text-secondary);
       }
 
-      /* ── intro-video ── */
+      /* ── intro-video: existing dark full-screen dialog, kept ── */
+      .video-step {
+        background: #07101e;
+      }
+      .video-step .step-head .back {
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .video-step .step-head .back:hover {
+        color: #fff;
+      }
       .video-box {
         width: 100%;
         aspect-ratio: 16/9;
         border-radius: var(--radius-lg);
         overflow: hidden;
-        background: var(--navy);
+        background: #000;
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
-        color: rgba(255, 255, 255, 0.85);
       }
       .video-box .play {
-        width: 64px;
-        height: 64px;
+        width: 60px;
+        height: 60px;
         border-radius: 999px;
         background: rgba(255, 255, 255, 0.16);
         display: flex;
         align-items: center;
         justify-content: center;
-        backdrop-filter: blur(4px);
       }
       .video-box .play::after {
         content: "";
-        border-left: 18px solid #fff;
-        border-top: 11px solid transparent;
-        border-bottom: 11px solid transparent;
+        border-left: 17px solid #fff;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
         margin-left: 4px;
       }
-      .video-box .ph {
-        position: absolute;
-        bottom: 10px;
-        left: 12px;
-        font-size: 11px;
-        color: rgba(255, 255, 255, 0.6);
+      .video-step .step-foot {
+        background: none;
+      }
+      .video-cap {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.7);
+        margin: 0;
       }
 
-      /* ── mic-check ── */
-      .mic-states {
-        display: flex;
-        gap: 6px;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-bottom: 4px;
+      /* ── mic-check: existing modal, hosted+forced over a light backdrop ── */
+      .mic-step {
+        background: var(--surface-recessed);
       }
-      .mic-states button {
-        font-family: var(--font-body);
-        font-size: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        padding: 5px 11px;
-        border-radius: 999px;
-        border: 1px solid var(--border-subtle);
+      .modal-card {
+        width: 100%;
+        max-width: 24rem;
         background: var(--surface-floating);
-        color: var(--text-secondary);
+        border: 1px solid var(--border-subtle);
+        border-radius: 16px;
+        box-shadow: 0 20px 50px -24px rgba(10, 22, 40, 0.4);
+        min-height: 360px;
+        display: flex;
+        flex-direction: column;
       }
-      .mic-states button[aria-selected="true"] {
-        background: var(--feedback-success);
-        color: #fff;
-        border-color: var(--feedback-success);
+      .modal-body {
+        flex: 1;
+        padding: 26px 24px 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 13px;
+      }
+      .modal-foot {
+        flex: none;
+        padding: 8px 24px 22px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
       }
       .mstate {
         display: none;
         flex-direction: column;
         align-items: center;
-        gap: 14px;
+        gap: 13px;
         width: 100%;
       }
       .mstate.active {
@@ -453,9 +542,9 @@
         margin: 0;
         display: flex;
         flex-direction: column;
-        gap: 13px;
+        gap: 12px;
         text-align: left;
-        max-width: 340px;
+        max-width: 320px;
       }
       .setup li {
         display: flex;
@@ -505,7 +594,7 @@
       .phrase {
         border-left: 3px solid var(--feedback-success);
         background: var(--surface-recessed);
-        padding: 12px 16px;
+        padding: 11px 15px;
         font-family: var(--font-display);
         font-style: italic;
         font-size: 16px;
@@ -522,7 +611,7 @@
         align-items: center;
         justify-content: center;
         gap: 3px;
-        height: 44px;
+        height: 40px;
       }
       .wave i {
         width: 4px;
@@ -553,29 +642,48 @@
         width: 100%;
         border-radius: var(--radius-md);
         background: var(--surface-recessed);
-        padding: 11px 13px;
+        padding: 10px 13px;
         font-size: 13px;
         color: var(--text-primary);
         text-align: left;
       }
       .ack code {
         background: #fff;
-        border: 1px solid var(--border-subtle);
-        border-radius: 4px;
-        padding: 1px 5px;
-        font-size: 12px;
       }
       .toast {
-        margin-top: 8px;
         font-size: 12px;
-        color: var(--feedback-success);
         font-weight: 600;
+        color: var(--feedback-success);
+        min-height: 16px;
       }
       .toast.classic {
         color: var(--feedback-warning);
       }
+      .mic-states {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 2px;
+      }
+      .mic-states button {
+        font-family: var(--font-body);
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 5px 11px;
+        border-radius: 999px;
+        border: 1px solid var(--border-subtle);
+        background: var(--surface-floating);
+        color: var(--text-secondary);
+      }
+      .mic-states button[aria-selected="true"] {
+        background: var(--feedback-success);
+        color: #fff;
+        border-color: var(--feedback-success);
+      }
 
-      /* ── side panel ── */
+      /* side panel */
       .side {
         display: flex;
         flex-direction: column;
@@ -605,18 +713,23 @@
         margin: 0;
         padding-left: 16px;
       }
-      .panel code {
-        background: var(--surface-recessed);
-        border-radius: 4px;
-        padding: 1px 5px;
-        font-size: 11.5px;
-        color: var(--text-primary);
-      }
-      .open {
+      .panel.open {
         border-color: var(--feedback-warning);
       }
-      .open h3 {
+      .panel.open h3 {
         color: var(--feedback-warning);
+      }
+      .legend-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 2px 9px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 600;
+        background: var(--feedback-warning-bg);
+        color: var(--feedback-warning);
+        border: 1px dashed var(--feedback-warning);
       }
     </style>
   </head>
@@ -626,48 +739,42 @@
         <h1>Mirror FTUE Gate — forced intro-video + mic-check</h1>
         <p>
           design-ladder <b>rung 3</b> (on-token interactive mockup). Two new
-          full-screen steps inserted into the Mirror engine route graph:
-          <code>start → intro-video → mic-check → form</code>. Reuses the
-          existing <code>useMicTest</code> machine, the YouTube embed, and the
-          <code>micInputMode</code> envelope field — no new functional work.
+          full-screen steps in the engine route graph:
+          <code>start → intro-video → mic-check → form</code>. Each step
+          <b>hosts and forces the existing modal</b> (<code>VideoModal</code> /
+          <code>MicTestModal</code>) — same components, same
+          <code>useMicTest</code> machine, same <code>micInputMode</code> field.
+          No modality change, no new functional work.
         </p>
         <div class="meta">
-          Tokens copied verbatim from
-          <code>packages/design-system/tokens.css</code> +
-          <code>apps/web/app/globals.css</code>. Copy pulled verbatim from
+          Tokens verbatim from <code>tokens.css</code> +
+          <code>globals.css</code>; copy verbatim from
           <code>StartStep.tsx</code> / <code>MicTestModal.tsx</code>.
-          Resume/returning-user flow is out of scope → DEV-354.
+          Resume/returning-user flow → DEV-354.
         </div>
       </header>
 
-      <div class="legend">
-        <span
-          ><span class="chip new">▓ proposed-new</span> step / element drawn for
-          the first time</span
+      <div class="controls">
+        <div class="switch" role="tablist">
+          <button role="tab" aria-selected="true" data-screen="start">
+            <span class="n">1</span>start
+            <span style="color: var(--text-tertiary); font-weight: 500"
+              >(revised)</span
+            >
+          </button>
+          <button role="tab" aria-selected="false" data-screen="video">
+            <span class="n">2</span>intro-video <span class="new-dot">●</span>
+          </button>
+          <button role="tab" aria-selected="false" data-screen="mic">
+            <span class="n">3</span>mic-check <span class="new-dot">●</span>
+          </button>
+        </div>
+        <label
+          class="anno-toggle"
+          onclick="document.body.classList.toggle('show-anno')"
         >
-        <span
-          ><span class="chip kept">kept</span> existing copy &amp; logic,
-          re-housed</span
-        >
-        <span
-          ><b>Soft gate:</b> everyone runs the mic test; classic mode only via
-          genuine failure.</span
-        >
-      </div>
-
-      <div class="switch" role="tablist">
-        <button role="tab" aria-selected="true" data-screen="start">
-          <span class="n">1</span>start
-          <span style="color: var(--text-tertiary); font-weight: 500"
-            >(revised)</span
-          >
-        </button>
-        <button role="tab" aria-selected="false" data-screen="video">
-          <span class="n">2</span>intro-video <span class="new-dot">●</span>
-        </button>
-        <button role="tab" aria-selected="false" data-screen="mic">
-          <span class="n">3</span>mic-check <span class="new-dot">●</span>
-        </button>
+          <span class="track"></span> Annotations
+        </label>
       </div>
 
       <div class="stage">
@@ -679,195 +786,251 @@
 
           <!-- ════ SCREEN 1 — START (revised) ════ -->
           <section class="screen active" data-screen="start">
-            <div class="screen-inner">
-              <p class="eyebrow">AI Mirror Experience</p>
-              <h1 class="display">Your AI readiness,<br />in sharp focus</h1>
-              <p class="subhead">
-                A guided conversation that maps how AI shows up in your work,
-                your team, and your organization. You talk. We listen. The
-                report writes itself.
-              </p>
-              <div class="stat-card">
-                <div class="stat">
-                  <span class="v">~45</span><span class="l">Minutes</span>
-                </div>
-                <span class="stat-div"></span>
-                <div class="stat">
-                  <span class="v">~25</span><span class="l">Questions</span>
-                </div>
-                <span class="stat-div"></span>
-                <div class="stat">
-                  <span class="v">Voice</span><span class="l">Enabled</span>
+            <div class="step">
+              <div class="step-head">
+                <button class="back" hidden>‹ Back</button>
+              </div>
+              <div class="step-body">
+                <div class="step-inner">
+                  <p class="eyebrow">AI Mirror Experience</p>
+                  <h1 class="display">
+                    Your AI readiness,<br />in sharp focus
+                  </h1>
+                  <p class="subhead">
+                    A guided conversation that maps how AI shows up in your
+                    work, your team, and your organization. You talk. We listen.
+                    The report writes itself.
+                  </p>
+                  <div class="stat-card">
+                    <div class="stat">
+                      <span class="v">~45</span><span class="l">Minutes</span>
+                    </div>
+                    <span class="stat-div"></span>
+                    <div class="stat">
+                      <span class="v">~25</span><span class="l">Questions</span>
+                    </div>
+                    <span class="stat-div"></span>
+                    <div class="stat">
+                      <span class="v">Voice</span><span class="l">Enabled</span>
+                    </div>
+                  </div>
+                  <div class="anno">
+                    <div class="anno-box">
+                      <b>REMOVED here</b> (now their own steps):
+                      <s>“✓ Mic ready” badge</s> ·
+                      <s>“Test your microphone” link</s> ·
+                      <s>“Orientation video” link</s> ·
+                      <s>?intro=1 auto-open</s>. Pitch + CTA + on-mount task
+                      prewarm kept.
+                    </div>
+                  </div>
                 </div>
               </div>
-              <button class="btn btn-primary" onclick="go('video')">
-                Begin Experience
-              </button>
-              <p class="micro">You can pause and return anytime</p>
-              <div class="removed">
-                <b>▓ REMOVED on this screen</b> (now their own steps):
-                <s>“✓ Mic ready” badge</s> ·
-                <s>“Test your microphone” link</s> ·
-                <s>“Orientation video” link</s> · <s>?intro=1 auto-open</s>.
-                Pitch + CTA + on-mount task prewarm
-                <b style="color: var(--feedback-success)">kept</b>. CTA now
-                advances to <code>intro-video</code>.
+              <div class="step-foot">
+                <button class="btn btn-primary" onclick="go('video')">
+                  Begin Experience
+                </button>
+                <p class="micro">You can pause and return anytime</p>
               </div>
             </div>
           </section>
 
-          <!-- ════ SCREEN 2 — INTRO VIDEO (new) ════ -->
+          <!-- ════ SCREEN 2 — INTRO VIDEO (new step, existing VideoModal) ════ -->
           <section class="screen" data-screen="video">
-            <div class="screen-inner">
-              <p class="eyebrow">Orientation</p>
-              <div class="video-box">
-                <div class="play"></div>
-                <span class="ph"
-                  >reuses NEXT_PUBLIC_INTRO_VIDEO_ID · autoplay ·
-                  video:start/complete analytics</span
-                >
+            <div class="step video-step">
+              <div class="step-head">
+                <button class="back" onclick="go('start')">‹ Back</button>
               </div>
-              <p class="subhead" style="font-style: italic">
-                ▓
-                <span style="color: var(--feedback-warning); font-weight: 600"
-                  >proposed-new copy</span
-                >
-                — one framing line for the video step (no existing string; needs
-                your words). Draft: “A two-minute orientation before we begin.”
-              </p>
-              <button class="btn btn-primary btn-block" onclick="go('mic')">
-                Continue
-              </button>
-              <p class="micro">
-                Mandatory screen — not watch-to-complete. Continue always
-                present.
-              </p>
+              <div class="step-body">
+                <div class="step-inner">
+                  <div class="video-box"><div class="play"></div></div>
+                  <div class="anno">
+                    <div
+                      class="anno-box"
+                      style="
+                        color: #e8b04a;
+                        border-color: #e8b04a;
+                        background: rgba(232, 176, 74, 0.12);
+                      "
+                    >
+                      Reuses
+                      <code
+                        style="
+                          background: rgba(255, 255, 255, 0.1);
+                          color: #fff;
+                        "
+                        >NEXT_PUBLIC_INTRO_VIDEO_ID</code
+                      >
+                      · autoplay · video:start/complete analytics.
+                      <b style="color: #e8b04a">Forced:</b> the close “×” is
+                      removed — only Back or Continue leaves. Not
+                      watch-to-complete.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="step-foot">
+                <button class="btn btn-primary btn-block" onclick="go('mic')">
+                  Continue
+                </button>
+                <p class="video-cap">
+                  ▓ proposed-new caption — needs your words. Draft: “A
+                  two-minute orientation before we begin.”
+                </p>
+              </div>
             </div>
           </section>
 
-          <!-- ════ SCREEN 3 — MIC CHECK (new) ════ -->
+          <!-- ════ SCREEN 3 — MIC CHECK (new step hosts existing MicTestModal) ════ -->
           <section class="screen" data-screen="mic">
-            <div class="screen-inner">
-              <div class="mic-states" role="tablist">
-                <button aria-selected="true" data-m="ready">Ready</button>
-                <button aria-selected="false" data-m="recording">
-                  Recording
-                </button>
-                <button aria-selected="false" data-m="passed">
-                  Passed → voice
-                </button>
-                <button aria-selected="false" data-m="error">
-                  Voice unavailable → text
-                </button>
+            <div class="step mic-step">
+              <div class="step-head">
+                <button class="back" onclick="go('video')">‹ Back</button>
               </div>
-
-              <!-- ready -->
-              <div class="mstate active" data-m="ready">
-                <p class="mtitle">Test your microphone</p>
-                <ol class="setup">
-                  <li>
-                    <span class="num">1</span
-                    ><span>Press “Start&nbsp;test”</span>
-                  </li>
-                  <li>
-                    <span class="num">2</span
-                    ><span>Allow microphone access when your browser asks</span>
-                  </li>
-                  <li>
-                    <span class="num">3</span
-                    ><span>Read the phrase that appears out loud</span>
-                  </li>
-                </ol>
-                <button
-                  class="btn btn-primary btn-block"
-                  onclick="mic('recording')"
-                >
-                  Start test
-                </button>
-                <div class="removed">
-                  <b>▓ REMOVED:</b> the <s>“Skip and type instead”</s> link on
-                  this ready state. Forced test = no casual skip; classic mode
-                  is reachable only through a genuine failure path (blocked /
-                  connection-error).
-                </div>
-              </div>
-
-              <!-- recording -->
-              <div class="mstate" data-m="recording">
-                <span class="rec-badge"
-                  ><span class="dot"></span>Recording</span
-                >
-                <p class="micro">Read this phrase out loud:</p>
-                <blockquote class="phrase">
-                  The quick brown fox jumps over the lazy dog
-                </blockquote>
-                <div class="wave" id="wave"></div>
-                <p class="timer">4 / 10s</p>
-                <button class="btn btn-dark" onclick="mic('passed')">
-                  Stop
-                </button>
-              </div>
-
-              <!-- passed -->
-              <div class="mstate" data-m="passed">
-                <p class="mtitle" style="color: var(--feedback-success)">
-                  ✓ Microphone working
-                </p>
-                <p class="micro" style="color: var(--text-tertiary)">
-                  We heard:
-                </p>
-                <blockquote class="phrase win">
-                  the quick brown fox jumps over the lazy dog
-                </blockquote>
-                <div class="row2">
-                  <button
-                    class="btn btn-ghost"
-                    style="flex: 1"
-                    onclick="mic('ready')"
-                  >
-                    Try again
+              <div class="step-body">
+                <div class="mic-states" role="tablist">
+                  <button aria-selected="true" data-m="ready">Ready</button>
+                  <button aria-selected="false" data-m="recording">
+                    Recording
                   </button>
-                  <button
-                    class="btn btn-primary"
-                    style="flex: 2"
-                    onclick="advance('voice-first')"
-                  >
-                    Looks good ✓
+                  <button aria-selected="false" data-m="passed">Passed</button>
+                  <button aria-selected="false" data-m="error">
+                    Voice unavailable
                   </button>
                 </div>
-                <p class="toast" id="t-pass" style="visibility: hidden">
-                  → advance() to <b>form</b> · micInputMode = <b>voice-first</b>
-                </p>
-              </div>
 
-              <!-- connection-error / text fallback -->
-              <div class="mstate" data-m="error">
-                <p class="mtitle">Voice unavailable on this network</p>
-                <p class="subhead" style="font-weight: 400; font-size: 14px">
-                  We couldn’t reach our speech service. This is common on
-                  corporate networks where outbound connections are restricted.
-                  You can complete the interview by typing instead.
-                </p>
-                <div class="ack">
-                  <b>Tip:</b> your IT team can allow voice input by whitelisting
-                  <code>api.deepgram.com</code> on port 443.
+                <div class="modal-card">
+                  <!-- ready -->
+                  <div class="mstate active" data-m="ready">
+                    <div class="modal-body">
+                      <p class="mtitle">Test your microphone</p>
+                      <ol class="setup">
+                        <li>
+                          <span class="num">1</span
+                          ><span>Press “Start&nbsp;test”</span>
+                        </li>
+                        <li>
+                          <span class="num">2</span
+                          ><span
+                            >Allow microphone access when your browser
+                            asks</span
+                          >
+                        </li>
+                        <li>
+                          <span class="num">3</span
+                          ><span>Read the phrase that appears out loud</span>
+                        </li>
+                      </ol>
+                    </div>
+                    <div class="modal-foot">
+                      <button
+                        class="btn btn-primary btn-block"
+                        onclick="mic('recording')"
+                      >
+                        Start test
+                      </button>
+                      <button class="optout" onclick="advance('classic')">
+                        No microphone? Continue and type instead
+                      </button>
+                      <div class="anno">
+                        <div class="anno-box">
+                          ▓ The opt-out replaces the removed casual “Skip and
+                          type instead.” Deliberate, lower-emphasis,
+                          accessibility-respecting → <code>classic</code>.
+                          Adapted from the existing skip-link string.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- recording -->
+                  <div class="mstate" data-m="recording">
+                    <div class="modal-body">
+                      <span class="rec-badge"
+                        ><span class="dot"></span>Recording</span
+                      >
+                      <p class="micro">Read this phrase out loud:</p>
+                      <blockquote class="phrase">
+                        The quick brown fox jumps over the lazy dog
+                      </blockquote>
+                      <div class="wave" id="wave"></div>
+                      <p class="timer">4 / 10s</p>
+                    </div>
+                    <div class="modal-foot">
+                      <button class="btn btn-dark" onclick="mic('passed')">
+                        Stop
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- passed -->
+                  <div class="mstate" data-m="passed">
+                    <div class="modal-body">
+                      <p class="mtitle" style="color: var(--feedback-success)">
+                        ✓ Microphone working
+                      </p>
+                      <p class="micro" style="color: var(--text-tertiary)">
+                        We heard:
+                      </p>
+                      <blockquote class="phrase win">
+                        the quick brown fox jumps over the lazy dog
+                      </blockquote>
+                    </div>
+                    <div class="modal-foot">
+                      <div class="row2">
+                        <button
+                          class="btn btn-ghost"
+                          style="flex: 1"
+                          onclick="mic('ready')"
+                        >
+                          Try again
+                        </button>
+                        <button
+                          class="btn btn-primary"
+                          style="flex: 2"
+                          onclick="advance('voice-first')"
+                        >
+                          Looks good ✓
+                        </button>
+                      </div>
+                      <p class="toast" id="t-pass"></p>
+                    </div>
+                  </div>
+
+                  <!-- connection-error -->
+                  <div class="mstate" data-m="error">
+                    <div class="modal-body">
+                      <p class="mtitle">Voice unavailable on this network</p>
+                      <p
+                        class="subhead"
+                        style="font-weight: 400; font-size: 13.5px"
+                      >
+                        We couldn’t reach our speech service. This is common on
+                        corporate networks where outbound connections are
+                        restricted. You can complete the interview by typing
+                        instead.
+                      </p>
+                      <div class="ack">
+                        <b>Tip:</b> your IT team can allow voice input by
+                        whitelisting <code>api.deepgram.com</code> on port 443.
+                      </div>
+                    </div>
+                    <div class="modal-foot">
+                      <button
+                        class="btn btn-primary btn-block"
+                        onclick="advance('classic')"
+                      >
+                        Continue with text
+                      </button>
+                      <p class="toast classic" id="t-err"></p>
+                    </div>
+                  </div>
                 </div>
-                <button
-                  class="btn btn-primary btn-block"
-                  onclick="advance('classic')"
-                >
-                  Continue with text
-                </button>
-                <p class="toast classic" id="t-err" style="visibility: hidden">
-                  → advance() to <b>form</b> · micInputMode =
-                  <b>classic</b> (explicit ack)
-                </p>
               </div>
             </div>
           </section>
         </div>
 
-        <!-- ── side panel ── -->
         <aside class="side">
           <div class="panel">
             <h3>What ships</h3>
@@ -877,16 +1040,16 @@
                 <code>mirror-next.ts</code>
               </li>
               <li>
-                An <code>ORDER</code> array derives every linear
-                <code>next</code> — reorder = swap two strings
+                <code>ORDER</code> array derives every <code>next</code> +
+                <b>back</b> (index ±1) — reorder = swap two strings
               </li>
               <li>
-                Promote <code>MicTestModal</code> /
-                <code>VideoModal</code> bodies into full-screen shells
-              </li>
-              <li>
-                Terminal mic states route <code>onDismiss(result)</code> →
+                Step hosts the existing modal; <code>onDismiss(result)</code> →
                 <code>advance()</code>
+              </li>
+              <li>
+                Forced = dismiss-to-skip removed; Back/Continue/opt-out are the
+                only exits
               </li>
             </ul>
           </div>
@@ -895,19 +1058,30 @@
             <ul>
               <li><b>passed</b> → <code>voice-first</code></li>
               <li>
-                <b>blocked / connection-error</b> → <code>classic</code> + ack
+                <b>opt-out / blocked / connection-error</b> →
+                <code>classic</code>
               </li>
               <li><b>empty</b> → retry loop</li>
             </ul>
           </div>
           <div class="panel open">
             <h3>Open · your call</h3>
+            <p><b>Video caption:</b> one new line (drafted on screen 2).</p>
             <p>
-              <b>Video copy:</b> one new framing line (drafted on screen 2).
+              <b>Continue timing:</b> enable immediately (rec.) vs. after
+              <code>video:start</code>.
             </p>
             <p>
-              <b>Continue timing:</b> enable immediately (recommended) vs. after
-              <code>video:start</code> fires.
+              <b>Opt-out wording:</b> “No microphone? Continue and type instead”
+              — approve or reword.
+            </p>
+          </div>
+          <div class="panel">
+            <h3>How to read</h3>
+            <p>
+              Toggle <span class="legend-chip">Annotations</span> off to see the
+              exact user screen; on to see reviewer notes. Use the step tabs +
+              the mic-state row; Back works.
             </p>
           </div>
         </aside>
@@ -942,7 +1116,6 @@
         .forEach((b) =>
           b.addEventListener("click", () => go(b.dataset.screen)),
         );
-      // mic sub-states
       function mic(m) {
         document
           .querySelectorAll(".mic-states button")
@@ -952,27 +1125,34 @@
         document
           .querySelectorAll(".mstate")
           .forEach((s) => s.classList.toggle("active", s.dataset.m === m));
+        document.getElementById("t-pass").textContent = "";
+        document.getElementById("t-err").textContent = "";
       }
       document
         .querySelectorAll(".mic-states button")
         .forEach((b) => b.addEventListener("click", () => mic(b.dataset.m)));
       function advance(mode) {
-        document.getElementById(
-          mode === "voice-first" ? "t-pass" : "t-err",
-        ).style.visibility = "visible";
+        if (mode === "voice-first")
+          document.getElementById("t-pass").textContent =
+            "→ advance() to form · micInputMode = voice-first";
+        else {
+          const el =
+            document.querySelector(".mstate.active .toast.classic") ||
+            document.getElementById("t-err");
+          if (el)
+            el.textContent = "→ advance() to form · micInputMode = classic";
+        }
       }
-      // waveform bars
       const wave = document.getElementById("wave");
-      if (wave) {
+      if (wave)
         for (let i = 0; i < 20; i++) {
-          const c = (20 - 1) / 2;
-          const bell = 1 - Math.abs(i - c) / c;
+          const c = 9.5,
+            bell = 1 - Math.abs(i - c) / c;
           const el = document.createElement("i");
-          el.style.setProperty("--h", 6 + 34 * bell + "px");
+          el.style.setProperty("--h", 6 + 32 * bell + "px");
           el.style.animationDelay = i * 0.05 + "s";
           wave.appendChild(el);
         }
-      }
     </script>
   </body>
 </html>
