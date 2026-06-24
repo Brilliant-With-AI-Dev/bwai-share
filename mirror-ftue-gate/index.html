@@ -219,7 +219,7 @@
         border-radius: 16px;
         overflow: hidden;
         box-shadow: 0 18px 50px -28px rgba(10, 22, 40, 0.45);
-        height: 660px;
+        height: 680px;
         position: relative;
         display: flex;
         flex-direction: column;
@@ -255,7 +255,7 @@
         flex-direction: column;
       }
 
-      /* one shared step shell: scrolling body + anchored footer action row */
+      /* shared step shell: scrolling body + anchored footer */
       .step {
         flex: 1;
         display: flex;
@@ -275,7 +275,7 @@
       }
       .step-foot {
         flex: none;
-        padding: 14px 30px 28px;
+        padding: 14px 30px 26px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -291,12 +291,15 @@
         flex-direction: column;
         align-items: center;
         gap: 6px;
-      } /* sits ABOVE the action row, never pushes the CTA off the bottom */
+      }
+      /* CTA always dead-centered; Back pinned to a fixed left slot, never reflows the CTA */
       .foot-actions {
+        position: relative;
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        min-height: 52px;
       }
       .step-inner {
         width: 100%;
@@ -373,6 +376,7 @@
         cursor: pointer;
         padding: 14px 30px;
         transition: all 0.18s;
+        min-height: 48px;
       }
       .btn-primary {
         background: var(--feedback-success);
@@ -391,8 +395,11 @@
         color: var(--text-secondary);
         border: 1px solid var(--border-subtle);
       }
-      /* back: ghost, left of the CTA in the action row */
       .back {
+        position: absolute;
+        left: 4px;
+        top: 50%;
+        transform: translateY(-50%);
         font-family: var(--font-body);
         font-size: 15px;
         font-weight: 600;
@@ -400,7 +407,8 @@
         background: none;
         border: none;
         cursor: pointer;
-        padding: 14px 16px;
+        padding: 12px 14px;
+        min-height: 44px;
         border-radius: 12px;
         display: inline-flex;
         align-items: center;
@@ -410,29 +418,34 @@
         color: var(--text-primary);
         background: var(--surface-recessed);
       }
+      .back[hidden] {
+        display: none;
+      }
       .micro {
         font-size: 12px;
         font-weight: 500;
         color: var(--text-secondary);
         margin: 0;
       }
+      /* opt-out: secondary (not tertiary) for contrast, 44px target */
       .optout {
         background: none;
         border: none;
         cursor: pointer;
         font-family: var(--font-body);
-        font-size: 13px;
+        font-size: 13.5px;
         font-weight: 500;
-        color: var(--text-tertiary);
+        color: var(--text-secondary);
         text-decoration: underline;
         text-underline-offset: 3px;
-        padding: 6px;
+        padding: 11px 8px;
+        min-height: 44px;
       }
       .optout:hover {
-        color: var(--text-secondary);
+        color: var(--text-primary);
       }
 
-      /* intro-video — light page chrome, dark video box only */
+      /* intro-video — light chrome; video box dark; MUTED autoplay + unmute */
       .video-box {
         width: 100%;
         aspect-ratio: 16/9;
@@ -442,6 +455,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
         box-shadow: 0 12px 30px -16px rgba(10, 22, 40, 0.5);
       }
       .video-box .play {
@@ -460,6 +474,25 @@
         border-bottom: 10px solid transparent;
         margin-left: 4px;
       }
+      .unmute {
+        position: absolute;
+        left: 12px;
+        bottom: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 13px;
+        min-height: 40px;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.16);
+        color: #fff;
+        font-family: var(--font-body);
+        font-size: 13px;
+        font-weight: 600;
+        backdrop-filter: blur(4px);
+      }
       .video-cap {
         font-size: 14px;
         color: var(--text-secondary);
@@ -467,7 +500,7 @@
         max-width: 22rem;
       }
 
-      /* mic-check — opaque page (setup) + recording modal over it */
+      /* mic-check page */
       .setup {
         list-style: none;
         padding: 0;
@@ -506,13 +539,15 @@
         color: var(--text-primary);
         margin: 0;
       }
+
+      /* recording modal over the page */
       .overlay {
         position: absolute;
         inset: 0;
         display: none;
         align-items: center;
         justify-content: center;
-        padding: 24px;
+        padding: 22px;
         background: var(--surface-overlay);
         z-index: 5;
       }
@@ -522,25 +557,48 @@
       .modal-card {
         width: 100%;
         max-width: 23rem;
+        max-height: 100%;
+        overflow: auto;
         background: var(--surface-floating);
         border-radius: 16px;
         box-shadow: 0 24px 60px -20px rgba(10, 22, 40, 0.55);
         display: flex;
         flex-direction: column;
-        min-height: 300px;
+      }
+      .modal-head {
+        flex: none;
+        display: flex;
+        justify-content: flex-end;
+        padding: 12px 14px 0;
+      }
+      .modal-cancel {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: var(--font-body);
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-tertiary);
+        padding: 8px 10px;
+        min-height: 40px;
+        border-radius: var(--radius-sm);
+      }
+      .modal-cancel:hover {
+        color: var(--text-secondary);
+        background: var(--surface-recessed);
       }
       .modal-body {
         flex: 1;
-        padding: 26px 24px 8px;
+        padding: 4px 24px 6px;
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
-        gap: 13px;
+        gap: 12px;
       }
       .modal-foot {
         flex: none;
-        padding: 8px 24px 22px;
+        padding: 8px 24px 20px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -550,11 +608,40 @@
         display: none;
         flex-direction: column;
         align-items: center;
-        gap: 13px;
+        gap: 12px;
         width: 100%;
       }
       .mstate.active {
         display: flex;
+      }
+      .skip {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: var(--font-body);
+        font-size: 13.5px;
+        font-weight: 500;
+        color: var(--text-secondary);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        padding: 11px 8px;
+        min-height: 44px;
+      }
+      .skip:hover {
+        color: var(--text-primary);
+      }
+      .spinner {
+        width: 32px;
+        height: 32px;
+        border: 3px solid var(--surface-recessed);
+        border-top-color: var(--feedback-success);
+        border-radius: 999px;
+        animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
       }
       .rec-badge {
         display: inline-flex;
@@ -580,6 +667,12 @@
         50% {
           opacity: 0.35;
         }
+      }
+      .warn-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--feedback-warning);
+        margin: 0;
       }
       .phrase {
         border-left: 3px solid var(--feedback-success);
@@ -627,6 +720,7 @@
         display: flex;
         gap: 10px;
         width: 100%;
+        flex-wrap: wrap;
       }
       .ack {
         width: 100%;
@@ -639,6 +733,37 @@
       }
       .ack code {
         background: #fff;
+      }
+      .devsel {
+        width: 100%;
+        text-align: left;
+      }
+      .devsel label {
+        display: block;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--text-tertiary);
+        margin-bottom: 4px;
+      }
+      .devsel select {
+        width: 100%;
+        min-height: 44px;
+        border: 1px solid var(--border-subtle);
+        background: var(--surface-floating);
+        border-radius: var(--radius-md);
+        padding: 8px 10px;
+        font-family: var(--font-body);
+        font-size: 16px;
+        color: var(--text-primary);
+      }
+      .link {
+        color: var(--feedback-success);
+        text-decoration: underline;
+        font-size: 13px;
+        display: inline-flex;
+        min-height: 40px;
+        align-items: center;
       }
       .toast {
         font-size: 12px;
@@ -657,10 +782,10 @@
       }
       .mic-states button {
         font-family: var(--font-body);
-        font-size: 12px;
+        font-size: 11.5px;
         font-weight: 600;
         cursor: pointer;
-        padding: 5px 11px;
+        padding: 5px 10px;
         border-radius: 999px;
         border: 1px solid var(--border-subtle);
         background: var(--surface-floating);
@@ -701,6 +826,12 @@
         margin: 0;
         padding-left: 16px;
       }
+      .panel.ok {
+        border-color: var(--feedback-success);
+      }
+      .panel.ok h3 {
+        color: var(--feedback-success);
+      }
       .panel.open {
         border-color: var(--feedback-warning);
       }
@@ -726,17 +857,18 @@
       <header class="doc">
         <h1>Mirror FTUE Gate — forced intro-video + mic-check</h1>
         <p>
-          design-ladder <b>rung 3</b>. Steps:
+          design-ladder <b>rung 3</b>, hardened. Steps:
           <code>start → intro-video → mic-check → form</code>. mic-check is its
-          own opaque page; the live recording is a modal over it. One shared
-          footer pattern across all steps: secondary action above, anchored
-          <code>[‹ Back] [primary]</code> row pinned to the bottom.
+          own opaque page; the live test is a modal over it with
+          <b>all 8 real <code>useMicTest</code> states</b> and an escape on
+          every one. Shared footer: CTA dead-centered, Back pinned bottom-left.
         </p>
         <div class="meta">
-          Tokens verbatim from <code>tokens.css</code>/<code>globals.css</code>;
-          copy verbatim from
-          <code>StartStep.tsx</code>/<code>MicTestModal.tsx</code>. Resume flow
-          → DEV-354.
+          Tokens + copy verbatim from
+          <code>tokens.css</code
+          >/<code>globals.css</code>/<code>MicTestModal.tsx</code>.
+          Recording-trap in the real component → filed separately. Resume flow →
+          DEV-354.
         </div>
       </header>
 
@@ -793,22 +925,24 @@
                     </div>
                     <span class="stat-div"></span>
                     <div class="stat">
-                      <span class="v">Voice</span><span class="l">Enabled</span>
+                      <span class="v">Voice</span
+                      ><span class="l">Optional</span>
                     </div>
                   </div>
                   <div class="anno">
                     <div class="anno-box">
-                      <b>REMOVED here</b>: <s>“✓ Mic ready” badge</s> ·
-                      <s>“Test your microphone” link</s> ·
-                      <s>“Orientation video” link</s> · <s>?intro=1</s> ·
-                      <s>“You can pause and return anytime”</s>. Pitch + CTA +
-                      prewarm kept.
+                      <b>REMOVED</b>: <s>mic-ready badge</s> ·
+                      <s>mic/video links</s> · <s>?intro=1</s> ·
+                      <s>“pause and return anytime”</s>.
+                      <b>Voice “Enabled”→“Optional”</b> (soft gate). Proposed
+                      copy — sign-off.
                     </div>
                   </div>
                 </div>
               </div>
               <div class="step-foot">
                 <div class="foot-actions">
+                  <button class="back" hidden>‹ Back</button>
                   <button class="btn btn-primary" onclick="go('video')">
                     Begin Experience
                   </button>
@@ -823,17 +957,18 @@
               <div class="step-body">
                 <div class="step-inner">
                   <p class="eyebrow">Orientation</p>
-                  <div class="video-box"><div class="play"></div></div>
-                  <p class="video-cap">
-                    A two-minute orientation before we begin.
-                  </p>
+                  <div class="video-box">
+                    <div class="play"></div>
+                    <button class="unmute">🔇 Tap to unmute</button>
+                  </div>
+                  <p class="video-cap">A short orientation before we begin.</p>
                   <div class="anno">
                     <div class="anno-box">
-                      Caption above is <b>▓ proposed-new copy</b> — needs your
-                      sign-off. Video reuses
-                      <code>NEXT_PUBLIC_INTRO_VIDEO_ID</code> · autoplay ·
-                      start/complete analytics. <b>Forced:</b> close “×” removed
-                      — only Back or Continue. Not watch-to-complete.
+                      <b>Muted autoplay + unmute</b> (real embed autoplays
+                      unmuted — hostile on phones; build delta:
+                      <code>mute=1</code> + unmute). Caption <b>▓ proposed</b>,
+                      no hard-coded length. Forced = no “×”; Back/Continue only;
+                      not watch-to-complete.
                     </div>
                   </div>
                 </div>
@@ -859,17 +994,25 @@
                     role="tablist"
                     style="margin-bottom: 6px"
                   >
-                    <button aria-selected="true" data-m="setup">
-                      Page: setup
+                    <button aria-selected="true" data-m="setup">Page</button>
+                    <button aria-selected="false" data-m="connecting">
+                      connecting
                     </button>
                     <button aria-selected="false" data-m="recording">
-                      Modal: recording
+                      recording
+                    </button>
+                    <button aria-selected="false" data-m="processing">
+                      processing
                     </button>
                     <button aria-selected="false" data-m="passed">
-                      Modal: passed
+                      passed
+                    </button>
+                    <button aria-selected="false" data-m="empty">empty</button>
+                    <button aria-selected="false" data-m="denied">
+                      blocked
                     </button>
                     <button aria-selected="false" data-m="error">
-                      Modal: unavailable
+                      network
                     </button>
                   </div>
                   <p class="eyebrow">Mic check</p>
@@ -892,9 +1035,10 @@
                   </ol>
                   <div class="anno">
                     <div class="anno-box">
-                      Opaque page (replaces the video). <b>Start test</b> opens
-                      the recording modal <b>over this page</b>. Opt-out sits
-                      ABOVE the action row so it can’t push the CTA up.
+                      Opaque page (= the modal’s <code>ready</code> state,
+                      folded in). <b>Start test</b> opens the modal over this
+                      page. All 8 states reachable via the row; each has an
+                      escape (Cancel→page, or Skip→classic).
                     </div>
                   </div>
                 </div>
@@ -909,24 +1053,42 @@
                   >
                     No microphone? Continue and type instead
                   </button>
-                  <div class="anno">
-                    <div class="anno-box">
-                      ▓ Replaces the removed casual “Skip and type instead” —
-                      deliberate, page-level → <code>classic</code>.
-                    </div>
-                  </div>
                 </div>
                 <div class="foot-actions">
                   <button class="back" onclick="go('video')">‹ Back</button>
-                  <button class="btn btn-primary" onclick="mic('recording')">
+                  <button class="btn btn-primary" onclick="mic('connecting')">
                     Start test
                   </button>
                 </div>
               </div>
 
-              <!-- recording modal over the page -->
+              <!-- modal over the page — all states carry an escape -->
               <div class="overlay" id="overlay">
                 <div class="modal-card">
+                  <div class="modal-head">
+                    <button class="modal-cancel" onclick="mic('setup')">
+                      Cancel ✕
+                    </button>
+                  </div>
+
+                  <div class="mstate" data-m="connecting">
+                    <div class="modal-body">
+                      <div class="spinner"></div>
+                      <p
+                        class="subhead"
+                        style="font-size: 15px; font-weight: 400"
+                      >
+                        Connecting — allow microphone access if your browser
+                        asks
+                      </p>
+                    </div>
+                    <div class="modal-foot">
+                      <button class="skip" onclick="advance('classic')">
+                        Skip and type instead
+                      </button>
+                    </div>
+                  </div>
+
                   <div class="mstate" data-m="recording">
                     <div class="modal-body">
                       <span class="rec-badge"
@@ -940,11 +1102,32 @@
                       <p class="timer">4 / 10s</p>
                     </div>
                     <div class="modal-foot">
-                      <button class="btn btn-dark" onclick="mic('passed')">
+                      <button class="btn btn-dark" onclick="mic('processing')">
                         Stop
+                      </button>
+                      <button class="skip" onclick="advance('classic')">
+                        Skip and type instead
                       </button>
                     </div>
                   </div>
+
+                  <div class="mstate" data-m="processing">
+                    <div class="modal-body">
+                      <div class="spinner"></div>
+                      <p
+                        class="subhead"
+                        style="font-size: 15px; font-weight: 400"
+                      >
+                        Transcribing…
+                      </p>
+                    </div>
+                    <div class="modal-foot">
+                      <button class="skip" onclick="advance('classic')">
+                        Skip and type instead
+                      </button>
+                    </div>
+                  </div>
+
                   <div class="mstate" data-m="passed">
                     <div class="modal-body">
                       <p
@@ -964,14 +1147,14 @@
                       <div class="row2">
                         <button
                           class="btn btn-ghost"
-                          style="flex: 1"
+                          style="flex: 1; min-width: 120px"
                           onclick="mic('recording')"
                         >
                           Try again
                         </button>
                         <button
                           class="btn btn-primary"
-                          style="flex: 2"
+                          style="flex: 2; min-width: 140px"
                           onclick="
                             document.getElementById('t-pass').textContent =
                               '→ advance() to form · micInputMode = voice-first'
@@ -983,6 +1166,66 @@
                       <p class="toast" id="t-pass"></p>
                     </div>
                   </div>
+
+                  <div class="mstate" data-m="empty">
+                    <div class="modal-body">
+                      <p class="warn-title">Nothing heard</p>
+                      <p
+                        class="subhead"
+                        style="font-size: 14px; font-weight: 400"
+                      >
+                        Make sure the correct microphone is selected and try
+                        again.
+                      </p>
+                      <div class="devsel">
+                        <label>Microphone</label
+                        ><select>
+                          <option>Built-in Microphone</option>
+                          <option>External USB Mic</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="modal-foot">
+                      <button class="btn btn-dark" onclick="mic('recording')">
+                        Try again
+                      </button>
+                      <button class="skip" onclick="advance('classic')">
+                        Skip and type instead
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="mstate" data-m="denied">
+                    <div class="modal-body">
+                      <p class="warn-title">Microphone blocked</p>
+                      <p
+                        class="subhead"
+                        style="font-size: 14px; font-weight: 400"
+                      >
+                        Your browser is blocking microphone access. Grant
+                        permission in your browser settings, then try again.
+                      </p>
+                      <a class="link" href="#" onclick="return false;"
+                        >How to allow microphone in Chrome</a
+                      >
+                      <div class="devsel">
+                        <label>Microphone</label
+                        ><select>
+                          <option>Built-in Microphone</option>
+                          <option>External USB Mic</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="modal-foot">
+                      <button class="btn btn-dark" onclick="mic('recording')">
+                        Try again
+                      </button>
+                      <button class="skip" onclick="advance('classic')">
+                        Skip and type instead
+                      </button>
+                    </div>
+                  </div>
+
                   <div class="mstate" data-m="error">
                     <div class="modal-body">
                       <p class="mtitle" style="font-size: 19px">
@@ -1004,7 +1247,7 @@
                     </div>
                     <div class="modal-foot">
                       <button
-                        class="btn btn-primary btn-block"
+                        class="btn btn-primary"
                         style="width: 100%"
                         onclick="
                           document.getElementById('t-err').textContent =
@@ -1012,6 +1255,9 @@
                         "
                       >
                         Continue with text
+                      </button>
+                      <button class="skip" onclick="mic('recording')">
+                        Try voice again
                       </button>
                       <p class="toast classic" id="t-err"></p>
                     </div>
@@ -1023,17 +1269,21 @@
         </div>
 
         <aside class="side">
-          <div class="panel">
-            <h3>Footer pattern</h3>
+          <div class="panel ok">
+            <h3>Hardened (this pass)</h3>
             <ul>
               <li>
-                Anchored action row: <code>[‹ Back] [primary]</code> pinned to
-                bottom — CTA holds position across steps
+                CTA dead-centered every step; Back pinned bottom-left, never
+                moves it
               </li>
               <li>
-                Secondary (opt-out) sits ABOVE the row, never shifts the CTA
+                All 8 mic states drawn; escape on each (Cancel→page ·
+                Skip→classic)
               </li>
-              <li>Start has no Back (first step)</li>
+              <li>
+                Recording no longer a trap; “Try voice again” on network error
+              </li>
+              <li>Muted autoplay + unmute; opt-out contrast + 44px targets</li>
             </ul>
           </div>
           <div class="panel">
@@ -1047,28 +1297,27 @@
                 <code>ORDER</code> array → <code>next</code> + back (index ±1)
               </li>
               <li>
-                Reuse <code>MicTestModal</code> body for the overlay;
+                Reuse <code>MicTestModal</code> body;
                 <code>onDismiss</code>→<code>advance()</code>
               </li>
             </ul>
           </div>
           <div class="panel open">
-            <h3>Open · your call</h3>
+            <h3>Open · sign-off</h3>
             <p>
-              <b>Video caption</b> — “A two-minute orientation before we begin.”
-              approve/reword.
+              <b>Copy:</b> video caption · opt-out wording · “Voice Optional”.
             </p>
             <p>
-              <b>Continue timing</b>: immediate (rec.) vs. after
-              <code>video:start</code>.
+              <b>Build deltas:</b> video <code>mute=1</code>+unmute;
+              recording-trap fix (filed).
             </p>
-            <p><b>Opt-out wording</b>: approve or reword.</p>
           </div>
           <div class="panel">
             <h3>How to read</h3>
             <p>
-              Toggle <span class="legend-chip">Annotations</span> for reviewer
-              notes. Screen 3 state row flips page ↔ modal-over-page.
+              Toggle <span class="legend-chip">Annotations</span> for notes. On
+              screen 3, click each state in the row — every modal has Cancel +
+              (where live) Skip.
             </p>
           </div>
         </aside>
@@ -1126,6 +1375,14 @@
       document
         .querySelectorAll(".mic-states button")
         .forEach((b) => b.addEventListener("click", () => mic(b.dataset.m)));
+      function advance(mode) {
+        const msg =
+          mode === "voice-first"
+            ? "→ advance() to form · micInputMode = voice-first"
+            : "→ advance() to form · micInputMode = classic";
+        alert(msg);
+        mic("setup");
+      }
       const wave = document.getElementById("wave");
       if (wave)
         for (let i = 0; i < 20; i++) {
