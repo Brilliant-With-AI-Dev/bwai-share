@@ -1,0 +1,795 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mirror Interview Prompt — A/B Test Readout</title>
+    <style>
+      :root {
+        /* GitHub Primer light tokens */
+        --bg: #f6f8fa;
+        --surface: #ffffff;
+        --canvas-subtle: #f6f8fa;
+        --ink: #1f2328;
+        --ink-2: #424a53;
+        --ink-3: #656d76;
+        --line: #d1d9e0;
+        --line-soft: #e7ebef;
+        --accent: #0969da;
+        --accent-soft: #ddf4ff;
+        --success: #1a7f37;
+        --success-soft: #dafbe1;
+        --success-line: #aceebb;
+        --attention: #9a6700;
+        --attention-soft: #fff8c5;
+        --attention-line: #f4e6a3;
+        --danger: #cf222e;
+        --neutral-soft: #eaeef2;
+        --shadow:
+          0 1px 0 rgba(31, 35, 40, 0.04), 0 1px 3px rgba(31, 35, 40, 0.12);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica,
+          Arial, sans-serif;
+        line-height: 1.55;
+        font-size: 16px;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .wrap {
+        max-width: 820px;
+        margin: 0 auto;
+        padding: 56px 24px 72px;
+      }
+
+      /* Header */
+      .eyebrow {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-3);
+        margin: 0 0 10px;
+      }
+      h1 {
+        font-size: 30px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+        margin: 0 0 8px;
+      }
+      .dateline {
+        font-size: 14px;
+        color: var(--ink-3);
+        margin: 0 0 32px;
+      }
+
+      /* Result banner */
+      .banner {
+        background: var(--success-soft);
+        border: 1px solid var(--success-line);
+        border-radius: 12px;
+        padding: 24px 26px;
+        margin: 0 0 14px;
+      }
+      .banner .badge {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #ffffff;
+        background: var(--success);
+        border-radius: 999px;
+        padding: 3px 11px;
+        margin-bottom: 12px;
+      }
+      .banner h2 {
+        font-size: 21px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        margin: 0 0 8px;
+        color: #0a4a1e;
+      }
+      .banner p {
+        margin: 0;
+        font-size: 15px;
+        color: #1a4a2a;
+      }
+      .banner strong {
+        color: #0a3d18;
+      }
+
+      /* Stat strip */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin: 0 0 40px;
+      }
+      .stat {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 16px 18px;
+        box-shadow: var(--shadow);
+      }
+      .stat .num {
+        font-size: 26px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        color: var(--ink);
+      }
+      .stat .num.win {
+        color: var(--success);
+      }
+      .stat .lbl {
+        font-size: 13px;
+        color: var(--ink-3);
+        margin-top: 4px;
+      }
+
+      /* Sections */
+      section {
+        margin: 0 0 40px;
+      }
+      h3 {
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-3);
+        margin: 0 0 16px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--line-soft);
+      }
+      p.lead {
+        font-size: 16px;
+        color: var(--ink-2);
+        margin: 0 0 18px;
+      }
+
+      /* Contenders */
+      .vs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin: 0 0 8px;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 18px 20px;
+        box-shadow: var(--shadow);
+      }
+      .card.winner {
+        border-color: var(--success-line);
+        background: linear-gradient(180deg, #f5fdf7 0%, #ffffff 60%);
+      }
+      .card .tag {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--ink-3);
+        margin: 0 0 4px;
+      }
+      .card.winner .tag {
+        color: var(--success);
+      }
+      .card .name {
+        font-size: 17px;
+        font-weight: 600;
+        margin: 0 0 6px;
+      }
+      .card .size {
+        font-size: 13px;
+        color: var(--ink-3);
+        margin: 0 0 10px;
+      }
+      .card .note {
+        font-size: 14px;
+        color: var(--ink-2);
+        margin: 0;
+      }
+
+      /* Score table */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 15px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+      thead th {
+        text-align: left;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--ink-3);
+        padding: 12px 16px;
+        background: var(--canvas-subtle);
+        border-bottom: 1px solid var(--line);
+      }
+      thead th.col-score {
+        text-align: center;
+        width: 96px;
+      }
+      thead th.col-chal {
+        background: var(--success-soft);
+        color: #0a4a1e;
+      }
+      tbody td {
+        padding: 11px 16px;
+        border-bottom: 1px solid var(--line-soft);
+        vertical-align: middle;
+      }
+      tbody tr:last-child td {
+        border-bottom: none;
+      }
+      td.dim {
+        color: var(--ink);
+        font-weight: 500;
+      }
+      td.dim small {
+        display: block;
+        font-weight: 400;
+        color: var(--ink-3);
+        font-size: 12.5px;
+        margin-top: 1px;
+      }
+      td.score {
+        text-align: center;
+        font-variant-numeric: tabular-nums;
+      }
+      td.score.chal {
+        background: #f3fcf6;
+        font-weight: 600;
+      }
+      .pill {
+        display: inline-block;
+        min-width: 26px;
+        font-weight: 600;
+        font-size: 14px;
+        border-radius: 6px;
+        padding: 2px 8px;
+        color: var(--ink-2);
+        background: var(--neutral-soft);
+      }
+      .pill.s2 {
+        background: #ffe4e2;
+        color: #a40e1d;
+      }
+      .pill.s3 {
+        background: #fff1cc;
+        color: #8a5d00;
+      }
+      .pill.s4 {
+        background: #d7f5e1;
+        color: #136c30;
+      }
+      .pill.s5 {
+        background: #aceebb;
+        color: #0a4a1e;
+      }
+      .win-mark {
+        color: var(--success);
+        font-weight: 600;
+        font-size: 13px;
+        white-space: nowrap;
+      }
+      tfoot td {
+        padding: 12px 16px;
+        background: var(--canvas-subtle);
+        font-weight: 600;
+        border-top: 2px solid var(--line);
+      }
+      tfoot td.score {
+        text-align: center;
+      }
+      tfoot td.score.chal {
+        color: var(--success);
+      }
+
+      /* Why-it-won list */
+      .reasons {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .reasons li {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--success);
+        border-radius: 8px;
+        padding: 14px 18px;
+        box-shadow: var(--shadow);
+      }
+      .reasons .h {
+        font-weight: 600;
+        font-size: 15px;
+        margin: 0 0 3px;
+      }
+      .reasons .b {
+        font-size: 14.5px;
+        color: var(--ink-2);
+        margin: 0;
+      }
+
+      /* Quotes */
+      .quotes {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      blockquote {
+        margin: 0;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 16px 18px;
+        box-shadow: var(--shadow);
+      }
+      blockquote.chal {
+        border-top: 3px solid var(--success);
+      }
+      blockquote.ctrl {
+        border-top: 3px solid var(--ink-3);
+      }
+      blockquote .src {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--ink-3);
+        margin: 0 0 8px;
+      }
+      blockquote.chal .src {
+        color: var(--success);
+      }
+      blockquote .q {
+        font-size: 14.5px;
+        color: var(--ink);
+        margin: 0;
+        font-style: italic;
+        line-height: 1.5;
+      }
+
+      /* Caveat */
+      .caveat {
+        background: var(--attention-soft);
+        border: 1px solid var(--attention-line);
+        border-radius: 12px;
+        padding: 22px 24px;
+      }
+      .caveat h3 {
+        border: none;
+        padding: 0;
+        margin: 0 0 10px;
+        color: var(--attention);
+      }
+      .caveat p {
+        margin: 0 0 12px;
+        font-size: 15px;
+        color: #5c4708;
+      }
+      .caveat p:last-child {
+        margin-bottom: 0;
+      }
+      .caveat strong {
+        color: #4a3a06;
+      }
+
+      /* Next step */
+      .next {
+        background: var(--accent-soft);
+        border: 1px solid #b6e3ff;
+        border-radius: 12px;
+        padding: 22px 24px;
+      }
+      .next h3 {
+        border: none;
+        padding: 0;
+        margin: 0 0 8px;
+        color: var(--accent);
+      }
+      .next p {
+        margin: 0;
+        font-size: 15px;
+        color: #0a3a6b;
+      }
+
+      /* Methodology box */
+      .method {
+        background: var(--canvas-subtle);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 18px 20px;
+      }
+      .method h3 {
+        border: none;
+        padding: 0;
+        margin: 0 0 12px;
+      }
+      .method dl {
+        margin: 0;
+        display: grid;
+        grid-template-columns: 180px 1fr;
+        gap: 7px 16px;
+        font-size: 14px;
+      }
+      .method dt {
+        color: var(--ink-3);
+        font-weight: 500;
+      }
+      .method dd {
+        margin: 0;
+        color: var(--ink-2);
+      }
+
+      footer.disclaimer {
+        margin-top: 48px;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+        font-size: 12.5px;
+        color: var(--ink-3);
+        line-height: 1.5;
+      }
+
+      @media (max-width: 640px) {
+        .stats,
+        .vs,
+        .quotes {
+          grid-template-columns: 1fr;
+        }
+        .method dl {
+          grid-template-columns: 1fr;
+          gap: 2px 0;
+        }
+        .method dt {
+          margin-top: 8px;
+        }
+        h1 {
+          font-size: 25px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <p class="eyebrow">Executive Readout · Mirror</p>
+      <h1>Mirror Interview Prompt — A/B Test Readout</h1>
+      <p class="dateline">
+        2026-06-23 · Head-to-head test of two interviewer designs
+      </p>
+
+      <!-- RESULT BANNER -->
+      <div class="banner">
+        <span class="badge">Winner: the simpler prompt</span>
+        <h2>
+          The warm, 5x-smaller prompt won every category — and was the only one
+          that actually finished the interview.
+        </h2>
+        <p>
+          Mirror runs an AI interview that produces a personal leadership read.
+          Today's interviewer is an elaborate, ~27,000-character system. We
+          pitted it against a single, warmer, ~5,800-character prompt.
+          <strong
+            >The simple one scored higher on all seven measures, pulled out more
+            candid and more concrete answers, and wrapped up cleanly. The
+            complex one never wound down and hit the safety stop.</strong
+          >
+        </p>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="num win">7 / 7</div>
+          <div class="lbl">judged categories won by the simple prompt</div>
+        </div>
+        <div class="stat">
+          <div class="num win">~1/5</div>
+          <div class="lbl">
+            the size of today's prompt (5.8K vs 27K characters)
+          </div>
+        </div>
+        <div class="stat">
+          <div class="num win">Finished</div>
+          <div class="lbl">
+            simple prompt completed in ~36 questions; complex one never did
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTENDERS -->
+      <section>
+        <h3>What we put head-to-head</h3>
+        <p class="lead">
+          One AI played the interviewer (each prompt in turn). A second AI
+          played the
+          <em>same</em> realistic person both times — "Matt, Head of Creative
+          Operations at Wayfair," a calm VP quietly anxious about AI. Only the
+          interviewer's prompt changed. A separate, different AI judged the two
+          transcripts on seven dimensions.
+        </p>
+        <div class="vs">
+          <div class="card">
+            <p class="tag">Control · today's prompt</p>
+            <p class="name">The 16-module system</p>
+            <p class="size">~27,000 characters of orchestration</p>
+            <p class="note">
+              Elaborate, heavily engineered. Opened with a clinical bullet-point
+              briefing — competent, but cold — and never reached a natural
+              ending.
+            </p>
+          </div>
+          <div class="card winner">
+            <p class="tag">Challenger · the experiment</p>
+            <p class="name">One warm, simple prompt</p>
+            <p class="size">~5,800 characters</p>
+            <p class="note">
+              A single short instruction with a conversational tone. Opened like
+              a real conversation, drew out the hidden anxiety, and wrapped up
+              cleanly.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCORE TABLE -->
+      <section>
+        <h3>The scorecard (1–5, higher is better)</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>What we measured</th>
+              <th class="col-score">Today (16-module)</th>
+              <th class="col-score col-chal">Simple prompt</th>
+              <th>Winner</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="dim">
+                Topic coverage<small>did it cover the right ground?</small>
+              </td>
+              <td class="score"><span class="pill s4">4</span></td>
+              <td class="score chal"><span class="pill s5">5</span></td>
+              <td><span class="win-mark">▲ Simple</span></td>
+            </tr>
+            <tr>
+              <td class="dim">
+                Depth &amp; specificity<small
+                  >did it get past generalities?</small
+                >
+              </td>
+              <td class="score"><span class="pill s3">3</span></td>
+              <td class="score chal"><span class="pill s5">5</span></td>
+              <td><span class="win-mark">▲ Simple</span></td>
+            </tr>
+            <tr>
+              <td class="dim">
+                Follow-up discipline<small>did it avoid rabbit-holing?</small>
+              </td>
+              <td class="score"><span class="pill s3">3</span></td>
+              <td class="score chal"><span class="pill s4">4</span></td>
+              <td><span class="win-mark">▲ Simple</span></td>
+            </tr>
+            <tr>
+              <td class="dim">Pacing<small>~35-question target</small></td>
+              <td class="score"><span class="pill s3">3</span></td>
+              <td class="score chal"><span class="pill s4">4</span></td>
+              <td><span class="win-mark">▲ Simple</span></td>
+            </tr>
+            <tr>
+              <td class="dim">
+                Opening warmth &amp; rapport<small
+                  >did it put the person at ease?</small
+                >
+              </td>
+              <td class="score"><span class="pill s3">3</span></td>
+              <td class="score chal"><span class="pill s4">4</span></td>
+              <td><span class="win-mark">▲ Simple</span></td>
+            </tr>
+            <tr>
+              <td class="dim">
+                Output-readiness<small
+                  >could you write the report from it?</small
+                >
+              </td>
+              <td class="score"><span class="pill s3">3</span></td>
+              <td class="score chal"><span class="pill s4">4</span></td>
+              <td><span class="win-mark">▲ Simple</span></td>
+            </tr>
+            <tr>
+              <td class="dim">
+                Machine-signal integrity<small
+                  >see caveat below — both weak</small
+                >
+              </td>
+              <td class="score"><span class="pill s2">2</span></td>
+              <td class="score chal"><span class="pill s3">3</span></td>
+              <td><span class="win-mark">▲ Simple</span></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>Result</td>
+              <td class="score">—</td>
+              <td class="score chal">Won all 7</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </section>
+
+      <!-- WHY IT WON -->
+      <section>
+        <h3>Why it won — in business terms</h3>
+        <ul class="reasons">
+          <li>
+            <p class="h">Better rapport → people open up → a richer report.</p>
+            <p class="b">
+              The warm prompt opened like a real conversation and drew out the
+              interviewee's hidden anxiety — he admitted the story leadership
+              tells about AI "has gotten ahead of the reality," and named
+              himself as the bottleneck. The 16-module opened with a cold
+              bullet-point briefing and left that personal fear unspoken.
+            </p>
+          </li>
+          <li>
+            <p class="h">
+              More concrete answers → a sharper, more credible deliverable.
+            </p>
+            <p class="b">
+              The warm prompt pulled out real numbers — retouch time dropping
+              "10–15 minutes down to 5–8," tagging issues on "3–5% of SKUs." The
+              16-module stayed vague ("about a third drifted"). Specifics are
+              what make a leadership read believable.
+            </p>
+          </li>
+          <li>
+            <p class="h">More disciplined → less wasted, repetitive talk.</p>
+            <p class="b">
+              The 16-module kept restating the person's answers back at them and
+              even asked the same question twice. The warm prompt didn't.
+            </p>
+          </li>
+          <li>
+            <p class="h">It actually finishes.</p>
+            <p class="b">
+              The warm prompt completed in about 36 questions and signaled it
+              was done. The 16-module never wound down and ran into the 40-turn
+              safety cap — meaning, left to itself, it doesn't know when to
+              stop.
+            </p>
+          </li>
+          <li>
+            <p class="h">Cheaper to own.</p>
+            <p class="b">
+              One-fifth the size means far less to maintain, tune, and trust. A
+              shorter prompt is easier to reason about and harder to break.
+            </p>
+          </li>
+        </ul>
+      </section>
+
+      <!-- QUOTES -->
+      <section>
+        <h3>What it sounded like</h3>
+        <div class="quotes">
+          <blockquote class="chal">
+            <p class="src">Simple prompt — candor it earned</p>
+            <p class="q">
+              "I'm probably the bottleneck in how quickly we move from 'pilot'
+              to 'standard'… on AI the blast radius feels bigger than a normal
+              tooling change."
+            </p>
+          </blockquote>
+          <blockquote class="ctrl">
+            <p class="src">16-module — how it opened</p>
+            <p class="q">
+              "Before I dig in, here's what I'm picking up:
+              <strong>Your day job:</strong> you run the content factory…
+              <strong>Your 'team' is a machine</strong>…" (a briefing read back
+              at the person, not a question)
+            </p>
+          </blockquote>
+        </div>
+      </section>
+
+      <!-- CAVEAT -->
+      <section class="caveat">
+        <h3>The one honest caveat</h3>
+        <p>
+          Every turn, the interviewer is supposed to emit small machine "control
+          signals" — how far along it is, what topic it's on, whether it's done
+          — that the system uses to drive the flow. In this test, run on
+          OpenAI's gpt-5.2 <strong>outside our production platform</strong>,
+          <strong
+            >both prompts frequently dropped those signals mid-interview
+            (roughly two-thirds of turns).</strong
+          >
+        </p>
+        <p>
+          This is most likely a pessimistic result: our real platform enforces
+          that structure far more strictly, so production would probably hold up
+          better. But that is <strong>unverified.</strong>
+        </p>
+        <p>
+          Bottom line: the simpler prompt is the clear winner on interview
+          quality. Before adopting it, we should (1) confirm the win holds
+          across more interviewee types, and (2) verify the control signals
+          behave on the real platform.
+        </p>
+      </section>
+
+      <!-- NEXT STEP -->
+      <section class="next">
+        <h3>Recommended next step</h3>
+        <p>
+          Run the same head-to-head across 3–4 more interviewee personalities to
+          confirm the win generalizes, and verify control-signal behavior on the
+          production platform. If both hold, the simpler prompt is a strong
+          candidate to replace today's system.
+        </p>
+      </section>
+
+      <!-- METHODOLOGY -->
+      <section class="method">
+        <h3>Test details (small print)</h3>
+        <dl>
+          <dt>Interviewer model</dt>
+          <dd>OpenAI gpt-5.2 (via Vercel AI Gateway)</dd>
+          <dt>Judge model</dt>
+          <dd>
+            Anthropic Claude Sonnet 4.6 — deliberately a different model family,
+            to avoid bias
+          </dd>
+          <dt>Interviewee</dt>
+          <dd>
+            One persona: a Wayfair creative-operations VP, calm but quietly
+            anxious about AI
+          </dd>
+          <dt>Both runs</dt>
+          <dd>
+            40-turn safety cap; identical interviewee, only the interviewer
+            prompt differed
+          </dd>
+          <dt>Scope</dt>
+          <dd>
+            This is one persona —
+            <strong>directional, not yet a generalized result.</strong>
+          </dd>
+        </dl>
+      </section>
+
+      <footer class="disclaimer">
+        This readout was generated by Claude on Matt's behalf and has not yet
+        been reviewed by him. Any errors, mischaracterizations, or wrong numbers
+        here are the agent's doing, not Matt's — and ownership of the final call
+        sits with Matt.
+      </footer>
+    </div>
+  </body>
+</html>
