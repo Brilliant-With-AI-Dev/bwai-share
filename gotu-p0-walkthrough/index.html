@@ -510,20 +510,12 @@
           The front door. A single, calm promise &mdash;
           <strong>&ldquo;Your AI readiness, in sharp focus&rdquo;</strong>
           &mdash; with a sense of the commitment up front: this screen says
-          roughly <strong>45 minutes</strong> and about
+          <strong>45&ndash;60 minutes</strong> and about
           <strong>25 questions</strong>, voice-enabled. One green
           <strong>Begin Experience</strong> button, and a quiet reassurance that
           they can pause and come back. The goal here is to set expectations and
           lower the stakes before anyone starts talking.
         </p>
-        <span class="inline-note">
-          <strong>One honest inconsistency to fix:</strong> this welcome screen
-          says <strong>~45 minutes / ~25 questions</strong>, but the intake form
-          a couple of screens later (screen 5) says
-          <strong>&ldquo;about 30 minutes.&rdquo;</strong> Both are real, live
-          copy in the product today &mdash; they just disagree. Worth settling
-          on one number before this ships.
-        </span>
       </div>
 
       <div class="screen">
@@ -551,28 +543,19 @@
         <div class="screen-head">
           <span class="screen-num">03</span>
           <h3 class="screen-title">Watch this before you begin</h3>
-          <span class="tag placeholder">Placeholder asset</span>
         </div>
         <figure>
           <img
             src="img/03-intake-video.png"
-            alt="Step 2 of 2: Watch this before you begin — video placeholder"
+            alt="Step 2 of 2: Watch this before you begin — orientation video"
           />
         </figure>
         <p class="screen-copy">
           The second setup step: a short orientation video that frames what the
           experience is and how to get the most from it. People watch it, then
-          confirm and continue.
+          confirm and continue. The video shown here is the current orientation
+          cut; the final version may still change.
         </p>
-        <span class="inline-note">
-          <strong>What's real vs. placeholder here:</strong> the gate itself is
-          real and working &mdash; the step exists, it's required, and the flow
-          moves through it correctly. The
-          <strong>video itself is a stand-in</strong>; the panel currently reads
-          &ldquo;Instructional video coming soon.&rdquo; The actual orientation
-          video still needs to be produced and dropped in. Everything around it
-          is finished.
-        </span>
       </div>
 
       <!-- CHAPTER 2: THE INTERVIEW -->
@@ -601,9 +584,7 @@
           email, title, company, website. The progress marker (&ldquo;Step 1 of
           6&rdquo;) tells people roughly how far in they are, and the line
           <strong>&ldquo;there are no right answers&rdquo;</strong> sets the
-          tone for what's coming. The little Empty / Matt / Stacey toggle near
-          the top is a developer convenience for filling the form during testing
-          &mdash; not something a GoTu participant would ever see.
+          tone for what's coming.
         </p>
       </div>
 
@@ -621,11 +602,10 @@
         <p class="screen-copy">
           The same form once it's complete &mdash; here filled in as
           <strong>Priya Raman, VP of Marketing at Northwind Retail Group</strong
-          >, the one sample person we carry through this entire walkthrough.
-          Note the form's own line,
-          <strong>&ldquo;about 30 minutes&rdquo;</strong> &mdash; the
-          discrepancy with the welcome screen's &ldquo;~45 minutes&rdquo;
-          flagged on screen 1. With the required fields filled, the
+          >, the one sample person we carry through this entire walkthrough. The
+          form's own line now reads
+          <strong>&ldquo;45&ndash;60 minutes,&rdquo;</strong> consistent with
+          the welcome screen. With the required fields filled, the
           <strong>Continue</strong> button turns green and active, and the
           person moves into the conversation itself.
         </p>
@@ -970,11 +950,10 @@
           </tr>
           <tr>
             <td>The orientation video</td>
-            <td><span class="pill stub">Placeholder</span></td>
+            <td><span class="pill real">Real</span></td>
             <td>
-              The required &ldquo;watch this&rdquo; step works, but the video
-              itself is a stand-in (&ldquo;coming soon&rdquo;). The real video
-              still needs to be produced and dropped in.
+              The required &ldquo;watch this&rdquo; step works and now plays the
+              current orientation video. The final cut may still change.
             </td>
           </tr>
           <tr>
@@ -1038,8 +1017,8 @@
                 <td>Progressive-start gate (bapps#772)</td>
                 <td>
                   Gate is a completion requirement, not a pass/fail. Video panel
-                  is a placeholder (&ldquo;coming soon&rdquo;) pending a real
-                  YouTube id.
+                  plays the current orientation video; the final cut may still
+                  change.
                 </td>
               </tr>
               <tr>
