@@ -416,13 +416,18 @@
     <div class="wrap">
       <p class="eyebrow">GoTu · Pre-Workshop Experience</p>
       <h1>The Mirror experience GoTu will go through, start to finish</h1>
-      <p class="dateline">A faithful screen-by-screen preview · June 2026</p>
+      <p class="dateline">A screen-by-screen preview · June 2026</p>
 
       <p class="lede">
-        This is a complete walkthrough of the guided AI-readiness experience the
-        GoTu cohort will go through before their workshop. Each person opens a
-        link, has a short voice-or-typed conversation with an AI interviewer,
-        and walks away with a personal written report.
+        <strong
+          >&ldquo;Mirror&rdquo; is our name for this guided AI-readiness
+          experience.</strong
+        >
+        In the week before GoTu's live workshop, each member of GoTu's team
+        &mdash; the group we'll call the <strong>cohort</strong> &mdash; goes
+        through it on their own. One person opens a link, has a short
+        voice-or-typed conversation with an AI interviewer, and walks away with
+        a personal written report.
         <strong
           >This document captures every screen of that journey, in order, with a
           plain-English note on what's happening and why it matters.</strong
@@ -454,20 +459,24 @@
       <div class="box info" style="margin-bottom: 8px">
         <p>
           The pieces of this experience were built in separate streams of work.
-          For this preview we assembled them into a single build and drove it
-          from the very first screen to the very last, capturing each step.
+          For this preview we assembled them into a single build and walked one
+          sample person &mdash; &ldquo;Priya Raman, VP of Marketing at Northwind
+          Retail Group&rdquo; &mdash; through it end to end, from the first
+          screen to the last, capturing each step. The same person carries
+          across every screen, so this reads as one continuous journey rather
+          than a set of disconnected snapshots.
         </p>
         <p>
           It ran in <strong>&ldquo;mock mode&rdquo;</strong> &mdash; the real,
           production screens, but fed with sample answers instead of a live
-          person, and with the AI's thinking stubbed out rather than actually
-          running. That's deliberate: it lets us show the exact shape of the
-          experience &mdash; every screen, every transition, every button
+          person, and with the AI's live thinking switched off rather than
+          actually running. That's deliberate: it lets us show the exact shape
+          of the experience &mdash; every screen, every transition, every button
           &mdash; without waiting on real AI inference.
         </p>
         <p>
-          So this <strong>proves the journey</strong>: what a GoTu participant
-          sees, in what order, and how it flows together. It does
+          So this <strong>proves the journey</strong>: what someone in the
+          cohort sees, in what order, and how it flows together. It does
           <strong>not</strong> exercise the quality of the AI's actual questions
           or the writing in a real report &mdash; those depend on live
           inference, which mock mode intentionally skips. Think of it as the
@@ -500,12 +509,21 @@
         <p class="screen-copy">
           The front door. A single, calm promise &mdash;
           <strong>&ldquo;Your AI readiness, in sharp focus&rdquo;</strong>
-          &mdash; with an honest sense of the commitment up front: roughly 45
-          minutes, about 25 questions, voice-enabled. One green
+          &mdash; with a sense of the commitment up front: this screen says
+          roughly <strong>45 minutes</strong> and about
+          <strong>25 questions</strong>, voice-enabled. One green
           <strong>Begin Experience</strong> button, and a quiet reassurance that
           they can pause and come back. The goal here is to set expectations and
           lower the stakes before anyone starts talking.
         </p>
+        <span class="inline-note">
+          <strong>One honest inconsistency to fix:</strong> this welcome screen
+          says <strong>~45 minutes / ~25 questions</strong>, but the intake form
+          a couple of screens later (screen 5) says
+          <strong>&ldquo;about 30 minutes.&rdquo;</strong> Both are real, live
+          copy in the product today &mdash; they just disagree. Worth settling
+          on one number before this ships.
+        </span>
       </div>
 
       <div class="screen">
@@ -601,10 +619,15 @@
           />
         </figure>
         <p class="screen-copy">
-          The same form once it's complete &mdash; here populated with the
-          sample participant we used to drive the preview. With the required
-          fields filled, the <strong>Continue</strong> button turns green and
-          active, and the person moves into the conversation itself.
+          The same form once it's complete &mdash; here filled in as
+          <strong>Priya Raman, VP of Marketing at Northwind Retail Group</strong
+          >, the one sample person we carry through this entire walkthrough.
+          Note the form's own line,
+          <strong>&ldquo;about 30 minutes&rdquo;</strong> &mdash; the
+          discrepancy with the welcome screen's &ldquo;~45 minutes&rdquo;
+          flagged on screen 1. With the required fields filled, the
+          <strong>Continue</strong> button turns green and active, and the
+          person moves into the conversation itself.
         </p>
       </div>
 
@@ -642,19 +665,21 @@
         </figure>
         <p class="screen-copy">
           A few turns in. The participant's answers are the dark bubbles, the
-          interviewer's are the light ones. The interviewer
+          interviewer's are the light ones, and a progress bar tracks how far
+          along they are. In the real product, the interviewer
           <strong>listens and follows up</strong> &mdash; reflecting back what
           it heard, then asking a sharper question based on it, rather than
-          reading from a fixed script. This adaptive quality is the core of the
-          experience.
+          reading from a fixed script. That adaptive quality is a property of
+          the live experience, not of these frames.
         </p>
         <span class="inline-note">
-          Remember this ran in mock mode with sample answers, so treat the
-          specific wording as illustrative.
-          <strong
-            >The shape of the exchange is real; the conversational quality of a
-            live run is tested separately.</strong
-          >
+          <strong>What you're actually seeing here:</strong> this ran in mock
+          mode, so the interviewer is following a short, fixed script of
+          pre-written questions &mdash; it is <em>not</em> adapting to the
+          answers in this capture. The point of this screen is to show the
+          <strong>shape</strong> of a back-and-forth (turns, bubbles, progress).
+          Whether the live model actually asks good, adaptive questions is
+          tested separately.
         </span>
       </div>
 
@@ -670,11 +695,23 @@
           />
         </figure>
         <p class="screen-copy">
-          When the interviewer has gathered enough, it signals that the
-          conversation is complete and points the person toward the closing
-          questions. The experience knows when it has what it needs and moves on
-          cleanly, rather than letting the conversation drift.
+          At the end of the scripted conversation, the interviewer signals that
+          it has what it needs &mdash;
+          <strong
+            >&ldquo;You're all set &mdash; click 'Continue' to move to the
+            closing questions&rdquo;</strong
+          >
+          &mdash; and a <strong>Finish Interview</strong> button appears. This
+          is the clean hand-off from the interview to the wrap-up.
         </p>
+        <span class="inline-note">
+          A mock-mode detail, for honesty: the script here is a fixed list of
+          messages. If you kept typing <em>after</em> this completion line, the
+          mock would just repeat a canned &ldquo;the interview is
+          complete&rdquo; reply &mdash; that's a property of the stub script,
+          not a bug in the live product, which ends the conversation when its
+          own logic decides it has enough.
+        </span>
       </div>
 
       <!-- CHAPTER 3: WRAPPING UP -->
@@ -732,10 +769,12 @@
         <p class="screen-copy">
           The first payoff arrives quickly: a tight, scannable
           <strong>&ldquo;Your Crucial Insights&rdquo;</strong> snapshot that
-          names a few things that genuinely stood out from the conversation. It
-          can be copied, downloaded, or saved as a PDF right away, and a small
-          follow-up panel lets the person ask about what they're seeing. This is
-          the immediate &ldquo;that was worth it&rdquo; moment.
+          names a few things that stood out from the conversation, with
+          <strong>Copy / Download / PDF</strong> right at the top. Below the
+          snapshot (further down this same screen) sits a short
+          <strong>follow-up panel</strong> where the person can ask about what
+          they're seeing. This is the immediate &ldquo;that was worth it&rdquo;
+          moment.
         </p>
       </div>
 
@@ -755,9 +794,11 @@
         <p class="screen-copy">
           Then the longer, more personal report. Rather than dumping a wall of
           text, it's revealed <strong>one section at a time</strong> (here,
-          &ldquo;Section 1 of 11&rdquo;). The person reads a piece, can react to
-          it, then moves on. The pacing keeps a substantial document from
-          feeling overwhelming and makes the whole thing feel like a
+          &ldquo;Section 1 of 11&rdquo;). The person reads a piece, can reply to
+          it in the box at the bottom &mdash;
+          <strong>&ldquo;3 replies left,&rdquo;</strong> voice or typed &mdash;
+          then moves on to the next. The pacing keeps a substantial document
+          from feeling overwhelming and makes the whole thing feel like a
           conversation rather than a hand-off.
         </p>
       </div>
@@ -770,15 +811,18 @@
         <figure>
           <img
             src="img/12-report-dialogue-and-download.png"
-            alt="Report reply composer with mic button and 5 replies left, plus Copy / Download / PDF"
+            alt="Report with Copy / Download / PDF controls and a Continue reading affordance"
           />
         </figure>
         <p class="screen-copy">
-          The report isn't a dead end. People can <strong>reply to it</strong>
-          &mdash; push back, ask for a tweak, or just say how it lands &mdash;
-          using the same speak-or-type box, with a clear sense of how many
-          replies they have. And the whole thing can be copied, downloaded, or
-          saved as a PDF, so it's theirs to keep and share.
+          The report is theirs to keep. Every panel carries
+          <strong>Copy / Download / PDF</strong> controls, so the whole thing
+          can be saved or shared, and a
+          <strong>&ldquo;Continue reading&rdquo;</strong>
+          affordance moves through the document at the reader's pace. Combined
+          with the reply box from the previous screen, the report behaves like
+          something you can talk back to and take with you &mdash; not a
+          dead-end hand-off.
         </p>
       </div>
 
@@ -804,8 +848,11 @@
           />
         </figure>
         <p class="screen-copy">
-          The closing screen. It confirms the report is saved and ready, then
-          hands off to the live event:
+          The closing screen. Its heading reads
+          <strong>&ldquo;Thanks &mdash; your Mirror is complete.&rdquo;</strong>
+          (with a small &ldquo;You're all set&rdquo; eyebrow above it.) It
+          confirms the report is saved and ready, then hands off to the live
+          event:
           <strong
             >&ldquo;We'll see you at the workshop, where we'll build on what
             surfaced here.&rdquo;</strong
@@ -846,15 +893,18 @@
           />
         </figure>
         <p class="screen-copy">
-          This is the same closing view, shown again to make one point clearly:
-          when you read the report all the way to its end, there is
-          <strong>no &ldquo;action plan&rdquo; section</strong>. That's
-          intentional. For GoTu, the deeper, do-this-next action plan is
+          This is the <strong>end of the report</strong>: the last of the
+          deliverable content (the insights and report sections) runs out, and
+          the very next thing on the page is the
+          <strong>&ldquo;Thanks &mdash; your Mirror is complete&rdquo;</strong>
+          closing card. There is
+          <strong>no &ldquo;action plan&rdquo; section</strong> in between.
+          That's intentional. For GoTu, the deeper, do-this-next action plan is
           <strong>held back for the live workshop</strong> &mdash; the report
           gives people genuine insight, and the workshop is where that turns
-          into a concrete plan. This screenshot is the evidence that the
-          withholding actually works: the participant's report stops short of
-          the action plan, exactly as designed.
+          into a concrete plan. This screenshot is the evidence: the report goes
+          straight from its final content to the workshop hand-off, with the
+          action plan absent by design.
         </p>
       </div>
 
@@ -862,14 +912,14 @@
         <div class="screen-head">
           <span class="screen-num">15</span>
           <h3 class="screen-title">
-            The action-plan screen (behind the glass)
+            The action-plan screen (behind the scenes)
           </h3>
           <span class="tag behind">Not in the GoTu journey</span>
         </div>
         <figure>
           <img
             src="img/15-action-plan-route-mock.png"
-            alt="The standalone action-plan surface — a behind-the-scenes mock, not part of the GoTu experience"
+            alt="The standalone action-plan surface — shown behind the scenes, not part of the GoTu experience"
           />
         </figure>
         <p class="screen-copy">
@@ -879,14 +929,15 @@
           or a peer.
         </p>
         <span class="inline-note">
-          <strong>Important:</strong> a GoTu participant never reaches this
-          screen. In a real GoTu deployment this route is dark, and &mdash; as
-          screen 14 shows &mdash; the report itself correctly stops before the
-          action plan. This is shown only so the team can see the held-back
-          piece.
+          <strong>Important:</strong> someone in the GoTu cohort never reaches
+          this screen. In a real GoTu deployment this screen is switched off and
+          unreachable for participants, and &mdash; as screen 14 shows &mdash;
+          the report itself correctly stops before the action plan. We're
+          showing it here, behind the scenes, only so the team can see the
+          held-back piece.
           <strong
-            >Treat it as a behind-the-scenes artifact, not part of the GoTu
-            user's experience.</strong
+            >Treat it as an internal reference, not part of what a GoTu
+            participant sees.</strong
           >
         </span>
       </div>
@@ -897,7 +948,7 @@
       <p class="section-intro">
         Nothing here is hidden. This is the same list of caveats from the
         walkthrough, gathered in one place so a reader can size up the draft at
-        a glance before it's red-teamed.
+        a glance before it goes through a critical review pass.
       </p>
 
       <table class="reality">
@@ -946,17 +997,17 @@
             <td>The AI's actual interview &amp; report quality</td>
             <td><span class="pill stub">Not exercised here</span></td>
             <td>
-              It ran in mock mode with sample answers and stubbed AI thinking,
-              so the live conversational and writing quality isn't proven by
-              this preview &mdash; that's tested separately.
+              It ran in mock mode with sample answers and the AI's live thinking
+              switched off, so the live conversational and writing quality isn't
+              proven by this preview &mdash; that's tested separately.
             </td>
           </tr>
           <tr>
             <td>The standalone action-plan screen (screen 15)</td>
             <td><span class="pill stub">Behind-the-scenes</span></td>
             <td>
-              Shown only for transparency. It is dark for GoTu; participants
-              never reach it.
+              Shown only for transparency. It is switched off and unreachable
+              for GoTu participants; they never reach it.
             </td>
           </tr>
         </tbody>
@@ -969,7 +1020,9 @@
           <p>
             Kept out of the main narrative on purpose. This maps the
             participant-facing features above to the underlying work, for anyone
-            who needs to trace the build.
+            who needs to trace the build. (&ldquo;P0&rdquo; below is shorthand
+            for the first-cut scope &mdash; the smallest version that proves the
+            GoTu ending end to end.)
           </p>
           <table>
             <thead>
@@ -985,7 +1038,8 @@
                 <td>Progressive-start gate (bapps#772)</td>
                 <td>
                   Gate is a completion requirement, not a pass/fail. Video panel
-                  is stubbed pending a real YouTube id.
+                  is a placeholder (&ldquo;coming soon&rdquo;) pending a real
+                  YouTube id.
                 </td>
               </tr>
               <tr>
@@ -1008,14 +1062,12 @@
               </tr>
               <tr>
                 <td>Insights snapshot (screen 10)</td>
-                <td>Insights snapshot surface (&ldquo;U1&rdquo;)</td>
+                <td>Insights snapshot surface</td>
                 <td>Copy / Download / PDF + follow-up dialogue panel.</td>
               </tr>
               <tr>
                 <td>Sectioned report + reply (screens 11&ndash;12)</td>
-                <td>
-                  Mirror Report v2, progressive disclosure (&ldquo;U2&rdquo;)
-                </td>
+                <td>Mirror Report v2, progressive disclosure</td>
                 <td>
                   11 sections; capped reply count; product-default ChatInput.
                 </td>
@@ -1030,7 +1082,7 @@
                 <td>P0 action-plan withhold</td>
                 <td>
                   Report correctly omits the action plan; the standalone
-                  action-plan route is dark for GoTu.
+                  action-plan screen is switched off and unreachable for GoTu.
                 </td>
               </tr>
             </tbody>
@@ -1038,15 +1090,19 @@
           <p style="margin-top: 18px; color: var(--ink-3)">
             Run in mock mode (real screens, sample answers, no live inference)
             from a single assembled build that is not yet merged or deployed.
-            Screen 13 and screen 14 are the same terminal view, captured twice
-            to make the action-plan-withhold point.
+            One sample person (&ldquo;Priya Raman, Northwind Retail
+            Group&rdquo;) was walked through the whole flow, so the intake form,
+            interview, insights, and report all carry the same identity. Screen
+            13 frames the closing card; screen 14 frames the end of the report
+            content directly above that card &mdash; two different views, used
+            together to show the action plan is absent.
           </p>
         </div>
       </details>
 
       <footer>
-        Built by Claude on Matt's behalf as a red-team-ready draft. Matt hasn't
-        necessarily read this copy line by line, so if anything here is wrong,
+        Built by Claude on Matt's behalf as a draft for review. Matt hasn't
+        reviewed this copy line by line, so if anything here is wrong,
         overstated, or just awkward, that's on me, the AI &mdash; not on him.
         Verify against the live experience before treating any claim as final.
       </footer>
