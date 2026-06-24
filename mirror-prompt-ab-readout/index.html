@@ -570,36 +570,40 @@
       <div class="banner">
         <span class="badge">Winner: the simpler prompt</span>
         <h2>
-          The warm, 5x-smaller prompt won every category — and was the only one
-          that actually finished the interview.
+          The warmer prompt ran a more natural conversation — and drew out the
+          one thing the other one didn't: how Matt feels about his own role in
+          this.
         </h2>
         <p>
           Mirror runs an AI interview that produces a personal leadership read.
-          Today's interviewer is an elaborate, ~27,000-character system. We
-          pitted it against a single, warmer, ~5,800-character prompt.
+          Both interviewers were competent and both covered the right ground —
+          this isn't about one breaking rules. Judged on
           <strong
-            >The simple one scored higher on all seven measures, pulled out more
-            candid and more concrete answers, and wrapped up cleanly. The
-            complex one never wound down and hit the safety stop.</strong
-          >
+            >how the conversation actually felt and what it surfaced</strong
+          >, the simpler prompt read more like a real dialogue, kept its
+          momentum, pulled out sharper specifics, and got Matt to talk about
+          <em>himself</em> — not just his org. For producing a truer Mirror
+          report on this person, that's the better raw material.
         </p>
       </div>
 
       <div class="stats">
         <div class="stat">
-          <div class="num win">7 / 7</div>
-          <div class="lbl">judged categories won by the simple prompt</div>
-        </div>
-        <div class="stat">
-          <div class="num win">~1/5</div>
+          <div class="num win">More natural</div>
           <div class="lbl">
-            the size of today's prompt (5.8K vs 27K characters)
+            read like a conversation, not a structured questionnaire
           </div>
         </div>
         <div class="stat">
-          <div class="num win">Finished</div>
+          <div class="num win">Sharper detail</div>
           <div class="lbl">
-            simple prompt completed in ~36 questions; complex one never did
+            pinned down real numbers and dated incidents, not generalities
+          </div>
+        </div>
+        <div class="stat">
+          <div class="num win">Personal truth</div>
+          <div class="lbl">
+            got Matt to name himself as the bottleneck — the heart of the read
           </div>
         </div>
       </div>
@@ -612,8 +616,10 @@
           played the
           <em>same</em> realistic person both times — "Matt, Head of Creative
           Operations at Wayfair," a calm VP quietly anxious about AI. Only the
-          interviewer's prompt changed. A separate, different AI judged the two
-          transcripts on seven dimensions.
+          interviewer's prompt changed. A separate, different AI then read both
+          transcripts and judged the <em>quality of the conversation</em> — how
+          natural it felt, how well it flowed, how much it drew the person out,
+          and how rich the material it produced.
         </p>
         <div class="vs">
           <div class="card">
@@ -621,9 +627,10 @@
             <p class="name">The 16-module system</p>
             <p class="size">~27,000 characters of orchestration</p>
             <p class="note">
-              Elaborate, heavily engineered. Opened with a clinical bullet-point
-              briefing — competent, but cold — and never reached a natural
-              ending.
+              Elaborate and thorough. Works a structured coverage plan and
+              reflects each answer back before moving on — by design. It earned
+              genuinely strong strategic context, but it reads more like a
+              well-run questionnaire than a conversation.
             </p>
           </div>
           <div class="card winner">
@@ -632,8 +639,8 @@
             <p class="size">~5,800 characters</p>
             <p class="note">
               A single short instruction with a conversational tone. Opened like
-              a real conversation, drew out the hidden anxiety, and wrapped up
-              cleanly.
+              a real conversation, built each question on the last, pressed for
+              specifics, and got the interviewee to talk about himself.
             </p>
           </div>
         </div>
@@ -641,11 +648,18 @@
 
       <!-- SCORE TABLE -->
       <section>
-        <h3>The scorecard (1–5, higher is better)</h3>
+        <h3>
+          The scorecard — judged on conversation quality (1–5, higher is better)
+        </h3>
+        <p class="lead">
+          Five qualitative axes, scored from the transcripts. Not "did it follow
+          its rules" — both did. The question is which one ran the better
+          interview and produced the better material for a Mirror report.
+        </p>
         <table>
           <thead>
             <tr>
-              <th>What we measured</th>
+              <th>What we judged</th>
               <th class="col-score">Today (16-module)</th>
               <th class="col-score col-chal">Simple prompt</th>
               <th>Winner</th>
@@ -654,7 +668,39 @@
           <tbody>
             <tr>
               <td class="dim">
-                Topic coverage<small>did it cover the right ground?</small>
+                Naturalness<small
+                  >does it read like a conversation, or a questionnaire?</small
+                >
+              </td>
+              <td class="score"><span class="pill s3">3</span></td>
+              <td class="score chal"><span class="pill s5">5</span></td>
+              <td><span class="win-mark">▲ Simple</span></td>
+            </tr>
+            <tr>
+              <td class="dim">
+                Flow / momentum<small
+                  >does each question build on the last?</small
+                >
+              </td>
+              <td class="score"><span class="pill s3">3</span></td>
+              <td class="score chal"><span class="pill s5">5</span></td>
+              <td><span class="win-mark">▲ Simple</span></td>
+            </tr>
+            <tr>
+              <td class="dim">
+                Rapport &amp; candor<small
+                  >did he open up — about himself, not just the org?</small
+                >
+              </td>
+              <td class="score"><span class="pill s3">3</span></td>
+              <td class="score chal"><span class="pill s5">5</span></td>
+              <td><span class="win-mark">▲ Simple</span></td>
+            </tr>
+            <tr>
+              <td class="dim">
+                Richness of context<small
+                  >depth, specifics, vivid quotable material</small
+                >
               </td>
               <td class="score"><span class="pill s4">4</span></td>
               <td class="score chal"><span class="pill s5">5</span></td>
@@ -662,64 +708,20 @@
             </tr>
             <tr>
               <td class="dim">
-                Depth &amp; specificity<small
-                  >did it get past generalities?</small
+                Output-readiness<small
+                  >would it make the truer Mirror report?</small
                 >
               </td>
               <td class="score"><span class="pill s3">3</span></td>
               <td class="score chal"><span class="pill s5">5</span></td>
               <td><span class="win-mark">▲ Simple</span></td>
             </tr>
-            <tr>
-              <td class="dim">
-                Follow-up discipline<small>did it avoid rabbit-holing?</small>
-              </td>
-              <td class="score"><span class="pill s3">3</span></td>
-              <td class="score chal"><span class="pill s4">4</span></td>
-              <td><span class="win-mark">▲ Simple</span></td>
-            </tr>
-            <tr>
-              <td class="dim">Pacing<small>~35-question target</small></td>
-              <td class="score"><span class="pill s3">3</span></td>
-              <td class="score chal"><span class="pill s4">4</span></td>
-              <td><span class="win-mark">▲ Simple</span></td>
-            </tr>
-            <tr>
-              <td class="dim">
-                Opening warmth &amp; rapport<small
-                  >did it put the person at ease?</small
-                >
-              </td>
-              <td class="score"><span class="pill s3">3</span></td>
-              <td class="score chal"><span class="pill s4">4</span></td>
-              <td><span class="win-mark">▲ Simple</span></td>
-            </tr>
-            <tr>
-              <td class="dim">
-                Output-readiness<small
-                  >could you write the report from it?</small
-                >
-              </td>
-              <td class="score"><span class="pill s3">3</span></td>
-              <td class="score chal"><span class="pill s4">4</span></td>
-              <td><span class="win-mark">▲ Simple</span></td>
-            </tr>
-            <tr>
-              <td class="dim">
-                Machine-signal integrity<small
-                  >see caveat below — both weak</small
-                >
-              </td>
-              <td class="score"><span class="pill s2">2</span></td>
-              <td class="score chal"><span class="pill s3">3</span></td>
-              <td><span class="win-mark">▲ Simple</span></td>
-            </tr>
           </tbody>
           <tfoot>
             <tr>
-              <td>Result</td>
-              <td class="score">—</td>
-              <td class="score chal">Won all 7</td>
+              <td>Overall</td>
+              <td class="score">Competent, thorough</td>
+              <td class="score chal">More natural, richer</td>
               <td></td>
             </tr>
           </tfoot>
@@ -732,8 +734,9 @@
         <p class="lead">
           Both interviewers reached the same topics with the same person. Here
           are six moments side by side — Control (today's prompt) on the left,
-          the simple prompt on the right, in their own words. The contrast is
-          the whole argument.
+          the simple prompt on the right, in their own words. Read them as
+          conversation: which one feels alive, and which one gets the more
+          revealing answer.
         </p>
         <div class="pairs">
           <!-- 1. The opening -->
@@ -766,11 +769,14 @@
               </div>
             </div>
             <p class="takeaway">
-              <strong>Built rapport.</strong> Control read a briefing back at
-              the person and asked them to grade it. The simple prompt named the
-              quiet anxiety — pride of craft, "responsible for all three" — then
-              opened the floor. One sounds like a status report; the other
-              sounds like a conversation.
+              <strong
+                >One opened like a briefing; one opened like a
+                conversation.</strong
+              >
+              Control led with a tidy summary of what it already knew and asked
+              Matt to confirm it. The simple prompt named the human tension —
+              pride of craft, "responsible for all three" — then handed him the
+              floor. The first invites a yes/no; the second invites him to talk.
             </p>
           </div>
 
@@ -803,25 +809,25 @@
               </div>
             </div>
             <p class="takeaway">
-              <strong>Extracted a real number.</strong> Both heard about the
-              same pilot. Control left it at "saves minutes" / "weird
-              artifacts." The simple prompt asked the follow-up that pinned the
-              actual before / after — and surfaced the hidden trap: the time
-              saved comes right back in QA.
+              <strong>Richer answer.</strong> Both heard about the same pilot.
+              Control got a clear qualitative read — "saves minutes," but "weird
+              artifacts." The simple prompt's next question pressed for the
+              actual before/after and surfaced the hidden trap: the time saved
+              comes right back in QA. Same topic, more usable material.
             </p>
           </div>
 
-          <!-- 3. Echoing the answer back -->
+          <!-- 3. Reflect-back vs build-forward -->
           <div class="pair">
             <p class="topic">
               After the pipeline walkthrough
-              <span class="moment">· what the interviewer did next</span>
+              <span class="moment">· what the interviewer said next</span>
             </p>
             <div class="pair-cols">
               <div class="pair-cell ctrl">
                 <p class="who">Control · today's prompt</p>
                 <p class="line">
-                  <span class="strip">[restated the answer back]</span> "So the
+                  <span class="strip">[reflected the answer back]</span> "So the
                   pain isn't 'creative magic' — it's inputs, handoffs, and
                   rework loops that eat the gains."
                 </p>
@@ -829,8 +835,8 @@
               <div class="pair-cell chal">
                 <p class="who">Simple prompt</p>
                 <p class="line">
-                  <span class="strip">[drilled one level deeper]</span> "On the
-                  metadata/ingestion break, what's the most common concrete
+                  <span class="strip">[built on it, one level deeper]</span> "On
+                  the metadata/ingestion break, what's the most common concrete
                   error — wrong filename, missing attribute, wrong channel spec,
                   version confusion — and how often does it happen (rough % of
                   SKUs)?"
@@ -838,10 +844,12 @@
               </div>
             </div>
             <p class="takeaway">
-              <strong>Avoided parroting.</strong> Control spent its turn
-              summarizing what it had just been told — pleasant, but it adds
-              nothing. The simple prompt spent the same turn mining for a
-              number, which is how it got the "3–5% of SKUs" figure below.
+              <strong>Reflect back vs. build forward.</strong> Control closes
+              the topic by summarizing it back — accurate, and exactly what its
+              design asks for. The simple prompt uses the same turn to push the
+              conversation forward, which is how it reached the "3–5% of SKUs"
+              figure below. Both are valid moves; the second one keeps the
+              dialogue moving and gains ground.
             </p>
           </div>
 
@@ -872,11 +880,12 @@
               </div>
             </div>
             <p class="takeaway">
-              <strong>Went one level deeper.</strong> Same underlying problem —
-              unreliable asset data. Control got a qualitative "it's messy." The
-              simple prompt got a quantified failure rate and a dated rollback
-              incident right after it — the kind of detail a credible report is
-              built from.
+              <strong>Specifics vs. generalities.</strong> Same underlying
+              problem — unreliable asset data. Control captured the shape of it
+              well ("it's messy, the truth lives in comments"). The simple
+              prompt got a quantified failure rate and, right after, a dated
+              rollback incident — the vivid, concrete detail a credible report
+              is built from.
             </p>
           </div>
 
@@ -910,28 +919,28 @@
               </div>
             </div>
             <p class="takeaway">
-              <strong>Surfaced the hidden fear.</strong> Control's "knife on the
-              table" pointed outward — at the organization. The simple prompt
-              asked Matt the blunt personal question — "what's the biggest
-              bottleneck you personally are right now in all of this?" — and got
-              him to name himself. That admission is the heart of a leadership
-              read.
+              <strong>The most important difference.</strong> Both reached a
+              candid moment. Control's pointed outward — a sharp, honest truth
+              about the <em>organization</em>. The simple prompt asked the blunt
+              personal question and got Matt to turn the lens on
+              <em>himself</em>: "I'm probably the bottleneck." For a leadership
+              read, the admission about the person is the gold — and only one
+              interview went there.
             </p>
           </div>
 
           <!-- 6. The ending -->
           <div class="pair">
             <p class="topic">
-              How the interview ended
-              <span class="moment">· final turn of each transcript</span>
+              How the conversation landed
+              <span class="moment">· last turn of each transcript</span>
             </p>
             <div class="pair-cols">
               <div class="pair-cell ctrl">
                 <p class="who">Control · today's prompt</p>
                 <p class="line">
                   <span class="strip"
-                    >Still asking new questions when the 40-turn safety cap cut
-                    it off — never signalled "done":</span
+                    >Still opening new operational threads at the end:</span
                   >
                   "What's the first concrete milestone you'd put on the calendar
                   that forces cross-functional alignment…"
@@ -941,7 +950,7 @@
                 <p class="who">Simple prompt</p>
                 <p class="line">
                   <span class="strip"
-                    >Wound down cleanly and marked itself complete:</span
+                    >Closed on a question about the person:</span
                   >
                   "Thanks — that's clear. …would you rather be remembered for
                   hitting the cost-out number even if it annoyed creatives, or
@@ -951,10 +960,11 @@
               </div>
             </div>
             <p class="takeaway">
-              <strong>Knew when to stop.</strong> Control never wound down — it
-              ran into the safety cap mid-question. The simple prompt landed on
-              a clean capstone and flagged itself finished. Left alone, one
-              knows the interview is over; the other doesn't.
+              <strong>Where each chose to end.</strong> Control's last beats
+              keep mining operational detail — thorough, and consistent with its
+              long, coverage-driven design. The simple prompt arced toward a
+              human capstone: a values question that asks who Matt wants to be.
+              One ends like a working session; the other ends like a portrait.
             </p>
           </div>
         </div>
@@ -962,50 +972,52 @@
 
       <!-- WHY IT WON -->
       <section>
-        <h3>Why it won — in business terms</h3>
+        <h3>Why the simpler prompt produced the better interview</h3>
         <ul class="reasons">
           <li>
-            <p class="h">Better rapport → people open up → a richer report.</p>
+            <p class="h">It felt like a conversation, not a questionnaire.</p>
             <p class="b">
-              The warm prompt opened like a real conversation and drew out the
-              interviewee's hidden anxiety — he admitted the story leadership
-              tells about AI "has gotten ahead of the reality," and named
-              himself as the bottleneck. The 16-module opened with a cold
-              bullet-point briefing and left that personal fear unspoken.
+              The simple prompt opened by naming the human tension and asking an
+              open question, then let each answer steer the next one. The
+              16-module is built to work a coverage plan and reflect each answer
+              back before advancing — competent and thorough, but it reads as a
+              well-run interview protocol rather than a dialogue. For a Mirror
+              read, how the conversation <em>feels</em> shapes how much the
+              person gives you.
             </p>
           </li>
           <li>
-            <p class="h">
-              More concrete answers → a sharper, more credible deliverable.
-            </p>
+            <p class="h">It kept its momentum — questions built on answers.</p>
             <p class="b">
-              The warm prompt pulled out real numbers — retouch time dropping
-              "10–15 minutes down to 5–8," tagging issues on "3–5% of SKUs." The
-              16-module stayed vague ("about a third drifted"). Specifics are
-              what make a leadership read believable.
-            </p>
-          </li>
-          <li>
-            <p class="h">More disciplined → less wasted, repetitive talk.</p>
-            <p class="b">
-              The 16-module kept restating the person's answers back at them and
-              even asked the same question twice. The warm prompt didn't.
+              Watch the chain: pipeline walkthrough → "which break hurts most?"
+              → "what's the most common error, and how often?" → "% of SKUs?" →
+              a dated rollback story. Each turn earns the next. The control's
+              cadence — ask, then summarize back — is steady and accurate, but
+              it resets the energy at every step instead of compounding it.
             </p>
           </li>
           <li>
-            <p class="h">It actually finishes.</p>
+            <p class="h">It got him to talk about himself, not just his org.</p>
             <p class="b">
-              The warm prompt completed in about 36 questions and signaled it
-              was done. The 16-module never wound down and ran into the 40-turn
-              safety cap — meaning, left to itself, it doesn't know when to
-              stop.
+              This is the decisive difference. The simple prompt asked the blunt
+              personal question and got "I'm probably the bottleneck… I'm aware
+              that can read as slower than what leadership wants" — and ended on
+              a values question about who he wants to be remembered as. The
+              control surfaced genuinely sharp truths, but they pointed at the
+              <em>organization</em> and the system, not the man. A leadership
+              read lives on the personal layer.
             </p>
           </li>
           <li>
-            <p class="h">Cheaper to own.</p>
+            <p class="h">Its specifics were sharper and more quotable.</p>
             <p class="b">
-              One-fifth the size means far less to maintain, tune, and trust. A
-              shorter prompt is easier to reason about and harder to break.
+              Real numbers and vivid incidents — retouch "10–15 minutes down to
+              5–8," tagging issues on "3–5% of SKUs," the copywriter who pasted
+              PIM notes into personal ChatGPT, the lifestyle image rolled back
+              after it went live. The control earned strong strategic material
+              too (the 10–15% vs 25–40% expectation gap is excellent), but the
+              simple prompt's detail is the kind that makes a report feel true
+              rather than summarized.
             </p>
           </li>
         </ul>
@@ -1013,10 +1025,10 @@
 
       <!-- QUOTES -->
       <section>
-        <h3>What it sounded like</h3>
+        <h3>The best moment each one earned</h3>
         <div class="quotes">
           <blockquote class="chal">
-            <p class="src">Simple prompt — candor it earned</p>
+            <p class="src">Simple prompt — the personal truth</p>
             <p class="q">
               "I'm probably the bottleneck in how quickly we move from 'pilot'
               to 'standard'… on AI the blast radius feels bigger than a normal
@@ -1024,40 +1036,48 @@
             </p>
           </blockquote>
           <blockquote class="ctrl">
-            <p class="src">16-module — how it opened</p>
+            <p class="src">16-module — its sharpest strategic read</p>
             <p class="q">
-              "Before I dig in, here's what I'm picking up:
-              <strong>Your day job:</strong> you run the content factory…
-              <strong>Your 'team' is a machine</strong>…" (a briefing read back
-              at the person, not a question)
+              "The uncomfortable truth is that the hardest part isn't generating
+              pixels or words — it's getting the organization to agree on what
+              'good' is and then stick to it."
             </p>
           </blockquote>
         </div>
+        <p class="lead" style="margin-top: 14px">
+          Both are strong. The difference is the lens: the control's best line
+          is a crisp truth about the <em>system</em> Matt runs; the simple
+          prompt's is a confession about <em>Matt</em>. For a personal
+          leadership read, the second is the one you build around.
+        </p>
       </section>
 
       <!-- CAVEAT -->
       <section class="caveat">
-        <h3>The one honest caveat</h3>
+        <h3>Honest caveats &amp; the fine print</h3>
         <p>
-          Every turn, the interviewer is supposed to emit small machine "control
-          signals" — how far along it is, what topic it's on, whether it's done
-          — that the system uses to drive the flow. In this test, run on
-          OpenAI's gpt-5.2 <strong>outside our production platform</strong>,
-          <strong
-            >both prompts frequently dropped those signals mid-interview
-            (roughly two-thirds of turns).</strong
-          >
+          <strong>This is a quality judgment, not a quality verdict.</strong>
+          It's one persona, one run each, judged by reading two transcripts.
+          It's directional and it's persuasive — but it isn't a generalized
+          result yet.
         </p>
         <p>
-          This is most likely a pessimistic result: our real platform enforces
-          that structure far more strictly, so production would probably hold up
-          better. But that is <strong>unverified.</strong>
+          <strong>A machine-signal artifact affects both arms equally.</strong>
+          Each turn, the interviewer is supposed to emit small hidden "control
+          signals" (how far along it is, what topic, whether it's done) that the
+          real platform uses to drive flow. This test ran on gpt-5.2
+          <strong>through a gateway, outside our production platform</strong>,
+          and both prompts dropped those signals on most turns. That's a
+          plumbing artifact of where we ran the test, not a sign of either
+          prompt's conversation quality — and our production platform enforces
+          the structure far more strictly. It needs verifying on the real
+          platform, but it doesn't change the qualitative read either way.
         </p>
         <p>
-          Bottom line: the simpler prompt is the clear winner on interview
-          quality. Before adopting it, we should (1) confirm the win holds
-          across more interviewee types, and (2) verify the control signals
-          behave on the real platform.
+          <strong>One minor glitch worth noting:</strong> in the control run the
+          interviewer asked the same enforcement question twice in a row, nearly
+          verbatim. A small hiccup, not a pattern — flagged here for honesty,
+          not as part of the verdict.
         </p>
       </section>
 
@@ -1065,10 +1085,13 @@
       <section class="next">
         <h3>Recommended next step</h3>
         <p>
-          Run the same head-to-head across 3–4 more interviewee personalities to
-          confirm the win generalizes, and verify control-signal behavior on the
-          production platform. If both hold, the simpler prompt is a strong
-          candidate to replace today's system.
+          Run the same head-to-head across 3–4 more interviewee personalities —
+          a guarded skeptic, a chatty over-sharer, a junior IC — to see whether
+          the warmer prompt keeps drawing people out, or whether the structured
+          approach earns its keep with harder subjects. If the conversational
+          edge holds, the simpler prompt is a strong candidate to replace
+          today's system. Verify the control-signal behavior on the production
+          platform in parallel.
         </p>
       </section>
 
@@ -1082,6 +1105,12 @@
           <dd>
             Anthropic Claude Sonnet 4.6 — deliberately a different model family,
             to avoid bias
+          </dd>
+          <dt>Judged on</dt>
+          <dd>
+            conversation quality — naturalness, flow, rapport &amp; candor,
+            richness of context, output-readiness. Not rule-compliance: both
+            prompts followed their own designs.
           </dd>
           <dt>Interviewee</dt>
           <dd>
