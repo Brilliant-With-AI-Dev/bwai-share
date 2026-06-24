@@ -375,6 +375,84 @@
         line-height: 1.5;
       }
 
+      /* Paired comparisons */
+      .pairs {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+      .pair {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        background: var(--surface);
+      }
+      .pair .topic {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ink);
+        padding: 11px 16px;
+        background: var(--canvas-subtle);
+        border-bottom: 1px solid var(--line);
+      }
+      .pair .topic .moment {
+        font-weight: 400;
+        color: var(--ink-3);
+        font-size: 12.5px;
+      }
+      .pair-cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .pair-cell {
+        padding: 14px 16px;
+      }
+      .pair-cell.ctrl {
+        border-right: 1px solid var(--line-soft);
+      }
+      .pair-cell.chal {
+        background: #f3fcf6;
+      }
+      .pair-cell .who {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--ink-3);
+        margin: 0 0 7px;
+      }
+      .pair-cell.chal .who {
+        color: var(--success);
+      }
+      .pair-cell .line {
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--ink);
+        margin: 0;
+        font-style: italic;
+      }
+      .pair-cell .line + .line {
+        margin-top: 8px;
+      }
+      .pair-cell .line .strip {
+        font-style: normal;
+        color: var(--ink-3);
+        font-size: 12.5px;
+      }
+      .pair .takeaway {
+        font-size: 13.5px;
+        color: var(--ink-2);
+        font-style: italic;
+        padding: 11px 16px;
+        background: var(--canvas-subtle);
+        border-top: 1px solid var(--line-soft);
+      }
+      .pair .takeaway strong {
+        font-style: normal;
+        color: var(--success);
+      }
+
       /* Caveat */
       .caveat {
         background: var(--attention-soft);
@@ -459,8 +537,13 @@
       @media (max-width: 640px) {
         .stats,
         .vs,
-        .quotes {
+        .quotes,
+        .pair-cols {
           grid-template-columns: 1fr;
+        }
+        .pair-cell.ctrl {
+          border-right: none;
+          border-bottom: 1px solid var(--line-soft);
         }
         .method dl {
           grid-template-columns: 1fr;
@@ -641,6 +724,240 @@
             </tr>
           </tfoot>
         </table>
+      </section>
+
+      <!-- SAME MOMENT, TWO INTERVIEWERS -->
+      <section>
+        <h3>Same moment, two interviewers</h3>
+        <p class="lead">
+          Both interviewers reached the same topics with the same person. Here
+          are six moments side by side — Control (today's prompt) on the left,
+          the simple prompt on the right, in their own words. The contrast is
+          the whole argument.
+        </p>
+        <div class="pairs">
+          <!-- 1. The opening -->
+          <div class="pair">
+            <p class="topic">
+              The opening line
+              <span class="moment">· first thing each interviewer said</span>
+            </p>
+            <div class="pair-cols">
+              <div class="pair-cell ctrl">
+                <p class="who">Control · today's prompt</p>
+                <p class="line">
+                  "Before I dig in, here's what I'm picking up:
+                  <strong>Your day job:</strong> you run the content factory…
+                  <strong>Your 'team' is a machine:</strong> a ~90-person
+                  mixed-discipline org…
+                  <strong>The AI ask is political now</strong>… Does that feel
+                  right?"
+                </p>
+              </div>
+              <div class="pair-cell chal">
+                <p class="who">Simple prompt</p>
+                <p class="line">
+                  "Creative ops is one of those worlds where 'AI' isn't
+                  abstract: it hits the throughput math, the on-brand
+                  guardrails, and the human pride of craft all at once, and
+                  suddenly you're responsible for all three. Where are your work
+                  hours actually going right now?"
+                </p>
+              </div>
+            </div>
+            <p class="takeaway">
+              <strong>Built rapport.</strong> Control read a briefing back at
+              the person and asked them to grade it. The simple prompt named the
+              quiet anxiety — pride of craft, "responsible for all three" — then
+              opened the floor. One sounds like a status report; the other
+              sounds like a conversation.
+            </p>
+          </div>
+
+          <!-- 2. The Firefly numbers -->
+          <div class="pair">
+            <p class="topic">
+              The Firefly retouch pilot
+              <span class="moment">· "what did it actually save?"</span>
+            </p>
+            <div class="pair-cols">
+              <div class="pair-cell ctrl">
+                <p class="who">Control · today's prompt</p>
+                <p class="line">
+                  "It does save minutes, but it also goes off-brand or
+                  introduces weird artifacts often enough that we've kept it
+                  very scoped… anything that creates even a 10% rework rate at
+                  our volumes is basically a non-starter."
+                </p>
+              </div>
+              <div class="pair-cell chal">
+                <p class="who">Simple prompt</p>
+                <p class="line">
+                  "Directionally the retouch step might drop from, say, 10–15
+                  minutes down to 5–8 when it's a straightforward extension… The
+                  problem is the QA loop can go from essentially 'quick check'
+                  to 10+ minutes of scrutiny… on the good assets you net a few
+                  minutes, and on the bad ones you lose a lot more than you
+                  saved."
+                </p>
+              </div>
+            </div>
+            <p class="takeaway">
+              <strong>Extracted a real number.</strong> Both heard about the
+              same pilot. Control left it at "saves minutes" / "weird
+              artifacts." The simple prompt asked the follow-up that pinned the
+              actual before / after — and surfaced the hidden trap: the time
+              saved comes right back in QA.
+            </p>
+          </div>
+
+          <!-- 3. Echoing the answer back -->
+          <div class="pair">
+            <p class="topic">
+              After the pipeline walkthrough
+              <span class="moment">· what the interviewer did next</span>
+            </p>
+            <div class="pair-cols">
+              <div class="pair-cell ctrl">
+                <p class="who">Control · today's prompt</p>
+                <p class="line">
+                  <span class="strip">[restated the answer back]</span> "So the
+                  pain isn't 'creative magic' — it's inputs, handoffs, and
+                  rework loops that eat the gains."
+                </p>
+              </div>
+              <div class="pair-cell chal">
+                <p class="who">Simple prompt</p>
+                <p class="line">
+                  <span class="strip">[drilled one level deeper]</span> "On the
+                  metadata/ingestion break, what's the most common concrete
+                  error — wrong filename, missing attribute, wrong channel spec,
+                  version confusion — and how often does it happen (rough % of
+                  SKUs)?"
+                </p>
+              </div>
+            </div>
+            <p class="takeaway">
+              <strong>Avoided parroting.</strong> Control spent its turn
+              summarizing what it had just been told — pleasant, but it adds
+              nothing. The simple prompt spent the same turn mining for a
+              number, which is how it got the "3–5% of SKUs" figure below.
+            </p>
+          </div>
+
+          <!-- 4. The data situation -->
+          <div class="pair">
+            <p class="topic">
+              The messy-data problem
+              <span class="moment">· how bad is it, exactly?</span>
+            </p>
+            <div class="pair-cols">
+              <div class="pair-cell ctrl">
+                <p class="who">Control · today's prompt</p>
+                <p class="line">
+                  "We have some data, but I wouldn't call it clean or
+                  consistently structured… the 'why' is often buried in comments
+                  or inconsistent codes… we're not instrumented the way an
+                  engineering team would expect."
+                </p>
+              </div>
+              <div class="pair-cell chal">
+                <p class="who">Simple prompt</p>
+                <p class="line">
+                  "Roughly, I'd say it shows up in the low single digits of SKUs
+                  in any given week — maybe 3–5% have some kind of ingestion or
+                  tagging issue that requires human intervention. It doesn't
+                  sound huge, but at our volume it's constant noise."
+                </p>
+              </div>
+            </div>
+            <p class="takeaway">
+              <strong>Went one level deeper.</strong> Same underlying problem —
+              unreliable asset data. Control got a qualitative "it's messy." The
+              simple prompt got a quantified failure rate and a dated rollback
+              incident right after it — the kind of detail a credible report is
+              built from.
+            </p>
+          </div>
+
+          <!-- 5. The personal bottleneck -->
+          <div class="pair">
+            <p class="topic">
+              What's holding this up
+              <span class="moment">· the most candid moment in each</span>
+            </p>
+            <div class="pair-cols">
+              <div class="pair-cell ctrl">
+                <p class="who">Control · today's prompt</p>
+                <p class="line">
+                  "The uncomfortable truth is that the hardest part isn't
+                  generating pixels or words — it's getting the organization to
+                  agree on what 'good' is and then stick to it."
+                  <span class="strip"
+                    >(a truth about the org, not about himself)</span
+                  >
+                </p>
+              </div>
+              <div class="pair-cell chal">
+                <p class="who">Simple prompt</p>
+                <p class="line">
+                  "I'm probably the bottleneck in how quickly we move from
+                  'pilot' to 'standard'… on AI the blast radius feels bigger
+                  than a normal tooling change. So I tend to push for discipline
+                  and proof, and I'm aware that can read as slower than what
+                  leadership wants."
+                </p>
+              </div>
+            </div>
+            <p class="takeaway">
+              <strong>Surfaced the hidden fear.</strong> Control's "knife on the
+              table" pointed outward — at the organization. The simple prompt
+              asked Matt the blunt personal question — "what's the biggest
+              bottleneck you personally are right now in all of this?" — and got
+              him to name himself. That admission is the heart of a leadership
+              read.
+            </p>
+          </div>
+
+          <!-- 6. The ending -->
+          <div class="pair">
+            <p class="topic">
+              How the interview ended
+              <span class="moment">· final turn of each transcript</span>
+            </p>
+            <div class="pair-cols">
+              <div class="pair-cell ctrl">
+                <p class="who">Control · today's prompt</p>
+                <p class="line">
+                  <span class="strip"
+                    >Still asking new questions when the 40-turn safety cap cut
+                    it off — never signalled "done":</span
+                  >
+                  "What's the first concrete milestone you'd put on the calendar
+                  that forces cross-functional alignment…"
+                </p>
+              </div>
+              <div class="pair-cell chal">
+                <p class="who">Simple prompt</p>
+                <p class="line">
+                  <span class="strip"
+                    >Wound down cleanly and marked itself complete:</span
+                  >
+                  "Thanks — that's clear. …would you rather be remembered for
+                  hitting the cost-out number even if it annoyed creatives, or
+                  for protecting craft even if it missed the savings target —
+                  and why?"
+                </p>
+              </div>
+            </div>
+            <p class="takeaway">
+              <strong>Knew when to stop.</strong> Control never wound down — it
+              ran into the safety cap mid-question. The simple prompt landed on
+              a clean capstone and flagged itself finished. Left alone, one
+              knows the interview is over; the other doesn't.
+            </p>
+          </div>
+        </div>
       </section>
 
       <!-- WHY IT WON -->
