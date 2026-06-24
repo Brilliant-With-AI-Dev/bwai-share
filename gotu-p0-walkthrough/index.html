@@ -1,0 +1,1055 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GoTu Mirror Experience — End-to-End Preview</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'></svg>"
+    />
+    <style>
+      :root {
+        /* GitHub Primer light tokens */
+        --bg: #f6f8fa;
+        --surface: #ffffff;
+        --canvas-subtle: #f6f8fa;
+        --ink: #1f2328;
+        --ink-2: #424a53;
+        --ink-3: #656d76;
+        --line: #d1d9e0;
+        --line-soft: #e7ebef;
+        --accent: #0969da;
+        --accent-soft: #ddf4ff;
+        --success: #1a7f37;
+        --success-soft: #dafbe1;
+        --success-line: #aceebb;
+        --attention: #9a6700;
+        --attention-soft: #fff8c5;
+        --attention-line: #f4e6a3;
+        --danger: #cf222e;
+        --neutral-soft: #eaeef2;
+        /* brand forest used by the product itself */
+        --forest: #1d6f47;
+        --shadow:
+          0 1px 0 rgba(31, 35, 40, 0.04), 0 1px 3px rgba(31, 35, 40, 0.12);
+        --shadow-lg:
+          0 1px 0 rgba(31, 35, 40, 0.04), 0 8px 24px rgba(31, 35, 40, 0.12);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica,
+          Arial, sans-serif;
+        line-height: 1.6;
+        font-size: 16px;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .wrap {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 56px 24px 80px;
+      }
+
+      /* Header */
+      .eyebrow {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--forest);
+        margin: 0 0 12px;
+      }
+      h1 {
+        font-size: 32px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 1.18;
+        margin: 0 0 14px;
+      }
+      .dateline {
+        font-size: 14px;
+        color: var(--ink-3);
+        margin: 0 0 28px;
+      }
+      .lede {
+        font-size: 17px;
+        color: var(--ink-2);
+        margin: 0 0 22px;
+      }
+      .lede strong {
+        color: var(--ink);
+      }
+
+      /* Generic section heading */
+      h2.section {
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-3);
+        margin: 56px 0 6px;
+      }
+      h2.section + .section-title {
+        font-size: 24px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        margin: 0 0 8px;
+      }
+      .section-intro {
+        font-size: 15px;
+        color: var(--ink-2);
+        margin: 0 0 28px;
+      }
+
+      /* Callout boxes */
+      .box {
+        border-radius: 12px;
+        padding: 20px 22px;
+        margin: 0 0 24px;
+        font-size: 15px;
+      }
+      .box p {
+        margin: 0 0 10px;
+      }
+      .box p:last-child {
+        margin-bottom: 0;
+      }
+      .box .label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 8px;
+      }
+      .box.info {
+        background: var(--accent-soft);
+        border: 1px solid #b6e3ff;
+      }
+      .box.info .label {
+        color: #0a3069;
+      }
+      .box.warn {
+        background: var(--attention-soft);
+        border: 1px solid var(--attention-line);
+      }
+      .box.warn .label {
+        color: var(--attention);
+      }
+      .box.warn ul {
+        margin: 8px 0 0;
+        padding-left: 20px;
+      }
+      .box.warn li {
+        margin-bottom: 10px;
+      }
+      .box.warn li:last-child {
+        margin-bottom: 0;
+      }
+      .box.warn strong {
+        color: #6b4900;
+      }
+
+      /* Chapter divider */
+      .chapter {
+        margin-top: 64px;
+      }
+      .chapter-eyebrow {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--forest);
+        margin: 0 0 6px;
+      }
+      .chapter h2 {
+        font-size: 26px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        margin: 0 0 8px;
+      }
+      .chapter > p.chapter-blurb {
+        font-size: 15px;
+        color: var(--ink-2);
+        margin: 0 0 8px;
+        max-width: 60ch;
+      }
+
+      /* Screen blocks */
+      .screen {
+        margin: 40px 0;
+        padding-top: 36px;
+        border-top: 1px solid var(--line-soft);
+      }
+      .screen:first-of-type {
+        border-top: none;
+        padding-top: 8px;
+      }
+      .screen-head {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        margin: 0 0 14px;
+        flex-wrap: wrap;
+      }
+      .screen-num {
+        flex: none;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--ink-3);
+        background: var(--neutral-soft);
+        border-radius: 999px;
+        padding: 3px 10px;
+        line-height: 1.4;
+      }
+      .screen-title {
+        font-size: 19px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        margin: 0;
+      }
+      .screen figure {
+        margin: 0 0 16px;
+      }
+      .screen img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        box-shadow: var(--shadow-lg);
+        background: var(--surface);
+      }
+      .screen-copy {
+        font-size: 15px;
+        color: var(--ink-2);
+        margin: 0;
+      }
+      .screen-copy strong {
+        color: var(--ink);
+      }
+      .tag {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        border-radius: 6px;
+        padding: 2px 8px;
+        vertical-align: middle;
+        margin-left: 4px;
+      }
+      .tag.placeholder {
+        color: var(--attention);
+        background: var(--attention-soft);
+        border: 1px solid var(--attention-line);
+      }
+      .tag.behind {
+        color: #6e7781;
+        background: var(--neutral-soft);
+        border: 1px solid var(--line);
+      }
+      .inline-note {
+        display: block;
+        margin-top: 12px;
+        font-size: 14px;
+        background: var(--attention-soft);
+        border: 1px solid var(--attention-line);
+        border-radius: 8px;
+        padding: 12px 14px;
+        color: #6b4900;
+      }
+      .inline-note strong {
+        color: #5a3d00;
+      }
+
+      /* Reality-check table */
+      .reality {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 8px 0 0;
+        font-size: 14.5px;
+      }
+      .reality th,
+      .reality td {
+        text-align: left;
+        vertical-align: top;
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--line-soft);
+      }
+      .reality th {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--ink-3);
+        background: var(--canvas-subtle);
+        border-bottom: 1px solid var(--line);
+      }
+      .reality td:first-child {
+        font-weight: 600;
+        color: var(--ink);
+        width: 38%;
+      }
+      .pill {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        border-radius: 999px;
+        padding: 2px 9px;
+        white-space: nowrap;
+      }
+      .pill.real {
+        color: #0a4a1e;
+        background: var(--success-soft);
+        border: 1px solid var(--success-line);
+      }
+      .pill.stub {
+        color: var(--attention);
+        background: var(--attention-soft);
+        border: 1px solid var(--attention-line);
+      }
+
+      /* Appendix */
+      details.appendix {
+        margin-top: 56px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      details.appendix summary {
+        cursor: pointer;
+        padding: 18px 22px;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--ink-2);
+        list-style: none;
+        user-select: none;
+      }
+      details.appendix summary::-webkit-details-marker {
+        display: none;
+      }
+      details.appendix summary::after {
+        content: "▸";
+        float: right;
+        color: var(--ink-3);
+        transition: transform 0.15s ease;
+      }
+      details.appendix[open] summary::after {
+        transform: rotate(90deg);
+      }
+      details.appendix .appendix-body {
+        padding: 4px 22px 24px;
+        border-top: 1px solid var(--line-soft);
+        font-size: 14px;
+        color: var(--ink-2);
+      }
+      details.appendix .appendix-body p {
+        margin: 16px 0 10px;
+      }
+      details.appendix table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13.5px;
+        margin-top: 8px;
+      }
+      details.appendix th,
+      details.appendix td {
+        text-align: left;
+        vertical-align: top;
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--line-soft);
+      }
+      details.appendix th {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--ink-3);
+        background: var(--canvas-subtle);
+      }
+      code {
+        font-family:
+          ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+        font-size: 0.88em;
+        background: var(--neutral-soft);
+        border-radius: 5px;
+        padding: 1px 5px;
+      }
+
+      footer {
+        margin-top: 64px;
+        padding-top: 24px;
+        border-top: 1px solid var(--line);
+        font-size: 13px;
+        color: var(--ink-3);
+        line-height: 1.6;
+      }
+
+      @media (max-width: 640px) {
+        .wrap {
+          padding: 40px 16px 64px;
+        }
+        h1 {
+          font-size: 26px;
+        }
+        .reality td:first-child {
+          width: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <p class="eyebrow">GoTu · Pre-Workshop Experience</p>
+      <h1>The Mirror experience GoTu will go through, start to finish</h1>
+      <p class="dateline">A faithful screen-by-screen preview · June 2026</p>
+
+      <p class="lede">
+        This is a complete walkthrough of the guided AI-readiness experience the
+        GoTu cohort will go through before their workshop. Each person opens a
+        link, has a short voice-or-typed conversation with an AI interviewer,
+        and walks away with a personal written report.
+        <strong
+          >This document captures every screen of that journey, in order, with a
+          plain-English note on what's happening and why it matters.</strong
+        >
+        It's a draft meant for a careful read-through &mdash; not a final
+        sign-off &mdash; so a few pieces are still marked as placeholder. Those
+        are called out honestly as you go, and gathered in one list near the
+        end.
+      </p>
+
+      <div class="box info">
+        <span class="label">How to read this</span>
+        <p>
+          Read it top to bottom like a storyboard. The experience is grouped
+          into six short chapters &mdash; arriving, the interview, wrapping up,
+          the payoff, the close, and what's deliberately held back. Anything
+          that isn't finished yet is flagged inline in amber, so you always know
+          whether you're looking at the real thing or a stand-in.
+        </p>
+      </div>
+
+      <!-- HOW THIS WAS PRODUCED -->
+      <h2 class="section">Behind the preview</h2>
+      <p class="section-title">How this preview was produced</p>
+      <p class="section-intro" style="margin-bottom: 18px">
+        A bit of honesty about what you're looking at, so the rest reads
+        cleanly:
+      </p>
+      <div class="box info" style="margin-bottom: 8px">
+        <p>
+          The pieces of this experience were built in separate streams of work.
+          For this preview we assembled them into a single build and drove it
+          from the very first screen to the very last, capturing each step.
+        </p>
+        <p>
+          It ran in <strong>&ldquo;mock mode&rdquo;</strong> &mdash; the real,
+          production screens, but fed with sample answers instead of a live
+          person, and with the AI's thinking stubbed out rather than actually
+          running. That's deliberate: it lets us show the exact shape of the
+          experience &mdash; every screen, every transition, every button
+          &mdash; without waiting on real AI inference.
+        </p>
+        <p>
+          So this <strong>proves the journey</strong>: what a GoTu participant
+          sees, in what order, and how it flows together. It does
+          <strong>not</strong> exercise the quality of the AI's actual questions
+          or the writing in a real report &mdash; those depend on live
+          inference, which mock mode intentionally skips. Think of it as the
+          stage and the script, fully built; the live performance is judged
+          separately.
+        </p>
+      </div>
+
+      <!-- CHAPTER 1: ARRIVAL & SETUP -->
+      <div class="chapter">
+        <p class="chapter-eyebrow">Chapter 1</p>
+        <h2>Arrival &amp; setup</h2>
+        <p class="chapter-blurb">
+          The first thing a participant sees, and the two quick checks we ask
+          them to clear before the conversation starts.
+        </p>
+      </div>
+
+      <div class="screen">
+        <div class="screen-head">
+          <span class="screen-num">01</span>
+          <h3 class="screen-title">The welcome screen</h3>
+        </div>
+        <figure>
+          <img
+            src="img/01-start.png"
+            alt="Welcome screen: Your AI readiness, in sharp focus"
+          />
+        </figure>
+        <p class="screen-copy">
+          The front door. A single, calm promise &mdash;
+          <strong>&ldquo;Your AI readiness, in sharp focus&rdquo;</strong>
+          &mdash; with an honest sense of the commitment up front: roughly 45
+          minutes, about 25 questions, voice-enabled. One green
+          <strong>Begin Experience</strong> button, and a quiet reassurance that
+          they can pause and come back. The goal here is to set expectations and
+          lower the stakes before anyone starts talking.
+        </p>
+      </div>
+
+      <div class="screen">
+        <div class="screen-head">
+          <span class="screen-num">02</span>
+          <h3 class="screen-title">Set up your microphone</h3>
+        </div>
+        <figure>
+          <img
+            src="img/02-intake-mic.png"
+            alt="Step 1 of 2: Set up your microphone"
+          />
+        </figure>
+        <p class="screen-copy">
+          Because the experience works best spoken aloud, we ask people to take
+          a moment to get their mic working &mdash;
+          <strong>the first of two short setup steps</strong>. They can run a
+          quick mic test, or choose to skip it and type their answers instead.
+          Nobody is forced to use voice; we just make sure the option works
+          before the conversation, not in the middle of it.
+        </p>
+      </div>
+
+      <div class="screen">
+        <div class="screen-head">
+          <span class="screen-num">03</span>
+          <h3 class="screen-title">Watch this before you begin</h3>
+          <span class="tag placeholder">Placeholder asset</span>
+        </div>
+        <figure>
+          <img
+            src="img/03-intake-video.png"
+            alt="Step 2 of 2: Watch this before you begin — video placeholder"
+          />
+        </figure>
+        <p class="screen-copy">
+          The second setup step: a short orientation video that frames what the
+          experience is and how to get the most from it. People watch it, then
+          confirm and continue.
+        </p>
+        <span class="inline-note">
+          <strong>What's real vs. placeholder here:</strong> the gate itself is
+          real and working &mdash; the step exists, it's required, and the flow
+          moves through it correctly. The
+          <strong>video itself is a stand-in</strong>; the panel currently reads
+          &ldquo;Instructional video coming soon.&rdquo; The actual orientation
+          video still needs to be produced and dropped in. Everything around it
+          is finished.
+        </span>
+      </div>
+
+      <!-- CHAPTER 2: THE INTERVIEW -->
+      <div class="chapter">
+        <p class="chapter-eyebrow">Chapter 2</p>
+        <h2>The interview</h2>
+        <p class="chapter-blurb">
+          A few basic details, then the heart of the experience: an AI-led
+          conversation that adapts to what the person says.
+        </p>
+      </div>
+
+      <div class="screen">
+        <div class="screen-head">
+          <span class="screen-num">04</span>
+          <h3 class="screen-title">A short intake form</h3>
+        </div>
+        <figure>
+          <img
+            src="img/04-form-empty.png"
+            alt="Step 1 of 6: Let's get started — intake form, empty"
+          />
+        </figure>
+        <p class="screen-copy">
+          Before the conversation, a brief form collects the basics: name,
+          email, title, company, website. The progress marker (&ldquo;Step 1 of
+          6&rdquo;) tells people roughly how far in they are, and the line
+          <strong>&ldquo;there are no right answers&rdquo;</strong> sets the
+          tone for what's coming. The little Empty / Matt / Stacey toggle near
+          the top is a developer convenience for filling the form during testing
+          &mdash; not something a GoTu participant would ever see.
+        </p>
+      </div>
+
+      <div class="screen">
+        <div class="screen-head">
+          <span class="screen-num">05</span>
+          <h3 class="screen-title">The form, filled in</h3>
+        </div>
+        <figure>
+          <img
+            src="img/05-form-filled.png"
+            alt="Intake form filled in, Continue active"
+          />
+        </figure>
+        <p class="screen-copy">
+          The same form once it's complete &mdash; here populated with the
+          sample participant we used to drive the preview. With the required
+          fields filled, the <strong>Continue</strong> button turns green and
+          active, and the person moves into the conversation itself.
+        </p>
+      </div>
+
+      <div class="screen">
+        <div class="screen-head">
+          <span class="screen-num">06</span>
+          <h3 class="screen-title">The conversation begins</h3>
+        </div>
+        <figure>
+          <img
+            src="img/06-interview-turn1.png"
+            alt="Interview chat: progress bar, AIM interviewer greeting, composer"
+          />
+        </figure>
+        <p class="screen-copy">
+          The interview is a chat. A progress bar runs along the top so people
+          always know how far along they are, the AI interviewer (shown as
+          <strong>&ldquo;AIM&rdquo;</strong>) opens the conversation, and a
+          simple reply box sits at the bottom &mdash; type or speak. It looks
+          and behaves like a familiar messaging thread, which is the point:
+          almost no learning curve.
+        </p>
+      </div>
+
+      <div class="screen">
+        <div class="screen-head">
+          <span class="screen-num">07</span>
+          <h3 class="screen-title">A real back-and-forth</h3>
+        </div>
+        <figure>
+          <img
+            src="img/07-interview-midturns.png"
+            alt="Multi-turn conversation with dark user bubbles and light interviewer bubbles"
+          />
+        </figure>
+        <p class="screen-copy">
+          A few turns in. The participant's answers are the dark bubbles, the
+          interviewer's are the light ones. The interviewer
+          <strong>listens and follows up</strong> &mdash; reflecting back what
+          it heard, then asking a sharper question based on it, rather than
+          reading from a fixed script. This adaptive quality is the core of the
+          experience.
+        </p>
+        <span class="inline-note">
+          Remember this ran in mock mode with sample answers, so treat the
+          specific wording as illustrative.
+          <strong
+            >The shape of the exchange is real; the conversational quality of a
+            live run is tested separately.</strong
+          >
+        </span>
+      </div>
+
+      <div class="screen">
+        <div class="screen-head">
+          <span class="screen-num">08</span>
+          <h3 class="screen-title">Finishing the interview</h3>
+        </div>
+        <figure>
+          <img
+            src="img/08-interview-complete.png"
+            alt="Interview complete — please continue to closing questions"
+          />
+        </figure>
+        <p class="screen-copy">
+          When the interviewer has gathered enough, it signals that the
+          conversation is complete and points the person toward the closing
+          questions. The experience knows when it has what it needs and moves on
+          cleanly, rather than letting the conversation drift.
+        </p>
+      </div>
+
+      <!-- CHAPTER 3: WRAPPING UP -->
+      <div class="chapter">
+        <p class="chapter-eyebrow">Chapter 3</p>
+        <h2>Wrapping up</h2>
+        <p class="chapter-blurb">
+          One last reflective moment before the report is generated.
+        </p>
+      </div>
+
+      <div class="screen">
+        <div class="screen-head">
+          <span class="screen-num">09</span>
+          <h3 class="screen-title">Closing questions</h3>
+        </div>
+        <figure>
+          <img
+            src="img/09-closing-questions.png"
+            alt="Closing questions: take a moment before we wrap up, three reflective questions"
+          />
+        </figure>
+        <p class="screen-copy">
+          Before generating anything, the experience asks three short reflective
+          questions &mdash; what stood out, what they hope to get from this,
+          anything they didn't get to say. People can
+          <strong>speak or type</strong> their answers, or skip. It's a
+          deliberate pause that lets someone add their own framing before the
+          machine has the last word, and it gives the report richer material to
+          work from.
+        </p>
+      </div>
+
+      <!-- CHAPTER 4: THE PAYOFF -->
+      <div class="chapter">
+        <p class="chapter-eyebrow">Chapter 4</p>
+        <h2>The payoff: insights &amp; report</h2>
+        <p class="chapter-blurb">
+          The reward for the conversation &mdash; first a crisp snapshot, then a
+          longer personal report they can read, reply to, and take with them.
+        </p>
+      </div>
+
+      <div class="screen">
+        <div class="screen-head">
+          <span class="screen-num">10</span>
+          <h3 class="screen-title">The insights snapshot</h3>
+        </div>
+        <figure>
+          <img
+            src="img/10-insights-snapshot-u1.png"
+            alt="Your Crucial Insights snapshot with Copy / Download / PDF and a follow-up panel"
+          />
+        </figure>
+        <p class="screen-copy">
+          The first payoff arrives quickly: a tight, scannable
+          <strong>&ldquo;Your Crucial Insights&rdquo;</strong> snapshot that
+          names a few things that genuinely stood out from the conversation. It
+          can be copied, downloaded, or saved as a PDF right away, and a small
+          follow-up panel lets the person ask about what they're seeing. This is
+          the immediate &ldquo;that was worth it&rdquo; moment.
+        </p>
+      </div>
+
+      <div class="screen">
+        <div class="screen-head">
+          <span class="screen-num">11</span>
+          <h3 class="screen-title">
+            The full report, revealed a piece at a time
+          </h3>
+        </div>
+        <figure>
+          <img
+            src="img/11-report-v2-top-u2.png"
+            alt="The Mirror Report shown section by section — Section 1 of 11"
+          />
+        </figure>
+        <p class="screen-copy">
+          Then the longer, more personal report. Rather than dumping a wall of
+          text, it's revealed <strong>one section at a time</strong> (here,
+          &ldquo;Section 1 of 11&rdquo;). The person reads a piece, can react to
+          it, then moves on. The pacing keeps a substantial document from
+          feeling overwhelming and makes the whole thing feel like a
+          conversation rather than a hand-off.
+        </p>
+      </div>
+
+      <div class="screen">
+        <div class="screen-head">
+          <span class="screen-num">12</span>
+          <h3 class="screen-title">Reply to it, and take it with you</h3>
+        </div>
+        <figure>
+          <img
+            src="img/12-report-dialogue-and-download.png"
+            alt="Report reply composer with mic button and 5 replies left, plus Copy / Download / PDF"
+          />
+        </figure>
+        <p class="screen-copy">
+          The report isn't a dead end. People can <strong>reply to it</strong>
+          &mdash; push back, ask for a tweak, or just say how it lands &mdash;
+          using the same speak-or-type box, with a clear sense of how many
+          replies they have. And the whole thing can be copied, downloaded, or
+          saved as a PDF, so it's theirs to keep and share.
+        </p>
+      </div>
+
+      <!-- CHAPTER 5: THE CLOSE -->
+      <div class="chapter">
+        <p class="chapter-eyebrow">Chapter 5</p>
+        <h2>The close</h2>
+        <p class="chapter-blurb">
+          The screen that ends the pre-workshop journey.
+        </p>
+      </div>
+
+      <div class="screen">
+        <div class="screen-head">
+          <span class="screen-num">13</span>
+          <h3 class="screen-title">&ldquo;See you at the workshop&rdquo;</h3>
+          <span class="tag placeholder">Copy pending sign-off</span>
+        </div>
+        <figure>
+          <img
+            src="img/13-terminal-workshop.png"
+            alt="You're all set — your Mirror is complete. We'll see you at the workshop."
+          />
+        </figure>
+        <p class="screen-copy">
+          The closing screen. It confirms the report is saved and ready, then
+          hands off to the live event:
+          <strong
+            >&ldquo;We'll see you at the workshop, where we'll build on what
+            surfaced here.&rdquo;</strong
+          >
+          A &ldquo;chat with your Mirror&rdquo; box stays available so people
+          can keep asking questions on later visits. This is where the pre-work
+          cleanly ends and the in-person session is set up to begin.
+        </p>
+        <span class="inline-note">
+          The exact wording on this screen (and across the report) is still
+          <strong>placeholder copy awaiting final sign-off</strong>. The
+          structure and behavior are settled; the sentences may change.
+        </span>
+      </div>
+
+      <!-- CHAPTER 6: WHAT'S HELD BACK -->
+      <div class="chapter">
+        <p class="chapter-eyebrow">Chapter 6</p>
+        <h2>What's deliberately held back</h2>
+        <p class="chapter-blurb">
+          One thing the GoTu participant intentionally does <em>not</em> get
+          before the workshop &mdash; and a behind-the-scenes look at it, for
+          transparency.
+        </p>
+      </div>
+
+      <div class="screen">
+        <div class="screen-head">
+          <span class="screen-num">14</span>
+          <h3 class="screen-title">
+            The report ends here &mdash; no action plan
+          </h3>
+        </div>
+        <figure>
+          <img
+            src="img/14-report-full-withhold-evidence.png"
+            alt="The report from insights to terminal with no Action Plan section — evidence the action plan is withheld"
+          />
+        </figure>
+        <p class="screen-copy">
+          This is the same closing view, shown again to make one point clearly:
+          when you read the report all the way to its end, there is
+          <strong>no &ldquo;action plan&rdquo; section</strong>. That's
+          intentional. For GoTu, the deeper, do-this-next action plan is
+          <strong>held back for the live workshop</strong> &mdash; the report
+          gives people genuine insight, and the workshop is where that turns
+          into a concrete plan. This screenshot is the evidence that the
+          withholding actually works: the participant's report stops short of
+          the action plan, exactly as designed.
+        </p>
+      </div>
+
+      <div class="screen">
+        <div class="screen-head">
+          <span class="screen-num">15</span>
+          <h3 class="screen-title">
+            The action-plan screen (behind the glass)
+          </h3>
+          <span class="tag behind">Not in the GoTu journey</span>
+        </div>
+        <figure>
+          <img
+            src="img/15-action-plan-route-mock.png"
+            alt="The standalone action-plan surface — a behind-the-scenes mock, not part of the GoTu experience"
+          />
+        </figure>
+        <p class="screen-copy">
+          For full transparency, this is what the action-plan surface looks like
+          when it <em>is</em> shown &mdash; a short list of concrete next steps
+          a person can check off, plus options to share a version with a manager
+          or a peer.
+        </p>
+        <span class="inline-note">
+          <strong>Important:</strong> a GoTu participant never reaches this
+          screen. In a real GoTu deployment this route is dark, and &mdash; as
+          screen 14 shows &mdash; the report itself correctly stops before the
+          action plan. This is shown only so the team can see the held-back
+          piece.
+          <strong
+            >Treat it as a behind-the-scenes artifact, not part of the GoTu
+            user's experience.</strong
+          >
+        </span>
+      </div>
+
+      <!-- REALITY CHECK -->
+      <h2 class="section">The honest version</h2>
+      <p class="section-title">What's real vs. still placeholder</p>
+      <p class="section-intro">
+        Nothing here is hidden. This is the same list of caveats from the
+        walkthrough, gathered in one place so a reader can size up the draft at
+        a glance before it's red-teamed.
+      </p>
+
+      <table class="reality">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Status</th>
+            <th>What that means</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>The end-to-end flow &amp; every screen</td>
+            <td><span class="pill real">Real</span></td>
+            <td>
+              These are the actual production screens, driven start-to-finish in
+              the correct order. The journey is genuine.
+            </td>
+          </tr>
+          <tr>
+            <td>The orientation video</td>
+            <td><span class="pill stub">Placeholder</span></td>
+            <td>
+              The required &ldquo;watch this&rdquo; step works, but the video
+              itself is a stand-in (&ldquo;coming soon&rdquo;). The real video
+              still needs to be produced and dropped in.
+            </td>
+          </tr>
+          <tr>
+            <td>Copy on the closing screen, report &amp; action plan</td>
+            <td><span class="pill stub">Placeholder</span></td>
+            <td>
+              The structure is settled; the wording is draft copy awaiting final
+              sign-off and will likely change.
+            </td>
+          </tr>
+          <tr>
+            <td>This assembled build</td>
+            <td><span class="pill stub">Not yet live</span></td>
+            <td>
+              It stitches together work from separate streams into one preview.
+              It is not yet merged or running in production.
+            </td>
+          </tr>
+          <tr>
+            <td>The AI's actual interview &amp; report quality</td>
+            <td><span class="pill stub">Not exercised here</span></td>
+            <td>
+              It ran in mock mode with sample answers and stubbed AI thinking,
+              so the live conversational and writing quality isn't proven by
+              this preview &mdash; that's tested separately.
+            </td>
+          </tr>
+          <tr>
+            <td>The standalone action-plan screen (screen 15)</td>
+            <td><span class="pill stub">Behind-the-scenes</span></td>
+            <td>
+              Shown only for transparency. It is dark for GoTu; participants
+              never reach it.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- TECHNICAL APPENDIX -->
+      <details class="appendix">
+        <summary>Technical appendix (for an engineer reader)</summary>
+        <div class="appendix-body">
+          <p>
+            Kept out of the main narrative on purpose. This maps the
+            participant-facing features above to the underlying work, for anyone
+            who needs to trace the build.
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Experience step</th>
+                <th>Underlying work</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Forced mic + video intake gate (screens 02&ndash;03)</td>
+                <td>Progressive-start gate (bapps#772)</td>
+                <td>
+                  Gate is a completion requirement, not a pass/fail. Video panel
+                  is stubbed pending a real YouTube id.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Interview chat &amp; adaptive turns (screens 06&ndash;08)
+                </td>
+                <td>
+                  Mirror interview runtime on <code>@bwai/chat-engine</code> +
+                  <code>@bwai/platform-client</code>
+                </td>
+                <td>
+                  Per-turn control via structured <code>data</code> envelope
+                  (DEV-245). Mock mode bypasses live inference.
+                </td>
+              </tr>
+              <tr>
+                <td>Closing questions (screen 09)</td>
+                <td>Closing-questions step in the interview flow</td>
+                <td>Dictate-or-type; feeds the report generator.</td>
+              </tr>
+              <tr>
+                <td>Insights snapshot (screen 10)</td>
+                <td>Insights snapshot surface (&ldquo;U1&rdquo;)</td>
+                <td>Copy / Download / PDF + follow-up dialogue panel.</td>
+              </tr>
+              <tr>
+                <td>Sectioned report + reply (screens 11&ndash;12)</td>
+                <td>
+                  Mirror Report v2, progressive disclosure (&ldquo;U2&rdquo;)
+                </td>
+                <td>
+                  11 sections; capped reply count; product-default ChatInput.
+                </td>
+              </tr>
+              <tr>
+                <td>Terminal / workshop close (screen 13)</td>
+                <td>GoTu terminal screen</td>
+                <td>Placeholder copy pending sign-off.</td>
+              </tr>
+              <tr>
+                <td>Action-plan withholding (screens 14&ndash;15)</td>
+                <td>P0 action-plan withhold</td>
+                <td>
+                  Report correctly omits the action plan; the standalone
+                  action-plan route is dark for GoTu.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="margin-top: 18px; color: var(--ink-3)">
+            Run in mock mode (real screens, sample answers, no live inference)
+            from a single assembled build that is not yet merged or deployed.
+            Screen 13 and screen 14 are the same terminal view, captured twice
+            to make the action-plan-withhold point.
+          </p>
+        </div>
+      </details>
+
+      <footer>
+        Built by Claude on Matt's behalf as a red-team-ready draft. Matt hasn't
+        necessarily read this copy line by line, so if anything here is wrong,
+        overstated, or just awkward, that's on me, the AI &mdash; not on him.
+        Verify against the live experience before treating any claim as final.
+      </footer>
+    </div>
+  </body>
+</html>
