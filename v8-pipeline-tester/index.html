@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>v8 Pipeline Tester — mockup</title>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --canvas: #f6f8fa;
+        --fg: #1f2328;
+        --muted: #656d76;
+        --border: #d0d7de;
+        --border-strong: #afb8c1;
+        --brand: #10623e;
+        --brand-soft: #dff3e8;
+        --a: #10623e;
+        --a-soft: #dff3e8;
+        --b: #8250df;
+        --b-soft: #efe8fd;
+        --ins: #1a7f37;
+        --ins-soft: #d6f3df;
+        --del: #cf222e;
+        --del-soft: #ffe3e3;
+        --radius: 10px;
+        --mono:
+          ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+        --sans:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+      }
+      body {
+        font-family: var(--sans);
+        color: var(--fg);
+        background: var(--canvas);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      a {
+        color: #0969da;
+      }
+      .wrap {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 0 20px 80px;
+      }
+
+      /* header */
+      header.bar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo {
+        width: 26px;
+        height: 26px;
+        border-radius: 7px;
+        background: var(--brand);
+        position: relative;
+        flex: none;
+      }
+      .logo::after {
+        content: "v8";
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+      }
+      header.bar h1 {
+        font-size: 15px;
+        margin: 0;
+        font-weight: 650;
+      }
+      header.bar .sub {
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: var(--canvas);
+        color: var(--muted);
+      }
+      .pill.lock::before {
+        content: "🔒";
+        font-size: 10px;
+      }
+      .spacer {
+        flex: 1;
+      }
+
+      .note {
+        background: #fff8e6;
+        border: 1px solid #f0d68a;
+        color: #6b5300;
+        border-radius: var(--radius);
+        padding: 10px 14px;
+        font-size: 12.5px;
+        margin: 16px 0 0;
+      }
+      .note b {
+        color: #5a4500;
+      }
+
+      .card {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+      }
+      .card + .card {
+        margin-top: 14px;
+      }
+      .card .hd {
+        padding: 11px 14px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .card .hd h2 {
+        font-size: 13px;
+        margin: 0;
+        font-weight: 650;
+      }
+      .card .bd {
+        padding: 14px;
+      }
+
+      label.lbl {
+        display: block;
+        font-size: 11.5px;
+        font-weight: 600;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        margin: 0 0 5px;
+      }
+      textarea,
+      input.txt,
+      select {
+        width: 100%;
+        font-family: var(--mono);
+        font-size: 12.5px;
+        color: var(--fg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 9px 11px;
+        background: var(--bg);
+        resize: vertical;
+      }
+      textarea:focus,
+      input.txt:focus,
+      select:focus {
+        outline: 2px solid var(--brand-soft);
+        border-color: var(--brand);
+      }
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .row {
+        display: flex;
+        gap: 12px;
+        align-items: flex-end;
+      }
+      .row > div {
+        flex: 1;
+      }
+
+      /* controls */
+      .controls {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin: 16px 0;
+        flex-wrap: wrap;
+      }
+      .seg {
+        display: inline-flex;
+        border: 1px solid var(--border-strong);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .seg button {
+        font-family: var(--sans);
+        font-size: 13px;
+        font-weight: 600;
+        border: 0;
+        background: var(--bg);
+        color: var(--fg);
+        padding: 7px 16px;
+        cursor: pointer;
+        border-right: 1px solid var(--border);
+      }
+      .seg button:last-child {
+        border-right: 0;
+      }
+      .seg button.on {
+        background: var(--brand);
+        color: #fff;
+      }
+      .toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 13px;
+        color: var(--muted);
+        cursor: pointer;
+        user-select: none;
+      }
+      .toggle input {
+        width: 15px;
+        height: 15px;
+        accent-color: var(--brand);
+      }
+      .btn {
+        font-family: var(--sans);
+        font-size: 12.5px;
+        font-weight: 600;
+        border: 1px solid var(--border-strong);
+        background: var(--bg);
+        color: var(--fg);
+        padding: 6px 12px;
+        border-radius: 7px;
+        cursor: pointer;
+      }
+      .btn.primary {
+        background: var(--brand);
+        color: #fff;
+        border-color: var(--brand);
+      }
+      .btn.small {
+        padding: 4px 9px;
+        font-size: 12px;
+      }
+      .btn:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+
+      /* stages */
+      .stages {
+        display: flex;
+        gap: 16px;
+        margin-top: 18px;
+        align-items: flex-start;
+      }
+      .col {
+        flex: 1;
+        min-width: 0;
+      }
+      .colhead {
+        display: none;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 13px;
+        margin-bottom: 12px;
+      }
+      .stages.both .colhead {
+        display: flex;
+      }
+      .col.varA .colhead {
+        background: var(--a-soft);
+        color: var(--a);
+      }
+      .col.varB .colhead {
+        background: var(--b-soft);
+        color: var(--b);
+      }
+      .stages:not(.both) .col.varB {
+        display: none;
+      }
+
+      .stage {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        margin-bottom: 14px;
+        overflow: hidden;
+      }
+      .stage .shd {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 10px 13px;
+        border-bottom: 1px solid var(--border);
+        background: #fbfcfd;
+      }
+      .num {
+        width: 22px;
+        height: 22px;
+        border-radius: 6px;
+        background: var(--brand);
+        color: #fff;
+        font-size: 12px;
+        font-weight: 700;
+        display: grid;
+        place-items: center;
+        flex: none;
+      }
+      .col.varB .num {
+        background: var(--b);
+      }
+      .stage .shd .t {
+        font-weight: 650;
+        font-size: 13px;
+      }
+      .vpill {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 1px 7px;
+        border-radius: 999px;
+        background: var(--a-soft);
+        color: var(--a);
+      }
+      .col.varB .vpill {
+        background: var(--b-soft);
+        color: var(--b);
+      }
+      .stage .sbd {
+        padding: 12px 13px;
+      }
+      .stage.locked {
+        opacity: 0.55;
+      }
+      .stage.locked .sbd {
+        pointer-events: none;
+      }
+      .lockmsg {
+        font-size: 11.5px;
+        color: var(--muted);
+        font-style: italic;
+      }
+
+      .out {
+        font-family: var(--mono);
+        font-size: 12px;
+        background: var(--canvas);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px 12px;
+        white-space: pre-wrap;
+        word-break: break-word;
+        min-height: 54px;
+        margin-top: 8px;
+      }
+      .out .tag {
+        color: var(--b);
+      }
+      .out .k {
+        color: #0550ae;
+      }
+      .caret::after {
+        content: "▋";
+        color: var(--brand);
+        animation: blink 1s steps(1) infinite;
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+      ins {
+        background: var(--ins-soft);
+        color: var(--ins);
+        text-decoration: none;
+      }
+      del {
+        background: var(--del-soft);
+        color: var(--del);
+      }
+      .stages:not(.diff-on) ins {
+        background: transparent;
+        color: inherit;
+      }
+      .stages:not(.diff-on) del {
+        display: none;
+      }
+
+      details.thread {
+        margin-top: 6px;
+        border: 1px dashed var(--border-strong);
+        border-radius: 8px;
+        background: #fcfcfd;
+      }
+      details.thread summary {
+        cursor: pointer;
+        padding: 8px 12px;
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--muted);
+      }
+      details.thread .turn {
+        font-family: var(--mono);
+        font-size: 11.5px;
+        padding: 8px 12px;
+        border-top: 1px solid var(--border);
+        white-space: pre-wrap;
+      }
+      .turn .role {
+        font-weight: 700;
+      }
+      .turn .role.system {
+        color: var(--brand);
+      }
+      .turn .role.assistant {
+        color: var(--b);
+      }
+
+      .legend {
+        color: var(--muted);
+        font-size: 12px;
+        margin: 8px 0 0;
+      }
+      .stagebtns {
+        margin-left: auto;
+        display: flex;
+        gap: 7px;
+      }
+      @media (max-width: 880px) {
+        .stages.both {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="bar">
+      <div class="logo"></div>
+      <div>
+        <h1>v8 Pipeline Tester</h1>
+        <div class="sub">
+          internal sandbox · steps a transcript through 6.1 → 6.2 → 7
+        </div>
+      </div>
+      <span class="pill lock">admin-only</span>
+      <span class="pill">release.v8-pipeline-tester</span>
+      <div class="spacer"></div>
+      <span class="sub">mockup — not wired</span>
+    </header>
+
+    <div class="wrap">
+      <div class="note">
+        <b>Mockup for sign-off.</b> Synthetic persona, fake outputs. Click
+        <b>A / B / Both</b> to see the layout change; hit <b>Send ▷</b> on any
+        stage to watch it "stream"; in <b>Both</b> mode flip <b>diff</b> to
+        highlight A-vs-B letter differences.
+      </div>
+
+      <!-- INPUTS -->
+      <section class="card" style="margin-top: 16px">
+        <div class="hd">
+          <h2>Inputs</h2>
+          <span class="legend" style="margin: 0"
+            >transcript required · the rest optional</span
+          >
+        </div>
+        <div class="bd">
+          <div class="row" style="margin-bottom: 12px">
+            <div style="flex: 2">
+              <label class="lbl">Chat transcript *</label>
+              <textarea id="transcript" rows="4">
+[interviewer] Tell me about a decision you got wrong this year.
+[Jordan Avery] We shipped the workspace redesign before the data model was ready. I owned the call...</textarea>
+            </div>
+            <div style="flex: none; width: 210px">
+              <label class="lbl">Load sample</label>
+              <select id="sample">
+                <option>— synthetic personas —</option>
+                <option>Jordan Avery · VP Product (exec)</option>
+                <option>Sam Rivera · Eng Manager (team-leader)</option>
+                <option>Casey Lin · Designer (IC)</option>
+              </select>
+              <div class="legend">
+                real GoTu transcripts load server-side only
+              </div>
+            </div>
+          </div>
+          <div class="grid2">
+            <div>
+              <label class="lbl">Intake form (optional)</label>
+              <textarea id="intake" rows="2">
+role: VP Product · company: 220-person SaaS · tenure: 3y</textarea>
+            </div>
+            <div>
+              <label class="lbl">Supplied context (optional)</label>
+              <textarea id="ctx" rows="2">
+prior 360 noted "moves fast, communicates late"</textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTROLS -->
+      <div class="controls">
+        <div>
+          <span class="lbl" style="display: inline; margin-right: 8px"
+            >Variant</span
+          >
+          <div class="seg" id="seg">
+            <button data-v="A">A</button>
+            <button data-v="B">B</button>
+            <button data-v="Both" class="on">Both (side-by-side)</button>
+          </div>
+        </div>
+        <label class="toggle"
+          ><input type="checkbox" id="diff" checked /> diff letters (A vs
+          B)</label
+        >
+        <div class="spacer" style="flex: 1"></div>
+        <button class="btn" onclick="runAll('varA')">Run all ▷ A</button>
+        <button class="btn" onclick="runAll('varB')">Run all ▷ B</button>
+      </div>
+
+      <!-- STAGES -->
+      <div class="stages both diff-on" id="stages">
+        <!-- columns injected by JS -->
+      </div>
+    </div>
+
+    <script>
+      const VAR = {
+        varA: { v: "A", soft: "8.0A" },
+        varB: { v: "B", soft: "8.0B" },
+      };
+
+      // seeded system prompts (abbreviated, realistic) + sample outputs
+      const STAGE = {
+        1: {
+          title: "6.1 Reasoning",
+          prompt: (
+            v,
+          ) => `You are the Mirror Letter reasoning engine (variant ${v}).
+Read the FULL interview transcript already in this thread. Return JSON ONLY — no prose:
+{
+  "diagnostic_artifact": { ...patterns, tensions, evidence quotes... },
+  "narrative_artifact": { "section_blueprint": [ 9 sections, each with intent + evidence ] },
+  "readiness_check": { "ready": true, "gaps": [] },
+  "source_bundle": { "subject_context": { "authority_level": "executive | team-leader | individual_contributor" } }
+}
+Do not write the letter. Do not address the reader.`,
+          out: (v) => `<span class="k">{</span>
+  "diagnostic_artifact": { "core_tension": "speed vs. shared context", "evidence": ["…redesign before data model…"] },
+  "narrative_artifact": { "section_blueprint": [ "§1 Opening", "§2 Pattern", "…", "§9 Forward" ] },
+  "readiness_check": { "ready": true, "gaps": [] },
+  "source_bundle": { "subject_context": { "authority_level": "executive" } }
+<span class="k">}</span>`,
+        },
+        2: {
+          title: "6.2 Letter Writer",
+          prompt: (v) => `You are the Mirror Letter writer (variant ${v}).
+Use the reasoning JSON above + the transcript. Write the Mirror Letter, 9 sections, ~1700-2200 words.
+Output wrapped exactly:
+<deliverable name="mirror-letter" version="8.0${v}"> … </deliverable>
+[ {{OUTPUT_TEMPLATE_V8${v}} and {{ROLE_EXAMPLES}} are hydrated server-side — shown resolved here ]`,
+          out: (v) => {
+            const head =
+              v === "A"
+                ? `<span class="tag">&lt;deliverable name="mirror-letter" version="8.0A"&gt;</span>
+<b>The Decision You Owned</b>
+Jordan — you said the redesign shipped early <ins>and you named it your call without flinching</ins>.
+<b>The Pattern Underneath</b>
+Speed is your instrument...`
+                : `<span class="tag">&lt;deliverable name="mirror-letter" version="8.0B"&gt;</span>
+<b>Where You Moved First</b>
+Jordan — the redesign shipped early <del>and you named it your call without flinching</del><ins>, a call you still defend</ins>.
+<b>The Engine and Its Cost</b>
+Speed is your instrument...`;
+            return (
+              head +
+              `
+… 9 sections …
+<span class="tag">&lt;/deliverable&gt;</span>`
+            );
+          },
+        },
+        3: {
+          title: "7  Action Plan",
+          prompt:
+            () => `You are the Mirror action-plan author (shared across A/B).
+The Mirror Letter + transcript are in this thread. Produce 5 sections.
+Output wrapped exactly:
+<deliverable name="action-plan" version="8.0"> … </deliverable>`,
+          out: () => `<span class="tag">&lt;deliverable name="action-plan" version="8.0"&gt;</span>
+<b>1. The one shift</b>  Publish the "why" before the "what."
+<b>2. This week</b>  …
+<b>3. This quarter</b>  …
+<b>4. Watch-fors</b>  …
+<b>5. How you'll know it worked</b>  …
+<span class="tag">&lt;/deliverable&gt;</span>`,
+        },
+      };
+
+      function stageCard(colKey, n) {
+        const v = VAR[colKey].v;
+        const s = STAGE[n];
+        const locked = n > 1 ? "locked" : "";
+        const vpill = n === 3 ? "8.0" : VAR[colKey].soft;
+        return `
+        <div class="stage ${locked}" data-col="${colKey}" data-n="${n}">
+          <div class="shd">
+            <span class="num">${n === 1 ? "①" : n === 2 ? "②" : "③"}</span>
+            <span class="t">${s.title}</span>
+            <span class="vpill">${vpill}</span>
+            <span class="stagebtns">
+              <button class="btn primary small" onclick="runStage(this)">Send ▷</button>
+              <button class="btn small" onclick="runStage(this)">↻</button>
+            </span>
+          </div>
+          <div class="sbd">
+            ${n > 1 ? `<div class="lockmsg" data-lock>enabled after stage ${n - 1} runs</div>` : ""}
+            <label class="lbl">System message (editable — sent verbatim)</label>
+            <textarea rows="${n === 1 ? 7 : 5}">${s.prompt(v)}</textarea>
+            <label class="lbl" style="margin-top:10px">Output (streams)</label>
+            <div class="out" data-out data-payload="${encodeURIComponent(s.out(v))}"></div>
+          </div>
+        </div>`;
+      }
+
+      function column(colKey) {
+        const v = VAR[colKey].v;
+        const cards = [1, 2, 3].map((n) => stageCard(colKey, n)).join("");
+        const thread = `
+        <details class="thread">
+          <summary>▸ Thread view — variant ${v} (system + assistant turns)</summary>
+          <div class="turn"><span class="role system">system</span>  6.1 reasoning prompt …</div>
+          <div class="turn"><span class="role assistant">assistant</span>  { diagnostic_artifact … }</div>
+          <div class="turn"><span class="role system">system</span>  6.2 letter writer prompt …</div>
+          <div class="turn"><span class="role assistant">assistant</span>  &lt;deliverable name="mirror-letter" version="8.0${v}"&gt; …</div>
+          <div class="turn"><span class="role system">system</span>  7 action plan prompt …</div>
+          <div class="turn"><span class="role assistant">assistant</span>  &lt;deliverable name="action-plan" version="8.0"&gt; …</div>
+        </details>`;
+        return `<div class="col var${colKey === "varA" ? "A" : "B"}">
+          <div class="colhead">Variant ${v} — one platform task / thread</div>
+          ${cards}${thread}</div>`;
+      }
+
+      document.getElementById("stages").innerHTML =
+        column("varA") + column("varB");
+
+      // variant segmented control
+      const seg = document.getElementById("seg");
+      const stages = document.getElementById("stages");
+      seg.addEventListener("click", (e) => {
+        const b = e.target.closest("button");
+        if (!b) return;
+        [...seg.children].forEach((x) => x.classList.remove("on"));
+        b.classList.add("on");
+        const v = b.dataset.v;
+        const A = stages.querySelector(".col.varA");
+        const B = stages.querySelector(".col.varB");
+        stages.classList.toggle("both", v === "Both");
+        if (v === "Both") {
+          A.style.display = "";
+          B.style.display = "";
+        } else if (v === "A") {
+          A.style.display = "";
+          B.style.display = "none";
+        } else {
+          A.style.display = "none";
+          B.style.display = "";
+        }
+      });
+      // diff toggle
+      document.getElementById("diff").addEventListener("change", (e) => {
+        stages.classList.toggle("diff-on", e.target.checked);
+      });
+
+      // simulated streaming
+      function typeInto(el, html) {
+        el.classList.add("caret");
+        el.innerHTML = "";
+        const tokens = html.split(/(\s+)/);
+        let i = 0;
+        const t = setInterval(() => {
+          el.innerHTML += tokens[i++];
+          if (i >= tokens.length) {
+            clearInterval(t);
+            el.classList.remove("caret");
+          }
+        }, 14);
+      }
+      function runStage(btn) {
+        const stage = btn.closest(".stage");
+        const out = stage.querySelector("[data-out]");
+        typeInto(out, decodeURIComponent(out.dataset.payload));
+        // unlock next stage in same column
+        const n = +stage.dataset.n,
+          col = stage.dataset.col;
+        const next = stages.querySelector(
+          `.stage[data-col="${col}"][data-n="${n + 1}"]`,
+        );
+        if (next) {
+          next.classList.remove("locked");
+          const lm = next.querySelector("[data-lock]");
+          if (lm) lm.remove();
+        }
+      }
+      function runAll(colKey) {
+        const cards = [
+          ...stages.querySelectorAll(`.stage[data-col="${colKey}"]`),
+        ];
+        cards.forEach((c, idx) =>
+          setTimeout(
+            () => runStage(c.querySelector(".btn.primary")),
+            idx * 700,
+          ),
+        );
+      }
+
+      // load-sample demo
+      document.getElementById("sample").addEventListener("change", (e) => {
+        if (e.target.selectedIndex > 0) {
+          document.getElementById("transcript").value =
+            "[interviewer] Walk me through a moment you led under pressure.\n[" +
+            e.target.value.split(" · ")[0] +
+            "] …(synthetic sample loaded)…";
+        }
+      });
+    </script>
+  </body>
+</html>
