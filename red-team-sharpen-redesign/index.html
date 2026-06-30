@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Red-Team · Sharpen + Panel redesign mockups</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Outfit:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --page: #fafafa;
+        --float: #ffffff;
+        --recessed: #f1f1f1;
+        --recessed-2: #f7f7f7;
+        --t1: #1a1a1a;
+        --t2: #555;
+        --t3: #888;
+        --b-sub: #e2e2e2;
+        --b-strong: rgba(26, 26, 26, 0.32);
+        --green: #16a34a;
+        --green-bg: rgba(22, 163, 74, 0.08);
+        --green-glow: rgba(22, 163, 74, 0.16);
+        --warn: #b7791f;
+        --danger: #b03a2e;
+        --sans: "Outfit", system-ui, sans-serif;
+        --serif: "Newsreader", Georgia, serif;
+        --r: 14px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #ececeb;
+        color: var(--t1);
+        font-family: var(--sans);
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 32px 20px 80px;
+      }
+      .lede {
+        max-width: 760px;
+        margin: 0 auto 8px;
+      }
+      .lede h1 {
+        font-family: var(--serif);
+        font-weight: 600;
+        font-size: 30px;
+        letter-spacing: -0.01em;
+        margin: 0 0 8px;
+      }
+      .lede p {
+        color: var(--t2);
+        font-size: 15px;
+        line-height: 1.6;
+        margin: 0 0 6px;
+      }
+      .lede .note {
+        font-size: 13px;
+        color: var(--t3);
+      }
+      .lede .tag {
+        display: inline-block;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--t3);
+        border: 1px solid var(--b-sub);
+        background: #fff;
+        border-radius: 999px;
+        padding: 3px 10px;
+        margin-bottom: 14px;
+      }
+      .frames {
+        display: flex;
+        gap: 28px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 34px;
+      }
+      .col {
+        width: 392px;
+        max-width: 100%;
+      }
+      .col > h2 {
+        font-family: var(--serif);
+        font-weight: 600;
+        font-size: 19px;
+        margin: 0 0 2px;
+      }
+      .col > .sub {
+        font-size: 13px;
+        color: var(--t2);
+        margin: 0 0 14px;
+        line-height: 1.5;
+        min-height: 34px;
+      }
+      /* phone */
+      .phone {
+        width: 392px;
+        max-width: 100%;
+        background: var(--page);
+        border-radius: 30px;
+        border: 1px solid #d8d8d6;
+        box-shadow:
+          0 18px 40px -18px rgba(0, 0, 0, 0.28),
+          0 2px 0 #fff inset;
+        overflow: hidden;
+      }
+      .status {
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        font-size: 12px;
+        color: var(--t3);
+      }
+      .screen {
+        height: 720px;
+        overflow-y: auto;
+        padding: 8px 18px 22px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .screen::-webkit-scrollbar {
+        width: 0;
+      }
+      .eyebrow {
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--t3);
+        margin: 6px 0 8px;
+      }
+      h3.h {
+        font-family: var(--serif);
+        font-weight: 600;
+        font-size: 30px;
+        line-height: 1.08;
+        letter-spacing: -0.015em;
+        margin: 0 0 8px;
+      }
+      .desc {
+        font-size: 14.5px;
+        line-height: 1.5;
+        color: var(--t2);
+        margin: 0 0 16px;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 12.5px;
+        color: var(--t2);
+        background: var(--recessed);
+        border-radius: 999px;
+        padding: 5px 12px;
+        margin-bottom: 18px;
+      }
+      /* option card */
+      .opt {
+        position: relative;
+        border: 1px solid var(--b-sub);
+        background: var(--recessed-2);
+        border-radius: var(--r);
+        padding: 15px 15px 15px 46px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        transition: 0.15s;
+      }
+      .opt:hover {
+        border-color: var(--b-strong);
+      }
+      .opt .tick {
+        position: absolute;
+        left: 15px;
+        top: 16px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 1.5px solid #c4c4c4;
+        background: #fff;
+      }
+      .opt .lab {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--t3);
+        margin-bottom: 5px;
+      }
+      .opt .obj {
+        font-size: 15.5px;
+        line-height: 1.42;
+        color: var(--t1);
+      }
+      .opt.sel {
+        background: var(--float);
+        border-color: var(--b-strong);
+        box-shadow:
+          0 1px 0 var(--b-sub),
+          0 8px 22px -16px rgba(0, 0, 0, 0.4);
+      }
+      .opt.sel .tick {
+        border-color: var(--green);
+        background: var(--green);
+      }
+      .opt.sel .tick:after {
+        content: "";
+        position: absolute;
+        left: 6px;
+        top: 6px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #fff;
+      }
+      .opt.you .lab {
+        color: var(--green);
+      }
+      .reveal {
+        margin-top: 13px;
+        display: none;
+      }
+      .opt.sel .reveal {
+        display: block;
+      }
+      .q {
+        font-size: 13.5px;
+        font-weight: 500;
+        color: var(--t1);
+        margin: 0 0 7px;
+        line-height: 1.4;
+      }
+      .ans {
+        width: 100%;
+        border: 1px solid var(--b-sub);
+        background: var(--recessed-2);
+        border-radius: 10px;
+        padding: 10px;
+        font: inherit;
+        font-size: 13.5px;
+        color: var(--t1);
+        line-height: 1.45;
+        resize: vertical;
+      }
+      .whatsoff {
+        display: inline-block;
+        margin-top: 10px;
+        font-size: 13px;
+        color: var(--t3);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+      .editrow {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 9px;
+        font-size: 12px;
+        color: var(--t3);
+      }
+      /* sticky footer */
+      .foot {
+        position: sticky;
+        bottom: 0;
+        display: flex;
+        gap: 9px;
+        align-items: center;
+        padding: 12px 0 4px;
+        background: linear-gradient(to top, var(--page) 72%, transparent);
+      }
+      .btn {
+        font: inherit;
+        font-weight: 500;
+        border-radius: 11px;
+        padding: 12px 16px;
+        border: 1px solid var(--b-strong);
+        background: #fff;
+        color: var(--t1);
+        cursor: pointer;
+        font-size: 14px;
+      }
+      .btn.ghost {
+        border-color: transparent;
+        background: transparent;
+        color: var(--t2);
+        padding-left: 6px;
+        padding-right: 6px;
+      }
+      .btn.primary {
+        background: var(--t1);
+        color: #fff;
+        border-color: var(--t1);
+        flex: 1;
+        text-align: center;
+      }
+      .btn.green {
+        background: var(--green);
+        border-color: var(--green);
+        color: #fff;
+        flex: 1;
+      }
+      /* direction B hero */
+      .hero {
+        background: var(--float);
+        border: 1px solid var(--b-strong);
+        border-radius: var(--r);
+        padding: 16px;
+        box-shadow: 0 8px 22px -16px rgba(0, 0, 0, 0.4);
+        margin-bottom: 8px;
+      }
+      .hero .lab {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--green);
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .hero .lab .you {
+        color: var(--t3);
+      }
+      .hero textarea {
+        width: 100%;
+        border: 0;
+        background: transparent;
+        font: inherit;
+        font-size: 19px;
+        line-height: 1.35;
+        color: var(--t1);
+        resize: none;
+        font-family: var(--serif);
+      }
+      .hero .q {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid var(--b-sub);
+      }
+      .swapline {
+        font-size: 12px;
+        color: var(--t3);
+        margin: 16px 0 9px;
+        letter-spacing: 0.02em;
+      }
+      .chip {
+        display: block;
+        width: 100%;
+        text-align: left;
+        border: 1px solid var(--b-sub);
+        background: var(--recessed-2);
+        border-radius: 12px;
+        padding: 12px 13px;
+        margin-bottom: 9px;
+        cursor: pointer;
+        font: inherit;
+        color: var(--t1);
+        font-size: 14px;
+        line-height: 1.4;
+        transition: 0.15s;
+      }
+      .chip:hover {
+        border-color: var(--b-strong);
+        background: #fff;
+      }
+      .chip .mini {
+        display: block;
+        font-size: 11px;
+        color: var(--t3);
+        margin-top: 4px;
+      }
+      .chip.active {
+        border-color: var(--b-strong);
+        background: #fff;
+      }
+      /* panel seat cards */
+      .seat {
+        border: 1px solid var(--b-sub);
+        background: var(--float);
+        border-radius: var(--r);
+        padding: 15px;
+        margin-bottom: 12px;
+        box-shadow: 0 1px 0 var(--b-sub);
+      }
+      .seat .top {
+        display: flex;
+        align-items: flex-start;
+        gap: 11px;
+      }
+      .seat .av {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: var(--recessed);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 19px;
+        flex: 0 0 auto;
+      }
+      .seat .role {
+        font-weight: 600;
+        font-size: 15.5px;
+        line-height: 1.2;
+      }
+      .seat .lens {
+        font-size: 12.5px;
+        color: var(--t2);
+        margin-top: 2px;
+        line-height: 1.35;
+      }
+      .seat .attack {
+        font-size: 13px;
+        color: var(--t1);
+        margin-top: 11px;
+        line-height: 1.45;
+        padding: 9px 11px;
+        background: var(--recessed-2);
+        border-radius: 10px;
+        border: 1px solid var(--b-sub);
+      }
+      .seat .attack b {
+        font-weight: 600;
+        color: var(--danger);
+      }
+      .seat .acts {
+        display: flex;
+        gap: 8px;
+        margin-top: 11px;
+      }
+      .seat .mini-btn {
+        font: inherit;
+        font-size: 12.5px;
+        color: var(--t2);
+        background: transparent;
+        border: 1px solid var(--b-sub);
+        border-radius: 9px;
+        padding: 6px 11px;
+        cursor: pointer;
+      }
+      .seat .mini-btn:hover {
+        border-color: var(--b-strong);
+      }
+      .annot {
+        max-width: 392px;
+        margin: 14px auto 0;
+        font-size: 12.5px;
+        color: var(--t2);
+        line-height: 1.55;
+      }
+      .annot ul {
+        margin: 6px 0 0;
+        padding-left: 18px;
+      }
+      .annot li {
+        margin: 3px 0;
+      }
+      .legend {
+        max-width: 760px;
+        margin: 0 auto 0;
+        padding: 16px 18px;
+        background: #fff;
+        border: 1px solid var(--b-sub);
+        border-radius: 12px;
+        font-size: 13px;
+        color: var(--t2);
+        line-height: 1.6;
+      }
+      .legend b {
+        color: var(--t1);
+      }
+      @media (max-width: 520px) {
+        .screen {
+          height: 660px;
+        }
+        .wrap {
+          padding: 20px 12px 60px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="lede">
+        <span class="tag">Mockup · not built · agent-made</span>
+        <h1>Red-Team — Sharpen + Panel redesign</h1>
+        <p>
+          Three mobile screens for review. The first two are
+          <b>two directions</b> for the redesigned <b>Sharpen the goal</b> step
+          (fixing the truncation + cramped boxes on your phone). The third is
+          the <b>new step</b>: show the review panel and let you approve it
+          before the review runs.
+        </p>
+        <p class="note">
+          Tap the cards — selection, the “what’s off” reveal, and swapping a
+          suggestion all work. Everything uses the real red-team theme tokens
+          (near-monochrome, green = locked-in). Content is your sci-fi-trilogy
+          example.
+        </p>
+      </div>
+
+      <div class="legend" style="margin-top: 18px">
+        <b>What changed vs the current screen:</b> full-width fluid text (no
+        more “…simulation-exit trilogy” cut-offs), the nested white box is gone
+        (the text <i>is</i> the card), custom selection control (no stray blue
+        radios), tap-anywhere-to-select, and a sticky <i>Continue</i> button
+        that’s always reachable on mobile.
+      </div>
+
+      <div class="frames">
+        <!-- ============ DIRECTION A ============ -->
+        <div class="col">
+          <h2>A · Refined cards</h2>
+          <p class="sub">
+            Same card model as today, cleaned up. Each option is one tappable
+            card; the question + answer reveal inline when picked.
+          </p>
+          <div class="phone">
+            <div class="status"><span>4:27</span><span>● ▼ 54</span></div>
+            <div class="screen">
+              <div class="eyebrow">New review · step 3 of 5</div>
+              <h3 class="h">Sharpen the goal</h3>
+              <p class="desc">
+                Pick the framing that fits — or keep your own. The panel reviews
+                against whatever you lock in.
+              </p>
+              <span class="pill"
+                >📚 Looks like a Sci-fi trilogy concept pitch</span
+              >
+
+              <div class="opt you sel" data-group="a">
+                <span class="tick"></span>
+                <div class="lab">Your objective</div>
+                <div class="obj" contenteditable="true">Write a bestseller</div>
+                <div class="editrow">✏️ tap to edit your words</div>
+              </div>
+
+              <div class="opt" data-group="a">
+                <span class="tick"></span>
+                <div class="lab">Suggested</div>
+                <div class="obj">
+                  Turn this AI-consciousness-to-simulation-exit trilogy into a
+                  debut a Big-5 imprint will buy.
+                </div>
+                <div class="reveal">
+                  <p class="q">
+                    Who’s the target imprint, and what comp titles is it
+                    chasing?
+                  </p>
+                  <textarea class="ans" rows="2">
+Likely adult SF at an imprint like Orbit/Tor — comps in the Blake Crouch / Andy Weir “smart high-concept” lane.</textarea>
+                  <a class="whatsoff">Almost right? Tell us what’s off</a>
+                </div>
+              </div>
+
+              <div class="opt" data-group="a">
+                <span class="tick"></span>
+                <div class="lab">Suggested</div>
+                <div class="obj">
+                  Position the trilogy to win mainstream techno-thriller / SF
+                  readers, not just hard-SF fans.
+                </div>
+                <div class="reveal">
+                  <p class="q">
+                    Which crossover promise leads — the thriller hook or the big
+                    idea?
+                  </p>
+                  <textarea class="ans" rows="2">
+The thriller hook (an exit from simulated reality) leads; the consciousness idea is the engine underneath.</textarea>
+                  <a class="whatsoff">Almost right? Tell us what’s off</a>
+                </div>
+              </div>
+
+              <div class="opt" data-group="a">
+                <span class="tick"></span>
+                <div class="lab">Suggested</div>
+                <div class="obj">
+                  Make the trilogy a breakout, conversation-driving mind-bender
+                  with book-club legs.
+                </div>
+                <div class="reveal">
+                  <p class="q">
+                    What’s the one question you want readers arguing about?
+                  </p>
+                  <textarea class="ans" rows="2">
+“If you could exit the simulation, should you?” — the moral hook that drives word-of-mouth.</textarea>
+                  <a class="whatsoff">Almost right? Tell us what’s off</a>
+                </div>
+              </div>
+
+              <div class="foot">
+                <button class="btn ghost">Back</button>
+                <button class="btn ghost">Skip</button>
+                <button class="btn primary">Continue →</button>
+              </div>
+            </div>
+          </div>
+          <div class="annot">
+            <ul>
+              <li>
+                One card = one tap target. No separate radio column eating
+                width.
+              </li>
+              <li>Text wraps fully — long framings never truncate.</li>
+              <li>
+                Question + accept/edit answer appear only on the selected card.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ============ DIRECTION B ============ -->
+        <div class="col">
+          <h2>B · Pinned hero + suggestions</h2>
+          <p class="sub">
+            Your goal is the hero at top, always editable. Suggestions are a
+            light list — tap one to swap it into the hero, undo back to your
+            words anytime.
+          </p>
+          <div class="phone">
+            <div class="status"><span>4:27</span><span>● ▼ 54</span></div>
+            <div class="screen">
+              <div class="eyebrow">New review · step 3 of 5</div>
+              <h3 class="h">Sharpen the goal</h3>
+              <p class="desc">
+                This is the lens the panel reviews against. Refine it, or pick a
+                sharper framing below.
+              </p>
+              <span class="pill"
+                >📚 Looks like a Sci-fi trilogy concept pitch</span
+              >
+
+              <div class="hero">
+                <div class="lab">
+                  <span>Review lens</span><span class="you">your words</span>
+                </div>
+                <textarea id="heroTa" rows="2">Write a bestseller</textarea>
+                <p class="q" id="heroQ" style="display: none"></p>
+              </div>
+
+              <div class="swapline">Or pick a sharper framing →</div>
+
+              <button
+                class="chip"
+                data-obj="Turn this AI-consciousness-to-simulation-exit trilogy into a debut a Big-5 imprint will buy."
+                data-q="Who’s the target imprint, and what comps is it chasing?"
+              >
+                Turn it into a debut a Big-5 imprint will buy
+                <span class="mini">Sharpens for: getting acquired</span>
+              </button>
+              <button
+                class="chip"
+                data-obj="Position the trilogy to win mainstream techno-thriller / SF readers, not just hard-SF fans."
+                data-q="Which crossover promise leads — the thriller hook or the big idea?"
+              >
+                Win mainstream techno-thriller / SF readers
+                <span class="mini">Sharpens for: crossover reach</span>
+              </button>
+              <button
+                class="chip"
+                data-obj="Make the trilogy a breakout, conversation-driving mind-bender with book-club legs."
+                data-q="What’s the one question you want readers arguing about?"
+              >
+                A breakout, conversation-driving mind-bender
+                <span class="mini">Sharpens for: word-of-mouth</span>
+              </button>
+
+              <div class="foot">
+                <button class="btn ghost">Back</button>
+                <button class="btn ghost">Skip</button>
+                <button class="btn primary">Continue →</button>
+              </div>
+            </div>
+          </div>
+          <div class="annot">
+            <ul>
+              <li>
+                One editable field, always front-and-center — less card chrome.
+              </li>
+              <li>
+                Tapping a suggestion fills the lens + surfaces its one question.
+              </li>
+              <li>Feels like picking from a menu, not filling a form.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ============ PANEL STEP ============ -->
+        <div class="col">
+          <h2>C · NEW — Meet your panel</h2>
+          <p class="sub">
+            A new step before the review runs: see the three adversaries, what
+            each attacks, and swap any you don’t want. Then approve.
+          </p>
+          <div class="phone">
+            <div class="status"><span>4:28</span><span>● ▼ 54</span></div>
+            <div class="screen">
+              <div class="eyebrow">New review · step 4 of 5</div>
+              <h3 class="h">Meet your panel</h3>
+              <p class="desc">
+                Three adversaries, each attacking your pitch a different way —
+                built from your document and your goal. Swap any that don’t fit.
+              </p>
+
+              <div class="seat">
+                <div class="top">
+                  <div class="av">🗂️</div>
+                  <div>
+                    <div class="role">Acquiring Editor</div>
+                    <div class="lens">
+                      Buys debut SF for a Big-5 imprint; lives or dies by
+                      sell-through.
+                    </div>
+                  </div>
+                </div>
+                <div class="attack">
+                  <b>Goes after:</b> whether the hook survives a 30-second pitch
+                  meeting and a crowded comp shelf.
+                </div>
+                <div class="acts">
+                  <button class="mini-btn">↻ Swap seat</button
+                  ><button class="mini-btn">See full brief</button>
+                </div>
+              </div>
+
+              <div class="seat">
+                <div class="top">
+                  <div class="av">🔭</div>
+                  <div>
+                    <div class="role">Hard-SF Skeptic</div>
+                    <div class="lens">
+                      Reads for internal logic; allergic to hand-waving.
+                    </div>
+                  </div>
+                </div>
+                <div class="attack">
+                  <b>Goes after:</b> the consciousness-to-simulation-exit
+                  premise holding up across three books.
+                </div>
+                <div class="acts">
+                  <button class="mini-btn">↻ Swap seat</button
+                  ><button class="mini-btn">See full brief</button>
+                </div>
+              </div>
+
+              <div class="seat">
+                <div class="top">
+                  <div class="av">📈</div>
+                  <div>
+                    <div class="role">Series Architect</div>
+                    <div class="lens">
+                      Plans multi-book arcs and reader retention.
+                    </div>
+                  </div>
+                </div>
+                <div class="attack">
+                  <b>Goes after:</b> whether book 1 stands alone if book 2 never
+                  gets greenlit.
+                </div>
+                <div class="acts">
+                  <button class="mini-btn">↻ Swap seat</button
+                  ><button class="mini-btn">See full brief</button>
+                </div>
+              </div>
+
+              <div class="foot">
+                <button class="btn ghost">Back</button>
+                <button class="btn green">Run the review →</button>
+              </div>
+            </div>
+          </div>
+          <div class="annot">
+            <ul>
+              <li>
+                You see <b>who</b> is about to critique you and
+                <b>what</b> they’ll attack — before spending the run.
+              </li>
+              <li>
+                “Swap seat” re-rolls one adversary; “See full brief” expands
+                lens / motive / stance.
+              </li>
+              <li>
+                Approval gate = no surprise panel, and a natural place to add
+                “regenerate panel”.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="legend" style="margin-top: 40px">
+        <b>Open questions for you:</b>
+        <ul style="margin: 8px 0 0; padding-left: 18px">
+          <li>
+            Direction <b>A</b> or <b>B</b> for Sharpen? (A keeps today’s mental
+            model; B is lighter and more guided.)
+          </li>
+          <li>
+            Panel step: approve-only, or also allow <b>swap / regenerate</b> a
+            seat (more build, shown above)?
+          </li>
+          <li>
+            Does the panel step become its own <b>step 4 of 5</b>, or a quick
+            confirm sheet between Sharpen and the run?
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      // tap-to-select cards (Direction A)
+      document.querySelectorAll(".opt").forEach((o) => {
+        o.addEventListener("click", (e) => {
+          if (e.target.closest("textarea,[contenteditable],.whatsoff")) return;
+          document
+            .querySelectorAll('.opt[data-group="' + o.dataset.group + '"]')
+            .forEach((x) => x.classList.remove("sel"));
+          o.classList.add("sel");
+        });
+      });
+      // Direction B: chip -> hero
+      const ta = document.getElementById("heroTa"),
+        q = document.getElementById("heroQ");
+      document.querySelectorAll(".chip").forEach((c) => {
+        c.addEventListener("click", () => {
+          document
+            .querySelectorAll(".chip")
+            .forEach((x) => x.classList.remove("active"));
+          c.classList.add("active");
+          ta.value = c.dataset.obj;
+          q.textContent = "To sharpen: " + c.dataset.q;
+          q.style.display = "block";
+          document.querySelector(".hero .lab .you").textContent =
+            "suggested · undo";
+        });
+      });
+      document
+        .querySelector(".hero .lab .you")
+        .addEventListener("click", () => {
+          ta.value = "Write a bestseller";
+          q.style.display = "none";
+          document
+            .querySelectorAll(".chip")
+            .forEach((x) => x.classList.remove("active"));
+          document.querySelector(".hero .lab .you").textContent = "your words";
+        });
+    </script>
+  </body>
+</html>
