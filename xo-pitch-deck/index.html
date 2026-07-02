@@ -1,0 +1,1002 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>XO — Investor Pitch</title>
+    <style>
+      :root {
+        --ink: #0e1116;
+        --muted: #57606a;
+        --line: #d8dce1;
+        --bg: #ffffff;
+        --soft: #f6f8fa;
+        --blue: #0b5fff;
+        --gold: #e0a400;
+        --green: #0a7d33;
+        --amber: #a65a00;
+        --red: #c91f1f;
+        --serif:
+          "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+        --sans:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        --mono: "SF Mono", Menlo, Consolas, monospace;
+      }
+      * {
+        box-sizing: border-box;
+        min-width: 0;
+      }
+      html {
+        overflow-x: hidden;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 16px/1.6 var(--sans);
+        overflow-x: hidden;
+      }
+      .wrap {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 0 20px 96px;
+      }
+      header.top {
+        border-bottom: 1px solid var(--line);
+        padding: 14px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        position: sticky;
+        top: 0;
+        background: rgba(255, 255, 255, 0.96);
+        z-index: 5;
+      }
+      header.top .brand {
+        font: 700 15px var(--sans);
+        letter-spacing: 0.4px;
+      }
+      header.top .brand span {
+        color: var(--blue);
+      }
+      .counter {
+        font: 12px var(--mono);
+        color: var(--muted);
+      }
+      .slide {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        margin: 28px 0;
+        padding: 36px 36px 28px;
+        position: relative;
+        background: var(--bg);
+        box-shadow: 0 1px 0 rgba(14, 17, 22, 0.04);
+      }
+      .slide .kicker {
+        font: 700 11px var(--sans);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--blue);
+        margin: 0 0 10px;
+      }
+      .slide h1 {
+        font: 700 42px/1.15 var(--serif);
+        margin: 0 0 14px;
+      }
+      .slide h2 {
+        font: 700 30px/1.2 var(--serif);
+        margin: 0 0 14px;
+      }
+      .slide h3 {
+        font: 700 17px var(--sans);
+        margin: 22px 0 8px;
+      }
+      .slide p.lead {
+        font-size: 19px;
+        color: #2b333c;
+      }
+      .slide .num {
+        position: absolute;
+        top: 14px;
+        right: 16px;
+        font: 12px var(--mono);
+        color: var(--muted);
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .badge {
+        display: inline-block;
+        border-radius: 5px;
+        padding: 2px 8px;
+        font: 700 11px var(--sans);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .badge.live {
+        background: var(--green);
+        color: #fff;
+      }
+      .badge.build {
+        background: var(--gold);
+        color: #231a00;
+      }
+      .badge.open {
+        background: var(--soft);
+        color: var(--muted);
+        border: 1px solid var(--line);
+      }
+      .callout {
+        border-left: 4px solid var(--blue);
+        padding: 10px 16px;
+        margin: 18px 0;
+        background: var(--bg);
+      }
+      .callout.gold {
+        border-left-color: var(--gold);
+      }
+      .callout.green {
+        border-left-color: var(--green);
+      }
+      .callout.red {
+        border-left-color: var(--red);
+      }
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        margin: 18px 0;
+      }
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 16px 18px;
+      }
+      .card h4 {
+        margin: 0 0 6px;
+        font: 700 14px var(--sans);
+      }
+      .card p {
+        margin: 0;
+        font-size: 14px;
+        color: #2b333c;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 16px 0;
+        font-size: 14px;
+      }
+      th {
+        background: var(--ink);
+        color: #fff;
+        text-align: left;
+        padding: 8px 12px;
+        font: 700 12px var(--sans);
+        letter-spacing: 0.04em;
+      }
+      td {
+        border-bottom: 1px solid var(--line);
+        padding: 9px 12px;
+        vertical-align: top;
+      }
+      pre.ascii {
+        background: var(--soft);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 14px 16px;
+        font: 12.5px/1.5 var(--mono);
+        overflow-x: auto;
+      }
+      details.objection {
+        border: 1px solid var(--line);
+        border-left: 4px solid var(--red);
+        border-radius: 6px;
+        margin: 20px 0 4px;
+        background: var(--bg);
+      }
+      details.objection summary {
+        cursor: pointer;
+        padding: 10px 14px;
+        font: 700 13px var(--sans);
+        color: var(--red);
+        list-style: none;
+      }
+      details.objection summary::before {
+        content: "▸ ";
+      }
+      details.objection[open] summary::before {
+        content: "▾ ";
+      }
+      details.objection .ans {
+        padding: 2px 16px 14px;
+        font-size: 14.5px;
+      }
+      details.objection .ans .q {
+        font-style: italic;
+        color: var(--muted);
+        margin: 0 0 8px;
+      }
+      .navbtns {
+        position: fixed;
+        bottom: 18px;
+        right: 18px;
+        display: flex;
+        gap: 8px;
+        z-index: 6;
+      }
+      .navbtns button {
+        min-width: 44px;
+        min-height: 44px;
+        border: 1px solid var(--line);
+        background: var(--bg);
+        border-radius: 8px;
+        font: 700 16px var(--sans);
+        cursor: pointer;
+        box-shadow: 0 1px 2px rgba(14, 17, 22, 0.08);
+      }
+      .navbtns button:hover {
+        border-color: var(--blue);
+        color: var(--blue);
+      }
+      .export {
+        margin: 40px 0 0;
+        text-align: center;
+      }
+      .export button {
+        border: 1px solid var(--line);
+        background: var(--soft);
+        border-radius: 8px;
+        padding: 12px 18px;
+        font: 700 14px var(--sans);
+        cursor: pointer;
+        min-height: 44px;
+      }
+      .export button:hover {
+        border-color: var(--blue);
+        color: var(--blue);
+      }
+      ul.tight {
+        margin: 8px 0;
+        padding-left: 22px;
+      }
+      ul.tight li {
+        margin: 6px 0;
+      }
+      .footnote {
+        font-size: 12.5px;
+        color: var(--muted);
+        border-top: 1px solid var(--line);
+        margin-top: 22px;
+        padding-top: 10px;
+      }
+      @media (max-width: 720px) {
+        .slide {
+          padding: 24px 18px 20px;
+        }
+        .slide h1 {
+          font-size: 30px;
+        }
+        .slide h2 {
+          font-size: 24px;
+        }
+        .grid2 {
+          grid-template-columns: 1fr;
+        }
+        table.collapse,
+        table.collapse thead,
+        table.collapse tbody,
+        table.collapse tr,
+        table.collapse td,
+        table.collapse th {
+          display: block;
+        }
+        table.collapse thead {
+          display: none;
+        }
+        table.collapse tr {
+          border: 1px solid var(--line);
+          border-left: 4px solid var(--blue);
+          border-radius: 6px;
+          margin: 10px 0;
+          padding: 8px 12px;
+        }
+        table.collapse td {
+          border: 0;
+          padding: 4px 0;
+        }
+        table.collapse td::before {
+          content: attr(data-l) " ";
+          font: 700 11px var(--sans);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: var(--muted);
+          display: block;
+        }
+      }
+      @media print {
+        header.top,
+        .navbtns,
+        .export {
+          display: none;
+        }
+        .slide {
+          break-inside: avoid;
+          border: none;
+          border-bottom: 1px solid var(--line);
+          border-radius: 0;
+          box-shadow: none;
+          margin: 0;
+          padding: 24px 0;
+        }
+        details.objection {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="top">
+      <div class="brand">
+        XO <span>·</span> investor pitch
+        <span class="badge open" style="margin-left: 6px">working title</span>
+      </div>
+      <div class="counter">
+        <span id="cur">1</span>/<span id="tot">12</span>
+      </div>
+    </header>
+    <div class="wrap" id="deck">
+      <section class="slide" id="s1">
+        <div class="num">01</div>
+        <p class="kicker">BrilliantWith.ai</p>
+        <h1>A superpowered exoskeleton<br />for senior knowledge workers.</h1>
+        <p class="lead">
+          The most experienced people in the room are the least amplified by AI.
+          We fix that — by owning the one thing frontier models can't:
+          <strong>who you are</strong>.
+        </p>
+        <p class="muted">
+          Founder pitch · XO is a working title · Everything here ships from one
+          codebase, one platform, one founder, and an agent fleet.
+        </p>
+      </section>
+
+      <section class="slide" id="s2">
+        <div class="num">02</div>
+        <p class="kicker">The problem</p>
+        <h2>The best minds in the building are frozen.</h2>
+        <ul class="tight">
+          <li>
+            Senior operators — VPs, directors, owners — know AI matters and
+            quietly don't use it. Not a skills gap: a
+            <strong>cold-start tax</strong>.
+          </li>
+          <li>
+            Every frontier chat starts from zero. Re-explaining who you are,
+            what you run, what you're weighing — minutes of tax, nuance lost,
+            every single time.
+          </li>
+          <li>
+            What AI produces evaporates into threads. Nothing compounds. The
+            tool stays a toy.
+          </li>
+        </ul>
+        <div class="callout red">
+          <strong>The kill shot is the second visit.</strong> First sessions
+          impress; second visits die. Whoever solves the return solves the
+          market.
+        </div>
+        <details class="objection">
+          <summary>Toughest-VC objection</summary>
+          <div class="ans">
+            <p class="q">
+              "Isn't this just a prompt-engineering problem that model UX will
+              solve?"
+            </p>
+            Model UX solves recall, not <em>representation</em>. Knowing your
+            chat history is not knowing your operating style, your constraints,
+            your ambitions — governed, corrected by you, and portable. That's a
+            product, not a feature toggle.
+          </div>
+        </details>
+      </section>
+
+      <section class="slide" id="s3">
+        <div class="num">03</div>
+        <p class="kicker">The insight</p>
+        <h2>Intelligence is commoditizing. Context is not.</h2>
+        <p class="lead">
+          Every lab is racing the price of intelligence to zero. Nobody owns the
+          <strong>governed, person-owned professional context</strong> that
+          makes intelligence useful to a specific senior human.
+        </p>
+        <div class="callout">
+          <strong>The rule we build by:</strong> any task where
+          <em>who you are</em> changes the answer should never start cold.
+        </div>
+        <p>
+          The moat isn't memory — vendors will ship memory. It's what they
+          structurally won't ship: context that is
+          <strong>owned by the person</strong> (not the platform),
+          <strong>portable across every model</strong> (against their lock-in
+          interest), and <strong>governed</strong> (protected categories the
+          machine cannot silently touch).
+        </p>
+        <details class="objection">
+          <summary>Toughest-VC objection</summary>
+          <div class="ans">
+            <p class="q">
+              "OpenAI ships cross-session memory next quarter. Why do you
+              exist?"
+            </p>
+            Their memory deepens <em>their</em> lock-in — it will never be
+            portable to a rival model, never person-owned against the employer,
+            never governed by contract. Our conflict-of-interest moat: the labs
+            can't build neutral ground. We are neutral ground.
+          </div>
+        </details>
+      </section>
+
+      <section class="slide" id="s4">
+        <div class="num">04</div>
+        <p class="kicker">The product</p>
+        <h2>
+          XO: one relationship that knows you, playing every role you need.
+        </h2>
+        <p>
+          Assistant, advisor, sounding board, coach, chief-of-staff — the role
+          shifts with the situation, the relationship stays constant.
+          <em>"I work with XO. XO knows me. XO helps me."</em>
+        </p>
+        <pre class="ascii">
+Mirror (live today)          XO (the product)              Any frontier model
+┌──────────────────┐   seeds   ┌──────────────────┐  packaged   ┌─────────────┐
+│ 30-min interview  │ ───────▶ │ Leadership        │ ──────────▶ │ ChatGPT /   │
+│ "holy shit"       │          │ Profile           │  hand-off   │ Claude /    │
+│ report + letter   │          │ (the asset)       │ ◀────────── │ Gemini ...  │
+└──────────────────┘          └──────────────────┘  round-trip  └─────────────┘
+                                     ▲ every output deposits back
+  </pre>
+        <ul class="tight">
+          <li>
+            <strong>Mirror</strong> — the onboarding ritual. A mirror-held-up
+            interview that ends with XO introducing itself
+            <em>already knowing everything</em>. Done once. Never repeated.
+          </li>
+          <li>
+            <strong>Leadership Profile</strong> — the durable asset. Governed,
+            inspectable in plain language, corrected by you, compounding with
+            every use.
+          </li>
+          <li>
+            <strong>The hand-off</strong> — XO packages who-you-are into
+            whatever model you prefer, then captures the output back.
+            Model-agnostic by principle.
+          </li>
+        </ul>
+        <details class="objection">
+          <summary>Toughest-VC objection</summary>
+          <div class="ans">
+            <p class="q">
+              "If the real work happens in ChatGPT, you're a feeder funnel for
+              someone else's habit."
+            </p>
+            The habit forms where the task <em>starts</em>. Starting cold costs
+            a senior operator minutes and nuance every time; starting from XO is
+            instantly better on day one and compounds from there. We win the
+            first ten seconds of every meaningful task — the model just runs the
+            errand.
+          </div>
+        </details>
+      </section>
+
+      <section class="slide" id="s5">
+        <div class="num">05</div>
+        <p class="kicker">The magic moment</p>
+        <h2>
+          The first screen is the sharpest, most uncomfortably-accurate thing
+          they've ever read about themselves.
+        </h2>
+        <p class="lead">
+          Not "Your report has been saved." The insight that makes them put the
+          phone down.
+        </p>
+        <p>
+          Then XO speaks — knowing everything the interview surfaced — and
+          offers next moves: interrogate the insight that stung, save the line
+          that landed, share a boss-safe version with a named person, set a
+          return trigger tied to a real commitment ("check in after my board
+          meeting on the 14th").
+        </p>
+        <div class="callout gold">
+          <strong>Return by consent, not by push.</strong> No engagement
+          theater, no unrequested notifications — the only outbound contact is
+          the one the user authored. Retention that survives senior-executive
+          contempt for spam.
+        </div>
+        <details class="objection">
+          <summary>Toughest-VC objection</summary>
+          <div class="ans">
+            <p class="q">
+              "Consent-only retention is a nice ethic and a terrible growth
+              curve."
+            </p>
+            For this buyer it IS the growth curve. Senior operators churn
+            instantly on manipulation and evangelize tools that respect them.
+            The return trigger converts a real commitment into a real return;
+            word-of-mouth in exec networks does the rest. We sell trust; spam
+            liquidates the asset.
+          </div>
+        </details>
+      </section>
+
+      <section class="slide" id="s6">
+        <div class="num">06</div>
+        <p class="kicker">Why now</p>
+        <h2>Three curves crossing.</h2>
+        <div class="grid2">
+          <div class="card">
+            <h4>1 · Intelligence → free</h4>
+            <p>
+              Frontier capability is exploding while its price collapses. Value
+              migrates to whoever holds the context that directs it.
+            </p>
+          </div>
+          <div class="card">
+            <h4>2 · Trust → scarce</h4>
+            <p>
+              The more capable the models, the more the professional class
+              worries about what knows them. Governed, person-owned context
+              becomes the premium product.
+            </p>
+          </div>
+          <div class="card">
+            <h4>3 · Build cost → collapsed</h4>
+            <p>
+              An agent fleet ships what a 15-person team shipped in 2023. The
+              window where a solo founder can own a category is open
+              <em>now</em>.
+            </p>
+          </div>
+        </div>
+        <details class="objection">
+          <summary>Toughest-VC objection</summary>
+          <div class="ans">
+            <p class="q">
+              "Everyone pitches 'why now' with the same three curves."
+            </p>
+            Fair. Ours has receipts: the platform, the live product, the paid
+            engagements, and this deck's underlying 300-line canonical vision
+            spec were built, adversarially red-teamed by five independent
+            agents, and independently hardened — in two days, by one founder
+            directing a fleet. The third curve isn't a slide; it's how this
+            company already operates.
+          </div>
+        </details>
+      </section>
+
+      <section class="slide" id="s7">
+        <div class="num">07</div>
+        <p class="kicker">Traction</p>
+        <h2>Not a deck-stage company.</h2>
+        <table class="collapse">
+          <thead>
+            <tr>
+              <th>What</th>
+              <th>Status</th>
+              <th>Detail</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-l="What">Mirror</td>
+              <td data-l="Status">
+                <span class="badge live">Live in production</span>
+              </td>
+              <td data-l="Detail">
+                Interview → personal letter + action plan; voice-first; full
+                prompt pipeline in prod
+              </td>
+            </tr>
+            <tr>
+              <td data-l="What">Paid B2B engagements</td>
+              <td data-l="Status">
+                <span class="badge live">Revenue now</span>
+              </td>
+              <td data-l="Detail">
+                Cohort deliveries for enterprise clients running on production
+                Mirror today
+              </td>
+            </tr>
+            <tr>
+              <td data-l="What">Mirror Pro</td>
+              <td data-l="Status">
+                <span class="badge live">Priced &amp; shipped</span>
+              </td>
+              <td data-l="Detail">
+                $249 consumer purchase with Stripe checkout in production
+              </td>
+            </tr>
+            <tr>
+              <td data-l="What">Platform engine</td>
+              <td data-l="Status"><span class="badge live">Running</span></td>
+              <td data-l="Detail">
+                Multi-product engine: new products are config + prompts, not new
+                codebases
+              </td>
+            </tr>
+            <tr>
+              <td data-l="What">Workflow runtime</td>
+              <td data-l="Status">
+                <span class="badge build">Shipping dark</span>
+              </td>
+              <td data-l="Detail">
+                Reflow: define a judgment-heavy job in chat once, a
+                deterministic interpreter reruns it with memory
+              </td>
+            </tr>
+            <tr>
+              <td data-l="What">XO home + Profile</td>
+              <td data-l="Status">
+                <span class="badge build">Ladder R1–R3</span>
+              </td>
+              <td data-l="Detail">
+                Return surface → refresh → persistent home; spec ratified, rungs
+                sequenced
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <details class="objection">
+          <summary>Toughest-VC objection</summary>
+          <div class="ans">
+            <p class="q">
+              "A solo founder is a key-person risk I can't underwrite."
+            </p>
+            The bus-factor answer is unusual: the company's knowledge lives in a
+            governed, versioned canon — binding vision spec, architecture ADRs,
+            per-product doctrine — that an agent fleet executes against daily.
+            The org chart is a document tree plus compute. Capital hires humans
+            where judgment concentrates; it doesn't buy headcount to move code.
+          </div>
+        </details>
+      </section>
+
+      <section class="slide" id="s8">
+        <div class="num">08</div>
+        <p class="kicker">Trust, engineered</p>
+        <h2>
+          Privacy promises most companies put in marketing, we put in the write
+          path.
+        </h2>
+        <table class="collapse">
+          <thead>
+            <tr>
+              <th>Data class</th>
+              <th>Rule</th>
+              <th>Enforcement</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-l="Class">Usage metadata</td>
+              <td data-l="Rule">May update silently</td>
+              <td data-l="Enforcement">Automatic</td>
+            </tr>
+            <tr>
+              <td data-l="Class">Ordinary beliefs</td>
+              <td data-l="Rule">Ask before applying</td>
+              <td data-l="Enforcement">Confirmed in-session</td>
+            </tr>
+            <tr>
+              <td data-l="Class">
+                Career ambitions · comp · resignation · manager dynamics
+              </td>
+              <td data-l="Rule"><strong>Never silently updated</strong></td>
+              <td data-l="Enforcement">
+                Write path rejects machine credentials — structurally, not by
+                policy
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <ul class="tight">
+          <li>
+            <strong>Person-owned, portable:</strong> the profile belongs to the
+            individual — export, hard-delete, and survival past any employer are
+            product requirements, not settings.
+          </li>
+          <li>
+            <strong>Tier-1 personal context never surfaces upward</strong> to
+            employer views — enforced in platform authorization, not app-side
+            politeness.
+          </li>
+          <li>
+            Every read, write, and share is
+            <strong>logged and user-visible</strong>. The four trust-killing
+            failures are named in the spec and treated as product-ending.
+          </li>
+        </ul>
+        <details class="objection">
+          <summary>Toughest-VC objection</summary>
+          <div class="ans">
+            <p class="q">
+              "Trust slides are free. What breaks if you're lying?"
+            </p>
+            The spec is binding on our own reviews: a protected-category write
+            bearing machine credentials fails code review by written law, and
+            until the storage contract lands, protected profile entries aren't
+            persisted at all. We bound ourselves publicly before asking anyone
+            else to trust us.
+          </div>
+        </details>
+      </section>
+
+      <section class="slide" id="s9">
+        <div class="num">09</div>
+        <p class="kicker">The machine</p>
+        <h2>
+          One engine. Many products. Marginal cost of the next one: a config
+          file.
+        </h2>
+        <pre class="ascii">
+                      ┌────────────────────────────┐
+                      │  Platform (chat · memory ·  │
+                      │  context assets · M2M)      │
+                      └──────────────┬─────────────┘
+                    ┌────────────────┼────────────────┐
+              product-engine   workflow-runner    governed context
+              (apps as data)   (jobs as data)     (profile facets)
+                    │                │                 │
+        ┌───────────┼────────┐      │                 │
+      Mirror       XO     Reflow   red-team        Leadership
+      (live)    (ladder)  (dark)   SKUs (expl.)     Profile
+  </pre>
+        <p>
+          <strong>Two rails, one spine:</strong> the individual rail (personal,
+          soulful, person-owned) and the team rail (employer-bought AI-fluency
+          diagnostics) share the same engine, the same governance, the same
+          three-tier context-ownership contract.
+        </p>
+        <details class="objection">
+          <summary>Toughest-VC objection</summary>
+          <div class="ans">
+            <p class="q">
+              "Platform plays from seed-stage companies are how founders avoid
+              picking a product."
+            </p>
+            The product is picked: XO, fed by Mirror, on rung-by-rung delivery
+            with hard anti-scope rules ("Phase 2 must not absorb Phase 3")
+            written into canon. The engine isn't a strategy — it's why the
+            picked product ships this fast.
+          </div>
+        </details>
+      </section>
+
+      <section class="slide" id="s10">
+        <div class="num">10</div>
+        <p class="kicker">Roadmap</p>
+        <h2>A ladder, not a leap.</h2>
+        <table class="collapse">
+          <thead>
+            <tr>
+              <th>Rung</th>
+              <th>Ships</th>
+              <th>What it unlocks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-l="Rung">Now</td>
+              <td data-l="Ships">Paid cohorts on production Mirror</td>
+              <td data-l="Unlocks">
+                Revenue + the highest-quality onboarding ritual in the category
+              </td>
+            </tr>
+            <tr>
+              <td data-l="Rung">R1</td>
+              <td data-l="Ships">
+                Return surface — kill the post-report dead-end
+              </td>
+              <td data-l="Unlocks">The second visit</td>
+            </tr>
+            <tr>
+              <td data-l="Rung">R2</td>
+              <td data-l="Ships">
+                Refresh — "what's changed since," versioned, never re-onboard
+              </td>
+              <td data-l="Unlocks">
+                The compounding story becomes visible to the user
+              </td>
+            </tr>
+            <tr>
+              <td data-l="Rung">R3</td>
+              <td data-l="Ships">
+                Persistent XO home + Leadership Profile + first workflow
+                hand-off
+              </td>
+              <td data-l="Unlocks">XO <em>is</em> the product</td>
+            </tr>
+            <tr>
+              <td data-l="Rung">Then</td>
+              <td data-l="Ships">
+                Workflows organize work → context compounds → proactive XO last
+              </td>
+              <td data-l="Unlocks">
+                The operating system for the professional self
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <details class="objection">
+          <summary>Toughest-VC objection</summary>
+          <div class="ans">
+            <p class="q">
+              "Every roadmap slide says 'disciplined.' Yours has no dates."
+            </p>
+            Correct — deliberately. The canon binds scope per rung and forbids
+            phase-bleed; the fleet compresses calendar time in ways date-slides
+            can't honestly predict. Judge us on rung-shipping cadence: the last
+            four production releases shipped in the last five weeks.
+          </div>
+        </details>
+      </section>
+
+      <section class="slide" id="s11">
+        <div class="num">11</div>
+        <p class="kicker">What we're not pretending to know</p>
+        <h2>Open decisions, on purpose.</h2>
+        <ul class="tight">
+          <li>
+            <strong>XO's pricing model</strong> — deliberately open until the
+            retention loop proves itself; we won't price a relationship we
+            haven't measured.
+          </li>
+          <li>
+            <strong>The name</strong> — XO is a working title; naming lands
+            before public launch.
+          </li>
+          <li>
+            <strong>Team-rail depth</strong> — the employer diagnostic monetizes
+            existing workshop assets first; deeper product only when demand
+            pulls it.
+          </li>
+          <li>
+            <strong>Red-team SKU factory</strong> — a scored-dissent engine with
+            real range; explicitly exploratory until ratified.
+          </li>
+        </ul>
+        <div class="callout green">
+          <strong>Why show you this:</strong> the vision doc that runs this
+          company tags every claim as decided, sourced, or unverified — and it
+          survived five adversarial reviews before you saw this deck. You're not
+          funding certainty theater. You're funding a machine that metabolizes
+          doubt.
+        </div>
+      </section>
+
+      <section class="slide" id="s12">
+        <div class="num">12</div>
+        <p class="kicker">The ask</p>
+        <h1>Own the context layer for the professional class.</h1>
+        <p class="lead">
+          Intelligence is going to zero. The relationship that directs it is
+          going to whoever earns it first — with governance, portability, and a
+          product senior people actually return to.
+        </p>
+        <ul class="tight">
+          <li>
+            The product is live. The revenue is real. The spec is ratified. The
+            machine ships weekly.
+          </li>
+          <li>
+            Capital compresses the ladder: R1–R3 faster, the personal identity
+            plane, and the first thousand exoskeletons.
+          </li>
+          <li>
+            You asked what a blank check buys:
+            <strong
+              >the neutral ground every frontier lab structurally cannot
+              build.</strong
+            >
+          </li>
+        </ul>
+        <p class="footnote">
+          Sources: canonical product vision v1.0 (docs/product-vision.md,
+          adversarially hardened), architecture-spine ADR, production release
+          history. Working title; all claims tagged in canon as decided /
+          sourced / unverified.
+        </p>
+      </section>
+
+      <div class="export">
+        <button id="copyMd">Copy deck as Markdown outline</button>
+      </div>
+    </div>
+
+    <div class="navbtns" aria-label="slide navigation">
+      <button id="prev" aria-label="previous slide">↑</button>
+      <button id="next" aria-label="next slide">↓</button>
+    </div>
+
+    <script>
+      (function () {
+        var slides = [].slice.call(document.querySelectorAll(".slide"));
+        document.getElementById("tot").textContent = slides.length;
+        var cur = document.getElementById("cur");
+        function current() {
+          var mid = window.scrollY + window.innerHeight * 0.35,
+            idx = 0;
+          slides.forEach(function (s, i) {
+            if (s.offsetTop <= mid) idx = i;
+          });
+          return idx;
+        }
+        function go(i) {
+          i = Math.max(0, Math.min(slides.length - 1, i));
+          window.scrollTo({
+            top: slides[i].offsetTop - 70,
+            behavior: "smooth",
+          });
+        }
+        window.addEventListener(
+          "scroll",
+          function () {
+            cur.textContent = current() + 1;
+          },
+          { passive: true },
+        );
+        document.getElementById("next").onclick = function () {
+          go(current() + 1);
+        };
+        document.getElementById("prev").onclick = function () {
+          go(current() - 1);
+        };
+        window.addEventListener("keydown", function (e) {
+          if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")
+            return;
+          if (e.key === "ArrowDown" || e.key === "PageDown" || e.key === "j") {
+            e.preventDefault();
+            go(current() + 1);
+          }
+          if (e.key === "ArrowUp" || e.key === "PageUp" || e.key === "k") {
+            e.preventDefault();
+            go(current() - 1);
+          }
+        });
+        document.getElementById("copyMd").onclick = function () {
+          var md = "";
+          slides.forEach(function (s, i) {
+            var k = s.querySelector(".kicker"),
+              h = s.querySelector("h1,h2");
+            md +=
+              "## " +
+              (i + 1) +
+              ". " +
+              (k ? k.textContent + " — " : "") +
+              (h ? h.textContent.replace(/\s+/g, " ").trim() : "") +
+              "\n";
+            [].forEach.call(
+              s.querySelectorAll("p.lead, ul.tight li, .callout, .card h4"),
+              function (el) {
+                md += "- " + el.textContent.replace(/\s+/g, " ").trim() + "\n";
+              },
+            );
+            md += "\n";
+          });
+          navigator.clipboard
+            .writeText("# XO — Investor Pitch (outline)\n\n" + md)
+            .then(function () {
+              var b = document.getElementById("copyMd");
+              b.textContent = "Copied.";
+              setTimeout(function () {
+                b.textContent = "Copy deck as Markdown outline";
+              }, 1500);
+            });
+        };
+      })();
+    </script>
+  </body>
+</html>
