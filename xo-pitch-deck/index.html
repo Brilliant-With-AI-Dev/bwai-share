@@ -419,15 +419,38 @@
           <em>who you are</em> changes the answer should never start cold.
         </div>
         <p>
-          Everyone says "context is the moat" and means a vector store of your
-          chat logs. We mean something narrower and harder: a governed,
-          person-owned professional identity — elicited by a ritual you can't
-          self-serve, corrected by you, portable across every model. Not more
-          memory. <strong>A different asset class.</strong> And it compounds:
-          every correction, every use deepens a profile a rival can't export and
-          the owner won't rebuild from scratch. Neutrality is the wedge. The
-          earned, maintained profile is the wall.
+          And we lucked into the unlock. People <strong>love</strong> using
+          Mirror — even as it debriefs them of an enormous amount of
+          professional context, without ever feeling interrogated. Willing,
+          enjoyable context extraction at depth. Everyone says "context is the
+          moat" and means a vector store of your chat logs. We mean the asset
+          that experience produces: a governed, person-owned professional
+          identity. Not more memory. <strong>A different asset class.</strong>
         </p>
+        <div class="grid2">
+          <div class="card">
+            <h4>Moat 1 · The ever-deepening context bed</h4>
+            <p>
+              Every product a user touches deposits more. A rival can't export
+              it; the owner won't rebuild it from scratch.
+            </p>
+          </div>
+          <div class="card">
+            <h4>Moat 2 · Ownership &amp; portability</h4>
+            <p>
+              The person owns it — across every model, past any employer. The
+              labs won't build this against their own lock-in.
+            </p>
+          </div>
+          <div class="card">
+            <h4>Moat 3 · The opinionated method</h4>
+            <p>
+              A codified point of view on doing excellent knowledge work with
+              generative AI, baked into every product we ship — not a blank
+              chatbox.
+            </p>
+          </div>
+        </div>
         <details class="objection">
           <summary>Toughest-VC objection</summary>
           <div class="ans">
@@ -448,42 +471,46 @@
         <div class="num">04</div>
         <p class="kicker">The product</p>
         <h2>
-          XO: one relationship that knows you, playing every role you need.
+          XO: chat with one concierge that knows you. It handles the rest.
         </h2>
         <p>
-          Assistant, advisor, sounding board, coach, chief-of-staff — the role
-          shifts with the situation, the relationship stays constant.
-          <em>"I work with XO. XO knows me. XO helps me."</em>
+          Point products do the jobs. XO knits them together — one relationship
+          that calls them as tools or spins up managed agent sessions on your
+          behalf. <em>"I work with XO. XO knows me. XO handles it."</em>
         </p>
         <pre class="ascii">
-Mirror (live today)          XO (the product)              Any frontier model
-┌──────────────────┐   seeds   ┌──────────────────┐  packaged   ┌─────────────┐
-│ 30-min interview  │ ───────▶ │ Leadership        │ ──────────▶ │ ChatGPT /   │
-│ "holy shit"       │          │ Profile           │  hand-off   │ Claude /    │
-│ report + letter   │          │ (the asset)       │             │ Gemini ...  │
-└──────────────────┘          └──────────────────┘             └─────────────┘
-                                     ▲ · · · round-trip capture (R3, unbuilt) · · ·
+                you ──── chat ────▶ ┌─────────────┐
+                                    │     XO      │  the concierge
+                                    └──────┬──────┘
+                       calls as tools / managed agent sessions
+                    ┌───────────────┼───────────────┐
+              ┌─────▼─────┐   ┌─────▼─────┐   ┌─────▼─────┐
+              │  Mirror   │   │   next    │   │   next    │  point products
+              │  (live)   │   │ (coming)  │   │ (coming)  │
+              └─────┬─────┘   └─────┬─────┘   └─────┬─────┘
+                    └── every use deepens ──────────┘
+                    ┌───────────────▼───────────────┐
+                    │  the context bed — person-     │
+                    │  owned, portable, governed     │
+                    └───────────────────────────────┘
   </pre>
-        <p>
-          Today, Mirror seeds the profile. The round-trip — every output flowing
-          <em>back</em> to compound it — is the R3 deliverable that closes the
-          loop. That loop is the bet this raise funds; we don't draw it as done.
-        </p>
+        <p>The strategy is three moves, in order:</p>
         <ul class="tight">
           <li>
-            <strong>Mirror</strong> — the onboarding ritual. A mirror-held-up
-            interview that ends with XO introducing itself
-            <em>already knowing everything</em>. Done once. Never repeated.
+            <strong>1 · Mirror (live)</strong> — proves the hard part: senior
+            people happily hand over deep context when the experience is worth
+            it. The interview seeds the bed.
           </li>
           <li>
-            <strong>Leadership Profile</strong> — the durable asset. Governed,
-            inspectable in plain language, corrected by you, compounding with
-            every use.
+            <strong>2 · Point products (rolling out)</strong> — each new product
+            leverages the bed and grows it. On our engine the marginal cost of
+            the next one is a config file, not a codebase.
           </li>
           <li>
-            <strong>The hand-off</strong> — XO packages who-you-are into
-            whatever model you prefer. Portable by principle — the profile
-            follows you across models and past any employer.
+            <strong>3 · XO (the destination)</strong> — the concierge that knits
+            them together. You chat; it routes work to the right product, the
+            right agent, the right model — already knowing who you are. Ships
+            rung by rung (R1–R3); we don't draw it as done.
           </li>
         </ul>
         <details class="objection">
@@ -493,12 +520,13 @@ Mirror (live today)          XO (the product)              Any frontier model
               "If the real work happens in ChatGPT, you're a feeder funnel for
               someone else's habit."
             </p>
-            ChatGPT's memory is single-model and dies at the tenant boundary —
-            it can't carry you to Claude or Gemini, and it belongs to them, not
-            you. XO carries one profile across every model you use and survives
-            your employer. Honest status: the deposit-back loop that makes each
-            task start sharper <em>everywhere</em> is R3 — unbuilt, and exactly
-            what the check buys.
+            The real work happens in <em>our</em> point products — opinionated
+            tools that do specific jobs better than a blank chatbox, because
+            they start already knowing you. Frontier models are the engines
+            underneath, swappable by design. ChatGPT's memory belongs to them
+            and dies at the tenant boundary; our context bed belongs to the user
+            and follows them everywhere. Honest status: the knitting layer is R3
+            — unbuilt, and exactly what the check buys.
           </div>
         </details>
       </section>
@@ -747,9 +775,14 @@ Mirror (live today)          XO (the product)              Any frontier model
         <h2>One engine. The next product is a config file, not a codebase.</h2>
         <p>
           New surfaces are data on a shared engine — chat, memory, governed
-          context, and model access all provided once. Mirror proves it in
-          production today; XO is the second product riding the same spine. That
-          is why R1–R3 ship in weeks, not quarters.
+          context, and model access provided once. Mirror proves it in
+          production today. That's the factory behind move 2: each point product
+          ships as config, plugs into the same context bed, and deepens it.
+          <strong
+            >Every product makes the next one cheaper to build and smarter on
+            day one.</strong
+          >
+          That flywheel is what XO eventually knits together.
         </p>
         <p>
           <strong>Two rails, one spine:</strong> the individual rail (personal,
@@ -758,11 +791,12 @@ Mirror (live today)          XO (the product)              Any frontier model
           three-tier context-ownership contract.
         </p>
         <div class="callout">
-          This isn't a platform play to dodge picking a product. The product is
-          picked — <strong>XO, fed by Mirror</strong> — with anti-scope rules
-          ("Phase 2 must not absorb Phase 3") written into canon. The engine is
-          why the picked product ships fast; it isn't a substitute for picking
-          one.
+          This isn't a platform play to dodge picking a product. The destination
+          is picked —
+          <strong>XO, the concierge fed by every point product</strong> — with
+          anti-scope rules ("Phase 2 must not absorb Phase 3") written into
+          canon. The engine is why the destination ships fast; it isn't a
+          substitute for picking one.
         </div>
       </section>
 
@@ -813,7 +847,8 @@ Mirror (live today)          XO (the product)              Any frontier model
             <tr>
               <td data-l="Rung">Then</td>
               <td data-l="Ships">
-                Workflows organize work → context compounds → proactive XO last
+                Point products roll out — each leverages and grows the context
+                bed → XO calls them as tools → proactive XO last
               </td>
               <td data-l="Unlocks">
                 The operating system for the professional self
@@ -873,10 +908,10 @@ Mirror (live today)          XO (the product)              Any frontier model
         </p>
         <ul class="tight">
           <li>
-            <strong>Where we are:</strong> Mirror — the onboarding ritual — is
-            live and earning revenue. XO, the product it seeds, is on
-            rung-by-rung delivery. The vision is written, versioned (v1.0), and
-            adversarially hardened.
+            <strong>Where we are:</strong> Mirror — the first point product and
+            the context-acquisition engine people love — is live and earning
+            revenue. The next point products ship as config on the same engine.
+            XO, the concierge that knits them, is on rung-by-rung delivery.
           </li>
           <li>
             <strong>What the check buys:</strong> the one thing this deck can't
@@ -891,11 +926,12 @@ Mirror (live today)          XO (the product)              Any frontier model
           </li>
         </ul>
         <div class="callout">
-          You asked what a blank check buys:
+          You asked what a blank check buys — three moats no lab will build:
           <strong
-            >the neutral ground every frontier lab is structurally barred from
-            building — and the compounding, person-owned profile they
-            can't.</strong
+            >an ever-deepening context bed users happily feed, personal
+            ownership and portability the labs won't ship against their own
+            lock-in, and an opinionated method for doing excellent knowledge
+            work with AI.</strong
           >
           We're building it either way. The check decides how fast.
         </div>
