@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The XO Story — vision, mission, strategy</title>
+    <style>
+      :root {
+        --ink: #0e1116;
+        --muted: #57606a;
+        --line: #d8dce1;
+        --bg: #ffffff;
+        --soft: #f6f8fa;
+        --blue: #0b5fff;
+        --gold: #e0a400;
+        --green: #0a7d33;
+        --amber: #a65a00;
+        --red: #c91f1f;
+        --serif:
+          "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+        --sans:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        --mono: "SF Mono", Menlo, Consolas, monospace;
+      }
+      * {
+        box-sizing: border-box;
+        min-width: 0;
+      }
+      html {
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 17px/1.75 var(--sans);
+        overflow-x: hidden;
+      }
+      .progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        background: var(--blue);
+        width: 0%;
+        z-index: 10;
+      }
+      .wrap {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 0 22px 110px;
+      }
+      /* ---------- hero ---------- */
+      .hero {
+        padding: 84px 0 40px;
+        border-bottom: 1px solid var(--line);
+      }
+      .hero .house {
+        font: 700 12px var(--sans);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--blue);
+        margin: 0 0 22px;
+      }
+      .hero h1 {
+        font: 700 46px/1.12 var(--serif);
+        margin: 0 0 18px;
+      }
+      .hero p.dek {
+        font: 400 21px/1.6 var(--serif);
+        color: #2b333c;
+        margin: 0;
+      }
+      .hero .byline {
+        margin: 26px 0 0;
+        font-size: 13.5px;
+        color: var(--muted);
+      }
+      /* ---------- chapters ---------- */
+      .chapter {
+        padding: 58px 0 8px;
+      }
+      .chapter .kicker {
+        font: 700 12px var(--sans);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--blue);
+        margin: 0 0 12px;
+      }
+      .chapter h2 {
+        font: 700 32px/1.2 var(--serif);
+        margin: 0 0 20px;
+      }
+      .chapter p {
+        margin: 0 0 20px;
+      }
+      .scene {
+        border-left: 4px solid var(--gold);
+        padding: 4px 0 4px 20px;
+        margin: 26px 0;
+        font-family: var(--serif);
+        font-size: 18.5px;
+        color: #2b333c;
+      }
+      .scene p {
+        margin: 0 0 14px;
+      }
+      .scene p:last-child {
+        margin: 0;
+      }
+      blockquote.pull {
+        border: 0;
+        margin: 34px 0;
+        padding: 0;
+        font: 600 26px/1.4 var(--serif);
+        color: var(--ink);
+        text-align: center;
+      }
+      blockquote.pull .bar {
+        display: block;
+        width: 44px;
+        height: 3px;
+        background: var(--gold);
+        margin: 0 auto 18px;
+      }
+      .callout {
+        border-left: 4px solid var(--blue);
+        padding: 12px 18px;
+        margin: 24px 0;
+        background: var(--bg);
+        font-size: 15.5px;
+      }
+      .callout.green {
+        border-left-color: var(--green);
+      }
+      .callout.red {
+        border-left-color: var(--red);
+      }
+      .badge {
+        display: inline-block;
+        border-radius: 5px;
+        padding: 2px 8px;
+        font: 700 10.5px var(--sans);
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        vertical-align: 2px;
+        margin-left: 8px;
+      }
+      .badge.today {
+        background: var(--green);
+        color: #fff;
+      }
+      .badge.ahead {
+        background: var(--soft);
+        color: var(--muted);
+        border: 1px solid var(--line);
+      }
+      .moats {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+        margin: 26px 0;
+      }
+      .moat {
+        border: 1px solid var(--line);
+        border-left: 4px solid var(--gold);
+        border-radius: 8px;
+        padding: 16px 18px;
+      }
+      .moat h4 {
+        margin: 0 0 6px;
+        font: 700 15px var(--sans);
+      }
+      .moat p {
+        margin: 0;
+        font-size: 15px;
+        color: #2b333c;
+      }
+      pre.ascii {
+        background: var(--soft);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 14px 16px;
+        font: 12.5px/1.5 var(--mono);
+        overflow-x: auto;
+        margin: 26px 0;
+      }
+      .ladder {
+        margin: 26px 0;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .rung {
+        display: grid;
+        grid-template-columns: 86px 1fr;
+        gap: 14px;
+        padding: 14px 18px;
+        border-bottom: 1px solid var(--line);
+        font-size: 15px;
+      }
+      .rung:last-child {
+        border-bottom: 0;
+      }
+      .rung .tag {
+        font: 700 12px var(--mono);
+        color: var(--blue);
+        padding-top: 2px;
+        white-space: nowrap;
+      }
+      .rung p {
+        margin: 0;
+        color: #2b333c;
+      }
+      .divider {
+        border: 0;
+        border-top: 1px solid var(--line);
+        margin: 48px 0 0;
+      }
+      .footnote {
+        font-size: 13px;
+        color: var(--muted);
+        border-top: 1px solid var(--line);
+        margin-top: 56px;
+        padding-top: 14px;
+      }
+      .export {
+        margin: 40px 0 0;
+        text-align: center;
+      }
+      .export button {
+        border: 1px solid var(--line);
+        background: var(--soft);
+        border-radius: 8px;
+        padding: 12px 18px;
+        font: 700 14px var(--sans);
+        cursor: pointer;
+        min-height: 44px;
+      }
+      .export button:hover {
+        border-color: var(--blue);
+        color: var(--blue);
+      }
+      /* reveal on scroll */
+      @media (prefers-reduced-motion: no-preference) {
+        .chapter,
+        .hero {
+          opacity: 0;
+          transform: translateY(14px);
+          transition:
+            opacity 0.6s ease,
+            transform 0.6s ease;
+        }
+        .chapter.on,
+        .hero.on {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @media (max-width: 720px) {
+        .hero h1 {
+          font-size: 33px;
+        }
+        .chapter h2 {
+          font-size: 26px;
+        }
+        blockquote.pull {
+          font-size: 21px;
+        }
+        .rung {
+          grid-template-columns: 1fr;
+          gap: 4px;
+        }
+      }
+      @media print {
+        .progress,
+        .export {
+          display: none;
+        }
+        .chapter,
+        .hero {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="progress" id="bar"></div>
+    <div class="wrap">
+      <header class="hero on">
+        <p class="house">BrilliantWith.ai</p>
+        <h1>The person who knows everything, frozen at a blank box.</h1>
+        <p class="dek">
+          The story of XO: why the most experienced people in the room get the
+          least from AI, the accident that showed us the way in, and the
+          exoskeleton we're building on top of it.
+        </p>
+        <p class="byline">
+          A founder's telling · XO is a working title · Sourced from the
+          product-vision canon, v1.0
+        </p>
+      </header>
+
+      <section class="chapter">
+        <p class="kicker">Prologue</p>
+        <h2>Sunday, 9:40 p.m.</h2>
+        <div class="scene">
+          <p>
+            She runs a two-hundred-person org. Twenty years of pattern
+            recognition. A reorg to land, a board meeting Thursday, one
+            underperforming direct she's been avoiding for a month.
+          </p>
+          <p>
+            The chat window is open. The cursor blinks. She types, "How should I
+            think about restructuring my team?" — then stops. It doesn't know
+            her team. It doesn't know her. It doesn't know that the last reorg
+            nearly broke the sales org, or that she promotes too slowly, or that
+            Thursday is the whole ballgame.
+          </p>
+          <p>She closes the tab and answers email instead.</p>
+        </div>
+        <p>
+          That scene repeats every night, in every company, at exactly the level
+          where the stakes are highest. The people with the most experience get
+          the <em>least</em> out of AI — not because they can't use it, but
+          because every conversation starts from zero. We call it the
+          <strong>cold-start tax</strong>: minutes of re-explaining who you are,
+          every single time, with the nuance never quite surviving the
+          retelling.
+        </p>
+        <p>
+          And here's the part that decides the market: first sessions impress.
+          Second visits die. Whatever AI produces evaporates into threads;
+          nothing compounds; the tool stays a toy.
+        </p>
+        <blockquote class="pull">
+          <span class="bar"></span>
+          Whoever solves the return solves the market.
+        </blockquote>
+      </section>
+
+      <section class="chapter">
+        <p class="kicker">Chapter one</p>
+        <h2>The accident.</h2>
+        <p>
+          We didn't set out to solve the cold-start tax. We built
+          <strong>Mirror</strong><span class="badge today">live today</span> — a
+          thirty-minute, voice-first interview that holds a mirror up to how a
+          leader actually operates, then hands them a letter and an action plan
+          sharp enough to sting.
+        </p>
+        <p>
+          Then we watched people use it, and noticed the thing that changed the
+          company.
+        </p>
+        <p>
+          People <em>love</em> the interview. Not tolerate — love. Senior
+          operators who won't sit through a survey talk openly for half an hour,
+          because the experience gives back more than it takes. And while
+          they're loving it, they are handing over an enormous amount of
+          professional context — how they decide, what they're carrying, what
+          they want — without ever feeling interrogated.
+        </p>
+        <blockquote class="pull">
+          <span class="bar"></span>
+          We lucked into the hardest thing in AI: context extraction people
+          enjoy.
+        </blockquote>
+        <p>
+          Everyone in this industry is trying to get users to feed their
+          systems. Forms don't work. Surveys don't work. "Connect your email"
+          creeps people out. We stumbled onto a ritual people thank us for — and
+          it produces the exact raw material everything else needs.
+        </p>
+      </section>
+
+      <section class="chapter">
+        <p class="kicker">Chapter two</p>
+        <h2>The asset.</h2>
+        <p>
+          Step back and the industry picture is simple. Every frontier lab is
+          racing the price of intelligence toward zero. Intelligence is
+          commoditizing. <strong>Context is not.</strong> The scarce thing is no
+          longer the brain — it's everything the brain needs to know about
+          <em>you</em> to be useful at a senior level.
+        </p>
+        <p>
+          So we take what Mirror surfaces and treat it the way it deserves: not
+          chat history, not a vector store of logs, but a governed, person-owned
+          professional identity — the
+          <strong>context bed</strong>. Inspectable in plain language. Corrected
+          by you, and your corrections outrank the machine's inferences,
+          permanently. The sensitive parts — ambitions, compensation, what you
+          really think of your manager — locked so no machine can silently touch
+          them.
+        </p>
+        <p>Three moats grow out of that bed, and we can name all of them:</p>
+        <div class="moats">
+          <div class="moat">
+            <h4>1 · The ever-deepening context bed</h4>
+            <p>
+              Every product a user touches deposits more. A rival can't export
+              it; the owner would never rebuild it from scratch. It gets harder
+              to leave every week you stay.
+            </p>
+          </div>
+          <div class="moat">
+            <h4>2 · Ownership and portability</h4>
+            <p>
+              The bed belongs to the person — across every model, past any
+              employer. The labs won't build this: portable, neutral context
+              works against their own lock-in. We are the neutral ground they
+              structurally can't be.
+            </p>
+          </div>
+          <div class="moat">
+            <h4>3 · The opinionated method</h4>
+            <p>
+              A codified point of view on doing excellent knowledge work with
+              generative AI, baked into every product we ship. Never a blank
+              box, never "figure out prompting yourself."
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter">
+        <p class="kicker">Chapter three</p>
+        <h2>The plan: weaponize the context. For good.</h2>
+        <p>
+          A bed of context this rich shouldn't sit under one product. So the
+          strategy is deliberately staged.
+        </p>
+        <p>
+          <strong>First, point products.</strong>
+          <span class="badge today">rolling out</span> Focused tools that each
+          do one judgment-heavy job brilliantly
+          <em>because they start already knowing you</em> — and each one deepens
+          the bed as it works. Our platform makes this cheap: a new product is a
+          config file on a shared engine, not a new codebase. Every product we
+          ship makes the next one cheaper to build and smarter on day one.
+        </p>
+        <p>
+          <strong>Then, the concierge.</strong>
+          <span class="badge ahead">the road ahead</span> When enough point
+          products ride the same bed, the products themselves stop being the
+          interface.
+        </p>
+        <pre class="ascii">
+                you ──── chat ────▶ ┌─────────────┐
+                                    │     XO      │  the concierge
+                                    └──────┬──────┘
+                       calls as tools / managed agent sessions
+                    ┌───────────────┼───────────────┐
+              ┌─────▼─────┐   ┌─────▼─────┐   ┌─────▼─────┐
+              │  Mirror   │   │   next    │   │   next    │  point products
+              └─────┬─────┘   └─────┬─────┘   └─────┬─────┘
+                    └── every use deepens ──────────┘
+                    ┌───────────────▼───────────────┐
+                    │   the context bed — person-    │
+                    │   owned, portable, governed    │
+                    └────────────────────────────────┘
+  </pre>
+        <p>
+          <strong>XO</strong> is the layer that knits it all together: one
+          relationship you chat with, that just… handles things. It calls the
+          point products as tools. It spins up managed agent sessions on your
+          behalf. It packages who-you-are into whichever frontier model you
+          prefer — and it never makes you watch the machinery. You see one
+          relationship. Never the routing.
+        </p>
+        <blockquote class="pull">
+          <span class="bar"></span>
+          "I work with XO. XO knows me. XO handles it."
+        </blockquote>
+      </section>
+
+      <section class="chapter">
+        <p class="kicker">Chapter four</p>
+        <h2>Same operator, one year later.</h2>
+        <div class="scene">
+          <p>
+            Sunday, 9:40 p.m. She opens XO. It opens with one move, not a menu:
+            <em
+              >"Last time you flagged the org-design call. Thursday's board
+              meeting is the forcing function — want to pressure-test the
+              restructure against how the last one actually went?"</em
+            >
+          </p>
+          <p>
+            Twenty minutes later she has a brief in her own voice, stress-tested
+            against her own patterns, with the two questions she should ask her
+            CFO before Thursday. The conversation with the underperforming
+            direct — the one she's been avoiding — is on the table too, prepped
+            the way she'd prep it, because it knows how she runs hard
+            conversations.
+          </p>
+          <p>She doesn't close this tab.</p>
+        </div>
+        <p>
+          That's the mission, stated plainly:
+          <strong
+            >a superpowered exoskeleton for senior knowledge workers.</strong
+          >
+          It amplifies the person. It never replaces them. The objective was
+          never an AI that understands you — it's an AI that makes you
+          dramatically more effective, where understanding you is the means.
+        </p>
+        <p>
+          And the return happens on her terms. No streaks, no nudges, no
+          engagement theater — the only outbound contact XO will ever make is
+          the one she authored herself ("check in after my board meeting").
+          Retention built on a repeated verb — prep the brief, pressure-test the
+          decision, package the task — not on manipulation. That's the only
+          growth curve this buyer doesn't punish.
+        </p>
+      </section>
+
+      <section class="chapter">
+        <p class="kicker">Chapter five</p>
+        <h2>The covenant.</h2>
+        <p>
+          None of this works unless people feed the bed the truth. And nobody
+          feeds the truth to a system they don't trust. So the trust rules
+          aren't marketing — they're engineering commitments, written into our
+          canon as review-blocking law:
+        </p>
+        <div class="callout green">
+          <strong>The profile belongs to the person.</strong> Export it,
+          hard-delete it, carry it past any employer — product requirements, not
+          settings. Personal context never surfaces upward to an employer's
+          view; that boundary is enforced in platform authorization, not
+          app-side politeness.
+        </div>
+        <div class="callout red">
+          <strong>The protected categories</strong> — career ambitions,
+          compensation, resignation, manager dynamics — can never be silently
+          updated by a machine. The write path itself rejects machine
+          credentials. We named the failures that would kill this product (a
+          leak upward, a silent update, an unconsented share) and treat each as
+          product-ending, with mandatory disclosure.
+        </div>
+        <p>
+          We bound ourselves to this in writing before asking anyone to trust us
+          with the most honest professional data they'll ever produce. That's
+          the covenant, and the entire company is downstream of it.
+        </p>
+      </section>
+
+      <section class="chapter">
+        <p class="kicker">Epilogue</p>
+        <h2>A ladder, not a leap.</h2>
+        <p>
+          We're honest about what exists. Mirror is live in production and
+          earning revenue — paid B2B cohorts run on it today. The bed, the point
+          products, and XO ship in deliberate rungs:
+        </p>
+        <div class="ladder">
+          <div class="rung">
+            <span class="tag">NOW</span>
+            <p>
+              Paid cohorts on production Mirror — revenue plus the best
+              onboarding ritual in the category.
+            </p>
+          </div>
+          <div class="rung">
+            <span class="tag">R1</span>
+            <p>
+              The return surface — kill the post-report dead-end. Win the second
+              visit.
+            </p>
+          </div>
+          <div class="rung">
+            <span class="tag">R2</span>
+            <p>
+              Refresh — "what's changed since," versioned, never re-onboard. The
+              compounding becomes visible.
+            </p>
+          </div>
+          <div class="rung">
+            <span class="tag">R3</span>
+            <p>
+              Persistent XO home, the Leadership Profile productized, first
+              workflow hand-off. XO <em>is</em> the product.
+            </p>
+          </div>
+          <div class="rung">
+            <span class="tag">THEN</span>
+            <p>
+              Point products roll out, each one deepening the bed; XO calls them
+              as tools; proactivity comes last, and only by consent.
+            </p>
+          </div>
+        </div>
+        <p>
+          Intelligence is going to zero. The relationship that directs it goes
+          to whoever earns it first. We found the way people willingly hand over
+          who they are — now we build the exoskeleton that hands it back as
+          power.
+        </p>
+        <blockquote class="pull">
+          <span class="bar"></span>
+          The best minds in the building don't have to stay frozen.
+        </blockquote>
+      </section>
+
+      <hr class="divider" />
+      <div class="export">
+        <button id="copyMd">Copy story as Markdown</button>
+      </div>
+      <p class="footnote">
+        Sources: docs/product-vision.md v1.0 (canonical vision — thesis, arc,
+        moats, governance, roadmap), architecture-spine ADR, founder decisions
+        of 2026-07-02. XO is a working title. Status markers are honest: "live
+        today" means in production; "the road ahead" means on the ratified
+        ladder, not yet built.
+      </p>
+    </div>
+
+    <script>
+      (function () {
+        var bar = document.getElementById("bar");
+        window.addEventListener(
+          "scroll",
+          function () {
+            var h = document.documentElement;
+            var p = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+            bar.style.width = p + "%";
+          },
+          { passive: true },
+        );
+        if ("IntersectionObserver" in window) {
+          var io = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (e) {
+                if (e.isIntersecting) {
+                  e.target.classList.add("on");
+                  io.unobserve(e.target);
+                }
+              });
+            },
+            { rootMargin: "0px 0px -8% 0px" },
+          );
+          document.querySelectorAll(".chapter").forEach(function (c) {
+            io.observe(c);
+          });
+        } else {
+          document.querySelectorAll(".chapter").forEach(function (c) {
+            c.classList.add("on");
+          });
+        }
+        document.getElementById("copyMd").onclick = function () {
+          var md = "# The XO Story — vision, mission, strategy\n\n";
+          document.querySelectorAll(".hero, .chapter").forEach(function (sec) {
+            var k = sec.querySelector(".kicker"),
+              h = sec.querySelector("h1,h2");
+            if (h)
+              md +=
+                "## " +
+                (k ? k.textContent.trim() + " — " : "") +
+                h.textContent.replace(/\s+/g, " ").trim() +
+                "\n\n";
+            sec
+              .querySelectorAll("p, blockquote.pull, .moat h4, .rung p")
+              .forEach(function (el) {
+                if (el.closest(".footnote")) return;
+                var t = el.textContent.replace(/\s+/g, " ").trim();
+                if (t) md += t + "\n\n";
+              });
+          });
+          navigator.clipboard.writeText(md).then(function () {
+            var b = document.getElementById("copyMd");
+            b.textContent = "Copied.";
+            setTimeout(function () {
+              b.textContent = "Copy story as Markdown";
+            }, 1500);
+          });
+        };
+      })();
+    </script>
+  </body>
+</html>
