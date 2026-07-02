@@ -107,6 +107,18 @@
       .muted {
         color: var(--muted);
       }
+      .proofbar {
+        margin: 18px 0 0;
+        padding: 12px 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--soft);
+        font: 700 15px var(--sans);
+        color: var(--ink);
+      }
+      .proofbar .live {
+        color: var(--green);
+      }
       .badge {
         display: inline-block;
         border-radius: 5px;
@@ -339,10 +351,7 @@
   </head>
   <body>
     <header class="top">
-      <div class="brand">
-        XO <span>·</span> investor pitch
-        <span class="badge open" style="margin-left: 6px">working title</span>
-      </div>
+      <div class="brand">XO <span>·</span> investor pitch</div>
       <div class="counter">
         <span id="cur">1</span>/<span id="tot">12</span>
       </div>
@@ -354,12 +363,13 @@
         <h1>A superpowered exoskeleton<br />for senior knowledge workers.</h1>
         <p class="lead">
           The most experienced people in the room are the least amplified by AI.
-          We fix that — by owning the one thing frontier models can't:
+          We fix that — by owning the one thing frontier models
+          <strong>won't build against their own lock-in</strong>:
           <strong>who you are</strong>.
         </p>
-        <p class="muted">
-          Founder pitch · XO is a working title · Everything here ships from one
-          codebase, one platform, one founder, and an agent fleet.
+        <p class="proofbar">
+          <span class="live">Live in production today.</span> Real revenue.
+          Built by one founder directing an agent fleet.
         </p>
       </section>
 
@@ -383,24 +393,16 @@
             tool stays a toy.
           </li>
         </ul>
+        <p>
+          This doesn't fix itself as execs get fluent. Fluency raises the
+          ceiling on what they expect — which makes starting cold
+          <em>more</em> expensive, not less. The tax grows with capability.
+        </p>
         <div class="callout red">
           <strong>The kill shot is the second visit.</strong> First sessions
           impress; second visits die. Whoever solves the return solves the
           market.
         </div>
-        <details class="objection">
-          <summary>Toughest-VC objection</summary>
-          <div class="ans">
-            <p class="q">
-              "Isn't this just a prompt-engineering problem that model UX will
-              solve?"
-            </p>
-            Model UX solves recall, not <em>representation</em>. Knowing your
-            chat history is not knowing your operating style, your constraints,
-            your ambitions — governed, corrected by you, and portable. That's a
-            product, not a feature toggle.
-          </div>
-        </details>
       </section>
 
       <section class="slide" id="s3">
@@ -417,24 +419,27 @@
           <em>who you are</em> changes the answer should never start cold.
         </div>
         <p>
-          The moat isn't memory — vendors will ship memory. It's what they
-          structurally won't ship: context that is
-          <strong>owned by the person</strong> (not the platform),
-          <strong>portable across every model</strong> (against their lock-in
-          interest), and <strong>governed</strong> (protected categories the
-          machine cannot silently touch).
+          Everyone says "context is the moat" and means a vector store of your
+          chat logs. We mean something narrower and harder: a governed,
+          person-owned professional identity — elicited by a ritual you can't
+          self-serve, corrected by you, portable across every model. Not more
+          memory. <strong>A different asset class.</strong> And it compounds:
+          every correction, every use deepens a profile a rival can't export and
+          the owner won't rebuild from scratch. Neutrality is the wedge. The
+          earned, maintained profile is the wall.
         </p>
         <details class="objection">
           <summary>Toughest-VC objection</summary>
           <div class="ans">
             <p class="q">
-              "OpenAI ships cross-session memory next quarter. Why do you
-              exist?"
+              "OpenAI already has cross-session memory and keeps deepening it.
+              Why do you exist?"
             </p>
-            Their memory deepens <em>their</em> lock-in — it will never be
-            portable to a rival model, never person-owned against the employer,
-            never governed by contract. Our conflict-of-interest moat: the labs
-            can't build neutral ground. We are neutral ground.
+            Their memory makes ChatGPT better at being ChatGPT — it deepens
+            <em>their</em> lock-in, dies at the tenant boundary, and will never
+            be portable to a rival model, person-owned against the employer, or
+            governed by contract. The labs are structurally disincentivized to
+            build neutral ground. We are neutral ground.
           </div>
         </details>
       </section>
@@ -455,10 +460,15 @@ Mirror (live today)          XO (the product)              Any frontier model
 ┌──────────────────┐   seeds   ┌──────────────────┐  packaged   ┌─────────────┐
 │ 30-min interview  │ ───────▶ │ Leadership        │ ──────────▶ │ ChatGPT /   │
 │ "holy shit"       │          │ Profile           │  hand-off   │ Claude /    │
-│ report + letter   │          │ (the asset)       │ ◀────────── │ Gemini ...  │
-└──────────────────┘          └──────────────────┘  round-trip  └─────────────┘
-                                     ▲ every output deposits back
+│ report + letter   │          │ (the asset)       │             │ Gemini ...  │
+└──────────────────┘          └──────────────────┘             └─────────────┘
+                                     ▲ · · · round-trip capture (R3, unbuilt) · · ·
   </pre>
+        <p>
+          Today, Mirror seeds the profile. The round-trip — every output flowing
+          <em>back</em> to compound it — is the R3 deliverable that closes the
+          loop. That loop is the bet this raise funds; we don't draw it as done.
+        </p>
         <ul class="tight">
           <li>
             <strong>Mirror</strong> — the onboarding ritual. A mirror-held-up
@@ -472,8 +482,8 @@ Mirror (live today)          XO (the product)              Any frontier model
           </li>
           <li>
             <strong>The hand-off</strong> — XO packages who-you-are into
-            whatever model you prefer, then captures the output back.
-            Model-agnostic by principle.
+            whatever model you prefer. Portable by principle — the profile
+            follows you across models and past any employer.
           </li>
         </ul>
         <details class="objection">
@@ -483,11 +493,12 @@ Mirror (live today)          XO (the product)              Any frontier model
               "If the real work happens in ChatGPT, you're a feeder funnel for
               someone else's habit."
             </p>
-            The habit forms where the task <em>starts</em>. Starting cold costs
-            a senior operator minutes and nuance every time; starting from XO is
-            instantly better on day one and compounds from there. We win the
-            first ten seconds of every meaningful task — the model just runs the
-            errand.
+            ChatGPT's memory is single-model and dies at the tenant boundary —
+            it can't carry you to Claude or Gemini, and it belongs to them, not
+            you. XO carries one profile across every model you use and survives
+            your employer. Honest status: the deposit-back loop that makes each
+            task start sharper <em>everywhere</em> is R3 — unbuilt, and exactly
+            what the check buys.
           </div>
         </details>
       </section>
@@ -496,40 +507,37 @@ Mirror (live today)          XO (the product)              Any frontier model
         <div class="num">05</div>
         <p class="kicker">The magic moment</p>
         <h2>
-          The first screen is the sharpest, most uncomfortably-accurate thing
-          they've ever read about themselves.
+          The first screen tells them something true about themselves they've
+          never said out loud.
         </h2>
         <p class="lead">
-          Not "Your report has been saved." The insight that makes them put the
+          Not "your report has been saved." The insight that makes them put the
           phone down.
         </p>
         <p>
           Then XO speaks — knowing everything the interview surfaced — and
           offers next moves: interrogate the insight that stung, save the line
-          that landed, share a boss-safe version with a named person, set a
-          return trigger tied to a real commitment ("check in after my board
-          meeting on the 14th").
+          that landed, share a boss-safe version with a named person.
         </p>
         <div class="callout gold">
-          <strong>Return by consent, not by push.</strong> No engagement
-          theater, no unrequested notifications — the only outbound contact is
-          the one the user authored. Retention that survives senior-executive
-          contempt for spam.
+          <strong>But first-run wow is table stakes.</strong> The moment that
+          decides the company is <strong>visit three</strong>: XO opens on one
+          profile-grounded move —
+          <em
+            >"Last time you flagged the org-design call. Want to pressure-test
+            it before Thursday?"</em
+          >
+          Retention isn't one trigger. It's a job you rerun: prep a brief before
+          a hard conversation, pressure-test a decision against your own
+          patterns, package context for a model task and log the result.
         </div>
-        <details class="objection">
-          <summary>Toughest-VC objection</summary>
-          <div class="ans">
-            <p class="q">
-              "Consent-only retention is a nice ethic and a terrible growth
-              curve."
-            </p>
-            For this buyer it IS the growth curve. Senior operators churn
-            instantly on manipulation and evangelize tools that respect them.
-            The return trigger converts a real commitment into a real return;
-            word-of-mouth in exec networks does the rest. We sell trust; spam
-            liquidates the asset.
-          </div>
-        </details>
+        <p class="muted">
+          Return by consent, not by push. The only outbound contact is the one
+          the user authored — retention that survives a senior executive's
+          contempt for spam. It's the right ethic <em>and</em> the only growth
+          curve this buyer rewards; whether it compounds is a bet we're honest
+          we haven't yet measured.
+        </p>
       </section>
 
       <section class="slide" id="s6">
@@ -538,43 +546,35 @@ Mirror (live today)          XO (the product)              Any frontier model
         <h2>Three curves crossing.</h2>
         <div class="grid2">
           <div class="card">
-            <h4>1 · Intelligence → free</h4>
+            <h4>1 · Build cost → collapsed</h4>
+            <p>
+              An agent fleet ships what a 15-person team shipped in 2023. The
+              window where a solo founder can own a category is open
+              <em>now</em> — and it's the one curve on this slide that isn't on
+              every other AI deck.
+            </p>
+          </div>
+          <div class="card">
+            <h4>2 · Intelligence → free</h4>
             <p>
               Frontier capability is exploding while its price collapses. Value
               migrates to whoever holds the context that directs it.
             </p>
           </div>
           <div class="card">
-            <h4>2 · Trust → scarce</h4>
+            <h4>3 · Trust → scarce</h4>
             <p>
               The more capable the models, the more the professional class
               worries about what knows them. Governed, person-owned context
               becomes the premium product.
             </p>
           </div>
-          <div class="card">
-            <h4>3 · Build cost → collapsed</h4>
-            <p>
-              An agent fleet ships what a 15-person team shipped in 2023. The
-              window where a solo founder can own a category is open
-              <em>now</em>.
-            </p>
-          </div>
         </div>
-        <details class="objection">
-          <summary>Toughest-VC objection</summary>
-          <div class="ans">
-            <p class="q">
-              "Everyone pitches 'why now' with the same three curves."
-            </p>
-            Fair. Ours has receipts: the platform, the live product, the paid
-            engagements, and this deck's underlying 300-line canonical vision
-            spec were built, adversarially red-teamed by five independent
-            agents, and independently hardened — in two days, by one founder
-            directing a fleet. The third curve isn't a slide; it's how this
-            company already operates.
-          </div>
-        </details>
+        <p>
+          And one demand-side unlock: model quality only just crossed the line
+          where a context hand-off beats a cold expert prompt. Below that line
+          this is a toy; above it, it's leverage. We're at the crossing.
+        </p>
       </section>
 
       <section class="slide" id="s7">
@@ -601,40 +601,40 @@ Mirror (live today)          XO (the product)              Any frontier model
               </td>
             </tr>
             <tr>
-              <td data-l="What">Paid B2B engagements</td>
+              <td data-l="What">Paid B2B — GoTu</td>
               <td data-l="Status">
                 <span class="badge live">Revenue now</span>
               </td>
               <td data-l="Detail">
-                Cohort deliveries for enterprise clients running on production
-                Mirror today
+                First paid cohort (GoTu) delivered on production Mirror —
+                revenue now
               </td>
             </tr>
             <tr>
               <td data-l="What">Mirror Pro</td>
               <td data-l="Status">
-                <span class="badge live">Priced &amp; shipped</span>
+                <span class="badge live">Priced</span>
               </td>
               <td data-l="Detail">
-                $249 consumer purchase with Stripe checkout in production
+                $249 one-time price; paid-claim checkout in the consumer funnel
               </td>
             </tr>
             <tr>
               <td data-l="What">Platform engine</td>
               <td data-l="Status"><span class="badge live">Running</span></td>
               <td data-l="Detail">
-                Multi-product engine: new products are config + prompts, not new
-                codebases
+                Mirror runs as config + prompts on a shared engine; the next
+                product is config, not a new codebase
               </td>
             </tr>
             <tr>
               <td data-l="What">Workflow runtime</td>
               <td data-l="Status">
-                <span class="badge build">Shipping dark</span>
+                <span class="badge build">Building</span>
               </td>
               <td data-l="Detail">
-                Reflow: define a judgment-heavy job in chat once, a
-                deterministic interpreter reruns it with memory
+                Reflow: Define mode shipping behind a flag; deterministic re-run
+                with memory is the near-term target
               </td>
             </tr>
             <tr>
@@ -643,8 +643,8 @@ Mirror (live today)          XO (the product)              Any frontier model
                 <span class="badge build">Ladder R1–R3</span>
               </td>
               <td data-l="Detail">
-                Return surface → refresh → persistent home; spec ratified, rungs
-                sequenced
+                Return surface → refresh → persistent home; spec drafted (v1.0),
+                rungs sequenced
               </td>
             </tr>
           </tbody>
@@ -655,11 +655,12 @@ Mirror (live today)          XO (the product)              Any frontier model
             <p class="q">
               "A solo founder is a key-person risk I can't underwrite."
             </p>
-            The bus-factor answer is unusual: the company's knowledge lives in a
-            governed, versioned canon — binding vision spec, architecture ADRs,
-            per-product doctrine — that an agent fleet executes against daily.
-            The org chart is a document tree plus compute. Capital hires humans
-            where judgment concentrates; it doesn't buy headcount to move code.
+            It's real. The mitigant is legibility: the operating model — vision,
+            architecture, per-product doctrine — is written down and versioned,
+            so a funded team can staff the judgment-heavy seats and continue.
+            We're not claiming compute replaces the founder. We're claiming the
+            company is documented enough to hand off, and capital hires exactly
+            where judgment concentrates.
           </div>
         </details>
       </section>
@@ -671,6 +672,11 @@ Mirror (live today)          XO (the product)              Any frontier model
           Privacy promises most companies put in marketing, we put in the write
           path.
         </h2>
+        <p class="lead">
+          Governance isn't the product — it's why they trust it enough to feed
+          it the truth. The buying reason is compounding output quality.
+          Governance is the precondition that makes the compounding possible.
+        </p>
         <table class="collapse">
           <thead>
             <tr>
@@ -702,6 +708,12 @@ Mirror (live today)          XO (the product)              Any frontier model
             </tr>
           </tbody>
         </table>
+        <p class="muted">
+          Status: the profile store isn't in production yet. This is written as
+          <em>review-blocking law</em> — a protected-category write bearing
+          machine credentials fails code review, gated by a failing-by-default
+          authorization test before the first team surface ships.
+        </p>
         <ul class="tight">
           <li>
             <strong>Person-owned, portable:</strong> the profile belongs to the
@@ -713,11 +725,6 @@ Mirror (live today)          XO (the product)              Any frontier model
             employer views — enforced in platform authorization, not app-side
             politeness.
           </li>
-          <li>
-            Every read, write, and share is
-            <strong>logged and user-visible</strong>. The four trust-killing
-            failures are named in the spec and treated as product-ending.
-          </li>
         </ul>
         <details class="objection">
           <summary>Toughest-VC objection</summary>
@@ -725,11 +732,11 @@ Mirror (live today)          XO (the product)              Any frontier model
             <p class="q">
               "Trust slides are free. What breaks if you're lying?"
             </p>
-            The spec is binding on our own reviews: a protected-category write
-            bearing machine credentials fails code review by written law, and
-            until the storage contract lands, protected profile entries aren't
-            persisted at all. We bound ourselves publicly before asking anyone
-            else to trust us.
+            The spec binds our own reviews: a protected-category write bearing
+            machine credentials fails code review by written law, and until the
+            storage contract lands, protected profile entries aren't persisted
+            at all. We bound ourselves in writing before asking anyone else to
+            trust us.
           </div>
         </details>
       </section>
@@ -737,42 +744,26 @@ Mirror (live today)          XO (the product)              Any frontier model
       <section class="slide" id="s9">
         <div class="num">09</div>
         <p class="kicker">The machine</p>
-        <h2>
-          One engine. Many products. Marginal cost of the next one: a config
-          file.
-        </h2>
-        <pre class="ascii">
-                      ┌────────────────────────────┐
-                      │  Platform (chat · memory ·  │
-                      │  context assets · M2M)      │
-                      └──────────────┬─────────────┘
-                    ┌────────────────┼────────────────┐
-              product-engine   workflow-runner    governed context
-              (apps as data)   (jobs as data)     (profile facets)
-                    │                │                 │
-        ┌───────────┼────────┐      │                 │
-      Mirror       XO     Reflow   red-team        Leadership
-      (live)    (ladder)  (dark)   SKUs (expl.)     Profile
-  </pre>
+        <h2>One engine. The next product is a config file, not a codebase.</h2>
+        <p>
+          New surfaces are data on a shared engine — chat, memory, governed
+          context, and model access all provided once. Mirror proves it in
+          production today; XO is the second product riding the same spine. That
+          is why R1–R3 ship in weeks, not quarters.
+        </p>
         <p>
           <strong>Two rails, one spine:</strong> the individual rail (personal,
           soulful, person-owned) and the team rail (employer-bought AI-fluency
           diagnostics) share the same engine, the same governance, the same
           three-tier context-ownership contract.
         </p>
-        <details class="objection">
-          <summary>Toughest-VC objection</summary>
-          <div class="ans">
-            <p class="q">
-              "Platform plays from seed-stage companies are how founders avoid
-              picking a product."
-            </p>
-            The product is picked: XO, fed by Mirror, on rung-by-rung delivery
-            with hard anti-scope rules ("Phase 2 must not absorb Phase 3")
-            written into canon. The engine isn't a strategy — it's why the
-            picked product ships this fast.
-          </div>
-        </details>
+        <div class="callout">
+          This isn't a platform play to dodge picking a product. The product is
+          picked — <strong>XO, fed by Mirror</strong> — with anti-scope rules
+          ("Phase 2 must not absorb Phase 3") written into canon. The engine is
+          why the picked product ships fast; it isn't a substitute for picking
+          one.
+        </div>
       </section>
 
       <section class="slide" id="s10">
@@ -830,18 +821,12 @@ Mirror (live today)          XO (the product)              Any frontier model
             </tr>
           </tbody>
         </table>
-        <details class="objection">
-          <summary>Toughest-VC objection</summary>
-          <div class="ans">
-            <p class="q">
-              "Every roadmap slide says 'disciplined.' Yours has no dates."
-            </p>
-            Correct — deliberately. The canon binds scope per rung and forbids
-            phase-bleed; the fleet compresses calendar time in ways date-slides
-            can't honestly predict. Judge us on rung-shipping cadence: the last
-            four production releases shipped in the last five weeks.
-          </div>
-        </details>
+        <p class="muted">
+          No dates — deliberately. The canon binds scope per rung and forbids
+          phase-bleed; the fleet compresses calendar time in ways date-slides
+          can't honestly predict. Judge us on cadence: we ship to production
+          most weeks.
+        </p>
       </section>
 
       <section class="slide" id="s11">
@@ -869,11 +854,11 @@ Mirror (live today)          XO (the product)              Any frontier model
           </li>
         </ul>
         <div class="callout green">
-          <strong>Why show you this:</strong> the vision doc that runs this
-          company tags every claim as decided, sourced, or unverified — and it
-          survived five adversarial reviews before you saw this deck. You're not
-          funding certainty theater. You're funding a machine that metabolizes
-          doubt.
+          <strong>Why show you this:</strong> we're putting the open questions
+          on the table on purpose. Every claim in the vision doc that runs this
+          company is tagged decided, sourced, or unverified — and it went
+          through four independent adversarial reviews before you saw this deck.
+          Founders who hide the unknowns get funded once.
         </div>
       </section>
 
@@ -888,26 +873,37 @@ Mirror (live today)          XO (the product)              Any frontier model
         </p>
         <ul class="tight">
           <li>
-            The product is live. The revenue is real. The spec is ratified. The
-            machine ships weekly.
+            <strong>Where we are:</strong> Mirror — the onboarding ritual — is
+            live and earning revenue. XO, the product it seeds, is on
+            rung-by-rung delivery. The vision is written, versioned (v1.0), and
+            adversarially hardened.
           </li>
           <li>
-            Capital compresses the ladder: R1–R3 faster, the personal identity
-            plane, and the first thousand exoskeletons.
+            <strong>What the check buys:</strong> the one thing this deck can't
+            yet prove — the return. Use of funds: ship R1–R3, stand up the
+            personal identity plane, and produce the first return-rate cohort.
+            That number decides whether this is a category or a feature.
           </li>
           <li>
-            You asked what a blank check buys:
-            <strong
-              >the neutral ground every frontier lab structurally cannot
-              build.</strong
-            >
+            <strong>Willingness is proven:</strong> the segment — VP-and-up
+            operators and owners — already pays $249 unaided for the onboarding
+            alone. XO is the subscription that segment returns to.
           </li>
         </ul>
+        <div class="callout">
+          You asked what a blank check buys:
+          <strong
+            >the neutral ground every frontier lab is structurally barred from
+            building — and the compounding, person-owned profile they
+            can't.</strong
+          >
+          We're building it either way. The check decides how fast.
+        </div>
         <p class="footnote">
-          Sources: canonical product vision v1.0 (docs/product-vision.md,
-          adversarially hardened), architecture-spine ADR, production release
-          history. Working title; all claims tagged in canon as decided /
-          sourced / unverified.
+          Sources: product vision v1.0 (docs/product-vision.md, adversarially
+          hardened), architecture-spine ADR, production release history. XO is a
+          working title; all claims tagged in canon as decided / sourced /
+          unverified.
         </p>
       </section>
 
