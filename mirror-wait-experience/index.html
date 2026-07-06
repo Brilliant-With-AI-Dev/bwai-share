@@ -57,7 +57,13 @@
         letter-spacing: 0.03em;
         margin-bottom: 28px;
       }
-      /* tabs */
+      const QD=[
+ "Where in your week do you redo work you already delegated \u2014 and what would it take to stop?",
+ "If explaining a task to AI takes longer than doing it, is the problem the tool \u2014 or how rarely you\u2019ve had to explain your own judgment out loud?",
+ "What would your calendar look like if the 11pm deck rebuilds simply weren\u2019t an option?"
+];
+
+/* tabs */
       .tabs {
         display: flex;
         gap: 8px;
@@ -429,6 +435,7 @@
         <button class="tab active" data-p="a">A · Three Observations</button>
         <button class="tab" data-p="b">B · In Your Words</button>
         <button class="tab" data-p="c">C · Writer's Notebook</button>
+    <button class="tab" data-p="d">D · Questions to Ponder</button>
       </div>
 
       <!-- ============ A ============ -->
@@ -745,7 +752,13 @@
         { t: "2:20", txt: "Writing the rest while you read…", ms: true },
       ];
 
-      /* tabs */
+      const QD=[
+ "Where in your week do you redo work you already delegated \u2014 and what would it take to stop?",
+ "If explaining a task to AI takes longer than doing it, is the problem the tool \u2014 or how rarely you\u2019ve had to explain your own judgment out loud?",
+ "What would your calendar look like if the 11pm deck rebuilds simply weren\u2019t an option?"
+];
+
+/* tabs */
       document.querySelectorAll(".tab").forEach((b) =>
         b.addEventListener("click", () => {
           document
