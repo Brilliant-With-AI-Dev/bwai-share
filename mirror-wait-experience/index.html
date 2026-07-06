@@ -1,0 +1,892 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mirror wait experience — 3 approaches</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..600&family=Outfit:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --navy: #0a1628;
+        --navy-70: rgba(10, 22, 40, 0.7);
+        --navy-40: rgba(10, 22, 40, 0.4);
+        --navy-12: rgba(10, 22, 40, 0.12);
+        --off: #fafaf7;
+        --accent: #157a4e;
+        --accent-soft: rgba(21, 122, 78, 0.08);
+        --card: #ffffff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--off);
+        color: var(--navy);
+        font-family: Outfit, system-ui, sans-serif;
+        line-height: 1.5;
+      }
+      .wrap {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 40px 24px 96px;
+      }
+      h1 {
+        font-family: Newsreader, serif;
+        font-size: 34px;
+        font-weight: 600;
+        margin: 0 0 6px;
+      }
+      .sub {
+        color: var(--navy-70);
+        max-width: 64ch;
+        margin: 0 0 8px;
+      }
+      .mock {
+        display: inline-block;
+        background: #fff3cd;
+        color: #7a5b00;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 2px 10px;
+        border-radius: 999px;
+        letter-spacing: 0.03em;
+        margin-bottom: 28px;
+      }
+      /* tabs */
+      .tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 28px;
+        flex-wrap: wrap;
+      }
+      .tab {
+        padding: 10px 18px;
+        border-radius: 999px;
+        border: 1px solid var(--navy-12);
+        background: transparent;
+        font: inherit;
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--navy-70);
+        cursor: pointer;
+      }
+      .tab.active {
+        background: var(--navy);
+        color: #fff;
+        border-color: var(--navy);
+      }
+      .panel {
+        display: none;
+      }
+      .panel.active {
+        display: block;
+      }
+      /* pitch header */
+      .pitch {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 6px;
+        margin-bottom: 20px;
+      }
+      .pitch h2 {
+        font-family: Newsreader, serif;
+        font-size: 24px;
+        font-weight: 600;
+        margin: 0;
+      }
+      .pitch p {
+        margin: 0;
+        color: var(--navy-70);
+        max-width: 70ch;
+      }
+      .facts {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+      .fact {
+        font-size: 12.5px;
+        font-weight: 600;
+        padding: 4px 12px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+      .fact.warn {
+        background: #fdecea;
+        color: #a33a2a;
+      }
+      /* stage / sim frame */
+      .sim {
+        background: var(--card);
+        border: 1px solid var(--navy-12);
+        border-radius: 18px;
+        padding: 0;
+        overflow: hidden;
+        margin-top: 18px;
+      }
+      .simbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px;
+        border-bottom: 1px solid var(--navy-12);
+        background: rgba(10, 22, 40, 0.025);
+      }
+      .simbar .t {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--navy-40);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+      .simbar button {
+        font: inherit;
+        font-size: 13px;
+        font-weight: 600;
+        border: 1px solid var(--navy-12);
+        background: #fff;
+        border-radius: 999px;
+        padding: 6px 16px;
+        cursor: pointer;
+        color: var(--navy);
+      }
+      .stage {
+        min-height: 460px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 56px 32px 40px;
+        position: relative;
+      }
+      /* shared wait chrome */
+      .eyebrow {
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--navy-40);
+        margin: 0 0 10px;
+      }
+      .headline {
+        font-family: Newsreader, serif;
+        font-size: 28px;
+        font-weight: 600;
+        margin: 0 0 8px;
+        text-align: center;
+      }
+      .rail {
+        width: min(420px, 80%);
+        height: 6px;
+        background: var(--navy-12);
+        border-radius: 999px;
+        overflow: hidden;
+        margin: 18px 0 6px;
+      }
+      .rail > div {
+        height: 100%;
+        width: 0%;
+        background: var(--accent);
+        border-radius: 999px;
+        transition: width 0.9s ease;
+      }
+      .est {
+        font-size: 13.5px;
+        color: var(--navy-40);
+        margin: 0 0 8px;
+      }
+      .stageline {
+        font-size: 13.5px;
+        color: var(--navy-70);
+        min-height: 20px;
+        margin: 2px 0 0;
+        font-variant-numeric: tabular-nums;
+      }
+      /* A: observation cards */
+      .obs-card {
+        width: min(560px, 92%);
+        background: var(--off);
+        border: 1px solid var(--navy-12);
+        border-radius: 16px;
+        padding: 28px 30px 22px;
+        margin-top: 26px;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: all 0.5s ease;
+      }
+      .obs-card.show {
+        opacity: 1;
+        transform: none;
+      }
+      .obs-kicker {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--accent);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin: 0 0 10px;
+      }
+      .obs-text {
+        font-family: Newsreader, serif;
+        font-size: 21px;
+        line-height: 1.45;
+        margin: 0 0 18px;
+      }
+      .obs-foot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .dots {
+        display: flex;
+        gap: 6px;
+      }
+      .dots i {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--navy-12);
+      }
+      .dots i.on {
+        background: var(--accent);
+      }
+      .nextbtn {
+        font: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        border-radius: 999px;
+        padding: 9px 22px;
+        cursor: pointer;
+      }
+      .nextbtn:disabled {
+        opacity: 0.4;
+        cursor: default;
+      }
+      .pending {
+        font-size: 13.5px;
+        color: var(--navy-40);
+        margin-top: 22px;
+        font-style: italic;
+      }
+      /* B: quotes */
+      .quote-card {
+        width: min(560px, 92%);
+        margin-top: 26px;
+        background: var(--off);
+        border-left: 4px solid var(--accent);
+        border-radius: 0 14px 14px 0;
+        padding: 24px 28px;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: all 0.5s ease;
+      }
+      .quote-card.show {
+        opacity: 1;
+        transform: none;
+      }
+      .quote-when {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--navy-40);
+        margin: 0 0 8px;
+      }
+      .quote-text {
+        font-family: Newsreader, serif;
+        font-style: italic;
+        font-size: 21px;
+        line-height: 1.45;
+        margin: 0;
+      }
+      .quote-tail {
+        font-size: 13.5px;
+        color: var(--navy-70);
+        margin: 14px 0 0;
+      }
+      /* C: notebook */
+      .nb {
+        width: min(600px, 94%);
+        margin-top: 26px;
+        font-size: 15px;
+      }
+      .nb-line {
+        display: flex;
+        gap: 10px;
+        align-items: baseline;
+        padding: 7px 4px;
+        opacity: 0;
+        transform: translateY(4px);
+        transition: all 0.45s ease;
+        border-bottom: 1px dashed rgba(10, 22, 40, 0.07);
+      }
+      .nb-line.show {
+        opacity: 1;
+        transform: none;
+      }
+      .nb-line .tick {
+        color: var(--accent);
+        font-weight: 700;
+        font-size: 13px;
+        min-width: 44px;
+        font-variant-numeric: tabular-nums;
+      }
+      .nb-line .txt {
+        color: var(--navy);
+      }
+      .nb-line .txt em {
+        font-family: Newsreader, serif;
+        font-style: italic;
+      }
+      .nb-line.milestone .txt {
+        font-weight: 600;
+      }
+      /* done state */
+      .done {
+        margin-top: 30px;
+        opacity: 0;
+        transition: opacity 0.6s ease;
+        text-align: center;
+      }
+      .done.show {
+        opacity: 1;
+      }
+      .done .nextbtn {
+        font-size: 15px;
+        padding: 12px 28px;
+      }
+      .done p {
+        color: var(--navy-70);
+        font-size: 14px;
+        margin: 0 0 12px;
+      }
+      /* tradeoffs */
+      .trade {
+        margin-top: 22px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      @media (max-width: 700px) {
+        .trade {
+          grid-template-columns: 1fr;
+        }
+      }
+      .trade div {
+        background: var(--card);
+        border: 1px solid var(--navy-12);
+        border-radius: 14px;
+        padding: 16px 20px;
+      }
+      .trade h4 {
+        margin: 0 0 8px;
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .trade .for h4 {
+        color: var(--accent);
+      }
+      .trade .against h4 {
+        color: #a33a2a;
+      }
+      .trade ul {
+        margin: 0;
+        padding-left: 18px;
+        color: var(--navy-70);
+        font-size: 14.5px;
+      }
+      .trade li {
+        margin-bottom: 6px;
+      }
+      footer {
+        margin-top: 48px;
+        font-size: 13px;
+        color: var(--navy-40);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>The Mirror wait, three ways</h1>
+      <p class="sub">
+        The letter pipeline runs 2–4 minutes. Same pipeline in all three
+        prototypes — what changes is what the user experiences while it runs.
+        Sims are compressed: <strong>1 sim second ≈ 6 real seconds</strong>. Hit
+        Replay anytime.
+      </p>
+      <span class="mock">MOCK — Cameron fixture data, timings simulated</span>
+
+      <div class="tabs">
+        <button class="tab active" data-p="a">A · Three Observations</button>
+        <button class="tab" data-p="b">B · In Your Words</button>
+        <button class="tab" data-p="c">C · Writer's Notebook</button>
+      </div>
+
+      <!-- ============ A ============ -->
+      <section class="panel active" id="p-a">
+        <div class="pitch">
+          <h2>
+            A — Three Observations
+            <span
+              style="font-size: 14px; color: var(--navy-40); font-weight: 400"
+              >(one extra fast AI call, in parallel)</span
+            >
+          </h2>
+          <p>
+            The moment the interview ends, a small cheap-tier call generates
+            three short observations from the conversation — fired in
+            <em>parallel</em> with the pipeline, landing in ~15–25s. The user
+            paces through them with “Next” while the letter writes behind.
+            Ephemeral: never saved, never grounded, never shown again.
+          </p>
+          <div class="facts">
+            <span class="fact">first content ~20s</span>
+            <span class="fact"
+              >real synthesis — feels like the product working</span
+            >
+            <span class="fact warn"
+              >new prompt surface (wrongness risk before the letter)</span
+            >
+            <span class="fact warn">+1 LLM call per run</span>
+          </div>
+        </div>
+        <div class="sim">
+          <div class="simbar">
+            <span class="t">Simulation</span
+            ><button onclick="runA()">Replay</button>
+          </div>
+          <div class="stage" id="stage-a">
+            <p class="eyebrow">Writing</p>
+            <h3 class="headline">Writing your Mirror letter</h3>
+            <div class="rail"><div id="rail-a"></div></div>
+            <p class="est">This usually takes 2–3 minutes</p>
+            <p class="stageline" id="line-a">Reading your interview…</p>
+            <div class="obs-card" id="obs-a">
+              <p class="obs-kicker" id="obs-k">Noticed · 1 of 3</p>
+              <p class="obs-text" id="obs-t">…</p>
+              <div class="obs-foot">
+                <div class="dots" id="obs-dots">
+                  <i class="on"></i><i></i><i></i>
+                </div>
+                <button class="nextbtn" id="obs-next" onclick="nextObs()">
+                  Next
+                </button>
+              </div>
+            </div>
+            <p class="pending" id="pend-a" style="display: none">
+              Your letter is still being written — one more to read.
+            </p>
+            <div class="done" id="done-a">
+              <p>Your letter is ready.</p>
+              <button class="nextbtn">Read my letter</button>
+            </div>
+          </div>
+        </div>
+        <div class="trade">
+          <div class="for">
+            <h4>For</h4>
+            <ul>
+              <li>
+                Personal, novel content — the wait <em>is</em> the product
+                working
+              </li>
+              <li>Primes the letter: reader arrives already leaning in</li>
+              <li>Fail-open: call dies → plain progress rail, nothing lost</li>
+            </ul>
+          </div>
+          <div class="against">
+            <h4>Against</h4>
+            <ul>
+              <li>
+                A wrong observation poisons the letter’s credibility before it
+                opens
+              </li>
+              <li>New prompt surface to write, review, and keep on-voice</li>
+              <li>
+                Needs the design-doc amendment (ruling 3 killed “insights” as a
+                deliverable)
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ B ============ -->
+      <section class="panel" id="p-b">
+        <div class="pitch">
+          <h2>
+            B — In Your Words
+            <span
+              style="font-size: 14px; color: var(--navy-40); font-weight: 400"
+              >(zero new AI calls)</span
+            >
+          </h2>
+          <p>
+            No generation at all. The client already holds the full transcript —
+            surface three striking things the <em>user themselves said</em>,
+            verbatim, with a light frame (“12 minutes in, you said…”). Instant,
+            free, and can’t be wrong — they’re the user’s own words. Selection
+            is a simple client-side heuristic (longest substantive answers,
+            spread across the interview).
+          </p>
+          <div class="facts">
+            <span class="fact">first content instantly</span>
+            <span class="fact">zero cost · zero new failure modes</span>
+            <span class="fact">can’t be wrong — verbatim quotes</span>
+            <span class="fact warn"
+              >no synthesis — reflection, not insight</span
+            >
+          </div>
+        </div>
+        <div class="sim">
+          <div class="simbar">
+            <span class="t">Simulation</span
+            ><button onclick="runB()">Replay</button>
+          </div>
+          <div class="stage" id="stage-b">
+            <p class="eyebrow">Writing</p>
+            <h3 class="headline">Writing your Mirror letter</h3>
+            <div class="rail"><div id="rail-b"></div></div>
+            <p class="est">This usually takes 2–3 minutes</p>
+            <p class="stageline" id="line-b">Reading your interview…</p>
+            <div class="quote-card" id="qc-b">
+              <p class="quote-when" id="q-when">…</p>
+              <p class="quote-text" id="q-text">…</p>
+              <p class="quote-tail">
+                Worth sitting with while your letter is written.
+              </p>
+            </div>
+            <div
+              style="
+                display: flex;
+                gap: 14px;
+                align-items: center;
+                margin-top: 20px;
+              "
+            >
+              <div class="dots" id="q-dots">
+                <i class="on"></i><i></i><i></i>
+              </div>
+              <button class="nextbtn" id="q-next" onclick="nextQuote()">
+                Next
+              </button>
+            </div>
+            <div class="done" id="done-b">
+              <p>Your letter is ready.</p>
+              <button class="nextbtn">Read my letter</button>
+            </div>
+          </div>
+        </div>
+        <div class="trade">
+          <div class="for">
+            <h4>For</h4>
+            <ul>
+              <li>Ships in an afternoon — presentation code only</li>
+              <li>Zero latency, zero spend, zero prompt review</li>
+              <li>
+                Hearing your own words back is genuinely affecting (it’s the
+                Mirror’s whole premise)
+              </li>
+            </ul>
+          </div>
+          <div class="against">
+            <h4>Against</h4>
+            <ul>
+              <li>
+                Dumb selection can pick a dud quote — heuristic needs care
+              </li>
+              <li>No “aha” — it reflects, it doesn’t reveal</li>
+              <li>Long voice answers may need truncation to stay readable</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ C ============ -->
+      <section class="panel" id="p-c">
+        <div class="pitch">
+          <h2>
+            C — Writer's Notebook
+            <span
+              style="font-size: 14px; color: var(--navy-40); font-weight: 400"
+              >(presentation over real pipeline events)</span
+            >
+          </h2>
+          <p>
+            No new content at all — make the <em>actual work visible</em>. The
+            pipeline already emits real stage events with real timings (we just
+            instrumented them). Render them as a quiet, honest work log that
+            ticks as things truly happen: exchanges counted, pattern search
+            started, letter sections drafted. Nothing invented; every line maps
+            to a real event.
+          </p>
+          <div class="facts">
+            <span class="fact">first movement ~2s</span>
+            <span class="fact">honest — every line is a real event</span>
+            <span class="fact">zero new calls</span>
+            <span class="fact warn"
+              >between real events, nothing moves (dead air risk)</span
+            >
+          </div>
+        </div>
+        <div class="sim">
+          <div class="simbar">
+            <span class="t">Simulation</span
+            ><button onclick="runC()">Replay</button>
+          </div>
+          <div class="stage" id="stage-c" style="align-items: flex-start">
+            <div style="align-self: center; text-align: center">
+              <p class="eyebrow">Writing</p>
+              <h3 class="headline">Writing your Mirror letter</h3>
+              <div class="rail" style="margin-left: auto; margin-right: auto">
+                <div id="rail-c"></div>
+              </div>
+            </div>
+            <div class="nb" id="nb-c"></div>
+            <div class="done" id="done-c" style="align-self: center">
+              <p>Your letter is ready.</p>
+              <button class="nextbtn">Read my letter</button>
+            </div>
+          </div>
+        </div>
+        <div class="trade">
+          <div class="for">
+            <h4>For</h4>
+            <ul>
+              <li>Transparent — kills the “is it hung?” feeling at the root</li>
+              <li>No new prompt surface, no new spend, no wrongness risk</li>
+              <li>Doubles as live debugging you can screenshot in UAT</li>
+            </ul>
+          </div>
+          <div class="against">
+            <h4>Against</h4>
+            <ul>
+              <li>
+                Reasoning is one long real step — the log goes quiet for 60–120s
+                mid-run unless lines are padded (and padding = theater)
+              </li>
+              <li>
+                Informative, not affecting — it explains the wait, doesn’t
+                reward it
+              </li>
+              <li>
+                Counts/labels must come from real events or it violates the
+                no-fake-copy rule
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        bwai-share prototype · Mirror wait-experience options for bapps#1056
+        follow-up · all content mock, timings compressed 6×
+      </footer>
+    </div>
+
+    <script>
+      /* MOCK Cameron data */
+      const OBS = [
+        "You measure your team's output in shipped work, but you measure your own in hours survived — you used different yardsticks without noticing.",
+        "Every AI win you described was solo. Every frustration was collaborative. The tooling isn't the variable — the handoff is.",
+        "You said “I should probably delegate that” four times, about four different things, and moved on within seconds each time.",
+      ];
+      const QUOTES = [
+        {
+          when: "4 minutes in, you said:",
+          text: "“I end up redoing the deck myself at 11pm because explaining what I want takes longer than doing it.”",
+        },
+        {
+          when: "11 minutes in, you said:",
+          text: "“The team thinks I'm testing them when I ask AI-drafted questions. I'm not — I just don't trust the draft yet.”",
+        },
+        {
+          when: "19 minutes in, you said:",
+          text: "“Honestly, if the tools disappeared tomorrow, my calendar wouldn't change. That's probably the problem.”",
+        },
+      ];
+      const NB = [
+        {
+          t: "0:02",
+          txt: "Reading your interview — <em>42 exchanges, 6,180 words</em>.",
+          ms: true,
+        },
+        {
+          t: "0:09",
+          txt: "Longest thread: delegation vs. control (came up 7 times).",
+        },
+        {
+          t: "0:15",
+          txt: "Searching for the pattern underneath what you said…",
+          ms: true,
+        },
+        {
+          t: "0:48",
+          txt: "Weighing two candidate through-lines. Keeping the sharper one.",
+        },
+        {
+          t: "1:21",
+          txt: "Pattern locked. Drafting the opening of your letter…",
+          ms: true,
+        },
+        {
+          t: "1:58",
+          txt: "Title and opening sections drafted — <em>562 words</em>.",
+        },
+        { t: "2:20", txt: "Writing the rest while you read…", ms: true },
+      ];
+
+      /* tabs */
+      document.querySelectorAll(".tab").forEach((b) =>
+        b.addEventListener("click", () => {
+          document
+            .querySelectorAll(".tab")
+            .forEach((x) => x.classList.remove("active"));
+          document
+            .querySelectorAll(".panel")
+            .forEach((x) => x.classList.remove("active"));
+          b.classList.add("active");
+          document.getElementById("p-" + b.dataset.p).classList.add("active");
+          ({ a: runA, b: runB, c: runC })[b.dataset.p]();
+        }),
+      );
+
+      let timers = [];
+      function clearAll() {
+        timers.forEach((t) => clearTimeout(t));
+        timers = [];
+      }
+      function at(ms, fn) {
+        timers.push(setTimeout(fn, ms));
+      }
+      const stages = [
+        "Reading your interview…",
+        "Finding the pattern underneath what you said…",
+        "Making sense of it…",
+        "Writing your letter…",
+      ];
+      function driveRail(railId, lineId, doneAt) {
+        const rail = document.getElementById(railId);
+        const line = lineId && document.getElementById(lineId);
+        [
+          [500, 8, 0],
+          [4000, 34, 1],
+          [14000, 62, 2],
+          [22000, 88, 3],
+        ].forEach(([ms, pct, s]) =>
+          at(ms, () => {
+            rail.style.width = pct + "%";
+            if (line) line.textContent = stages[s];
+          }),
+        );
+        at(doneAt, () => {
+          rail.style.width = "100%";
+          if (line) line.textContent = "Done.";
+        });
+      }
+
+      /* A */
+      let obsIdx = 0,
+        obsSeen = 0;
+      function runA() {
+        clearAll();
+        obsIdx = 0;
+        obsSeen = 1;
+        const card = document.getElementById("obs-a"),
+          done = document.getElementById("done-a"),
+          pend = document.getElementById("pend-a");
+        card.classList.remove("show");
+        done.classList.remove("show");
+        pend.style.display = "none";
+        document.getElementById("obs-next").disabled = false;
+        driveRail("rail-a", "line-a", 30000);
+        at(3500, () => {
+          showObs(0);
+          card.classList.add("show");
+        }); /* parallel call lands ~20s real */
+        at(30000, () => {
+          done.classList.add("show");
+          pend.style.display = "none";
+        });
+      }
+      function showObs(i) {
+        obsIdx = i;
+        document.getElementById("obs-k").textContent =
+          `Noticed · ${i + 1} of 3`;
+        document.getElementById("obs-t").textContent = OBS[i];
+        document
+          .querySelectorAll("#obs-dots i")
+          .forEach((d, j) => d.classList.toggle("on", j <= i));
+        document.getElementById("obs-next").disabled = i === 2;
+      }
+      function nextObs() {
+        if (obsIdx < 2) showObs(obsIdx + 1);
+        if (
+          obsIdx === 2 &&
+          !document.getElementById("done-a").classList.contains("show")
+        )
+          document.getElementById("pend-a").style.display = "block";
+      }
+
+      /* B */
+      let qIdx = 0;
+      function runB() {
+        clearAll();
+        qIdx = 0;
+        const card = document.getElementById("qc-b"),
+          done = document.getElementById("done-b");
+        card.classList.remove("show");
+        done.classList.remove("show");
+        document.getElementById("q-next").disabled = false;
+        driveRail("rail-b", "line-b", 30000);
+        at(600, () => {
+          showQuote(0);
+          card.classList.add("show");
+        }); /* instant — client-side */
+        at(30000, () => done.classList.add("show"));
+      }
+      function showQuote(i) {
+        qIdx = i;
+        document.getElementById("q-when").textContent = QUOTES[i].when;
+        document.getElementById("q-text").textContent = QUOTES[i].text;
+        document
+          .querySelectorAll("#q-dots i")
+          .forEach((d, j) => d.classList.toggle("on", j <= i));
+        document.getElementById("q-next").disabled = i === 2;
+      }
+      function nextQuote() {
+        if (qIdx < 2) showQuote(qIdx + 1);
+      }
+
+      /* C */
+      function runC() {
+        clearAll();
+        const nb = document.getElementById("nb-c"),
+          done = document.getElementById("done-c");
+        nb.innerHTML = "";
+        done.classList.remove("show");
+        driveRail("rail-c", null, 30000);
+        NB.forEach((l, i) =>
+          at(1000 + i * 3800, () => {
+            const d = document.createElement("div");
+            d.className = "nb-line" + (l.ms ? " milestone" : "");
+            d.innerHTML = `<span class="tick">${l.t}</span><span class="txt">${l.txt}</span>`;
+            nb.appendChild(d);
+            requestAnimationFrame(() => d.classList.add("show"));
+          }),
+        );
+        at(30000, () => done.classList.add("show"));
+      }
+      runA();
+    </script>
+  </body>
+</html>
