@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Mirror wait experience — 3 approaches</title>
+    <title>Mirror wait experience — 4 approaches</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..600&family=Outfit:wght@300..700&display=swap"
@@ -57,13 +57,6 @@
         letter-spacing: 0.03em;
         margin-bottom: 28px;
       }
-      const QD=[
- "Where in your week do you redo work you already delegated \u2014 and what would it take to stop?",
- "If explaining a task to AI takes longer than doing it, is the problem the tool \u2014 or how rarely you\u2019ve had to explain your own judgment out loud?",
- "What would your calendar look like if the 11pm deck rebuilds simply weren\u2019t an option?"
-];
-
-/* tabs */
       .tabs {
         display: flex;
         gap: 8px;
@@ -92,7 +85,6 @@
       .panel.active {
         display: block;
       }
-      /* pitch header */
       .pitch {
         display: grid;
         grid-template-columns: 1fr;
@@ -104,6 +96,11 @@
         font-size: 24px;
         font-weight: 600;
         margin: 0;
+      }
+      .pitch h2 span {
+        font-size: 14px;
+        color: var(--navy-40);
+        font-weight: 400;
       }
       .pitch p {
         margin: 0;
@@ -128,7 +125,6 @@
         background: #fdecea;
         color: #a33a2a;
       }
-      /* stage / sim frame */
       .sim {
         background: var(--card);
         border: 1px solid var(--navy-12);
@@ -172,7 +168,6 @@
         padding: 56px 32px 40px;
         position: relative;
       }
-      /* shared wait chrome */
       .eyebrow {
         font-size: 13px;
         font-weight: 700;
@@ -215,7 +210,6 @@
         margin: 2px 0 0;
         font-variant-numeric: tabular-nums;
       }
-      /* A: observation cards */
       .obs-card {
         width: min(560px, 92%);
         background: var(--off);
@@ -284,7 +278,6 @@
         margin-top: 22px;
         font-style: italic;
       }
-      /* B: quotes */
       .quote-card {
         width: min(560px, 92%);
         margin-top: 26px;
@@ -318,7 +311,6 @@
         color: var(--navy-70);
         margin: 14px 0 0;
       }
-      /* C: notebook */
       .nb {
         width: min(600px, 94%);
         margin-top: 26px;
@@ -355,7 +347,6 @@
       .nb-line.milestone .txt {
         font-weight: 600;
       }
-      /* done state */
       .done {
         margin-top: 30px;
         opacity: 0;
@@ -374,7 +365,6 @@
         font-size: 14px;
         margin: 0 0 12px;
       }
-      /* tradeoffs */
       .trade {
         margin-top: 22px;
         display: grid;
@@ -422,9 +412,9 @@
   </head>
   <body>
     <div class="wrap">
-      <h1>The Mirror wait, three ways</h1>
+      <h1>The Mirror wait, four ways</h1>
       <p class="sub">
-        The letter pipeline runs 2–4 minutes. Same pipeline in all three
+        The letter pipeline runs 2–4 minutes. Same pipeline in all four
         prototypes — what changes is what the user experiences while it runs.
         Sims are compressed: <strong>1 sim second ≈ 6 real seconds</strong>. Hit
         Replay anytime.
@@ -435,7 +425,7 @@
         <button class="tab active" data-p="a">A · Three Observations</button>
         <button class="tab" data-p="b">B · In Your Words</button>
         <button class="tab" data-p="c">C · Writer's Notebook</button>
-    <button class="tab" data-p="d">D · Questions to Ponder</button>
+        <button class="tab" data-p="d">D · Questions to Ponder</button>
       </div>
 
       <!-- ============ A ============ -->
@@ -443,10 +433,7 @@
         <div class="pitch">
           <h2>
             A — Three Observations
-            <span
-              style="font-size: 14px; color: var(--navy-40); font-weight: 400"
-              >(one extra fast AI call, in parallel)</span
-            >
+            <span>(one extra fast AI call, in parallel)</span>
           </h2>
           <p>
             The moment the interview ends, a small cheap-tier call generates
@@ -530,13 +517,7 @@
       <!-- ============ B ============ -->
       <section class="panel" id="p-b">
         <div class="pitch">
-          <h2>
-            B — In Your Words
-            <span
-              style="font-size: 14px; color: var(--navy-40); font-weight: 400"
-              >(zero new AI calls)</span
-            >
-          </h2>
+          <h2>B — In Your Words <span>(zero new AI calls)</span></h2>
           <p>
             No generation at all. The client already holds the full transcript —
             surface three striking things the <em>user themselves said</em>,
@@ -623,10 +604,7 @@
         <div class="pitch">
           <h2>
             C — Writer's Notebook
-            <span
-              style="font-size: 14px; color: var(--navy-40); font-weight: 400"
-              >(presentation over real pipeline events)</span
-            >
+            <span>(presentation over real pipeline events)</span>
           </h2>
           <p>
             No new content at all — make the <em>actual work visible</em>. The
@@ -694,6 +672,106 @@
         </div>
       </section>
 
+      <!-- ============ D ============ -->
+      <section class="panel" id="p-d">
+        <div class="pitch">
+          <h2>
+            D — Questions to Ponder <span>(A’s engine, safer output)</span>
+          </h2>
+          <p>
+            Same parallel fast call as A — but it returns three pointed
+            <em>questions</em> drawn from the conversation, not claims about the
+            user. A question personalizes as hard as an observation with a
+            fraction of the risk: a claim can be wrong; a question just lands or
+            doesn’t. Framed as “no need to answer” so it reads as reflection,
+            not more homework. Fail-open falls back to a
+            <em>curated evergreen pool</em> — degraded mode still has content.
+          </p>
+          <div class="facts">
+            <span class="fact"
+              >first content ~20s (curated fallback: instant)</span
+            >
+            <span class="fact">personal, but can’t be “wrong”</span>
+            <span class="fact">extends the interview’s reflective mood</span>
+            <span class="fact warn"
+              >+1 LLM call per run (skippable via fallback pool)</span
+            >
+            <span class="fact warn"
+              >risk: reads as “more questions?” — framing must carry it</span
+            >
+          </div>
+        </div>
+        <div class="sim">
+          <div class="simbar">
+            <span class="t">Simulation</span
+            ><button onclick="runD()">Replay</button>
+          </div>
+          <div class="stage" id="stage-d">
+            <p class="eyebrow">Writing</p>
+            <h3 class="headline">Writing your Mirror letter</h3>
+            <div class="rail"><div id="rail-d"></div></div>
+            <p class="est">This usually takes 2–3 minutes</p>
+            <p class="stageline" id="line-d">Reading your interview…</p>
+            <div class="obs-card" id="qd-card">
+              <p class="obs-kicker" id="qd-k">To ponder · 1 of 3</p>
+              <p class="obs-text" id="qd-t" style="font-style: italic">…</p>
+              <p class="quote-tail" style="margin: 0 0 18px">
+                No need to answer — just sit with it while your letter is
+                written.
+              </p>
+              <div class="obs-foot">
+                <div class="dots" id="qd-dots">
+                  <i class="on"></i><i></i><i></i>
+                </div>
+                <button class="nextbtn" id="qd-next" onclick="nextQd()">
+                  Next
+                </button>
+              </div>
+            </div>
+            <div class="done" id="done-d">
+              <p>Your letter is ready.</p>
+              <button class="nextbtn">Read my letter</button>
+            </div>
+          </div>
+        </div>
+        <div class="trade">
+          <div class="for">
+            <h4>For</h4>
+            <ul>
+              <li>
+                A’s personalization with a far smaller blast radius — questions
+                don’t assert
+              </li>
+              <li>
+                Sets up the letter without spoiling it (a question opens a loop
+                the letter closes)
+              </li>
+              <li>
+                Curated fallback pool makes fail-open <em>content</em>, not a
+                bare rail
+              </li>
+            </ul>
+          </div>
+          <div class="against">
+            <h4>Against</h4>
+            <ul>
+              <li>
+                After 30–45 min of being asked things, more questions can feel
+                like homework — framing has to carry it
+              </li>
+              <li>
+                Still a new prompt surface + one extra call (though the fallback
+                pool ships day one with zero calls)
+              </li>
+              <li>
+                Generic-feeling questions are worse than none — the prompt must
+                force specificity
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
       <footer>
         bwai-share prototype · Mirror wait-experience options for bapps#1056
         follow-up · all content mock, timings compressed 6×
@@ -751,14 +829,13 @@
         },
         { t: "2:20", txt: "Writing the rest while you read…", ms: true },
       ];
+      const QD = [
+        "Where in your week do you redo work you already delegated — and what would it take to stop?",
+        "If explaining a task to AI takes longer than doing it, is the problem the tool — or how rarely you’ve had to explain your own judgment out loud?",
+        "What would your calendar look like if the 11pm deck rebuilds simply weren’t an option?",
+      ];
 
-      const QD=[
- "Where in your week do you redo work you already delegated \u2014 and what would it take to stop?",
- "If explaining a task to AI takes longer than doing it, is the problem the tool \u2014 or how rarely you\u2019ve had to explain your own judgment out loud?",
- "What would your calendar look like if the 11pm deck rebuilds simply weren\u2019t an option?"
-];
-
-/* tabs */
+      /* tabs */
       document.querySelectorAll(".tab").forEach((b) =>
         b.addEventListener("click", () => {
           document
@@ -769,7 +846,7 @@
             .forEach((x) => x.classList.remove("active"));
           b.classList.add("active");
           document.getElementById("p-" + b.dataset.p).classList.add("active");
-          ({ a: runA, b: runB, c: runC })[b.dataset.p]();
+          ({ a: runA, b: runB, c: runC, d: runD })[b.dataset.p]();
         }),
       );
 
@@ -808,12 +885,10 @@
       }
 
       /* A */
-      let obsIdx = 0,
-        obsSeen = 0;
+      let obsIdx = 0;
       function runA() {
         clearAll();
         obsIdx = 0;
-        obsSeen = 1;
         const card = document.getElementById("obs-a"),
           done = document.getElementById("done-a"),
           pend = document.getElementById("pend-a");
@@ -825,7 +900,7 @@
         at(3500, () => {
           showObs(0);
           card.classList.add("show");
-        }); /* parallel call lands ~20s real */
+        });
         at(30000, () => {
           done.classList.add("show");
           pend.style.display = "none";
@@ -864,7 +939,7 @@
         at(600, () => {
           showQuote(0);
           card.classList.add("show");
-        }); /* instant — client-side */
+        });
         at(30000, () => done.classList.add("show"));
       }
       function showQuote(i) {
@@ -899,6 +974,38 @@
         );
         at(30000, () => done.classList.add("show"));
       }
+
+      /* D */
+      let qdIdx = 0;
+      function runD() {
+        clearAll();
+        qdIdx = 0;
+        const card = document.getElementById("qd-card"),
+          done = document.getElementById("done-d");
+        card.classList.remove("show");
+        done.classList.remove("show");
+        document.getElementById("qd-next").disabled = false;
+        driveRail("rail-d", "line-d", 30000);
+        at(3500, () => {
+          showQd(0);
+          card.classList.add("show");
+        });
+        at(30000, () => done.classList.add("show"));
+      }
+      function showQd(i) {
+        qdIdx = i;
+        document.getElementById("qd-k").textContent =
+          `To ponder · ${i + 1} of 3`;
+        document.getElementById("qd-t").textContent = QD[i];
+        document
+          .querySelectorAll("#qd-dots i")
+          .forEach((d, j) => d.classList.toggle("on", j <= i));
+        document.getElementById("qd-next").disabled = i === 2;
+      }
+      function nextQd() {
+        if (qdIdx < 2) showQd(qdIdx + 1);
+      }
+
       runA();
     </script>
   </body>
