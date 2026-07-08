@@ -164,7 +164,1692 @@
     persona reviews flagged CTAs there as tone-deaf.
   </div>
 </div>
-<details open><summary>Chosen direction — “The Introduction, with a context peek” + patient rail + generating-context transition <span class="bet">owner decision 2026-07-07 · composite of A + B-lite + D</span></summary><div class="variantwrap">
+<details open><summary>Chosen direction — “The Introduction, with a context peek” + patient rail + generating-context transition <span class="bet">owner decision 2026-07-07 · composite of A + B-lite + D · laptop rendition</span></summary><div class="variantwrap">
+<section class="vfd-root">
+  <style>
+    .vfd-root {
+      --vfd-forest: #1e4d3b;
+      --vfd-forest-soft: #2d6a52;
+      --vfd-forest-tint: #eef4f0;
+      --vfd-forest-line: #c5d6cc;
+      --vfd-ink: #26302b;
+      --vfd-muted: #6b7568;
+      --vfd-faint: #9aa79e;
+      --vfd-paper: #fbfaf6;
+      --vfd-page: #f2f1ea;
+      --vfd-tool-bg: #f6f7f6;
+      --vfd-line: #e3e1d8;
+      --vfd-tool-line: #dfe4e0;
+      background: var(--vfd-page);
+      color: var(--vfd-ink);
+      font-family:
+        -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+        sans-serif;
+      padding: 56px 24px 72px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    .vfd-root * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    .vfd-serif {
+      font-family: Georgia, "Times New Roman", Times, serif;
+    }
+
+    /* ---------- header ---------- */
+    .vfd-header {
+      max-width: 760px;
+      margin: 0 auto 48px;
+      text-align: center;
+    }
+    .vfd-header h2 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 10px;
+    }
+    .vfd-header p {
+      font-size: 14.5px;
+      color: var(--vfd-muted);
+    }
+    .vfd-header .vfd-kicker {
+      display: inline-block;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--vfd-forest);
+      background: var(--vfd-forest-tint);
+      border: 1px solid var(--vfd-forest-line);
+      border-radius: 999px;
+      padding: 4px 14px;
+      margin-bottom: 14px;
+    }
+
+    /* ---------- scroll holder + stack ---------- */
+    .vfd-scroll {
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    .vfd-stack {
+      display: grid;
+      grid-template-columns: 64px 1180px;
+      width: max-content;
+      margin: 0 auto;
+      position: relative;
+    }
+    .vfd-fwrap {
+      grid-column: 2;
+      position: relative;
+    }
+    .vfd-flabel {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin: 0 0 12px 4px;
+    }
+    .vfd-flabel strong {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--vfd-forest);
+    }
+    .vfd-flabel span {
+      font-size: 13px;
+      color: var(--vfd-muted);
+    }
+
+    /* ---------- browser chrome ---------- */
+    .vfd-frame {
+      width: 1180px;
+      background: #fff;
+      border: 1px solid var(--vfd-line);
+      border-radius: 14px;
+      box-shadow: 0 18px 40px -22px rgba(38, 48, 43, 0.28);
+      overflow: hidden;
+    }
+    .vfd-chrome {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 11px 18px;
+      background: #ecebe3;
+      border-bottom: 1px solid var(--vfd-line);
+    }
+    .vfd-chrome-tool {
+      background: #e9ece9;
+      border-bottom-color: var(--vfd-tool-line);
+    }
+    .vfd-dots {
+      display: flex;
+      gap: 7px;
+      flex: none;
+    }
+    .vfd-dots i {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      display: block;
+    }
+    .vfd-dots i:nth-child(1) {
+      background: #dd7a70;
+    }
+    .vfd-dots i:nth-child(2) {
+      background: #e0b263;
+    }
+    .vfd-dots i:nth-child(3) {
+      background: #7bab84;
+    }
+    .vfd-url {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      border-radius: 7px;
+      padding: 5px 14px;
+      font-size: 12px;
+      color: var(--vfd-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .vfd-clock {
+      flex: none;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 11.5px;
+      color: var(--vfd-muted);
+      background: rgba(255, 255, 255, 0.65);
+      border-radius: 6px;
+      padding: 4px 10px;
+    }
+
+    /* ---------- connectors ---------- */
+    .vfd-conn {
+      grid-column: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0;
+    }
+    .vfd-conn i {
+      display: block;
+      width: 2px;
+      height: 16px;
+      background: #a9bcb0;
+    }
+    .vfd-conn b {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--vfd-forest);
+      background: var(--vfd-forest-tint);
+      border: 1px solid var(--vfd-forest-line);
+      border-radius: 999px;
+      padding: 5px 16px;
+      margin: 7px 0;
+    }
+    .vfd-conn u {
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 8px solid #a9bcb0;
+      text-decoration: none;
+      display: block;
+    }
+
+    .vfd-branch-note {
+      grid-column: 2;
+      text-align: center;
+      padding: 34px 0 20px;
+      font-size: 13px;
+      color: var(--vfd-muted);
+      font-style: italic;
+    }
+
+    /* ---------- branch rail (not now) ---------- */
+    .vfd-rail {
+      grid-column: 1;
+      grid-row: 1 / 7;
+      position: relative;
+    }
+    .vfd-rail-line {
+      position: absolute;
+      top: 340px;
+      bottom: -54px;
+      left: 30px;
+      border-left: 2px dashed #a9bcb0;
+    }
+    .vfd-rail-line::before {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: 0;
+      width: 34px;
+      border-top: 2px dashed #a9bcb0;
+    }
+    .vfd-rail-line::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 26px;
+      border-top: 2px dashed #a9bcb0;
+    }
+    .vfd-rail-arrow {
+      position: absolute;
+      bottom: -59px;
+      left: 56px;
+      width: 0;
+      height: 0;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-left: 8px solid #a9bcb0;
+    }
+    .vfd-rail-label {
+      position: absolute;
+      left: 19px;
+      top: 52%;
+      transform: translateY(-50%);
+      writing-mode: vertical-rl;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--vfd-forest-soft);
+      background: var(--vfd-page);
+      padding: 10px 2px;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    /* ---------- annotation pins ---------- */
+    .vfd-pin {
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--vfd-forest);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      font-style: normal;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 0 4px rgba(30, 77, 59, 0.14);
+      z-index: 6;
+    }
+
+    /* ================= FRAME 1 ================= */
+    .vfd-f1-body {
+      background: var(--vfd-paper);
+      padding: 64px 0 56px;
+    }
+    .vfd-lettercol {
+      width: 680px;
+      margin: 0 auto;
+    }
+    .vfd-letter {
+      font-size: 17px;
+      line-height: 1.8;
+      color: #332e26;
+    }
+    .vfd-letter p {
+      margin-bottom: 22px;
+    }
+    .vfd-letter .vfd-ellipsis {
+      color: var(--vfd-faint);
+      letter-spacing: 0.2em;
+      margin-bottom: 18px;
+    }
+    .vfd-letter .vfd-sig {
+      margin-top: 26px;
+      margin-bottom: 0;
+      font-style: italic;
+      color: #4a463d;
+    }
+
+    .vfd-saved {
+      width: 680px;
+      margin: 40px auto 0;
+      background: #f2f6f3;
+      border: 1px solid #dce7e0;
+      border-radius: 12px;
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .vfd-saved-check {
+      flex: none;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--vfd-forest);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+    .vfd-saved b {
+      display: block;
+      font-size: 14.5px;
+      font-weight: 650;
+    }
+    .vfd-saved span {
+      display: block;
+      font-size: 13px;
+      color: var(--vfd-muted);
+      margin-top: 2px;
+    }
+
+    .vfd-divider {
+      width: 680px;
+      margin: 46px auto 30px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .vfd-divider i {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #b9c9bf);
+      display: block;
+    }
+    .vfd-divider i:last-child {
+      background: linear-gradient(90deg, #b9c9bf, transparent);
+    }
+    .vfd-divider b {
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--vfd-forest-soft);
+      white-space: nowrap;
+    }
+
+    .vfd-xomsg {
+      width: 680px;
+      margin: 0 auto;
+      display: flex;
+      gap: 16px;
+      position: relative;
+    }
+    .vfd-avatar {
+      flex: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 11px;
+      background: var(--vfd-forest);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+    }
+    .vfd-xobubble {
+      flex: 1;
+      background: #f6f9f7;
+      border: 1px solid #dde8e1;
+      border-left: 3px solid var(--vfd-forest);
+      border-radius: 4px 12px 12px 12px;
+      padding: 18px 22px;
+    }
+    .vfd-xohead {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .vfd-xohead b {
+      font-size: 13.5px;
+      font-weight: 700;
+    }
+    .vfd-newvoice {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--vfd-forest);
+      background: #e2eee7;
+      border: 1px solid var(--vfd-forest-line);
+      border-radius: 999px;
+      padding: 2px 10px;
+    }
+    .vfd-xobubble p {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #333d37;
+    }
+
+    .vfd-carry {
+      width: 860px;
+      margin: 30px auto 0;
+      background: #fff;
+      border: 1px solid var(--vfd-line);
+      border-radius: 14px;
+      padding: 22px 26px 20px;
+      position: relative;
+    }
+    .vfd-carry-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .vfd-carry-head b {
+      font-size: 14px;
+      font-weight: 650;
+    }
+    .vfd-carry-head .vfd-chev {
+      color: var(--vfd-faint);
+      font-size: 11px;
+    }
+    .vfd-carry-head .vfd-ro {
+      margin-left: auto;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--vfd-muted);
+      background: #f1f0ea;
+      border-radius: 999px;
+      padding: 3px 10px;
+    }
+    .vfd-carry-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .vfd-asset {
+      background: var(--vfd-paper);
+      border: 1px solid #e7e4da;
+      border-radius: 11px;
+      padding: 16px 15px 14px;
+    }
+    .vfd-asset svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--vfd-forest);
+      fill: none;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      margin-bottom: 10px;
+    }
+    .vfd-asset b {
+      display: block;
+      font-size: 13px;
+      font-weight: 650;
+      line-height: 1.35;
+      margin-bottom: 5px;
+    }
+    .vfd-asset span {
+      display: block;
+      font-size: 11.5px;
+      color: var(--vfd-muted);
+    }
+    .vfd-carry-foot {
+      margin-top: 16px;
+      font-size: 12.5px;
+      color: var(--vfd-muted);
+    }
+
+    .vfd-consent {
+      width: 680px;
+      margin: 32px auto 0;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+    .vfd-btn {
+      display: inline-block;
+      background: var(--vfd-forest);
+      color: #fff;
+      font-size: 14.5px;
+      font-weight: 650;
+      border-radius: 999px;
+      padding: 12px 32px;
+      border: none;
+    }
+    .vfd-quiet {
+      font-size: 14px;
+      color: var(--vfd-muted);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .vfd-consent-micro {
+      font-size: 12.5px;
+      color: var(--vfd-faint);
+    }
+
+    .vfd-composer {
+      width: 680px;
+      margin: 44px auto 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+      border: 1px solid #e0ddd3;
+      border-radius: 999px;
+      padding: 12px 12px 12px 22px;
+    }
+    .vfd-composer span {
+      flex: 1;
+      font-size: 14px;
+      color: var(--vfd-faint);
+    }
+    .vfd-icbtn {
+      flex: none;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--vfd-forest-tint);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .vfd-icbtn svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--vfd-forest);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ================= FRAME 2 ================= */
+    .vfd-f2-body {
+      background: radial-gradient(
+        ellipse 900px 500px at 42% 46%,
+        #f6faf7 0%,
+        var(--vfd-paper) 70%
+      );
+      min-height: 620px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: 40px;
+      padding: 60px 80px;
+    }
+    .vfd-graphwrap {
+      text-align: center;
+    }
+    .vfd-graphwrap svg {
+      width: 100%;
+      max-width: 560px;
+      height: auto;
+    }
+    .vfd-graph-cap {
+      margin-top: 6px;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--vfd-faint);
+    }
+    @keyframes vfd-pulse {
+      0%,
+      100% {
+        opacity: 0.35;
+      }
+      50% {
+        opacity: 0.8;
+      }
+    }
+    @keyframes vfd-flow {
+      to {
+        stroke-dashoffset: -48;
+      }
+    }
+    .vfd-core-halo {
+      animation: vfd-pulse 2.6s ease-in-out infinite;
+    }
+    .vfd-thread {
+      stroke: #8fb3a1;
+      stroke-width: 1.6;
+      fill: none;
+    }
+    .vfd-thread-live {
+      stroke: var(--vfd-forest);
+      stroke-width: 2;
+      stroke-dasharray: 7 6;
+      animation: vfd-flow 1.4s linear infinite;
+    }
+    .vfd-steps {
+      position: relative;
+    }
+    .vfd-steps h3 {
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      letter-spacing: -0.01em;
+    }
+    .vfd-step {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 11px 0;
+    }
+    .vfd-step span {
+      font-size: 15px;
+    }
+    .vfd-step-done span {
+      color: #3c463f;
+    }
+    .vfd-step-wait span {
+      color: var(--vfd-faint);
+    }
+    .vfd-st-check {
+      flex: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--vfd-forest);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+    .vfd-st-spin {
+      flex: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2.5px solid #cfe0d6;
+      border-top-color: var(--vfd-forest);
+      animation: vfd-rot 0.9s linear infinite;
+    }
+    @keyframes vfd-rot {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    .vfd-st-wait {
+      flex: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px dashed #c3cfc6;
+    }
+    .vfd-steps-micro {
+      margin-top: 26px;
+      font-size: 13px;
+      color: var(--vfd-muted);
+      line-height: 1.6;
+      max-width: 340px;
+    }
+
+    .vfd-buildnote {
+      margin-top: 18px;
+      border: 2px dashed #b9c2ba;
+      border-radius: 12px;
+      background: transparent;
+      padding: 16px 22px;
+      font-size: 13px;
+      color: var(--vfd-muted);
+      line-height: 1.6;
+    }
+    .vfd-buildnote b {
+      color: #4d5850;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 11px;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    /* ================= FRAME 3 ================= */
+    .vfd-f3-body {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 660px;
+      background: #fff;
+    }
+    .vfd-side {
+      background: var(--vfd-tool-bg);
+      border-right: 1px solid var(--vfd-tool-line);
+      padding: 22px 16px 18px;
+      display: flex;
+      flex-direction: column;
+    }
+    .vfd-wordmark {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: var(--vfd-forest);
+      padding: 2px 8px 18px;
+    }
+    .vfd-wordmark i {
+      font-style: normal;
+      color: #7fae97;
+    }
+    .vfd-newconv {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--vfd-ink);
+      background: #fff;
+      border: 1px solid #d7ddd8;
+      border-radius: 9px;
+      padding: 9px 12px;
+      margin-bottom: 22px;
+    }
+    .vfd-side-grouplabel {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--vfd-faint);
+      padding: 0 8px 8px;
+    }
+    .vfd-side-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 13.5px;
+      color: #3c463f;
+      padding: 8px 8px;
+      border-radius: 8px;
+    }
+    .vfd-side-item svg {
+      width: 15px;
+      height: 15px;
+      stroke: #7d8a80;
+      fill: none;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex: none;
+    }
+    .vfd-knowlink {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--vfd-forest);
+      background: var(--vfd-forest-tint);
+      border: 1px solid var(--vfd-forest-line);
+      border-radius: 9px;
+      padding: 9px 10px;
+      margin-top: 20px;
+      position: relative;
+    }
+    .vfd-knowlink svg {
+      width: 15px;
+      height: 15px;
+      stroke: var(--vfd-forest);
+      fill: none;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex: none;
+    }
+    .vfd-side-foot {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+      color: var(--vfd-faint);
+      padding: 8px;
+    }
+    .vfd-side-foot svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--vfd-faint);
+      fill: none;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .vfd-main {
+      display: flex;
+      flex-direction: column;
+      padding: 0 0 28px;
+    }
+    .vfd-main-inner {
+      width: 720px;
+      margin: 110px auto 0;
+      position: relative;
+    }
+    .vfd-greet {
+      display: flex;
+      gap: 16px;
+      position: relative;
+    }
+    .vfd-greet-text {
+      font-size: 17px;
+      line-height: 1.75;
+      color: #2e3833;
+    }
+    .vfd-greet-text b {
+      font-weight: 700;
+    }
+    .vfd-chips {
+      display: flex;
+      gap: 12px;
+      margin: 30px 0 0 58px;
+      flex-wrap: wrap;
+    }
+    .vfd-chip {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--vfd-forest);
+      background: #fff;
+      border: 1.5px solid var(--vfd-forest-line);
+      border-radius: 999px;
+      padding: 10px 20px;
+    }
+    .vfd-chip-alt {
+      color: var(--vfd-muted);
+      border-color: #dcdad1;
+      font-weight: 500;
+    }
+    .vfd-main-composer {
+      width: 720px;
+      margin: auto auto 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+      border: 1.5px solid #d7ddd8;
+      border-radius: 16px;
+      padding: 16px 14px 16px 20px;
+      box-shadow: 0 6px 18px -12px rgba(38, 48, 43, 0.25);
+    }
+    .vfd-main-composer span {
+      flex: 1;
+      font-size: 14.5px;
+      color: var(--vfd-faint);
+    }
+    .vfd-send {
+      flex: none;
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: var(--vfd-forest);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .vfd-send svg {
+      width: 15px;
+      height: 15px;
+      stroke: #fff;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ================= FRAME 4 ================= */
+    .vfd-f4-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 620px;
+    }
+    .vfd-f4-left {
+      background: #eef0ee;
+      border-right: 1px solid var(--vfd-tool-line);
+      padding: 36px 42px;
+    }
+    .vfd-f4-right {
+      background: var(--vfd-paper);
+      padding: 36px 42px;
+    }
+    .vfd-stamp {
+      display: inline-block;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 11.5px;
+      color: var(--vfd-forest-soft);
+      background: #fff;
+      border: 1px dashed #b3c4b9;
+      border-radius: 999px;
+      padding: 4px 12px;
+      margin-bottom: 18px;
+    }
+    .vfd-f4-right .vfd-stamp {
+      background: #fff;
+    }
+
+    .vfd-email {
+      background: #fff;
+      border: 1px solid #dcdfda;
+      border-radius: 12px;
+      box-shadow: 0 10px 26px -18px rgba(38, 48, 43, 0.3);
+      overflow: hidden;
+      position: relative;
+    }
+    .vfd-email-head {
+      padding: 18px 24px 14px;
+      border-bottom: 1px solid #eceee9;
+    }
+    .vfd-email-row {
+      display: flex;
+      gap: 8px;
+      font-size: 12.5px;
+      color: var(--vfd-muted);
+      margin-bottom: 4px;
+    }
+    .vfd-email-row b {
+      color: var(--vfd-ink);
+      font-weight: 600;
+    }
+    .vfd-email-subj {
+      font-size: 16.5px;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+    .vfd-email-body {
+      padding: 20px 24px 24px;
+    }
+    .vfd-email-body p {
+      font-size: 14.5px;
+      line-height: 1.75;
+      color: #333d37;
+      margin-bottom: 14px;
+    }
+    .vfd-email-btn {
+      display: inline-block;
+      background: var(--vfd-forest);
+      color: #fff;
+      font-size: 13.5px;
+      font-weight: 650;
+      border-radius: 999px;
+      padding: 10px 24px;
+      margin: 4px 0 16px;
+    }
+    .vfd-email-foot {
+      font-size: 12px;
+      color: var(--vfd-faint);
+      border-top: 1px solid #eceee9;
+      padding-top: 14px;
+      line-height: 1.6;
+    }
+
+    .vfd-wb {
+      background: #fff;
+      border: 1px solid var(--vfd-line);
+      border-radius: 12px;
+      padding: 28px 28px 22px;
+      box-shadow: 0 10px 26px -18px rgba(38, 48, 43, 0.25);
+    }
+    .vfd-wb-greet {
+      display: flex;
+      gap: 13px;
+      margin-bottom: 22px;
+    }
+    .vfd-wb-greet .vfd-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      font-size: 12.5px;
+    }
+    .vfd-wb-greet p {
+      font-size: 14.5px;
+      line-height: 1.7;
+      color: #2e3833;
+    }
+    .vfd-wb-consent {
+      background: #f6f9f7;
+      border: 1px solid #dde8e1;
+      border-left: 3px solid var(--vfd-forest);
+      border-radius: 4px 10px 10px 10px;
+      padding: 16px 20px;
+      margin-left: 49px;
+    }
+    .vfd-wb-consent p {
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: #333d37;
+      margin-bottom: 14px;
+    }
+    .vfd-wb-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .vfd-wb-actions .vfd-btn {
+      font-size: 13px;
+      padding: 9px 22px;
+    }
+    .vfd-wb-actions .vfd-quiet {
+      font-size: 13px;
+    }
+    .vfd-wb-micro {
+      margin-top: 10px;
+      font-size: 11.5px;
+      color: var(--vfd-faint);
+    }
+    .vfd-wb-composer {
+      margin: 20px 0 0 49px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fbfaf6;
+      border: 1px solid #e5e2d8;
+      border-radius: 999px;
+      padding: 9px 10px 9px 16px;
+      opacity: 0.6;
+    }
+    .vfd-wb-composer span {
+      flex: 1;
+      font-size: 12.5px;
+      color: var(--vfd-faint);
+    }
+    .vfd-wb-composer .vfd-icbtn {
+      width: 26px;
+      height: 26px;
+    }
+    .vfd-wb-composer .vfd-icbtn svg {
+      width: 13px;
+      height: 13px;
+    }
+
+    /* ---------- legend ---------- */
+    .vfd-legend {
+      max-width: 900px;
+      margin: 64px auto 0;
+    }
+    .vfd-legend h3 {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--vfd-forest);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .vfd-legend ol {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .vfd-legend li {
+      display: flex;
+      gap: 14px;
+      background: #fff;
+      border: 1px solid var(--vfd-line);
+      border-radius: 12px;
+      padding: 16px 18px;
+    }
+    .vfd-legend .vfd-pin {
+      position: static;
+      flex: none;
+      box-shadow: none;
+    }
+    .vfd-legend b {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+    .vfd-legend p {
+      font-size: 13px;
+      color: var(--vfd-muted);
+      line-height: 1.55;
+    }
+    @media (max-width: 760px) {
+      .vfd-legend ol {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <header class="vfd-header">
+    <div class="vfd-kicker">Chosen direction · desktop rendition</div>
+    <h2>Mirror hands the thread to XO</h2>
+    <p>
+      Conceptual wireframe, four moments on a laptop screen. Copy is real;
+      layout is directional, not pixel spec.
+    </p>
+  </header>
+
+  <div class="vfd-scroll">
+    <div class="vfd-stack">
+      <!-- branch rail: Frame 1 "Not now" → Frame 4 -->
+      <div class="vfd-rail">
+        <div class="vfd-rail-line"></div>
+        <div class="vfd-rail-label">not now &rarr; the patient rail</div>
+        <div class="vfd-rail-arrow"></div>
+      </div>
+
+      <!-- ================= FRAME 1 ================= -->
+      <div class="vfd-fwrap">
+        <div class="vfd-flabel">
+          <strong>Frame 1 · The introduction</strong
+          ><span
+            >The Mirror letter surface. XO speaks for the first time, inside the
+            same thread.</span
+          >
+        </div>
+        <div class="vfd-frame">
+          <div class="vfd-chrome">
+            <div class="vfd-dots"><i></i><i></i><i></i></div>
+            <div class="vfd-url">brilliantwith.ai/mirror/your-letter</div>
+            <div class="vfd-clock">Tue 2:39 pm</div>
+          </div>
+          <div class="vfd-f1-body">
+            <div class="vfd-lettercol vfd-letter vfd-serif">
+              <p class="vfd-ellipsis">&middot; &middot; &middot;</p>
+              <p>
+                You are not behind. You are carrying more than you have said out
+                loud, and this week you finally said it.
+              </p>
+              <p>
+                Start with the Thursday review. Prepare it the way you
+                described, in one sitting, before the calendar fills. Everything
+                else in your plan follows from that first hour.
+              </p>
+              <p class="vfd-sig">Yours,<br />The Mirror</p>
+            </div>
+
+            <div class="vfd-saved">
+              <div class="vfd-saved-check">&#10003;</div>
+              <div>
+                <b>Saved. This is yours to keep.</b>
+                <span
+                  >Your letter and your action plan live here whenever you want
+                  them.</span
+                >
+              </div>
+            </div>
+
+            <div class="vfd-divider">
+              <i></i><b>XO joins the thread</b><i></i>
+            </div>
+
+            <div class="vfd-xomsg">
+              <i class="vfd-pin" style="right: -44px; top: 6px">1</i>
+              <div class="vfd-avatar">XO</div>
+              <div class="vfd-xobubble">
+                <div class="vfd-xohead">
+                  <b>XO</b><span class="vfd-newvoice">New voice</span>
+                </div>
+                <p>
+                  I'm XO. We're building me for people exactly like you. I don't
+                  replace your company's AI tools. I help you get genuinely good
+                  at using them. Everything from your Mirror becomes my starting
+                  picture of you, if you want.
+                </p>
+              </div>
+            </div>
+
+            <div class="vfd-carry">
+              <i class="vfd-pin" style="right: -44px; top: 14px">2</i>
+              <div class="vfd-carry-head">
+                <span class="vfd-chev">&#9660;</span>
+                <b>See what I'd carry over</b>
+                <span class="vfd-ro">Read only</span>
+              </div>
+              <div class="vfd-carry-row">
+                <div class="vfd-asset">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M6 3h9l4 4v14H6z" />
+                    <path d="M15 3v4h4" />
+                    <path d="M9 12h7M9 16h7" />
+                  </svg>
+                  <b>Your Mirror letter</b>
+                  <span>from your Mirror, today</span>
+                </div>
+                <div class="vfd-asset">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M5 5h4v4H5zM5 15h4v4H5z" />
+                    <path d="M12 7h7M12 17h7" />
+                    <path d="M6 6.5l1 1 1.6-2" />
+                  </svg>
+                  <b>Your action plan</b>
+                  <span>from your Mirror, today</span>
+                </div>
+                <div class="vfd-asset">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M4 5h16v11H9l-5 4z" />
+                    <path d="M8 9h8M8 12h5" />
+                  </svg>
+                  <b>What you said in the interview</b>
+                  <span>from your Mirror, today</span>
+                </div>
+                <div class="vfd-asset">
+                  <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="8.5" r="3.5" />
+                    <path d="M5 20a7 7 0 0 1 14 0" />
+                  </svg>
+                  <b>Your intake profile</b>
+                  <span>from your Mirror, today</span>
+                </div>
+              </div>
+              <div class="vfd-carry-foot">
+                Nothing moves until you say so, and you can remove any of it
+                later.
+              </div>
+            </div>
+
+            <div class="vfd-consent">
+              <span class="vfd-btn">I'm in</span>
+              <div>
+                <div class="vfd-quiet">Not now</div>
+                <div class="vfd-consent-micro">
+                  I can email you a nudge next week instead.
+                </div>
+              </div>
+            </div>
+
+            <div class="vfd-composer">
+              <span>Ask about your letter, or just talk</span>
+              <div class="vfd-icbtn">
+                <svg viewBox="0 0 24 24">
+                  <rect x="9" y="3" width="6" height="11" rx="3" />
+                  <path d="M5.5 11a6.5 6.5 0 0 0 13 0" />
+                  <path d="M12 17.5V21" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- connector 1→2 -->
+      <div class="vfd-conn"><i></i><b>consent &rarr;</b><i></i><u></u></div>
+
+      <!-- ================= FRAME 2 ================= -->
+      <div class="vfd-fwrap">
+        <div class="vfd-flabel">
+          <strong>Frame 2 · Generating context</strong
+          ><span
+            >Full-screen threshold. Mirror material becomes XO's working
+            context.</span
+          >
+        </div>
+        <div class="vfd-frame">
+          <div class="vfd-chrome">
+            <div class="vfd-dots"><i></i><i></i><i></i></div>
+            <div class="vfd-url">brilliantwith.ai/xo/getting-ready</div>
+            <div class="vfd-clock">Tue 2:40 pm</div>
+          </div>
+          <div class="vfd-f2-body">
+            <div class="vfd-graphwrap">
+              <svg viewBox="0 0 560 430">
+                <defs>
+                  <radialGradient id="vfdCore" cx="50%" cy="45%" r="60%">
+                    <stop offset="0%" stop-color="#3d8266" />
+                    <stop offset="100%" stop-color="#1e4d3b" />
+                  </radialGradient>
+                </defs>
+                <!-- threads -->
+                <path
+                  class="vfd-thread"
+                  d="M172 82 C 270 82, 300 180, 372 200"
+                />
+                <path
+                  class="vfd-thread"
+                  d="M172 168 C 260 168, 290 192, 372 204"
+                />
+                <path
+                  class="vfd-thread vfd-thread-live"
+                  d="M172 254 C 262 254, 292 224, 372 212"
+                />
+                <path
+                  class="vfd-thread"
+                  d="M172 340 C 272 340, 302 236, 372 216"
+                  stroke-opacity="0.55"
+                />
+                <!-- asset nodes -->
+                <g
+                  font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+                  font-size="14"
+                  font-weight="600"
+                >
+                  <rect
+                    x="20"
+                    y="60"
+                    width="152"
+                    height="44"
+                    rx="11"
+                    fill="#fff"
+                    stroke="#d7e2da"
+                  />
+                  <text x="96" y="87" text-anchor="middle" fill="#26302b">
+                    Letter
+                  </text>
+                  <rect
+                    x="20"
+                    y="146"
+                    width="152"
+                    height="44"
+                    rx="11"
+                    fill="#fff"
+                    stroke="#d7e2da"
+                  />
+                  <text x="96" y="173" text-anchor="middle" fill="#26302b">
+                    Plan
+                  </text>
+                  <rect
+                    x="20"
+                    y="232"
+                    width="152"
+                    height="44"
+                    rx="11"
+                    fill="#fff"
+                    stroke="#1e4d3b"
+                    stroke-width="1.6"
+                  />
+                  <text x="96" y="259" text-anchor="middle" fill="#1e4d3b">
+                    Interview
+                  </text>
+                  <rect
+                    x="20"
+                    y="318"
+                    width="152"
+                    height="44"
+                    rx="11"
+                    fill="#fff"
+                    stroke="#d7e2da"
+                    stroke-dasharray="4 4"
+                  />
+                  <text x="96" y="345" text-anchor="middle" fill="#8a978d">
+                    Profile
+                  </text>
+                </g>
+                <!-- satellite structure around the core -->
+                <g stroke="#b7cdc0" stroke-width="1.2">
+                  <line x1="418" y1="208" x2="486" y2="130" />
+                  <line x1="418" y1="208" x2="512" y2="196" />
+                  <line x1="418" y1="208" x2="494" y2="278" />
+                  <line x1="418" y1="208" x2="446" y2="316" />
+                  <line x1="486" y1="130" x2="512" y2="196" />
+                  <line x1="512" y1="196" x2="494" y2="278" />
+                </g>
+                <g fill="#7fae97">
+                  <circle cx="486" cy="130" r="7" />
+                  <circle cx="512" cy="196" r="9" />
+                  <circle cx="494" cy="278" r="6" />
+                  <circle cx="446" cy="316" r="5" />
+                </g>
+                <!-- glowing core -->
+                <circle
+                  class="vfd-core-halo"
+                  cx="418"
+                  cy="208"
+                  r="72"
+                  fill="#2d6a52"
+                  opacity="0.35"
+                />
+                <circle cx="418" cy="208" r="48" fill="url(#vfdCore)" />
+                <circle
+                  cx="418"
+                  cy="208"
+                  r="48"
+                  fill="none"
+                  stroke="#e8f0ec"
+                  stroke-width="2"
+                  opacity="0.6"
+                />
+              </svg>
+              <div class="vfd-graph-cap">Your context graph</div>
+            </div>
+
+            <div class="vfd-steps">
+              <i class="vfd-pin" style="top: -16px; left: -16px">3</i>
+              <h3>Getting your context ready</h3>
+              <div class="vfd-step vfd-step-done">
+                <div class="vfd-st-check">&#10003;</div>
+                <span>Turning your letter into working context</span>
+              </div>
+              <div class="vfd-step vfd-step-done">
+                <div class="vfd-st-check">&#10003;</div>
+                <span>Connecting your plan to what is driving it</span>
+              </div>
+              <div class="vfd-step">
+                <div class="vfd-st-spin"></div>
+                <span>Weaving in what you said in the interview</span>
+              </div>
+              <div class="vfd-step vfd-step-wait">
+                <div class="vfd-st-wait"></div>
+                <span>Assembling your context graph</span>
+              </div>
+              <p class="vfd-steps-micro">
+                This stays yours. You can see and change what I know at any
+                time.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="vfd-buildnote">
+          <b>Build note (not UI)</b>
+          The real context assembly runs behind this screen. Each checkmark
+          tracks an actual pipeline step, not a timer. Hard cap around 10
+          seconds; if assembly finishes early, this screen finishes early.
+        </div>
+      </div>
+
+      <!-- connector 2→3 -->
+      <div class="vfd-conn">
+        <i></i><b>context built &rarr;</b><i></i><u></u>
+      </div>
+
+      <!-- ================= FRAME 3 ================= -->
+      <div class="vfd-fwrap">
+        <div class="vfd-flabel">
+          <strong>Frame 3 · Arrival: XO's chat home</strong
+          ><span>Desktop app layout. The first rep starts one click away.</span>
+        </div>
+        <div class="vfd-frame">
+          <div class="vfd-chrome vfd-chrome-tool">
+            <div class="vfd-dots"><i></i><i></i><i></i></div>
+            <div class="vfd-url">brilliantwith.ai/xo</div>
+            <div class="vfd-clock">Tue 2:40 pm</div>
+          </div>
+          <div class="vfd-f3-body">
+            <div class="vfd-side">
+              <div class="vfd-wordmark">XO<i>.</i></div>
+              <div class="vfd-newconv">+ &nbsp;New conversation</div>
+              <div class="vfd-side-grouplabel">Your artifacts</div>
+              <div class="vfd-side-item">
+                <svg viewBox="0 0 24 24">
+                  <path d="M6 3h9l4 4v14H6z" />
+                  <path d="M15 3v4h4" /></svg
+                >Your Mirror letter
+              </div>
+              <div class="vfd-side-item">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 5h4v4H5zM5 15h4v4H5z" />
+                  <path d="M12 7h7M12 17h7" /></svg
+                >Your action plan
+              </div>
+              <div class="vfd-knowlink">
+                <i class="vfd-pin" style="right: -14px; top: 8px">4</i>
+                <svg viewBox="0 0 24 24">
+                  <circle cx="6" cy="6" r="2.5" />
+                  <circle cx="18" cy="8" r="2.5" />
+                  <circle cx="12" cy="18" r="2.5" />
+                  <path d="M8 7.5l7 .5M7.5 8l3.5 8M16.5 10l-3.5 6" />
+                </svg>
+                What I know about you
+              </div>
+              <div class="vfd-side-foot">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="3" />
+                  <path
+                    d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"
+                  /></svg
+                >Settings
+              </div>
+            </div>
+
+            <div class="vfd-main">
+              <div class="vfd-main-inner">
+                <div class="vfd-greet">
+                  <i class="vfd-pin" style="right: -44px; top: 2px">5</i>
+                  <div class="vfd-avatar">XO</div>
+                  <p class="vfd-greet-text">
+                    <b>Tuesday, 2:40 pm.</b> Your Mirror is minutes old. I read
+                    all of it. Let's start small: what's actually on your plate
+                    this week? Pick one thing. We'll do it together right now.
+                  </p>
+                </div>
+                <div class="vfd-chips">
+                  <span class="vfd-chip">Prep Thursday's review</span>
+                  <span class="vfd-chip"
+                    >Draft the update I keep putting off</span
+                  >
+                  <span class="vfd-chip vfd-chip-alt">Something else</span>
+                </div>
+              </div>
+              <div class="vfd-main-composer">
+                <span>Tell me what's on your plate, or pick one above</span>
+                <div class="vfd-icbtn">
+                  <svg viewBox="0 0 24 24">
+                    <rect x="9" y="3" width="6" height="11" rx="3" />
+                    <path d="M5.5 11a6.5 6.5 0 0 0 13 0" />
+                    <path d="M12 17.5V21" />
+                  </svg>
+                </div>
+                <div class="vfd-send">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 19V6M6 11.5L12 5.5l6 6" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- spacer note before frame 4 (the rail delivers here) -->
+      <div class="vfd-branch-note">
+        meanwhile, for everyone who chose "Not now" in Frame 1, the dashed rail
+        on the left arrives here:
+      </div>
+
+      <!-- ================= FRAME 4 ================= -->
+      <div class="vfd-fwrap">
+        <div class="vfd-flabel">
+          <strong>Frame 4 · The patient rail</strong
+          ><span
+            >The not-now path: one plain email, then a welcome-back surface that
+            re-asks first.</span
+          >
+        </div>
+        <div class="vfd-frame">
+          <div class="vfd-chrome vfd-chrome-tool">
+            <div class="vfd-dots"><i></i><i></i><i></i></div>
+            <div class="vfd-url">
+              inbox &nbsp;&rarr;&nbsp; brilliantwith.ai/xo/welcome-back
+            </div>
+            <div class="vfd-clock">Mon 9:05 am · six days later</div>
+          </div>
+          <div class="vfd-f4-body">
+            <div class="vfd-f4-left">
+              <span class="vfd-stamp">next workday 8:02 am</span>
+              <div class="vfd-email">
+                <i class="vfd-pin" style="top: -13px; left: -13px">6</i>
+                <div class="vfd-email-head">
+                  <div class="vfd-email-row">
+                    <b>From:</b> XO &lt;xo@brilliantwith.ai&gt;
+                  </div>
+                  <div class="vfd-email-row"><b>To:</b> you</div>
+                  <div class="vfd-email-subj">Monday. One small thing.</div>
+                </div>
+                <div class="vfd-email-body">
+                  <p>
+                    Your Mirror letter is still sitting exactly where you left
+                    it, and so is the one thing you said you would start with.
+                    Want to give it ten minutes together this morning?
+                  </p>
+                  <span class="vfd-email-btn">Pick it up with XO</span>
+                  <div class="vfd-email-foot">
+                    You asked me to wait, so I waited. One tap in settings stops
+                    these entirely.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="vfd-f4-right">
+              <span class="vfd-stamp">whenever they click</span>
+              <div class="vfd-wb">
+                <div class="vfd-wb-greet">
+                  <div class="vfd-avatar">XO</div>
+                  <p>
+                    <b>Monday, 9:05 am.</b> It's been six days since your
+                    Mirror. Nothing expired. Your letter and plan are right
+                    where you left them.
+                  </p>
+                </div>
+                <div class="vfd-wb-consent">
+                  <p>
+                    Before we do anything: everything from your Mirror is still
+                    untouched. Want me to bring it in as my starting picture of
+                    you?
+                  </p>
+                  <div class="vfd-wb-actions">
+                    <span class="vfd-btn">Yes, bring it in</span>
+                    <span class="vfd-quiet">Keep it separate</span>
+                  </div>
+                  <div class="vfd-wb-micro">You can change this any time.</div>
+                </div>
+                <div class="vfd-wb-composer">
+                  <span>Or just tell me what today looks like</span>
+                  <div class="vfd-icbtn">
+                    <svg viewBox="0 0 24 24">
+                      <rect x="9" y="3" width="6" height="11" rx="3" />
+                      <path d="M5.5 11a6.5 6.5 0 0 0 13 0" />
+                      <path d="M12 17.5V21" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= LEGEND ================= -->
+  <div class="vfd-legend">
+    <h3>Annotations</h3>
+    <ol>
+      <li>
+        <i class="vfd-pin">1</i>
+        <div>
+          <b>A new voice, visibly new</b>
+          <p>
+            XO enters the existing Mirror thread with its own avatar, a "New
+            voice" pill, a green left edge, and a labeled divider. The handoff
+            is felt, never smuggled in as more Mirror.
+          </p>
+        </div>
+      </li>
+      <li>
+        <i class="vfd-pin">2</i>
+        <div>
+          <b>The carry-over peek</b>
+          <p>
+            Consent is informed on one screen. Four read-only asset cards show
+            exactly what would move, each with provenance, before any button
+            exists to press. Nothing transfers on view.
+          </p>
+        </div>
+      </li>
+      <li>
+        <i class="vfd-pin">3</i>
+        <div>
+          <b>Transformation, not re-reading</b>
+          <p>
+            Mirror already read everything. This threshold shows that material
+            becoming XO's working context, with honest step-by-step progress
+            tied to the real pipeline (see build note).
+          </p>
+        </div>
+      </li>
+      <li>
+        <i class="vfd-pin">4</i>
+        <div>
+          <b>The future manifest home</b>
+          <p>
+            "What I know about you" in the sidebar is the permanent address of
+            the context graph. Today it is a view; later it becomes the editable
+            manifest where the user corrects and removes.
+          </p>
+        </div>
+      </li>
+      <li>
+        <i class="vfd-pin">5</i>
+        <div>
+          <b>No blank page</b>
+          <p>
+            A time-aware greeting plus three bootstrapping chips drawn from the
+            user's own Mirror kill the empty-composer problem. The first rep
+            starts inside one click.
+          </p>
+        </div>
+      </li>
+      <li>
+        <i class="vfd-pin">6</i>
+        <div>
+          <b>The patient rail</b>
+          <p>
+            One plain email on the next workday, referencing the Mirror
+            privately, with an honest opt-out. The welcome-back surface re-asks
+            consent before the first rep. Waiting is honored, not punished.
+          </p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+</div></details>
+<details><summary>Chosen direction — mobile rendition <span class="bet">same four moments, phone-width frames</span></summary><div class="variantwrap">
 <section class="vf-root">
   <style>
     .vf-root {
