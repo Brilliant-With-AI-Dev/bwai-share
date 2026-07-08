@@ -164,7 +164,7 @@
     persona reviews flagged CTAs there as tone-deaf.
   </div>
 </div>
-<details open><summary>Chosen direction — “The Introduction, with a context peek” + patient rail + generating-context transition <span class="bet">owner decision 2026-07-07 · red-teamed · rulings: vault distillation, two consent doors, router first-rep</span></summary><div class="variantwrap">
+<details open><summary>Chosen direction — “The Introduction, with a context peek” + patient rail + generating-context transition <span class="bet">owner decision 2026-07-07 · red-teamed · final doors: Try XO now / Remind me later / No thanks</span></summary><div class="variantwrap">
 <section class="vfd-root">
   <style>
     .vfd-root {
@@ -1279,7 +1279,7 @@
       <!-- branch rail: Frame 1 "Not now" → Frame 4 -->
       <div class="vfd-rail">
         <div class="vfd-rail-line"></div>
-        <div class="vfd-rail-label">not now &rarr; the patient rail</div>
+        <div class="vfd-rail-label">remind me later &rarr; the patient rail</div>
         <div class="vfd-rail-arrow"></div>
       </div>
 
@@ -1395,12 +1395,17 @@
             </div>
 
             <div class="vfd-consent">
-              <span class="vfd-btn">Build it from my Mirror</span>
+              <span class="vfd-btn">Try XO now</span>
               <div>
-                <div class="vfd-quiet">Not now</div>
+                <div class="vfd-quiet">Remind me later</div>
                 <div class="vfd-consent-micro">
-                  Want me to check in by email? You pick the day.
+                  I'll build your foundation now and email you when you say.
+                  You pick the day.
                 </div>
+              </div>
+              <div>
+                <div class="vfd-quiet">No thanks</div>
+                <div class="vfd-consent-micro">Nothing is built or kept.</div>
               </div>
             </div>
 
@@ -1688,7 +1693,7 @@
 
       <!-- spacer note before frame 4 (the rail delivers here) -->
       <div class="vfd-branch-note">
-        meanwhile, for everyone who chose "Not now" in Frame 1, the dashed rail
+        meanwhile, for everyone who chose "Remind me later" in Frame 1, the dashed rail
         on the left arrives here:
       </div>
 
@@ -1711,7 +1716,7 @@
           </div>
           <div class="vfd-f4-body">
             <div class="vfd-f4-left">
-              <span class="vfd-stamp">next workday 8:02 am</span>
+              <span class="vfd-stamp">the day they picked, 8:02 am</span>
               <div class="vfd-email">
                 <i class="vfd-pin" style="top: -13px; left: -13px">6</i>
                 <div class="vfd-email-head">
@@ -1749,15 +1754,13 @@
                 </div>
                 <div class="vfd-wb-consent">
                   <p>
-                    Before we do anything: everything from your Mirror is still
-                    untouched. Want me to distill it into my foundation: the facts
-                    and insights, not the letter itself?
+                    Your foundation has been ready since Tuesday. What's on
+                    your plate this week? Pick one thing. We'll do it
+                    together.
                   </p>
-                  <div class="vfd-wb-actions">
-                    <span class="vfd-btn">Build it from my Mirror</span>
-                    <span class="vfd-quiet">Not now</span>
+                  <div class="vfd-wb-micro">
+                    You can see everything I carry, and where it came from.
                   </div>
-                  <div class="vfd-wb-micro">You can change this any time.</div>
                 </div>
                 <div class="vfd-wb-composer">
                   <span>Or just tell me what today looks like</span>
@@ -1841,7 +1844,7 @@
         <div>
           <b>The patient rail</b>
           <p>
-            One plain email on the next workday, referencing the Mirror
+            One plain email on the day the user picked, referencing the Mirror
             privately, with an honest opt-out. The welcome-back surface re-asks
             consent before the first rep. Waiting is honored, not punished.
           </p>
@@ -2935,12 +2938,13 @@
             </div>
 
             <div class="vf-choices">
-              <div class="vf-btn-primary">Build it from my Mirror</div>
-              <div class="vf-btn-quiet">Not now</div>
+              <div class="vf-btn-primary">Try XO now</div>
+              <div class="vf-btn-quiet">Remind me later</div>
+              <div class="vf-btn-quiet">No thanks</div>
               <div class="vf-quiet-micro">
-                Want me to check in by email? You pick the day.
+                "Remind me later" builds your foundation now and emails you on a day you pick. "No thanks" builds nothing.
               </div>
-              <div class="vf-branch-hint">"Not now" continues at Panel 4</div>
+              <div class="vf-branch-hint">"Remind me later" continues at Panel 4</div>
             </div>
           </div>
         </div>
@@ -2950,7 +2954,7 @@
     <div class="vf-connector">
       <div class="vf-conn-line"></div>
       <div class="vf-conn-label">consent</div>
-      <div class="vf-conn-sub">taps "Build it from my Mirror"</div>
+      <div class="vf-conn-sub">taps "Try XO now"</div>
     </div>
 
     <!-- ======================= PANEL 2 ======================= -->
@@ -3086,14 +3090,14 @@
         <span class="vf-stage-num">Panel 4</span>
         <h3 class="vf-stage-title">The patient rail</h3>
         <p class="vf-stage-cap">
-          The "Not now" path: one quiet email a week later, then a welcome-back
-          that kept their place.
+          The "Remind me later" path: foundation already built, one email on
+          the day they picked, deep-linking straight into the chat.
         </p>
       </div>
       <div class="vf-device vf-tool">
-        <div class="vf-rail-band">The "Not now" path</div>
+        <div class="vf-rail-band">The "Remind me later" path</div>
         <div class="vf-rail">
-          <div class="vf-rail-sect">Six days later, in their inbox</div>
+          <div class="vf-rail-sect">On the day they picked, in their inbox</div>
           <div class="vf-email">
             <div class="vf-pin" style="top: -11px; right: -8px">6</div>
             <div class="vf-email-head">
@@ -3210,9 +3214,10 @@
         <div class="vf-legend-text">
           <strong>The email rail and welcome-back fallback.</strong
           ><span
-            >"Not now" costs nothing. One plain XO-authored email a week later,
-            referencing the Mirror privately, deep-linking into a welcome-back
-            greeting that kept their place. Patient, never pushy.</span
+            >"Remind me later" builds the foundation now; the email arrives on
+            the day the user picked and deep-links straight into the chat,
+            where the greeting has kept their place. "No thanks" builds
+            nothing and sends nothing. Patient, never pushy.</span
           >
         </div>
       </div>
