@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Documented screens and behavior for Mirror return, recovery, and data deletion."
+    />
+    <title>Mirror Return &amp; Reset — Documentation</title>
+    <style>
+      :root {
+        --ink: #112036;
+        --muted: #5d6675;
+        --green: #168457;
+        --paper: #f7f5ef;
+        --card: #fff;
+        --line: #dcdedb;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.55;
+      }
+      a { color: inherit; }
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px clamp(20px, 4vw, 64px);
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.95);
+      }
+      .brand { font-family: Georgia, serif; font-size: 20px; text-decoration: none; }
+      .brand span, .eyebrow, .shot-number { color: var(--green); }
+      .index-link { color: var(--muted); font-size: 14px; }
+      .hero, .summary, .section, .verification, footer, .section-nav {
+        width: min(1240px, calc(100% - 44px));
+        margin-inline: auto;
+      }
+      .hero { padding: clamp(64px, 9vw, 120px) 0 72px; border-bottom: 1px solid var(--line); }
+      .eyebrow {
+        margin: 0 0 16px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      h1, h2, h3, p { margin-top: 0; }
+      h1, h2 { font-family: Georgia, serif; font-weight: 400; }
+      h1 { max-width: 920px; margin-bottom: 24px; font-size: clamp(44px, 7vw, 80px); line-height: 1.05; }
+      .lede { max-width: 780px; margin-bottom: 32px; color: var(--muted); font-size: 20px; line-height: 1.6; }
+      .facts { display: flex; flex-wrap: wrap; gap: 10px; }
+      .facts span { padding: 9px 13px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--muted); font-size: 13px; }
+      .summary { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 7vw, 96px); padding: 80px 0; border-bottom: 1px solid var(--line); }
+      .summary h2, .section h2, .verification h2 { font-size: clamp(34px, 5vw, 56px); line-height: 1.1; }
+      .summary > p, .section-heading > p { color: var(--muted); font-size: 17px; line-height: 1.7; }
+      .section-nav { display: flex; overflow-x: auto; border-bottom: 1px solid var(--line); }
+      .section-nav a { min-width: 170px; padding: 24px 24px 24px 0; text-decoration: none; font-size: 14px; font-weight: 600; }
+      .section-nav span { display: block; margin-bottom: 6px; color: var(--green); font-size: 11px; }
+      .section { scroll-margin-top: 80px; display: grid; grid-template-columns: 280px 1fr; gap: clamp(36px, 7vw, 96px); padding: 88px 0; border-bottom: 1px solid var(--line); }
+      .section-heading { position: sticky; top: 100px; align-self: start; }
+      .section-heading h2 { font-size: 40px; }
+      .section-heading > p { font-size: 15px; }
+      .gallery { display: grid; gap: 48px; }
+      .shot { margin: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: var(--card); }
+      .shot > a { display: block; background: #eee; }
+      .shot img { display: block; width: 100%; height: auto; }
+      .shot figcaption { display: grid; grid-template-columns: 42px 1fr; gap: 14px; padding: 20px 22px 23px; }
+      .shot-number { font-size: 12px; }
+      .shot h3 { margin-bottom: 6px; font-size: 17px; }
+      .shot p { margin: 0; color: var(--muted); font-size: 14px; }
+      .verification { padding: 96px 0 72px; }
+      .verification-grid { display: grid; grid-template-columns: 1fr 1fr; margin-top: 40px; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: #fff; }
+      .verification-grid div { padding: 26px; }
+      .verification-grid div:nth-child(odd) { border-right: 1px solid var(--line); }
+      .verification-grid div:nth-child(n + 3) { border-top: 1px solid var(--line); }
+      .verification-grid p, .limitations { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+      .limitations { margin-top: 24px; max-width: 900px; }
+      footer { display: flex; justify-content: space-between; gap: 20px; padding: 28px 0 44px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+      @media (max-width: 800px) {
+        .summary, .section { grid-template-columns: 1fr; }
+        .section-heading { position: static; }
+        .verification-grid { grid-template-columns: 1fr; }
+        .verification-grid div:nth-child(odd) { border-right: 0; }
+        .verification-grid div:nth-child(n + 2) { border-top: 1px solid var(--line); }
+        footer { flex-direction: column; }
+      }
+      @media (max-width: 480px) {
+        .hero, .summary, .section, .verification, footer, .section-nav { width: min(100% - 28px, 1240px); }
+        .topbar { padding: 14px; }
+        .index-link { font-size: 12px; }
+        .shot { border-radius: 12px; }
+        .shot figcaption { padding: 17px; }
+      }
+      @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="../">BrilliantWith<span>.ai</span></a>
+      <a class="index-link" href="../">All shared artifacts</a>
+    </header>
+
+    <main>
+      <section class="hero" id="top">
+        <p class="eyebrow">Mirror return, recovery, and deletion</p>
+        <h1>Mirror return, recovery, and deletion</h1>
+        <p class="lede">This page documents what users see when they return to Mirror, start another interview, recover a report, or delete Mirror data.</p>
+        <div class="facts"><span>20 screenshots</span><span>Desktop views</span><span>Synthetic data only</span></div>
+      </section>
+
+      <section class="summary">
+        <div><p class="eyebrow">Behavior summary</p><h2>Return actions now have separate labels.</h2></div>
+        <p>The previous screen used “Continue” for more than one possible action. The current screen labels resume, new interview, and data deletion separately. Starting from any Mirror page now leads to the same result for the same saved account data.</p>
+      </section>
+
+      <nav class="section-nav" aria-label="Documentation sections">
+        <a href="#return"><span>01</span>Return</a>
+        <a href="#saved-information"><span>02</span>Saved information</a>
+        <a href="#reports"><span>03</span>Reports and recovery</a>
+        <a href="#delete"><span>04</span>Delete my data</a>
+      </nav>
+
+      <section class="section" id="return">
+        <div class="section-heading"><p class="eyebrow">01</p><h2>Return</h2><p>Mirror checks saved account data before showing a completed report, an unfinished interview, or the first-time start screen.</p></div>
+        <div class="gallery">
+          <figure class="shot"><a href="screenshots/mirror-return__01-first-time-start__desktop-1440@2x.png"><img src="screenshots/mirror-return__01-first-time-start__desktop-1440@2x.png" alt="Mirror first-time start screen" width="2880" height="2000" /></a><figcaption><span class="shot-number">01</span><div><h3>First-time start</h3><p>This screen appears for a new user and after Mirror data is deleted successfully.</p></div></figcaption></figure>
+          <figure class="shot"><a href="screenshots/mirror-return__02-return-loading__desktop-1440@2x.png"><img src="screenshots/mirror-return__02-return-loading__desktop-1440@2x.png" alt="Mirror checking saved data screen" width="2880" height="2000" loading="lazy" /></a><figcaption><span class="shot-number">02</span><div><h3>Checking saved data</h3><p>Mirror checks the account for saved interviews, intake answers, and reports before showing the next screen.</p></div></figcaption></figure>
+          <figure class="shot"><a href="screenshots/mirror-return__03-single-unfinished__desktop-1440@2x.png"><img src="screenshots/mirror-return__03-single-unfinished__desktop-1440@2x.png" alt="Mirror screen with one unfinished interview" width="2880" height="2000" loading="lazy" /></a><figcaption><span class="shot-number">03</span><div><h3>One unfinished interview</h3><p>The user can resume the interview, review saved information before starting another interview, or delete all saved Mirror data.</p></div></figcaption></figure>
+          <figure class="shot"><a href="screenshots/mirror-return__04-multiple-unfinished__desktop-1440@2x.png"><img src="screenshots/mirror-return__04-multiple-unfinished__desktop-1440@2x.png" alt="Mirror screen with more than one unfinished interview" width="2880" height="2000" loading="lazy" /></a><figcaption><span class="shot-number">04</span><div><h3>More than one unfinished interview</h3><p>If more than one unfinished interview exists, the user selects one by date and saved response count.</p></div></figcaption></figure>
+          <figure class="shot"><a href="screenshots/mirror-return__12-return-error__desktop-1440@2x.png"><img src="screenshots/mirror-return__12-return-error__desktop-1440@2x.png" alt="Mirror saved data loading error" width="2880" height="2000" loading="lazy" /></a><figcaption><span class="shot-number">12</span><div><h3>Saved data could not be loaded</h3><p>If Mirror cannot load the user’s saved data, it shows an error and a Retry button. It does not send the user to the first-time start screen.</p></div></figcaption></figure>
+        </div>
+      </section>
+
+      <section class="section" id="saved-information">
+        <div class="section-heading"><p class="eyebrow">02</p><h2>Saved information</h2><p>Before another interview starts, the user can review or edit intake answers already saved in the account.</p></div>
+        <div class="gallery">
+          <figure class="shot"><a href="screenshots/mirror-return__05-saved-info-review__desktop-1440@2x.png"><img src="screenshots/mirror-return__05-saved-info-review__desktop-1440@2x.png" alt="Mirror saved information review screen" width="2880" height="2000" loading="lazy" /></a><figcaption><span class="shot-number">05</span><div><h3>Review saved information</h3><p>The user can review saved intake answers before starting another interview.</p></div></figcaption></figure>
+          <figure class="shot"><a href="screenshots/mirror-return__18-saved-info-edit__desktop-1440@2x.png"><img src="screenshots/mirror-return__18-saved-info-edit__desktop-1440@2x.png" alt="Mirror saved information edit form" width="2880" height="2000" loading="lazy" /></a><figcaption><span class="shot-number">18</span><div><h3>Edit saved information</h3><p>The saved intake form opens with existing values. Changes must save before the interview starts.</p></div></figcaption></figure>
+          <figure class="shot"><a href="screenshots/mirror-return__06-saved-info-loading__desktop-1440@2x.png"><img src="screenshots/mirror-return__06-saved-info-loading__desktop-1440@2x.png" alt="Mirror loading saved information screen" width="2880" height="2000" loading="lazy" /></a><figcaption><span class="shot-number">06</span><div><h3>Loading saved information</h3><p>This screen appears while saved intake answers are loading.</p></div></figcaption></figure>
+          <figure class="shot"><a href="screenshots/mirror-return__07-saved-info-error__desktop-1440@2x.png"><img src="screenshots/mirror-return__07-saved-info-error__desktop-1440@2x.png" alt="Mirror saved information error screen" width="2880" height="2000" loading="lazy" /></a><figcaption><span class="shot-number">07</span><div><h3>Saved information unavailable</h3><p>If saved intake answers cannot be loaded, the user can retry. The form does not open with blank fields.</p></div></figcaption></figure>
+        </div>
+      </section>
+
+      <section class="section" id="reports">
+        <div class="section-heading"><p class="eyebrow">03</p><h2>Reports and recovery</h2><p>Completed reports remain available. If a completed interview has no report, the user can generate it again from the saved interview.</p></div>
+        <div class="gallery">
+          <figure class="shot"><a href="screenshots/mirror-return__08-completed-report__desktop-1440@2x.png"><img src="screenshots/mirror-return__08-completed-report__desktop-1440@2x.png" alt="Completed Mirror report" width="2880" height="2000" loading="lazy" /></a><figcaption><span class="shot-number">08</span><div><h3>Completed report</h3><p>The latest completed report is shown when the user returns.</p></div></figcaption></figure>
+          <figure class="shot"><a href="screenshots/mirror-return__20-completed-with-recovery__desktop-1440@2x.png"><img src="screenshots/mirror-return__20-completed-with-recovery__desktop-1440@2x.png" alt="Completed Mirror report with another report recovery available" width="2880" height="2000" loading="lazy" /></a><figcaption><span class="shot-number">20</span><div><h3>Completed report and report recovery</h3><p>The existing report remains visible. A separate button starts report recovery for a later interview and identifies it by date.</p></div></figcaption></figure>
+          <figure class="shot"><a href="screenshots/mirror-return__09-recovery-offer__desktop-1440@2x.png"><img src="screenshots/mirror-return__09-recovery-offer__desktop-1440@2x.png" alt="Mirror report recovery available screen" width="2880" height="2000" loading="lazy" /></a><figcaption><span class="shot-number">09</span><div><h3>Report recovery available</h3><p>If an interview is complete but its report is missing, the user can generate the report from the saved interview.</p></div></figcaption></figure>
+          <figure class="shot"><a href="screenshots/mirror-return__10-recovery-generating__desktop-1440@2x.png"><img src="screenshots/mirror-return__10-recovery-generating__desktop-1440@2x.png" alt="Mirror report generation in progress" width="2880" height="2000" loading="lazy" /></a><figcaption><span class="shot-number">10</span><div><h3>Report generation in progress</h3><p>This screen appears while Mirror generates the missing report.</p></div></figcaption></figure>
+          <figure class="shot"><a href="screenshots/mirror-return__11-recovery-error__desktop-1440@2x.png"><img src="screenshots/mirror-return__11-recovery-error__desktop-1440@2x.png" alt="Mirror report generation failed screen" width="2880" height="2000" loading="lazy" /></a><figcaption><span class="shot-number">11</span><div><h3>Report generation failed</h3><p>If report generation fails, the interview remains saved. The user can retry or start another interview.</p></div></figcaption></figure>
+          <figure class="shot"><a href="screenshots/mirror-return__19-recovery-save-error__desktop-1440@2x.png"><img src="screenshots/mirror-return__19-recovery-save-error__desktop-1440@2x.png" alt="Generated Mirror report could not be saved" width="2880" height="2000" loading="lazy" /></a><figcaption><span class="shot-number">19</span><div><h3>Generated report could not be saved</h3><p>The user can retry saving without regenerating the report while the page remains open. Refreshing the page may require generating the report again.</p></div></figcaption></figure>
+        </div>
+      </section>
+
+      <section class="section" id="delete">
+        <div class="section-heading"><p class="eyebrow">04</p><h2>Delete my data</h2><p>Delete my data is in Settings. It requires exact text confirmation and reports incomplete deletion as an error.</p></div>
+        <div class="gallery">
+          <figure class="shot"><a href="screenshots/mirror-return__13-settings-menu__desktop-1440@2x.png"><img src="screenshots/mirror-return__13-settings-menu__desktop-1440@2x.png" alt="Mirror Settings menu" width="2880" height="2000" loading="lazy" /></a><figcaption><span class="shot-number">13</span><div><h3>Settings</h3><p>The Settings menu contains options to clear browser data or delete Mirror data.</p></div></figcaption></figure>
+          <figure class="shot"><a href="screenshots/mirror-return__14-delete-confirmation__desktop-1440@2x.png"><img src="screenshots/mirror-return__14-delete-confirmation__desktop-1440@2x.png" alt="Mirror data deletion confirmation dialog" width="2880" height="2000" loading="lazy" /></a><figcaption><span class="shot-number">14</span><div><h3>Deletion confirmation</h3><p>Before deletion, the dialog lists the Mirror data that will be cleared and the data that may remain in other systems.</p></div></figcaption></figure>
+          <figure class="shot"><a href="screenshots/mirror-return__15-delete-confirmed__desktop-1440@2x.png"><img src="screenshots/mirror-return__15-delete-confirmed__desktop-1440@2x.png" alt="Mirror data deletion typed confirmation" width="2880" height="2000" loading="lazy" /></a><figcaption><span class="shot-number">15</span><div><h3>Typed confirmation</h3><p>The Delete my data button is enabled only after the user types DELETE MY DATA.</p></div></figcaption></figure>
+          <figure class="shot"><a href="screenshots/mirror-return__16-delete-pending__desktop-1440@2x.png"><img src="screenshots/mirror-return__16-delete-pending__desktop-1440@2x.png" alt="Mirror data deletion in progress" width="2880" height="2000" loading="lazy" /></a><figcaption><span class="shot-number">16</span><div><h3>Deletion in progress</h3><p>The dialog remains open and disables additional actions while deletion is in progress.</p></div></figcaption></figure>
+          <figure class="shot"><a href="screenshots/mirror-return__17-delete-error__desktop-1440@2x.png"><img src="screenshots/mirror-return__17-delete-error__desktop-1440@2x.png" alt="Mirror data deletion failed screen" width="2880" height="2000" loading="lazy" /></a><figcaption><span class="shot-number">17</span><div><h3>Deletion failed</h3><p>If deletion fails, the dialog explains that some Mirror data may already be blank and offers a retry.</p></div></figcaption></figure>
+        </div>
+      </section>
+
+      <section class="verification">
+        <p class="eyebrow">Verification</p>
+        <h2>Current verification results.</h2>
+        <div class="verification-grid">
+          <div><strong>Return tests</strong><p>Refresh, logout and login, a different browser, and cleared browser data were tested.</p></div>
+          <div><strong>Automated checks</strong><p>2,684 web tests passed with one intentional skip; lint completed with zero errors; the production build passed.</p></div>
+          <div><strong>Screenshots</strong><p>All 20 images are 2880×2000 desktop captures using fictional Avery Raman and Meridian Talent data.</p></div>
+          <div><strong>Release status</strong><p>The product correction is committed locally but has not been pushed, merged, or deployed. Production remains unchanged.</p></div>
+        </div>
+        <p class="limitations"><strong>Not included:</strong> named concurrent Mirrors for different employers, clients, or areas of life; guaranteed physical deletion from every system that retains data; mobile product screenshots.</p>
+      </section>
+    </main>
+
+    <footer><span>BrilliantWith.ai</span><span>Mirror behavior documentation · July 2026</span></footer>
+  </body>
+</html>
