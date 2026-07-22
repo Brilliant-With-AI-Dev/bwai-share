@@ -13,9 +13,11 @@ Single-branch static-HTML site. Every push to `main` deploys to https://bwai-sha
 
 ## Branch protection — main commits
 
-User's global `~/.claude/hooks/bash-guard.py` blocks direct commits/pushes to `main` unless the repo is in `BRANCH_PROTECTION_EXEMPT_REPOS`. If `bwai-share` is in that list, commit on `main` normally.
+`bwai-share` is in the low-friction zone (see the Git section of `~/dotfiles/ai/AGENTS.md`): **commit and push directly to `main`, no branch, no PR, no approval.**
 
-If blocked:
+Two guards must both allow it, and both now do: `BRANCH_PROTECTION_EXEMPT_REPOS` in `~/.claude/hooks/bash-guard.py` (commits and pushes) and `PROTECTED_BRANCH_REPO_ALLOWLIST` in `~/.claude/hooks/file-guard.py` (editing files on `main`). A linked worktree does not inherit the second one — it matches on path.
+
+Fallback, only if that changes and a guard blocks you:
 
 1. `git checkout -b feat/<slug>` — commit there
 2. `git push -u origin feat/<slug>`
