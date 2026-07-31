@@ -384,7 +384,7 @@
         white-space: nowrap;
       }
 
-      .flow a.bwai-led .num::after {
+      .flow a.readout .num::after {
         content: "";
         display: inline-block;
         width: 5px;
@@ -414,27 +414,29 @@
         box-shadow: var(--shadow);
       }
 
-      #stage-2 {
+      #stage-2,
+      #stage-3 {
         --stage-color: var(--aqua);
         --stage-soft: var(--aqua-soft);
       }
 
-      #stage-2a {
+      #stage-4,
+      #stage-5 {
         --stage-color: var(--violet);
         --stage-soft: var(--violet-soft);
       }
 
-      #stage-3 {
+      #stage-6 {
+        --stage-color: var(--gold);
+        --stage-soft: var(--gold-soft);
+      }
+
+      #stage-7 {
         --stage-color: var(--coral);
         --stage-soft: var(--coral-soft);
       }
 
-      #stage-3a {
-        --stage-color: var(--violet);
-        --stage-soft: var(--violet-soft);
-      }
-
-      #stage-4 {
+      #stage-8 {
         --stage-color: var(--gold);
         --stage-soft: var(--gold-soft);
       }
@@ -515,6 +517,11 @@
       .badge.private {
         background: var(--aqua-soft);
         color: var(--aqua);
+      }
+
+      .badge.off-product {
+        background: var(--gold-soft);
+        color: var(--gold);
       }
 
       .uses {
@@ -947,17 +954,23 @@
       </div>
 
       <nav class="flow" id="flow" aria-label="Planning stages">
-        <a href="#stage-1"><span class="num">1</span><span class="lbl">Definition</span></a>
+        <a href="#stage-0"><span class="num">0</span><span class="lbl">Kickoff</span></a>
         <span class="arrow" aria-hidden="true">→</span>
-        <a href="#stage-2"><span class="num">2</span><span class="lbl">Shaping</span></a>
+        <a href="#stage-1"><span class="num">1</span><span class="lbl">Onboard</span></a>
         <span class="arrow" aria-hidden="true">→</span>
-        <a href="#stage-2a" class="bwai-led"><span class="num">2A</span><span class="lbl">Synthesis</span></a>
+        <a href="#stage-2"><span class="num">2</span><span class="lbl">Shape</span></a>
         <span class="arrow" aria-hidden="true">→</span>
-        <a href="#stage-3"><span class="num">3</span><span class="lbl">Participants</span></a>
+        <a href="#stage-3" class="readout" title="Internal synthesis precedes this readout"><span class="num">3</span><span class="lbl">Plan</span></a>
         <span class="arrow" aria-hidden="true">→</span>
-        <a href="#stage-3a" class="bwai-led"><span class="num">3A</span><span class="lbl">Group synthesis</span></a>
+        <a href="#stage-4"><span class="num">4</span><span class="lbl">Planning</span></a>
         <span class="arrow" aria-hidden="true">→</span>
-        <a href="#stage-4"><span class="num">4</span><span class="lbl">Delivery</span></a>
+        <a href="#stage-5" class="readout" title="Internal synthesis precedes this readout"><span class="num">5</span><span class="lbl">Picture</span></a>
+        <span class="arrow" aria-hidden="true">→</span>
+        <a href="#stage-6"><span class="num">6</span><span class="lbl">GoTu plans</span></a>
+        <span class="arrow" aria-hidden="true">→</span>
+        <a href="#stage-7"><span class="num">7</span><span class="lbl">Wrapup</span></a>
+        <span class="arrow" aria-hidden="true">→</span>
+        <a href="#stage-8" class="readout" title="Internal synthesis precedes this readout"><span class="num">8</span><span class="lbl">Next quarter</span></a>
       </nav>
 
       <div class="slides">
@@ -971,13 +984,13 @@
           </div>
           <aside class="hero-aside" aria-label="Flow summary">
             <ol class="hero-path">
-              <li><span>01</span>Define the planning goal</li>
-              <li><span>02</span>Shape the process privately</li>
-              <li><span>03</span>Gather participant insight</li>
-              <li><span>04</span>Turn insight into action</li>
+              <li><span>01</span>Set up the Mirror</li>
+              <li><span>02</span>Shape what comes next</li>
+              <li><span>03</span>Build the planning picture</li>
+              <li><span>04</span>Learn into next quarter</li>
             </ol>
             <p class="pilot-note">
-              <strong>Initial-cycle support:</strong> Because this is the first Planning Mirror for GoTu, BWAI will play a more active role than in future cycles.
+              <strong>One lead, clear boundary:</strong> Tevano leads the experience. Gerardo joins as a Shaper. GoTu runs planning in its own room and makes every call.
             </p>
           </aside>
         </header>
@@ -996,150 +1009,216 @@
           </ol>
         </section>
 
-        <section class="stage slide" id="stage-1" data-slide-title="Stage 1: Definition">
+        <section class="stage slide" id="stage-0" data-slide-title="Stage 0: Kickoff">
+          <div class="stage-rail">
+            <span class="stage-number">00</span>
+            <span class="stage-kind">Confirm the start</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head"><h2>Kickoff</h2></div>
+            <p class="uses">Starting point · Tevano + BWAI</p>
+            <p>
+              Tevano and BWAI have a brief call to confirm that the planned app experience, participants, timing, and starting materials are good to go.
+            </p>
+            <div class="produces">
+              <span class="tag">Produces</span>
+              <span>A confirmed starting setup for the first GoTu Planning Mirror.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="stage slide" id="stage-1" data-slide-title="Stage 1: Onboard the Mirror">
           <div class="stage-rail">
             <span class="stage-number">01</span>
-            <span class="stage-kind">Set direction</span>
+            <span class="stage-kind">Teach the Mirror</span>
           </div>
           <div class="stage-body">
-            <div class="stage-head"><h2>Definition</h2></div>
-            <p class="uses">Starting point · broad parameters + current materials</p>
+            <div class="stage-head">
+              <h2>Onboard the Mirror</h2>
+              <span class="badge private">Private conversations</span>
+            </div>
+            <p class="uses">Lead · Tevano</p>
             <p>
-              After a short call with BWAI to set broad parameters<a class="fnref" href="#fn-1" id="fnref-1">*</a>, the GoTu planning lead onboards the Planning Mirror like a new team member, through current process documents and Mirror interviews.
+              Tevano completes a private 1:1 Mirror. Through conversation and current materials, the Mirror learns GoTu's business and planning context like a new team member.
             </p>
             <div class="produces">
               <span class="tag">Produces</span>
-              <span>A planning brief—goals, roles, scope, reasons, named Process Shapers for Stage 2, and participant groups for Stage 3—plus LLM-optimized versions of current process documentation.</span>
+              <span>Rich business context and initial direction for the experience that follows.</span>
             </div>
-            <p class="footnote" id="fn-1">
-              * We can't design useful interviews until we know who will have them and why. Documents describe a past process, not this one. <a class="fnref" href="#fnref-1">↩</a>
-            </p>
           </div>
         </section>
 
-        <section class="stage slide" id="stage-2" data-slide-title="Stage 2: Shaping">
+        <section class="stage slide" id="stage-2" data-slide-title="Stage 2: Shaping Mirrors">
           <div class="stage-rail">
             <span class="stage-number">02</span>
-            <span class="stage-kind">Shape privately</span>
+            <span class="stage-kind">Shape what follows</span>
           </div>
           <div class="stage-body">
             <div class="stage-head">
-              <h2>Shaping</h2>
-              <span class="badge private">Private conversations</span>
+              <h2>Shaping Mirrors</h2>
+              <span class="badge private">Private 1:1 Mirrors</span>
             </div>
-            <p class="uses">Uses · Stage 1 planning brief + documentation</p>
+            <p class="uses">Participants · Gerardo, Cary, Ed + selected leaders</p>
             <p>
-              The Process Shapers complete private Mirror conversations. Each conversation may draw on the person's own Mirror context, approved GoTu Mirror artifacts, and Stage 1 outputs.
+              Selected leaders complete private Mirrors. Their input defines and informs subsequent stages: what to explore, who should participate, what useful outputs look like, and where planning may get stuck.
+            </p>
+            <p>
+              These can run in rounds. After the leadership round, Tevano makes the go/no-go call on expanding one level down. <b>For the MVP, BWAI strongly recommends stopping with leaders.</b>
             </p>
             <div class="produces">
               <span class="tag">Produces</span>
-              <span>Private insights for each Shaper, plus distilled insights toward the shared plan.</span>
+              <span>Participant-approved insights that shape the rest of GoTu's Planning Mirror.</span>
             </div>
           </div>
         </section>
 
-        <section class="stage slide" id="stage-2a" data-slide-title="Stage 2A: Synthesis and approval">
-          <div class="stage-rail">
-            <span class="stage-number">2A</span>
-            <span class="stage-kind">Approve the runbook</span>
-          </div>
-          <div class="stage-body">
-            <div class="stage-head">
-              <h2>Synthesis and approval</h2>
-              <span class="badge bwai">BWAI · human-led</span>
-            </div>
-            <p class="uses">Uses · Stage 1–2 outputs</p>
-            <p>
-              BWAI reviews and combines the Stage 1–2 outputs into an approved planning runbook: the order and purpose of each participant round; prompts, goals, and outputs; and review, privacy, release, and decision rules.
-            </p>
-            <p>
-              This human-led step matters most with multiple Process Shapers. The product can automate more later, but not in the first cycle.
-            </p>
-            <div class="produces">
-              <span class="tag">Produces</span>
-              <span>The approved planning runbook that governs Stages 3–4.</span>
-            </div>
-          </div>
-        </section>
-
-        <section class="stage slide" id="stage-3" data-slide-title="Stage 3: Participant conversations">
+        <section class="stage slide" id="stage-3" data-slide-title="Stage 3: The plan for planning">
           <div class="stage-rail">
             <span class="stage-number">03</span>
-            <span class="stage-kind">Hear every voice</span>
+            <span class="stage-kind">Leadership readout 1</span>
           </div>
           <div class="stage-body">
             <div class="stage-head">
-              <h2>Participant conversations</h2>
-              <span class="badge private">Private conversations</span>
+              <h2>The plan for planning</h2>
+              <span class="badge bwai">Leadership readout</span>
             </div>
-            <p class="uses">Uses · Stage 2A approved runbook</p>
+            <p class="uses">Uses · Stage 1–2 participant-released inputs only</p>
             <p>
-              Each Planning Participant named in the runbook completes a private Mirror conversation. It follows the runbook's prompts and goals, and may draw on the participant's own Mirror context.
+              GoTu receives its first leadership readout: patterns, insights, gotchas, landmines, and the questions worth carrying into the next part of the experience.
             </p>
             <p>
-              <strong>Trust in practice:</strong> per <button class="rule-chip" data-rule="3">trust rule 3</button>, sharing starts on hold. Each participant approves, revises, or removes every distilled insight before release.
+              <strong>Internal sub-step:</strong> AI synthesis with timeboxed BWAI oversight precedes the readout. This hands-on review is first-cycle product learning, not the go-forward operating model.
             </p>
             <div class="produces">
               <span class="tag">Produces</span>
-              <span>A personal planning playbook (or whatever output the runbook defines), private insights for the participant, and approved distilled insights for the group process.</span>
-            </div>
-            <p class="note">
-              <b>Rounds are possible.</b> Leaders might go first; a later, larger group builds on approved, frozen results. The runbook defines each handoff before participant work begins.
-            </p>
-          </div>
-        </section>
-
-        <section class="stage slide" id="stage-3a" data-slide-title="Stage 3A: Group synthesis">
-          <div class="stage-rail">
-            <span class="stage-number">3A</span>
-            <span class="stage-kind">Find shared patterns</span>
-          </div>
-          <div class="stage-body">
-            <div class="stage-head">
-              <h2>Group synthesis</h2>
-              <span class="badge bwai">BWAI · human-led</span>
-            </div>
-            <p class="uses">Uses · Participant-released inputs only</p>
-            <p>
-              After all required rounds finish, BWAI operates the initial group synthesis using only participant-released inputs.
-            </p>
-            <p>
-              Per the <button class="rule-chip" data-rule="2">confidentiality rules</button>, the draft is LLM- and human-checked for identifying language, misstated views, over-merged themes, and participation below the agreed minimum. <b>Potentially unsafe material stays out. Every edit is recorded.</b>
-            </p>
-            <p class="note">
-              Per <button class="rule-chip" data-rule="4">trust rule 4</button>, BWAI reviews whether non-attributable patterns can be shared without identifying individuals or small groups.
-            </p>
-            <div class="produces">
-              <span class="tag">Produces</span>
-              <span>A group planning readout (the main themes, tensions, risks, and open choices); a Planning Action runbook (decisions to make, proposed actions, and follow-up questions); and any other outputs the runbook agreed to, such as leadership or team insights.</span>
+              <span>A shared view of how to make the next planning conversations useful—without turning the product into a sign-off workflow.</span>
             </div>
           </div>
         </section>
 
-        <section class="stage slide" id="stage-4" data-slide-title="Stage 4: Delivery and action">
+        <section class="stage slide" id="stage-4" data-slide-title="Stage 4: Planning Mirrors">
           <div class="stage-rail">
             <span class="stage-number">04</span>
-            <span class="stage-kind">Make the calls</span>
+            <span class="stage-kind">Personal planning view</span>
           </div>
           <div class="stage-body">
-            <div class="stage-head"><h2>Delivery and action</h2></div>
-            <p class="uses">Uses · Stage 3A readout + action runbook</p>
+            <div class="stage-head">
+              <h2>Planning Mirrors</h2>
+              <span class="badge private">Private 1:1 Mirrors</span>
+            </div>
+            <p class="uses">Uses · The plan for planning</p>
             <p>
-              The Planning Mirror delivers the Stage 3A outputs through a workshop or async process, or both—whichever the runbook chose. (Whether BWAI offers facilitation is TBD.)
+              GoTu leaders complete private planning-focused Mirrors. Each person can explore the shared context through their own perspective while keeping their conversation private.
             </p>
             <p>
-              GoTu's leaders and teams rank priorities, revise proposals, make decisions, assign owners, and set dates. The product guides the work; GoTu's people make the calls.
+              <strong>Trust in practice:</strong> per <button class="rule-chip" data-rule="3">trust rule 3</button>, sharing starts on hold. Each person approves, revises, or removes every distilled insight before release.
             </p>
             <div class="produces">
               <span class="tag">Produces</span>
-              <span>Decisions, actions, owners, dates, follow-up measures, and GoTu's decision to continue, revise, or stop the approach for the next cycle.</span>
+              <span>A personal Mirror letter for each leader, private insights, and approved inputs for the shared planning picture.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="stage slide" id="stage-5" data-slide-title="Stage 5: The planning picture">
+          <div class="stage-rail">
+            <span class="stage-number">05</span>
+            <span class="stage-kind">Leadership readout 2</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>The planning picture</h2>
+              <span class="badge bwai">Readout + group artifacts</span>
+            </div>
+            <p class="uses">Uses · Participant-released Planning Mirror inputs</p>
+            <p>
+              GoTu receives a second leadership readout and group Mirror artifacts: shared themes, tensions, choices, and issues worth bringing into planning.
+            </p>
+            <p>
+              <strong>Internal sub-step:</strong> AI synthesis with timeboxed BWAI oversight precedes the readout. Letting leaders chat with the finished artifacts remains a possible MVP addition, not a commitment.
+            </p>
+            <div class="produces">
+              <span class="tag">Produces</span>
+              <span>The shared planning picture Tevano can use and distribute. The app distributes nothing on GoTu's behalf.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="stage slide" id="stage-6" data-slide-title="Stage 6: GoTu plans">
+          <div class="stage-rail">
+            <span class="stage-number">06</span>
+            <span class="stage-kind">Their room, their calls</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>GoTu plans</h2>
+              <span class="badge off-product">Off-product</span>
+            </div>
+            <p class="uses">Uses · The planning picture</p>
+            <p>
+              GoTu runs its planning meetings, async work, or both. Tevano distributes any shared materials. GoTu's leaders rank priorities, make decisions, assign owners, and set dates.
+            </p>
+            <p>
+              <strong>Clear boundary:</strong> BWAI does not facilitate or sit in the room. The product supports planning; GoTu's people plan.
+            </p>
+            <div class="produces">
+              <span class="tag">Produces</span>
+              <span>GoTu's decisions, actions, owners, dates, and lessons from the planning process.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="stage slide" id="stage-7" data-slide-title="Stage 7: Wrapup Mirrors">
+          <div class="stage-rail">
+            <span class="stage-number">07</span>
+            <span class="stage-kind">Learn forward</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>Wrapup Mirrors</h2>
+              <span class="badge private">Private 1:1 Mirrors</span>
+            </div>
+            <p class="uses">Participants · Tevano + top leaders</p>
+            <p>
+              After GoTu plans, Tevano and selected leaders complete private Mirrors focused on what worked, what did not, what changed, and what the next quarterly cycle should know.
+            </p>
+            <p>
+              This is not a post-project formality. It turns lessons learned into better context for the next quarter's planning.
+            </p>
+            <div class="produces">
+              <span class="tag">Produces</span>
+              <span>Personal reflections and approved lessons to carry into the next quarterly planning cycle.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="stage slide" id="stage-8" data-slide-title="Stage 8: The next-quarter brief">
+          <div class="stage-rail">
+            <span class="stage-number">08</span>
+            <span class="stage-kind">Close the loop</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>The next-quarter brief</h2>
+              <span class="badge bwai">Final leadership readout</span>
+            </div>
+            <p class="uses">Uses · Decisions + participant-released wrapup inputs</p>
+            <p>
+              GoTu receives a final leadership readout and artifacts carrying this quarter's decisions and lessons into the next planning cycle.
+            </p>
+            <p>
+              <strong>Internal sub-step:</strong> AI synthesis with timeboxed BWAI oversight precedes the readout. The result becomes starting context when the next quarterly Planning Mirror begins.
+            </p>
+            <div class="produces">
+              <span class="tag">Produces</span>
+              <span>A durable next-quarter brief—closing this cycle and strengthening the next one.</span>
             </div>
           </div>
         </section>
       </div>
 
       <div class="deck-controls" aria-label="Slide controls">
-        <span class="slide-count" id="slide-count" aria-live="polite">1 / 8</span>
+        <span class="slide-count" id="slide-count" aria-live="polite">1 / 11</span>
         <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progress-fill"></div></div>
         <button class="deck-button" id="previous-slide" type="button">← Previous</button>
         <button class="deck-button primary" id="next-slide" type="button">Next →</button>
