@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GoTu Planning Flow — Planning Mirror</title>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --subtle: #f6f8fa;
+        --ink: #1f2328;
+        --ink-2: #59636e;
+        --line: #d1d9e0;
+        --accent: #0969da;
+        --accent-soft: #ddf4ff;
+        --done: #1a7f37;
+        --done-soft: #dafbe1;
+        --attn: #9a6700;
+        --attn-soft: #fff8c5;
+        --bwai: #8250df;
+        --bwai-soft: #fbefff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica,
+          Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 48px 24px 96px;
+      }
+      h1 {
+        font-size: 30px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        margin: 0 0 6px;
+      }
+      .lede {
+        color: var(--ink-2);
+        margin: 0 0 28px;
+        font-size: 17px;
+      }
+      /* callout */
+      .callout {
+        border: 1px solid var(--line);
+        border-left: 4px solid var(--attn);
+        background: var(--attn-soft);
+        border-radius: 6px;
+        padding: 12px 16px;
+        margin: 0 0 28px;
+        font-size: 15px;
+      }
+      /* trust card */
+      .trust {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--subtle);
+        padding: 20px 22px;
+        margin: 0 0 36px;
+      }
+      .trust h2 {
+        margin: 0 0 6px;
+        font-size: 19px;
+      }
+      .trust p {
+        margin: 0 0 12px;
+        color: var(--ink-2);
+        font-size: 15px;
+      }
+      .trust ol {
+        margin: 0;
+        padding-left: 22px;
+      }
+      .trust li {
+        margin: 0 0 10px;
+        padding-left: 4px;
+      }
+      .trust li:last-child {
+        margin-bottom: 0;
+      }
+      .trust li::marker {
+        font-weight: 600;
+        color: var(--accent);
+      }
+      /* flow diagram */
+      .flow {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        background: var(--bg);
+        border-bottom: 1px solid var(--line);
+        margin: 0 -24px 36px;
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex-wrap: wrap;
+      }
+      .flow a {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: var(--ink-2);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 6px 10px;
+        min-width: 74px;
+        background: var(--bg);
+        transition:
+          border-color 0.15s,
+          background 0.15s;
+      }
+      .flow a .num {
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--ink);
+      }
+      .flow a .lbl {
+        font-size: 11px;
+        white-space: nowrap;
+      }
+      .flow a.bwai-led .num::after {
+        content: " ●";
+        color: var(--bwai);
+        font-size: 10px;
+      }
+      .flow a:hover {
+        border-color: var(--accent);
+      }
+      .flow a.active {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+      }
+      .flow .arrow {
+        color: var(--ink-2);
+        font-size: 14px;
+        flex: 0 0 auto;
+      }
+      .flow-key {
+        font-size: 11px;
+        color: var(--ink-2);
+        margin-left: auto;
+        white-space: nowrap;
+      }
+      .flow-key .dot {
+        color: var(--bwai);
+      }
+      /* stages */
+      section.stage {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 22px 24px;
+        margin: 0 0 20px;
+        scroll-margin-top: 90px;
+      }
+      .stage-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 4px;
+      }
+      .stage h2 {
+        font-size: 20px;
+        margin: 0;
+      }
+      .badge {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        border-radius: 999px;
+        padding: 2px 10px;
+        white-space: nowrap;
+      }
+      .badge.bwai {
+        background: var(--bwai-soft);
+        color: var(--bwai);
+      }
+      .badge.private {
+        background: var(--done-soft);
+        color: var(--done);
+      }
+      .uses {
+        font-size: 12.5px;
+        color: var(--ink-2);
+        margin: 0 0 12px;
+      }
+      .uses b {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .stage p {
+        margin: 0 0 12px;
+      }
+      .stage p:last-child {
+        margin-bottom: 0;
+      }
+      .produces {
+        border: 1px solid var(--line);
+        border-left: 4px solid var(--done);
+        background: var(--subtle);
+        border-radius: 6px;
+        padding: 10px 14px;
+        margin: 14px 0 0;
+        font-size: 15px;
+      }
+      .produces .tag {
+        display: block;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--done);
+        margin-bottom: 2px;
+      }
+      .note {
+        border-top: 1px dashed var(--line);
+        margin-top: 14px;
+        padding-top: 10px;
+        font-size: 14.5px;
+        color: var(--ink-2);
+      }
+      .note b {
+        color: var(--ink);
+      }
+      /* rule chips + popover */
+      .rule-chip {
+        display: inline-block;
+        border: 1px solid var(--accent);
+        color: var(--accent);
+        background: var(--bg);
+        border-radius: 999px;
+        font: inherit;
+        font-size: 12.5px;
+        font-weight: 600;
+        line-height: 1.3;
+        padding: 0 8px;
+        cursor: pointer;
+        vertical-align: baseline;
+      }
+      .rule-chip:hover {
+        background: var(--accent-soft);
+      }
+      .popover {
+        position: absolute;
+        z-index: 20;
+        max-width: 340px;
+        background: var(--ink);
+        color: #fff;
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 13.5px;
+        line-height: 1.5;
+        box-shadow: 0 8px 24px rgba(31, 35, 40, 0.2);
+        display: none;
+      }
+      .popover.show {
+        display: block;
+      }
+      .popover .pnum {
+        font-weight: 700;
+        color: #9ecbff;
+        display: block;
+        margin-bottom: 2px;
+      }
+      /* footnote */
+      .fnref {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .footnote {
+        font-size: 14px;
+        color: var(--ink-2);
+        border-top: 1px dashed var(--line);
+        margin-top: 14px;
+        padding-top: 10px;
+        scroll-margin-top: 90px;
+      }
+      footer {
+        margin-top: 48px;
+        font-size: 13px;
+        color: var(--ink-2);
+      }
+      footer a {
+        color: var(--ink-2);
+      }
+      @media (max-width: 560px) {
+        .flow {
+          gap: 2px;
+        }
+        .flow a {
+          min-width: 0;
+          padding: 5px 7px;
+        }
+        .flow a .lbl {
+          display: none;
+        }
+        .flow-key {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>GoTu planning flow</h1>
+        <p class="lede">
+          Each stage below turns broad context into a more specific planning
+          asset. That asset informs the subsequent stage.
+        </p>
+      </header>
+
+      <div class="callout">
+        <b>Note:</b> Because this is the initial version of the Planning Mirror
+        — both for GoTu and generally — BWAI team members will play a more
+        active and direct role in the process than they will in future
+        iterations.
+      </div>
+
+      <section class="trust" id="trust">
+        <h2>Prioritizing Participant Trust</h2>
+        <p>
+          To ensure that each participant, at every point, feels free to share
+          honestly, as a matter of principle and policy:
+        </p>
+        <ol>
+          <li id="rule-1">
+            No one ever sees another person's transcript or personal Mirror
+            artifacts.
+          </li>
+          <li id="rule-2">
+            Strong guardrails, LLM-judgment checkpoints, and
+            participant-controlled sharing permissions ensure that no distilled
+            notes or insights betray any participant's trust or confidence.
+          </li>
+          <li id="rule-3">
+            Each participant approves, revises, or removes every LLM-derived
+            insight/note before it's released for synthesis or sharing.
+          </li>
+          <li id="rule-4">
+            If patterns emerge from de-identified, distilled insights, BWAI will
+            review and determine whether and how to share with GoTu, to ensure
+            that individual confidentiality is protected.
+          </li>
+        </ol>
+      </section>
+
+      <nav class="flow" id="flow">
+        <a href="#stage-1"
+          ><span class="num">1</span><span class="lbl">Definition</span></a
+        >
+        <span class="arrow">→</span>
+        <a href="#stage-2"
+          ><span class="num">2</span><span class="lbl">Shaping</span></a
+        >
+        <span class="arrow">→</span>
+        <a href="#stage-2a" class="bwai-led"
+          ><span class="num">2A</span><span class="lbl">Synthesis</span></a
+        >
+        <span class="arrow">→</span>
+        <a href="#stage-3"
+          ><span class="num">3</span><span class="lbl">Participants</span></a
+        >
+        <span class="arrow">→</span>
+        <a href="#stage-3a" class="bwai-led"
+          ><span class="num">3A</span
+          ><span class="lbl">Group synthesis</span></a
+        >
+        <span class="arrow">→</span>
+        <a href="#stage-4"
+          ><span class="num">4</span><span class="lbl">Delivery</span></a
+        >
+        <span class="flow-key"><span class="dot">●</span> BWAI human-led</span>
+      </nav>
+
+      <section class="stage" id="stage-1">
+        <div class="stage-head">
+          <h2>Stage 1: Definition</h2>
+        </div>
+        <p>
+          After a short call with BWAI to set some broad parameters<a
+            class="fnref"
+            href="#fn-1"
+            id="fnref-1"
+            >*</a
+          >, the GoTu planning lead onboards the Planning Mirror like a new team
+          member, through some mix of current process documents and Mirror
+          interviews.
+        </p>
+        <div class="produces">
+          <span class="tag">Produces</span>
+          a planning brief (goals, roles, scope, reasons — including the named
+          Process Shapers for Stage 2 and the participant groups for Stage 3)
+          and LLM-optimized versions of current process documentation.
+        </div>
+        <p class="footnote" id="fn-1">
+          * We can't design useful interviews until we know who will have them,
+          and why; documents alone describe a past process, not this one.
+          <a class="fnref" href="#fnref-1">↩</a>
+        </p>
+      </section>
+
+      <section class="stage" id="stage-2">
+        <div class="stage-head">
+          <h2>Stage 2: Shaping</h2>
+          <span class="badge private">Private conversations</span>
+        </div>
+        <p class="uses">Uses: <b>Stage 1</b> planning brief + documentation</p>
+        <p>
+          The Process Shapers complete private Mirror conversations. Each
+          conversation may draw on the person's own Mirror context, approved
+          GoTu Mirror artifacts, and the Stage 1 outputs.
+        </p>
+        <div class="produces">
+          <span class="tag">Produces</span>
+          private insights for each Shaper, plus distilled insights toward the
+          shared plan.
+        </div>
+      </section>
+
+      <section class="stage" id="stage-2a">
+        <div class="stage-head">
+          <h2>Stage 2A: Synthesis and approval</h2>
+          <span class="badge bwai">BWAI, human-led</span>
+        </div>
+        <p class="uses">Uses: <b>Stage 1–2</b> outputs</p>
+        <p>
+          BWAI reviews and combines the Stage 1–2 outputs into an approved
+          planning runbook: the details, order and purpose of each participant
+          round; the prompts, goals, and outputs for each conversation; and the
+          review, privacy, release, and decision rules.
+        </p>
+        <p>
+          This human-led step matters most if there are multiple designated
+          Process Shapers — the product can automate more of it later, but not
+          in the first cycle.
+        </p>
+        <div class="produces">
+          <span class="tag">Produces</span>
+          the approved planning runbook that governs Stages 3–4.
+        </div>
+      </section>
+
+      <section class="stage" id="stage-3">
+        <div class="stage-head">
+          <h2>Stage 3: Participant conversations</h2>
+          <span class="badge private">Private conversations</span>
+        </div>
+        <p class="uses">Uses: <b>Stage 2A</b> approved runbook</p>
+        <p>
+          Each Planning Participant named in the runbook completes a private
+          Mirror conversation. Each conversation follows the runbook's prompts
+          and goals, and may draw on the participant's own Mirror context (if
+          available).
+        </p>
+        <p>
+          <b>Prioritizing trust:</b> per
+          <button class="rule-chip" data-rule="3">rule 3</button> above, sharing
+          starts on hold — each participant approves, revises, or removes every
+          distilled insight before it's released for the group process.
+        </p>
+        <div class="produces">
+          <span class="tag">Produces</span>
+          a personal planning playbook (or whatever output the runbook defines),
+          private insights for the participant, and approved distilled insights
+          for the group process.
+        </div>
+        <p class="note">
+          <b>Note:</b> Cycles may run in rounds. Leaders might go first; a
+          later, larger group builds on the approved, frozen results of the
+          earlier round.
+          <i
+            >The runbook will define these handoffs before participant work
+            begins.</i
+          >
+        </p>
+      </section>
+
+      <section class="stage" id="stage-3a">
+        <div class="stage-head">
+          <h2>Stage 3A: Group synthesis</h2>
+          <span class="badge bwai">BWAI, human-led</span>
+        </div>
+        <p class="uses">
+          Uses: <b>Stage 3</b> participant-released inputs only
+        </p>
+        <p>
+          After all required rounds finish, BWAI operates the initial group
+          synthesis, using only participant-released inputs.
+        </p>
+        <p>
+          Per the
+          <button class="rule-chip" data-rule="2">confidentiality rules</button>
+          above, the draft is LLM- and human-checked for identifying language,
+          misstated views, over-merged themes, and participation below the
+          agreed minimum.
+          <b
+            >Anything potentially unsafe stays out, and every exclusion and edit
+            is recorded.</b
+          >
+        </p>
+        <p class="note">
+          <b>Note:</b> per
+          <button class="rule-chip" data-rule="4">trust rule 4</button>, if
+          patterns emerge that are not individually attributable and can be
+          shared without identifying individuals or small groups, BWAI will
+          review and determine whether and how to share them with GoTu.
+        </p>
+        <div class="produces">
+          <span class="tag">Produces</span>
+          a group planning readout (the main themes, tensions, risks, and open
+          choices); a Planning Action runbook (decisions to make, proposed
+          actions, follow-up questions); and any other outputs the runbook
+          agreed to, such as leadership or team insights.
+        </div>
+      </section>
+
+      <section class="stage" id="stage-4">
+        <div class="stage-head">
+          <h2>Stage 4: Delivery and action</h2>
+        </div>
+        <p class="uses">Uses: <b>Stage 3A</b> readout + action runbook</p>
+        <p>
+          The Planning Mirror delivers the Stage 3A outputs through a workshop
+          or async process, or both — whichever the runbook chose. (Whether BWAI
+          offers facilitation is TBD.)
+        </p>
+        <p>
+          GoTu's leaders and teams rank priorities, revise proposals, make
+          decisions, assign owners, and set dates. The product guides the work;
+          GoTu's people make the calls.
+        </p>
+        <div class="produces">
+          <span class="tag">Produces</span>
+          decisions, actions, owners, dates, and follow-up measures — and GoTu's
+          call on whether to continue, revise, or stop the approach for the next
+          cycle.
+        </div>
+      </section>
+
+      <footer>
+        Brilliant With AI — shared for review.
+        <a href="/">All artifacts</a>
+      </footer>
+    </div>
+
+    <div class="popover" id="popover" role="tooltip"></div>
+
+    <script>
+      (function () {
+        var rules = {
+          2: "Strong guardrails, LLM-judgment checkpoints, and participant-controlled sharing permissions ensure that no distilled notes or insights betray any participant's trust or confidence.",
+          3: "Each participant approves, revises, or removes every LLM-derived insight/note before it's released for synthesis or sharing.",
+          4: "If patterns emerge from de-identified, distilled insights, BWAI will review and determine whether and how to share with GoTu, to ensure that individual confidentiality is protected.",
+        };
+        var pop = document.getElementById("popover");
+        var openChip = null;
+
+        function hide() {
+          pop.classList.remove("show");
+          openChip = null;
+        }
+
+        document.querySelectorAll(".rule-chip").forEach(function (chip) {
+          chip.addEventListener("click", function (e) {
+            e.stopPropagation();
+            var n = chip.getAttribute("data-rule");
+            if (openChip === chip) {
+              hide();
+              return;
+            }
+            pop.innerHTML =
+              '<span class="pnum">Trust rule ' + n + "</span>" + rules[n];
+            pop.classList.add("show");
+            var r = chip.getBoundingClientRect();
+            var top = r.bottom + window.scrollY + 8;
+            var left = Math.min(
+              r.left + window.scrollX,
+              window.scrollX + document.documentElement.clientWidth - 360,
+            );
+            pop.style.top = top + "px";
+            pop.style.left = Math.max(left, 12) + "px";
+            openChip = chip;
+          });
+        });
+        document.addEventListener("click", hide);
+        window.addEventListener("scroll", function () {
+          if (openChip) hide();
+        });
+
+        // scroll-spy
+        var links = Array.prototype.slice.call(
+          document.querySelectorAll(".flow a"),
+        );
+        var sections = links.map(function (a) {
+          return document.querySelector(a.getAttribute("href"));
+        });
+        var observer = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                links.forEach(function (a) {
+                  a.classList.toggle(
+                    "active",
+                    a.getAttribute("href") === "#" + entry.target.id,
+                  );
+                });
+              }
+            });
+          },
+          { rootMargin: "-40% 0px -55% 0px" },
+        );
+        sections.forEach(function (s) {
+          if (s) observer.observe(s);
+        });
+      })();
+    </script>
+  </body>
+</html>
