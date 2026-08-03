@@ -131,7 +131,25 @@
       }
 
       .slide {
+        position: relative;
         scroll-margin-top: 118px;
+      }
+
+      .slide-page {
+        position: absolute;
+        right: 20px;
+        bottom: 14px;
+        z-index: 5;
+        color: var(--ink-2);
+        font: 700 9px/1 var(--font-utility);
+        letter-spacing: 0.09em;
+        opacity: 0.62;
+        pointer-events: none;
+        text-transform: uppercase;
+      }
+
+      .hero .slide-page {
+        color: rgba(255, 255, 255, 0.72);
       }
 
       .hero {
@@ -326,6 +344,30 @@
         font: 700 11px var(--font-utility);
       }
 
+      .ownership-callout {
+        margin-top: 24px;
+        border-top: 1px solid #cfd9ee;
+        border-radius: 0 0 12px 12px;
+        padding: 16px 18px 17px;
+        background: linear-gradient(135deg, #f5f8ff, #f0fbfa);
+        color: var(--ink-2);
+        font-size: 14px;
+        line-height: 1.55;
+      }
+
+      .ownership-callout .callout-label {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--aqua);
+        font: 750 10px/1.2 var(--font-utility);
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+
+      .ownership-callout p {
+        margin: 0;
+      }
+
       .flow {
         position: sticky;
         top: 10px;
@@ -414,8 +456,7 @@
         box-shadow: var(--shadow);
       }
 
-      #stage-2,
-      #stage-3 {
+      #stage-2 {
         --stage-color: var(--aqua);
         --stage-soft: var(--aqua-soft);
       }
@@ -485,11 +526,8 @@
       }
 
       .stage-head {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        flex-wrap: wrap;
-        margin-bottom: 8px;
+        display: block;
+        margin-bottom: 19px;
       }
 
       .stage h2 {
@@ -524,15 +562,52 @@
         color: var(--gold);
       }
 
-      .uses {
-        margin: 0 0 21px;
+      .badge.interaction {
+        background: var(--aqua-soft);
+        color: var(--aqua);
+      }
+
+      .badge.artifact {
+        background: var(--violet-soft);
+        color: var(--violet);
+      }
+
+      .badge.outside {
+        background: var(--gold-soft);
+        color: var(--gold);
+      }
+
+      .stage-meta {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px 18px;
+        margin-top: 15px;
+      }
+
+      .meta-item {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 7px;
+        min-width: 0;
+        color: var(--ink-2);
+        font-size: 12px;
+        line-height: 1.4;
+      }
+
+      .meta-label {
+        flex: 0 0 auto;
         color: var(--stage-color);
-        font: 700 11px/1.4 var(--font-utility);
-        letter-spacing: 0.04em;
+        font: 750 9px/1.2 var(--font-utility);
+        letter-spacing: 0.08em;
         text-transform: uppercase;
       }
 
-      .stage-body > p:not(.uses):not(.note):not(.footnote) {
+      .meta-value {
+        font-weight: 650;
+      }
+
+      .stage-body > p:not(.note):not(.footnote) {
         max-width: 760px;
         margin: 0 0 13px;
         color: var(--ink-2);
@@ -545,13 +620,10 @@
       }
 
       .produces {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: 15px;
-        align-items: start;
+        display: block;
         margin-top: 16px;
         border-radius: 14px;
-        padding: 16px 18px;
+        padding: 16px 19px 14px;
         background: var(--stage-soft);
         color: var(--ink);
         font-size: 14px;
@@ -559,11 +631,116 @@
       }
 
       .produces .tag {
-        padding-top: 3px;
+        display: block;
+        margin-bottom: 9px;
         color: var(--stage-color);
         font: 750 10px var(--font-utility);
         letter-spacing: 0.08em;
         text-transform: uppercase;
+      }
+
+      .output-grid {
+        margin: 0;
+      }
+
+      .output-row {
+        display: grid;
+        grid-template-columns: 104px minmax(0, 1fr);
+        gap: 15px;
+        border-top: 1px solid color-mix(in srgb, var(--stage-color) 18%, transparent);
+        padding: 7px 0;
+      }
+
+      .output-row dt {
+        color: var(--stage-color);
+        font: 750 9px/1.5 var(--font-utility);
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+      }
+
+      .output-row dd {
+        min-width: 0;
+        margin: 0;
+      }
+
+      .output-row dd.empty {
+        color: var(--ink-2);
+        font-style: italic;
+      }
+
+      .output-note {
+        margin: 7px 0 0;
+        border-top: 1px solid color-mix(in srgb, var(--stage-color) 18%, transparent);
+        padding-top: 10px;
+        color: var(--ink-2);
+        font-size: 12px;
+      }
+
+      .deliverable {
+        --stage-color: var(--violet);
+        --stage-soft: var(--violet-soft);
+        background:
+          radial-gradient(circle at 88% 12%, rgba(117, 89, 189, 0.1), transparent 18rem),
+          rgba(255, 255, 255, 0.97);
+      }
+
+      .deliverable .stage-rail {
+        background: linear-gradient(180deg, #ede7ff, #e5ddfb);
+      }
+
+      .deliverable-panel {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(200px, 0.9fr);
+        gap: 18px;
+        margin-top: 3px;
+        border: 1px solid #d9cfee;
+        border-radius: 4px 16px 16px 4px;
+        padding: 18px 20px;
+        background: var(--white);
+        box-shadow: 0 12px 30px rgba(65, 45, 116, 0.1);
+      }
+
+      .deliverable-contents {
+        border-left: 4px solid var(--violet);
+        padding-left: 16px;
+      }
+
+      .deliverable-label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--violet);
+        font: 750 9px/1.2 var(--font-utility);
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+
+      .deliverable-contents ul {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 7px 18px;
+        margin: 0;
+        padding-left: 18px;
+        color: var(--ink-2);
+        font-size: 13px;
+      }
+
+      .deliverable-control {
+        align-self: center;
+        border-left: 1px solid #e4ddf2;
+        padding-left: 18px;
+      }
+
+      .deliverable-control strong {
+        display: block;
+        color: var(--ink);
+        font-size: 14px;
+      }
+
+      .deliverable-control p {
+        margin: 5px 0 0;
+        color: var(--ink-2);
+        font-size: 12px;
+        line-height: 1.5;
       }
 
       .note,
@@ -791,6 +968,17 @@
           grid-template-columns: 100px 1fr;
         }
 
+        .deliverable-panel {
+          grid-template-columns: 1fr;
+        }
+
+        .deliverable-control {
+          border-top: 1px solid #e4ddf2;
+          border-left: 0;
+          padding-top: 14px;
+          padding-left: 0;
+        }
+
         body.deck-mode .hero {
           grid-template-columns: 1fr;
         }
@@ -863,9 +1051,23 @@
           padding: 28px 24px 32px;
         }
 
-        .produces {
+        .stage-meta {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .output-row {
           grid-template-columns: 1fr;
-          gap: 6px;
+          gap: 3px;
+        }
+
+        .deliverable-contents ul {
+          grid-template-columns: 1fr;
+        }
+
+        .slide-page {
+          right: 14px;
+          bottom: 10px;
         }
 
         .flow .lbl,
@@ -953,7 +1155,9 @@
         </div>
       </div>
 
-      <nav class="flow" id="flow" aria-label="Planning stages">
+      <nav class="flow" id="flow" aria-label="Deck navigation">
+        <a href="#overview"><span class="num">OV</span><span class="lbl">Overview</span></a>
+        <span class="arrow" aria-hidden="true">·</span>
         <a href="#stage-0"><span class="num">00</span><span class="lbl">Calibrate</span></a>
         <span class="arrow" aria-hidden="true">·</span>
         <a href="#stage-1"><span class="num">01</span><span class="lbl">Onboard</span></a>
@@ -1034,7 +1238,10 @@
               <li><span><strong>Functional (seat-bound)</strong> — belongs to the role or task: whoever does this thing, now or in the future. It transfers with the seat, never the person, so accumulated context survives any handoff.</span></li>
               <li><span><strong>Group (GoTu-wide)</strong> — belongs to GoTu collectively. Shared to the room; exportable.</span></li>
             </ol>
-            <p>A private conversation can inform a Functional or Group output only after the participant approves it. Distribution does not change ownership: the Planning Toolkit remains Functional when Shapers share it with the room; decisions and rocks are Group.</p>
+            <aside class="ownership-callout">
+              <span class="callout-label">How sharing works</span>
+              <p>A private conversation can inform a Functional or Group output only after the participant approves it. Distribution does not change ownership: the Planning Toolkit remains Functional when Shapers share it with the room; decisions and rocks are Group.</p>
+            </aside>
           </div>
         </section>
 
@@ -1044,14 +1251,25 @@
             <span class="stage-kind">Tune the Mirror</span>
           </div>
           <div class="stage-body">
-            <div class="stage-head"><h2>Calibration</h2></div>
-            <p class="uses">Working session · Tev + BWAI</p>
+            <div class="stage-head">
+              <h2>Calibration</h2>
+              <div class="stage-meta">
+                <span class="badge interaction">Mirror Interaction</span>
+                <span class="meta-item"><span class="meta-label">How</span><span class="meta-value">Working session</span></span>
+                <span class="meta-item"><span class="meta-label">Who</span><span class="meta-value">Tev + BWAI</span></span>
+                <span class="meta-item"><span class="meta-label">Uses</span><span class="meta-value">Draft pilot flow + available planning materials</span></span>
+              </div>
+            </div>
             <p>
               A working session for Tev and BWAI to calibrate the Mirror before the pilot begins. The Mirror walks Tev through the starting materials, how each supports planning, and what BWAI should load before participant sessions. Participants do not upload materials themselves.
             </p>
             <div class="produces">
               <span class="tag">Produces</span>
-              <span><b>Individual:</b> — · <b>Functional:</b> a confirmed, GoTu-calibrated setup and starting-materials list · <b>Group:</b> —</span>
+              <dl class="output-grid">
+                <div class="output-row"><dt>Individual</dt><dd class="empty">None</dd></div>
+                <div class="output-row"><dt>Functional</dt><dd>A confirmed, GoTu-calibrated setup and starting-materials list</dd></div>
+                <div class="output-row"><dt>Group</dt><dd class="empty">None</dd></div>
+              </dl>
             </div>
           </div>
         </section>
@@ -1064,15 +1282,23 @@
           <div class="stage-body">
             <div class="stage-head">
               <h2>Onboard the Quarterly Planning Mirror</h2>
-              <span class="badge private">Private 1:1 Mirror</span>
+              <div class="stage-meta">
+                <span class="badge interaction">Mirror Interaction</span>
+                <span class="meta-item"><span class="meta-label">How</span><span class="meta-value">Private 1:1</span></span>
+                <span class="meta-item"><span class="meta-label">Who</span><span class="meta-value">Tev</span></span>
+                <span class="meta-item"><span class="meta-label">Uses</span><span class="meta-value">Approved starting materials + approved prior transcripts</span></span>
+              </div>
             </div>
-            <p class="uses">Lead · Tev</p>
             <p>
               Tev completes a private 1:1 Mirror. BWAI loads approved starting materials before the session, and the Mirror learns GoTu's business and planning context like a new team member. Participant-approved transcripts from prior conversations with Gerardo, Cary, or Ed can be added as context.
             </p>
             <div class="produces">
               <span class="tag">Produces</span>
-              <span><b>Individual:</b> Tev's private conversation · <b>Functional:</b> participant-approved business context and initial direction, retained for the Lead role across handoffs · <b>Group:</b> —</span>
+              <dl class="output-grid">
+                <div class="output-row"><dt>Individual</dt><dd>Tev's private conversation</dd></div>
+                <div class="output-row"><dt>Functional</dt><dd>Participant-approved business context and initial direction, retained for the Lead role across handoffs</dd></div>
+                <div class="output-row"><dt>Group</dt><dd class="empty">None</dd></div>
+              </dl>
             </div>
           </div>
         </section>
@@ -1085,20 +1311,28 @@
           <div class="stage-body">
             <div class="stage-head">
               <h2>Shaping</h2>
-              <span class="badge private">Shapers</span>
+              <div class="stage-meta">
+                <span class="badge interaction">Mirror Interaction</span>
+                <span class="meta-item"><span class="meta-label">How</span><span class="meta-value">Offline transcript or Mirror conversation</span></span>
+                <span class="meta-item"><span class="meta-label">Who</span><span class="meta-value">Tev + Gerardo</span></span>
+                <span class="meta-item"><span class="meta-label">Uses</span><span class="meta-value">Stage 01 business context</span></span>
+              </div>
             </div>
-            <p class="uses">Shapers · Tev + Gerardo</p>
             <p>
               Tev and Gerardo can shape the cycle offline and provide an approved transcript, or work with the Mirror individually or together. Any Functional direction is released only after both Shapers approve it.
             </p>
             <div class="produces">
               <span class="tag">Produces</span>
-              <span><b>Individual:</b> private shaping conversations, when conducted separately · <b>Functional:</b> Shaper-approved direction for the cycle — what to explore, likely friction, and what good outputs look like · <b>Group:</b> —</span>
+              <dl class="output-grid">
+                <div class="output-row"><dt>Individual</dt><dd>Private shaping conversations, when conducted separately</dd></div>
+                <div class="output-row"><dt>Functional</dt><dd>Shaper-approved direction for the cycle — what to explore, likely friction, and what good outputs look like</dd></div>
+                <div class="output-row"><dt>Group</dt><dd class="empty">None</dd></div>
+              </dl>
             </div>
           </div>
         </section>
 
-        <section class="stage slide" id="stage-3" data-slide-title="03 The Quarterly Planning Mirror Brief">
+        <section class="stage slide deliverable" id="stage-3" data-slide-title="03 The Quarterly Planning Mirror Brief">
           <div class="stage-rail">
             <span class="stage-number">03</span>
             <span class="stage-kind">Scope-setting</span>
@@ -1106,15 +1340,39 @@
           <div class="stage-body">
             <div class="stage-head">
               <h2>The Quarterly Planning Mirror Brief</h2>
-              <span class="badge bwai">Functional output</span>
+              <div class="stage-meta">
+                <span class="badge artifact">Mirror Artifact</span>
+                <span class="meta-item"><span class="meta-label">How</span><span class="meta-value">Shaper review and confirmation</span></span>
+                <span class="meta-item"><span class="meta-label">Who</span><span class="meta-value">Shapers</span></span>
+                <span class="meta-item"><span class="meta-label">Uses</span><span class="meta-value">Approved context + Stage 02 direction</span></span>
+              </div>
             </div>
-            <p class="uses">Shapers define · Planners participate</p>
             <p>
               Shaping becomes a concrete brief for this cycle's Planning Mirrors: named Planners, question areas, approved background context, and sharing boundaries. This stage sets scope. Synthesis begins after the Planning Mirrors, in Stage 05.
             </p>
+            <div class="deliverable-panel">
+              <div class="deliverable-contents">
+                <span class="deliverable-label">Contains</span>
+                <ul>
+                  <li>Named Planners</li>
+                  <li>Question areas</li>
+                  <li>Approved context</li>
+                  <li>Sharing boundaries</li>
+                </ul>
+              </div>
+              <div class="deliverable-control">
+                <span class="deliverable-label">Controlled by</span>
+                <strong>Shapers</strong>
+                <p>They confirm scope before Planning Mirrors begin.</p>
+              </div>
+            </div>
             <div class="produces">
               <span class="tag">Produces</span>
-              <span><b>Individual:</b> — · <b>Functional:</b> the Quarterly Planning Mirror Brief — named Planners, question areas, approved context, and sharing boundaries · <b>Group:</b> —</span>
+              <dl class="output-grid">
+                <div class="output-row"><dt>Individual</dt><dd class="empty">None</dd></div>
+                <div class="output-row"><dt>Functional</dt><dd>The Quarterly Planning Mirror Brief</dd></div>
+                <div class="output-row"><dt>Group</dt><dd class="empty">None</dd></div>
+              </dl>
             </div>
           </div>
         </section>
@@ -1127,9 +1385,13 @@
           <div class="stage-body">
             <div class="stage-head">
               <h2>Planning Mirrors</h2>
-              <span class="badge private">Private 1:1 Mirrors</span>
+              <div class="stage-meta">
+                <span class="badge interaction">Mirror Interaction</span>
+                <span class="meta-item"><span class="meta-label">How</span><span class="meta-value">Private 1:1</span></span>
+                <span class="meta-item"><span class="meta-label">Who</span><span class="meta-value">Planners</span></span>
+                <span class="meta-item"><span class="meta-label">Uses</span><span class="meta-value">Quarterly Planning Mirror Brief + approved context</span></span>
+              </div>
             </div>
-            <p class="uses">Participants · Planners named by the Shapers in Stage 03</p>
             <p>
               Planners privately pressure-test priorities, tradeoffs, risks, and dependencies. Each person explores the shared context through their own perspective while keeping their conversation private.
             </p>
@@ -1138,12 +1400,16 @@
             </p>
             <div class="produces">
               <span class="tag">Produces</span>
-              <span><b>Individual:</b> each Planner's Mirror letter and private insights · <b>Functional:</b> participant-approved inputs for the Planning Toolkit · <b>Group:</b> —</span>
+              <dl class="output-grid">
+                <div class="output-row"><dt>Individual</dt><dd>Each Planner's Mirror letter and private insights</dd></div>
+                <div class="output-row"><dt>Functional</dt><dd>Participant-approved inputs for the Planning Toolkit</dd></div>
+                <div class="output-row"><dt>Group</dt><dd class="empty">None</dd></div>
+              </dl>
             </div>
           </div>
         </section>
 
-        <section class="stage slide" id="stage-5" data-slide-title="05 The Planning Toolkit">
+        <section class="stage slide deliverable" id="stage-5" data-slide-title="05 The Planning Toolkit">
           <div class="stage-rail">
             <span class="stage-number">05</span>
             <span class="stage-kind">Tools for planning</span>
@@ -1151,15 +1417,40 @@
           <div class="stage-body">
             <div class="stage-head">
               <h2>The Planning Toolkit</h2>
-              <span class="badge bwai">Playbook + approved artifacts</span>
+              <div class="stage-meta">
+                <span class="badge artifact">Mirror Artifact</span>
+                <span class="meta-item"><span class="meta-label">How</span><span class="meta-value">Synthesis of approved inputs</span></span>
+                <span class="meta-item"><span class="meta-label">Who</span><span class="meta-value">BWAI + Shapers</span></span>
+                <span class="meta-item"><span class="meta-label">Uses</span><span class="meta-value">Participant-approved Mirror inputs</span></span>
+              </div>
             </div>
-            <p class="uses">Uses · Participant-released inputs</p>
             <p>
               This is where synthesis happens: shared patterns, alignment, gaps, and planning risks drawn from participant-approved inputs.
             </p>
+            <div class="deliverable-panel">
+              <div class="deliverable-contents">
+                <span class="deliverable-label">Contains</span>
+                <ul>
+                  <li>Shared patterns</li>
+                  <li>Alignment and gaps</li>
+                  <li>Planning risks</li>
+                  <li>Offsite-ready guidance</li>
+                </ul>
+              </div>
+              <div class="deliverable-control">
+                <span class="deliverable-label">Controlled by</span>
+                <strong>Shapers</strong>
+                <p>They decide whether and how to share it with the room.</p>
+              </div>
+            </div>
             <div class="produces">
               <span class="tag">Produces</span>
-              <span><b>Individual:</b> — · <b>Functional:</b> the Planning Toolkit; Shapers decide whether and how to share it with the room · <b>Group:</b> —<br /><br />GoTu controls distribution; the product does not send materials to participants.</span>
+              <dl class="output-grid">
+                <div class="output-row"><dt>Individual</dt><dd class="empty">None</dd></div>
+                <div class="output-row"><dt>Functional</dt><dd>The Planning Toolkit</dd></div>
+                <div class="output-row"><dt>Group</dt><dd class="empty">None</dd></div>
+              </dl>
+              <p class="output-note">GoTu controls distribution; the product does not send materials to participants.</p>
             </div>
           </div>
         </section>
@@ -1172,15 +1463,23 @@
           <div class="stage-body">
             <div class="stage-head">
               <h2>GoTu Plans</h2>
-              <span class="badge off-product">Off-product</span>
+              <div class="stage-meta">
+                <span class="badge outside">Outside Mirror</span>
+                <span class="meta-item"><span class="meta-label">How</span><span class="meta-value">GoTu offsite</span></span>
+                <span class="meta-item"><span class="meta-label">Who</span><span class="meta-value">Planners</span></span>
+                <span class="meta-item"><span class="meta-label">Uses</span><span class="meta-value">Planning Toolkit</span></span>
+              </div>
             </div>
-            <p class="uses">Uses · The Planning Toolkit</p>
             <p>
               GoTu uses the Planning Toolkit to run its offsite. The product is not used live in the room, and BWAI does not facilitate or attend. Tev carries GoTu-approved outputs into Stage 08.
             </p>
             <div class="produces">
               <span class="tag">Produces</span>
-              <span><b>Individual:</b> — · <b>Functional:</b> — · <b>Group:</b> GoTu's decisions, rocks, owners, and dates.</span>
+              <dl class="output-grid">
+                <div class="output-row"><dt>Individual</dt><dd class="empty">None</dd></div>
+                <div class="output-row"><dt>Functional</dt><dd class="empty">None</dd></div>
+                <div class="output-row"><dt>Group</dt><dd>GoTu's decisions, rocks, owners, and dates</dd></div>
+              </dl>
             </div>
           </div>
         </section>
@@ -1193,15 +1492,23 @@
           <div class="stage-body">
             <div class="stage-head">
               <h2>Post-Meeting Mirrors</h2>
-              <span class="badge private">Short private Mirrors</span>
+              <div class="stage-meta">
+                <span class="badge interaction">Mirror Interaction</span>
+                <span class="meta-item"><span class="meta-label">How</span><span class="meta-value">Short private 1:1 debriefs</span></span>
+                <span class="meta-item"><span class="meta-label">Who</span><span class="meta-value">Shapers, Cary, Ed; others optional</span></span>
+                <span class="meta-item"><span class="meta-label">Uses</span><span class="meta-value">Completed offsite experience</span></span>
+              </div>
             </div>
-            <p class="uses">Participants · Shapers + Cary + Ed; others optional</p>
             <p>
               Shapers, Cary, Ed, and any other participants GoTu selects complete short private Mirrors after the offsite. Each conversation focuses on that person's experience and hopes for the next round. Participants approve any insight before it contributes to the Shapers' process readout.
             </p>
             <div class="produces">
               <span class="tag">Produces</span>
-              <span><b>Individual:</b> private conversation only; no separate post-meeting artifact · <b>Functional:</b> participant-approved process readout for the Shapers; Shapers decide distribution · <b>Group:</b> —</span>
+              <dl class="output-grid">
+                <div class="output-row"><dt>Individual</dt><dd>Private conversation only; no separate post-meeting artifact</dd></div>
+                <div class="output-row"><dt>Functional</dt><dd>Participant-approved process readout for the Shapers; Shapers decide distribution</dd></div>
+                <div class="output-row"><dt>Group</dt><dd class="empty">None</dd></div>
+              </dl>
             </div>
           </div>
         </section>
@@ -1214,15 +1521,24 @@
           <div class="stage-body">
             <div class="stage-head">
               <h2>Next-Quarter Setup Mirror</h2>
-              <span class="badge bwai">Setup for next quarter</span>
+              <div class="stage-meta">
+                <span class="badge interaction">Mirror Interaction</span>
+                <span class="meta-item"><span class="meta-label">How</span><span class="meta-value">Setup conversation</span></span>
+                <span class="meta-item"><span class="meta-label">Who</span><span class="meta-value">Tev</span></span>
+                <span class="meta-item"><span class="meta-label">Uses</span><span class="meta-value">Approved offsite outputs + Shaper process readout</span></span>
+              </div>
             </div>
-            <p class="uses">Lead · Tev</p>
             <p>
-              Tev provides GoTu-approved offsite outputs — decisions, rocks, owners, and dates — to the Mirror.
+              Tev provides GoTu-approved offsite outputs — decisions, rocks, owners, and dates — to the Mirror. The Mirror combines them with the Shapers' participant-approved process readout to prepare the next cycle.
             </p>
             <div class="produces">
               <span class="tag">Produces</span>
-              <span><b>Individual:</b> — · <b>Functional:</b> next-quarter planning brief and calendar suggestions, feeding the next cycle's Calibration · <b>Group:</b> —<br /><br />Each cycle makes the next one stronger.</span>
+              <dl class="output-grid">
+                <div class="output-row"><dt>Individual</dt><dd class="empty">None</dd></div>
+                <div class="output-row"><dt>Functional</dt><dd>Next-quarter planning brief and calendar suggestions, feeding the next cycle's Calibration</dd></div>
+                <div class="output-row"><dt>Group</dt><dd class="empty">None</dd></div>
+              </dl>
+              <p class="output-note">Each cycle makes the next one stronger.</p>
             </div>
           </div>
         </section>
@@ -1252,6 +1568,13 @@
         };
         var body = document.body;
         var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+        slides.forEach(function (slide, index) {
+          var page = document.createElement("span");
+          page.className = "slide-page";
+          page.setAttribute("aria-hidden", "true");
+          page.textContent = "Slide " + String(index + 1).padStart(2, "0") + " / " + slides.length;
+          slide.appendChild(page);
+        });
         var flowLinks = Array.prototype.slice.call(document.querySelectorAll(".flow a"));
         var fullView = document.getElementById("full-view");
         var deckView = document.getElementById("deck-view");
