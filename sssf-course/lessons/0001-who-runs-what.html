@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SSSF Lesson 1 — Who runs what?</title>
+  <link rel="stylesheet" href="../assets/course.css" />
+</head>
+<body>
+<main>
+  <nav><a href="../index.html">Learn SSSF</a> / Lesson 1</nav>
+  <p class="eyebrow">Lesson 1 · 7 minutes</p>
+  <h1>Who runs what?</h1>
+  <p class="lede">One rule explains the factory: code owns the workflow; agents own only the judgment inside bounded steps.</p>
+  <div class="meta"><span class="pill">Goal · classify work</span><span class="pill">No setup needed</span></div>
+
+  <div class="callout">
+    <strong>Your win</strong>
+    By the end, you can look at a task and decide whether an engineer, Python, or an agent should own it.
+  </div>
+
+  <h2>The problem SSSF addresses</h2>
+  <p>A normal “do everything” prompt asks one model to plan, act, check itself, retry, and decide when it is done. Those boundaries live only in its conversation. When something fails, you cannot easily name which step failed or apply the same recovery every time.</p>
+  <p>SSSF moves those boundaries into a Python workflow called an <strong>ADW</strong>: AI Developer Workflow. The ADW names each phase, runs it, records it, and decides whether the full run is accepted.</p>
+
+  <div class="grid">
+    <div class="card">
+      <span class="label">Engineer</span>
+      <h3>Sets intent</h3>
+      <p>Provides the request and defines what outcome matters.</p>
+    </div>
+    <div class="card">
+      <span class="label">Python</span>
+      <h3>Owns the loop</h3>
+      <p>Sequences phases, runs known commands, limits retries, and accepts or rejects.</p>
+    </div>
+    <div class="card">
+      <span class="label">Agent</span>
+      <h3>Uses judgment</h3>
+      <p>Reads, plans, builds, or reviews inside one named phase.</p>
+    </div>
+  </div>
+
+  <h2>See the split in one real workflow</h2>
+  <p>The starter <code>plan_build_test</code> workflow makes the ownership visible:</p>
+  <div class="flow" aria-label="Plan build test workflow">
+    <div class="step">Engineer<br />request</div><div class="arrow">→</div>
+    <div class="step agent">Agent<br />plan</div><div class="arrow">→</div>
+    <div class="step agent">Agent<br />build</div><div class="arrow">→</div>
+    <div class="step code">Code<br />test</div><div class="arrow">→</div>
+    <div class="step agent">Agent<br />fix if red</div><div class="arrow">→</div>
+    <div class="step code">Code<br />commit if green</div>
+  </div>
+  <p>Why does code run tests? Because the command is already known. No model judgment is needed to execute <code>bun test</code>. If tests fail, code sends the exact failure back to the builder agent. Python limits that repair loop to three attempts. Only a green result reaches commit.</p>
+
+  <div class="callout">
+    <strong>The classification rule</strong>
+    If the invocation is known, use code. If the step requires reading and deciding, use an agent. Keep human intent in the engineer lane.
+  </div>
+
+  <h2>Retrieval practice</h2>
+  <p>Classify each step before clicking. Difficulty here helps the rule stick.</p>
+
+  <section class="quiz" data-quiz data-answer="code" data-correct="Correct. The command is known, so code should run it." data-wrong="Try again. Ask whether this step needs judgment or a known command.">
+    <p><strong>1.</strong> Run the repository’s fixed test command.</p>
+    <div class="answers">
+      <button type="button" data-choice="code">Assign a deterministic code phase</button>
+      <button type="button" data-choice="agent">Assign a bounded agent phase</button>
+    </div>
+    <p class="feedback" data-feedback aria-live="polite"></p>
+  </section>
+
+  <section class="quiz" data-quiz data-answer="agent" data-correct="Correct. Matching work to intent requires judgment." data-wrong="Try again. A fixed command cannot judge whether intent was met.">
+    <p><strong>2.</strong> Decide whether the implementation matches the request.</p>
+    <div class="answers">
+      <button type="button" data-choice="code">Assign a deterministic code phase</button>
+      <button type="button" data-choice="agent">Assign a bounded agent phase</button>
+    </div>
+    <p class="feedback" data-feedback aria-live="polite"></p>
+  </section>
+
+  <section class="quiz" data-quiz data-answer="code" data-correct="Correct. Git commit is a known operation gated by prior results." data-wrong="Try again. The agent may suggest a message, but code performs the commit.">
+    <p><strong>3.</strong> Commit work after the test phase passes.</p>
+    <div class="answers">
+      <button type="button" data-choice="code">Assign a deterministic code phase</button>
+      <button type="button" data-choice="agent">Assign a bounded agent phase</button>
+    </div>
+    <p class="feedback" data-feedback aria-live="polite"></p>
+  </section>
+
+  <h2>Check your understanding</h2>
+  <ul class="checklist">
+    <li>I can explain why Python—not the model—owns retries and acceptance.</li>
+    <li>I can classify a known command as code-owned work.</li>
+    <li>I can classify reading and deciding as agent-owned work.</li>
+  </ul>
+  <p>If any line feels uncertain, ask your agent a follow-up before continuing.</p>
+  <p><a href="../reference/0001-factory-map.html">Keep the one-page factory map →</a></p>
+
+  <h2>Primary sources</h2>
+  <ol class="source-list">
+    <li><a href="https://github.com/disler/super-simple-software-factory/blob/de31374882e7a4e3e5b7bb9bd09e69dc2f779356/README.md">SSSF README</a> — maintainer’s architecture and rationale.</li>
+    <li><a href="https://github.com/disler/super-simple-software-factory/blob/de31374882e7a4e3e5b7bb9bd09e69dc2f779356/.claude/skills/sssf/cookbooks/sssf_overview.md">SSSF overview</a> — phase model and ownership rules.</li>
+    <li><a href="https://github.com/disler/super-simple-software-factory/blob/de31374882e7a4e3e5b7bb9bd09e69dc2f779356/.claude/skills/sssf/templates/adws/adw_plan_build_test.py">Plan-build-test source</a> — representative chain used in this lesson.</li>
+  </ol>
+
+  <footer><a href="../index.html">Course home</a> · Lesson 2 will cover envelopes, gates, and same-session corrections.</footer>
+</main>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>
