@@ -10,6 +10,10 @@
   Representative workflow implementation. Use for: seeing how planning, building, testing, repair, commit, and final acceptance connect.
 - [SSSF configuration reference — Disler](https://github.com/disler/super-simple-software-factory/blob/de31374882e7a4e3e5b7bb9bd09e69dc2f779356/.claude/skills/sssf/references/config.md)
   Maintainer-authored config specification. Use for: models, tools, write boundaries, protected files, and per-agent settings.
+- [SSSF handoff reference — Disler](https://github.com/disler/super-simple-software-factory/blob/de31374882e7a4e3e5b7bb9bd09e69dc2f779356/.claude/skills/sssf/references/handoff.md)
+  Primary specification for typed envelopes, shared files, same-session corrections, and resumed sessions.
+- [SSSF gate implementation — Disler](https://github.com/disler/super-simple-software-factory/blob/de31374882e7a4e3e5b7bb9bd09e69dc2f779356/.claude/skills/sssf/templates/adws/adw_modules/gates.py)
+  Executable source for checking artifact, JSON, diff, verdict, and test claims.
 - [Pi coding agent repository](https://github.com/badlogic/pi-mono/tree/main/packages/coding-agent)
   Primary source for the worker runtime SSSF v1 launches. Use for: Pi sessions, models, tools, and extensions.
 

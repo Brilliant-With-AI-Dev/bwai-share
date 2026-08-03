@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SSSF Lesson 2 — How handoffs earn trust</title>
+  <link rel="stylesheet" href="../assets/course.css" />
+</head>
+<body>
+<main>
+  <nav><a href="../index.html">Learn SSSF</a> / Lesson 2</nav>
+  <p class="eyebrow">Lesson 2 · 8 minutes</p>
+  <h1>How handoffs earn trust</h1>
+  <p class="lede">An agent’s answer is not trusted because it sounds confident. SSSF requires a typed report, checks its claims, and corrects failures in the same session.</p>
+  <div class="meta"><span class="pill">Goal · trace one handoff</span><span class="pill">Builds on Lesson 1</span></div>
+
+  <div class="callout">
+    <strong>Your win</strong>
+    By the end, you can explain what an envelope does, what a gate does, and what happens when either fails.
+  </div>
+
+  <h2>Two outputs, exactly</h2>
+  <p>An SSSF agent can leave two kinds of output:</p>
+  <div class="grid">
+    <div class="card">
+      <span class="label">Reference files</span>
+      <h3>The work product</h3>
+      <p>Plans, findings, or notes written into the shared <code>context_handoff/</code> directory.</p>
+    </div>
+    <div class="card">
+      <span class="label">JSON envelope</span>
+      <h3>The claim report</h3>
+      <p>A typed summary naming status, artifacts, and facts the next phase needs.</p>
+    </div>
+    <div class="card">
+      <span class="label">Nothing else</span>
+      <h3>No conversational handoff</h3>
+      <p>Python moves files and structured data forward. Agents do not rely on hidden chat between roles.</p>
+    </div>
+  </div>
+
+  <h2>The verification loop</h2>
+  <div class="flow" aria-label="Envelope verification loop">
+    <div class="step agent">Agent<br />does work</div><div class="arrow">→</div>
+    <div class="step">Parser<br />checks shape</div><div class="arrow">→</div>
+    <div class="step code">Gate<br />checks claims</div><div class="arrow">→</div>
+    <div class="step">Green<br />continue</div>
+  </div>
+  <div class="flow" aria-label="Correction path">
+    <div class="step">Bad JSON or<br />failed gate</div><div class="arrow">→</div>
+    <div class="step agent">Same session<br />gets correction</div><div class="arrow">→</div>
+    <div class="step">Bounded retry<br />then fail</div>
+  </div>
+
+  <p>The parser answers: <strong>“Does this report match the required structure?”</strong> A gate answers: <strong>“Are its checkable claims true?”</strong></p>
+  <p>Example: a planner returns a valid <code>PlanOutput</code> envelope claiming it wrote <code>context_handoff/plan.md</code>. The parser can confirm the JSON fields. The <code>artifacts_exist</code> gate checks whether that file actually exists. A separate <code>files_non_empty</code> gate checks whether it contains anything.</p>
+
+  <div class="callout">
+    <strong>Gates verify evidence, not quality</strong>
+    A gate can prove a plan file exists and is non-empty. It cannot prove the plan is wise. Quality judgment still belongs to a reviewer agent or engineer.
+  </div>
+
+  <h2>Why corrections keep the same session</h2>
+  <p>If JSON is malformed or a gate fails, SSSF names the defect and sends it back to the same agent session. The agent keeps the context that produced the near-miss. A cold restart would discard that context and pay again to rebuild it.</p>
+  <p>Retries stay bounded. JSON repair has its own attempt limit. Gate corrections use the phase’s configured <code>retries</code>. Exhausting either limit fails the phase instead of looping forever.</p>
+
+  <h2>The customization trap</h2>
+  <p>Every typed output contract appears in three connected places:</p>
+  <ol>
+    <li>The Python output type</li>
+    <li>The JSON example in the agent’s user prompt</li>
+    <li>The <code>output_type=</code> named at the call site</li>
+  </ol>
+  <p>Change one and you must update all three. If they drift, every run spends correction attempts reconciling contradictory instructions.</p>
+
+  <h2>Retrieval practice</h2>
+  <section class="quiz" data-quiz data-answer="gate" data-correct="Correct. Parsing checks structure; a gate checks the claimed file." data-wrong="Try again. Separate report structure from evidence in the repository.">
+    <p><strong>1.</strong> An envelope claims <code>plan.md</code> exists, but the file is missing. What catches this?</p>
+    <div class="answers">
+      <button type="button" data-choice="parser">Typed parser checks the shape</button>
+      <button type="button" data-choice="gate">Validation gate checks real evidence</button>
+      <button type="button" data-choice="agent">Next agent checks every detail</button>
+    </div>
+    <p class="feedback" data-feedback aria-live="polite"></p>
+  </section>
+
+  <section class="quiz" data-quiz data-answer="same" data-correct="Correct. SSSF preserves context and gives a bounded correction." data-wrong="Try again. The point is to repair the near-miss without losing context.">
+    <p><strong>2.</strong> The agent returns malformed JSON. What happens first?</p>
+    <div class="answers">
+      <button type="button" data-choice="restart">Restart a brand-new agent session</button>
+      <button type="button" data-choice="same">Correct the same agent session</button>
+      <button type="button" data-choice="continue">Pass output to next phase</button>
+    </div>
+    <p class="feedback" data-feedback aria-live="polite"></p>
+  </section>
+
+  <h2>Check your understanding</h2>
+  <ul class="checklist">
+    <li>I can distinguish a work-product file from its envelope.</li>
+    <li>I can distinguish typed parsing from claim verification.</li>
+    <li>I know why failed checks correct the same session.</li>
+  </ul>
+  <p>If any line feels uncertain, ask your agent a follow-up before continuing.</p>
+  <p><a href="../reference/0002-handoff-loop.html">Keep the one-page handoff loop →</a></p>
+
+  <h2>Primary sources</h2>
+  <ol class="source-list">
+    <li><a href="https://github.com/disler/super-simple-software-factory/blob/de31374882e7a4e3e5b7bb9bd09e69dc2f779356/.claude/skills/sssf/references/handoff.md">SSSF handoff reference</a> — output channels, envelope schema, retries, and session layout.</li>
+    <li><a href="https://github.com/disler/super-simple-software-factory/blob/de31374882e7a4e3e5b7bb9bd09e69dc2f779356/.claude/skills/sssf/templates/adws/adw_modules/gates.py">Gate source</a> — mechanical checks and evidence.</li>
+    <li><a href="https://github.com/disler/super-simple-software-factory/blob/de31374882e7a4e3e5b7bb9bd09e69dc2f779356/.claude/skills/sssf/templates/adws/adw_modules/runner.py">Runner source</a> — phase status and final acceptance.</li>
+  </ol>
+
+  <footer><a href="../index.html">Course home</a> · Next: customize agents without confusing capabilities and boundaries.</footer>
+</main>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

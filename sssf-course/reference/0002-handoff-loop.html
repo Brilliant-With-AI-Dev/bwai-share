@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SSSF Reference — Handoff Loop</title>
+  <link rel="stylesheet" href="../assets/course.css" />
+</head>
+<body>
+<main>
+  <nav><a href="../index.html">Learn SSSF</a> / Reference</nav>
+  <p class="eyebrow">Quick reference · Print-friendly</p>
+  <h1>SSSF handoff loop</h1>
+  <p class="lede">How agent work becomes structured, checked input for the next phase.</p>
+
+  <h2>Two outputs</h2>
+  <div class="grid">
+    <div class="card"><span class="label">File</span><h3>Work product</h3><p>Written into the session’s shared <code>context_handoff/</code>.</p></div>
+    <div class="card"><span class="label">Envelope</span><h3>Claim report</h3><p>Typed JSON with status, summary, artifacts, and role-specific fields.</p></div>
+    <div class="card"><span class="label">Python</span><h3>Transfer</h3><p>Persists both and injects the previous envelope into the next prompt.</p></div>
+  </div>
+
+  <h2>Verification path</h2>
+  <div class="flow">
+    <div class="step agent">agent output</div><div class="arrow">→</div>
+    <div class="step">typed parse</div><div class="arrow">→</div>
+    <div class="step code">gates</div><div class="arrow">→</div>
+    <div class="step">next phase</div>
+  </div>
+  <div class="callout"><strong>If parsing or gates fail</strong>Send the named defect to the same agent session. Retry only within configured bounds. Then fail the phase.</div>
+
+  <h2>Different questions</h2>
+  <ul class="checklist">
+    <li><strong>Parser:</strong> Does JSON match the required type?</li>
+    <li><strong>Gate:</strong> Are mechanically checkable claims true?</li>
+    <li><strong>Reviewer:</strong> Is the work actually good?</li>
+    <li><strong>run.finish():</strong> Did phases pass and acceptance hold?</li>
+  </ul>
+
+  <h2>Synced contract</h2>
+  <pre>Python output type
+        ↕
+user.md JSON example
+        ↕
+ADW output_type= call</pre>
+  <p>Change all three together. Drift causes repeat correction costs.</p>
+
+  <h2>Sources</h2>
+  <ol class="source-list">
+    <li><a href="https://github.com/disler/super-simple-software-factory/blob/de31374882e7a4e3e5b7bb9bd09e69dc2f779356/.claude/skills/sssf/references/handoff.md">Handoff reference</a></li>
+    <li><a href="https://github.com/disler/super-simple-software-factory/blob/de31374882e7a4e3e5b7bb9bd09e69dc2f779356/.claude/skills/sssf/templates/adws/adw_modules/gates.py">Gate source</a></li>
+    <li><a href="https://github.com/disler/super-simple-software-factory/blob/de31374882e7a4e3e5b7bb9bd09e69dc2f779356/.claude/skills/sssf/templates/adws/adw_modules/runner.py">Runner source</a></li>
+  </ol>
+  <footer>Review after a delay. Recall the parser–gate–reviewer distinction before looking.</footer>
+</main>
+</body>
+</html>
