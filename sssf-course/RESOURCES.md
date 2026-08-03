@@ -2,6 +2,8 @@
 
 ## Knowledge
 
+- [Ask Matt flow — Matt Pocock](https://github.com/mattpocock/skills/tree/main/skills/ask-matt)
+  Primary map of the familiar grilling → PRD/issues → implementation → review flow. Use for: comparing SSSF roles and transitions with Matt Pocock skills.
 - [SSSF README — Disler](https://github.com/disler/super-simple-software-factory/blob/de31374882e7a4e3e5b7bb9bd09e69dc2f779356/README.md)
   Primary product explanation and installation guide. Use for: purpose, architecture, starter workflows, and known limitations.
 - [SSSF system overview — Disler](https://github.com/disler/super-simple-software-factory/blob/de31374882e7a4e3e5b7bb9bd09e69dc2f779356/.claude/skills/sssf/cookbooks/sssf_overview.md)
