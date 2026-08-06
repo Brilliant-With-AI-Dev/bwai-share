@@ -102,15 +102,24 @@
         min-height: 0;
         position: relative;
       }
-      /* nav: default = slim short-label strip */
+      /* nav: default = numbers-only strip */
       .wf-nav {
-        flex: 0 0 118px;
+        flex: 0 0 40px;
         border-right: 1px dashed #b7bfc7;
-        padding: 14px 10px;
+        padding: 14px 0;
         display: flex;
         flex-direction: column;
         gap: 8px;
         background: #fcfcfd;
+        align-items: center;
+      }
+      .wf-nav .toc-item {
+        width: auto;
+        justify-content: center;
+      }
+      .wf-nav .toc-item .num {
+        flex: none;
+        font-size: 10.5px;
       }
       .toc-item {
         display: flex;
@@ -470,20 +479,20 @@
     <p class="sub">
       2026-08-06, rev 3 — wireframes only (no code yet). ① Chat lives in a
       right-hand <b>Chat With Mirror</b> sidecar, open by default on laptop,
-      minimizable to a pill. ② The left rail is always a slim strip with the
-      short labels; <b>hovering it expands the rail</b> to reveal the full
-      numbered titles. ③ Export offers Mirror / Plan / Both in one. ④ Next Moves
-      gets the already-built PR&nbsp;#1520 layout (frame 4).
+      minimizable to a pill. ② The left rail is a minimal strip of section
+      numbers; <b>hovering it expands the rail</b> to reveal the full numbered
+      titles. ③ Export offers Mirror / Plan / Both in one. ④ Next Moves gets the
+      already-built PR&nbsp;#1520 layout (frame 4).
     </p>
 
     <!-- Frame 1 -->
     <div class="frame-wrap">
-      <h2>1 · Laptop default — slim rail, chat open, Export menu shown</h2>
+      <h2>1 · Laptop default — numbers rail, chat open, Export menu shown</h2>
       <p>
-        The rail's resting state is the short-label strip (your nine labels).
-        The chat panel sits right, full height under the header. The Export menu
-        (drawn open) asks <em>what</em> first: Your Mirror, Your Next Moves, or
-        Both in one — each as Copy or PDF.
+        The rail's resting state is a numbers-only strip (1–9, current section
+        in green). The chat panel sits right, full height under the header. The
+        Export menu (drawn open) asks <em>what</em> first: Your Mirror, Your
+        Next Moves, or Both in one — each as Copy or PDF.
       </p>
       <div class="frame rel">
         <div class="wf-hdr">
@@ -513,19 +522,15 @@
         </div>
         <div class="wf-body">
           <div class="wf-nav">
-            <div class="toc-item"><span class="lbl">Secret Truth</span></div>
-            <div class="toc-item">
-              <span class="lbl">Unforgiving Mirror</span>
-            </div>
-            <div class="toc-item active">
-              <span class="lbl">Self-Told Lies</span>
-            </div>
-            <div class="toc-item"><span class="lbl">Blind Spots</span></div>
-            <div class="toc-item"><span class="lbl">Your AI Game</span></div>
-            <div class="toc-item"><span class="lbl">Hard Question</span></div>
-            <div class="toc-item"><span class="lbl">Your Edge</span></div>
-            <div class="toc-item"><span class="lbl">Last Thing</span></div>
-            <div class="toc-item"><span class="lbl">Path Forward</span></div>
+            <div class="toc-item"><span class="num">1</span></div>
+            <div class="toc-item"><span class="num">2</span></div>
+            <div class="toc-item active"><span class="num">3</span></div>
+            <div class="toc-item"><span class="num">4</span></div>
+            <div class="toc-item"><span class="num">5</span></div>
+            <div class="toc-item"><span class="num">6</span></div>
+            <div class="toc-item"><span class="num">7</span></div>
+            <div class="toc-item"><span class="num">8</span></div>
+            <div class="toc-item"><span class="num">9</span></div>
           </div>
           <div class="wf-letter">
             <div class="prose">
@@ -588,19 +593,15 @@
         </div>
         <div class="wf-body">
           <div class="wf-nav">
-            <div class="toc-item"><span class="lbl">Secret Truth</span></div>
-            <div class="toc-item">
-              <span class="lbl">Unforgiving Mirror</span>
-            </div>
-            <div class="toc-item active">
-              <span class="lbl">Self-Told Lies</span>
-            </div>
-            <div class="toc-item"><span class="lbl">Blind Spots</span></div>
-            <div class="toc-item"><span class="lbl">Your AI Game</span></div>
-            <div class="toc-item"><span class="lbl">Hard Question</span></div>
-            <div class="toc-item"><span class="lbl">Your Edge</span></div>
-            <div class="toc-item"><span class="lbl">Last Thing</span></div>
-            <div class="toc-item"><span class="lbl">Path Forward</span></div>
+            <div class="toc-item"><span class="num">1</span></div>
+            <div class="toc-item"><span class="num">2</span></div>
+            <div class="toc-item active"><span class="num">3</span></div>
+            <div class="toc-item"><span class="num">4</span></div>
+            <div class="toc-item"><span class="num">5</span></div>
+            <div class="toc-item"><span class="num">6</span></div>
+            <div class="toc-item"><span class="num">7</span></div>
+            <div class="toc-item"><span class="num">8</span></div>
+            <div class="toc-item"><span class="num">9</span></div>
           </div>
           <div class="nav-overlay">
             <div class="toc-item">
@@ -698,19 +699,15 @@
         </div>
         <div class="wf-body">
           <div class="wf-nav">
-            <div class="toc-item"><span class="lbl">Secret Truth</span></div>
-            <div class="toc-item">
-              <span class="lbl">Unforgiving Mirror</span>
-            </div>
-            <div class="toc-item active">
-              <span class="lbl">Self-Told Lies</span>
-            </div>
-            <div class="toc-item"><span class="lbl">Blind Spots</span></div>
-            <div class="toc-item"><span class="lbl">Your AI Game</span></div>
-            <div class="toc-item"><span class="lbl">Hard Question</span></div>
-            <div class="toc-item"><span class="lbl">Your Edge</span></div>
-            <div class="toc-item"><span class="lbl">Last Thing</span></div>
-            <div class="toc-item"><span class="lbl">Path Forward</span></div>
+            <div class="toc-item"><span class="num">1</span></div>
+            <div class="toc-item"><span class="num">2</span></div>
+            <div class="toc-item active"><span class="num">3</span></div>
+            <div class="toc-item"><span class="num">4</span></div>
+            <div class="toc-item"><span class="num">5</span></div>
+            <div class="toc-item"><span class="num">6</span></div>
+            <div class="toc-item"><span class="num">7</span></div>
+            <div class="toc-item"><span class="num">8</span></div>
+            <div class="toc-item"><span class="num">9</span></div>
           </div>
           <div class="wf-letter">
             <div class="prose" style="max-width: 390px">
@@ -746,8 +743,8 @@
         merged). Shown here inside the new shell: through-line thesis panel,
         uniform move cards (green number chip, gold "Start here" on move 1,
         this-week / quarter / year timeline, "say to the board" quote). On this
-        tab the slim rail carries the moves. It needs a rebase onto the merged
-        surface, not a redesign.
+        tab the numbers rail carries the moves (R = reflection). It needs a
+        rebase onto the merged surface, not a redesign.
       </p>
       <div class="frame rel">
         <div class="wf-hdr">
@@ -761,10 +758,10 @@
         </div>
         <div class="wf-body">
           <div class="wf-nav">
-            <div class="toc-item active"><span class="lbl">Move 1</span></div>
-            <div class="toc-item"><span class="lbl">Move 2</span></div>
-            <div class="toc-item"><span class="lbl">Move 3</span></div>
-            <div class="toc-item"><span class="lbl">Reflection</span></div>
+            <div class="toc-item active"><span class="num">1</span></div>
+            <div class="toc-item"><span class="num">2</span></div>
+            <div class="toc-item"><span class="num">3</span></div>
+            <div class="toc-item"><span class="num">R</span></div>
           </div>
           <div class="wf-plan">
             <div class="plan-col">
@@ -833,7 +830,7 @@
       <b>Behavior rules (for when this becomes code):</b>
       <ul class="rules">
         <li>
-          <b>Rail:</b> always the slim short-label strip; hover or keyboard
+          <b>Rail:</b> resting state is section numbers only; hover or keyboard
           focus expands it over the content to the full numbered titles; it
           never pushes the letter around. Mobile keeps the Sections sheet.
         </li>
