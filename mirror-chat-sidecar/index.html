@@ -282,17 +282,11 @@
         line-height: 16px;
         text-align: center;
       }
-      .dock-pill {
-        position: absolute;
-        right: 16px;
-        bottom: 14px;
+      .wf-btn.chat-btn {
         border: 1.5px solid #116329;
+        border-style: solid;
         color: #116329;
-        background: #fff;
-        border-radius: 999px;
-        padding: 6px 12px;
         font-weight: 600;
-        box-shadow: 0 2px 8px rgba(31, 35, 40, 0.12);
       }
       .frame.rel {
         position: relative;
@@ -479,10 +473,10 @@
     <p class="sub">
       2026-08-06, rev 3 — wireframes only (no code yet). ① Chat lives in a
       right-hand <b>Chat With Mirror</b> sidecar, open by default on laptop,
-      minimizable to a pill. ② The left rail is a minimal strip of section
-      numbers; <b>hovering it expands the rail</b> to reveal the full numbered
-      titles. ③ Export offers Mirror / Plan / Both in one. ④ Next Moves gets the
-      already-built PR&nbsp;#1520 layout (frame 4).
+      minimizable into a header button. ② The left rail is a minimal strip of
+      section numbers; <b>hovering it expands the rail</b> to reveal the full
+      numbered titles. ③ Export offers Mirror / Plan / Both in one. ④ Next Moves
+      gets the already-built PR&nbsp;#1520 layout (frame 4).
     </p>
 
     <!-- Frame 1 -->
@@ -680,11 +674,13 @@
 
     <!-- Frame 3 -->
     <div class="frame-wrap">
-      <h2>3 · Chat minimized — docked pill</h2>
+      <h2>3 · Chat minimized — docks into the header</h2>
       <p>
-        The minimize control collapses the sidecar into a floating
-        <b>💬 Chat With Mirror</b> pill, bottom-right. The letter re-centers.
-        Clicking the pill re-opens the sidecar; the choice persists per device.
+        The minimize control collapses the sidecar into a
+        <b>💬 Chat With Mirror</b> button in the header — the same chrome the
+        panel hangs from, the way Copilot and Gemini collapse into their
+        toolbars. No floating widget over the letter. Clicking it re-opens the
+        sidecar; the choice persists per device.
       </p>
       <div class="frame rel">
         <div class="wf-hdr">
@@ -693,6 +689,7 @@
           <span class="wf-tab">Your Next Moves</span>
           <span class="spacer"></span>
           <span>03 · Self-Told Lies</span>
+          <span class="wf-btn chat-btn">💬 Chat With Mirror</span>
           <span class="wf-btn">Export ▾</span>
           <span class="wf-btn">⋯</span>
           <span class="wf-btn solid">⚙</span>
@@ -727,7 +724,6 @@
             </div>
           </div>
         </div>
-        <div class="dock-pill">💬 Chat With Mirror</div>
       </div>
     </div>
 
@@ -836,8 +832,8 @@
         </li>
         <li>
           <b>Chat default:</b> sidecar open on ≥1280px viewports; below that it
-          starts minimized (the pill). Mobile keeps today's behavior — chat
-          reachable via "Ask", no sidecar.
+          starts minimized (the header button). Mobile keeps today's behavior —
+          chat reachable via "Ask", no sidecar.
         </li>
         <li>
           <b>Persistence:</b> chat open/closed remembered per device. The rail
@@ -845,7 +841,7 @@
         </li>
         <li>
           <b>Naming:</b> the chat surface is "Chat With Mirror" everywhere
-          (panel title, pill, mobile entry).
+          (panel title, header button, mobile entry).
         </li>
         <li>
           <b>Export:</b> one menu, three targets (Mirror / Next Moves / Both in
@@ -857,8 +853,8 @@
           inside this shell; the moves become the rail's anchors on that tab.
         </li>
         <li>
-          <b>Print/PDF:</b> sidecar, pill, and rail are excluded, like the rest
-          of the chrome.
+          <b>Print/PDF:</b> sidecar, header, and rail are excluded, like the
+          rest of the chrome.
         </li>
         <li>
           <b>No chat-internals change:</b> same chat engine and grounding as
