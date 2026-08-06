@@ -3,7 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Saved Mirror — chat sidecar &amp; shrinkable nav (wireframes)</title>
+    <title>
+      Saved Mirror — chat sidecar &amp; hover-expanding nav (wireframes)
+    </title>
     <style>
       * {
         box-sizing: border-box;
@@ -98,39 +100,17 @@
         flex: 1;
         display: flex;
         min-height: 0;
+        position: relative;
       }
+      /* nav: default = slim short-label strip */
       .wf-nav {
-        flex: 0 0 168px;
+        flex: 0 0 118px;
         border-right: 1px dashed #b7bfc7;
-        padding: 12px 10px;
+        padding: 14px 10px;
         display: flex;
         flex-direction: column;
-        gap: 7px;
+        gap: 8px;
         background: #fcfcfd;
-      }
-      .wf-nav.slim {
-        flex-basis: 118px;
-      }
-      .wf-nav .nav-head {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        color: #8b949e;
-        font-size: 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        margin-bottom: 3px;
-      }
-      .wf-nav .shrink {
-        border: 1px solid #8b949e;
-        border-radius: 4px;
-        width: 16px;
-        height: 16px;
-        line-height: 14px;
-        text-align: center;
-        color: #59636e;
-        flex: 0 0 auto;
       }
       .toc-item {
         display: flex;
@@ -153,6 +133,31 @@
       .toc-item.active .lbl {
         color: #116329;
         font-weight: 700;
+      }
+      /* hover-expanded overlay rail */
+      .nav-overlay {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 262px;
+        background: #fff;
+        border-right: 1.5px solid #8b949e;
+        box-shadow: 8px 0 24px rgba(31, 35, 40, 0.12);
+        padding: 14px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        z-index: 3;
+      }
+      .nav-overlay .toc-item {
+        font-size: 10.5px;
+      }
+      .cursor {
+        position: absolute;
+        font-size: 14px;
+        z-index: 4;
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
       }
       .wf-letter {
         flex: 1;
@@ -283,18 +288,6 @@
       .frame.rel {
         position: relative;
       }
-      .callout {
-        position: absolute;
-        font-size: 10px;
-        color: #953800;
-        background: #fff8c5;
-        border: 1px solid #d4a72c66;
-        border-radius: 6px;
-        padding: 4px 8px;
-        max-width: 200px;
-        line-height: 1.4;
-        z-index: 2;
-      }
       /* export menu */
       .export-menu {
         position: absolute;
@@ -323,9 +316,6 @@
         padding: 6px 8px;
         border-radius: 6px;
         color: #1f2328;
-      }
-      .export-row:hover {
-        background: #eef0f4;
       }
       .export-row .acts {
         display: flex;
@@ -476,24 +466,24 @@
     </style>
   </head>
   <body>
-    <h1>Saved Mirror — chat sidecar &amp; shrinkable nav</h1>
+    <h1>Saved Mirror — chat sidecar &amp; hover-expanding nav</h1>
     <p class="sub">
-      2026-08-06, rev 2 — wireframes only (no code yet). ① Chat moves into a
-      right-hand sidecar named <b>Chat With Mirror</b>, open by default on
-      laptop, minimizable to a pill. ② The Contents rail shrinks to a
-      short-label strip. ③ Export offers Mirror / Plan / Both in one. ④ Next
-      Moves gets the already-built PR&nbsp;#1520 layout (frame 4). Gray boxes =
-      existing content.
+      2026-08-06, rev 3 — wireframes only (no code yet). ① Chat lives in a
+      right-hand <b>Chat With Mirror</b> sidecar, open by default on laptop,
+      minimizable to a pill. ② The left rail is always a slim strip with the
+      short labels; <b>hovering it expands the rail</b> to reveal the full
+      numbered titles. ③ Export offers Mirror / Plan / Both in one. ④ Next Moves
+      gets the already-built PR&nbsp;#1520 layout (frame 4).
     </p>
 
     <!-- Frame 1 -->
     <div class="frame-wrap">
-      <h2>1 · Laptop default — Chat With Mirror open, Export menu shown</h2>
+      <h2>1 · Laptop default — slim rail, chat open, Export menu shown</h2>
       <p>
-        The chat panel sits to the right of the letter, full height under the
-        header. The Export menu (shown open) asks <em>what</em> first: Your
-        Mirror, Your Next Moves, or Both in one — each as copyable text or PDF.
-        "Ask about this" leaves the header — the sidecar replaces it.
+        The rail's resting state is the short-label strip (your nine labels).
+        The chat panel sits right, full height under the header. The Export menu
+        (drawn open) asks <em>what</em> first: Your Mirror, Your Next Moves, or
+        Both in one — each as Copy or PDF.
       </p>
       <div class="frame rel">
         <div class="wf-hdr">
@@ -523,37 +513,19 @@
         </div>
         <div class="wf-body">
           <div class="wf-nav">
-            <div class="nav-head">
-              <span>Contents</span><span class="shrink">«</span>
-            </div>
+            <div class="toc-item"><span class="lbl">Secret Truth</span></div>
             <div class="toc-item">
-              <span class="num">1</span><span class="lbl">Secret Truth</span>
-            </div>
-            <div class="toc-item">
-              <span class="num">2</span
-              ><span class="lbl">Unforgiving Mirror</span>
+              <span class="lbl">Unforgiving Mirror</span>
             </div>
             <div class="toc-item active">
-              <span class="num">3</span><span class="lbl">Self-Told Lies</span>
+              <span class="lbl">Self-Told Lies</span>
             </div>
-            <div class="toc-item">
-              <span class="num">4</span><span class="lbl">Blind Spots</span>
-            </div>
-            <div class="toc-item">
-              <span class="num">5</span><span class="lbl">Your AI Game</span>
-            </div>
-            <div class="toc-item">
-              <span class="num">6</span><span class="lbl">Hard Question</span>
-            </div>
-            <div class="toc-item">
-              <span class="num">7</span><span class="lbl">Your Edge</span>
-            </div>
-            <div class="toc-item">
-              <span class="num">8</span><span class="lbl">Last Thing</span>
-            </div>
-            <div class="toc-item">
-              <span class="num">9</span><span class="lbl">Path Forward</span>
-            </div>
+            <div class="toc-item"><span class="lbl">Blind Spots</span></div>
+            <div class="toc-item"><span class="lbl">Your AI Game</span></div>
+            <div class="toc-item"><span class="lbl">Hard Question</span></div>
+            <div class="toc-item"><span class="lbl">Your Edge</span></div>
+            <div class="toc-item"><span class="lbl">Last Thing</span></div>
+            <div class="toc-item"><span class="lbl">Path Forward</span></div>
           </div>
           <div class="wf-letter">
             <div class="prose">
@@ -596,12 +568,12 @@
 
     <!-- Frame 2 -->
     <div class="frame-wrap">
-      <h2>2 · Chat minimized — docked pill</h2>
+      <h2>2 · Rail hovered — expands to the full titles</h2>
       <p>
-        The minimize control collapses the sidecar into a floating
-        <b>💬 Chat With Mirror</b> pill, bottom-right. The letter re-centers and
-        gains the width back. Clicking the pill re-opens the sidecar; the choice
-        persists per device.
+        Mousing over the rail slides it out over the letter, revealing the full
+        numbered section titles. Mouse away and it settles back to the slim
+        strip. Keyboard focus expands it the same way. Nothing to click, nothing
+        to remember.
       </p>
       <div class="frame rel">
         <div class="wf-hdr">
@@ -616,86 +588,6 @@
         </div>
         <div class="wf-body">
           <div class="wf-nav">
-            <div class="nav-head">
-              <span>Contents</span><span class="shrink">«</span>
-            </div>
-            <div class="toc-item">
-              <span class="num">1</span><span class="lbl">Secret Truth</span>
-            </div>
-            <div class="toc-item">
-              <span class="num">2</span
-              ><span class="lbl">Unforgiving Mirror</span>
-            </div>
-            <div class="toc-item active">
-              <span class="num">3</span><span class="lbl">Self-Told Lies</span>
-            </div>
-            <div class="toc-item">
-              <span class="num">4</span><span class="lbl">Blind Spots</span>
-            </div>
-            <div class="toc-item">
-              <span class="num">5</span><span class="lbl">Your AI Game</span>
-            </div>
-            <div class="toc-item">
-              <span class="num">6</span><span class="lbl">Hard Question</span>
-            </div>
-            <div class="toc-item">
-              <span class="num">7</span><span class="lbl">Your Edge</span>
-            </div>
-            <div class="toc-item">
-              <span class="num">8</span><span class="lbl">Last Thing</span>
-            </div>
-            <div class="toc-item">
-              <span class="num">9</span><span class="lbl">Path Forward</span>
-            </div>
-          </div>
-          <div class="wf-letter">
-            <div class="prose" style="max-width: 380px">
-              <div class="title"></div>
-              <div class="meta"></div>
-              <div class="line"></div>
-              <div class="line"></div>
-              <div class="line short"></div>
-              <div class="h"></div>
-              <div class="line"></div>
-              <div class="line"></div>
-              <div class="line"></div>
-              <div class="line short"></div>
-              <div class="h"></div>
-              <div class="line"></div>
-              <div class="line short"></div>
-            </div>
-          </div>
-        </div>
-        <div class="dock-pill">💬 Chat With Mirror</div>
-      </div>
-    </div>
-
-    <!-- Frame 3 -->
-    <div class="frame-wrap">
-      <h2>3 · Nav shrunk — short labels</h2>
-      <p>
-        The « control collapses the rail to a compact strip carrying the short
-        section labels (no numbers, no "Contents" header) — still clickable
-        anchors, active section in green. » expands back to the numbered rail.
-        Shrunk state persists per device and coexists with the open chat on a
-        13″ laptop.
-      </p>
-      <div class="frame rel">
-        <div class="wf-hdr">
-          <span class="brand">BrilliantWith.ai</span>
-          <span class="wf-tab active">Your Mirror</span>
-          <span class="wf-tab">Your Next Moves</span>
-          <span class="spacer"></span>
-          <span>03 · Self-Told Lies</span>
-          <span class="wf-btn">Export ▾</span>
-          <span class="wf-btn">⋯</span>
-          <span class="wf-btn solid">⚙</span>
-        </div>
-        <div class="wf-body">
-          <div class="wf-nav slim">
-            <div class="nav-head" style="justify-content: flex-end">
-              <span class="shrink">»</span>
-            </div>
             <div class="toc-item"><span class="lbl">Secret Truth</span></div>
             <div class="toc-item">
               <span class="lbl">Unforgiving Mirror</span>
@@ -710,8 +602,47 @@
             <div class="toc-item"><span class="lbl">Last Thing</span></div>
             <div class="toc-item"><span class="lbl">Path Forward</span></div>
           </div>
+          <div class="nav-overlay">
+            <div class="toc-item">
+              <span class="num">1</span
+              ><span class="lbl">Your Secret Truth</span>
+            </div>
+            <div class="toc-item">
+              <span class="num">2</span
+              ><span class="lbl">Your Hard Look in the Mirror</span>
+            </div>
+            <div class="toc-item active">
+              <span class="num">3</span
+              ><span class="lbl">The Lies You Tell Yourself</span>
+            </div>
+            <div class="toc-item">
+              <span class="num">4</span
+              ><span class="lbl">Your Biggest, Baddest Blind Spots</span>
+            </div>
+            <div class="toc-item">
+              <span class="num">5</span
+              ><span class="lbl">Your Personal AI Game</span>
+            </div>
+            <div class="toc-item">
+              <span class="num">6</span
+              ><span class="lbl">The Uncomfortable Question…</span>
+            </div>
+            <div class="toc-item">
+              <span class="num">7</span
+              ><span class="lbl">What You Have That Most Don't</span>
+            </div>
+            <div class="toc-item">
+              <span class="num">8</span
+              ><span class="lbl">One Last Thing to Think About</span>
+            </div>
+            <div class="toc-item">
+              <span class="num">9</span
+              ><span class="lbl">Where You Go From Here</span>
+            </div>
+          </div>
+          <span class="cursor" style="left: 170px; top: 112px">🖱️</span>
           <div class="wf-letter">
-            <div class="prose" style="max-width: 360px">
+            <div class="prose">
               <div class="title"></div>
               <div class="meta"></div>
               <div class="line"></div>
@@ -746,6 +677,63 @@
       </div>
     </div>
 
+    <!-- Frame 3 -->
+    <div class="frame-wrap">
+      <h2>3 · Chat minimized — docked pill</h2>
+      <p>
+        The minimize control collapses the sidecar into a floating
+        <b>💬 Chat With Mirror</b> pill, bottom-right. The letter re-centers.
+        Clicking the pill re-opens the sidecar; the choice persists per device.
+      </p>
+      <div class="frame rel">
+        <div class="wf-hdr">
+          <span class="brand">BrilliantWith.ai</span>
+          <span class="wf-tab active">Your Mirror</span>
+          <span class="wf-tab">Your Next Moves</span>
+          <span class="spacer"></span>
+          <span>03 · Self-Told Lies</span>
+          <span class="wf-btn">Export ▾</span>
+          <span class="wf-btn">⋯</span>
+          <span class="wf-btn solid">⚙</span>
+        </div>
+        <div class="wf-body">
+          <div class="wf-nav">
+            <div class="toc-item"><span class="lbl">Secret Truth</span></div>
+            <div class="toc-item">
+              <span class="lbl">Unforgiving Mirror</span>
+            </div>
+            <div class="toc-item active">
+              <span class="lbl">Self-Told Lies</span>
+            </div>
+            <div class="toc-item"><span class="lbl">Blind Spots</span></div>
+            <div class="toc-item"><span class="lbl">Your AI Game</span></div>
+            <div class="toc-item"><span class="lbl">Hard Question</span></div>
+            <div class="toc-item"><span class="lbl">Your Edge</span></div>
+            <div class="toc-item"><span class="lbl">Last Thing</span></div>
+            <div class="toc-item"><span class="lbl">Path Forward</span></div>
+          </div>
+          <div class="wf-letter">
+            <div class="prose" style="max-width: 390px">
+              <div class="title"></div>
+              <div class="meta"></div>
+              <div class="line"></div>
+              <div class="line"></div>
+              <div class="line short"></div>
+              <div class="h"></div>
+              <div class="line"></div>
+              <div class="line"></div>
+              <div class="line"></div>
+              <div class="line short"></div>
+              <div class="h"></div>
+              <div class="line"></div>
+              <div class="line short"></div>
+            </div>
+          </div>
+        </div>
+        <div class="dock-pill">💬 Chat With Mirror</div>
+      </div>
+    </div>
+
     <!-- Frame 4 -->
     <div class="frame-wrap">
       <h2>
@@ -755,11 +743,11 @@
       <p>
         The Next Moves redesign already exists as finished, tested code (draft
         PR #1520, built Aug 4, iterated against 9 blind customer reviews — never
-        merged). This frame shows its structure in the new sidecar world:
-        through-line thesis panel, uniform move cards (green number chip, gold
-        "Start here" on move 1, this-week / quarter / year timeline, "say to the
-        board" quote), quiet closing. It needs a rebase onto the merged surface,
-        not a redesign.
+        merged). Shown here inside the new shell: through-line thesis panel,
+        uniform move cards (green number chip, gold "Start here" on move 1,
+        this-week / quarter / year timeline, "say to the board" quote). On this
+        tab the slim rail carries the moves. It needs a rebase onto the merged
+        surface, not a redesign.
       </p>
       <div class="frame rel">
         <div class="wf-hdr">
@@ -772,10 +760,7 @@
           <span class="wf-btn solid">⚙</span>
         </div>
         <div class="wf-body">
-          <div class="wf-nav slim">
-            <div class="nav-head" style="justify-content: flex-end">
-              <span class="shrink">»</span>
-            </div>
+          <div class="wf-nav">
             <div class="toc-item active"><span class="lbl">Move 1</span></div>
             <div class="toc-item"><span class="lbl">Move 2</span></div>
             <div class="toc-item"><span class="lbl">Move 3</span></div>
@@ -848,13 +833,18 @@
       <b>Behavior rules (for when this becomes code):</b>
       <ul class="rules">
         <li>
-          <b>Default:</b> sidecar open on ≥1280px viewports; below that it
+          <b>Rail:</b> always the slim short-label strip; hover or keyboard
+          focus expands it over the content to the full numbered titles; it
+          never pushes the letter around. Mobile keeps the Sections sheet.
+        </li>
+        <li>
+          <b>Chat default:</b> sidecar open on ≥1280px viewports; below that it
           starts minimized (the pill). Mobile keeps today's behavior — chat
           reachable via "Ask", no sidecar.
         </li>
         <li>
-          <b>Persistence:</b> sidecar open/closed and nav shrunk/expanded are
-          remembered per device.
+          <b>Persistence:</b> chat open/closed remembered per device. The rail
+          has no state to remember.
         </li>
         <li>
           <b>Naming:</b> the chat surface is "Chat With Mirror" everywhere
@@ -867,12 +857,11 @@
         </li>
         <li>
           <b>Next Moves:</b> layout comes from PR #1520 (rebased), rendered
-          inside this shell; its move list doubles as the shrunken rail's
-          anchors on that tab.
+          inside this shell; the moves become the rail's anchors on that tab.
         </li>
         <li>
-          <b>Print/PDF:</b> sidecar and pill are excluded, like the rest of the
-          chrome.
+          <b>Print/PDF:</b> sidecar, pill, and rail are excluded, like the rest
+          of the chrome.
         </li>
         <li>
           <b>No chat-internals change:</b> same chat engine and grounding as
