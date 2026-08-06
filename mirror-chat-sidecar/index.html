@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Saved Mirror — chat sidecar &amp; shrinkable nav (wireframes)</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #f6f8fa;
+        color: #1f2328;
+        padding: 20px 14px 48px;
+        max-width: 1080px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 22px;
+        margin: 8px 0 4px;
+      }
+      .sub {
+        color: #59636e;
+        font-size: 14px;
+        margin-bottom: 28px;
+        line-height: 1.5;
+        max-width: 72ch;
+      }
+      .frame-wrap {
+        margin-bottom: 40px;
+      }
+      .frame-wrap h2 {
+        font-size: 15px;
+        margin-bottom: 4px;
+      }
+      .frame-wrap > p {
+        font-size: 13.5px;
+        color: #59636e;
+        margin-bottom: 12px;
+        line-height: 1.5;
+        max-width: 78ch;
+      }
+      /* ---- wireframe vocabulary ---- */
+      .frame {
+        background: #fff;
+        border: 1px solid #d1d9e0;
+        border-radius: 10px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        aspect-ratio: 16 / 9.6;
+        min-height: 380px;
+        font-size: 11px;
+        color: #59636e;
+      }
+      .wf-hdr {
+        flex: 0 0 44px;
+        border-bottom: 1.5px solid #8b949e;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 14px;
+        background: #fcfcfd;
+      }
+      .wf-hdr .brand {
+        font-weight: 700;
+        color: #1f2328;
+        font-size: 11px;
+        white-space: nowrap;
+      }
+      .wf-tab {
+        border: 1px solid #8b949e;
+        border-radius: 999px;
+        padding: 3px 10px;
+        white-space: nowrap;
+      }
+      .wf-tab.active {
+        background: #1f2328;
+        color: #fff;
+        border-color: #1f2328;
+      }
+      .wf-hdr .spacer {
+        flex: 1;
+      }
+      .wf-btn {
+        border: 1px dashed #8b949e;
+        border-radius: 6px;
+        padding: 3px 8px;
+        white-space: nowrap;
+      }
+      .wf-btn.solid {
+        border-style: solid;
+      }
+      .wf-body {
+        flex: 1;
+        display: flex;
+        min-height: 0;
+      }
+      .wf-nav {
+        flex: 0 0 148px;
+        border-right: 1px dashed #b7bfc7;
+        padding: 12px 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        background: #fcfcfd;
+      }
+      .wf-nav.slim {
+        flex-basis: 44px;
+        align-items: center;
+      }
+      .wf-nav .nav-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        color: #8b949e;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 3px;
+      }
+      .wf-nav .shrink {
+        border: 1px solid #8b949e;
+        border-radius: 4px;
+        width: 16px;
+        height: 16px;
+        line-height: 14px;
+        text-align: center;
+        color: #59636e;
+        flex: 0 0 auto;
+      }
+      .toc-item {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        width: 100%;
+      }
+      .toc-item .num {
+        flex: 0 0 auto;
+        color: #8b949e;
+      }
+      .toc-item .bar {
+        height: 6px;
+        border-radius: 3px;
+        background: #e6e9ed;
+        flex: 1;
+      }
+      .toc-item.active .num {
+        color: #116329;
+        font-weight: 700;
+      }
+      .toc-item.active .bar {
+        background: #b6e3c6;
+      }
+      .wf-nav.slim .toc-item {
+        justify-content: center;
+      }
+      .wf-nav.slim .toc-item .bar {
+        display: none;
+      }
+      .wf-letter {
+        flex: 1;
+        min-width: 0;
+        padding: 18px 26px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: hidden;
+      }
+      .prose {
+        width: 100%;
+        max-width: 340px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .prose .title {
+        height: 14px;
+        border-radius: 4px;
+        background: #cfd6dd;
+        width: 70%;
+        margin-bottom: 6px;
+      }
+      .prose .meta {
+        height: 6px;
+        border-radius: 3px;
+        background: #e6e9ed;
+        width: 45%;
+        margin-bottom: 8px;
+      }
+      .prose .line {
+        height: 7px;
+        border-radius: 3px;
+        background: #e6e9ed;
+      }
+      .prose .line.short {
+        width: 62%;
+      }
+      .prose .h {
+        height: 10px;
+        border-radius: 3px;
+        background: #cfd6dd;
+        width: 52%;
+        margin-top: 10px;
+      }
+      .wf-chat {
+        flex: 0 0 210px;
+        border-left: 1.5px solid #8b949e;
+        display: flex;
+        flex-direction: column;
+        background: #fcfcfd;
+      }
+      .chat-head {
+        flex: 0 0 30px;
+        border-bottom: 1px dashed #b7bfc7;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+        color: #1f2328;
+        font-weight: 600;
+      }
+      .chat-head .min {
+        border: 1px solid #8b949e;
+        border-radius: 4px;
+        width: 18px;
+        height: 16px;
+        line-height: 13px;
+        text-align: center;
+        font-weight: 400;
+        color: #59636e;
+      }
+      .chat-scroll {
+        flex: 1;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        overflow: hidden;
+      }
+      .bubble {
+        border-radius: 8px;
+        padding: 7px 8px;
+        max-width: 85%;
+        font-size: 10px;
+        line-height: 1.45;
+      }
+      .bubble.ai {
+        background: #eef0f4;
+        align-self: flex-start;
+      }
+      .bubble.user {
+        background: #dafbe1;
+        align-self: flex-end;
+      }
+      .chat-composer {
+        flex: 0 0 34px;
+        border-top: 1px dashed #b7bfc7;
+        margin: 0 10px 10px;
+        border: 1px solid #8b949e;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 8px;
+        color: #8b949e;
+      }
+      .chat-composer .mic {
+        border: 1px solid #8b949e;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        line-height: 16px;
+        text-align: center;
+      }
+      .dock-pill {
+        position: absolute;
+        right: 16px;
+        bottom: 14px;
+        border: 1.5px solid #116329;
+        color: #116329;
+        background: #fff;
+        border-radius: 999px;
+        padding: 6px 12px;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(31, 35, 40, 0.12);
+      }
+      .frame.rel {
+        position: relative;
+      }
+      .callout {
+        position: absolute;
+        font-size: 10px;
+        color: #953800;
+        background: #fff8c5;
+        border: 1px solid #d4a72c66;
+        border-radius: 6px;
+        padding: 4px 8px;
+        max-width: 200px;
+        line-height: 1.4;
+        z-index: 2;
+      }
+      .note {
+        font-size: 12.5px;
+        color: #59636e;
+        background: #fff;
+        border: 1px solid #d1d9e0;
+        border-radius: 8px;
+        padding: 12px 14px;
+        line-height: 1.55;
+        margin-top: 10px;
+        max-width: 78ch;
+      }
+      .note b {
+        color: #1f2328;
+      }
+      ul.rules {
+        margin: 6px 0 0 18px;
+      }
+      ul.rules li {
+        margin-bottom: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Saved Mirror — chat sidecar &amp; shrinkable nav</h1>
+    <p class="sub">
+      2026-08-06 — wireframes only (no code yet). Three changes to the merged
+      reading surface: ① chat moves out of the page bottom into a right-hand
+      sidecar, ② the sidecar is open by default on laptop and minimizes to a
+      pill, ③ the Contents rail shrinks to a numbers-only strip. Gray boxes =
+      existing content, unchanged. Green = the surface accent where a state
+      needs it.
+    </p>
+
+    <!-- Frame 1 -->
+    <div class="frame-wrap">
+      <h2>1 · Laptop default — chat open in a sidecar</h2>
+      <p>
+        The chat panel sits to the right of the letter, full height under the
+        header. The letter column keeps its reading measure; the Contents rail
+        stays as-is on the left. "Ask about this" disappears from the header —
+        the sidecar <em>is</em> the ask surface, so the header slims down to
+        brand · tabs · section indicator · Export · ⋯ · account.
+      </p>
+      <div class="frame rel">
+        <div class="wf-hdr">
+          <span class="brand">BrilliantWith.ai</span>
+          <span class="wf-tab active">Your Mirror</span>
+          <span class="wf-tab">Your Next Moves</span>
+          <span class="spacer"></span>
+          <span>03 · What drives you</span>
+          <span class="wf-btn">Export ▾</span>
+          <span class="wf-btn">⋯</span>
+          <span class="wf-btn solid">⚙</span>
+        </div>
+        <div class="wf-body">
+          <div class="wf-nav">
+            <div class="nav-head">
+              <span>Contents</span><span class="shrink">«</span>
+            </div>
+            <div class="toc-item">
+              <span class="num">1</span><span class="bar"></span>
+            </div>
+            <div class="toc-item">
+              <span class="num">2</span><span class="bar"></span>
+            </div>
+            <div class="toc-item active">
+              <span class="num">3</span><span class="bar"></span>
+            </div>
+            <div class="toc-item">
+              <span class="num">4</span><span class="bar"></span>
+            </div>
+            <div class="toc-item">
+              <span class="num">5</span><span class="bar"></span>
+            </div>
+            <div class="toc-item">
+              <span class="num">6</span><span class="bar"></span>
+            </div>
+          </div>
+          <div class="wf-letter">
+            <div class="prose">
+              <div class="title"></div>
+              <div class="meta"></div>
+              <div class="line"></div>
+              <div class="line"></div>
+              <div class="line short"></div>
+              <div class="h"></div>
+              <div class="line"></div>
+              <div class="line"></div>
+              <div class="line"></div>
+              <div class="line short"></div>
+              <div class="h"></div>
+              <div class="line"></div>
+              <div class="line short"></div>
+            </div>
+          </div>
+          <div class="wf-chat">
+            <div class="chat-head">
+              <span>Ask about this Mirror</span>
+              <span class="min">—</span>
+            </div>
+            <div class="chat-scroll">
+              <div class="bubble ai">
+                I can answer questions about your letter and action plan.
+              </div>
+              <div class="bubble user">
+                Why did section 3 focus on autonomy?
+              </div>
+              <div class="bubble ai">In your interview you said…</div>
+            </div>
+            <div class="chat-composer">
+              <span>Ask anything…</span><span class="mic">🎙</span>
+            </div>
+          </div>
+        </div>
+        <div class="callout" style="right: 232px; top: 56px">
+          minimize — collapses to the pill in frame 2
+        </div>
+      </div>
+    </div>
+
+    <!-- Frame 2 -->
+    <div class="frame-wrap">
+      <h2>2 · Chat minimized — docked pill</h2>
+      <p>
+        The minimize control collapses the sidecar into a floating pill,
+        bottom-right (where a chat affordance is expected). The letter column
+        re-centers and gains the full width back. Clicking the pill re-opens the
+        sidecar. The choice persists per device — a reader who closes it stays
+        closed on return.
+      </p>
+      <div class="frame rel">
+        <div class="wf-hdr">
+          <span class="brand">BrilliantWith.ai</span>
+          <span class="wf-tab active">Your Mirror</span>
+          <span class="wf-tab">Your Next Moves</span>
+          <span class="spacer"></span>
+          <span>03 · What drives you</span>
+          <span class="wf-btn">Export ▾</span>
+          <span class="wf-btn">⋯</span>
+          <span class="wf-btn solid">⚙</span>
+        </div>
+        <div class="wf-body">
+          <div class="wf-nav">
+            <div class="nav-head">
+              <span>Contents</span><span class="shrink">«</span>
+            </div>
+            <div class="toc-item">
+              <span class="num">1</span><span class="bar"></span>
+            </div>
+            <div class="toc-item">
+              <span class="num">2</span><span class="bar"></span>
+            </div>
+            <div class="toc-item active">
+              <span class="num">3</span><span class="bar"></span>
+            </div>
+            <div class="toc-item">
+              <span class="num">4</span><span class="bar"></span>
+            </div>
+            <div class="toc-item">
+              <span class="num">5</span><span class="bar"></span>
+            </div>
+            <div class="toc-item">
+              <span class="num">6</span><span class="bar"></span>
+            </div>
+          </div>
+          <div class="wf-letter">
+            <div class="prose" style="max-width: 380px">
+              <div class="title"></div>
+              <div class="meta"></div>
+              <div class="line"></div>
+              <div class="line"></div>
+              <div class="line short"></div>
+              <div class="h"></div>
+              <div class="line"></div>
+              <div class="line"></div>
+              <div class="line"></div>
+              <div class="line short"></div>
+              <div class="h"></div>
+              <div class="line"></div>
+              <div class="line short"></div>
+            </div>
+          </div>
+        </div>
+        <div class="dock-pill">💬 Ask about this</div>
+      </div>
+    </div>
+
+    <!-- Frame 3 -->
+    <div class="frame-wrap">
+      <h2>3 · Nav shrunk — numbers-only strip</h2>
+      <p>
+        The « control in the Contents head collapses the rail to a slim numbered
+        strip: same anchors, same active state (green number), ~100px returned
+        to the page. » expands it back. Shrunk state persists per device. With
+        both the nav shrunk and the chat open, the letter still keeps a
+        comfortable measure on a 13″ laptop.
+      </p>
+      <div class="frame rel">
+        <div class="wf-hdr">
+          <span class="brand">BrilliantWith.ai</span>
+          <span class="wf-tab active">Your Mirror</span>
+          <span class="wf-tab">Your Next Moves</span>
+          <span class="spacer"></span>
+          <span>03 · What drives you</span>
+          <span class="wf-btn">Export ▾</span>
+          <span class="wf-btn">⋯</span>
+          <span class="wf-btn solid">⚙</span>
+        </div>
+        <div class="wf-body">
+          <div class="wf-nav slim">
+            <div class="nav-head" style="justify-content: center">
+              <span class="shrink">»</span>
+            </div>
+            <div class="toc-item"><span class="num">1</span></div>
+            <div class="toc-item"><span class="num">2</span></div>
+            <div class="toc-item active"><span class="num">3</span></div>
+            <div class="toc-item"><span class="num">4</span></div>
+            <div class="toc-item"><span class="num">5</span></div>
+            <div class="toc-item"><span class="num">6</span></div>
+          </div>
+          <div class="wf-letter">
+            <div class="prose" style="max-width: 360px">
+              <div class="title"></div>
+              <div class="meta"></div>
+              <div class="line"></div>
+              <div class="line"></div>
+              <div class="line short"></div>
+              <div class="h"></div>
+              <div class="line"></div>
+              <div class="line"></div>
+              <div class="line"></div>
+              <div class="line short"></div>
+              <div class="h"></div>
+              <div class="line"></div>
+              <div class="line short"></div>
+            </div>
+          </div>
+          <div class="wf-chat">
+            <div class="chat-head">
+              <span>Ask about this Mirror</span>
+              <span class="min">—</span>
+            </div>
+            <div class="chat-scroll">
+              <div class="bubble ai">
+                I can answer questions about your letter and action plan.
+              </div>
+              <div class="bubble user">What should I do first?</div>
+            </div>
+            <div class="chat-composer">
+              <span>Ask anything…</span><span class="mic">🎙</span>
+            </div>
+          </div>
+        </div>
+        <div class="callout" style="left: 54px; top: 56px">
+          « / » toggles; hover a number for the section title
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <b>Behavior rules (for when this becomes code):</b>
+      <ul class="rules">
+        <li>
+          <b>Default:</b> sidecar open on ≥1280px viewports; below that it
+          starts minimized (the pill). Mobile keeps today's behavior — chat
+          reachable via "Ask", no sidecar.
+        </li>
+        <li>
+          <b>Persistence:</b> sidecar open/closed and nav shrunk/expanded are
+          remembered per device.
+        </li>
+        <li>
+          <b>Header:</b> "Ask about this" leaves the header on laptop (the
+          sidecar replaces it); the mobile "Ask" button stays.
+        </li>
+        <li>
+          <b>Print/PDF:</b> sidecar and pill are excluded, like the rest of the
+          chrome.
+        </li>
+        <li>
+          <b>No chat-internals change:</b> same chat engine and grounding as
+          today — this is placement only.
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
