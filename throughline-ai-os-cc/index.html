@@ -385,6 +385,33 @@
         line-height: 1.45;
       }
 
+      .hero-meta {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+        padding-top: 22px;
+      }
+
+      .hero-meta > div {
+        display: grid;
+        gap: 4px;
+        align-content: start;
+      }
+
+      .hero-meta .m-num {
+        color: var(--white);
+        font: 600 27px/1 var(--font-display);
+        letter-spacing: -0.02em;
+      }
+
+      .hero-meta .m-lbl {
+        color: #96e1df;
+        font: 700 9px/1.4 var(--font-utility);
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
       .hero-note {
         margin-top: 28px;
         border-top: 1px solid rgba(255, 255, 255, 0.18);
@@ -396,6 +423,268 @@
 
       .hero-note strong {
         color: var(--white);
+      }
+
+      .hero-def {
+        max-width: 640px;
+        margin: 0 0 20px;
+        color: var(--white);
+        font: 500 clamp(19px, 2.3vw, 25px) / 1.35 var(--font-display);
+        letter-spacing: -0.015em;
+      }
+
+      .title-defs {
+        display: grid;
+        gap: 16px;
+        margin-top: 32px;
+        border-top: 1px solid rgba(255, 255, 255, 0.17);
+        padding-top: 24px;
+      }
+
+      .title-defs > div {
+        display: grid;
+        grid-template-columns: 104px minmax(0, 1fr);
+        gap: 6px 16px;
+        align-items: baseline;
+      }
+
+      @media (max-width: 560px) {
+        .title-defs > div {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .title-defs .d-label {
+        color: #96e1df;
+        font: 700 9.5px var(--font-utility);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .title-defs .d-text {
+        color: #d7dcef;
+        font-size: 13.5px;
+        line-height: 1.5;
+      }
+
+      .title-defs .d-text strong {
+        color: var(--white);
+        font-weight: 650;
+      }
+
+      /* ---------- internal memo ---------- */
+
+      .memo {
+        display: grid;
+        grid-template-columns: 200px minmax(0, 1fr);
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow: var(--shadow);
+      }
+
+      .memo-rail {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        border-right: 1px solid var(--line);
+        padding: clamp(28px, 4vw, 44px) 26px;
+        background: #eaeef6;
+      }
+
+      .memo-tag {
+        align-self: start;
+        border-radius: 999px;
+        padding: 6px 13px;
+        background: var(--navy);
+        color: var(--white);
+        font: 700 9.5px/1 var(--font-utility);
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+
+      .memo-rail p {
+        margin: 0;
+        color: var(--ink-2);
+        font-size: 12.5px;
+        line-height: 1.55;
+      }
+
+      .memo-body {
+        display: grid;
+        gap: 28px;
+        padding: clamp(30px, 4.4vw, 54px);
+        min-width: 0;
+      }
+
+      .memo h2 {
+        margin: 0 0 12px;
+        font: 600 clamp(28px, 3.7vw, 43px) / 1.05 var(--font-display);
+        letter-spacing: -0.025em;
+      }
+
+      .memo-sub {
+        max-width: 70ch;
+        margin: 0;
+        color: var(--ink-2);
+        font-size: clamp(15.5px, 1.5vw, 17px);
+        line-height: 1.55;
+      }
+
+      .memo-sub strong {
+        color: var(--ink);
+      }
+
+      .memo-block {
+        display: grid;
+        gap: 11px;
+      }
+
+      .memo-block h3 {
+        margin: 0;
+        color: var(--ink-2);
+        font: 700 11px var(--font-utility);
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      .memo-block p {
+        max-width: 72ch;
+        margin: 0;
+        color: var(--ink-2);
+        font-size: 15px;
+        line-height: 1.6;
+      }
+
+      .memo-block p strong {
+        color: var(--ink);
+      }
+
+      .case {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(268px, 1fr));
+        gap: 14px;
+      }
+
+      .case-card {
+        border: 1px solid var(--line);
+        border-top: 3px solid var(--case-color);
+        border-radius: 14px;
+        padding: 20px;
+        background: var(--white);
+      }
+
+      .case-card.for {
+        --case-color: var(--aqua);
+      }
+      .case-card.against {
+        --case-color: var(--coral);
+      }
+
+      .case-card h4 {
+        margin: 0 0 13px;
+        color: var(--case-color);
+        font: 700 11px var(--font-utility);
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      .case-card ul {
+        list-style: none;
+        display: grid;
+        gap: 10px;
+        margin: 0;
+        padding: 0;
+      }
+
+      .case-card li {
+        position: relative;
+        padding-left: 16px;
+        color: var(--ink-2);
+        font-size: 13.5px;
+        line-height: 1.5;
+      }
+
+      .case-card li::before {
+        content: "";
+        position: absolute;
+        top: 8px;
+        left: 0;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--case-color);
+        opacity: 0.6;
+      }
+
+      .case-card li strong {
+        color: var(--ink);
+        font-weight: 650;
+      }
+
+      .questions {
+        list-style: none;
+        counter-reset: q;
+        display: grid;
+        gap: 10px;
+        margin: 0;
+        padding: 0;
+      }
+
+      .questions li {
+        counter-increment: q;
+        position: relative;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 15px 18px 15px 54px;
+        background: var(--white);
+        color: var(--ink);
+        font-size: 14.5px;
+        line-height: 1.5;
+      }
+
+      .questions li::before {
+        content: "Q" counter(q);
+        position: absolute;
+        top: 16px;
+        left: 18px;
+        color: var(--violet);
+        font: 700 11px var(--font-utility);
+        letter-spacing: 0.06em;
+      }
+
+      /* ---------- lineage band ---------- */
+
+      .lineage {
+        --stage-color: var(--aqua);
+        --stage-soft: var(--aqua-soft);
+        display: grid;
+        gap: 24px;
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: clamp(34px, 5vw, 58px);
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: var(--shadow);
+      }
+
+      .lineage h2 {
+        max-width: 22ch;
+        margin: 0 0 14px;
+        font: 600 clamp(32px, 4.2vw, 48px) / 1.02 var(--font-display);
+        letter-spacing: -0.03em;
+      }
+
+      .lineage .lineage-lede {
+        max-width: 74ch;
+        margin: 0;
+        color: var(--ink-2);
+        font-size: clamp(15.5px, 1.5vw, 17px);
+        line-height: 1.55;
+      }
+
+      .lineage .lineage-lede strong {
+        color: var(--ink);
       }
 
       /* ---------- premise band ---------- */
@@ -954,21 +1243,23 @@
       .principles li {
         counter-increment: prin;
         display: grid;
-        grid-template-columns: 26px 1fr;
-        gap: 12px;
+        grid-template-columns: 26px minmax(0, 1fr);
+        gap: 4px 12px;
         padding: 15px 17px;
         background: var(--white);
       }
 
       .principles li::before {
         content: counter(prin, decimal-leading-zero);
+        grid-column: 1;
+        grid-row: 1;
         color: var(--stage-color);
         font: 700 10px/1.7 var(--font-utility);
         letter-spacing: 0.05em;
       }
 
       .principles .p-name {
-        display: block;
+        grid-column: 2;
         color: var(--ink);
         font-size: 14.5px;
         font-weight: 650;
@@ -976,8 +1267,7 @@
       }
 
       .principles .p-desc {
-        display: block;
-        margin-top: 3px;
+        grid-column: 2;
         color: var(--ink-2);
         font-size: 13px;
         line-height: 1.45;
@@ -1121,9 +1411,8 @@
       }
 
       .col-card li {
-        display: grid;
-        grid-template-columns: 13px 1fr;
-        gap: 9px;
+        position: relative;
+        padding-left: 16px;
         color: var(--ink-2);
         font-size: 13.5px;
         line-height: 1.45;
@@ -1131,9 +1420,11 @@
 
       .col-card li::before {
         content: "";
+        position: absolute;
+        top: 8px;
+        left: 0;
         width: 5px;
         height: 5px;
-        margin-top: 8px;
         border-radius: 50%;
         background: var(--stage-color);
         opacity: 0.55;
@@ -1270,6 +1561,18 @@
         .stage {
           grid-template-columns: 1fr;
         }
+        .memo {
+          grid-template-columns: 1fr;
+        }
+        .memo-rail {
+          flex-direction: row;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 10px 16px;
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+          padding: 16px 22px;
+        }
         .stage-rail {
           flex-direction: row;
           align-items: center;
@@ -1353,10 +1656,16 @@
 
       <nav class="flow" id="flow" aria-label="Section navigation">
         <a href="#overview"
-          ><span class="num">OV</span><span class="lbl">Overview</span></a
+          ><span class="num">··</span><span class="lbl">Title</span></a
+        >
+        <a href="#internal"
+          ><span class="num">··</span><span class="lbl">Read first</span></a
         >
         <a href="#premise"
           ><span class="num">··</span><span class="lbl">Two conditions</span></a
+        >
+        <a href="#lineage"
+          ><span class="num">··</span><span class="lbl">vs. EOS</span></a
         >
         <span class="sep" aria-hidden="true"></span>
         <span class="tier t-doctrine" aria-hidden="true">Doctrine</span>
@@ -1425,17 +1734,50 @@
 
       <div class="slides">
         <!-- ============ HERO ============ -->
-        <header class="hero slide" id="overview" data-slide-title="Overview">
+        <header class="hero slide" id="overview" data-slide-title="Title">
           <div class="hero-copy">
-            <p class="eyebrow">Throughline · system thesis · working draft</p>
-            <h1>Alignment is not an event you hold.</h1>
-            <p class="lede">
+            <p class="eyebrow">
+              Brilliant With AI · working draft · August 2026
+            </p>
+            <h1>Throughline</h1>
+            <p class="hero-def">
               An AI-native organizational operating system that continuously
               creates, maintains, and restores alignment — and converts that
-              alignment into sustained momentum. Traditional operating systems
+              alignment into sustained momentum.
+            </p>
+            <p class="lede">
+              Alignment is not an event you hold. Traditional operating systems
               are something a company periodically <em>uses</em>. This is
               something it <em>runs on</em>.
             </p>
+            <div class="title-defs">
+              <div>
+                <span class="d-label">What it is</span>
+                <span class="d-text"
+                  >One living record of what the company intends and what is
+                  actually true, a fleet of agents that carry the coordination
+                  around it, and an explicit ladder governing what those agents
+                  are allowed to decide.</span
+                >
+              </div>
+              <div>
+                <span class="d-label">Who it's for</span>
+                <span class="d-text"
+                  >Leadership teams of roughly
+                  <strong>20 to 500 people</strong> who already run on a
+                  management system and now lose more to drift and re-explaining
+                  than to bad decisions.</span
+                >
+              </div>
+              <div>
+                <span class="d-label">What changes</span>
+                <span class="d-text"
+                  >Meetings stop being where reality gets reassembled. Alignment
+                  becomes something you can <strong>read at any moment</strong>,
+                  not the fading residue of the last offsite.</span
+                >
+              </div>
+            </div>
           </div>
           <aside class="hero-aside" aria-label="How to read this document">
             <div>
@@ -1464,6 +1806,20 @@
                 </li>
               </ul>
             </div>
+            <div class="hero-meta">
+              <div>
+                <span class="m-num">22</span>
+                <span class="m-lbl">sections</span>
+              </div>
+              <div>
+                <span class="m-num">3</span>
+                <span class="m-lbl">hypotheses with kill criteria</span>
+              </div>
+              <div>
+                <span class="m-num">8</span>
+                <span class="m-lbl">named ways this fails</span>
+              </div>
+            </div>
             <p class="hero-note">
               <strong
                 >Three kinds of claim live here, and they do not deserve equal
@@ -1475,6 +1831,165 @@
             </p>
           </aside>
         </header>
+
+        <!-- ============ INTERNAL MEMO ============ -->
+        <section class="memo slide" id="internal" data-slide-title="Read first">
+          <div class="memo-rail">
+            <span class="memo-tag">Internal</span>
+            <p>
+              Discussion document. Not for client distribution and not a
+              commitment to build.
+            </p>
+            <p>Drafted 7 August 2026.</p>
+          </div>
+          <div class="memo-body">
+            <div>
+              <h2>Read this first</h2>
+              <p class="memo-sub">
+                This is a <strong>thought-starter</strong>, not a plan. It
+                exists to force one question into the open: is this a direction
+                Brilliant With AI should actually bet on, or an interesting
+                document we admire and then shelve?
+              </p>
+            </div>
+
+            <div class="memo-block">
+              <h3>How it came to be</h3>
+              <p>
+                Two independent attempts at describing an AI-native operating
+                system were written from the same starting point — the EOS
+                process model. Each was assessed blind against the other, the
+                stronger ideas from both were merged into a single thesis, and
+                then the other author critiqued that merge in detail. Their
+                corrections are incorporated here.
+              </p>
+              <p>
+                So the argument has already survived one adversarial round.
+                <strong>It has not survived a customer.</strong> That is the
+                whole gap this document is asking you to look at.
+              </p>
+            </div>
+
+            <div class="memo-block">
+              <h3>What it is for — and what it is not</h3>
+              <p>
+                It is for deciding whether the direction is worth real time. It
+                is not a spec, a roadmap, or an estimate. The three tiers
+                described on the title page are load-bearing: everything in Part
+                III is a guess with a kill criterion attached, written that way
+                deliberately so we can argue with the guesses instead of
+                inheriting them.
+              </p>
+            </div>
+
+            <div class="memo-block">
+              <h3>Should this be a strategic priority?</h3>
+              <div class="case">
+                <div class="case-card for">
+                  <h4>The case for</h4>
+                  <ul>
+                    <li>
+                      <strong>Stage 1 already exists.</strong> The Mirror is a
+                      product we have run repeatedly, with real clients. The
+                      cold-start problem that kills systems like this is one we
+                      have already solved by accident.
+                    </li>
+                    <li>
+                      <strong>It turns a service into a system.</strong> Mirror
+                      engagements are sold one at a time and end when they end.
+                      The same work feeding a persistent model becomes recurring
+                      revenue that gets harder to cancel each quarter.
+                    </li>
+                    <li>
+                      <strong>The moat compounds and cannot be copied.</strong>
+                      A year of decision history, evidence lineage, observed
+                      throughput, and calibrated authority ceilings for a
+                      specific company is not reproducible by a competitor
+                      shipping the same feature list.
+                    </li>
+                    <li>
+                      <strong>The category is unclaimed.</strong> EOS, Scaling
+                      Up, and 4DX are all pre-AI. Nobody has credibly claimed
+                      the operating system an AI-native company runs on.
+                    </li>
+                    <li>
+                      <strong
+                        >It gives our other work somewhere to land.</strong
+                      >
+                      Advisory engagements currently end when the deck is
+                      delivered. Here they deposit into something that keeps
+                      running afterward.
+                    </li>
+                  </ul>
+                </div>
+                <div class="case-card against">
+                  <h4>The case against</h4>
+                  <ul>
+                    <li>
+                      <strong
+                        >It is three hard products described as one.</strong
+                      >
+                      The model, the agents, and the reconciliation layer are
+                      each a company. Staging makes it survivable; it does not
+                      make the full vision affordable.
+                    </li>
+                    <li>
+                      <strong>The buyer may not exist yet.</strong> Companies
+                      buy a management system from a coach they trust, not from
+                      a platform. That is a services motion, and services
+                      motions do not scale the way this document quietly
+                      assumes.
+                    </li>
+                    <li>
+                      <strong>Stage 2 is a long enterprise sale.</strong>
+                      Read-only access to systems of record needs permissions
+                      that take months and can stall everything behind them.
+                    </li>
+                    <li>
+                      <strong>Incumbents sit closer to the data.</strong> If the
+                      model layer is where the value concentrates, the companies
+                      already holding that data in their own product are better
+                      positioned than we are.
+                    </li>
+                    <li>
+                      <strong>It competes with the work that pays now.</strong>
+                      Every week here is a week not spent on delivery. That cost
+                      is certain; the return is not.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="memo-block">
+              <h3>Five questions to hold while you read</h3>
+              <ol class="questions">
+                <li>
+                  If the Mirror shipped and nothing else ever did, would that be
+                  a good outcome or a failure?
+                </li>
+                <li>
+                  Is the buyer the CEO, the COO, or the coach who already sold
+                  them a management system — and do we have reach to any of
+                  them?
+                </li>
+                <li>
+                  Which Part III hypothesis would you most want disproven first,
+                  and what would it cost to test it properly?
+                </li>
+                <li>
+                  Does the refusal to ever score a person (§12) read as
+                  principled, or as leaving the obvious enterprise feature on
+                  the table?
+                </li>
+                <li>
+                  What would have to be true twelve months from now for this to
+                  have been the right bet — and can we check any of it today?
+                </li>
+              </ol>
+            </div>
+          </div>
+        </section>
 
         <!-- ============ PREMISE ============ -->
         <section
@@ -1523,6 +2038,105 @@
                 and the system is built to say so.
               </p>
             </div>
+          </div>
+        </section>
+
+        <!-- ============ LINEAGE / EOS ============ -->
+        <section class="lineage slide" id="lineage" data-slide-title="EOS">
+          <div>
+            <div class="premise-kicker">Lineage</div>
+            <h2>What EOS gets right, and what it cannot reach</h2>
+            <p class="lineage-lede">
+              This began as an adaptation of the EOS process model, and it keeps
+              more of EOS than it discards. EOS solved a real problem: it gave
+              companies a shared vocabulary, a short list of priorities, named
+              owners, and a rhythm they could actually hold.
+              <strong
+                >The limit is not that EOS is wrong. It is that every one of its
+                mechanisms assumes a person is carrying it.</strong
+              >
+            </p>
+          </div>
+
+          <div class="cols2">
+            <div class="col-card">
+              <h4>Kept, deliberately</h4>
+              <ul>
+                <li>
+                  <strong>One vocabulary</strong> — everyone naming the same
+                  things the same way
+                </li>
+                <li>
+                  <strong>Few priorities, owned by name</strong> — focus as a
+                  structural constraint, not an aspiration
+                </li>
+                <li>
+                  <strong>Explicit accountability</strong> — one person per
+                  outcome, no shared ownership
+                </li>
+                <li>
+                  <strong>A cadence people can hold</strong> — recurring moments
+                  with a standing purpose
+                </li>
+                <li>
+                  <strong>Issues surfaced, not buried</strong> — a culture that
+                  names the problem out loud
+                </li>
+                <li>
+                  <strong>Strategy compressed</strong> — short enough that
+                  anyone can recite it from memory
+                </li>
+              </ul>
+            </div>
+            <div class="col-card">
+              <h4>Out of reach for a human-carried system</h4>
+              <ul>
+                <li>
+                  The scorecard is <strong>only as honest</strong> as whoever
+                  fills it in the night before
+                </li>
+                <li>
+                  The L10 is where reality gets
+                  <strong>reassembled from memory</strong>, every single week
+                </li>
+                <li>
+                  <strong>Quarterly is the resolution of change</strong> —
+                  anything faster waits, anything slower is invisible
+                </li>
+                <li>
+                  The accountability chart says who owns what, and
+                  <strong>never who may decide what</strong>
+                </li>
+                <li>
+                  An issue exists only once a person
+                  <strong>notices it and is willing to raise it</strong>
+                </li>
+                <li>
+                  Every mechanism <strong>costs leadership attention</strong> to
+                  keep alive
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="callout">
+            <span class="callout-label">Complement, not replacement</span>
+            <p>
+              A company running EOS does not have to stop. Keep the vocabulary,
+              keep the rocks, keep the L10 — and put this underneath.
+            </p>
+            <p>
+              The scorecard fills itself and grades its own evidence. The issues
+              list populates before anyone notices there is an issue. The L10
+              stops being a status meeting and becomes a decision meeting,
+              <strong
+                >because the status arrived before the meeting did.</strong
+              >
+            </p>
+            <p>
+              Section 07 maps every EOS artifact to its equivalent here — and
+              names the five things that have no EOS ancestor at all.
+            </p>
           </div>
         </section>
 
@@ -3266,7 +3880,7 @@
         <button type="button" id="next-slide" aria-label="Next section">
           →
         </button>
-        <span class="count" id="slide-count">1 / 20</span>
+        <span class="count" id="slide-count">1 / 22</span>
         <span class="track"><i class="fill" id="progress-fill"></i></span>
         <span class="hint">← → or J / K</span>
       </div>
