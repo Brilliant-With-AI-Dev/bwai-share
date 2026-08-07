@@ -222,10 +222,10 @@
         color: var(--blue);
       }
       .flow .tier.t-mech {
-        color: var(--aqua);
+        color: #0a6f72;
       }
       .flow .tier.t-hypo {
-        color: var(--gold);
+        color: #8a5a06;
       }
       .flow .tier.t-risk {
         color: var(--coral);
@@ -1379,6 +1379,11 @@
         line-height: 1.5;
       }
 
+      .verdict .v-why em {
+        color: var(--ink-3);
+        font-style: normal;
+      }
+
       /* ---------- two-col cards ---------- */
 
       .cols2 {
@@ -1434,12 +1439,281 @@
         color: var(--ink);
       }
 
+      /* ---------- attention queue mock ---------- */
+
+      .queue {
+        overflow: hidden;
+        border: 1px solid var(--navy);
+        border-radius: 14px;
+        background: var(--white);
+        box-shadow: 0 18px 44px rgba(29, 41, 74, 0.16);
+      }
+
+      .queue-chrome {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px 18px;
+        padding: 13px 19px;
+        background: var(--navy);
+        color: #fff;
+      }
+
+      .queue-chrome .q-app {
+        font: 700 10px var(--font-utility);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #8fd8d6;
+      }
+
+      .queue-chrome .q-when {
+        font: 650 10px var(--font-utility);
+        letter-spacing: 0.08em;
+        color: rgba(255, 255, 255, 0.68);
+      }
+
+      .queue-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 6px 18px;
+        padding: 19px 21px 15px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .queue-head h4 {
+        margin: 0;
+        color: var(--ink);
+        font: 600 23px/1.15 var(--font-display);
+        letter-spacing: -0.02em;
+      }
+
+      .queue-head span {
+        color: var(--ink-3);
+        font: 650 10px var(--font-utility);
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+      }
+
+      .queue-body {
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(230px, 1fr);
+        gap: 15px;
+        padding: 17px 21px;
+      }
+
+      .q-decision {
+        border: 1px solid var(--line);
+        border-left: 4px solid var(--coral);
+        border-radius: 11px;
+        padding: 15px 17px;
+        background: var(--white);
+      }
+
+      .q-flag {
+        display: inline-block;
+        margin-bottom: 9px;
+        border-radius: 5px;
+        padding: 3px 7px;
+        background: var(--coral-soft);
+        color: #9d3c31;
+        font: 700 9.5px var(--font-utility);
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+
+      .q-decision h5 {
+        margin: 0 0 7px;
+        color: var(--ink);
+        font-size: 15px;
+        font-weight: 700;
+        line-height: 1.35;
+      }
+
+      .q-decision > p {
+        margin: 0 0 12px;
+        color: var(--ink-2);
+        font-size: 13.5px;
+        line-height: 1.45;
+      }
+
+      .q-fields {
+        display: grid;
+        grid-template-columns: 108px minmax(0, 1fr);
+        gap: 7px 13px;
+        margin: 0;
+        padding-top: 12px;
+        border-top: 1px solid var(--line-2);
+      }
+
+      .q-fields dt {
+        color: var(--ink-3);
+        font: 700 9.5px/1.5 var(--font-utility);
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+      }
+
+      .q-fields dd {
+        margin: 0;
+        color: var(--ink);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .q-side {
+        display: grid;
+        align-content: start;
+        gap: 11px;
+      }
+
+      .q-item {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 12px 14px;
+        background: var(--paper);
+      }
+
+      .q-item b {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--ink);
+        font-size: 13px;
+        line-height: 1.35;
+      }
+
+      .q-item p {
+        margin: 0;
+        color: var(--ink-2);
+        font-size: 12.5px;
+        line-height: 1.45;
+      }
+
+      .q-item .q-tag {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--aqua);
+        font: 700 9.5px var(--font-utility);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .q-item.tension .q-tag {
+        color: var(--violet);
+      }
+
+      .queue-foot {
+        padding: 14px 21px 17px;
+        border-top: 1px solid var(--line);
+        background: var(--paper);
+        color: var(--ink);
+        font: 600 16px/1.4 var(--font-display);
+      }
+
+      .queue-foot span {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--ink-3);
+        font: 700 9.5px var(--font-utility);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      /* ---------- operating-model pillars ---------- */
+
+      .pillars {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+        gap: 12px;
+      }
+
+      .pillars article {
+        border: 1px solid var(--line);
+        border-top: 3px solid var(--stage-color);
+        border-radius: 11px;
+        padding: 14px 16px;
+        background: var(--white);
+      }
+
+      .pillars b {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--stage-color);
+        font: 700 10px var(--font-utility);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .pillars p {
+        margin: 0;
+        color: var(--ink-2);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      /* ---------- inline asides ---------- */
+
+      .aside-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 17px;
+        height: 17px;
+        margin-left: 5px;
+        border: 1px solid var(--stage-color, var(--blue));
+        border-radius: 50%;
+        padding: 0;
+        background: transparent;
+        color: var(--stage-color, var(--blue));
+        font: 700 10px var(--font-utility);
+        line-height: 1;
+        cursor: pointer;
+        vertical-align: middle;
+      }
+
+      .aside-btn:hover,
+      .aside-btn[aria-expanded="true"] {
+        background: var(--stage-color, var(--blue));
+        color: #fff;
+      }
+
+      .aside-pop {
+        position: fixed;
+        z-index: 60;
+        display: none;
+        max-width: min(330px, calc(100vw - 24px));
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 13px 15px;
+        background: var(--white);
+        box-shadow: 0 16px 42px rgba(29, 41, 74, 0.22);
+      }
+
+      .aside-pop.show {
+        display: block;
+      }
+
+      .aside-pop .a-label {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--ink-3);
+        font: 700 9.5px var(--font-utility);
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+
+      .aside-pop .a-text {
+        color: var(--ink);
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
       /* ---------- deck mode ---------- */
 
       .deckbar {
         display: none;
-        position: sticky;
-        bottom: 14px;
+        position: relative;
         z-index: 12;
         align-items: center;
         gap: 12px;
@@ -1447,9 +1721,8 @@
         border: 1px solid var(--line);
         border-radius: 14px;
         padding: 9px 14px;
-        background: rgba(255, 255, 255, 0.92);
-        box-shadow: 0 10px 34px rgba(29, 41, 74, 0.14);
-        backdrop-filter: blur(14px);
+        background: var(--white);
+        box-shadow: 0 10px 30px rgba(29, 41, 74, 0.13);
       }
 
       body.deck-mode .deckbar {
@@ -1460,10 +1733,11 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-width: 36px;
-        min-height: 32px;
+        min-width: 44px;
+        min-height: 44px;
         border: 1px solid var(--line);
         border-radius: 9px;
+        padding: 6px 13px;
         background: var(--white);
         color: var(--ink);
         font: 700 13px/1 var(--font-body);
@@ -1592,6 +1866,16 @@
         }
         .principles li {
           grid-template-columns: 22px 1fr;
+        }
+        .queue-body {
+          grid-template-columns: 1fr;
+        }
+        .q-fields {
+          grid-template-columns: 1fr;
+          gap: 2px;
+        }
+        .q-fields dd {
+          margin-bottom: 7px;
         }
       }
 
@@ -2297,6 +2581,70 @@
               Humans retain judgment and authority. The system removes the
               avoidable coordination and cognitive overhead around them.
             </p>
+            <div class="block">
+              <p class="sub">
+                The six things that must be specified for any agent to act
+              </p>
+              <p>
+                A bargain is not a design. Every agent in the system is defined
+                by the same six declarations, and an agent missing any one of
+                them cannot be given work.
+                <strong
+                  >This is the contract, and it is what makes autonomy
+                  auditable.</strong
+                >
+              </p>
+              <div class="pillars">
+                <article>
+                  <b>Authority</b>
+                  <p>
+                    What it may observe, recommend, change, execute under a
+                    standing rule — and what it must never receive. Ceilings are
+                    explicit and per-playbook (§09).
+                  </p>
+                </article>
+                <article>
+                  <b>Responsibility</b>
+                  <p>
+                    Which human owns the outcome. Execution can be delegated to
+                    an agent; accountability never is, and the record names the
+                    person either way.
+                  </p>
+                </article>
+                <article>
+                  <b>Playbooks</b>
+                  <p>
+                    Inputs, decision rules, the acceptance criterion for
+                    success, known exceptions, and the recurring path the work
+                    takes when nothing goes wrong.
+                  </p>
+                </article>
+                <article>
+                  <b>Information</b>
+                  <p>
+                    Which sources are authoritative, what access is permitted,
+                    where the data boundary sits, and how stale a signal may be
+                    before it stops counting (§11).
+                  </p>
+                </article>
+                <article>
+                  <b>Quality and risk</b>
+                  <p>
+                    How reversibility, blast radius, and uncertainty change what
+                    the agent is allowed to do. Cheap and reversible earns
+                    latitude; costly and permanent does not.
+                  </p>
+                </article>
+                <article>
+                  <b>Escalation</b>
+                  <p>
+                    What earns a human's attention, who can resolve it, how fast
+                    it matters, and — the part usually left out — what the
+                    system does while it waits (§10).
+                  </p>
+                </article>
+              </div>
+            </div>
             <div class="callout">
               <span class="callout-label">Not the usual framing</span>
               <p>
@@ -2547,6 +2895,34 @@
               <p>
                 When the chain breaks, the system surfaces the only question
                 worth asking: <strong>why are we doing this?</strong>
+              </p>
+              <p class="sub" style="margin-top: 20px">
+                And the same links, walked the other way
+              </p>
+              <p>
+                Read downward it explains why work exists. Read upward from a
+                change it does the harder job:
+                <strong
+                  >it names everything that just became wrong, and stops at the
+                  person who has to decide.</strong
+                >
+              </p>
+              <div class="chain">
+                <span class="node">Changed assumption</span
+                ><span class="arw">→</span>
+                <span class="node">Affected decision</span
+                ><span class="arw">→</span> <span class="node">Commitments</span
+                ><span class="arw">→</span>
+                <span class="node">Work in flight</span
+                ><span class="arw">→</span>
+                <span class="node">Human intervention</span>
+              </div>
+              <p>
+                A supplier moves a lead time by three weeks. Nobody files an
+                issue. The system walks that path in seconds and puts the five
+                affected commitments in front of one named owner — which is the
+                whole difference between a record of the company and a model of
+                it.
               </p>
             </div>
             <div class="callout">
@@ -3041,7 +3417,16 @@
                 </ul>
               </div>
             </div>
-            <p class="pull">Accuracy justifies confidence, never authority.</p>
+            <p class="pull">
+              Accuracy justifies confidence, never authority.<button
+                type="button"
+                class="aside-btn"
+                aria-label="Why evidence cannot create permission"
+                data-aside="Autonomy creep is the standard failure of agentic systems: an agent performs well, so its scope quietly widens, and nobody remembers granting it. Track record is evidence about capability. Permission is a decision about consequence — who absorbs the loss if it is wrong. Only a person holding that exposure can grant it, and the ladder makes each grant an explicit, revocable act."
+              >
+                ?
+              </button>
+            </p>
             <div class="callout">
               <span class="callout-label">Why the distinction matters</span>
               <p>
@@ -3298,8 +3683,13 @@
                   <span class="v-conf">High confidence</span>
                 </div>
                 <span class="v-why"
-                  >Driven by traceability recovery and the closure of two
-                  long-open cognitive drifts.</span
+                  >Driven by traceability recovery — 81% of work in flight now
+                  links to a stated outcome, up from 54% — and the closure of
+                  two long-open cognitive drifts.
+                  <em
+                    >Working against it: authority drift is still elevated in
+                    Commercial.</em
+                  ></span
                 >
               </div>
               <div class="verdict down">
@@ -3309,7 +3699,12 @@
                   <span class="v-conf">Moderate confidence</span>
                 </div>
                 <span class="v-why"
-                  >Driven by decision latency in two authority areas.</span
+                  >Commitment throughput is flat, but decision latency and
+                  blocker age have both risen for three periods running.
+                  <em
+                    >Confidence is only moderate because two of the four inputs
+                    are Attested, not Direct.</em
+                  ></span
                 >
               </div>
             </div>
@@ -3362,7 +3757,14 @@
                 Not restricted, not permissioned — the system does not produce
                 that number. A policy would be relaxed inside two quarters, and
                 the moment these become performance scores every input goes soft
-                and the readings stop meaning anything.
+                and the readings stop meaning anything.<button
+                  type="button"
+                  class="aside-btn"
+                  aria-label="Why a permission setting is not enough"
+                  data-aside="A restricted per-person score still exists, which means it can be requested, subpoenaed, leaked, or unlocked by whoever administers the system next year. People assume it will be, and they hedge their inputs accordingly. Refusing to compute the number at all is the only version of this promise that survives a change of management — and it is the reason the signal stays honest enough to be worth reading."
+                >
+                  ?
+                </button>
               </p>
             </div>
           </div>
@@ -3386,6 +3788,82 @@
             <p class="stage-lede">
               It should feel like an operating partner, not a suite of
               administrative modules the leader is responsible for maintaining.
+              <strong
+                >This is the whole surface — one queue, ranked by cost of
+                delay.</strong
+              >
+            </p>
+            <div class="queue">
+              <div class="queue-chrome">
+                <span class="q-app">Throughline · Attention</span>
+                <span class="q-when">Tuesday 09:14 · updated 4 min ago</span>
+              </div>
+              <div class="queue-head">
+                <h4>Three things need you.</h4>
+                <span>Ranked by cost of delay</span>
+              </div>
+              <div class="queue-body">
+                <article class="q-decision">
+                  <span class="q-flag">Decision required · by Thursday</span>
+                  <h5>
+                    Onboarding for two signed accounts is blocked by a
+                    pricing-policy conflict.
+                  </h5>
+                  <p>
+                    Use the existing enterprise exception for 14 days, or revise
+                    the commitment now.
+                  </p>
+                  <dl class="q-fields">
+                    <dt>Recommendation</dt>
+                    <dd>
+                      Take the exception. It protects the launch date while the
+                      policy is reconciled.
+                    </dd>
+                    <dt>Evidence</dt>
+                    <dd>
+                      Two countersigned contracts <em>(Direct)</em>, three
+                      affected workstreams <em>(Direct)</em>, margin floor
+                      confirmed by Finance <em>(Attested)</em>.
+                    </dd>
+                    <dt>Cost of waiting</dt>
+                    <dd>Launch slips one day for every day unresolved.</dd>
+                    <dt>Default if no reply</dt>
+                    <dd>
+                      <strong>None.</strong> Commercial authority is not
+                      delegated. The clock records latency, not a decision.
+                    </dd>
+                  </dl>
+                </article>
+                <div class="q-side">
+                  <div class="q-item">
+                    <span class="q-tag">Recovering · no action</span>
+                    <b>A blocked commitment cleared itself overnight.</b>
+                    <p>
+                      Agents resolved the upstream dependency. Verified evidence
+                      expected by 16:00. Shown so you are not surprised, not so
+                      you act.
+                    </p>
+                  </div>
+                  <div class="q-item tension">
+                    <span class="q-tag">Changed assumption</span>
+                    <b>Supply lead time moved from six weeks to nine.</b>
+                    <p>
+                      Five linked commitments now need a revised feasibility
+                      read before next quarter's plan is set.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="queue-foot">
+                <span>Unresolved tension · surfaced from the last Mirror</span>
+                “The leadership team agrees on the destination and holds three
+                different beliefs about the constraint. Four decisions depend on
+                which one is true.”
+              </div>
+            </div>
+            <p class="pull">
+              No inbox, no dashboard grid, no project hygiene. Everything not on
+              this screen is agent work by definition.
             </p>
             <div class="pairs">
               <div class="pair">
@@ -3741,7 +4219,14 @@
               </div>
               <p class="pull">
                 250 is a go-to-market ceiling, not a product ceiling. Saying
-                which one it is tells you where to spend to raise it.
+                which one it is tells you where to spend to raise it.<button
+                  type="button"
+                  class="aside-btn"
+                  aria-label="Why the distinction changes spending"
+                  data-aside="A product ceiling means the thing stops working and you spend on engineering. A go-to-market ceiling means it still works but you can no longer sell it the same way — procurement gets involved, security review appears, and one owner stops being able to say yes alone. That is a spend on trust artifacts and a second buyer motion, not on the product. Getting this backwards is how companies rebuild something that was never broken."
+                >
+                  ?
+                </button>
               </p>
             </div>
 
@@ -4221,6 +4706,18 @@
       </footer>
     </main>
 
+    <div
+      class="aside-pop"
+      id="aside-pop"
+      role="dialog"
+      aria-modal="false"
+      aria-live="polite"
+      aria-labelledby="aside-label"
+    >
+      <span class="a-label" id="aside-label">Why</span>
+      <span class="a-text" id="aside-text"></span>
+    </div>
+
     <script>
       (function () {
         var body = document.body;
@@ -4294,8 +4791,19 @@
           window.scrollTo({ top: 0, behavior: "auto" });
         }
 
+        function jumpTo(target) {
+          window.setTimeout(function () {
+            var root = document.documentElement;
+            var priorBehavior = root.style.scrollBehavior;
+            root.style.scrollBehavior = "auto";
+            target.scrollIntoView({ block: "start" });
+            root.style.scrollBehavior = priorBehavior;
+          }, 20);
+        }
+
         function setMode(mode) {
           var deck = mode === "deck";
+          var selected = slides[currentSlide];
           body.classList.toggle("deck-mode", deck);
           fullView.setAttribute("aria-pressed", String(!deck));
           deckView.setAttribute("aria-pressed", String(deck));
@@ -4304,14 +4812,15 @@
           } catch (error) {}
           if (deck) {
             setSlide(currentSlide, true);
+            jumpTo(slides[currentSlide]);
           } else {
             slides.forEach(function (slide) {
               slide.classList.remove("is-current");
               slide.setAttribute("aria-hidden", "false");
             });
-            window.setTimeout(function () {
-              slides[currentSlide].scrollIntoView({ block: "start" });
-            }, 20);
+            setFlowActive(selected.id);
+            history.replaceState(null, "", "#" + selected.id);
+            jumpTo(selected);
           }
         }
 
@@ -4395,6 +4904,66 @@
 
         count.textContent = currentSlide + 1 + " / " + slides.length;
         progress.style.width = ((currentSlide + 1) / slides.length) * 100 + "%";
+
+        var asidePop = document.getElementById("aside-pop");
+        var asideText = document.getElementById("aside-text");
+        var asideOpen = null;
+
+        function hideAside() {
+          asidePop.classList.remove("show");
+          if (asideOpen) asideOpen.setAttribute("aria-expanded", "false");
+          asideOpen = null;
+        }
+
+        function showAside(button) {
+          if (asideOpen === button) {
+            hideAside();
+            return;
+          }
+          if (asideOpen) asideOpen.setAttribute("aria-expanded", "false");
+          asideText.textContent = button.getAttribute("data-aside");
+          asidePop.classList.add("show");
+          button.setAttribute("aria-expanded", "true");
+          var rect = button.getBoundingClientRect();
+          var left = Math.min(
+            rect.left,
+            window.innerWidth - asidePop.offsetWidth - 12,
+          );
+          var top = rect.bottom + 9;
+          if (top + asidePop.offsetHeight > window.innerHeight - 12) {
+            top = rect.top - asidePop.offsetHeight - 9;
+          }
+          asidePop.style.left = Math.max(12, left) + "px";
+          asidePop.style.top = Math.max(12, top) + "px";
+          asideOpen = button;
+        }
+
+        Array.prototype.slice
+          .call(document.querySelectorAll("[data-aside]"))
+          .forEach(function (button) {
+            button.setAttribute("aria-expanded", "false");
+            button.setAttribute("aria-controls", "aside-pop");
+            button.addEventListener("click", function (event) {
+              event.stopPropagation();
+              showAside(button);
+            });
+          });
+
+        document.addEventListener("click", hideAside);
+        document.addEventListener(
+          "scroll",
+          function () {
+            if (asideOpen) hideAside();
+          },
+          true,
+        );
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape" && asideOpen) {
+            var trigger = asideOpen;
+            hideAside();
+            trigger.focus();
+          }
+        });
 
         var saved = null;
         try {
