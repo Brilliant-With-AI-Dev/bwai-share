@@ -1,0 +1,844 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      Saved Mirror — nav Alt B: progress bar + contents from the header
+    </title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #f6f8fa;
+        color: #1f2328;
+        padding: 20px 14px 64px;
+        max-width: 1080px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 22px;
+        margin: 8px 0 4px;
+      }
+      .sub {
+        color: #59636e;
+        font-size: 14px;
+        margin-bottom: 8px;
+        line-height: 1.5;
+        max-width: 72ch;
+      }
+      .why {
+        background: #fff;
+        border: 1px solid #d1d9e0;
+        border-radius: 10px;
+        padding: 14px 16px;
+        font-size: 13.5px;
+        line-height: 1.6;
+        color: #1f2328;
+        margin: 16px 0 34px;
+        max-width: 78ch;
+      }
+      .why strong {
+        font-weight: 650;
+      }
+      .why ul {
+        margin: 8px 0 0 18px;
+      }
+      .why li {
+        margin-bottom: 4px;
+      }
+      .frame-wrap {
+        margin-bottom: 40px;
+      }
+      .frame-wrap h2 {
+        font-size: 15px;
+        margin-bottom: 4px;
+      }
+      .frame-wrap > p {
+        font-size: 13.5px;
+        color: #59636e;
+        margin-bottom: 12px;
+        line-height: 1.5;
+        max-width: 78ch;
+      }
+      /* ---- wireframe vocabulary (same language as mirror-chat-sidecar) ---- */
+      .frame {
+        background: #fff;
+        border: 1px solid #d1d9e0;
+        border-radius: 10px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        aspect-ratio: 16 / 9.6;
+        min-height: 380px;
+        font-size: 11px;
+        color: #59636e;
+        position: relative;
+      }
+      .frame.phone {
+        aspect-ratio: 390 / 720;
+        max-width: 300px;
+        min-height: 0;
+      }
+      .wf-hdr {
+        flex: 0 0 44px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 14px;
+        background: #fcfcfd;
+        position: relative;
+        z-index: 2;
+      }
+      .wf-hdr .brand {
+        font-weight: 700;
+        color: #1f2328;
+        font-size: 11px;
+        white-space: nowrap;
+      }
+      .wf-tab {
+        border: 1px solid #8b949e;
+        border-radius: 999px;
+        padding: 3px 10px;
+        white-space: nowrap;
+      }
+      .wf-tab.active {
+        background: #1f2328;
+        color: #fff;
+        border-color: #1f2328;
+      }
+      .wf-hdr .spacer {
+        flex: 1;
+      }
+      .wf-btn {
+        border: 1px dashed #8b949e;
+        border-radius: 6px;
+        padding: 3px 8px;
+        white-space: nowrap;
+      }
+      .wf-btn.solid {
+        border-style: solid;
+      }
+      .wf-btn.chat-btn {
+        border: 1.5px solid #116329;
+        border-style: solid;
+        color: #116329;
+        font-weight: 600;
+      }
+
+      /* ---- THE ALT-B PIECES ---- */
+
+      /* 1. the section control that replaces the rail */
+      .sec-ctl {
+        border: 1.5px solid #8b949e;
+        border-radius: 6px;
+        padding: 3px 9px;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        color: #1f2328;
+        background: #fff;
+        max-width: 260px;
+        overflow: hidden;
+      }
+      .sec-ctl .pos {
+        color: #116329;
+        font-weight: 700;
+        flex: none;
+      }
+      .sec-ctl .nm {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .sec-ctl .caret {
+        color: #8b949e;
+        flex: none;
+      }
+      .sec-ctl.open {
+        border-color: #116329;
+        color: #116329;
+      }
+
+      /* 2. the progress bar, sitting on the header's bottom edge */
+      .prog {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 43px;
+        height: 3px;
+        background: #e6e9ed;
+        z-index: 3;
+      }
+      .prog i {
+        display: block;
+        height: 100%;
+        background: #116329;
+      }
+      .hdr-rule {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 43px;
+        border-bottom: 1.5px solid #8b949e;
+        z-index: 1;
+      }
+
+      /* 3. the contents overlay */
+      .contents {
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 300px;
+        background: #fff;
+        border: 1.5px solid #8b949e;
+        border-radius: 10px;
+        box-shadow: 0 8px 28px rgba(31, 35, 40, 0.16);
+        padding: 8px;
+        z-index: 5;
+      }
+      .contents .ct-head {
+        color: #8b949e;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 9px;
+        padding: 3px 8px 6px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .toc-item {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        padding: 4px 8px;
+        border-radius: 5px;
+        font-size: 10.5px;
+        white-space: nowrap;
+      }
+      .toc-item .num {
+        flex: 0 0 12px;
+        color: #8b949e;
+        text-align: right;
+      }
+      .toc-item .lbl {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #1f2328;
+      }
+      .toc-item .tick {
+        margin-left: auto;
+        color: #8b949e;
+        font-size: 9px;
+      }
+      .toc-item.read .lbl,
+      .toc-item.read .num {
+        color: #8b949e;
+      }
+      .toc-item.active {
+        background: #dafbe1;
+      }
+      .toc-item.active .num,
+      .toc-item.active .lbl {
+        color: #116329;
+        font-weight: 700;
+      }
+      .toc-item.unread .lbl {
+        color: #1f2328;
+      }
+      .contents .ct-div {
+        border-top: 1px dashed #b7bfc7;
+        margin: 6px 4px;
+      }
+      .contents .ct-cross {
+        padding: 4px 8px;
+        color: #116329;
+        font-weight: 600;
+        font-size: 10.5px;
+      }
+
+      .wf-body {
+        flex: 1;
+        display: flex;
+        min-height: 0;
+        position: relative;
+      }
+      .wf-letter {
+        flex: 1;
+        min-width: 0;
+        padding: 22px 26px 18px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: hidden;
+      }
+      .prose {
+        width: 100%;
+        max-width: 420px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .prose.narrow {
+        max-width: 340px;
+      }
+      .prose .title {
+        height: 14px;
+        border-radius: 4px;
+        background: #cfd6dd;
+        width: 70%;
+        margin-bottom: 6px;
+      }
+      .prose .meta {
+        height: 6px;
+        border-radius: 3px;
+        background: #e6e9ed;
+        width: 45%;
+        margin-bottom: 8px;
+      }
+      .prose .line {
+        height: 7px;
+        border-radius: 3px;
+        background: #e6e9ed;
+      }
+      .prose .line.short {
+        width: 62%;
+      }
+      .prose .h {
+        height: 10px;
+        border-radius: 3px;
+        background: #cfd6dd;
+        width: 52%;
+        margin-top: 10px;
+      }
+      .gutter-note {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%) rotate(-90deg);
+        transform-origin: center;
+        color: #b7bfc7;
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      /* chat sidecar */
+      .wf-chat {
+        flex: 0 0 210px;
+        border-left: 1.5px solid #8b949e;
+        display: flex;
+        flex-direction: column;
+        background: #fcfcfd;
+      }
+      .chat-head {
+        flex: 0 0 30px;
+        border-bottom: 1px dashed #b7bfc7;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+        color: #1f2328;
+        font-weight: 600;
+      }
+      .chat-head .min {
+        border: 1px solid #8b949e;
+        border-radius: 4px;
+        width: 18px;
+        height: 16px;
+        line-height: 13px;
+        text-align: center;
+        font-weight: 400;
+        color: #59636e;
+      }
+      .chat-scroll {
+        flex: 1;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        overflow: hidden;
+      }
+      .chip {
+        border: 1px solid #8b949e;
+        border-radius: 999px;
+        padding: 5px 9px;
+        font-size: 9.5px;
+        color: #1f2328;
+        line-height: 1.35;
+        background: #fff;
+      }
+      .chat-composer {
+        flex: 0 0 34px;
+        margin: 0 10px 10px;
+        border: 1px solid #8b949e;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 8px;
+        color: #8b949e;
+      }
+      .chat-composer .mic {
+        border: 1px solid #8b949e;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        line-height: 16px;
+        text-align: center;
+      }
+
+      /* mobile sheet */
+      .sheet {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #fff;
+        border-top: 1.5px solid #8b949e;
+        border-radius: 12px 12px 0 0;
+        box-shadow: 0 -8px 28px rgba(31, 35, 40, 0.16);
+        padding: 10px 8px 14px;
+        z-index: 5;
+      }
+      .sheet .grab {
+        width: 34px;
+        height: 3px;
+        border-radius: 2px;
+        background: #d1d9e0;
+        margin: 0 auto 8px;
+      }
+      .scrim {
+        position: absolute;
+        inset: 0;
+        background: rgba(31, 35, 40, 0.28);
+        z-index: 4;
+      }
+
+      .cursor {
+        position: absolute;
+        font-size: 14px;
+        z-index: 6;
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+      }
+      .row {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+      .callout {
+        background: #fff;
+        border: 1px solid #d1d9e0;
+        border-radius: 10px;
+        padding: 14px 16px;
+        font-size: 12.5px;
+        line-height: 1.55;
+        color: #1f2328;
+        flex: 1 1 260px;
+        min-width: 240px;
+      }
+      .callout h3 {
+        font-size: 12px;
+        margin-bottom: 6px;
+      }
+      .swatch {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-right: 12px;
+        font-size: 11px;
+        color: #59636e;
+      }
+      .swatch i {
+        width: 22px;
+        height: 8px;
+        border-radius: 2px;
+        display: inline-block;
+      }
+      footer {
+        margin-top: 34px;
+        font-size: 12px;
+        color: #8b949e;
+        border-top: 1px solid #d1d9e0;
+        padding-top: 14px;
+        line-height: 1.6;
+      }
+      a {
+        color: #116329;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Saved Mirror — nav Alt B</h1>
+    <p class="sub">
+      Replaces the numbered rail with a reading-progress bar plus a contents
+      list opened from the header. Wireframes, not visual design — same grey-box
+      vocabulary as
+      <a href="../mirror-chat-sidecar/">mirror-chat-sidecar rev 5</a>.
+    </p>
+
+    <div class="why">
+      <strong>Why the rail is being replaced.</strong> Nine bare digits carry no
+      meaning, and every section title sits behind a hover the reader has no
+      reason to attempt — the interface asks them to recall what "4" is instead
+      of letting them recognise it. There is also no signal for how far through
+      the letter they are.
+      <ul>
+        <li>
+          <strong>Progress becomes explicit.</strong> A 3px bar on the header's
+          bottom edge fills as they read.
+        </li>
+        <li>
+          <strong>Titles become legible.</strong> The header already names the
+          current section; making it the control means the affordance explains
+          itself.
+        </li>
+        <li>
+          <strong>One navigation, not two.</strong> Desktop and mobile use the
+          same control, so there is no separate mobile pattern to maintain.
+        </li>
+        <li>
+          <strong>The gutter comes back.</strong> With the rail gone the letter
+          centres properly even with the chat sidecar open.
+        </li>
+      </ul>
+    </div>
+
+    <div class="frame-wrap">
+      <h2>1 — Desktop at rest (≥1280px)</h2>
+      <p>
+        No left rail. The header's centre is now the section control: position,
+        title, caret. The progress bar sits on the header's bottom edge. The
+        letter is centred in the full width the rail used to eat.
+      </p>
+      <div class="frame">
+        <div class="wf-hdr">
+          <span class="brand"
+            >BrilliantWith<span style="color: #116329">.ai</span></span
+          >
+          <span class="wf-tab active">Your Mirror</span>
+          <span class="wf-tab">Your Next Moves</span>
+          <span class="spacer"></span>
+          <span class="sec-ctl">
+            <span class="pos">3 / 9</span>
+            <span class="nm">The Lies You Tell Yourself</span>
+            <span class="caret">▾</span>
+          </span>
+          <span class="spacer"></span>
+          <span class="wf-btn">Export ▾</span>
+          <span class="wf-btn">⚙</span>
+        </div>
+        <div class="hdr-rule"></div>
+        <div class="prog"><i style="width: 34%"></i></div>
+        <div class="wf-body">
+          <div class="wf-letter">
+            <div class="prose">
+              <div class="h" style="width: 44%"></div>
+              <div class="line"></div>
+              <div class="line"></div>
+              <div class="line short"></div>
+              <div class="line"></div>
+              <div class="line"></div>
+              <div class="line short"></div>
+              <div class="h" style="width: 50%"></div>
+              <div class="line"></div>
+              <div class="line"></div>
+              <div class="line short"></div>
+            </div>
+          </div>
+          <div class="wf-chat">
+            <div class="chat-head">
+              <span>Chat With Mirror</span><span class="min">–</span>
+            </div>
+            <div class="chat-scroll">
+              <div class="chip">What should I do first?</div>
+              <div class="chip">Which blind spot matters most?</div>
+              <div class="chip">I disagree with section 3</div>
+              <div class="chip">How do I say this to my team?</div>
+            </div>
+            <div class="chat-composer">
+              <span>Ask anything…</span><span class="mic">🎙</span>
+            </div>
+          </div>
+        </div>
+        <span class="gutter-note">gutter returned to the letter</span>
+      </div>
+    </div>
+
+    <div class="frame-wrap">
+      <h2>2 — Contents open</h2>
+      <p>
+        One click on the section control. All nine titles, always labelled.
+        Three states: read (grey, ticked), current (green, filled), unread
+        (navy). The divider carries a cross-tab jump so Next Moves is reachable
+        without going back to the tabs.
+      </p>
+      <div class="frame">
+        <div class="wf-hdr">
+          <span class="brand"
+            >BrilliantWith<span style="color: #116329">.ai</span></span
+          >
+          <span class="wf-tab active">Your Mirror</span>
+          <span class="wf-tab">Your Next Moves</span>
+          <span class="spacer"></span>
+          <span class="sec-ctl open">
+            <span class="pos">3 / 9</span>
+            <span class="nm">The Lies You Tell Yourself</span>
+            <span class="caret">▴</span>
+          </span>
+          <span class="spacer"></span>
+          <span class="wf-btn">Export ▾</span>
+          <span class="wf-btn">⚙</span>
+        </div>
+        <div class="hdr-rule"></div>
+        <div class="prog"><i style="width: 34%"></i></div>
+        <div class="contents">
+          <div class="ct-head">
+            <span>In this letter</span><span>3 of 9</span>
+          </div>
+          <div class="toc-item read">
+            <span class="num">1</span><span class="lbl">Your Secret Truth</span
+            ><span class="tick">✓</span>
+          </div>
+          <div class="toc-item read">
+            <span class="num">2</span
+            ><span class="lbl">Your Hard Look in the Mirror</span
+            ><span class="tick">✓</span>
+          </div>
+          <div class="toc-item active">
+            <span class="num">3</span
+            ><span class="lbl">The Lies You Tell Yourself</span>
+          </div>
+          <div class="toc-item unread">
+            <span class="num">4</span
+            ><span class="lbl">Your Biggest, Baddest Blind Spots</span>
+          </div>
+          <div class="toc-item unread">
+            <span class="num">5</span
+            ><span class="lbl">Your Personal AI Game</span>
+          </div>
+          <div class="toc-item unread">
+            <span class="num">6</span
+            ><span class="lbl">The Uncomfortable Personal Question</span>
+          </div>
+          <div class="toc-item unread">
+            <span class="num">7</span
+            ><span class="lbl">What You Have That Most Don't</span>
+          </div>
+          <div class="toc-item unread">
+            <span class="num">8</span
+            ><span class="lbl">One Last Thing to Think About</span>
+          </div>
+          <div class="toc-item unread">
+            <span class="num">9</span
+            ><span class="lbl">Where You Go From Here</span>
+          </div>
+          <div class="ct-div"></div>
+          <div class="ct-cross">Your Next Moves →</div>
+        </div>
+        <div class="wf-body">
+          <div class="wf-letter">
+            <div class="prose">
+              <div class="h" style="width: 44%"></div>
+              <div class="line"></div>
+              <div class="line"></div>
+              <div class="line short"></div>
+              <div class="line"></div>
+              <div class="line short"></div>
+            </div>
+          </div>
+          <div class="wf-chat">
+            <div class="chat-head">
+              <span>Chat With Mirror</span><span class="min">–</span>
+            </div>
+            <div class="chat-scroll">
+              <div class="chip">What should I do first?</div>
+              <div class="chip">Which blind spot matters most?</div>
+            </div>
+            <div class="chat-composer">
+              <span>Ask anything…</span><span class="mic">🎙</span>
+            </div>
+          </div>
+        </div>
+        <span class="cursor" style="left: 47%; top: 40px">🖱</span>
+      </div>
+    </div>
+
+    <div class="frame-wrap">
+      <h2>3 — Mobile: same control, contents as a sheet</h2>
+      <p>
+        The identical control, condensed to position plus caret when the title
+        will not fit. Contents open as a bottom sheet — thumb-reachable, and the
+        same three states. No separate mobile navigation exists.
+      </p>
+      <div class="row">
+        <div class="frame phone">
+          <div class="wf-hdr" style="flex: 0 0 38px; gap: 6px; padding: 0 8px">
+            <span class="brand" style="font-size: 10px"
+              >BW<span style="color: #116329">.ai</span></span
+            >
+            <span class="spacer"></span>
+            <span class="sec-ctl" style="max-width: 140px; padding: 2px 7px">
+              <span class="pos">3/9</span>
+              <span class="nm">The Lies You…</span>
+              <span class="caret">▾</span>
+            </span>
+            <span class="spacer"></span>
+            <span class="wf-btn" style="padding: 2px 6px">⋯</span>
+          </div>
+          <div class="hdr-rule" style="top: 37px"></div>
+          <div class="prog" style="top: 37px"><i style="width: 34%"></i></div>
+          <div class="wf-body">
+            <div class="wf-letter" style="padding: 16px 14px">
+              <div class="prose narrow">
+                <div class="h" style="width: 60%"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line short"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line short"></div>
+                <div class="line"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="frame phone">
+          <div class="wf-hdr" style="flex: 0 0 38px; gap: 6px; padding: 0 8px">
+            <span class="brand" style="font-size: 10px"
+              >BW<span style="color: #116329">.ai</span></span
+            >
+            <span class="spacer"></span>
+            <span
+              class="sec-ctl open"
+              style="max-width: 140px; padding: 2px 7px"
+            >
+              <span class="pos">3/9</span>
+              <span class="nm">The Lies You…</span>
+              <span class="caret">▴</span>
+            </span>
+            <span class="spacer"></span>
+            <span class="wf-btn" style="padding: 2px 6px">⋯</span>
+          </div>
+          <div class="hdr-rule" style="top: 37px"></div>
+          <div class="prog" style="top: 37px"><i style="width: 34%"></i></div>
+          <div class="wf-body">
+            <div class="wf-letter" style="padding: 16px 14px">
+              <div class="prose narrow">
+                <div class="h" style="width: 60%"></div>
+                <div class="line"></div>
+                <div class="line short"></div>
+              </div>
+            </div>
+          </div>
+          <div class="scrim"></div>
+          <div class="sheet">
+            <div class="grab"></div>
+            <div class="ct-head" style="padding: 0 8px 6px">
+              <span>In this letter</span><span>3 of 9</span>
+            </div>
+            <div class="toc-item read">
+              <span class="num">1</span
+              ><span class="lbl">Your Secret Truth</span
+              ><span class="tick">✓</span>
+            </div>
+            <div class="toc-item read">
+              <span class="num">2</span
+              ><span class="lbl">Your Hard Look in the Mirror</span
+              ><span class="tick">✓</span>
+            </div>
+            <div class="toc-item active">
+              <span class="num">3</span
+              ><span class="lbl">The Lies You Tell Yourself</span>
+            </div>
+            <div class="toc-item unread">
+              <span class="num">4</span
+              ><span class="lbl">Your Biggest, Baddest Blind Spots</span>
+            </div>
+            <div class="toc-item unread">
+              <span class="num">5</span
+              ><span class="lbl">Your Personal AI Game</span>
+            </div>
+            <div class="toc-item unread">
+              <span class="num">6</span
+              ><span class="lbl">The Uncomfortable Question</span>
+            </div>
+            <div class="ct-div"></div>
+            <div class="ct-cross">Your Next Moves →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="frame-wrap">
+      <h2>4 — The pieces, spelled out</h2>
+      <div class="row">
+        <div class="callout">
+          <h3>Progress bar</h3>
+          3px, on the header's bottom edge, full-bleed. Fills against scroll
+          position through the active tab's document. It is the only new
+          persistent element, and it replaces nine.
+          <div style="margin-top: 8px">
+            <span class="swatch"><i style="background: #116329"></i>read</span>
+            <span class="swatch"
+              ><i style="background: #e6e9ed"></i>remaining</span
+            >
+          </div>
+        </div>
+        <div class="callout">
+          <h3>Section control</h3>
+          Position (<em>3 / 9</em>) + current title + caret. Already exists as a
+          passive scrollspy indicator in the shipped header — this makes it
+          interactive. Truncates to the position pair when space is tight.
+        </div>
+        <div class="callout">
+          <h3>Contents states</h3>
+          <strong>Read</strong> grey + tick, <strong>current</strong> green on
+          tint, <strong>unread</strong> navy. Read-state is derived from
+          furthest scroll reached, not from clicks, so it survives a reload.
+        </div>
+      </div>
+    </div>
+
+    <div class="frame-wrap">
+      <h2>5 — What this changes against rev 5</h2>
+      <div class="why" style="margin-top: 0">
+        <ul>
+          <li>
+            Number rail and its hover-expanded overlay:
+            <strong>removed</strong>.
+          </li>
+          <li>
+            Header scrollspy indicator:
+            <strong>becomes the nav control</strong>.
+          </li>
+          <li>Progress bar: <strong>new</strong>.</li>
+          <li>
+            Contents overlay (desktop) / sheet (mobile): <strong>new</strong>,
+            replaces the rail's hover state.
+          </li>
+          <li>
+            Letter measure: unchanged; it just centres in the reclaimed width.
+          </li>
+          <li>Chat sidecar, Export menu, tabs: <strong>unchanged</strong>.</li>
+          <li>
+            Chat opens with fixed prompt chips instead of a written greeting —
+            decided separately, shown here because it is the same surface.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <footer>
+      Wireframes only — grey boxes stand in for real type and colour. Agent-made
+      and unreviewed; the layout decisions are the point, not the pixels.
+    </footer>
+  </body>
+</html>
