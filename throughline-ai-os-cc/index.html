@@ -1,0 +1,3473 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Throughline — an AI-native organizational operating system for sustained alignment and momentum. Doctrine, mechanisms, and falsifiable product hypotheses, separated."
+    />
+    <title>Throughline — An AI-Native Operating System</title>
+    <style>
+      :root {
+        --navy: #111a3a;
+        --navy-2: #202b55;
+        --ink: #18203a;
+        --ink-2: #59627a;
+        --ink-3: #8a92a6;
+        --paper: #f4f7fb;
+        --white: #ffffff;
+        --line: #dce3ee;
+        --line-2: #eef2f8;
+        --blue: #2f61d5;
+        --blue-soft: #eaf0ff;
+        --aqua: #0e8f93;
+        --aqua-soft: #e2f7f5;
+        --coral: #da5b4e;
+        --coral-soft: #ffebe7;
+        --violet: #7559bd;
+        --violet-soft: #f0eaff;
+        --gold: #ad7414;
+        --gold-soft: #fff3d8;
+        --shadow: 0 20px 60px rgba(29, 41, 74, 0.11);
+        --font-display:
+          "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+        --font-body: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+        --font-utility: ui-monospace, "SFMono-Regular", Consolas, monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(
+            circle at 7% 5%,
+            rgba(47, 97, 213, 0.12),
+            transparent 27rem
+          ),
+          radial-gradient(
+            circle at 96% 22%,
+            rgba(14, 143, 147, 0.1),
+            transparent 30rem
+          ),
+          var(--paper);
+        color: var(--ink);
+        font-family: var(--font-body);
+        font-size: 16px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      button,
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      button:focus-visible,
+      a:focus-visible {
+        outline: 3px solid rgba(47, 97, 213, 0.35);
+        outline-offset: 3px;
+      }
+
+      .wrap {
+        width: min(1120px, calc(100% - 40px));
+        margin: 0 auto;
+        padding: 20px 0 80px;
+      }
+
+      /* ---------- topbar ---------- */
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 18px;
+        flex-wrap: wrap;
+      }
+
+      .brand {
+        color: var(--navy);
+        font-size: 12px;
+        font-weight: 750;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .view-toggle {
+        display: inline-flex;
+        gap: 3px;
+        padding: 3px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.78);
+        box-shadow: 0 4px 14px rgba(29, 41, 74, 0.06);
+        backdrop-filter: blur(12px);
+      }
+
+      .view-toggle button {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        min-height: 34px;
+        border: 0;
+        border-radius: 8px;
+        padding: 6px 11px;
+        background: transparent;
+        color: var(--ink-2);
+        font: 650 12px/1 var(--font-body);
+        cursor: pointer;
+      }
+
+      .view-toggle button[aria-pressed="true"] {
+        background: var(--navy);
+        color: var(--white);
+        box-shadow: 0 3px 10px rgba(17, 26, 58, 0.22);
+      }
+
+      .view-icon {
+        width: 14px;
+        height: 14px;
+      }
+
+      /* ---------- flow nav ---------- */
+
+      .flow {
+        position: sticky;
+        top: 10px;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        overflow-x: auto;
+        margin: 0 0 22px;
+        border: 1px solid rgba(220, 227, 238, 0.94);
+        border-radius: 16px;
+        padding: 7px;
+        background: rgba(255, 255, 255, 0.88);
+        box-shadow: 0 8px 30px rgba(29, 41, 74, 0.09);
+        backdrop-filter: blur(14px);
+        scrollbar-width: none;
+      }
+
+      .flow::-webkit-scrollbar {
+        display: none;
+      }
+
+      .flow a {
+        display: inline-flex;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        min-height: 40px;
+        border-radius: 10px;
+        padding: 6px 11px;
+        color: var(--ink-2);
+        text-decoration: none;
+        transition:
+          background 160ms ease,
+          color 160ms ease,
+          transform 160ms ease;
+      }
+
+      .flow a:hover {
+        background: var(--blue-soft);
+        color: var(--blue);
+        transform: translateY(-1px);
+      }
+
+      .flow a.active {
+        background: var(--navy);
+        color: var(--white);
+      }
+
+      .flow .num {
+        color: inherit;
+        font: 750 10px var(--font-utility);
+        opacity: 0.75;
+      }
+
+      .flow .lbl {
+        font-size: 12px;
+        font-weight: 650;
+        white-space: nowrap;
+      }
+
+      .flow .sep {
+        flex: 0 0 auto;
+        align-self: stretch;
+        width: 1px;
+        margin: 6px 7px;
+        background: var(--line);
+      }
+
+      .flow .tier {
+        flex: 0 0 auto;
+        padding: 0 8px 0 3px;
+        font: 750 9px var(--font-utility);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .flow .tier.t-doctrine {
+        color: var(--blue);
+      }
+      .flow .tier.t-mech {
+        color: var(--aqua);
+      }
+      .flow .tier.t-hypo {
+        color: var(--gold);
+      }
+      .flow .tier.t-risk {
+        color: var(--coral);
+      }
+
+      /* ---------- slides ---------- */
+
+      .slides {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+      }
+
+      .slide {
+        position: relative;
+        scroll-margin-top: 118px;
+      }
+
+      .slide-page {
+        position: absolute;
+        right: 20px;
+        bottom: 14px;
+        z-index: 5;
+        color: var(--ink-2);
+        font: 700 9px/1 var(--font-utility);
+        letter-spacing: 0.09em;
+        opacity: 0.62;
+        pointer-events: none;
+        text-transform: uppercase;
+      }
+
+      .hero .slide-page {
+        color: rgba(255, 255, 255, 0.72);
+      }
+
+      /* ---------- hero ---------- */
+
+      .hero {
+        position: relative;
+        min-height: 520px;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+        align-items: stretch;
+        border-radius: 28px;
+        background: var(--navy);
+        color: var(--white);
+        box-shadow: var(--shadow);
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+          linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.045) 1px,
+            transparent 1px
+          );
+        background-size: 34px 34px;
+        mask-image: linear-gradient(90deg, black, transparent 78%);
+      }
+
+      .hero-copy {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: clamp(42px, 6vw, 76px);
+      }
+
+      .eyebrow {
+        margin: 0 0 16px;
+        color: #96e1df;
+        font: 700 11px/1.2 var(--font-utility);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 680px;
+        margin: 0 0 22px;
+        font: 600 clamp(46px, 6.6vw, 76px) / 0.96 var(--font-display);
+        letter-spacing: -0.045em;
+      }
+
+      .lede {
+        max-width: 590px;
+        margin: 0;
+        color: #d7dcef;
+        font-size: clamp(17px, 2vw, 20px);
+        line-height: 1.55;
+      }
+
+      .hero-aside {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: clamp(30px, 4vw, 50px);
+        background: linear-gradient(
+          145deg,
+          rgba(47, 97, 213, 0.42),
+          rgba(14, 143, 147, 0.28)
+        );
+        border-left: 1px solid rgba(255, 255, 255, 0.13);
+      }
+
+      .aside-label {
+        margin: 0 0 16px;
+        color: #96e1df;
+        font: 700 10px/1.2 var(--font-utility);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .tiers {
+        list-style: none;
+        display: grid;
+        gap: 14px;
+        margin: 0;
+        padding: 0;
+      }
+
+      .tiers li {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3px;
+        border-left: 3px solid;
+        padding: 2px 0 2px 13px;
+      }
+
+      .tiers li.t-doctrine {
+        border-color: #7ea4f5;
+      }
+      .tiers li.t-mech {
+        border-color: #6fd4d2;
+      }
+      .tiers li.t-hypo {
+        border-color: #f2c86a;
+      }
+
+      .tiers .t-name {
+        color: #ffffff;
+        font: 700 13px var(--font-body);
+        letter-spacing: 0.02em;
+      }
+
+      .tiers .t-desc {
+        color: #cfd7ef;
+        font-size: 12.5px;
+        line-height: 1.45;
+      }
+
+      .hero-note {
+        margin-top: 28px;
+        border-top: 1px solid rgba(255, 255, 255, 0.18);
+        padding-top: 18px;
+        color: #dce3f4;
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      .hero-note strong {
+        color: var(--white);
+      }
+
+      /* ---------- premise band ---------- */
+
+      .premise {
+        display: grid;
+        grid-template-columns: 0.78fr 1.22fr;
+        gap: clamp(30px, 6vw, 70px);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: clamp(34px, 5vw, 62px);
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: var(--shadow);
+      }
+
+      .premise-intro h2 {
+        margin: 0 0 14px;
+        font: 600 clamp(32px, 4.3vw, 50px) / 1.02 var(--font-display);
+        letter-spacing: -0.03em;
+      }
+
+      .premise-intro p {
+        margin: 0;
+        color: var(--ink-2);
+        font-size: 16px;
+      }
+
+      .premise-kicker {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin-bottom: 18px;
+        color: var(--aqua);
+        font: 700 11px var(--font-utility);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .premise-kicker::before {
+        content: "";
+        width: 28px;
+        height: 2px;
+        background: var(--aqua);
+      }
+
+      .conditions {
+        display: grid;
+        gap: 18px;
+      }
+
+      .condition {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 22px 24px;
+        background: linear-gradient(135deg, #f7faff, #f2fbfa);
+      }
+
+      .condition h3 {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 11px;
+        margin: 0 0 8px;
+        font: 600 25px var(--font-display);
+        letter-spacing: -0.02em;
+      }
+
+      .condition h3 em {
+        color: var(--ink-2);
+        font: 500 14px/1 var(--font-body);
+        font-style: normal;
+      }
+
+      .condition p {
+        margin: 0;
+        color: var(--ink-2);
+        font-size: 14.5px;
+        line-height: 1.55;
+      }
+
+      .verdict-pair {
+        display: grid;
+        gap: 8px;
+        margin-top: 4px;
+        border-top: 1px solid #cfd9ee;
+        padding-top: 18px;
+      }
+
+      .verdict-pair p {
+        margin: 0;
+        color: var(--ink);
+        font-size: 14.5px;
+        font-weight: 600;
+      }
+
+      .verdict-pair p.soft {
+        color: var(--ink-2);
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .verdict-pair p span {
+        color: var(--coral);
+        font-family: var(--font-utility);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      /* ---------- stage cards ---------- */
+
+      .stage {
+        --stage-color: var(--blue);
+        --stage-soft: var(--blue-soft);
+        position: relative;
+        display: grid;
+        grid-template-columns: 152px 1fr;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow: var(--shadow);
+      }
+
+      .stage.tier-mech {
+        --stage-color: var(--aqua);
+        --stage-soft: var(--aqua-soft);
+      }
+
+      .stage.tier-hypo {
+        --stage-color: var(--gold);
+        --stage-soft: var(--gold-soft);
+      }
+
+      .stage.tier-risk {
+        --stage-color: var(--coral);
+        --stage-soft: var(--coral-soft);
+      }
+
+      .stage.tier-close {
+        --stage-color: var(--violet);
+        --stage-soft: var(--violet-soft);
+      }
+
+      .stage-rail {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+        padding: 32px 26px;
+        background: var(--stage-soft);
+        color: var(--stage-color);
+      }
+
+      .stage-rail::after {
+        content: "";
+        position: absolute;
+        right: -70px;
+        bottom: -80px;
+        width: 180px;
+        height: 180px;
+        border: 32px solid currentColor;
+        border-radius: 50%;
+        opacity: 0.08;
+      }
+
+      .stage-number {
+        position: relative;
+        z-index: 1;
+        font: 700 clamp(38px, 5vw, 62px) / 1 var(--font-display);
+        letter-spacing: -0.05em;
+      }
+
+      .stage-kind {
+        position: relative;
+        z-index: 1;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        font: 700 10px var(--font-utility);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .stage-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+        padding: clamp(30px, 4.4vw, 54px);
+        min-width: 0;
+      }
+
+      .stage h2 {
+        margin: 0;
+        font: 600 clamp(28px, 3.7vw, 43px) / 1.05 var(--font-display);
+        letter-spacing: -0.025em;
+      }
+
+      .stage-lede {
+        max-width: 68ch;
+        margin: 0;
+        color: var(--ink-2);
+        font-size: clamp(15.5px, 1.5vw, 17px);
+        line-height: 1.55;
+      }
+
+      .stage-lede strong {
+        color: var(--ink);
+      }
+
+      .stage-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        min-height: 25px;
+        border-radius: 999px;
+        padding: 4px 11px;
+        background: var(--stage-soft);
+        color: var(--stage-color);
+        font: 700 10px/1 var(--font-utility);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .badge.neutral {
+        background: #eef2f8;
+        color: var(--ink-2);
+      }
+
+      /* ---------- generic content pieces ---------- */
+
+      .sub {
+        margin: 0 0 10px;
+        color: var(--stage-color);
+        font: 700 11px var(--font-utility);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .block {
+        display: grid;
+        gap: 12px;
+      }
+
+      .stage-body > p {
+        margin: 0;
+        max-width: 72ch;
+        color: var(--ink-2);
+        font-size: 15px;
+        line-height: 1.6;
+      }
+
+      .stage-body > p strong,
+      .block p strong {
+        color: var(--ink);
+      }
+
+      .block p {
+        margin: 0;
+        max-width: 72ch;
+        color: var(--ink-2);
+        font-size: 15px;
+        line-height: 1.6;
+      }
+
+      .stage-body > p.pull,
+      .block p.pull {
+        max-width: 46ch;
+        border-left: 3px solid var(--stage-color);
+        padding: 4px 0 4px 18px;
+        color: var(--ink);
+        font: 600 clamp(17px, 1.9vw, 21px) / 1.4 var(--font-body);
+        letter-spacing: -0.012em;
+      }
+
+      .callout {
+        border-top: 1px solid #cfd9ee;
+        border-radius: 0 0 12px 12px;
+        padding: 15px 18px 16px;
+        background: linear-gradient(135deg, #f5f8ff, #f0fbfa);
+        color: var(--ink-2);
+        font-size: 14px;
+        line-height: 1.55;
+      }
+
+      .callout.warn {
+        border-top-color: #e8d3a8;
+        background: linear-gradient(135deg, #fff8e9, #fff3d8);
+      }
+
+      .callout .callout-label {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--stage-color);
+        font: 750 10px/1.2 var(--font-utility);
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+
+      .callout p {
+        margin: 0 0 7px;
+        max-width: 74ch;
+      }
+
+      .callout p:last-child {
+        margin-bottom: 0;
+      }
+
+      .callout strong {
+        color: var(--ink);
+      }
+
+      /* ---------- tables ---------- */
+
+      .tablewrap {
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--white);
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        min-width: 520px;
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--line-2);
+        font-size: 14px;
+        line-height: 1.5;
+        vertical-align: top;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      thead th {
+        border-bottom: 1px solid var(--line);
+        background: #f8fafd;
+        color: var(--ink-2);
+        font: 750 10px var(--font-utility);
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      td {
+        color: var(--ink-2);
+      }
+
+      td.key {
+        color: var(--ink);
+        font-weight: 650;
+      }
+
+      td.none {
+        color: var(--ink-3);
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      td.mono {
+        color: var(--stage-color);
+        font: 700 11px var(--font-utility);
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      td.num {
+        white-space: nowrap;
+      }
+
+      td strong {
+        color: var(--ink);
+      }
+
+      /* ---------- chain strip ---------- */
+
+      .chain {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 7px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 16px;
+        background: var(--white);
+      }
+
+      .chain span.node {
+        border-radius: 8px;
+        padding: 6px 11px;
+        background: var(--stage-soft);
+        color: var(--stage-color);
+        font: 700 11px var(--font-utility);
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+      }
+
+      .chain span.arw {
+        color: var(--ink-3);
+        font-size: 13px;
+      }
+
+      /* ---------- clocks ---------- */
+
+      .clocks {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 14px;
+      }
+
+      .clock {
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+        border: 1px solid var(--line);
+        border-top: 3px solid var(--clock-color, var(--blue));
+        border-radius: 14px;
+        padding: 20px;
+        background: var(--white);
+      }
+
+      .clock.c-intent {
+        --clock-color: var(--violet);
+      }
+      .clock.c-op {
+        --clock-color: var(--aqua);
+      }
+      .clock.c-recon {
+        --clock-color: var(--gold);
+      }
+
+      .clock .c-name {
+        color: var(--ink);
+        font: 600 20px var(--font-display);
+        letter-spacing: -0.02em;
+      }
+
+      .clock .c-rate {
+        color: var(--clock-color);
+        font: 700 10px var(--font-utility);
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      .clock .c-steps {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+
+      .clock .c-steps span {
+        border-radius: 6px;
+        padding: 4px 8px;
+        background: #f2f5fa;
+        color: var(--ink-2);
+        font: 650 10.5px var(--font-utility);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .clock p {
+        margin: 0;
+        color: var(--ink-2);
+        font-size: 13.5px;
+        line-height: 1.5;
+      }
+
+      .clock p strong {
+        color: var(--ink);
+      }
+
+      /* ---------- ladder ---------- */
+
+      .ladder {
+        display: grid;
+        gap: 0;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        overflow: hidden;
+        background: var(--white);
+      }
+
+      .rung {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        gap: 16px;
+        align-items: center;
+        border-bottom: 1px solid var(--line-2);
+        padding: 13px 18px;
+      }
+
+      .rung:last-child {
+        border-bottom: 0;
+      }
+
+      .rung .r-id {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: var(--stage-color);
+        font: 700 11px var(--font-utility);
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+      }
+
+      .rung .r-bar {
+        display: block;
+        flex: 0 0 auto;
+        height: 6px;
+        border-radius: 3px;
+        background: var(--stage-color);
+      }
+
+      .rung .r-text {
+        color: var(--ink-2);
+        font-size: 14px;
+      }
+
+      .rung .r-text b {
+        color: var(--ink);
+        font-weight: 650;
+      }
+
+      /* ---------- principles ---------- */
+
+      .principles {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+        gap: 1px;
+        margin: 0;
+        padding: 0;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        overflow: hidden;
+        background: var(--line-2);
+        counter-reset: prin;
+      }
+
+      .principles li {
+        counter-increment: prin;
+        display: grid;
+        grid-template-columns: 26px 1fr;
+        gap: 12px;
+        padding: 15px 17px;
+        background: var(--white);
+      }
+
+      .principles li::before {
+        content: counter(prin, decimal-leading-zero);
+        color: var(--stage-color);
+        font: 700 10px/1.7 var(--font-utility);
+        letter-spacing: 0.05em;
+      }
+
+      .principles .p-name {
+        display: block;
+        color: var(--ink);
+        font-size: 14.5px;
+        font-weight: 650;
+        line-height: 1.35;
+      }
+
+      .principles .p-desc {
+        display: block;
+        margin-top: 3px;
+        color: var(--ink-2);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      /* ---------- contrast pairs ---------- */
+
+      .pairs {
+        display: grid;
+        gap: 12px;
+      }
+
+      .pair {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        overflow: hidden;
+        background: var(--white);
+      }
+
+      .pair .says,
+      .pair .not {
+        padding: 16px 19px;
+        font-size: 14.5px;
+        line-height: 1.5;
+      }
+
+      .pair .says {
+        background: var(--stage-soft);
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      .pair .not {
+        color: var(--ink-3);
+        border-top: 1px solid var(--line-2);
+        font-style: italic;
+      }
+
+      .pair .lbl {
+        display: block;
+        margin-bottom: 5px;
+        font: 750 9.5px var(--font-utility);
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+        font-style: normal;
+      }
+
+      .pair .says .lbl {
+        color: var(--stage-color);
+      }
+      .pair .not .lbl {
+        color: var(--ink-3);
+      }
+
+      /* ---------- reading verdicts ---------- */
+
+      .verdicts {
+        display: grid;
+        gap: 12px;
+      }
+
+      .verdict {
+        display: grid;
+        gap: 6px;
+        border: 1px solid var(--line);
+        border-left: 4px solid var(--v-color, var(--aqua));
+        border-radius: 12px;
+        padding: 16px 19px;
+        background: var(--white);
+      }
+
+      .verdict.up {
+        --v-color: var(--aqua);
+      }
+      .verdict.down {
+        --v-color: var(--coral);
+      }
+
+      .verdict .v-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 10px;
+      }
+
+      .verdict .v-name {
+        color: var(--ink);
+        font: 700 12px var(--font-utility);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .verdict .v-dir {
+        color: var(--v-color);
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .verdict .v-conf {
+        color: var(--ink-3);
+        font: 650 11px var(--font-utility);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .verdict .v-why {
+        color: var(--ink-2);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      /* ---------- two-col cards ---------- */
+
+      .cols2 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 14px;
+      }
+
+      .col-card {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 20px;
+        background: var(--white);
+      }
+
+      .col-card h4 {
+        margin: 0 0 12px;
+        color: var(--stage-color);
+        font: 700 11px var(--font-utility);
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      .col-card ul {
+        list-style: none;
+        display: grid;
+        gap: 8px;
+        margin: 0;
+        padding: 0;
+      }
+
+      .col-card li {
+        display: grid;
+        grid-template-columns: 13px 1fr;
+        gap: 9px;
+        color: var(--ink-2);
+        font-size: 13.5px;
+        line-height: 1.45;
+      }
+
+      .col-card li::before {
+        content: "";
+        width: 5px;
+        height: 5px;
+        margin-top: 8px;
+        border-radius: 50%;
+        background: var(--stage-color);
+        opacity: 0.55;
+      }
+
+      .col-card li strong {
+        color: var(--ink);
+      }
+
+      /* ---------- deck mode ---------- */
+
+      .deckbar {
+        display: none;
+        position: sticky;
+        bottom: 14px;
+        z-index: 12;
+        align-items: center;
+        gap: 12px;
+        margin-top: 20px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 9px 14px;
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: 0 10px 34px rgba(29, 41, 74, 0.14);
+        backdrop-filter: blur(14px);
+      }
+
+      body.deck-mode .deckbar {
+        display: flex;
+      }
+
+      .deckbar button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 36px;
+        min-height: 32px;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        background: var(--white);
+        color: var(--ink);
+        font: 700 13px/1 var(--font-body);
+        cursor: pointer;
+      }
+
+      .deckbar button:hover:not(:disabled) {
+        background: var(--blue-soft);
+        border-color: #c3d3f5;
+        color: var(--blue);
+      }
+
+      .deckbar button:disabled {
+        opacity: 0.38;
+        cursor: default;
+      }
+
+      .deckbar .count {
+        color: var(--ink-2);
+        font: 700 11px var(--font-utility);
+        letter-spacing: 0.07em;
+        white-space: nowrap;
+      }
+
+      .deckbar .track {
+        flex: 1;
+        height: 4px;
+        border-radius: 2px;
+        background: var(--line);
+        overflow: hidden;
+      }
+
+      .deckbar .fill {
+        display: block;
+        height: 100%;
+        width: 0;
+        border-radius: 2px;
+        background: var(--navy);
+        transition: width 200ms ease;
+      }
+
+      .deckbar .hint {
+        color: var(--ink-3);
+        font-size: 11px;
+        white-space: nowrap;
+      }
+
+      body.deck-mode .slide:not(.is-current) {
+        display: none;
+      }
+
+      body.deck-mode .slides {
+        gap: 0;
+      }
+
+      /* ---------- footer ---------- */
+
+      .foot {
+        margin-top: 40px;
+        border-top: 1px solid var(--line);
+        padding-top: 22px;
+        color: var(--ink-3);
+        font-size: 12.5px;
+        line-height: 1.6;
+      }
+
+      .foot p {
+        margin: 0 0 10px;
+        max-width: 80ch;
+      }
+
+      .foot a {
+        color: var(--ink-2);
+      }
+
+      /* ---------- responsive ---------- */
+
+      @media (max-width: 900px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+        .hero::before {
+          mask-image: linear-gradient(180deg, black, transparent 82%);
+        }
+        .hero-aside {
+          border-left: 0;
+          border-top: 1px solid rgba(255, 255, 255, 0.13);
+        }
+        .premise {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .stage {
+          grid-template-columns: 1fr;
+        }
+        .stage-rail {
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          padding: 16px 22px;
+        }
+        .stage-kind {
+          writing-mode: horizontal-tb;
+          transform: none;
+        }
+        .stage-number {
+          font-size: 32px;
+        }
+        .rung {
+          grid-template-columns: 1fr;
+          gap: 7px;
+        }
+        .principles li {
+          grid-template-columns: 22px 1fr;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        * {
+          transition-duration: 0.001ms !important;
+        }
+      }
+
+      @media print {
+        .flow,
+        .view-toggle,
+        .deckbar {
+          display: none !important;
+        }
+        .slide {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <div class="topbar">
+        <div class="brand">Brilliant With AI · Throughline</div>
+        <div class="view-toggle" aria-label="Choose page view">
+          <button type="button" id="full-view" aria-pressed="true">
+            <svg class="view-icon" viewBox="0 0 16 16" aria-hidden="true">
+              <path
+                d="M3 2.5h10v11H3zM5 5h6M5 8h6M5 11h4"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+              />
+            </svg>
+            Full page
+          </button>
+          <button type="button" id="deck-view" aria-pressed="false">
+            <svg class="view-icon" viewBox="0 0 16 16" aria-hidden="true">
+              <rect
+                x="2.5"
+                y="3.5"
+                width="11"
+                height="8"
+                rx="1"
+                fill="none"
+                stroke="currentColor"
+              />
+              <path
+                d="M6 13.5h4"
+                stroke="currentColor"
+                stroke-linecap="round"
+              />
+            </svg>
+            One at a time
+          </button>
+        </div>
+      </div>
+
+      <nav class="flow" id="flow" aria-label="Section navigation">
+        <a href="#overview"
+          ><span class="num">OV</span><span class="lbl">Overview</span></a
+        >
+        <a href="#premise"
+          ><span class="num">··</span><span class="lbl">Two conditions</span></a
+        >
+        <span class="sep" aria-hidden="true"></span>
+        <span class="tier t-doctrine" aria-hidden="true">Doctrine</span>
+        <a href="#s-category"
+          ><span class="num">01</span><span class="lbl">Category</span></a
+        >
+        <a href="#s-bargain"
+          ><span class="num">02</span><span class="lbl">Human bargain</span></a
+        >
+        <a href="#s-drift"
+          ><span class="num">03</span><span class="lbl">Drift</span></a
+        >
+        <a href="#s-model"
+          ><span class="num">04</span><span class="lbl">Live model</span></a
+        >
+        <a href="#s-clocks"
+          ><span class="num">05</span><span class="lbl">Three clocks</span></a
+        >
+        <a href="#s-principles"
+          ><span class="num">06</span><span class="lbl">Principles</span></a
+        >
+        <a href="#s-translation"
+          ><span class="num">07</span><span class="lbl">No precedent</span></a
+        >
+        <span class="sep" aria-hidden="true"></span>
+        <span class="tier t-mech" aria-hidden="true">Mechanisms</span>
+        <a href="#s-mirror"
+          ><span class="num">08</span><span class="lbl">The Mirror</span></a
+        >
+        <a href="#s-ladder"
+          ><span class="num">09</span
+          ><span class="lbl">Authority Ladder</span></a
+        >
+        <a href="#s-clock"
+          ><span class="num">10</span><span class="lbl">Decision Clock</span></a
+        >
+        <a href="#s-evidence"
+          ><span class="num">11</span><span class="lbl">Evidence</span></a
+        >
+        <a href="#s-readings"
+          ><span class="num">12</span><span class="lbl">Two readings</span></a
+        >
+        <a href="#s-surface"
+          ><span class="num">13</span><span class="lbl">What you see</span></a
+        >
+        <span class="sep" aria-hidden="true"></span>
+        <span class="tier t-hypo" aria-hidden="true">Hypotheses</span>
+        <a href="#s-cadence"
+          ><span class="num">14</span><span class="lbl">Cadence</span></a
+        >
+        <a href="#s-activation"
+          ><span class="num">15</span><span class="lbl">Activation</span></a
+        >
+        <a href="#s-staging"
+          ><span class="num">16</span><span class="lbl">Staging</span></a
+        >
+        <span class="sep" aria-hidden="true"></span>
+        <span class="tier t-risk" aria-hidden="true">Risk</span>
+        <a href="#s-failure"
+          ><span class="num">17</span><span class="lbl">Failure modes</span></a
+        >
+        <a href="#s-moat"
+          ><span class="num">18</span><span class="lbl">The moat</span></a
+        >
+      </nav>
+
+      <div class="slides">
+        <!-- ============ HERO ============ -->
+        <header class="hero slide" id="overview" data-slide-title="Overview">
+          <div class="hero-copy">
+            <p class="eyebrow">Throughline · system thesis · working draft</p>
+            <h1>Alignment is not an event you hold.</h1>
+            <p class="lede">
+              An AI-native organizational operating system that continuously
+              creates, maintains, and restores alignment — and converts that
+              alignment into sustained momentum. Traditional operating systems
+              are something a company periodically <em>uses</em>. This is
+              something it <em>runs on</em>.
+            </p>
+          </div>
+          <aside class="hero-aside" aria-label="How to read this document">
+            <div>
+              <p class="aside-label">How to read this</p>
+              <ul class="tiers">
+                <li class="t-doctrine">
+                  <span class="t-name">I · Doctrine</span>
+                  <span class="t-desc"
+                    >Should hold for a decade. Changes only if organizations or
+                    intelligence fundamentally change.</span
+                  >
+                </li>
+                <li class="t-mech">
+                  <span class="t-name">II · Mechanisms</span>
+                  <span class="t-desc"
+                    >Durable in intent, specific in form. Changes when a better
+                    mechanism does the same job.</span
+                  >
+                </li>
+                <li class="t-hypo">
+                  <span class="t-name">III · Hypotheses</span>
+                  <span class="t-desc"
+                    >Current bets with kill criteria. May be disproven six weeks
+                    after launch.</span
+                  >
+                </li>
+              </ul>
+            </div>
+            <p class="hero-note">
+              <strong
+                >Three kinds of claim live here, and they do not deserve equal
+                standing.</strong
+              >
+              Earlier drafts mixed them, which let product guesses acquire the
+              authority of principles. Nothing in Part III should ever be
+              defended as though it were in Part I.
+            </p>
+          </aside>
+        </header>
+
+        <!-- ============ PREMISE ============ -->
+        <section
+          class="premise slide"
+          id="premise"
+          data-slide-title="The two conditions"
+        >
+          <div class="premise-intro">
+            <div class="premise-kicker">The rule beneath everything</div>
+            <h2>Two conditions. Both, or neither.</h2>
+            <p>
+              Everything in the system exists to raise and protect exactly two
+              things. Reporting one without the other is how operating systems
+              flatter the organizations that buy them.
+            </p>
+          </div>
+          <div class="conditions">
+            <div class="condition">
+              <h3>Alignment <em>Are we pointed at the same thing?</em></h3>
+              <p>
+                Do people hold the same understanding of priorities,
+                assumptions, outcomes, ownership, decision rights, and
+                constraints? Does the work trace back to what the organization
+                says matters?
+              </p>
+            </div>
+            <div class="condition">
+              <h3>Momentum <em>Are we actually getting there?</em></h3>
+              <p>
+                Are commitments moving? Are decisions being made? Are obstacles
+                clearing? Is the organization measurably becoming more like the
+                future state it committed to create?
+              </p>
+            </div>
+            <div class="verdict-pair">
+              <p>
+                <span>Alignment without momentum</span> — an organized stall.
+              </p>
+              <p>
+                <span>Momentum without alignment</span> — efficient movement in
+                conflicting directions.
+              </p>
+              <p class="soft">
+                And momentum is not activity. A task moving is not progress.
+                Throughput that doesn't advance a committed outcome is motion,
+                and the system is built to say so.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 01 CATEGORY ============ -->
+        <section
+          class="stage slide"
+          id="s-category"
+          data-slide-title="The category"
+        >
+          <div class="stage-rail">
+            <span class="stage-number">01</span>
+            <span class="stage-kind">Doctrine</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>The category</h2>
+              <span class="badge">Part I</span>
+            </div>
+            <p class="stage-lede">
+              Not a management methodology with AI attached. The old management
+              question —
+              <em
+                >how do we get everyone aligned and keep execution on track?</em
+              >
+              — assumes alignment and follow-through are recurring human
+              coordination problems.
+            </p>
+            <p>
+              With persistent organizational memory, machine-readable intent,
+              continuous evidence, explicit authority, and systematic drift
+              detection,
+              <strong
+                >alignment and momentum become continuously managed properties
+                of the organization</strong
+              >
+              rather than periodic human achievements.
+            </p>
+            <p class="pull">
+              Humans still choose the destination, still make consequential
+              judgments, still lead other humans. They no longer personally
+              carry the coordination system.
+            </p>
+            <div class="block">
+              <p class="sub">The system, at a glance</p>
+              <div class="tablewrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>System</th>
+                      <th>Answers</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="key">Alignment System</td>
+                      <td>
+                        What matters, and why — turned into shared understanding
+                        explicit enough for humans and agents to operate
+                        against.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="key">AI Operating Model</td>
+                      <td>
+                        How humans and AI operate as one system: authority,
+                        responsibility, division of labor, workflow, escalation.
+                        <strong
+                          >An element of the OS, not another name for
+                          it.</strong
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="key">Momentum System</td>
+                      <td>
+                        Intent into coordinated action into verified outcome.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="key">Live Company Model</td>
+                      <td>
+                        The shared intelligence layer all three read from and
+                        write to.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 02 HUMAN BARGAIN ============ -->
+        <section
+          class="stage slide"
+          id="s-bargain"
+          data-slide-title="The human bargain"
+        >
+          <div class="stage-rail">
+            <span class="stage-number">02</span>
+            <span class="stage-kind">Doctrine</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>The human bargain</h2>
+              <span class="badge">Part I</span>
+            </div>
+            <p class="stage-lede">
+              An operating system fails the moment operating it becomes another
+              job.
+            </p>
+            <div class="cols2">
+              <div class="col-card">
+                <h4>Humans do five things</h4>
+                <ul>
+                  <li>
+                    <strong>Judge</strong> — interpret ambiguity, weigh
+                    competing values.
+                  </li>
+                  <li>
+                    <strong>Decide</strong> — make consequential choices where
+                    authority belongs to a person.
+                  </li>
+                  <li>
+                    <strong>Commit</strong> — accept accountability for an
+                    outcome.
+                  </li>
+                  <li>
+                    <strong>Relate</strong> — persuade, coach, negotiate, lead,
+                    build trust, navigate human complexity.
+                  </li>
+                  <li>
+                    <strong>Do</strong> — work that genuinely requires human
+                    capability or presence.
+                  </li>
+                </ul>
+              </div>
+              <div class="col-card">
+                <h4>Agents carry the connective labor</h4>
+                <ul>
+                  <li>Capture, synthesize, structure</li>
+                  <li>Remember, retrieve, reconcile</li>
+                  <li>Coordinate, follow up, monitor</li>
+                  <li>Detect, analyze, prepare</li>
+                  <li>Verify, update, escalate</li>
+                  <li>
+                    The work organizations chronically fail to perform reliably
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <p class="pull">
+              Humans retain judgment and authority. The system removes the
+              avoidable coordination and cognitive overhead around them.
+            </p>
+            <div class="callout">
+              <span class="callout-label">Not the usual framing</span>
+              <p>
+                The distinction is <strong>not</strong> "humans think, AI
+                executes." Humans are frequently inside execution. What
+                disappears is unnecessary human <strong>coordination</strong>,
+                not humans from the path.
+              </p>
+              <p>
+                <strong>Design rule:</strong> if a human is entering status, the
+                system has failed.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 03 DRIFT ============ -->
+        <section class="stage slide" id="s-drift" data-slide-title="Drift">
+          <div class="stage-rail">
+            <span class="stage-number">03</span>
+            <span class="stage-kind">Doctrine</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>Drift is a first-class object</h2>
+              <span class="badge">Part I</span>
+            </div>
+            <p class="stage-lede">
+              Traditional operating systems manage issues. This one manages
+              drift — any meaningful difference between the organization's
+              intended state and its actual state. Drift is not failure.
+              Organizations change.
+              <strong>Unseen or unresolved drift is the failure.</strong>
+            </p>
+            <p>Typed, because typed drift is detectable:</p>
+            <div class="tablewrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Signature</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="mono">Orphan work</td>
+                    <td>Work with no traceable outcome</td>
+                  </tr>
+                  <tr>
+                    <td class="mono">Orphan priority</td>
+                    <td>A stated priority with no work behind it</td>
+                  </tr>
+                  <tr>
+                    <td class="mono">Ownerless commitment</td>
+                    <td>A commitment with no owner</td>
+                  </tr>
+                  <tr>
+                    <td class="mono">Authority mismatch</td>
+                    <td>
+                      An owner without the authority the commitment requires
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">Decision drift</td>
+                    <td>
+                      A decision exists; behavior still reflects the prior state
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">Evidence drift</td>
+                    <td>
+                      A measure with no trustworthy or current evidence behind
+                      it
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">Stall</td>
+                    <td>
+                      An outcome with no movement, or work with no recent
+                      activity
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">Capacity drift</td>
+                    <td>
+                      Commitments materially exceeding observed throughput
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">Cognitive drift</td>
+                    <td>Stakeholders holding materially different beliefs</td>
+                  </tr>
+                  <tr>
+                    <td class="mono">Structural drift</td>
+                    <td>
+                      Operating reality contradicting the stated operating model
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">Reality drift</td>
+                    <td>The shared narrative contradicting the evidence</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="pull">
+              What has changed enough that our previous alignment may no longer
+              be valid?
+            </p>
+          </div>
+        </section>
+
+        <!-- ============ 04 LIVE MODEL ============ -->
+        <section
+          class="stage slide"
+          id="s-model"
+          data-slide-title="Live Company Model"
+        >
+          <div class="stage-rail">
+            <span class="stage-number">04</span>
+            <span class="stage-kind">Doctrine</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>The Live Company Model</h2>
+              <span class="badge">Part I</span>
+              <span class="badge neutral">+ two sensing systems</span>
+            </div>
+            <p class="stage-lede">
+              The canonical representation of both intent and reality, and the
+              shared intelligence layer everything else reads from and writes
+              to.
+            </p>
+            <div class="tablewrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Layer</th>
+                    <th>Holds</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="mono">Intent</td>
+                    <td>
+                      Purpose, direction, outcomes, priorities — including what
+                      deliberately does not matter now
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">Structure</td>
+                    <td>Who owns what; separately, who decides what</td>
+                  </tr>
+                  <tr>
+                    <td class="mono">Doctrine</td>
+                    <td>
+                      Principles and decision rules governing choices that
+                      aren't predetermined
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">Signal</td>
+                    <td>
+                      What evidence tells us reality is moving as intended, and
+                      where it comes from
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">Cadence</td>
+                    <td>
+                      Which recurring moments require synchronization, judgment,
+                      or recommitment
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">Commitments</td>
+                    <td>
+                      What was promised, by whom, by when, toward what outcome
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">Decisions</td>
+                    <td>
+                      What was decided, by whom, why, and on what assumptions
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">State</td>
+                    <td>
+                      What is true now: moving, stuck, changed, at risk,
+                      awaiting a decision
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">History</td>
+                    <td>
+                      How the organization got here, what it tried, what it
+                      learned
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>
+              The first five are shaped by people.
+              <strong
+                >State and history are maintained continuously by the
+                system.</strong
+              >
+              Nobody should have to reconstruct organizational reality from
+              memory in order to have a meeting.
+            </p>
+            <div class="block">
+              <p class="sub">The required capability — impact propagation</p>
+              <p>
+                The model must be relational and machine-reasonable, because it
+                must answer one question in real time:
+                <strong>if this changes, what else becomes misaligned?</strong>
+                A searchable repository of documents cannot answer that.
+                Whatever representation delivers it is the right one — the
+                requirement is the capability, not the data structure.
+              </p>
+              <div class="chain">
+                <span class="node">Purpose</span><span class="arw">→</span>
+                <span class="node">Direction</span><span class="arw">→</span>
+                <span class="node">Outcome</span><span class="arw">→</span>
+                <span class="node">Priority</span><span class="arw">→</span>
+                <span class="node">Commitment</span><span class="arw">→</span>
+                <span class="node">Work</span><span class="arw">→</span>
+                <span class="node">Evidence</span>
+              </div>
+              <p>
+                When the chain breaks, the system surfaces the only question
+                worth asking: <strong>why are we doing this?</strong>
+              </p>
+            </div>
+            <div class="callout">
+              <span class="callout-label"
+                >The load-bearing structural idea</span
+              >
+              <p>
+                <strong
+                  >The operating loop checks the model against systems. The
+                  Mirror checks the model against people.</strong
+                >
+              </p>
+              <p>
+                Both are required and neither substitutes for the other, because
+                a model can be perfectly consistent with every system of record
+                and still be wrong about what the company is trying to do.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 05 CLOCKS ============ -->
+        <section
+          class="stage slide"
+          id="s-clocks"
+          data-slide-title="Three clocks"
+        >
+          <div class="stage-rail">
+            <span class="stage-number">05</span>
+            <span class="stage-kind">Doctrine</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>Three clocks</h2>
+              <span class="badge">Part I</span>
+            </div>
+            <p class="stage-lede">
+              The real property is not a cadence. It is that different kinds of
+              change move at different speeds, and collapsing them into one
+              quarterly meeting is why context has to be rebuilt from scratch
+              every ninety days.
+            </p>
+            <div class="clocks">
+              <div class="clock c-intent">
+                <span class="c-rate">Event-driven</span>
+                <span class="c-name">Intent clock</span>
+                <div class="c-steps"><span>Align</span><span>Encode</span></div>
+                <p>
+                  Strategy, authority, and doctrine change when something
+                  material changes — a market shift, a leadership change, a
+                  broken assumption. <strong>Not annual.</strong> The scheduled
+                  reframe is reconsideration in the <em>absence</em> of a
+                  trigger, not the only permitted moment for intent to move.
+                </p>
+              </div>
+              <div class="clock c-op">
+                <span class="c-rate">Continuous</span>
+                <span class="c-name">Operating clock</span>
+                <div class="c-steps">
+                  <span>Sense</span><span>Mobilize</span><span>Execute</span
+                  ><span>Verify</span><span>Learn</span>
+                </div>
+                <p>
+                  Humans are frequently in this loop.
+                  <strong
+                    >What runs without them is the coordination, not the
+                    work.</strong
+                  >
+                </p>
+              </div>
+              <div class="clock c-recon">
+                <span class="c-rate">Periodic</span>
+                <span class="c-name">Reconciliation clock</span>
+                <div class="c-steps">
+                  <span>Mirror</span><span>Reconcile</span><span>Recommit</span>
+                </div>
+                <p>
+                  Requires people together, because it is about beliefs — and
+                  beliefs are not in any system of record.
+                </p>
+              </div>
+            </div>
+            <div class="callout">
+              <span class="callout-label">Routing rule</span>
+              <p>
+                Detected drift routes to the clock that can actually resolve it:
+                <strong>operational drift</strong> to the operating clock, where
+                agents handle it; <strong>belief drift</strong> to the
+                reconciliation clock;
+                <strong>intent-invalidating drift</strong> to the intent clock,
+                immediately.
+              </p>
+              <p>
+                Most operating systems route everything to the slowest clock.
+                That is why everything waits for the quarterly.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 06 PRINCIPLES ============ -->
+        <section
+          class="stage slide"
+          id="s-principles"
+          data-slide-title="Governing principles"
+        >
+          <div class="stage-rail">
+            <span class="stage-number">06</span>
+            <span class="stage-kind">Doctrine</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>Governing principles</h2>
+              <span class="badge">Part I</span>
+            </div>
+            <p class="stage-lede">
+              Twelve rules for the cases the specification did not anticipate.
+            </p>
+            <ul class="principles">
+              <li>
+                <span class="p-name">Reality over reporting</span
+                ><span class="p-desc"
+                  >Derive state from evidence; don't ask people to restate what
+                  happened.</span
+                >
+              </li>
+              <li>
+                <span class="p-name">Judgment over administration</span
+                ><span class="p-desc"
+                  >Human attention goes to consequential judgment, never to
+                  maintaining the system.</span
+                >
+              </li>
+              <li>
+                <span class="p-name"
+                  >Continuous alignment over periodic reconstruction</span
+                ><span class="p-desc"
+                  >Meetings inspect and modify alignment; they don't recreate
+                  it.</span
+                >
+              </li>
+              <li>
+                <span class="p-name">Outcomes over activity</span
+                ><span class="p-desc"
+                  >Movement counts only when it advances a committed
+                  outcome.</span
+                >
+              </li>
+              <li>
+                <span class="p-name"
+                  >Explicit authority over implicit politics</span
+                ><span class="p-desc"
+                  >Decision rights visible enough that humans and agents both
+                  know when authority is required.</span
+                >
+              </li>
+              <li>
+                <span class="p-name">Exceptions over dashboards</span
+                ><span class="p-desc"
+                  >Direct attention to what needs it rather than making humans
+                  hunt for significance.</span
+                >
+              </li>
+              <li>
+                <span class="p-name">Evidence over recollection</span
+                ><span class="p-desc"
+                  >Preserve what happened, what was believed at the time, and
+                  why.</span
+                >
+              </li>
+              <li>
+                <span class="p-name">Reconciliation over forced consensus</span
+                ><span class="p-desc"
+                  >Make difference visible and resolvable rather than hidden
+                  behind apparent agreement.</span
+                >
+              </li>
+              <li>
+                <span class="p-name"
+                  >Bounded autonomy over blanket automation</span
+                ><span class="p-desc"
+                  >Authority is bounded by consequence and moved by evidence;
+                  never granted by enthusiasm.</span
+                >
+              </li>
+              <li>
+                <span class="p-name"
+                  >Living model over static documentation</span
+                ><span class="p-desc"
+                  >Every operating event leaves the model more accurate than
+                  before.</span
+                >
+              </li>
+              <li>
+                <span class="p-name">Attribution over accusation</span
+                ><span class="p-desc"
+                  >Record what happened and who held authority; never produce a
+                  per-person quality score.</span
+                >
+              </li>
+              <li>
+                <span class="p-name">Falsifiable over aspirational</span
+                ><span class="p-desc"
+                  >Any claim the system makes must name the evidence that would
+                  disprove it.</span
+                >
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ============ 07 TRANSLATION ============ -->
+        <section
+          class="stage slide"
+          id="s-translation"
+          data-slide-title="What has no precedent"
+        >
+          <div class="stage-rail">
+            <span class="stage-number">07</span>
+            <span class="stage-kind">Doctrine</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>What has no precedent</h2>
+              <span class="badge">Part I → II</span>
+            </div>
+            <p class="stage-lede">
+              Most familiar management artifacts translate directly. Five things
+              do not — and those five are the test of whether this is AI-native
+              rather than AI-assisted.
+            </p>
+            <div class="tablewrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Traditional</th>
+                    <th>Throughline</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="key">Vision</td>
+                    <td>Strategic Model</td>
+                  </tr>
+                  <tr>
+                    <td class="key">Accountability chart</td>
+                    <td>Role + Authority Graph</td>
+                  </tr>
+                  <tr>
+                    <td class="key">Rocks</td>
+                    <td>90-Day Missions</td>
+                  </tr>
+                  <tr>
+                    <td class="key">Scorecard</td>
+                    <td>Evidence System — criterion-linked, graded</td>
+                  </tr>
+                  <tr>
+                    <td class="key">Issues list</td>
+                    <td>Drift + Decision Queue</td>
+                  </tr>
+                  <tr>
+                    <td class="key">Processes</td>
+                    <td>Executable Playbooks</td>
+                  </tr>
+                  <tr>
+                    <td class="key">Meeting pulse</td>
+                    <td>Operating Cadence</td>
+                  </tr>
+                  <tr>
+                    <td class="key">Quarterly planning</td>
+                    <td>Mirror → Reconcile → Recommit</td>
+                  </tr>
+                  <tr>
+                    <td class="key">Traction</td>
+                    <td>Momentum System</td>
+                  </tr>
+                  <tr>
+                    <td class="none">— none —</td>
+                    <td><strong>The Live Company Model</strong></td>
+                  </tr>
+                  <tr>
+                    <td class="none">— none —</td>
+                    <td><strong>The Mirror</strong></td>
+                  </tr>
+                  <tr>
+                    <td class="none">— none —</td>
+                    <td><strong>The Authority Ladder</strong></td>
+                  </tr>
+                  <tr>
+                    <td class="none">— none —</td>
+                    <td><strong>The Decision Clock</strong></td>
+                  </tr>
+                  <tr>
+                    <td class="none">— none —</td>
+                    <td>
+                      <strong>Acceptance Criteria + Evidence Lineage</strong>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 08 MIRROR ============ -->
+        <section
+          class="stage tier-mech slide"
+          id="s-mirror"
+          data-slide-title="The Mirror"
+        >
+          <div class="stage-rail">
+            <span class="stage-number">08</span>
+            <span class="stage-kind">Mechanism</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>The Mirror</h2>
+              <span class="badge">Part II</span>
+            </div>
+            <p class="stage-lede">
+              Gathers perspectives independently, compares them against one
+              another and against operating evidence, and surfaces consequential
+              divergence without requiring anyone to raise it themselves.
+            </p>
+            <p>
+              Most organizational misalignment is not "the work drifted." It is
+              several senior people each certain they agreed to something
+              different, with no forum in which that becomes sayable. AI is
+              uniquely suited to this:
+              <strong
+                >it is the only participant that can talk to everyone privately
+                in parallel, has unlimited patience, and holds no stake in the
+                outcome.</strong
+              >
+            </p>
+            <p>
+              It looks for cognitive, strategic, commitment, decision,
+              structural, and reality drift. It does not decide who is right —
+              it makes consequential disagreement visible early enough to
+              resolve. It runs every reconciliation cycle, permanently, because
+              it is the model's error correction against people and nothing else
+              performs that function.
+            </p>
+            <div class="block">
+              <p class="sub">Consent architecture — load-bearing, not policy</p>
+              <p>
+                The Mirror collects candid statements from senior people and
+                then reveals contradictions. Run carelessly once, it burns
+                someone and the data source disappears permanently in that
+                company.
+              </p>
+              <div class="tablewrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Rule</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="mono">01</td>
+                      <td>
+                        Every session opens by stating exactly what may be
+                        attributed and what may not.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="mono">02</td>
+                      <td>
+                        <strong>Positions</strong> are reportable.
+                        <strong>Characterizations of other people</strong> are
+                        never reported, in any form, aggregated or otherwise.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="mono">03</td>
+                      <td>
+                        Each person sees their own contribution
+                        <em>as it will appear</em> and may revise or withdraw it
+                        before anything is shared.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="mono">04</td>
+                      <td>
+                        Divergence surfaces as "this group holds three views."
+                        Names attach only with that person's sign-off.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="mono">05</td>
+                      <td>
+                        Nothing from a Mirror may enter a performance record —
+                        enforced in doctrine, which is the layer agents check
+                        against.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 09 LADDER ============ -->
+        <section
+          class="stage tier-mech slide"
+          id="s-ladder"
+          data-slide-title="Authority Ladder"
+        >
+          <div class="stage-rail">
+            <span class="stage-number">09</span>
+            <span class="stage-kind">Mechanism</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>The Authority Ladder</h2>
+              <span class="badge">Part II</span>
+            </div>
+            <p class="stage-lede">
+              Autonomy is scoped per playbook, bounded by consequence, and moved
+              by evidence. An agent trusted to do one thing tells you almost
+              nothing about whether it should autonomously do another.
+            </p>
+            <div class="ladder">
+              <div class="rung">
+                <span class="r-id"
+                  ><i class="r-bar" style="width: 8px"></i>0 · Observe</span
+                ><span class="r-text">Watches. Produces nothing binding.</span>
+              </div>
+              <div class="rung">
+                <span class="r-id"
+                  ><i class="r-bar" style="width: 20px"></i>1 · Propose</span
+                ><span class="r-text">Recommends. A human acts.</span>
+              </div>
+              <div class="rung">
+                <span class="r-id"
+                  ><i class="r-bar" style="width: 32px"></i>2 · Default</span
+                ><span class="r-text"
+                  >Recommends <b>with a default that runs on a clock</b>.</span
+                >
+              </div>
+              <div class="rung">
+                <span class="r-id"
+                  ><i class="r-bar" style="width: 44px"></i>3 · Act +
+                  review</span
+                ><span class="r-text"
+                  >Acts. Human reviews after; reversible within a window.</span
+                >
+              </div>
+              <div class="rung">
+                <span class="r-id"
+                  ><i class="r-bar" style="width: 56px"></i>4 · Act +
+                  notify</span
+                ><span class="r-text">Acts. Human is told.</span>
+              </div>
+              <div class="rung">
+                <span class="r-id"
+                  ><i class="r-bar" style="width: 68px"></i>5 · Act</span
+                ><span class="r-text">Acts. Appears in the record.</span>
+              </div>
+            </div>
+            <div class="cols2">
+              <div class="col-card">
+                <h4>Ceilings — set by humans</h4>
+                <ul>
+                  <li>
+                    Blast radius, reversibility, legal authority, regulatory
+                    exposure, and uncertainty determine how high a playbook may
+                    <strong>ever</strong> climb.
+                  </li>
+                  <li>
+                    The ceiling is itself a decision — attributed, dated,
+                    recorded in the model.
+                  </li>
+                  <li>
+                    Raising a ceiling is always a human act, on the intent
+                    clock.
+                  </li>
+                </ul>
+              </div>
+              <div class="col-card">
+                <h4>Movement — driven by evidence</h4>
+                <ul>
+                  <li>
+                    Measured accuracy over a run of executions promotes a
+                    playbook one rung — <strong>never past its ceiling</strong>.
+                  </li>
+                  <li>Any failure demotes immediately.</li>
+                  <li>Demotion has no floor.</li>
+                </ul>
+              </div>
+            </div>
+            <p class="pull">Accuracy justifies confidence, never authority.</p>
+            <div class="callout">
+              <span class="callout-label">Why the distinction matters</span>
+              <p>
+                A system that executes wire transfers correctly 99.99% of the
+                time has earned nothing about how much money it may move.
+                Confidence is measurable. Authority is granted. Conflating them
+                would violate the operating model the ladder exists to enforce.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 10 DECISION CLOCK ============ -->
+        <section
+          class="stage tier-mech slide"
+          id="s-clock"
+          data-slide-title="Decision Clock"
+        >
+          <div class="stage-rail">
+            <span class="stage-number">10</span>
+            <span class="stage-kind">Mechanism</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>The Decision Clock</h2>
+              <span class="badge">Part II</span>
+            </div>
+            <p class="stage-lede">
+              The failure mode of every intelligent coordination system is that
+              it becomes a very sophisticated way of producing recommendations
+              nobody acts on. This designs against that directly.
+            </p>
+            <p>
+              Every item routed to a human arrives with four things:
+              <strong
+                >the ask, the recommendation, the evidence, and what happens if
+                you don't respond — and when.</strong
+              >
+            </p>
+            <div class="block">
+              <p class="sub">Semantics — deliberately narrow</p>
+              <div class="tablewrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Element</th>
+                      <th>Who it belongs to</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="key">The standing authorization</td>
+                      <td>
+                        <strong>This is the decision.</strong> A named person
+                        established or accepted the default rule for this class
+                        of item, on a date. That is the affirmative act,
+                        attributed to them.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="key">The execution</td>
+                      <td>
+                        Attributed to <strong>the rule</strong>, not to anyone's
+                        silence. The record reads:
+                        <em
+                          >default executed under standing authorization by
+                          [person, date]; [person] was notified and did not
+                          respond within the window.</em
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="key">The non-response</td>
+                      <td>
+                        Produces <strong>latency</strong> — tracked, rolled into
+                        the momentum reading, never into a performance record.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="key">Irreversible items</td>
+                      <td>
+                        Carry <strong>no default</strong>. They escalate rather
+                        than expiring.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="callout">
+              <span class="callout-label">Positioning vs. accounting</span>
+              <p>
+                The system does not manufacture attribution by treating a
+                non-response at 3:02pm as a fresh decision somebody personally
+                made. The positioning stays sharp —
+                <strong>silence lets the standing rule govern</strong> — and the
+                accounting stays honest.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 11 EVIDENCE ============ -->
+        <section
+          class="stage tier-mech slide"
+          id="s-evidence"
+          data-slide-title="Evidence"
+        >
+          <div class="stage-rail">
+            <span class="stage-number">11</span>
+            <span class="stage-kind">Mechanism</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>Acceptance criteria, lineage, and grades</h2>
+              <span class="badge">Part II</span>
+            </div>
+            <p class="stage-lede">
+              "Verified outcome" is the hardest phrase in any architecture like
+              this. Three parts make it real.
+            </p>
+            <div class="chain">
+              <span class="node">Acceptance criterion</span
+              ><span class="arw">→</span>
+              <span class="node">Evidence + lineage</span
+              ><span class="arw">→</span>
+              <span class="node">Grade</span>
+            </div>
+            <div class="block">
+              <p>
+                <strong
+                  >1 · The acceptance criterion is written when the outcome is
+                  committed.</strong
+                >
+                What specifically must be observably true for this to count?
+                Written at commit time so nobody negotiates the standard at
+                close.
+              </p>
+              <p>
+                <strong
+                  >2 · Evidence links to the criterion, with lineage.</strong
+                >
+                Not "here is a number," but: this evidence, from this source, at
+                this time, bearing on this criterion, through this reasoning.
+                Lineage is what makes a claim auditable a year later.
+              </p>
+              <p>
+                <strong
+                  >3 · The grade measures the distance between evidence and
+                  criterion</strong
+                >
+                — not the source type.
+              </p>
+            </div>
+            <div class="tablewrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Grade</th>
+                    <th>Meaning</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="mono">A · Direct</td>
+                    <td>
+                      Evidence observes the criterion itself. Machine-checked,
+                      lineage complete.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">B · Attested</td>
+                    <td>
+                      A named human confirms the criterion is met. Who and when
+                      are recorded.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">C · Proxy</td>
+                    <td>
+                      Evidence is real but indirect — it bears on the criterion
+                      without observing it.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">D · Asserted</td>
+                    <td>
+                      Someone says it's done. Nothing links to the criterion.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">U · Uncheckable</td>
+                    <td>
+                      No acceptance criterion exists, or none could be written.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="callout">
+              <span class="callout-label"
+                >The subtle point earlier versions got wrong</span
+              >
+              <p>
+                A machine-checked state change is
+                <strong>Direct</strong> evidence only if the criterion was
+                written as a state change. If the criterion is "customers
+                renew," a CRM field flipping is a <strong>Proxy</strong>.
+                Automation proves a system changed; it does not prove an outcome
+                occurred.
+              </p>
+              <p>
+                <strong
+                  >A U is a defect in the writing, flagged at commit time, not
+                  at close.</strong
+                >
+                If you cannot say how you would know, you have not set an
+                outcome — you have set an intention.
+              </p>
+              <p>
+                The grade <em>mix</em> is itself a health reading. An
+                organization running on D's is telling itself a story with a
+                dashboard attached.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 12 READINGS ============ -->
+        <section
+          class="stage tier-mech slide"
+          id="s-readings"
+          data-slide-title="The two readings"
+        >
+          <div class="stage-rail">
+            <span class="stage-number">12</span>
+            <span class="stage-kind">Mechanism</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>The two readings</h2>
+              <span class="badge">Part II</span>
+            </div>
+            <p class="stage-lede">
+              The system must answer whether it is working — and must not answer
+              it in a way anyone can game or weaponize.
+              <strong>Direction and confidence, not a score.</strong>
+            </p>
+            <div class="verdicts">
+              <div class="verdict up">
+                <div class="v-head">
+                  <span class="v-name">Alignment</span>
+                  <span class="v-dir">Improving</span>
+                  <span class="v-conf">High confidence</span>
+                </div>
+                <span class="v-why"
+                  >Driven by traceability recovery and the closure of two
+                  long-open cognitive drifts.</span
+                >
+              </div>
+              <div class="verdict down">
+                <div class="v-head">
+                  <span class="v-name">Momentum</span>
+                  <span class="v-dir">Deteriorating</span>
+                  <span class="v-conf">Moderate confidence</span>
+                </div>
+                <span class="v-why"
+                  >Driven by decision latency in two authority areas.</span
+                >
+              </div>
+            </div>
+            <p>
+              One line each, evidence preserved and explorable underneath. A
+              0–100 score would be arbitrary, gameable, and would migrate into
+              performance management within two quarters. A narrative alone
+              loses the renewal conversation.
+              <strong
+                >Direction plus confidence is a verdict without a number to
+                farm.</strong
+              >
+            </p>
+            <div class="cols2">
+              <div class="col-card">
+                <h4>Alignment signals</h4>
+                <ul>
+                  <li>Work traceable to stated intent</li>
+                  <li>Decisions made within intended authority</li>
+                  <li>Clarity and coverage of ownership</li>
+                  <li>Evidence freshness and grade mix</li>
+                  <li>Divergence between stakeholder mental models</li>
+                  <li>Volume and age of unresolved alignment drift</li>
+                  <li>Commitment clarity</li>
+                </ul>
+              </div>
+              <div class="col-card">
+                <h4>Momentum signals</h4>
+                <ul>
+                  <li>Commitment throughput</li>
+                  <li>Time from detection to decision</li>
+                  <li>Time from decision to action</li>
+                  <li>Blocker and drift age</li>
+                  <li>Recovery time after drift</li>
+                  <li>Throughput against observed capacity</li>
+                  <li>Rate at which commitments produce graded outcomes</li>
+                  <li>
+                    Default rate — how often the clock governed because nobody
+                    responded
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="callout">
+              <span class="callout-label"
+                >A structural refusal, and a selling point</span
+              >
+              <p>
+                <strong>Neither reading is ever computed per person.</strong>
+                Not restricted, not permissioned — the system does not produce
+                that number. A policy would be relaxed inside two quarters, and
+                the moment these become performance scores every input goes soft
+                and the readings stop meaning anything.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 13 SURFACE ============ -->
+        <section
+          class="stage tier-mech slide"
+          id="s-surface"
+          data-slide-title="What a person sees"
+        >
+          <div class="stage-rail">
+            <span class="stage-number">13</span>
+            <span class="stage-kind">Mechanism</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>What a person actually sees</h2>
+              <span class="badge">Part II</span>
+            </div>
+            <p class="stage-lede">
+              It should feel like an operating partner, not a suite of
+              administrative modules the leader is responsible for maintaining.
+            </p>
+            <div class="pairs">
+              <div class="pair">
+                <div class="says">
+                  <span class="lbl">Throughline says</span>“Three things need
+                  you.”
+                </div>
+                <div class="not">
+                  <span class="lbl">Not</span>“You have 47 notifications.”
+                </div>
+              </div>
+              <div class="pair">
+                <div class="says">
+                  <span class="lbl">Throughline says</span>“Two commitments are
+                  off course. One is recoverable without you. The other needs a
+                  decision between these two tradeoffs — here is the evidence
+                  for each.”
+                </div>
+                <div class="not">
+                  <span class="lbl">Not</span>“Let's go around the room for
+                  updates.”
+                </div>
+              </div>
+              <div class="pair">
+                <div class="says">
+                  <span class="lbl">Throughline says</span>“The group agrees on
+                  the destination and disagrees on the constraint. Here are the
+                  three interpretations, who holds each, and the four decisions
+                  that depend on resolving it.”
+                </div>
+                <div class="not">
+                  <span class="lbl">Not</span>“Let's spend the morning getting
+                  everyone caught up.”
+                </div>
+              </div>
+            </div>
+            <div class="cols2">
+              <div class="col-card">
+                <h4>One queue</h4>
+                <ul>
+                  <li>Ranked by cost of delay — not by age, not by sender.</li>
+                  <li>
+                    Every item carries the ask, the recommendation, the
+                    evidence, the default, and the deadline.
+                  </li>
+                </ul>
+              </div>
+              <div class="col-card">
+                <h4>Three reads, no queue</h4>
+                <ul>
+                  <li>
+                    The two readings with direction, confidence, and drivers.
+                  </li>
+                  <li>The model, explorable from any node.</li>
+                  <li>
+                    The record — every decision, who held authority, on what
+                    evidence, and what happened after.
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <p class="pull">
+              Nothing else. No status entry, no project hygiene, no
+              administration — those are agent work by definition.
+            </p>
+          </div>
+        </section>
+
+        <!-- ============ 14 CADENCE ============ -->
+        <section
+          class="stage tier-hypo slide"
+          id="s-cadence"
+          data-slide-title="Cadence defaults"
+        >
+          <div class="stage-rail">
+            <span class="stage-number">14</span>
+            <span class="stage-kind">Hypothesis</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>Cadence defaults</h2>
+              <span class="badge">Part III</span>
+              <span class="badge neutral">Falsifiable</span>
+            </div>
+            <p class="stage-lede">
+              Starting values, not principles. The doctrine is layered clocks;
+              these are the first guesses at their settings.
+            </p>
+            <div class="tablewrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Rhythm</th>
+                    <th>Purpose</th>
+                    <th>Default</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="mono">Continuous</td>
+                    <td>Maintain state, sense, coordinate, detect, escalate</td>
+                    <td class="key num">No human burden</td>
+                  </tr>
+                  <tr>
+                    <td class="mono">Weekly · Pulse</td>
+                    <td>
+                      Decisions and exceptions; agenda pre-built from what
+                      changed
+                    </td>
+                    <td class="key num">25 min</td>
+                  </tr>
+                  <tr>
+                    <td class="mono">Monthly · Read</td>
+                    <td>
+                      Both readings, drift accumulation, changed assumptions
+                    </td>
+                    <td class="key num">10 min, a read</td>
+                  </tr>
+                  <tr>
+                    <td class="mono">Quarterly</td>
+                    <td>
+                      Mirror + Recommit — reconcile beliefs, close evidence,
+                      recommit against capacity
+                    </td>
+                    <td class="key num">3 hours</td>
+                  </tr>
+                  <tr>
+                    <td class="mono">Annual</td>
+                    <td>
+                      Reframe — reconsider the model on a year of accumulated
+                      evidence
+                    </td>
+                    <td class="key num">1 day</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="callout warn">
+              <span class="callout-label">Kill criterion</span>
+              <p>
+                If the weekly pulse routinely overruns, or if decisions that
+                belong in the queue are routinely deferred <em>to</em> the
+                pulse, the interval or the queue design is wrong.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 15 ACTIVATION ============ -->
+        <section
+          class="stage tier-hypo slide"
+          id="s-activation"
+          data-slide-title="Activation"
+        >
+          <div class="stage-rail">
+            <span class="stage-number">15</span>
+            <span class="stage-kind">Hypothesis</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>Activation</h2>
+              <span class="badge">Part III</span>
+              <span class="badge neutral">Durations are guesses</span>
+            </div>
+            <p class="stage-lede">
+              The principle is durable:
+              <strong
+                >onboarding is correction and decision-making, not
+                transcription.</strong
+              >
+              Learn the organization before asking leadership to explain it from
+              scratch. The durations below are hypotheses.
+            </p>
+            <div class="tablewrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Stage</th>
+                    <th>Default</th>
+                    <th>What happens</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="mono">01</td>
+                    <td class="key num">Connect</td>
+                    <td class="num">45 min</td>
+                    <td>
+                      Appropriate access to where strategy, decisions, work, and
+                      evidence already live
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">02</td>
+                    <td class="key num">Infer</td>
+                    <td class="num">~7 days</td>
+                    <td>
+                      Agents construct a provisional model of intent, structure,
+                      commitments, workflow, measures, doctrine, state
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">03</td>
+                    <td class="key num">Mirror</td>
+                    <td class="num">~90 min/person</td>
+                    <td>
+                      Show leaders what the system believes the organization is.
+                      Surface contradictions and competing interpretations
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">04</td>
+                    <td class="key num">Calibrate</td>
+                    <td class="num">half day</td>
+                    <td>
+                      Humans correct the model and decide what cannot be
+                      inferred: direction, authority, priorities, doctrine, risk
+                      boundaries, success measures
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">05</td>
+                    <td class="key num">Encode</td>
+                    <td class="num">half day</td>
+                    <td>
+                      Playbooks, data boundaries, escalation rules, consequence
+                      ceilings. Every playbook starts at rung 1
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">06</td>
+                    <td class="key num">Baseline</td>
+                    <td class="num">~14 days</td>
+                    <td>
+                      Observe how work actually moves before prescribing how it
+                      should
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="mono">07</td>
+                    <td class="key num">Commit</td>
+                    <td class="num">—</td>
+                    <td>
+                      First operating horizon set against real evidence and
+                      observed capacity. The loop begins
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="pull">
+              Working estimate: ~2 days of leadership time across ~35 days.
+            </p>
+            <div class="callout warn">
+              <span class="callout-label">Kill criteria</span>
+              <p>
+                If calibration cannot converge in one session for a 5–8 person
+                team, stage 04 is mis-designed.
+              </p>
+              <p>
+                If the inferred model at stage 03 is wrong often enough that
+                leaders would rather start blank, the whole inference-first
+                premise fails.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 16 STAGING ============ -->
+        <section
+          class="stage tier-hypo slide"
+          id="s-staging"
+          data-slide-title="Staging"
+        >
+          <div class="stage-rail">
+            <span class="stage-number">16</span>
+            <span class="stage-kind">Hypothesis</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>Staging and go-to-market</h2>
+              <span class="badge">Part III</span>
+            </div>
+            <p class="stage-lede">
+              The full architecture is several hard products described as one.
+              Built in this order, each stage stands alone, prices alone, and
+              seeds the next.
+            </p>
+            <div class="tablewrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Stage</th>
+                    <th>What ships</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="key">1 · The Mirror</td>
+                    <td>
+                      No model, no integrations, no agents. Runnable on a
+                      leadership team next week. Output: a reconciliation report
+                      naming the things a company believes it agrees on and
+                      doesn't.
+                      <strong
+                        >Standalone paid engagement, the best demonstration this
+                        product will ever give, and every run seeds the
+                        model.</strong
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="key">2 · Model + Readings</td>
+                    <td>
+                      Read-only connection to systems of record.
+                      <strong>Depth before breadth</strong> — wire one outcome
+                      from strategy down to evidence before wiring a second. A
+                      narrow, complete path produces real readings and something
+                      concrete to argue with; a wide, shallow one produces
+                      nothing.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="key">3 · Momentum System</td>
+                    <td>
+                      Playbooks, agents, the Decision Clock, the Authority
+                      Ladder with every ceiling set and every playbook at rung
+                      1. Autonomy climbs on evidence, within bounds.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="callout warn">
+              <span class="callout-label">Kill criteria</span>
+              <p>
+                If three of the first five pilots won't pay for the Mirror
+                without the rest, <strong>Stage 1 is not a product.</strong>
+              </p>
+              <p>
+                If one fully-wired outcome doesn't produce a reading someone
+                acts on within 30 days,
+                <strong>depth-before-breadth is wrong.</strong>
+              </p>
+              <p>
+                If any playbook promotes and then causes a reversal inside its
+                first runs at the new rung,
+                <strong>the promotion threshold is too loose.</strong>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 17 FAILURE ============ -->
+        <section
+          class="stage tier-risk slide"
+          id="s-failure"
+          data-slide-title="Failure modes"
+        >
+          <div class="stage-rail">
+            <span class="stage-number">17</span>
+            <span class="stage-kind">Risk</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>What has to be true</h2>
+              <span class="badge">Part IV</span>
+            </div>
+            <p class="stage-lede">
+              Eight ways this fails. A system that cannot name these has been
+              described, not designed.
+            </p>
+            <div class="tablewrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Failure</th>
+                    <th>Design answer</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="key">Bad signal produces confident nonsense</td>
+                    <td>
+                      Acceptance criteria, evidence lineage, and grades. A
+                      broken source reads as stale; an ungraded claim reads as
+                      D.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="key">Agents recommend endlessly; nobody acts</td>
+                    <td>
+                      The Decision Clock. Standing authorizations, defaults on a
+                      clock, latency measured and surfaced.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="key">
+                      The Mirror burns someone and the data source dies
+                    </td>
+                    <td>
+                      Consent architecture. Positions attributed only with
+                      sign-off; characterizations of others never reported at
+                      all.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="key">The readings become a political weapon</td>
+                    <td>
+                      Never computed per person. The system does not produce
+                      that number.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="key">Agents act beyond their competence</td>
+                    <td>
+                      The Authority Ladder. Human-set ceilings by consequence;
+                      evidence moves a playbook only within them.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="key">
+                      Authority creeps through accumulated accuracy
+                    </td>
+                    <td>
+                      Promotion is bounded and automatic; raising a ceiling is
+                      always a human decision, recorded on the intent clock.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="key">
+                      The structure calcifies into bureaucracy
+                    </td>
+                    <td>
+                      The model is versioned. Every change is a diff with a
+                      reason, and the record shows why a rule exists before you
+                      argue with it.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="key">The model is confidently wrong</td>
+                    <td>
+                      The Mirror. The only mechanism that checks the model
+                      against what people believe rather than against more data.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 18 MOAT ============ -->
+        <section
+          class="stage tier-close slide"
+          id="s-moat"
+          data-slide-title="The moat"
+        >
+          <div class="stage-rail">
+            <span class="stage-number">18</span>
+            <span class="stage-kind">Close</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-head">
+              <h2>The moat</h2>
+              <span class="badge">Part IV</span>
+            </div>
+            <p class="stage-lede">
+              Memory alone commoditizes. What is genuinely hard to recreate is
+              everything a year of operation deposits and calibrates.
+            </p>
+            <div class="chain">
+              <span class="node">Operating state</span>
+              <span class="node">Decision history + assumptions</span>
+              <span class="node">Evidence lineage</span>
+              <span class="node">Observed throughput</span>
+              <span class="node">Authority ceilings</span>
+              <span class="node">Playbook performance</span>
+              <span class="node">Reconciliation history</span>
+            </div>
+            <p class="pull">
+              Not memory. Calibrated institutional intelligence.
+            </p>
+            <p>
+              An organization-specific model of how this company actually
+              decides, moves, verifies, and disagrees — earned over time and
+              attributable at every point. Features get copied within a year.
+              That does not.
+            </p>
+            <div class="callout">
+              <span class="callout-label">The category, stated once</span>
+              <p>
+                <strong
+                  >An AI-native organizational operating system that
+                  continuously creates, maintains, and restores alignment — and
+                  converts that alignment into sustained momentum.</strong
+                >
+              </p>
+              <p>
+                Alignment is not an event you hold. It is a state you
+                instrument.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="deckbar" id="deckbar">
+        <button type="button" id="previous-slide" aria-label="Previous section">
+          ←
+        </button>
+        <button type="button" id="next-slide" aria-label="Next section">
+          →
+        </button>
+        <span class="count" id="slide-count">1 / 20</span>
+        <span class="track"><i class="fill" id="progress-fill"></i></span>
+        <span class="hint">← → or J / K</span>
+      </div>
+
+      <footer class="foot">
+        <p>
+          <strong>Throughline</strong> — working system thesis. Name is
+          provisional: chosen for meaning, the connecting thread from purpose to
+          the work being done today, which is precisely what the Live Company
+          Model makes traceable. <em>Align OS</em> is the live alternative and
+          carries an obvious brand adjacency; the naming decision is open and
+          costs nothing to defer.
+        </p>
+        <p>
+          Shared for review ·
+          <a href="../">Brilliant With AI shared artifacts</a>
+        </p>
+      </footer>
+    </main>
+
+    <script>
+      (function () {
+        var body = document.body;
+        var slides = Array.prototype.slice.call(
+          document.querySelectorAll(".slide"),
+        );
+        var flowLinks = Array.prototype.slice.call(
+          document.querySelectorAll(".flow a"),
+        );
+        var fullView = document.getElementById("full-view");
+        var deckView = document.getElementById("deck-view");
+        var previous = document.getElementById("previous-slide");
+        var next = document.getElementById("next-slide");
+        var count = document.getElementById("slide-count");
+        var progress = document.getElementById("progress-fill");
+        var flow = document.getElementById("flow");
+
+        slides.forEach(function (slide, index) {
+          var page = document.createElement("span");
+          page.className = "slide-page";
+          page.setAttribute("aria-hidden", "true");
+          page.textContent =
+            String(index + 1).padStart(2, "0") +
+            " / " +
+            String(slides.length).padStart(2, "0");
+          slide.appendChild(page);
+        });
+
+        var currentSlide = Math.max(
+          0,
+          slides.findIndex(function (slide) {
+            return window.location.hash === "#" + slide.id;
+          }),
+        );
+
+        function isDeckMode() {
+          return body.classList.contains("deck-mode");
+        }
+
+        function setFlowActive(id) {
+          flowLinks.forEach(function (link) {
+            var on = link.getAttribute("href") === "#" + id;
+            link.classList.toggle("active", on);
+            if (on && isDeckMode() && flow) {
+              var target =
+                link.offsetLeft - flow.clientWidth / 2 + link.clientWidth / 2;
+              flow.scrollTo({ left: Math.max(0, target), behavior: "smooth" });
+            }
+          });
+        }
+
+        function setSlide(index, updateHash) {
+          currentSlide = Math.max(0, Math.min(index, slides.length - 1));
+          slides.forEach(function (slide, i) {
+            var active = i === currentSlide;
+            slide.classList.toggle("is-current", active);
+            slide.setAttribute(
+              "aria-hidden",
+              isDeckMode() && !active ? "true" : "false",
+            );
+          });
+          count.textContent = currentSlide + 1 + " / " + slides.length;
+          progress.style.width =
+            ((currentSlide + 1) / slides.length) * 100 + "%";
+          previous.disabled = currentSlide === 0;
+          next.disabled = currentSlide === slides.length - 1;
+          setFlowActive(slides[currentSlide].id);
+          if (updateHash) {
+            history.replaceState(null, "", "#" + slides[currentSlide].id);
+          }
+          window.scrollTo({ top: 0, behavior: "auto" });
+        }
+
+        function setMode(mode) {
+          var deck = mode === "deck";
+          body.classList.toggle("deck-mode", deck);
+          fullView.setAttribute("aria-pressed", String(!deck));
+          deckView.setAttribute("aria-pressed", String(deck));
+          try {
+            localStorage.setItem("throughline-view", mode);
+          } catch (error) {}
+          if (deck) {
+            setSlide(currentSlide, true);
+          } else {
+            slides.forEach(function (slide) {
+              slide.classList.remove("is-current");
+              slide.setAttribute("aria-hidden", "false");
+            });
+            window.setTimeout(function () {
+              slides[currentSlide].scrollIntoView({ block: "start" });
+            }, 20);
+          }
+        }
+
+        fullView.addEventListener("click", function () {
+          setMode("full");
+        });
+        deckView.addEventListener("click", function () {
+          setMode("deck");
+        });
+        previous.addEventListener("click", function () {
+          setSlide(currentSlide - 1, true);
+        });
+        next.addEventListener("click", function () {
+          setSlide(currentSlide + 1, true);
+        });
+
+        flowLinks.forEach(function (link) {
+          link.addEventListener("click", function (event) {
+            var id = link.getAttribute("href").slice(1);
+            var index = slides.findIndex(function (slide) {
+              return slide.id === id;
+            });
+            if (index < 0) return;
+            if (isDeckMode()) {
+              event.preventDefault();
+              setSlide(index, true);
+            } else {
+              currentSlide = index;
+              setFlowActive(id);
+            }
+          });
+        });
+
+        document.addEventListener("keydown", function (event) {
+          if (!isDeckMode()) return;
+          var tag = (event.target.tagName || "").toLowerCase();
+          if (
+            tag === "input" ||
+            tag === "textarea" ||
+            event.metaKey ||
+            event.ctrlKey
+          )
+            return;
+          if (
+            event.key === "ArrowRight" ||
+            event.key === "j" ||
+            event.key === "J"
+          ) {
+            event.preventDefault();
+            setSlide(currentSlide + 1, true);
+          } else if (
+            event.key === "ArrowLeft" ||
+            event.key === "k" ||
+            event.key === "K"
+          ) {
+            event.preventDefault();
+            setSlide(currentSlide - 1, true);
+          }
+        });
+
+        if ("IntersectionObserver" in window) {
+          var observer = new IntersectionObserver(
+            function (entries) {
+              if (isDeckMode()) return;
+              entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                  var index = slides.indexOf(entry.target);
+                  if (index >= 0) {
+                    currentSlide = index;
+                    setFlowActive(entry.target.id);
+                  }
+                }
+              });
+            },
+            { rootMargin: "-40% 0px -50% 0px" },
+          );
+          slides.forEach(function (slide) {
+            observer.observe(slide);
+          });
+        }
+
+        count.textContent = currentSlide + 1 + " / " + slides.length;
+        progress.style.width = ((currentSlide + 1) / slides.length) * 100 + "%";
+
+        var saved = null;
+        try {
+          saved = localStorage.getItem("throughline-view");
+        } catch (error) {}
+        setMode(saved === "deck" ? "deck" : "full");
+      })();
+    </script>
+  </body>
+</html>
