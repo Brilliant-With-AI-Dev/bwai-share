@@ -1,0 +1,1908 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Leverage Map — end-to-end walkthrough</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Outfit:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ---------------------------------------------------------------
+         Tokens — mirrored from packages/design-system/tokens.css.
+         Layer 1 primitives + Layer 2 semantics. Nothing below invents a
+         color. Surface pop for this artifact: indigo (one pop, per §5).
+         --------------------------------------------------------------- */
+      :root {
+        /* surfaces */
+        --color-surface-page: #fcfcfd;
+        --color-surface-floating: #ffffff;
+        --color-surface-recessed: #eef0f4;
+
+        /* text */
+        --color-text-primary: #0a1628;
+        --color-text-secondary: rgba(10, 22, 40, 0.7);
+        --color-text-tertiary: rgba(10, 22, 40, 0.5);
+        --color-text-on-accent: #fcfcfd;
+
+        /* borders */
+        --color-border-subtle: #e2e6ed;
+        --color-border-strong: rgba(10, 22, 40, 0.3);
+
+        /* navy ramp */
+        --navy-30: rgba(10, 22, 40, 0.3);
+        --navy-10: rgba(10, 22, 40, 0.1);
+        --navy-05: rgba(10, 22, 40, 0.05);
+
+        /* feedback — emerald success per SYSTEM.md §3/§4, gold warning */
+        --color-feedback-success: #059669;
+        --color-feedback-success-bg: rgba(5, 150, 105, 0.12);
+        --color-feedback-warning: #c4920a;
+        --color-feedback-warning-bg: rgba(196, 146, 10, 0.12);
+
+        /* the one accent pop for this surface */
+        --pop: #4f46e5;
+        --pop-soft: rgba(79, 70, 229, 0.12);
+        --pop-faint: rgba(79, 70, 229, 0.05);
+
+        /* type */
+        --font-display: "Newsreader", Georgia, serif;
+        --font-body: "Outfit", system-ui, sans-serif;
+        --text-2xs: 12px;
+        --text-xs: 13px;
+        --text-sm: 14px;
+        --text-base: 15px;
+        --text-md: 16px;
+        --text-lg: 17px;
+        --text-xl: 18px;
+        --text-2xl: 20px;
+        --text-3xl: 22px;
+        --text-4xl: 26px;
+        --text-5xl: 34px;
+
+        /* radius */
+        --radius-sm: 6px;
+        --radius-md: 8px;
+        --radius-lg: 12px;
+        --radius-xl: 16px;
+
+        /* elevation — three levels only */
+        --shadow-raised: 0 1px 3px rgba(10, 22, 40, 0.06);
+        --shadow-floating:
+          0 1px 3px rgba(10, 22, 40, 0.04), 0 8px 32px rgba(10, 22, 40, 0.06);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--color-surface-page);
+        color: var(--color-text-primary);
+        font-family: var(--font-body);
+        font-size: var(--text-md);
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      p,
+      ul,
+      ol,
+      figure {
+        margin: 0;
+      }
+
+      /* ---------------------------------------------------------------
+         Chrome
+         --------------------------------------------------------------- */
+      .chrome {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        background: rgba(252, 252, 253, 0.86);
+        backdrop-filter: saturate(140%) blur(12px);
+        border-bottom: 1px solid var(--color-border-subtle);
+      }
+
+      .chrome-inner {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .brandmark {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+      }
+
+      .brandmark .glyph {
+        width: 26px;
+        height: 26px;
+        border-radius: var(--radius-sm);
+        background: var(--pop-soft);
+        color: var(--pop);
+        display: grid;
+        place-items: center;
+        font-size: var(--text-xs);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .brandmark .label {
+        font-size: var(--text-sm);
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+
+      .rail {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-left: auto;
+        flex-wrap: wrap;
+      }
+
+      .rail button {
+        appearance: none;
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--color-text-tertiary);
+        font-family: inherit;
+        font-size: var(--text-xs);
+        font-weight: 500;
+        padding: 5px 10px;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition:
+          color 0.15s ease,
+          background 0.15s ease;
+      }
+
+      .rail button:hover {
+        color: var(--color-text-primary);
+        background: var(--navy-05);
+      }
+
+      .rail button[aria-current="true"] {
+        color: var(--pop);
+        background: var(--pop-soft);
+      }
+
+      /* ---------------------------------------------------------------
+         Screens
+         --------------------------------------------------------------- */
+      .screen {
+        display: none;
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 56px 24px 120px;
+        animation: rise 0.32s ease both;
+      }
+
+      .screen[data-active="true"] {
+        display: block;
+      }
+
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .screen {
+          animation: none;
+        }
+      }
+
+      .prose {
+        max-width: 720px;
+      }
+
+      .eyebrow {
+        font-size: var(--text-2xs);
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-weight: 600;
+        color: var(--pop);
+        margin-bottom: 14px;
+      }
+
+      .eyebrow.muted {
+        color: var(--color-text-tertiary);
+      }
+
+      h1 {
+        font-family: var(--font-display);
+        font-weight: 400;
+        font-size: clamp(34px, 5.4vw, 58px);
+        line-height: 1.08;
+        letter-spacing: -0.025em;
+      }
+
+      h2 {
+        font-family: var(--font-display);
+        font-weight: 400;
+        font-size: clamp(26px, 3.4vw, 38px);
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+      }
+
+      h3 {
+        font-size: var(--text-xl);
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+
+      h4 {
+        font-size: var(--text-sm);
+        font-weight: 600;
+      }
+
+      .lede {
+        font-size: var(--text-xl);
+        line-height: 1.62;
+        color: var(--color-text-secondary);
+        margin-top: 20px;
+      }
+
+      p + p {
+        margin-top: 16px;
+      }
+
+      .body-copy {
+        color: var(--color-text-secondary);
+      }
+
+      .divider {
+        height: 1px;
+        background: var(--color-border-subtle);
+        margin: 40px 0;
+      }
+
+      .caption {
+        font-size: var(--text-xs);
+        color: var(--color-text-tertiary);
+        line-height: 1.6;
+      }
+
+      /* ---------------------------------------------------------------
+         Cards
+         --------------------------------------------------------------- */
+      .card {
+        background: var(--color-surface-floating);
+        border: 1px solid var(--color-border-subtle);
+        border-radius: var(--radius-lg);
+        padding: 24px;
+      }
+
+      .card.floating {
+        box-shadow: var(--shadow-floating);
+      }
+
+      .stack-24 > * + * {
+        margin-top: 24px;
+      }
+      .stack-16 > * + * {
+        margin-top: 16px;
+      }
+      .stack-12 > * + * {
+        margin-top: 12px;
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+        align-items: start;
+      }
+
+      @media (max-width: 900px) {
+        .split {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .btn {
+        appearance: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: inherit;
+        font-size: var(--text-sm);
+        font-weight: 600;
+        padding: 11px 20px;
+        border-radius: var(--radius-md);
+        border: 1px solid transparent;
+        background: var(--pop);
+        color: var(--color-text-on-accent);
+        cursor: pointer;
+        transition: filter 0.15s ease;
+      }
+
+      .btn:hover {
+        filter: brightness(1.08);
+      }
+
+      .btn:disabled {
+        opacity: 0.35;
+        cursor: default;
+        filter: none;
+      }
+
+      .btn.ghost {
+        background: transparent;
+        color: var(--color-text-secondary);
+        border-color: var(--color-border-subtle);
+      }
+
+      .btn.ghost:hover {
+        background: var(--navy-05);
+        color: var(--color-text-primary);
+        filter: none;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: var(--text-2xs);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        padding: 4px 10px;
+        border-radius: 9999px;
+        background: var(--color-surface-recessed);
+        color: var(--color-text-tertiary);
+        border: 1px solid var(--color-border-subtle);
+      }
+
+      /* ---------------------------------------------------------------
+         Screen 2 — the handoff
+         --------------------------------------------------------------- */
+      .mirror-doc {
+        background: var(--color-surface-floating);
+        border: 1px solid var(--color-border-subtle);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-raised);
+      }
+
+      .mirror-doc header {
+        padding: 16px 22px;
+        border-bottom: 1px solid var(--color-border-subtle);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--color-surface-page);
+      }
+
+      .mirror-doc .doc-body {
+        padding: 22px;
+      }
+
+      .fade-lines > div {
+        height: 8px;
+        border-radius: 4px;
+        background: var(--navy-10);
+        margin-bottom: 10px;
+      }
+
+      .fade-lines > div:nth-child(1) {
+        width: 92%;
+      }
+      .fade-lines > div:nth-child(2) {
+        width: 100%;
+      }
+      .fade-lines > div:nth-child(3) {
+        width: 84%;
+        opacity: 0.7;
+      }
+      .fade-lines > div:nth-child(4) {
+        width: 96%;
+        opacity: 0.45;
+      }
+      .fade-lines > div:nth-child(5) {
+        width: 62%;
+        opacity: 0.25;
+      }
+
+      .handoff-card {
+        border-color: var(--pop-soft);
+        box-shadow: var(--shadow-floating);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .handoff-card::before {
+        content: "";
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 3px;
+        background: var(--pop);
+      }
+
+      /* ---------------------------------------------------------------
+         Screen 3 — the interview
+         --------------------------------------------------------------- */
+      .chat {
+        background: var(--color-surface-floating);
+        border: 1px solid var(--color-border-subtle);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-floating);
+        overflow: hidden;
+      }
+
+      .chat header {
+        padding: 14px 22px;
+        border-bottom: 1px solid var(--color-border-subtle);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--color-surface-page);
+      }
+
+      .chat-scroll {
+        padding: 26px 22px;
+        max-height: 62vh;
+        overflow-y: auto;
+      }
+
+      .turn + .turn {
+        margin-top: 26px;
+      }
+
+      .turn .who {
+        font-size: var(--text-2xs);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-weight: 600;
+        color: var(--color-text-tertiary);
+        margin-bottom: 8px;
+      }
+
+      .turn.ask .bubble {
+        background: var(--pop-faint);
+        border: 1px solid var(--pop-soft);
+        border-radius: var(--radius-lg);
+        padding: 16px 18px;
+        font-size: var(--text-md);
+      }
+
+      .turn.ask .who {
+        color: var(--pop);
+      }
+
+      .turn.reply .bubble {
+        border-left: 2px solid var(--color-border-subtle);
+        padding: 2px 0 2px 18px;
+        color: var(--color-text-secondary);
+        font-size: var(--text-base);
+      }
+
+      .chat footer {
+        padding: 14px 22px;
+        border-top: 1px solid var(--color-border-subtle);
+        background: var(--color-surface-page);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .fake-input {
+        flex: 1;
+        border: 1px solid var(--color-border-subtle);
+        border-radius: var(--radius-md);
+        padding: 10px 14px;
+        color: var(--color-text-tertiary);
+        font-size: var(--text-sm);
+        background: var(--color-surface-floating);
+      }
+
+      .phase-list {
+        list-style: none;
+        padding: 0;
+      }
+
+      .phase-list li {
+        display: flex;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--color-border-subtle);
+      }
+
+      .phase-list li:last-child {
+        border-bottom: 0;
+      }
+
+      .phase-list .n {
+        width: 22px;
+        height: 22px;
+        flex-shrink: 0;
+        border-radius: 9999px;
+        border: 1px solid var(--color-border-subtle);
+        color: var(--color-text-tertiary);
+        display: grid;
+        place-items: center;
+        font-size: var(--text-2xs);
+        font-weight: 600;
+      }
+
+      .phase-list li[data-state="done"] .n {
+        background: var(--color-surface-recessed);
+        color: var(--color-text-secondary);
+      }
+
+      .phase-list li[data-state="now"] .n {
+        background: var(--pop);
+        border-color: var(--pop);
+        color: var(--color-text-on-accent);
+      }
+
+      .phase-list .t {
+        font-size: var(--text-sm);
+        font-weight: 600;
+      }
+
+      .phase-list .d {
+        font-size: var(--text-xs);
+        color: var(--color-text-tertiary);
+      }
+
+      /* ---------------------------------------------------------------
+         Screen 4 — the map
+         --------------------------------------------------------------- */
+      .map-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 340px;
+        gap: 28px;
+        align-items: start;
+      }
+
+      @media (max-width: 1040px) {
+        .map-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .map-frame {
+        display: grid;
+        grid-template-columns: 34px 1fr;
+        grid-template-rows: 1fr 34px;
+        gap: 10px;
+      }
+
+      .axis-y,
+      .axis-x {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--text-2xs);
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-weight: 600;
+        color: var(--color-text-tertiary);
+      }
+
+      .axis-y {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+      }
+
+      .axis-x {
+        grid-column: 2;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, minmax(140px, auto));
+        border: 1px solid var(--color-border-subtle);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        background: var(--color-surface-floating);
+      }
+
+      .cell {
+        border-right: 1px solid var(--color-border-subtle);
+        border-bottom: 1px solid var(--color-border-subtle);
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        min-width: 0;
+      }
+
+      .cell:nth-child(3n) {
+        border-right: 0;
+      }
+
+      .cell:nth-child(n + 7) {
+        border-bottom: 0;
+      }
+
+      .cell[data-heat="high"] {
+        background: var(--pop-faint);
+      }
+
+      .cell .cell-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 600;
+        color: var(--navy-30);
+        margin-bottom: 1px;
+      }
+
+      .chip {
+        appearance: none;
+        font-family: inherit;
+        text-align: left;
+        width: 100%;
+        border: 1px solid var(--color-border-subtle);
+        background: var(--color-surface-floating);
+        border-radius: var(--radius-sm);
+        padding: 7px 9px 7px 11px;
+        font-size: var(--text-xs);
+        font-weight: 500;
+        line-height: 1.35;
+        color: var(--color-text-primary);
+        cursor: pointer;
+        position: relative;
+        transition:
+          border-color 0.14s ease,
+          box-shadow 0.14s ease,
+          transform 0.14s ease;
+      }
+
+      .chip::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+        background: var(--chip-color, var(--navy-30));
+      }
+
+      .chip:hover {
+        border-color: var(--color-border-strong);
+        box-shadow: var(--shadow-raised);
+        transform: translateY(-1px);
+      }
+
+      .chip[aria-pressed="true"] {
+        border-color: var(--chip-color, var(--navy-30));
+        box-shadow: 0 0 0 3px var(--chip-glow, var(--navy-05));
+      }
+
+      .chip .chip-move {
+        display: block;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 600;
+        color: var(--chip-color, var(--color-text-tertiary));
+        margin-top: 3px;
+      }
+
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 18px;
+        margin-top: 18px;
+      }
+
+      .legend .item {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: var(--text-xs);
+        color: var(--color-text-secondary);
+      }
+
+      .legend .swatch {
+        width: 10px;
+        height: 10px;
+        border-radius: 3px;
+      }
+
+      .detail {
+        position: sticky;
+        top: 82px;
+      }
+
+      .detail .placeholder {
+        color: var(--color-text-tertiary);
+        font-size: var(--text-sm);
+      }
+
+      .detail dl {
+        margin: 0;
+      }
+
+      .detail dt {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-weight: 600;
+        color: var(--color-text-tertiary);
+        margin-top: 16px;
+      }
+
+      .detail dd {
+        margin: 4px 0 0;
+        font-size: var(--text-sm);
+        color: var(--color-text-secondary);
+        line-height: 1.55;
+      }
+
+      .move-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: var(--text-2xs);
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 4px 10px;
+        border-radius: 9999px;
+      }
+
+      .toggle {
+        display: inline-flex;
+        border: 1px solid var(--color-border-subtle);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+      }
+
+      .toggle button {
+        appearance: none;
+        border: 0;
+        background: transparent;
+        font-family: inherit;
+        font-size: var(--text-xs);
+        font-weight: 600;
+        color: var(--color-text-tertiary);
+        padding: 7px 14px;
+        cursor: pointer;
+      }
+
+      .toggle button[aria-pressed="true"] {
+        background: var(--color-text-primary);
+        color: var(--color-text-on-accent);
+      }
+
+      table.board {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: var(--text-xs);
+      }
+
+      table.board th {
+        text-align: left;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--color-text-tertiary);
+        font-weight: 600;
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--color-border-subtle);
+      }
+
+      table.board td {
+        padding: 11px 12px;
+        border-bottom: 1px solid var(--color-border-subtle);
+        color: var(--color-text-secondary);
+        vertical-align: top;
+        line-height: 1.5;
+      }
+
+      table.board td:first-child {
+        color: var(--color-text-primary);
+        font-weight: 500;
+      }
+
+      /* ---------------------------------------------------------------
+         Screen 6 — the plan
+         --------------------------------------------------------------- */
+      .move-card {
+        display: grid;
+        grid-template-columns: 44px 1fr;
+        gap: 18px;
+        padding: 22px 24px;
+        border: 1px solid var(--color-border-subtle);
+        border-radius: var(--radius-lg);
+        background: var(--color-surface-floating);
+      }
+
+      .move-card .num {
+        font-family: var(--font-display);
+        font-size: var(--text-4xl);
+        line-height: 1;
+        color: var(--pop);
+      }
+
+      .move-card .field {
+        margin-top: 14px;
+      }
+
+      .move-card .field .k {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-weight: 600;
+        color: var(--color-text-tertiary);
+      }
+
+      .move-card .field .v {
+        font-size: var(--text-sm);
+        color: var(--color-text-secondary);
+        margin-top: 3px;
+      }
+
+      .pullquote {
+        font-family: var(--font-display);
+        font-size: var(--text-4xl);
+        line-height: 1.4;
+        letter-spacing: -0.015em;
+        border-left: 2px solid var(--pop);
+        padding-left: 24px;
+        color: var(--color-text-primary);
+      }
+
+      /* ---------------------------------------------------------------
+         Screen 7 — notes
+         --------------------------------------------------------------- */
+      .note-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+      }
+
+      .note-card .k {
+        font-size: var(--text-2xs);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+
+      .note-card ul {
+        padding-left: 18px;
+        font-size: var(--text-sm);
+        color: var(--color-text-secondary);
+      }
+
+      .note-card li + li {
+        margin-top: 8px;
+      }
+
+      /* ---------------------------------------------------------------
+         Footer nav
+         --------------------------------------------------------------- */
+      .pager {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 40;
+        background: rgba(252, 252, 253, 0.9);
+        backdrop-filter: saturate(140%) blur(12px);
+        border-top: 1px solid var(--color-border-subtle);
+      }
+
+      .pager-inner {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .pager .where {
+        font-size: var(--text-xs);
+        color: var(--color-text-tertiary);
+        margin-right: auto;
+      }
+
+      .kbd {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 11px;
+        border: 1px solid var(--color-border-subtle);
+        border-bottom-width: 2px;
+        border-radius: 4px;
+        padding: 1px 5px;
+        color: var(--color-text-tertiary);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chrome">
+      <div class="chrome-inner">
+        <div class="brandmark">
+          <div class="glyph">L</div>
+          <div class="label">The Leverage Map</div>
+        </div>
+        <nav class="rail" id="rail" aria-label="Walkthrough steps"></nav>
+      </div>
+    </div>
+
+    <!-- ============================================================ 1 -->
+    <section class="screen" data-screen="0" data-title="Cover">
+      <div class="prose">
+        <p class="eyebrow">Proof of concept · Clickable walkthrough</p>
+        <h1>The Leverage Map</h1>
+        <p class="lede">
+          What arrives after the Mirror. The Mirror tells someone where they
+          stand with AI. This decides where they point it — and what they are
+          choosing not to do.
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="split">
+        <div class="stack-16">
+          <h3>What you are looking at</h3>
+          <p class="body-copy">
+            Six screens, in order, showing one person's path from a finished
+            Mirror to a plan they'd actually run on Monday.
+          </p>
+          <p class="body-copy">
+            The interview questions, the board, the trade-offs and the plan are
+            <strong>real generated output</strong> — produced by running the
+            Leverage interview prompt end to end against a simulated subject.
+            Nothing on the analysis screens was written by hand.
+          </p>
+          <p class="body-copy">
+            The screens themselves are mocked. No Leverage UI exists yet.
+          </p>
+        </div>
+        <div class="card stack-12">
+          <h4>The subject</h4>
+          <p class="caption">
+            <strong>Devon Marsh</strong> — Senior Estimating Analyst at Kestrel
+            Packaging Co., a 120-person custom packaging manufacturer running on
+            EOS.
+          </p>
+          <p class="caption">
+            Devon and Kestrel are invented on purpose, in full, before any
+            interview was run. No real customer, company, or transcript is
+            involved anywhere in this artifact.
+          </p>
+          <p class="caption">
+            Devon's situation in one line: fastest estimator on the floor via an
+            unofficial toolchain nobody has approved, in a company where an AI
+            estimating rollout ate $310k of margin eighteen months ago.
+          </p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <p class="caption">
+        Move with <span class="kbd">←</span> <span class="kbd">→</span>, the
+        buttons below, or the step rail above.
+      </p>
+    </section>
+
+    <!-- ============================================================ 2 -->
+    <section class="screen" data-screen="1" data-title="After the Mirror">
+      <div class="prose">
+        <p class="eyebrow">Screen 1 · Entry</p>
+        <h2>The user already did the Mirror. Then they closed the tab.</h2>
+        <p class="lede">
+          The Mirror is finished and saved. It named where they stand and four
+          things to do. The next question arrives on its own.
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="split">
+        <div class="mirror-doc">
+          <header>
+            <div>
+              <div style="font-size: var(--text-sm); font-weight: 600">
+                Your AI Mirror
+              </div>
+              <div class="caption">Completed 22 days ago</div>
+            </div>
+            <span class="badge">Saved</span>
+          </header>
+          <div class="doc-body">
+            <div class="fade-lines">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <p class="caption" style="margin-top: 14px">
+              Letter · Action plan · Your four moves
+            </p>
+          </div>
+        </div>
+
+        <div class="card handoff-card stack-16">
+          <p class="eyebrow" style="margin-bottom: 0">Next</p>
+          <h3
+            style="
+              font-family: var(--font-display);
+              font-weight: 400;
+              font-size: var(--text-4xl);
+              line-height: 1.2;
+            "
+          >
+            You know where you stand. Now: where do you point it?
+          </h3>
+          <p class="body-copy" style="font-size: var(--text-base)">
+            Of the thousand things you could aim AI at, which three to five
+            actually matter — for you, in your job, this quarter?
+          </p>
+          <p class="body-copy" style="font-size: var(--text-base)">
+            Forty-five minutes of conversation. It ends with a map of everything
+            worth naming, what you're trading away, and five moves you can start
+            Monday.
+          </p>
+          <div
+            style="
+              display: flex;
+              gap: 12px;
+              align-items: center;
+              flex-wrap: wrap;
+              padding-top: 4px;
+            "
+          >
+            <button class="btn" type="button">Start the Leverage Map</button>
+            <span class="caption">Picks up from your Mirror · 30–45 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <p class="caption" style="max-width: 720px">
+        <strong>Design question this screen raises.</strong> Does Leverage live
+        inside the saved Mirror as its natural next chapter, or is it a separate
+        product a Mirror-holder gets invited into? This mock assumes the first.
+      </p>
+    </section>
+
+    <!-- ============================================================ 3 -->
+    <section class="screen" data-screen="2" data-title="The interview">
+      <div class="prose">
+        <p class="eyebrow">Screen 2 · The conversation</p>
+        <h2>It asks the questions nobody asks them.</h2>
+        <p class="lede">
+          Four abridged exchanges from the real run. One question per turn. No
+          preamble, no checklist voice.
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="map-layout">
+        <div class="chat">
+          <header>
+            <span
+              class="badge"
+              style="
+                border-color: var(--pop-soft);
+                background: var(--pop-soft);
+                color: var(--pop);
+              "
+            >
+              Phase 1 — the frame
+            </span>
+            <span class="caption" style="margin-left: auto">Turn 2 of 20</span>
+          </header>
+          <div class="chat-scroll">
+            <div class="turn ask">
+              <div class="who">Leverage</div>
+              <div class="bubble">
+                What are you trying to achieve for yourself over the next 12–18
+                months — the thing you'd be proud of, even if Kestrel's
+                priorities stay exactly what they are?
+              </div>
+            </div>
+            <div class="turn reply">
+              <div class="who">Devon</div>
+              <div class="bubble">
+                I want quoting to feel controlled again. I'd be proud if I could
+                keep issuing the volume I'm issuing without it being a constant
+                triage exercise, and without relying on optimistic turnaround
+                logging to make the numbers look fine.
+              </div>
+            </div>
+
+            <div class="turn ask">
+              <div class="who">Leverage</div>
+              <div class="bubble">
+                What does Arden <em>actually</em> care about when it comes to
+                estimating — the thing that ends the argument in the hallway? Is
+                it "keep turnaround low," "don't blow margin," "don't embarrass
+                us with rework," or something else?
+              </div>
+            </div>
+            <div class="turn reply">
+              <div class="who">Devon</div>
+              <div class="bubble">
+                The one that ends the argument in the hallway is turnaround. If
+                the queue is long or sales is yelling, the conversation
+                collapses into "we need numbers out," because that's the metric
+                everyone can point at.
+              </div>
+            </div>
+
+            <div class="turn ask">
+              <div class="who">Leverage</div>
+              <div class="bubble">
+                What's the failure mode you're most afraid of if you speed that
+                part up?
+              </div>
+            </div>
+            <div class="turn reply">
+              <div class="who">Devon</div>
+              <div class="bubble">
+                Missing a key constraint and not knowing I missed it. The
+                trouble isn't that the math is off — it's that we price the
+                wrong job confidently, and it shows up as rework, or it gets
+                built and the fit is wrong, and you can't unring that bell.
+              </div>
+            </div>
+
+            <div class="turn ask">
+              <div class="who">Leverage</div>
+              <div class="bubble">
+                Got it: your north star is <em>control</em>, and the landmine is
+                "clean output that hides a missed constraint." One more before
+                we talk moves — what permission do you actually have here? Not
+                what you wish they'd allow. What's real today?
+              </div>
+            </div>
+            <div class="turn reply">
+              <div class="who">Devon</div>
+              <div class="bubble">
+                I can change my own workflow privately, because nobody's sitting
+                over my shoulder as long as quotes go out. Nothing about AI is
+                officially sanctioned here. I'm not allowed to build anything
+                that touches ERP or SpecLab.
+              </div>
+            </div>
+          </div>
+          <footer>
+            <div class="fake-input">Type your answer…</div>
+            <button class="btn" type="button">Send</button>
+          </footer>
+        </div>
+
+        <div class="card stack-16">
+          <h4>The arc, never announced</h4>
+          <ul class="phase-list">
+            <li data-state="now">
+              <span class="n">1</span>
+              <span>
+                <span class="t">The frame</span><br />
+                <span class="d"
+                  >What you want, what you're accountable for, what your boss
+                  and company actually care about.</span
+                >
+              </span>
+            </li>
+            <li data-state="todo">
+              <span class="n">2</span>
+              <span>
+                <span class="t">The scaffold</span><br />
+                <span class="d"
+                  >Growing or shrinking, who owns AI, what's actually resourced,
+                  what you're permitted to do.</span
+                >
+              </span>
+            </li>
+            <li data-state="todo">
+              <span class="n">3</span>
+              <span>
+                <span class="t">The candidates</span><br />
+                <span class="d"
+                  >Everything that eats the week, scored on value, pull, and
+                  whether you should be the one doing it.</span
+                >
+              </span>
+            </li>
+            <li data-state="todo">
+              <span class="n">4</span>
+              <span>
+                <span class="t">The deliverable</span><br />
+                <span class="d"
+                  >The map, the trade-offs, the plan. Produced without asking
+                  permission to begin.</span
+                >
+              </span>
+            </li>
+          </ul>
+          <p class="caption">
+            The user never sees these labels. In the real run the interviewer
+            reached the deliverable at exchange 21.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ 4 -->
+    <section class="screen" data-screen="3" data-title="The map">
+      <div class="prose">
+        <p class="eyebrow">Screen 3 · The deliverable</p>
+        <h2>Everything worth naming, in one frame.</h2>
+        <p class="lede">
+          Fifteen candidates, placed by how much each moves something that
+          matters and how much Devon wants to do it. Colour is the move.
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          margin-bottom: 22px;
+          flex-wrap: wrap;
+        "
+      >
+        <div class="toggle" role="group" aria-label="View">
+          <button type="button" data-view="map" aria-pressed="true">Map</button>
+          <button type="button" data-view="table" aria-pressed="false">
+            Raw output
+          </button>
+        </div>
+        <span class="caption">
+          Click any card for the reasoning behind it.
+        </span>
+      </div>
+
+      <div id="view-map" class="map-layout">
+        <div>
+          <div class="map-frame">
+            <div class="axis-y">Value →</div>
+            <div class="grid" id="grid"></div>
+            <div></div>
+            <div class="axis-x">Pull →</div>
+          </div>
+          <div class="legend" id="legend"></div>
+        </div>
+
+        <aside class="card floating detail" id="detail">
+          <p class="placeholder">
+            Select a card on the map to see why it landed there.
+          </p>
+        </aside>
+      </div>
+
+      <div id="view-table" style="display: none">
+        <div class="card" style="padding: 0; overflow-x: auto">
+          <table class="board">
+            <thead>
+              <tr>
+                <th>What</th>
+                <th>Value</th>
+                <th>Pull</th>
+                <th>Should you</th>
+                <th>Move</th>
+              </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+        <p class="caption" style="margin-top: 14px">
+          The board exactly as the model produced it. The map above is a
+          rendering of this table, not a different analysis.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================ 5 -->
+    <section class="screen" data-screen="4" data-title="Trade-offs">
+      <div class="prose">
+        <p class="eyebrow">Screen 4 · The cost</p>
+        <h2>What you're choosing against.</h2>
+        <p class="lede">
+          The section that makes it a decision instead of a list. Opinionated by
+          design, and specific to what Devon said.
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="split">
+        <div class="stack-24">
+          <div class="card">
+            <p>
+              You're choosing <em>control</em> over the illusion of speed.
+              Tagging waiting time will expose that a chunk of "turnaround"
+              isn't estimating at all — it's customer ambiguity. That can make
+              leadership uncomfortable because it removes the easy lever of
+              "push estimating harder."
+            </p>
+          </div>
+          <div class="card">
+            <p>
+              You're also choosing to force confirmation. That will slow or kill
+              a subset of small RFQs where the only way to respond quickly is to
+              guess. Sloan will feel that as friction; the counter-argument is
+              that those are exactly the RFQs most likely to boomerang as rework
+              or margin surprise.
+            </p>
+          </div>
+        </div>
+        <div class="stack-24">
+          <div class="card">
+            <p>
+              Because there's <strong>no named AI governance owner</strong> and
+              there's scar tissue around pricing automation ("the estimating
+              thing"), you're intentionally avoiding AI that <em>decides</em>.
+              You'll use AI to structure messy inputs, surface ambiguity, and
+              standardise questions — with you keeping the judgment calls and
+              accountability.
+            </p>
+          </div>
+          <div class="card">
+            <p>
+              The sequencing matters: you're choosing to earn permission with
+              measurement first. Without the waiting-time data, the gate looks
+              like you making the scorecard worse. With the data, it looks like
+              you making the scorecard honest — and making rework rarer.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <p class="caption" style="max-width: 720px">
+        Every claim here traces to something Devon said in the interview — the
+        governance gap, the scar, the scorecard, Sloan's incentive. None of it
+        is generic.
+      </p>
+    </section>
+
+    <!-- ============================================================ 6 -->
+    <section class="screen" data-screen="5" data-title="The plan">
+      <div class="prose">
+        <p class="eyebrow">Screen 5 · The plan</p>
+        <h2>Five moves. Never more than five.</h2>
+        <p class="lede">
+          Each one has a first step small enough to start on Monday and one
+          observable signal inside 90 days.
+        </p>
+      </div>
+
+      <div class="divider"></div>
+      <div class="stack-16" id="plan"></div>
+
+      <div class="divider"></div>
+      <blockquote class="pullquote">
+        Do this and you'll still be fast — but now you're fast for defensible
+        reasons, with fewer silent landmines. More importantly, you'll have the
+        receipts to shift the conversation from "estimating is slow" to
+        "customer ambiguity is the constraint, and here's how we manage it."
+      </blockquote>
+    </section>
+
+    <!-- ============================================================ 7 -->
+    <section class="screen" data-screen="6" data-title="Notes">
+      <div class="prose">
+        <p class="eyebrow muted">Screen 6 · For review</p>
+        <h2>What's real here, and what isn't.</h2>
+        <p class="lede">
+          So the walkthrough isn't mistaken for a working product.
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="note-grid">
+        <div class="card note-card">
+          <div class="k" style="color: var(--color-feedback-success)">Real</div>
+          <ul>
+            <li>
+              The interview prompt. Live in the repo, self-sufficient, already
+              driving runs.
+            </li>
+            <li>
+              Every question, the fifteen candidates, the scores, the
+              trade-offs, and all five moves — generated in one unbroken run.
+            </li>
+            <li>
+              The subject. Devon and Kestrel are written in full: a world file,
+              a profile, and a closed-world actor card that forbids inventing
+              anything off-card.
+            </li>
+            <li>
+              The design language. Cool-slate tokens, Newsreader and Outfit, one
+              accent pop.
+            </li>
+          </ul>
+        </div>
+
+        <div class="card note-card">
+          <div class="k" style="color: var(--color-feedback-warning)">
+            Mocked
+          </div>
+          <ul>
+            <li>
+              Every screen. No Leverage route, component, or database table
+              exists.
+            </li>
+            <li>
+              The handoff from the Mirror. The run was cold — the interviewer
+              had no prior Mirror to read.
+            </li>
+            <li>
+              The map itself. The model emits a table; plotting it on two axes
+              is a product decision made here, not by the model.
+            </li>
+            <li>
+              Save, share, export, and revisit. None of it is designed yet.
+            </li>
+          </ul>
+        </div>
+
+        <div class="card note-card">
+          <div class="k" style="color: var(--pop)">What it raises</div>
+          <ul>
+            <li>
+              <strong>The middle is crowded.</strong> Six of fifteen candidates
+              land in medium/medium. Three coarse levels can't separate them —
+              either the interview scores harder, or the map ranks within a
+              cell.
+            </li>
+            <li>
+              <strong>The plan repeats the map.</strong> Four of five moves are
+              board rows restated. Worth deciding whether that's reinforcement
+              or redundancy.
+            </li>
+            <li>
+              <strong>Fifteen rows is a lot to hand someone.</strong> The map
+              exists because the table was hard to read.
+            </li>
+            <li>
+              <strong>Ownership is invisible.</strong> "Should you" is the third
+              axis and the most original question in the product. It's currently
+              buried in a table column.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <p class="caption" style="max-width: 720px">
+        Built to be judged and thrown away. If the shape is right, the next step
+        is building it in the app with real components; if it isn't, nothing was
+        spent finding out.
+      </p>
+    </section>
+
+    <div class="pager">
+      <div class="pager-inner">
+        <span class="where" id="where"></span>
+        <button class="btn ghost" type="button" id="prev">← Back</button>
+        <button class="btn" type="button" id="next">Next →</button>
+      </div>
+    </div>
+
+    <script>
+      /* ----------------------------------------------------------------
+         Data — transcribed verbatim from the generated deliverable.
+         `value` / `pull` are the model's own words; `vBucket` / `pBucket`
+         collapse them to the three levels the model actually used.
+         ---------------------------------------------------------------- */
+      const MOVES = {
+        "keep and support": {
+          label: "Keep and support",
+          color: "#059669",
+          soft: "rgba(5,150,105,0.12)",
+          gloss:
+            "It matters, you want it, and you're the right person. Build support around it.",
+        },
+        "hand to AI": {
+          label: "Hand to AI",
+          color: "#4f46e5",
+          soft: "rgba(79,70,229,0.12)",
+          gloss:
+            "Worth doing and you don't need to be the one doing it. The cleanest win available.",
+        },
+        shrink: {
+          label: "Shrink",
+          color: "rgba(10,22,40,0.5)",
+          soft: "rgba(10,22,40,0.08)",
+          gloss:
+            "It isn't moving enough to justify the room it takes. Find the smallest version.",
+        },
+        "give away": {
+          label: "Give away",
+          color: "rgba(10,22,40,0.3)",
+          soft: "rgba(10,22,40,0.05)",
+          gloss: "Real value, wrong owner. Someone else's lever this quarter.",
+        },
+        kill: {
+          label: "Kill",
+          color: "#c4920a",
+          soft: "rgba(196,146,10,0.12)",
+          gloss:
+            "Low value, low pull, or too dangerous to survive contact. Stop spending turns on it.",
+        },
+      };
+
+      const ITEMS = [
+        {
+          short: "Spec → parameters",
+          full: "Spec-to-parameters extractor that outputs standard fields",
+          value: "High — unlocks the whole quote; reduces hidden spec risk",
+          pull: "High",
+          own: "Yes",
+          move: "keep and support",
+          v: "High",
+          p: "High",
+        },
+        {
+          short: "Missing-info checklist",
+          full: "Auto “missing info” checklist from inbound spec",
+          value: "High — shrinks back-and-forth, especially ID vs OD",
+          pull: "High",
+          own: "Yes",
+          move: "hand to AI",
+          v: "High",
+          p: "High",
+        },
+        {
+          short: "Waiting-time tagging",
+          full: "Waiting-on-customer tagging so turnaround isn’t one blended number",
+          value:
+            "High — buys permission to enforce a gate without looking like you’re stalling",
+          pull: "Medium",
+          own: "Yes",
+          move: "keep and support",
+          v: "High",
+          p: "Medium",
+        },
+        {
+          short: "“Quote Ready” gate",
+          full: "“Quote Ready” confirmation gate template",
+          value: "Med–High — forces confirmation instead of fine print",
+          pull: "Medium",
+          own: "Yes (but only after tagging is established)",
+          move: "keep and support",
+          v: "High",
+          p: "Medium",
+        },
+        {
+          short: "SpecLab reorder catcher",
+          full: "SpecLab reorder edge-case catcher",
+          value: "High for company, but not your lever this quarter",
+          pull: "Medium",
+          own: "No",
+          move: "give away",
+          v: "High",
+          p: "Medium",
+        },
+        {
+          short: "Quote packet builder",
+          full: "Version-control pack builder (latest spec/dieline/assumptions)",
+          value: "Medium — fewer mistakes, faster rework when it happens",
+          pull: "Medium",
+          own: "Yes",
+          move: "hand to AI",
+          v: "Medium",
+          p: "Medium",
+        },
+        {
+          short: "ID vs OD detector",
+          full: "Inside-vs-outside dimension ambiguity detector",
+          value: "Medium — catches the most common hole early",
+          pull: "Medium",
+          own: "Yes",
+          move: "hand to AI",
+          v: "Medium",
+          p: "Medium",
+        },
+        {
+          short: "Assumptions cover note",
+          full: "Assumptions cover-note drafter tied to parameters",
+          value: "Medium — reduces mismatch risk",
+          pull: "Medium",
+          own: "Yes",
+          move: "hand to AI",
+          v: "Medium",
+          p: "Medium",
+        },
+        {
+          short: "RFQ triage sorter",
+          full: "RFQ triage sorter: new vs reorder vs needs follow-up",
+          value: "Medium — reduces context switching",
+          pull: "Medium",
+          own: "Yes",
+          move: "hand to AI",
+          v: "Medium",
+          p: "Medium",
+        },
+        {
+          short: "Similar-job matcher",
+          full: "Similar-job pattern match for assumptions",
+          value: "Medium — improves consistency; helps train judgment",
+          pull: "Medium",
+          own: "Low–Medium (useful, but depends on access to past job data)",
+          move: "shrink",
+          v: "Medium",
+          p: "Medium",
+        },
+        {
+          short: "ERP entry skeleton",
+          full: "ERP quote entry draft skeleton",
+          value:
+            "Medium (time saver) but politically risky if it touches systems",
+          pull: "Medium",
+          own: "Low (you can prototype text, but not integrate)",
+          move: "shrink",
+          v: "Medium",
+          p: "Medium",
+        },
+        {
+          short: "Waste-factor helper",
+          full: "Waste-factor suggestion helper",
+          value: "Medium upside, high “estimating thing” risk",
+          pull: "Low",
+          own: "No",
+          move: "kill",
+          v: "Medium",
+          p: "Low",
+        },
+        {
+          short: "Alternate-quote generator",
+          full: "Alternate-quote generator",
+          value: "Low–Medium — nice-to-have, can create noise",
+          pull: "Medium",
+          own: "Yes",
+          move: "shrink",
+          v: "Low",
+          p: "Medium",
+        },
+        {
+          short: "Dieline request template",
+          full: "Dieline/sample request template for high-risk styles",
+          value: "Low–Medium — saves time, standardizes escalation",
+          pull: "Low–Medium",
+          own: "Yes",
+          move: "keep and support",
+          v: "Low",
+          p: "Low",
+        },
+        {
+          short: "Post-mortem summarizer",
+          full: "Post-mortem summarizer",
+          value: "Low–Medium — compounding learning, not immediate leverage",
+          pull: "Low",
+          own: "Yes",
+          move: "shrink",
+          v: "Low",
+          p: "Low",
+        },
+      ];
+
+      const PLAN = [
+        {
+          move: "Instrument the work: separate elapsed turnaround from true estimating time.",
+          why: "You said the only metric that buys you cover is separating “waiting on customer” from “estimating time,” using data you already have.",
+          first:
+            "For the next 30 quotes, track: RFQ received → “Quote Ready questions sent” → last answer received → quote issued.",
+          know: "You can show Arden a clean split: median estimating time vs median waiting time, with examples.",
+        },
+        {
+          move: "Standardise spec-to-parameters output so you’re never pricing from vibes.",
+          why: "Your bottleneck is turning mess into parameters; your failure mode is missing a constraint without knowing.",
+          first:
+            "Define a fixed schema (fields + allowed values + “unknown/ambiguous” flags) and run 10 recent RFQs through it to stress-test.",
+          know: "You stop rereading entire threads to remember what you assumed; the parameter sheet stands on its own.",
+        },
+        {
+          move: "Make “missing info” automatic and prioritised — ID vs OD always at the top.",
+          why: "The biggest time sink is clarification cycles; the chronic hole is inside vs outside dimensions.",
+          first:
+            "One workflow that outputs: extracted parameters + top 5 confirmation questions + explicit assumptions + a risk level.",
+          know: "Fewer clarification rounds per quote and fewer surprise revisions late in the process.",
+        },
+        {
+          move: "Roll out the Quote Ready gate only after you have the waiting-time data — and only on triggered jobs.",
+          why: "You said it won’t stick until tagging exists; otherwise it looks like you’re worsening turnaround on paper.",
+          first:
+            "Define triggers (fit-sensitive, inserts/windows/liners, ambiguous dims, new style/closure, big $) and use the gate there first.",
+          know: "Gated quotes have fewer rework loops and fewer “fine print” blowups.",
+        },
+        {
+          move: "Package each quote into a version-controlled “quote packet” to kill archaeology during rework.",
+          why: "Rework and inbox/version control are recurring drains; when something goes wrong you have to reconstruct what happened.",
+          first:
+            "For every quote, generate one packet containing latest spec/dieline, parameter sheet, questions sent + answers, and final assumptions.",
+          know: "When a quote changes, you can show exactly what changed and why in under 5 minutes.",
+        },
+      ];
+
+      /* ---------------------------------------------------------------- */
+      const screens = [...document.querySelectorAll(".screen")];
+      const rail = document.getElementById("rail");
+      const where = document.getElementById("where");
+      let current = 0;
+
+      screens.forEach((s, i) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = s.dataset.title;
+        b.addEventListener("click", () => go(i));
+        rail.appendChild(b);
+      });
+
+      function go(i) {
+        current = Math.max(0, Math.min(screens.length - 1, i));
+        screens.forEach((s, n) =>
+          s.setAttribute("data-active", String(n === current)),
+        );
+        [...rail.children].forEach((b, n) =>
+          b.setAttribute("aria-current", String(n === current)),
+        );
+        where.textContent = `${current + 1} of ${screens.length} — ${screens[current].dataset.title}`;
+        document.getElementById("prev").disabled = current === 0;
+        document.getElementById("next").disabled =
+          current === screens.length - 1;
+        window.scrollTo({ top: 0, behavior: "instant" });
+        if (location.hash !== `#${current + 1}`) {
+          history.replaceState(null, "", `#${current + 1}`);
+        }
+      }
+
+      document
+        .getElementById("prev")
+        .addEventListener("click", () => go(current - 1));
+      document
+        .getElementById("next")
+        .addEventListener("click", () => go(current + 1));
+      document.addEventListener("keydown", (e) => {
+        if (e.target.closest("input, textarea")) return;
+        if (e.key === "ArrowRight") go(current + 1);
+        if (e.key === "ArrowLeft") go(current - 1);
+      });
+
+      /* ---- the map ---- */
+      const LEVELS_V = ["High", "Medium", "Low"];
+      const LEVELS_P = ["Low", "Medium", "High"];
+      const grid = document.getElementById("grid");
+      const detail = document.getElementById("detail");
+
+      LEVELS_V.forEach((v) => {
+        LEVELS_P.forEach((p) => {
+          const cell = document.createElement("div");
+          cell.className = "cell";
+          if (v === "High" && p === "High") cell.dataset.heat = "high";
+          const label = document.createElement("div");
+          label.className = "cell-label";
+          label.textContent = `${v} value · ${p} pull`;
+          cell.appendChild(label);
+
+          ITEMS.filter((it) => it.v === v && it.p === p).forEach((it) => {
+            const m = MOVES[it.move];
+            const chip = document.createElement("button");
+            chip.type = "button";
+            chip.className = "chip";
+            chip.setAttribute("aria-pressed", "false");
+            chip.style.setProperty("--chip-color", m.color);
+            chip.style.setProperty("--chip-glow", m.soft);
+            chip.innerHTML = `${it.short}<span class="chip-move">${m.label}</span>`;
+            chip.addEventListener("click", () => select(it, chip));
+            cell.appendChild(chip);
+          });
+
+          grid.appendChild(cell);
+        });
+      });
+
+      function select(it, chip) {
+        document
+          .querySelectorAll(".chip")
+          .forEach((c) => c.setAttribute("aria-pressed", "false"));
+        chip.setAttribute("aria-pressed", "true");
+        const m = MOVES[it.move];
+        detail.innerHTML = `
+          <span class="move-tag" style="background:${m.soft};color:${m.color}">${m.label}</span>
+          <h3 style="margin-top:14px">${it.full}</h3>
+          <p class="caption" style="margin-top:8px">${m.gloss}</p>
+          <dl>
+            <dt>Value</dt><dd>${it.value}</dd>
+            <dt>Pull</dt><dd>${it.pull}</dd>
+            <dt>Should you be the one doing it</dt><dd>${it.own}</dd>
+          </dl>`;
+      }
+
+      const legend = document.getElementById("legend");
+      Object.values(MOVES).forEach((m) => {
+        const el = document.createElement("div");
+        el.className = "item";
+        el.innerHTML = `<span class="swatch" style="background:${m.color}"></span>${m.label}`;
+        legend.appendChild(el);
+      });
+
+      /* ---- raw table ---- */
+      const tbody = document.getElementById("table-body");
+      ITEMS.forEach((it) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${it.full}</td><td>${it.value}</td><td>${it.pull}</td><td>${it.own}</td><td style="color:${MOVES[it.move].color};font-weight:600">${MOVES[it.move].label}</td>`;
+        tbody.appendChild(tr);
+      });
+
+      document.querySelectorAll("[data-view]").forEach((b) => {
+        b.addEventListener("click", () => {
+          const v = b.dataset.view;
+          document
+            .querySelectorAll("[data-view]")
+            .forEach((o) =>
+              o.setAttribute("aria-pressed", String(o.dataset.view === v)),
+            );
+          document.getElementById("view-map").style.display =
+            v === "map" ? "" : "none";
+          document.getElementById("view-table").style.display =
+            v === "table" ? "" : "none";
+        });
+      });
+
+      /* ---- the plan ---- */
+      const plan = document.getElementById("plan");
+      PLAN.forEach((p, i) => {
+        const el = document.createElement("div");
+        el.className = "move-card";
+        el.innerHTML = `
+          <div class="num">${i + 1}</div>
+          <div>
+            <h3>${p.move}</h3>
+            <div class="field"><div class="k">Why this one</div><div class="v">${p.why}</div></div>
+            <div class="field"><div class="k">First step</div><div class="v">${p.first}</div></div>
+            <div class="field"><div class="k">How you’ll know it worked — inside 90 days</div><div class="v">${p.know}</div></div>
+          </div>`;
+        plan.appendChild(el);
+      });
+
+      function fromHash() {
+        const n = parseInt((location.hash || "").replace("#", ""), 10);
+        return Number.isFinite(n) && n > 0 ? n - 1 : 0;
+      }
+
+      window.addEventListener("hashchange", () => {
+        if (fromHash() !== current) go(fromHash());
+      });
+
+      go(fromHash());
+    </script>
+  </body>
+</html>
