@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Leverage Map — end-to-end walkthrough</title>
+    <title>The Leverage Map — internal concept walkthrough</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Outfit:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=Outfit:wght@300;400;500;600;700&amp;display=swap"
       rel="stylesheet"
     />
     <style>
@@ -159,6 +159,7 @@
         gap: 4px;
         margin-left: auto;
         flex-wrap: wrap;
+        min-width: 0;
       }
 
       .rail button {
@@ -941,6 +942,39 @@
         padding: 1px 5px;
         color: var(--color-text-tertiary);
       }
+
+      @media (max-width: 700px) {
+        .chrome-inner {
+          padding: 10px 16px;
+          gap: 12px;
+        }
+
+        .brandmark .label {
+          display: none;
+        }
+
+        .rail {
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          scrollbar-width: none;
+        }
+
+        .rail::-webkit-scrollbar {
+          display: none;
+        }
+
+        .rail button {
+          flex: 0 0 auto;
+        }
+
+        .screen {
+          padding: 40px 20px 110px;
+        }
+
+        .pager-inner {
+          padding: 12px 20px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -955,14 +989,14 @@
     </div>
 
     <!-- ============================================================ 1 -->
-    <section class="screen" data-screen="0" data-title="Cover">
+    <section class="screen" data-screen="0" data-title="Overview">
       <div class="prose">
-        <p class="eyebrow">Proof of concept · Clickable walkthrough</p>
+        <p class="eyebrow">Brilliant With AI · working draft · August 2026</p>
         <h1>The Leverage Map</h1>
         <p class="lede">
-          What arrives after the Mirror. The Mirror tells someone where they
-          stand with AI. This decides where they point it — and what they are
-          choosing not to do.
+          A proposed follow-on to the Individual Mirror that helps one person
+          decide which AI opportunities deserve attention now, which to defer
+          or stop, and which should belong to another person or an AI system.
         </p>
       </div>
 
@@ -970,38 +1004,72 @@
 
       <div class="split">
         <div class="stack-16">
-          <h3>What you are looking at</h3>
+          <h3>The proposal in plain terms</h3>
           <p class="body-copy">
-            One screen on where this idea came from, then six showing one
-            person's path from a finished Mirror to a plan they'd actually run
-            on Monday.
+            The <strong>Individual Mirror</strong> is a private guided interview
+            that produces a Mirror Letter and Action Plan. It helps someone
+            understand their current relationship with AI and choose four
+            immediate next moves.
           </p>
           <p class="body-copy">
-            The interview questions, the board, the trade-offs and the plan are
-            <strong>real generated output</strong> — produced by running the
-            Leverage interview prompt end to end against a simulated subject.
-            Nothing on the analysis screens was written by hand.
+            The <strong>Leverage Map</strong> would address the larger decision
+            that remains: among all the plausible ways this person could use
+            AI, where should they invest limited attention over the next
+            quarter? The proposed output is a prioritised board, explicit
+            trade-offs, and no more than five moves.
           </p>
           <p class="body-copy">
-            The screens themselves are mocked. No Leverage UI exists yet.
+            This is an internal discussion document: part proposal, part
+            product documentation, and part evidence from an early prompt
+            prototype. It is not a product commitment or a client-facing site.
           </p>
         </div>
         <div class="card stack-12">
-          <h4>The subject</h4>
+          <h4>At a glance</h4>
           <p class="caption">
-            <strong>Devon Marsh</strong> — Senior Estimating Analyst at Kestrel
-            Packaging Co., a 120-person custom packaging manufacturer running on
-            EOS.
+            <strong>Who it is for.</strong> An individual who has completed the
+            Mirror and has more worthwhile AI possibilities than time, mandate,
+            or capacity.
           </p>
           <p class="caption">
-            Devon and Kestrel are invented on purpose, in full, before any
-            interview was run. No real customer, company, or transcript is
-            involved anywhere in this artifact.
+            <strong>What it considers.</strong> Personal goals, role
+            accountability, manager and company priorities, current constraints,
+            value, personal pull, and ownership.
           </p>
           <p class="caption">
-            Devon's situation in one line: fastest estimator on the floor via an
-            unofficial toolchain nobody has approved, in a company where an AI
-            estimating rollout ate $310k of margin eighteen months ago.
+            <strong>What changes.</strong> A broad list of possible AI uses
+            becomes a defensible allocation of attention: pursue, support, hand
+            to AI, assign elsewhere, reduce, or stop.
+          </p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="split">
+        <div class="stack-12">
+          <h4>How to read this walkthrough</h4>
+          <p class="caption">
+            The next section explains the product thesis and its source. The
+            remaining sections show one simulated person's path through the
+            proposed experience, from entry to a 90-day plan.
+          </p>
+          <p class="caption">
+            The interview questions, Leverage Board, trade-offs, and plan are
+            generated output from one end-to-end prompt run. The interface is
+            mocked; no Leverage Map product surface exists yet.
+          </p>
+        </div>
+        <div class="card stack-12">
+          <h4>The prototype case</h4>
+          <p class="caption">
+            <strong>Devon Marsh</strong> is a fictional Senior Estimating
+            Analyst at fictional Kestrel Packaging Co. Both were fully defined
+            before the interview was run; no customer data was used.
+          </p>
+          <p class="caption">
+            Devon is the fastest estimator on the floor because of an
+            unofficial toolchain, while the company is still wary after a
+            failed AI estimating rollout cost $310k in margin.
           </p>
         </div>
       </div>
@@ -1014,17 +1082,16 @@
     </section>
 
     <!-- ============================================================ 2 -->
-    <section class="screen" data-screen="1" data-title="What it is">
+    <section class="screen" data-screen="1" data-title="Proposal">
       <div class="prose">
-        <p class="eyebrow">Screen 1 · Origin</p>
+        <p class="eyebrow">Section 1 · Product thesis</p>
         <h2>
-          The Mirror answers “where do I stand.” This answers “where do I point
-          it.”
+          The Mirror creates personal orientation. The Leverage Map would turn
+          that clarity into priorities.
         </h2>
         <p class="lede">
-          The idea has a specific origin: a 77-minute call between Nish and Matt
-          on 7 August 2026, and the Slack thread Nish posted straight after it.
-          Everything below is from that conversation.
+          The two experiences are related, but they do different jobs. The
+          distinction below is the basis of the proposal.
         </p>
       </div>
 
@@ -1033,52 +1100,39 @@
       <div class="split">
         <div class="card stack-12">
           <p class="eyebrow muted" style="margin-bottom: 4px">The Mirror</p>
-          <h4>An honest look at where you stand with AI</h4>
+          <h4>A private reflection that produces immediate next actions</h4>
           <p class="body-copy">
-            Nish's description of what it does, on the call: you go from
-            <em
-              >“lost in the wilderness of infinite AI possibility and just
-              copying what others are doing”</em
-            >
-            to
-            <em
-              >“clarity, orientation, direction, and the next 4 steps in a
-              journey of 1,000 steps.”</em
-            >
+            The Individual Mirror helps someone make sense of their current
+            relationship with AI: what is true now, what they want, what is
+            getting in the way, and what they should do next. It produces a
+            private Mirror Letter and Action Plan.
           </p>
           <p class="body-copy">
-            He is explicit that this is the right scope, and that the four steps
-            are deliberately not a plan —
+            Its four moves are intentionally limited. As Nish put it,
             <em
               >“the 4 steps are not the whole map. It's just, here's the 4
               things you should probably think about doing.”</em
             >
           </p>
-          <p class="caption">Ships today. Letter, action plan, four moves.</p>
+          <p class="caption">Current product: Letter, Action Plan, four moves.</p>
         </div>
 
         <div class="card stack-12">
           <p class="eyebrow muted" style="margin-bottom: 4px">The Leverage Map</p>
-          <h4>Where to point your firepower, and what you're giving up</h4>
+          <h4>A decision process for allocating attention across possible AI uses</h4>
           <p class="body-copy">
-            The gap it fills, in his words:
-            <em
-              >“where should we be pointing our firepower with AI? Like
-              leverage. There's 1,000 things we can do.”</em
-            >
-            The stance he wants the product to take is an investor's —
-            <em
-              >“what are we gonna feed? What are we gonna keep? What are we
-              gonna kill?”</em
-            >
+            The proposed follow-on asks a different question: given what this
+            person wants, what their role requires, what their manager and
+            company need, and what their constraints allow, which AI
+            opportunities should they pursue this quarter?
           </p>
           <p class="body-copy">
-            So: same interview format, same voice, entirely different question.
-            The Mirror is diagnostic. This one is allocative — it spends
-            something, and it says what.
+            The result is allocative rather than reflective. It recommends what
+            to pursue, what to support, what to hand to AI or another owner, and
+            what to reduce or stop—and makes the consequences visible.
           </p>
           <p class="caption">
-            Does not exist. One prompt, run end to end, and these screens.
+            Proposed product: one end-to-end prompt run and this mocked interface.
           </p>
         </div>
       </div>
@@ -1086,35 +1140,33 @@
       <div class="divider"></div>
 
       <div class="prose stack-16">
-        <h3>Why it needs the Mirror to come first</h3>
+        <h3>Why the sequence matters</h3>
         <p class="body-copy">
-          Not a packaging decision. The Leverage Map only works if the person is
-          honest about what winning actually looks like for them — including the
-          parts that don't flatter them. On the call Matt's point was that you
-          cannot get that cold:
+          The Mirror is more than an entry screen. It creates personal context
+          and enough trust for someone to say what they actually want, including
+          answers that may not match the company line. Matt's point in the source
+          discussion was that the Leverage conversation depends on that honesty:
           <em
             >“you can't do that unless you really understand and are honest
             about what does winning look like to you.”</em
           >
-          Nish finished the thought — if they've been through the Mirror first,
-          <em>“we've already built that comfort, trust, and credibility.”</em>
         </p>
         <p class="body-copy">
-          That is the actual dependency. The Mirror is where someone learns it
-          is safe to say the disloyal thing to this product. The Leverage Map
-          spends that credit immediately, in its first ten minutes, asking what
-          they personally want out of their career — not what their company
-          would like them to want.
+          The proposal therefore begins with the person's own definition of
+          success before adding role, manager, and company priorities. The
+          prototype has not yet tested the actual handoff: its interview run
+          began cold, without access to a prior Mirror.
         </p>
       </div>
 
       <div class="divider"></div>
 
       <div class="prose stack-16">
-        <h3>The three axes, and why the third one is the product</h3>
+        <h3>How the opportunities become comparable</h3>
         <p class="body-copy">
-          The sorting model came out of the same call, from Matt, unprompted and
-          nearly in its final form. Every candidate gets scored three ways.
+          The prototype assesses every candidate on three dimensions. Value and
+          pull determine its position on the map; ownership influences the
+          recommended move.
         </p>
       </div>
 
@@ -1122,21 +1174,22 @@
         <div class="card note-card">
           <p class="k">Axis 1 · Value</p>
           <p class="caption">
-            How much does this actually move something that matters. The obvious
-            one. Every prioritisation framework has it.
+            How much would this move an outcome that matters to the person, their
+            role, their manager, or the company?
           </p>
         </div>
         <div class="card note-card">
           <p class="k">Axis 2 · Pull</p>
           <p class="caption">
-            How much do you <em>want</em> to do it, independent of its value.
-            Rarely asked out loud, and it decides what actually gets done.
+            How much does the person genuinely want to do this, independent of
+            its objective value?
           </p>
         </div>
         <div class="card note-card">
           <p class="k">Axis 3 · Ownership</p>
           <p class="caption">
-            Should <em>you</em> be the one doing it.
+            Should this person retain the work and accountability, hand bounded
+            work to AI, or assign it to another human owner?
             <em
               >“It could be high value and you might really enjoy it, but are
               you really the right person?”</em
@@ -1147,9 +1200,10 @@
 
       <div class="prose" style="margin-top: 24px">
         <p class="body-copy">
-          The third axis is the one the product is really for, and the argument
-          for why it is newly answerable is the sharpest thing in the
-          transcript:
+          Ownership is the differentiating question. Work that is valuable and
+          enjoyable can still be the wrong use of this person's attention. AI
+          adds an option between “do it myself” and “delegate it to another
+          person,” which changes how ownership can be designed:
           <em
             >“‘should' used to be, I have to delegate this to a human. So people
             don't even really think about it for the most part… But now that you
@@ -1158,14 +1212,16 @@
           >
         </p>
         <p class="body-copy">
-          Hence the diagnosis the map exists to deliver — high value, high pull,
-          low ownership. You love it, it matters, and you are the wrong person
-          doing it. Matt's line:
+          One important pattern is therefore high value, high pull, and low
+          personal ownership: the person enjoys the work and it matters, but
+          they should not remain its primary operator. Matt's line from the
+          discussion was:
           <em
             >“a lot of leaders squander an enormous amount of time in that
             box.”</em
           >
-          Nobody's quarterly planning template has a column for it.
+          The board makes that pattern explicit instead of treating enthusiasm
+          as proof of appropriate ownership.
         </p>
       </div>
 
@@ -1173,12 +1229,11 @@
 
       <div class="split">
         <div class="stack-16">
-          <h3>The scaffold under the recommendations</h3>
+          <h3>Inputs that change the recommendation</h3>
           <p class="body-copy">
-            The call also settled why two people in the same job should get
-            different maps. Four questions constrain every recommendation
-            downstream, and the interview will not move on until it has real
-            answers:
+            Two people with the same job title may need different plans. The
+            prototype uses four operating constraints to shape every downstream
+            recommendation:
           </p>
           <ul style="padding-left: 18px; font-size: var(--text-sm)">
             <li>Are you evolving, consolidating, or shrinking?</li>
@@ -1197,19 +1252,20 @@
               >“these questions and the answers to them become the scaffold
               around which the leverage map coalesces.”</em
             >
-            Answer them differently and the same list of candidates sorts into a
-            different plan.
+            Different answers can turn the same opportunity from “pursue” into
+            “hand off,” “reduce,” or “stop.”
           </p>
         </div>
 
         <div class="stack-16">
-          <h3>Deliberately opinionated</h3>
+          <h3>A fixed decision rule</h3>
           <p class="body-copy">
-            The move mapping is fixed, not negotiated per user: low value + high
-            pull → shrink it; high value + low pull + low ownership → hand it
-            off; high value + high pull + low ownership → the trap; high value +
-            high pull + high ownership → keep it and build support around it;
-            low value + low pull → kill it.
+            The prototype uses consistent mappings rather than improvising a
+            recommendation for each person: low value plus high pull means
+            reduce it; high value plus low pull and low ownership means hand it
+            off; high value plus high pull and low ownership is an ownership
+            trap; high value plus high pull and high ownership means keep it and
+            add support; low value plus low pull means stop.
           </p>
           <p class="body-copy">
             The reason is on the call. Without a fixed model
@@ -1221,9 +1277,10 @@
             learn from a map that turned out wrong.
           </p>
           <p class="body-copy">
-            It also refuses to moralise. Someone who wants AI to cut headcount
-            gets the same quality of work as someone who wants to free their
-            best people. Their answers are inputs, not confessions.
+            The model also treats the person's stated goal as an input rather
+            than a moral test. That neutrality is part of getting an honest
+            decision context; governance and harm constraints still apply to
+            the resulting plan.
           </p>
         </div>
       </div>
@@ -1236,32 +1293,30 @@
         through and get it done — I win.”
       </p>
       <p class="caption" style="margin-top: 16px">
-        Nish, on the bar. That sentence is the only acceptance criterion the
-        prototype has, and it is quoted verbatim at the top of the interview
-        prompt as the one question the build is meant to answer.
+        Nish's description of the intended user reaction in the source
+        discussion. It is a product aspiration, not yet validated evidence.
       </p>
 
       <div class="divider"></div>
 
       <div class="split">
         <div class="stack-12">
-          <h4>What is still unsettled</h4>
+          <h4>Open product decisions</h4>
           <ul style="padding-left: 18px; font-size: var(--text-sm)">
             <li>
-              <strong>The name.</strong> “AI Leverage Mirror,” “leverage
-              mirror,” “momentum mirror” were all live on the call. Nish's
-              expectation: the “AI” drops off eventually and it is just a
-              Leverage Mirror.
+              <strong>The name.</strong> “Leverage Map” is the working name.
+              “AI Leverage Mirror,” “Leverage Mirror,” and “Momentum Mirror”
+              were also discussed.
             </li>
             <li style="margin-top: 8px">
-              <strong>Individual or team.</strong> Both were wanted; individual
-              was chosen to go first because the group version's complexity
-              scales far faster. The group synthesis is a separate, later thing.
+              <strong>Individual or team.</strong> This proposal begins with an
+              individual. A team version would require consent, privacy rules,
+              and a separate synthesis model.
             </li>
             <li style="margin-top: 8px">
-              <strong>Whether it's one product or a series.</strong> The other
-              idea floated was a new Mirror every month, all the same shape —
-              this being the second one.
+              <strong>Product boundary.</strong> It could be the next chapter of
+              a saved Mirror, a separate product, or one recurring experience in
+              a broader Mirror series.
             </li>
           </ul>
         </div>
@@ -1284,22 +1339,23 @@
             it.
           </p>
           <p class="caption">
-            <strong>The prompt</strong> — <code>leverage-v0.md</code> in the
-            product repo, written from the above. It is what generated all the
-            output on the screens that follow.
+            <strong>The prompt</strong> — <code>leverage-v0.md</code>, written
+            from those sources. It generated the interview and deliverable shown
+            in the sections that follow.
           </p>
         </div>
       </div>
     </section>
 
     <!-- ============================================================ 3 -->
-    <section class="screen" data-screen="2" data-title="After the Mirror">
+    <section class="screen" data-screen="2" data-title="Starting point">
       <div class="prose">
-        <p class="eyebrow">Screen 2 · Entry</p>
-        <h2>The user already did the Mirror. Then they closed the tab.</h2>
+        <p class="eyebrow">Section 2 · Starting condition</p>
+        <h2>Four immediate actions are not a quarterly strategy.</h2>
         <p class="lede">
-          The Mirror is finished and saved. It named where they stand and four
-          things to do. The next question arrives on its own.
+          The Individual Mirror has produced a Letter and Action Plan. The user
+          can act on those four moves and still face a larger prioritisation
+          problem: many plausible AI uses, limited time, and unclear ownership.
         </p>
       </div>
 
@@ -1310,7 +1366,7 @@
           <header>
             <div>
               <div style="font-size: var(--text-sm); font-weight: 600">
-                Your AI Mirror
+                Your Individual Mirror
               </div>
               <div class="caption">Completed 22 days ago</div>
             </div>
@@ -1325,7 +1381,7 @@
               <div></div>
             </div>
             <p class="caption" style="margin-top: 14px">
-              Letter · Action plan · Your four moves
+              Mirror Letter · Action Plan · Four immediate moves
             </p>
           </div>
         </div>
@@ -1340,16 +1396,17 @@
               line-height: 1.2;
             "
           >
-            You know where you stand. Now: where do you point it?
+            Decide which AI opportunities deserve your attention this quarter.
           </h3>
           <p class="body-copy" style="font-size: var(--text-base)">
-            Of the thousand things you could aim AI at, which three to five
-            actually matter — for you, in your job, this quarter?
+            Compare the possibilities against what you want, what your role
+            requires, what your manager and company need, and what your current
+            constraints allow.
           </p>
           <p class="body-copy" style="font-size: var(--text-base)">
-            Forty-five minutes of conversation. It ends with a map of everything
-            worth naming, what you're trading away, and five moves you can start
-            Monday.
+            A 30–45 minute guided interview would produce a Leverage Board,
+            explicit trade-offs, and no more than five moves—each with a first
+            step and an observable 90-day signal.
           </p>
           <div
             style="
@@ -1361,27 +1418,28 @@
             "
           >
             <button class="btn" type="button">Start the Leverage Map</button>
-            <span class="caption">Picks up from your Mirror · 30–45 min</span>
+            <span class="caption">Uses context from the Mirror · 30–45 min</span>
           </div>
         </div>
       </div>
 
       <div class="divider"></div>
       <p class="caption" style="max-width: 720px">
-        <strong>Design question this screen raises.</strong> Does Leverage live
-        inside the saved Mirror as its natural next chapter, or is it a separate
-        product a Mirror-holder gets invited into? This mock assumes the first.
+        <strong>Product decision represented here.</strong> This mock places the
+        Leverage Map inside the saved Individual Mirror as its next chapter. A
+        separate invitation or standalone product remains possible.
       </p>
     </section>
 
     <!-- ============================================================ 4 -->
-    <section class="screen" data-screen="3" data-title="The interview">
+    <section class="screen" data-screen="3" data-title="Interview">
       <div class="prose">
-        <p class="eyebrow">Screen 3 · The conversation</p>
-        <h2>It asks the questions nobody asks them.</h2>
+        <p class="eyebrow">Section 3 · Guided interview</p>
+        <h2>Build the decision context before ranking ideas.</h2>
         <p class="lede">
-          Four abridged exchanges from the real run. One question per turn. No
-          preamble, no checklist voice.
+          The interview begins with desired outcomes, stakeholder priorities,
+          failure risks, permission, and resources—not a backlog of AI use
+          cases. These are four abridged exchanges from the prototype run.
         </p>
       </div>
 
@@ -1483,15 +1541,15 @@
         </div>
 
         <div class="card stack-16">
-          <h4>The arc, never announced</h4>
+          <h4>The four-stage interview structure</h4>
           <ul class="phase-list">
             <li data-state="now">
               <span class="n">1</span>
               <span>
                 <span class="t">The frame</span><br />
                 <span class="d"
-                  >What you want, what you're accountable for, what your boss
-                  and company actually care about.</span
+                  >What the person wants, what their role requires, and what
+                  their manager and company need.</span
                 >
               </span>
             </li>
@@ -1500,8 +1558,8 @@
               <span>
                 <span class="t">The scaffold</span><br />
                 <span class="d"
-                  >Growing or shrinking, who owns AI, what's actually resourced,
-                  what you're permitted to do.</span
+                  >Organisational direction, AI ownership, available resources,
+                  and the person's actual permission to act.</span
                 >
               </span>
             </li>
@@ -1510,8 +1568,8 @@
               <span>
                 <span class="t">The candidates</span><br />
                 <span class="d"
-                  >Everything that eats the week, scored on value, pull, and
-                  whether you should be the one doing it.</span
+                  >The possible uses of AI, assessed on value, personal pull,
+                  and who should own the work.</span
                 >
               </span>
             </li>
@@ -1520,28 +1578,29 @@
               <span>
                 <span class="t">The deliverable</span><br />
                 <span class="d"
-                  >The map, the trade-offs, the plan. Produced without asking
-                  permission to begin.</span
+                  >A Leverage Board, explicit trade-offs, and a bounded 90-day
+                  plan.</span
                 >
               </span>
             </li>
           </ul>
           <p class="caption">
-            The user never sees these labels. In the real run the interviewer
-            reached the deliverable at exchange 21.
+            These phase labels are internal structure, not user-facing steps.
+            The prototype interview reached the deliverable at exchange 21.
           </p>
         </div>
       </div>
     </section>
 
     <!-- ============================================================ 5 -->
-    <section class="screen" data-screen="4" data-title="The map">
+    <section class="screen" data-screen="4" data-title="Board">
       <div class="prose">
-        <p class="eyebrow">Screen 4 · The deliverable</p>
-        <h2>Everything worth naming, in one frame.</h2>
+        <p class="eyebrow">Section 4 · Leverage Board</p>
+        <h2>The board makes the opportunities comparable.</h2>
         <p class="lede">
-          Fifteen candidates, placed by how much each moves something that
-          matters and how much Devon wants to do it. Colour is the move.
+          Each candidate is assessed on value, Devon's personal pull, and who
+          should own the work. This view plots value and pull; colour shows the
+          recommended move. Ownership remains visible in the detail and table.
         </p>
       </div>
 
@@ -1559,7 +1618,7 @@
         <div class="toggle" role="group" aria-label="View">
           <button type="button" data-view="map" aria-pressed="true">Map</button>
           <button type="button" data-view="table" aria-pressed="false">
-            Raw output
+            Generated table
           </button>
         </div>
         <span class="caption">
@@ -1593,7 +1652,7 @@
                 <th>What</th>
                 <th>Value</th>
                 <th>Pull</th>
-                <th>Should you</th>
+                <th>Should Devon own this?</th>
                 <th>Move</th>
               </tr>
             </thead>
@@ -1601,8 +1660,9 @@
           </table>
         </div>
         <p class="caption" style="margin-top: 14px">
-          The board exactly as the model produced it. The map above is a
-          rendering of this table, not a different analysis.
+          The generated table is the underlying analysis. The map above is a
+          visual rendering of the same rows, with coarse scores grouped into a
+          three-by-three grid.
         </p>
       </div>
     </section>
@@ -1610,11 +1670,12 @@
     <!-- ============================================================ 6 -->
     <section class="screen" data-screen="5" data-title="Trade-offs">
       <div class="prose">
-        <p class="eyebrow">Screen 5 · The cost</p>
-        <h2>What you're choosing against.</h2>
+        <p class="eyebrow">Section 5 · Trade-offs</p>
+        <h2>Every priority creates a non-priority.</h2>
         <p class="lede">
-          The section that makes it a decision instead of a list. Opinionated by
-          design, and specific to what Devon said.
+          This section states the consequences of the proposed plan: what Devon
+          would stop optimising, which risks he would accept, and why some
+          appealing work would be deferred or assigned elsewhere.
         </p>
       </div>
 
@@ -1665,20 +1726,21 @@
 
       <div class="divider"></div>
       <p class="caption" style="max-width: 720px">
-        Every claim here traces to something Devon said in the interview — the
-        governance gap, the scar, the scorecard, Sloan's incentive. None of it
-        is generic.
+        These trade-offs were generated from Devon's interview context—the
+        governance gap, the failed prior rollout, the scorecard, and Sloan's
+        incentive. They are prototype output, not generic guidance added later.
       </p>
     </section>
 
     <!-- ============================================================ 7 -->
-    <section class="screen" data-screen="6" data-title="The plan">
+    <section class="screen" data-screen="6" data-title="Plan">
       <div class="prose">
-        <p class="eyebrow">Screen 6 · The plan</p>
-        <h2>Five moves. Never more than five.</h2>
+        <p class="eyebrow">Section 6 · 90-day plan</p>
+        <h2>Five bounded moves turn the choices into a plan.</h2>
         <p class="lede">
-          Each one has a first step small enough to start on Monday and one
-          observable signal inside 90 days.
+          Each recommendation includes why it belongs, a first action, and
+          observable evidence within 90 days. The five-move limit is a proposed
+          product rule intended to force selection.
         </p>
       </div>
 
@@ -1695,12 +1757,14 @@
     </section>
 
     <!-- ============================================================ 8 -->
-    <section class="screen" data-screen="7" data-title="Notes">
+    <section class="screen" data-screen="7" data-title="Review">
       <div class="prose">
-        <p class="eyebrow muted">Screen 7 · For review</p>
-        <h2>What's real here, and what isn't.</h2>
+        <p class="eyebrow muted">Section 7 · Status and open questions</p>
+        <h2>What this prototype demonstrates—and what remains unresolved.</h2>
         <p class="lede">
-          So the walkthrough isn't mistaken for a working product.
+          This artifact tests whether the product idea and generated output are
+          coherent. It is not evidence that the workflow, interface, or business
+          model is ready to build.
         </p>
       </div>
 
@@ -1708,11 +1772,13 @@
 
       <div class="note-grid">
         <div class="card note-card">
-          <div class="k" style="color: var(--color-feedback-success)">Real</div>
+          <div class="k" style="color: var(--color-feedback-success)">
+            Demonstrated here
+          </div>
           <ul>
             <li>
-              The interview prompt. Live in the repo, self-sufficient, already
-              driving runs.
+              One self-contained interview prompt can complete an end-to-end
+              simulated run.
             </li>
             <li>
               Every question, the fifteen candidates, the scores, the
@@ -1724,15 +1790,15 @@
               anything off-card.
             </li>
             <li>
-              The design language. Cool-slate tokens, Newsreader and Outfit, one
-              accent pop.
+              The output is specific enough to reflect Devon's goals,
+              constraints, politics, and failure risks.
             </li>
           </ul>
         </div>
 
         <div class="card note-card">
           <div class="k" style="color: var(--color-feedback-warning)">
-            Mocked
+            Assumed or mocked
           </div>
           <ul>
             <li>
@@ -1754,27 +1820,26 @@
         </div>
 
         <div class="card note-card">
-          <div class="k" style="color: var(--pop)">What it raises</div>
+          <div class="k" style="color: var(--pop)">Open questions</div>
           <ul>
             <li>
-              <strong>The middle is crowded.</strong> Six of fifteen candidates
-              land in medium/medium. Three coarse levels can't separate them —
-              either the interview scores harder, or the map ranks within a
-              cell.
+              <strong>Scoring resolution.</strong> Six of fifteen candidates
+              land in medium/medium. Three coarse levels do not separate them;
+              the interview may need harder scoring or ranking within a cell.
             </li>
             <li>
-              <strong>The plan repeats the map.</strong> Four of five moves are
-              board rows restated. Worth deciding whether that's reinforcement
-              or redundancy.
+              <strong>Board versus plan.</strong> Four of five moves restate
+              board rows. We need to decide whether that is useful reinforcement
+              or redundant output.
             </li>
             <li>
-              <strong>Fifteen rows is a lot to hand someone.</strong> The map
-              exists because the table was hard to read.
+              <strong>Volume.</strong> Fifteen rows may be too many for a useful
+              personal deliverable, even with the map view.
             </li>
             <li>
-              <strong>Ownership is invisible.</strong> "Should you" is the third
-              axis and the most original question in the product. It's currently
-              buried in a table column.
+              <strong>Ownership visibility.</strong> Ownership is the most
+              distinctive dimension, but the two-dimensional map does not show
+              it directly.
             </li>
           </ul>
         </div>
@@ -1782,9 +1847,9 @@
 
       <div class="divider"></div>
       <p class="caption" style="max-width: 720px">
-        Built to be judged and thrown away. If the shape is right, the next step
-        is building it in the app with real components; if it isn't, nothing was
-        spent finding out.
+        <strong>Internal discussion document.</strong> The immediate decision is
+        whether this is a useful product direction and what must be learned next,
+        not whether this particular interface should be implemented as shown.
       </p>
     </section>
 
@@ -1808,34 +1873,35 @@
           color: "#059669",
           soft: "rgba(5,150,105,0.12)",
           gloss:
-            "It matters, you want it, and you're the right person. Build support around it.",
+            "High value, high pull, and appropriate personal ownership. Keep it with Devon and add support.",
         },
         "hand to AI": {
           label: "Hand to AI",
           color: "#4f46e5",
           soft: "rgba(79,70,229,0.12)",
           gloss:
-            "Worth doing and you don't need to be the one doing it. The cleanest win available.",
+            "Worth doing, but Devon need not perform the repeatable work. Define a bounded AI role while keeping human accountability.",
         },
         shrink: {
           label: "Shrink",
           color: "rgba(10,22,40,0.5)",
           soft: "rgba(10,22,40,0.08)",
           gloss:
-            "It isn't moving enough to justify the room it takes. Find the smallest version.",
+            "The current scope is larger than its value justifies. Keep only the smallest useful version.",
         },
         "give away": {
           label: "Give away",
           color: "rgba(10,22,40,0.3)",
           soft: "rgba(10,22,40,0.05)",
-          gloss: "Real value, wrong owner. Someone else's lever this quarter.",
+          gloss:
+            "The work has value, but Devon is not the right owner. Assign it elsewhere or defer it.",
         },
         kill: {
           label: "Kill",
           color: "#c4920a",
           soft: "rgba(196,146,10,0.12)",
           gloss:
-            "Low value, low pull, or too dangerous to survive contact. Stop spending turns on it.",
+            "Insufficient value or pull, or excessive risk. Stop investing attention in it this quarter.",
         },
       };
 
@@ -2122,7 +2188,7 @@
           <dl>
             <dt>Value</dt><dd>${it.value}</dd>
             <dt>Pull</dt><dd>${it.pull}</dd>
-            <dt>Should you be the one doing it</dt><dd>${it.own}</dd>
+            <dt>Should Devon own this?</dt><dd>${it.own}</dd>
           </dl>`;
       }
 
