@@ -1,0 +1,9 @@
+interface:
+  display_name: "Capture Idea"
+  short_description: "Capture follow-up ideas without scope creep"
+  default_prompt: "Use $capture-idea to save this idea as a linked follow-up without changing the current scope."
+
+policy:
+  # The agent may capture a distinct new idea mid-task on its own initiative,
+  # provided doing so does not interrupt progress or change current scope.
+  allow_implicit_invocation: true

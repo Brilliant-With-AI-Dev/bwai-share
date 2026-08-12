@@ -1,0 +1,6 @@
+interface:
+  display_name: "Auto Improve"
+  short_description: "Privately critique and improve the latest output"
+  default_prompt: "Use $auto-improve to privately critique and improve the latest major output."
+policy:
+  allow_implicit_invocation: false

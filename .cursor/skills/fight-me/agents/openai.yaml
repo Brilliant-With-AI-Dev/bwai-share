@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fight Me"
+  short_description: "Give an idea a blunt, fair stress test"
+  default_prompt: "Use $fight-me to stress-test this idea without flattery."

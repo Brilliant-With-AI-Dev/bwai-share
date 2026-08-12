@@ -1,0 +1,4 @@
+interface:
+  display_name: "Quickprompt"
+  short_description: "Turn rough intent into an exact agent prompt"
+  default_prompt: "Use $quickprompt to turn this rough intent into a strong coding-assistant prompt."

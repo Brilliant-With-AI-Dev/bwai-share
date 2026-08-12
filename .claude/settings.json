@@ -1,0 +1,21 @@
+{
+  "extraKnownMarketplaces": {
+    "compound-knowledge-plugin": {
+      "source": {
+        "source": "github",
+        "repo": "EveryInc/compound-knowledge-plugin"
+      }
+    },
+    "compound-engineering-plugin": {
+      "source": {
+        "source": "github",
+        "repo": "EveryInc/compound-engineering-plugin"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "compound-knowledge@compound-knowledge-plugin": true,
+    "compound-engineering@compound-engineering-plugin": true,
+    "mattpocock-skills@claude-plugins-official": true
+  }
+}

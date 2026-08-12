@@ -1,0 +1,4 @@
+interface:
+  display_name: "Catch Me Up"
+  short_description: "Restore context and identify the next move"
+  default_prompt: "Use $catch-me-up to restore the workstream context and tell me exactly what to do next."

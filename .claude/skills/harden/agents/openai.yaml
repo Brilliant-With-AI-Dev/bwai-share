@@ -1,0 +1,3 @@
+interface:
+  display_name: "Harden"
+  short_description: "Cost-aware hardening review for AI coding plans and docs"
