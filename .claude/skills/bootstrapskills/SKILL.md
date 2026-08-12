@@ -1,6 +1,6 @@
 ---
-name: bootstrap-agent-skills
-description: Install Adrian's standard agent skills and plugins into the current repo for Claude Code, Cursor, and cloud sessions. Use when the user says "bootstrap skills", "install skills into this repo", "wire skills for cloud", "set up agent skills", or opens a new repo that needs the Compound, Matt Pocock, and personal skill packs.
+name: bootstrapskills
+description: Install Adrian's standard agent skills and plugins into the current repo for Claude Code, Cursor, and cloud sessions. Use when the user invokes /bootstrapskills, or says "bootstrap skills", "install skills into this repo", "wire skills for cloud", "set up agent skills", or opens a new repo that needs the Compound, Matt Pocock, and personal skill packs.
 argument-hint: "[--plugins-only] [--skills-only] [--no-matt] [--no-compound] [--no-personal]"
 disable-model-invocation: true
 ---
@@ -19,7 +19,7 @@ Wire this repository so Claude Code, Cursor, and cloud/Cowork-compatible session
 
 **Personal skills** (copied into `.claude/skills`, `.cursor/skills`, `.agents/skills`):
 
-- auto-improve, capture-idea, catch-me-up, context-interview, design-ladder, design-shotgun, fanout, fight-me, harden, html-artifact, pr-triage, quickprompt, redteam, bootstrap-agent-skills
+- auto-improve, capture-idea, catch-me-up, context-interview, design-ladder, design-shotgun, fanout, fight-me, harden, html-artifact, pr-triage, quickprompt, redteam, bootstrapskills
 
 **Compound Knowledge skills** (Cursor/agents copies; Claude usually loads via plugin):
 
