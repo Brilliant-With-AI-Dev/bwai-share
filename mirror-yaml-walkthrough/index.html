@@ -1,0 +1,680 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A seven-slide walkthrough of Mirror's standardized YAML experience configuration."
+    />
+    <title>Mirror YAML configuration walkthrough</title>
+    <style>
+      :root {
+        --page: #fcfcfd;
+        --floating: #ffffff;
+        --recessed: #eef0f4;
+        --ink: #0a1628;
+        --ink-secondary: rgba(10, 22, 40, 0.7);
+        --ink-tertiary: rgba(10, 22, 40, 0.5);
+        --border: #e2e6ed;
+        --border-strong: rgba(10, 22, 40, 0.3);
+        --success: #059669;
+        --success-bg: rgba(5, 150, 105, 0.12);
+        --shadow: 0 1px 3px rgba(10, 22, 40, 0.04),
+          0 8px 32px rgba(10, 22, 40, 0.06);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+      }
+
+      body {
+        background: var(--page);
+        color: var(--ink);
+        font-family: "Avenir Next", Avenir, Inter, ui-sans-serif, system-ui,
+          -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .shell {
+        width: min(100% - 32px, 960px);
+        min-height: 100vh;
+        margin: 0 auto;
+        padding: 40px 0 28px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 16px;
+      }
+
+      .masthead {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .eyebrow,
+      .section-label {
+        margin: 0;
+        color: var(--success);
+        font-size: 12px;
+        font-weight: 750;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .deck-label {
+        margin: 5px 0 0;
+        color: var(--ink-tertiary);
+        font-size: 14px;
+      }
+
+      .counter {
+        margin: 0;
+        color: var(--ink-secondary);
+        font-size: 14px;
+        font-weight: 650;
+        white-space: nowrap;
+      }
+
+      .progress {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 6px;
+      }
+
+      .progress span {
+        height: 6px;
+        border-radius: 999px;
+        background: var(--recessed);
+        transition: background 160ms ease;
+      }
+
+      .progress span.complete {
+        background: var(--success);
+      }
+
+      .stage {
+        min-height: 494px;
+      }
+
+      .slide {
+        display: none;
+        min-height: 494px;
+        padding: 32px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: var(--floating);
+        box-shadow: var(--shadow);
+      }
+
+      .slide.active {
+        display: block;
+        animation: enter 220ms ease both;
+      }
+
+      @keyframes enter {
+        from {
+          opacity: 0;
+          transform: translateY(5px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      .intro {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+
+      .icon {
+        width: 44px;
+        height: 44px;
+        flex: 0 0 auto;
+        display: grid;
+        place-items: center;
+        border-radius: 10px;
+        background: var(--success-bg);
+        color: var(--success);
+      }
+
+      .icon svg {
+        width: 22px;
+        height: 22px;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.8;
+      }
+
+      h1 {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(30px, 4.2vw, 42px);
+        font-weight: 500;
+        letter-spacing: -0.025em;
+        line-height: 1.08;
+      }
+
+      .summary {
+        margin: 9px 0 0;
+        color: var(--ink-secondary);
+        font-size: clamp(16px, 2vw, 18px);
+        line-height: 1.55;
+      }
+
+      .columns {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 24px;
+      }
+
+      .section-label {
+        margin-bottom: 9px;
+        color: var(--ink-tertiary);
+        font-size: 11px;
+      }
+
+      pre {
+        min-height: 215px;
+        margin: 0;
+        padding: 18px;
+        overflow-x: auto;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--recessed);
+        color: var(--ink);
+        font: 14px/1.65 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", monospace;
+        white-space: pre-wrap;
+      }
+
+      ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 14px;
+      }
+
+      li {
+        display: grid;
+        grid-template-columns: 18px 1fr;
+        gap: 10px;
+        align-items: start;
+        font-size: 15px;
+        line-height: 1.55;
+      }
+
+      li svg {
+        width: 17px;
+        height: 17px;
+        margin-top: 3px;
+        fill: none;
+        stroke: var(--success);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 2;
+      }
+
+      .boundary {
+        margin: 20px 0 0;
+        padding: 15px 16px;
+        border-radius: 10px;
+        background: var(--success-bg);
+        font-size: 14px;
+        line-height: 1.55;
+      }
+
+      .boundary strong {
+        color: var(--success);
+      }
+
+      .controls {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .dots {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: var(--border-strong);
+        cursor: pointer;
+      }
+
+      .dot.active {
+        background: var(--success);
+      }
+
+      .dot:focus-visible,
+      .nav-button:focus-visible {
+        outline: 3px solid rgba(5, 150, 105, 0.28);
+        outline-offset: 3px;
+      }
+
+      .nav-group {
+        display: flex;
+        gap: 8px;
+      }
+
+      .nav-button {
+        min-height: 42px;
+        padding: 0 16px;
+        border: 1px solid var(--border-strong);
+        border-radius: 9px;
+        background: var(--floating);
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 650;
+        cursor: pointer;
+      }
+
+      .nav-button.primary {
+        border-color: var(--ink);
+        background: var(--ink);
+        color: var(--page);
+      }
+
+      .nav-button:disabled {
+        opacity: 0.38;
+        cursor: default;
+      }
+
+      .hint {
+        margin: 0;
+        color: var(--ink-tertiary);
+        font-size: 12px;
+        text-align: center;
+      }
+
+      @media (max-width: 680px) {
+        .shell {
+          width: min(100% - 24px, 960px);
+          justify-content: flex-start;
+          padding: 24px 0;
+        }
+
+        .stage,
+        .slide {
+          min-height: 0;
+        }
+
+        .slide {
+          padding: 22px 18px;
+        }
+
+        .intro {
+          gap: 12px;
+          margin-bottom: 22px;
+        }
+
+        .icon {
+          width: 38px;
+          height: 38px;
+        }
+
+        .columns {
+          grid-template-columns: 1fr;
+        }
+
+        pre {
+          min-height: 0;
+          font-size: 12px;
+        }
+
+        .controls {
+          flex-direction: column;
+        }
+
+        .nav-group {
+          width: 100%;
+        }
+
+        .nav-button {
+          flex: 1;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .slide.active {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="masthead">
+        <div>
+          <p class="eyebrow">Mirror experience configuration</p>
+          <p class="deck-label">A plain-English YAML walkthrough</p>
+        </div>
+        <p class="counter" aria-live="polite"><span id="current">1</span> / 7</p>
+      </header>
+
+      <div
+        class="progress"
+        role="progressbar"
+        aria-label="Slide progress"
+        aria-valuemin="1"
+        aria-valuemax="7"
+        aria-valuenow="1"
+      >
+        <span class="complete"></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+      </div>
+
+      <div class="stage" aria-live="polite" aria-atomic="true">
+        <article class="slide active" data-title="One file sets the experience">
+          <div class="intro">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg>
+            </div>
+            <div>
+              <h1>One file sets the experience</h1>
+              <p class="summary">The YAML holds values. Existing code still runs the product.</p>
+            </div>
+          </div>
+          <div class="columns">
+            <div>
+              <p class="section-label">The YAML</p>
+              <pre><code>schemaVersion: 1
+app: …
+copy: …
+timing: …
+flow: …</code></pre>
+            </div>
+            <div>
+              <p class="section-label">What it means</p>
+              <ul>
+                <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg><span>One readable source per app</span></li>
+                <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg><span>Validated before the website builds</span></li>
+                <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg><span>Compiled into ordinary TypeScript</span></li>
+              </ul>
+              <p class="boundary"><strong>Safety boundary:</strong> The live app never reads YAML directly.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="App identifies the product">
+          <div class="intro">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M4 18V6a2 2 0 0 1 2-2h5M15 4h5v5M20 4l-9 9M8 12v8h12v-7"/></svg>
+            </div>
+            <div>
+              <h1>App identifies the product</h1>
+              <p class="summary">These values name Mirror inside code and on screen.</p>
+            </div>
+          </div>
+          <div class="columns">
+            <div>
+              <p class="section-label">The YAML</p>
+              <pre><code>app:
+  id: "mirror-next"
+  routePrefix: "/mirror"
+  displayName: "AI Mirror Experience"</code></pre>
+            </div>
+            <div>
+              <p class="section-label">What it means</p>
+              <ul>
+                <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg><span><strong>id</strong> keeps the existing internal identity</span></li>
+                <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg><span><strong>routePrefix</strong> keeps every URL under /mirror</span></li>
+                <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg><span><strong>displayName</strong> supplies the full product name</span></li>
+              </ul>
+              <p class="boundary"><strong>Safety boundary:</strong> Changing a value cannot create a new route.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="Copy holds customer-facing words">
+          <div class="intro">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M5 5h14M12 5v14M8 19h8"/></svg>
+            </div>
+            <div>
+              <h1>Copy holds customer-facing words</h1>
+              <p class="summary">Product language becomes easy to find and review.</p>
+            </div>
+          </div>
+          <div class="columns">
+            <div>
+              <p class="section-label">The YAML</p>
+              <pre><code>copy:
+  productLabel: "AI Mirror Experience"
+  productNameShort: "AI Mirror"
+  loginTitle: "AI Mirror\nExperience"
+  loginQuote: "Most teams are running on 20%…"
+  supportEmail: "nish@brilliantwith.ai"</code></pre>
+            </div>
+            <div>
+              <p class="section-label">What it means</p>
+              <ul>
+                <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg><span>Login messaging lives together</span></li>
+                <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg><span>Emails and downloads use the same source</span></li>
+                <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg><span>Every text field has a size limit</span></li>
+              </ul>
+              <p class="boundary"><strong>Safety boundary:</strong> Copy changes cannot execute code.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="Step titles label existing pages">
+          <div class="intro">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/><path d="M9 9h6v6H9z"/></svg>
+            </div>
+            <div>
+              <h1>Step titles label existing pages</h1>
+              <p class="summary">The browser titles move into YAML, not the journey.</p>
+            </div>
+          </div>
+          <div class="columns">
+            <div>
+              <p class="section-label">The YAML</p>
+              <pre><code>stepTitles:
+  start: "Start | AI Mirror Experience"
+  form: "About You | AI Mirror Experience"
+  interview: "Interview | AI Mirror Experience"
+  mirror-letter: "Your Mirror Letter | AI Mirror Experience"
+  action-plan: "Your Action Plan | AI Mirror Experience"</code></pre>
+            </div>
+            <div>
+              <p class="section-label">What it means</p>
+              <ul>
+                <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg><span>Keys point to code-owned steps</span></li>
+                <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg><span>Values control each browser title</span></li>
+                <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg><span>All current titles remain identical</span></li>
+              </ul>
+              <p class="boundary"><strong>Safety boundary:</strong> Step order and transitions remain in code.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="Timing holds safe operational knobs">
+          <div class="intro">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2M7 2l-2 2M17 2l2 2"/></svg>
+            </div>
+            <div>
+              <h1>Timing holds safe operational knobs</h1>
+              <p class="summary">The same file controls bounded waits and retries.</p>
+            </div>
+          </div>
+          <div class="columns">
+            <div>
+              <p class="section-label">The YAML</p>
+              <pre><code>timing:
+  preparationPollIntervalMs: 500
+  preparationTimeoutSeconds: 120
+  mockPreparationMs: 2000
+  stageRequestTimeoutMs: 270000
+  maxStageDispatchAttempts: 2</code></pre>
+            </div>
+            <div>
+              <p class="section-label">What it means</p>
+              <ul>
+                <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg><span>Polling checks every half-second</span></li>
+                <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg><span>Preparation stops after two minutes</span></li>
+                <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg><span>A refused stage receives one retry</span></li>
+              </ul>
+              <p class="boundary"><strong>Safety boundary:</strong> Validation rejects unsafe numbers and relationships.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="Flow states who controls movement">
+          <div class="intro">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-5"/></svg>
+            </div>
+            <div>
+              <h1>Flow states who controls movement</h1>
+              <p class="summary">Version one deliberately keeps the journey in code.</p>
+            </div>
+          </div>
+          <div class="columns">
+            <div>
+              <p class="section-label">The YAML</p>
+              <pre><code>flow:
+  source: "code"</code></pre>
+            </div>
+            <div>
+              <p class="section-label">What it means</p>
+              <ul>
+                <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg><span>Only the exact value <strong>code</strong> is accepted</span></li>
+                <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg><span>YAML cannot contain expressions</span></li>
+                <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg><span>Future workflows need a reviewed schema version</span></li>
+              </ul>
+              <p class="boundary"><strong>Safety boundary:</strong> No second workflow engine is created.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="YAML becomes safe runtime data">
+          <div class="intro">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg>
+            </div>
+            <div>
+              <h1>YAML becomes safe runtime data</h1>
+              <p class="summary">A build-time trust gate separates authors from runtime.</p>
+            </div>
+          </div>
+          <div class="columns">
+            <div>
+              <p class="section-label">The build pipeline</p>
+              <pre><code>mirror.experience.yaml
+        ↓ validate everything
+ExperienceConfigSchema
+        ↓ generate once
+mirror.experience.generated.ts
+        ↓ import values
+Existing Mirror code</code></pre>
+            </div>
+            <div>
+              <p class="section-label">What it means</p>
+              <ul>
+                <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg><span>Invalid YAML reports every problem</span></li>
+                <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg><span>Stale generated output fails testing</span></li>
+                <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg><span>Mirror behavior remains unchanged</span></li>
+              </ul>
+              <p class="boundary"><strong>Safety boundary:</strong> Routes, components, prompts, and models stay code-owned.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <nav class="controls" aria-label="Slide navigation">
+        <div class="dots" aria-label="Choose a slide"></div>
+        <div class="nav-group">
+          <button class="nav-button" id="previous" type="button">← Previous</button>
+          <button class="nav-button primary" id="next" type="button">Next →</button>
+        </div>
+      </nav>
+      <p class="hint">Use arrow keys. Home and End jump directly.</p>
+    </main>
+
+    <script>
+      const slides = [...document.querySelectorAll(".slide")];
+      const segments = [...document.querySelectorAll(".progress span")];
+      const progress = document.querySelector(".progress");
+      const counter = document.querySelector("#current");
+      const previous = document.querySelector("#previous");
+      const next = document.querySelector("#next");
+      const dots = document.querySelector(".dots");
+      let activeIndex = 0;
+
+      slides.forEach((slide, index) => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "dot";
+        dot.setAttribute("aria-label", `Go to slide ${index + 1}: ${slide.dataset.title}`);
+        dot.addEventListener("click", () => show(index));
+        dots.append(dot);
+      });
+
+      const dotButtons = [...document.querySelectorAll(".dot")];
+
+      function show(index) {
+        activeIndex = Math.max(0, Math.min(slides.length - 1, index));
+        slides.forEach((slide, slideIndex) => {
+          slide.classList.toggle("active", slideIndex === activeIndex);
+          slide.setAttribute("aria-hidden", slideIndex === activeIndex ? "false" : "true");
+        });
+        segments.forEach((segment, segmentIndex) => {
+          segment.classList.toggle("complete", segmentIndex <= activeIndex);
+        });
+        dotButtons.forEach((dot, dotIndex) => {
+          dot.classList.toggle("active", dotIndex === activeIndex);
+          if (dotIndex === activeIndex) dot.setAttribute("aria-current", "step");
+          else dot.removeAttribute("aria-current");
+        });
+        counter.textContent = activeIndex + 1;
+        progress.setAttribute("aria-valuenow", activeIndex + 1);
+        previous.disabled = activeIndex === 0;
+        next.disabled = activeIndex === slides.length - 1;
+        document.title = `${slides[activeIndex].dataset.title} — Mirror YAML`;
+      }
+
+      previous.addEventListener("click", () => show(activeIndex - 1));
+      next.addEventListener("click", () => show(activeIndex + 1));
+      window.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowLeft") show(activeIndex - 1);
+        if (event.key === "ArrowRight") show(activeIndex + 1);
+        if (event.key === "Home") show(0);
+        if (event.key === "End") show(slides.length - 1);
+      });
+
+      show(0);
+    </script>
+  </body>
+</html>
