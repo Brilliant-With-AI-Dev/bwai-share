@@ -1,0 +1,1297 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A complete, plain-language walkthrough of the Quarterly Planning Mirror prototype."
+    />
+    <title>Quarterly Planning Mirror prototype — complete walkthrough</title>
+    <link rel="stylesheet" href="../assets/bwai-doc.css" />
+    <style>
+      :root {
+        --doc-ink-3: #56637b;
+        --doc-accent: #245fc9;
+        --doc-warn: #8a4f00;
+        --walk-navy: #0b192d;
+        --walk-green: #116b45;
+        --walk-green-soft: #e6f3ec;
+        --walk-amber: #a75b00;
+        --walk-amber-soft: #fff4df;
+        --walk-red: #a13b32;
+        --walk-red-soft: #fff0ed;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      .wrap {
+        max-width: 1120px;
+      }
+
+      .hero {
+        overflow: hidden;
+        border: 1px solid var(--doc-line);
+        border-radius: 18px;
+        background: var(--doc-surface);
+        box-shadow: var(--doc-shadow);
+      }
+
+      .hero-main {
+        padding: clamp(28px, 5vw, 56px);
+      }
+
+      .kicker {
+        margin: 0 0 10px;
+        color: var(--walk-green);
+        font-size: 12px;
+        font-weight: 750;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+
+      .hero h1 {
+        max-width: 800px;
+        margin: 0;
+        font-size: clamp(32px, 5vw, 54px);
+        letter-spacing: -0.035em;
+        line-height: 1.05;
+      }
+
+      .hero .lede {
+        max-width: 800px;
+        margin: 18px 0 24px;
+        font-size: 18px;
+      }
+
+      .boundary {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 14px;
+        padding: 20px clamp(24px, 5vw, 56px);
+        background: var(--walk-navy);
+        color: white;
+      }
+
+      .boundary strong {
+        font-size: 13px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .boundary p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.78);
+        font-size: 14px;
+      }
+
+      .overview {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 22px;
+      }
+
+      .role-card {
+        padding: 18px;
+        border: 1px solid var(--doc-line);
+        border-radius: 12px;
+        background: var(--doc-surface);
+      }
+
+      .role-card h3 {
+        margin: 0 0 6px;
+        font-size: 16px;
+      }
+
+      .role-card p {
+        margin: 0;
+        color: var(--doc-ink-2);
+        font-size: 14px;
+      }
+
+      .path {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        margin-top: 22px;
+      }
+
+      .path span {
+        padding: 8px 11px;
+        border: 1px solid var(--doc-line);
+        border-radius: 999px;
+        background: var(--doc-surface);
+        color: var(--doc-ink-2);
+        font-size: 13px;
+        font-weight: 650;
+      }
+
+      .path b {
+        color: var(--doc-ink-3);
+        font-size: 13px;
+      }
+
+      .contents {
+        margin-top: 24px;
+        padding: 18px 20px;
+        border: 1px solid var(--doc-line);
+        border-radius: 12px;
+        background: var(--doc-surface-2);
+      }
+
+      .contents strong {
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .contents ol {
+        columns: 2;
+        margin: 0;
+        padding-left: 22px;
+      }
+
+      .contents li {
+        break-inside: avoid;
+        margin: 5px 0;
+        color: var(--doc-ink-2);
+        font-size: 14px;
+      }
+
+      .contents a {
+        color: inherit;
+      }
+
+      .step {
+        scroll-margin-top: 24px;
+        margin-top: 70px;
+      }
+
+      .step-heading {
+        display: grid;
+        grid-template-columns: 48px 1fr auto;
+        gap: 14px;
+        align-items: start;
+        margin-bottom: 20px;
+      }
+
+      .step-number {
+        display: grid;
+        width: 44px;
+        height: 44px;
+        place-items: center;
+        border-radius: 12px;
+        background: var(--walk-navy);
+        color: white;
+        font-weight: 750;
+      }
+
+      .step-heading h2 {
+        margin: 0;
+        font-size: clamp(24px, 3vw, 32px);
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+      }
+
+      .step-heading p {
+        margin: 6px 0 0;
+        color: var(--doc-ink-2);
+        font-size: 16px;
+      }
+
+      .role-pill {
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: var(--walk-green-soft);
+        color: var(--walk-green);
+        font-size: 12px;
+        font-weight: 750;
+        white-space: nowrap;
+      }
+
+      .action-list {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin: 0 0 20px;
+      }
+
+      .action {
+        padding: 15px;
+        border: 1px solid var(--doc-line);
+        border-radius: 10px;
+        background: var(--doc-surface);
+      }
+
+      .action strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .action p {
+        margin: 0;
+        color: var(--doc-ink-2);
+        font-size: 14px;
+      }
+
+      figure {
+        margin: 0 0 20px;
+      }
+
+      figure a {
+        display: block;
+      }
+
+      figure img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border: 1px solid var(--doc-line);
+        border-radius: 12px;
+        background: white;
+        box-shadow: var(--doc-shadow);
+      }
+
+      figcaption {
+        margin-top: 8px;
+        color: var(--doc-ink-3);
+        font-size: 13px;
+      }
+
+      .shots-two {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .shots-two figure img {
+        height: 520px;
+        object-fit: cover;
+        object-position: top;
+      }
+
+      .technical {
+        overflow: hidden;
+        margin-top: 20px;
+        border: 1px solid #263951;
+        border-radius: 12px;
+        background: var(--walk-navy);
+        color: white;
+      }
+
+      .technical > header {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 18px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+      }
+
+      .technical > header strong {
+        font-size: 13px;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+      }
+
+      .technical > header span {
+        color: rgba(255, 255, 255, 0.6);
+        font: 12px var(--doc-mono);
+      }
+
+      .technical-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1px;
+        background: rgba(255, 255, 255, 0.11);
+      }
+
+      .technical-item {
+        padding: 16px 18px;
+        background: var(--walk-navy);
+      }
+
+      .technical-item strong {
+        display: block;
+        margin-bottom: 5px;
+        color: #9dd8ba;
+        font-size: 12px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .technical-item p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.78);
+        font-size: 13px;
+      }
+
+      code {
+        font-family: var(--doc-mono);
+        font-size: 0.92em;
+      }
+
+      .technical code {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: inherit;
+      }
+
+      .gap-box {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 12px;
+        margin-top: 12px;
+        padding: 14px 16px;
+        border: 1px solid #e6c48e;
+        border-radius: 10px;
+        background: var(--walk-amber-soft);
+        color: #704100;
+      }
+
+      .gap-box strong {
+        font-size: 12px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .gap-box p {
+        margin: 0;
+        font-size: 14px;
+      }
+
+      .gap-box.blocker {
+        border-color: #e7b9b2;
+        background: var(--walk-red-soft);
+        color: #742b24;
+      }
+
+      .gap-summary {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 24px;
+      }
+
+      .gap-card {
+        padding: 18px;
+        border: 1px solid var(--doc-line);
+        border-radius: 12px;
+        background: var(--doc-surface);
+      }
+
+      .gap-card h3 {
+        margin: 0 0 8px;
+        font-size: 16px;
+      }
+
+      .gap-card p,
+      .gap-card li {
+        color: var(--doc-ink-2);
+        font-size: 14px;
+      }
+
+      .gap-card ul {
+        margin: 0;
+        padding-left: 20px;
+      }
+
+      .gap-card li + li {
+        margin-top: 5px;
+      }
+
+      .source-note {
+        margin-top: 64px;
+        padding-top: 20px;
+        border-top: 1px solid var(--doc-line);
+        color: var(--doc-ink-3);
+        font-size: 13px;
+      }
+
+      @media (max-width: 760px) {
+        .wrap {
+          padding: 24px 16px 64px;
+        }
+
+        .overview,
+        .action-list,
+        .technical-grid,
+        .gap-summary,
+        .shots-two {
+          grid-template-columns: 1fr;
+        }
+
+        .contents ol {
+          columns: 1;
+        }
+
+        .step-heading {
+          grid-template-columns: 42px 1fr;
+        }
+
+        .role-pill {
+          grid-column: 2;
+          justify-self: start;
+        }
+
+        .shots-two figure img {
+          height: auto;
+        }
+
+        .boundary {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <p class="crumb"><a href="../">BWAI Share</a> / Quarterly planning prototype</p>
+
+      <section class="hero">
+        <div class="hero-main">
+          <p class="kicker">Prototype walkthrough · 17 August 2026</p>
+          <h1>Quarterly Planning Mirror, from setup through release</h1>
+          <p class="lede">
+            This follows one fictional leadership team through every prototype step.
+            It explains each action, context boundary, system behavior, and gap.
+          </p>
+          <div class="meta-pills">
+            <span class="pill warn">Mock-only prototype</span>
+            <span class="pill">Three roles</span>
+            <span class="pill">Seven configured workflow steps</span>
+            <span class="pill">Browser-local data</span>
+          </div>
+        </div>
+        <div class="boundary">
+          <strong>Prototype boundary</strong>
+          <p>
+            The screenshots contain invented people and company data.
+            Authentication, Core storage, model calls, and authorization are mocked.
+          </p>
+        </div>
+      </section>
+
+      <h2 class="doc"><span class="num">A.</span> Who does what</h2>
+      <hr class="doc" />
+      <div class="overview">
+        <article class="role-card">
+          <h3>Shaper</h3>
+          <p>Defines the cycle. Starts interviews. Approves toolkit release.</p>
+        </article>
+        <article class="role-card">
+          <h3>Planner</h3>
+          <p>Interviews privately. Controls every released contribution.</p>
+        </article>
+        <article class="role-card">
+          <h3>BWAI facilitator</h3>
+          <p>Reviews approved evidence. Edits the planning toolkit.</p>
+        </article>
+      </div>
+
+      <div class="path" aria-label="Workflow summary">
+        <span>1. Configure</span><b>→</b>
+        <span>2. Freeze context</span><b>→</b>
+        <span>3. Interview</span><b>→</b>
+        <span>4. Approve contributions</span><b>→</b>
+        <span>5. BWAI synthesis</span><b>→</b>
+        <span>6. Shaper release</span><b>→</b>
+        <span>7. Team discussion</span>
+      </div>
+
+      <nav class="contents" aria-label="Walkthrough contents">
+        <strong>Walkthrough</strong>
+        <ol>
+          <li><a href="#step-1">Select identity and role</a></li>
+          <li><a href="#step-2">Configure the cycle</a></li>
+          <li><a href="#step-3">Freeze shared context</a></li>
+          <li><a href="#step-4">Continue private interviews</a></li>
+          <li><a href="#step-5">Approve exact contributions</a></li>
+          <li><a href="#step-6">Run BWAI synthesis</a></li>
+          <li><a href="#step-7">Edit and save the toolkit</a></li>
+          <li><a href="#step-8">Approve release</a></li>
+          <li><a href="#step-9">Receive the toolkit</a></li>
+          <li><a href="#step-10">Inspect the engine contract</a></li>
+        </ol>
+      </nav>
+
+      <section class="step" id="step-1">
+        <header class="step-heading">
+          <span class="step-number">1</span>
+          <div>
+            <h2>Select an identity and active role</h2>
+            <p>One person may act as shaper and planner.</p>
+          </div>
+          <span class="role-pill">All roles</span>
+        </header>
+        <div class="action-list">
+          <div class="action">
+            <strong>Screen</strong>
+            <p>The role switcher appears above every workspace.</p>
+          </div>
+          <div class="action">
+            <strong>Action</strong>
+            <p>Choose a person. Then choose one assigned role.</p>
+          </div>
+          <div class="action">
+            <strong>Outcome</strong>
+            <p>The visible screens and data change immediately.</p>
+          </div>
+        </div>
+        <figure>
+          <a href="screenshots/01-shaper-setup.png" target="_blank" rel="noreferrer">
+            <img
+              src="screenshots/01-shaper-setup.png"
+              alt="Shaper workspace showing the mock identity and active role controls."
+            />
+          </a>
+          <figcaption>Alex holds both shaper and planner roles.</figcaption>
+        </figure>
+        <div class="technical">
+          <header><strong>Technical detail</strong><span>roleBindings</span></header>
+          <div class="technical-grid">
+            <div class="technical-item">
+              <strong>Identity key</strong>
+              <p><code>person-id</code> identifies every participant.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Permission rule</strong>
+              <p>Permissions follow the active role only.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Multiple roles</strong>
+              <p>The YAML allows one identity to hold several roles.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Current implementation</strong>
+              <p>The browser stores the selected person and role.</p>
+            </div>
+          </div>
+        </div>
+        <div class="gap-box blocker">
+          <strong>Gap</strong>
+          <p>Permissions are not server-enforced. Anyone can switch identities locally.</p>
+        </div>
+      </section>
+
+      <section class="step" id="step-2">
+        <header class="step-heading">
+          <span class="step-number">2</span>
+          <div>
+            <h2>Configure the planning cycle</h2>
+            <p>The shaper defines one shared planning question.</p>
+          </div>
+          <span class="role-pill">Shaper</span>
+        </header>
+        <div class="action-list">
+          <div class="action">
+            <strong>Screen</strong>
+            <p>Quarter, question, focus areas, sharing boundary, and participants.</p>
+          </div>
+          <div class="action">
+            <strong>Action</strong>
+            <p>The shaper uploads PDF or DOCX planning materials.</p>
+          </div>
+          <div class="action">
+            <strong>Outcome</strong>
+            <p>A cycle-specific planning context becomes ready.</p>
+          </div>
+        </div>
+        <figure>
+          <a href="screenshots/01-shaper-setup.png" target="_blank" rel="noreferrer">
+            <img
+              src="screenshots/01-shaper-setup.png"
+              alt="Cycle setup form with planning brief, uploaded material, participants, and start button."
+            />
+          </a>
+          <figcaption>The example uses an invented board growth note.</figcaption>
+        </figure>
+        <div class="technical">
+          <header><strong>Technical detail</strong><span>shaper-setup</span></header>
+          <div class="technical-grid">
+            <div class="technical-item">
+              <strong>Context in</strong>
+              <p>Company profile. Owner: company. Lifetime: durable. Scope: organization.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Context out</strong>
+              <p>Planning context. Owner: company. Lifetime: cycle. Scope: task.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Content</strong>
+              <p>Question, themes, sharing rule, roster, and extracted materials.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Prompt module</strong>
+              <p>Organization tailoring uses approved vocabulary and decision rights.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Extraction capability</strong>
+              <p>The existing PDF and DOCX parser extracts text locally.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Company profile content</strong>
+              <p>Summary, vocabulary, cadence, and decision rights.</p>
+            </div>
+          </div>
+        </div>
+        <div class="gap-box">
+          <strong>Gap</strong>
+          <p>Document interpretation is mocked. Themes and summaries are predetermined.</p>
+        </div>
+        <div class="gap-box">
+          <strong>Gap</strong>
+          <p>Participants cannot be invited, removed, or notified here.</p>
+        </div>
+      </section>
+
+      <section class="step" id="step-3">
+        <header class="step-heading">
+          <span class="step-number">3</span>
+          <div>
+            <h2>Begin interviews and freeze shared context</h2>
+            <p>Everyone starts from the same planning inputs.</p>
+          </div>
+          <span class="role-pill">Shaper</span>
+        </header>
+        <div class="action-list">
+          <div class="action">
+            <strong>Action</strong>
+            <p>Select “Begin private interviews.”</p>
+          </div>
+          <div class="action">
+            <strong>System change</strong>
+            <p>The company and planning context receive snapshot identifiers.</p>
+          </div>
+          <div class="action">
+            <strong>Outcome</strong>
+            <p>The setup fields lock for this cycle.</p>
+          </div>
+        </div>
+        <figure>
+          <a href="screenshots/02-context-snapshotted.png" target="_blank" rel="noreferrer">
+            <img
+              src="screenshots/02-context-snapshotted.png"
+              alt="Locked cycle setup showing company and planning snapshot identifiers."
+            />
+          </a>
+          <figcaption>Changing these inputs requires restarting the cycle.</figcaption>
+        </figure>
+        <div class="technical">
+          <header><strong>Technical detail</strong><span>cycle-start</span></header>
+          <div class="technical-grid">
+            <div class="technical-item">
+              <strong>Company snapshot</strong>
+              <p>Durable organization context receives a cycle identifier.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Planning snapshot</strong>
+              <p>The task context freezes at interview start.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Personal snapshots</strong>
+              <p>Each planner’s profile receives a separate snapshot identifier.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Visibility</strong>
+              <p>Shared context reaches all three roles.</p>
+            </div>
+          </div>
+        </div>
+        <div class="gap-box blocker">
+          <strong>Gap</strong>
+          <p>Snapshots are strings inside browser storage. Core stores nothing.</p>
+        </div>
+        <div class="gap-box">
+          <strong>Gap</strong>
+          <p>No amendment process handles incorrect shared context.</p>
+        </div>
+      </section>
+
+      <section class="step" id="step-4">
+        <header class="step-heading">
+          <span class="step-number">4</span>
+          <div>
+            <h2>Continue each private planning interview</h2>
+            <p>The conversation resumes as one continuous thread.</p>
+          </div>
+          <span class="role-pill">Planner</span>
+        </header>
+        <div class="action-list">
+          <div class="action">
+            <strong>Screen</strong>
+            <p>Personal profile, private thread, and active model context.</p>
+          </div>
+          <div class="action">
+            <strong>Action</strong>
+            <p>The planner adds evidence, tensions, and uncertainty.</p>
+          </div>
+          <div class="action">
+            <strong>Outcome</strong>
+            <p>The thread continues across browser reloads.</p>
+          </div>
+        </div>
+        <figure>
+          <a href="screenshots/03-private-interview.png" target="_blank" rel="noreferrer">
+            <img
+              src="screenshots/03-private-interview.png"
+              alt="Planner interview showing the pinned Mirror profile, private conversation, and active context."
+            />
+          </a>
+          <figcaption>Only the active planner can see this thread.</figcaption>
+        </figure>
+        <div class="technical">
+          <header><strong>Technical detail</strong><span>private-interview</span></header>
+          <div class="technical-grid">
+            <div class="technical-item">
+              <strong>Personal profile</strong>
+              <p>Owner: person. Lifetime: durable. Scope: user.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Profile content</strong>
+              <p>Mirror summary, confirmed claims, sources, and version.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Interview record</strong>
+              <p>Owner: person. Lifetime: cycle. Scope: task.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Thread key</strong>
+              <p><code>cycle-id/person-id</code> keeps each conversation separate.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Active context</strong>
+              <p>Four recent turns plus pinned profile and snapshots.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Prompt modules</strong>
+              <p>Shared rules, company tailoring, and private interview guidance.</p>
+            </div>
+          </div>
+        </div>
+        <div class="gap-box blocker">
+          <strong>Gap</strong>
+          <p>The assistant replies are fixed. No model call occurs.</p>
+        </div>
+        <div class="gap-box">
+          <strong>Gap</strong>
+          <p>History compaction records counts, not useful summaries.</p>
+        </div>
+        <div class="gap-box">
+          <strong>Gap</strong>
+          <p>Privacy helps candor, but facilitation quality remains untested.</p>
+        </div>
+      </section>
+
+      <section class="step" id="step-5">
+        <header class="step-heading">
+          <span class="step-number">5</span>
+          <div>
+            <h2>Choose exactly what BWAI receives</h2>
+            <p>Private interview content remains private by default.</p>
+          </div>
+          <span class="role-pill">Planner</span>
+        </header>
+        <div class="action-list">
+          <div class="action">
+            <strong>Action</strong>
+            <p>Distill one interview into removable contribution proposals.</p>
+          </div>
+          <div class="action">
+            <strong>Consent</strong>
+            <p>Review wording, audience, attribution, transcript access, and release.</p>
+          </div>
+          <div class="action">
+            <strong>Outcome</strong>
+            <p>Only fully approved contributions reach BWAI.</p>
+          </div>
+        </div>
+        <figure>
+          <a href="screenshots/04-contribution-consent.png" target="_blank" rel="noreferrer">
+            <img
+              src="screenshots/04-contribution-consent.png"
+              alt="Contribution consent screen showing exact wording and five explicit decisions."
+            />
+          </a>
+          <figcaption>The planner may edit or withhold the proposal.</figcaption>
+        </figure>
+        <div class="technical">
+          <header><strong>Technical detail</strong><span>contribution-consent</span></header>
+          <div class="technical-grid">
+            <div class="technical-item">
+              <strong>Context in</strong>
+              <p>One planner’s private interview record.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Context out</strong>
+              <p>Approved contribution. Owner: person. Lifetime: cycle. Scope: task.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Contribution content</strong>
+              <p>Exact wording, evidence, uncertainty, audience, and consent decisions.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Visibility</strong>
+              <p>The planner and BWAI may see released contributions.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Prompt module</strong>
+              <p>Distillation preserves uncertainty and assumes no audience.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Release rule</strong>
+              <p>All five consent decisions must be complete.</p>
+            </div>
+          </div>
+        </div>
+        <div class="gap-box blocker">
+          <strong>Gap</strong>
+          <p>Consent is browser state. It is not authorization evidence.</p>
+        </div>
+        <div class="gap-box">
+          <strong>Gap</strong>
+          <p>Distilled wording is predetermined and unevaluated.</p>
+        </div>
+      </section>
+
+      <section class="step" id="step-6">
+        <header class="step-heading">
+          <span class="step-number">6</span>
+          <div>
+            <h2>Review evidence and start synthesis</h2>
+            <p>BWAI owns the first human checkpoint.</p>
+          </div>
+          <span class="role-pill">BWAI facilitator</span>
+        </header>
+        <div class="action-list">
+          <div class="action">
+            <strong>Screen</strong>
+            <p>Approved evidence, attribution, and transcript status.</p>
+          </div>
+          <div class="action">
+            <strong>Action</strong>
+            <p>BWAI confirms privacy treatment before starting synthesis.</p>
+          </div>
+          <div class="action">
+            <strong>Outcome</strong>
+            <p>Released contributions lock against later withdrawal.</p>
+          </div>
+        </div>
+        <div class="shots-two">
+          <figure>
+            <a href="screenshots/05-bwai-checkpoint.png" target="_blank" rel="noreferrer">
+              <img
+                src="screenshots/05-bwai-checkpoint.png"
+                alt="BWAI checkpoint before synthesis, showing approved evidence and privacy confirmation."
+              />
+            </a>
+            <figcaption>Before: BWAI must confirm privacy treatment.</figcaption>
+          </figure>
+          <figure>
+            <a href="screenshots/06-bwai-synthesis.png" target="_blank" rel="noreferrer">
+              <img
+                src="screenshots/06-bwai-synthesis.png"
+                alt="BWAI synthesis screen after contributions lock and candidate toolkit sections appear."
+              />
+            </a>
+            <figcaption>After: candidate toolkit language becomes editable.</figcaption>
+          </figure>
+        </div>
+        <div class="technical">
+          <header><strong>Technical detail</strong><span>synthesis-start</span></header>
+          <div class="technical-grid">
+            <div class="technical-item">
+              <strong>Context in</strong>
+              <p>Released contributions and consented transcripts only.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Workspace</strong>
+              <p>Owner: BWAI. Lifetime: cycle. Scope: task. BWAI-only.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Prompt module</strong>
+              <p>BWAI synthesis organizes patterns, tensions, gaps, and language.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Decision boundary</strong>
+              <p>The prompt forbids priorities, owners, and final milestones.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Lock</strong>
+              <p>Every released contribution becomes immutable after starting.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Transcript rule</strong>
+              <p>Only explicit transcript consent grants BWAI access.</p>
+            </div>
+          </div>
+        </div>
+        <div class="gap-box blocker">
+          <strong>Gap</strong>
+          <p>The lock lacks server authority, auditing, and recovery controls.</p>
+        </div>
+        <div class="gap-box">
+          <strong>Gap</strong>
+          <p>Synthesis uses fixed candidate language. Provenance is incomplete.</p>
+        </div>
+        <div class="gap-box blocker">
+          <strong>Gap</strong>
+          <p>YAML says interviews remain planner-only. Runtime grants consented BWAI access.</p>
+        </div>
+      </section>
+
+      <section class="step" id="step-7">
+        <header class="step-heading">
+          <span class="step-number">7</span>
+          <div>
+            <h2>Edit and save the planning toolkit</h2>
+            <p>BWAI reviews every generated section before release.</p>
+          </div>
+          <span class="role-pill">BWAI facilitator</span>
+        </header>
+        <div class="action-list">
+          <div class="action">
+            <strong>Screen</strong>
+            <p>Seven editable toolkit sections.</p>
+          </div>
+          <div class="action">
+            <strong>Action</strong>
+            <p>BWAI changes candidate wording and saves the asset.</p>
+          </div>
+          <div class="action">
+            <strong>Outcome</strong>
+            <p>The shaper receives the toolkit, never private inputs.</p>
+          </div>
+        </div>
+        <figure>
+          <a href="screenshots/07-bwai-toolkit-saved.png" target="_blank" rel="noreferrer">
+            <img
+              src="screenshots/07-bwai-toolkit-saved.png"
+              alt="BWAI toolkit editor showing seven sections and a saved timestamp."
+            />
+          </a>
+          <figcaption>The toolkit remains human-edited and unreleased.</figcaption>
+        </figure>
+        <div class="technical">
+          <header><strong>Technical detail</strong><span>planning-toolkit-v1</span></header>
+          <div class="technical-grid">
+            <div class="technical-item">
+              <strong>Sections</strong>
+              <p>Patterns, differences, tensions, risks, questions, and meeting guidance.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Asset scope</strong>
+              <p>Owner: BWAI. Lifetime: cycle. Scope: task. Versioned.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Forbidden content</strong>
+              <p>Company priorities, assigned owners, and final milestones.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Save behavior</strong>
+              <p>Saving clears any previous shaper approval.</p>
+            </div>
+          </div>
+        </div>
+        <div class="gap-box">
+          <strong>Gap</strong>
+          <p>No citations connect toolkit language to specific evidence.</p>
+        </div>
+        <div class="gap-box">
+          <strong>Gap</strong>
+          <p>No version comparison, comments, exports, or shared editing.</p>
+        </div>
+      </section>
+
+      <section class="step" id="step-8">
+        <header class="step-heading">
+          <span class="step-number">8</span>
+          <div>
+            <h2>Approve and release the toolkit</h2>
+            <p>The shaper controls distribution to planners.</p>
+          </div>
+          <span class="role-pill">Shaper</span>
+        </header>
+        <div class="action-list">
+          <div class="action">
+            <strong>Screen</strong>
+            <p>A read-only toolkit and release checkpoint.</p>
+          </div>
+          <div class="action">
+            <strong>Action</strong>
+            <p>The shaper reviews everything and approves distribution.</p>
+          </div>
+          <div class="action">
+            <strong>Outcome</strong>
+            <p>Every planner gains toolkit access.</p>
+          </div>
+        </div>
+        <div class="shots-two">
+          <figure>
+            <a href="screenshots/08-shaper-release-checkpoint.png" target="_blank" rel="noreferrer">
+              <img
+                src="screenshots/08-shaper-release-checkpoint.png"
+                alt="Shaper release checkpoint with the complete read-only toolkit."
+              />
+            </a>
+            <figcaption>Before: only the shaper sees the release control.</figcaption>
+          </figure>
+          <figure>
+            <a href="screenshots/09-shaper-released.png" target="_blank" rel="noreferrer">
+              <img
+                src="screenshots/09-shaper-released.png"
+                alt="Shaper view after toolkit release, showing released status."
+              />
+            </a>
+            <figcaption>After: the cycle status becomes released.</figcaption>
+          </figure>
+        </div>
+        <div class="technical">
+          <header><strong>Technical detail</strong><span>toolkit-release</span></header>
+          <div class="technical-grid">
+            <div class="technical-item">
+              <strong>Input</strong>
+              <p>A saved BWAI toolkit asset.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Validation</strong>
+              <p>Release checks three configured decision phrases.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Checkpoint</strong>
+              <p>The shaper approves the complete toolkit.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Output</strong>
+              <p>The asset gains approval and release timestamps.</p>
+            </div>
+          </div>
+        </div>
+        <div class="gap-box blocker">
+          <strong>Gap</strong>
+          <p>Release is local. No participant actually receives anything.</p>
+        </div>
+        <div class="gap-box">
+          <strong>Gap</strong>
+          <p>No staged review, acknowledgement, or rollback workflow exists.</p>
+        </div>
+        <div class="gap-box">
+          <strong>Gap</strong>
+          <p>The decision safeguard uses keywords, not semantic validation.</p>
+        </div>
+      </section>
+
+      <section class="step" id="step-9">
+        <header class="step-heading">
+          <span class="step-number">9</span>
+          <div>
+            <h2>Use the toolkit during leadership planning</h2>
+            <p>Planners receive a discussion guide, not final decisions.</p>
+          </div>
+          <span class="role-pill">Planner</span>
+        </header>
+        <div class="action-list">
+          <div class="action">
+            <strong>Screen</strong>
+            <p>A read-only leadership discussion guide.</p>
+          </div>
+          <div class="action">
+            <strong>Action</strong>
+            <p>Leaders discuss evidence, tensions, risks, and questions.</p>
+          </div>
+          <div class="action">
+            <strong>Outcome</strong>
+            <p>Leadership makes priorities, ownership, and milestone decisions.</p>
+          </div>
+        </div>
+        <figure>
+          <a href="screenshots/10-planner-toolkit.png" target="_blank" rel="noreferrer">
+            <img
+              src="screenshots/10-planner-toolkit.png"
+              alt="Planner view of the released leadership discussion guide."
+            />
+          </a>
+          <figcaption>The current prototype ends at toolkit access.</figcaption>
+        </figure>
+        <div class="technical">
+          <header><strong>Technical detail</strong><span>released-toolkit</span></header>
+          <div class="technical-grid">
+            <div class="technical-item">
+              <strong>Visibility</strong>
+              <p>Shaper, planners, and BWAI may read the released asset.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Private inputs</strong>
+              <p>Personal profiles and interviews remain excluded.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Purpose</strong>
+              <p>Prepare discussion. Do not replace leadership judgment.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Current storage</strong>
+              <p>The complete toolkit stays inside one browser.</p>
+            </div>
+          </div>
+        </div>
+        <div class="gap-box blocker">
+          <strong>Gap</strong>
+          <p>The collaborative planning meeting is absent.</p>
+        </div>
+        <div class="gap-box blocker">
+          <strong>Gap</strong>
+          <p>No final plan, decisions, owners, milestones, or action plan exists.</p>
+        </div>
+      </section>
+
+      <section class="step" id="step-10">
+        <header class="step-heading">
+          <span class="step-number">10</span>
+          <div>
+            <h2>Inspect the YAML and runtime contract</h2>
+            <p>The debug screen exposes every prototype boundary.</p>
+          </div>
+          <span class="role-pill">Role-filtered</span>
+        </header>
+        <div class="action-list">
+          <div class="action">
+            <strong>Screen</strong>
+            <p>Capabilities, contexts, prompts, state, mocks, and YAML.</p>
+          </div>
+          <div class="action">
+            <strong>Action</strong>
+            <p>Switch roles and inspect each filtered runtime view.</p>
+          </div>
+          <div class="action">
+            <strong>Outcome</strong>
+            <p>Developers can compare configuration against behavior.</p>
+          </div>
+        </div>
+        <figure>
+          <a href="screenshots/11-engine-debug.png" target="_blank" rel="noreferrer">
+            <img
+              src="screenshots/11-engine-debug.png"
+              alt="Engine debug screen listing capabilities, context scopes, prompts, mocks, state, and YAML."
+            />
+          </a>
+          <figcaption>Open the image for the full debug view.</figcaption>
+        </figure>
+        <div class="technical">
+          <header><strong>Technical detail</strong><span>experience.yaml</span></header>
+          <div class="technical-grid">
+            <div class="technical-item">
+              <strong>YAML declares</strong>
+              <p>Roles, assets, prompts, capabilities, workflow, gates, and limits.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Build validation</strong>
+              <p>A strict schema validates YAML before generation.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Generated config</strong>
+              <p>The app imports typed output and the original YAML.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Prompt assets</strong>
+              <p>Five separate version-one prompt modules exist.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Local adapters</strong>
+              <p>File extraction, browser persistence, and session checkpoints.</p>
+            </div>
+            <div class="technical-item">
+              <strong>Mocks</strong>
+              <p>Identity, interviews, compaction, consent, and synthesis.</p>
+            </div>
+          </div>
+        </div>
+        <div class="gap-box">
+          <strong>Gap</strong>
+          <p>The YAML configures this prototype, not a general engine.</p>
+        </div>
+        <div class="gap-box">
+          <strong>Gap</strong>
+          <p>The prompt modules are basic, unevaluated, and never invoked.</p>
+        </div>
+      </section>
+
+      <section class="step" id="remaining-gaps">
+        <header class="step-heading">
+          <span class="step-number">→</span>
+          <div>
+            <h2>What remains before a usable pilot</h2>
+            <p>The prototype proves flow and contracts only.</p>
+          </div>
+        </header>
+        <div class="gap-summary">
+          <article class="gap-card">
+            <h3>Identity and privacy</h3>
+            <ul>
+              <li>Authenticated organization membership and role assignment.</li>
+              <li>Server-enforced visibility for every context asset.</li>
+              <li>Auditable consent, withdrawal, release, and deletion.</li>
+              <li>Retention rules and production privacy review.</li>
+            </ul>
+          </article>
+          <article class="gap-card">
+            <h3>Core context assets</h3>
+            <ul>
+              <li>Organization, user, and task-scoped persistence.</li>
+              <li>Real versions, snapshots, provenance, and lifecycle rules.</li>
+              <li>Concurrent access and conflict handling.</li>
+              <li>Reliable restart, recovery, and data export.</li>
+            </ul>
+          </article>
+          <article class="gap-card">
+            <h3>AI and prompts</h3>
+            <ul>
+              <li>Real interview, distillation, structuring, and synthesis calls.</li>
+              <li>BWAI-authored prompt ingestion and version approval.</li>
+              <li>Evaluation across organizations and leadership roles.</li>
+              <li>Evidence citations, redaction, and failure handling.</li>
+            </ul>
+          </article>
+          <article class="gap-card">
+            <h3>Team operations</h3>
+            <ul>
+              <li>Invitations, deadlines, progress, and reminders.</li>
+              <li>Secure BWAI review and toolkit handoff.</li>
+              <li>Participant acknowledgement before the meeting.</li>
+              <li>Support for incomplete or withdrawn participation.</li>
+            </ul>
+          </article>
+          <article class="gap-card">
+            <h3>Planning meeting</h3>
+            <ul>
+              <li>AI-supported collaborative discussion remains undesigned.</li>
+              <li>Leadership decisions require explicit capture.</li>
+              <li>Final priorities, owners, milestones, and action plans.</li>
+              <li>Post-meeting updates and ongoing accountability.</li>
+            </ul>
+          </article>
+          <article class="gap-card">
+            <h3>Pilot evidence</h3>
+            <ul>
+              <li>Leadership candor and trust need direct testing.</li>
+              <li>BWAI synthesis workload remains unknown.</li>
+              <li>Consent comprehension needs user testing.</li>
+              <li>Planning quality requires agreed success measures.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <p class="source-note">
+        Source: prototype branch <code>codex/1766-quarterly-bwai</code>, commit
+        <code>1b664005</code>. Screenshots were captured from the running app.
+        Prepared by an AI agent. Matt has not reviewed this artifact.
+      </p>
+    </main>
+  </body>
+</html>
