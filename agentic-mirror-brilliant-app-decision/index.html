@@ -1,0 +1,1873 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="description" content="Decision memo on evolving Agentic Mirror within Brilliant Apps." />
+    <link rel="icon" href="data:," />
+    <title>Agentic Mirror as a Brilliant App</title>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --surface: #ffffff;
+        --canvas: #f6f7f9;
+        --border: #d8dce1;
+        --border-strong: #afb8c1;
+        --text: #0e1116;
+        --muted: #5b6470;
+        --ink: #0e1116;
+        --accent: #0b5fff;
+        --accent-soft: #eaf1ff;
+        --accent-strong: #0a47c2;
+        --gold: #e0a400;
+        --ok: #0a7d33;
+        --warn: #a65a00;
+        --serif: "Iowan Old Style", Georgia, "Palatino Linotype", Palatino, serif;
+        --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        --mono: "SF Mono", Menlo, Consolas, monospace;
+        --shadow: 0 1px 0 rgba(14, 17, 22, 0.04), 0 1px 3px rgba(14, 17, 22, 0.06);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+        scroll-behavior: smooth;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        font-size: 16px;
+        line-height: 1.65;
+      }
+      a {
+        color: var(--accent-strong);
+        text-underline-offset: 2px;
+      }
+      a:hover {
+        color: var(--accent);
+      }
+      .page-header {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 40px 24px 18px;
+      }
+      .crumb {
+        display: inline-block;
+        color: var(--muted);
+        font-size: 13px;
+        margin-bottom: 18px;
+        text-decoration: none;
+      }
+      h1,
+      h2 {
+        font-family: var(--serif);
+      }
+      h1 {
+        font-size: clamp(2rem, 5vw, 3rem);
+        line-height: 1.08;
+        letter-spacing: -0.025em;
+        margin: 0 0 10px;
+        max-width: 820px;
+      }
+      .subtitle {
+        color: var(--muted);
+        font-size: 14px;
+        margin: 0;
+      }
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 22px;
+      }
+      button,
+      .button-link {
+        align-items: center;
+        background: var(--surface);
+        border: 1px solid var(--border-strong);
+        border-radius: 8px;
+        color: var(--text);
+        cursor: pointer;
+        display: inline-flex;
+        font: 600 14px/1 var(--sans);
+        justify-content: center;
+        min-height: 40px;
+        padding: 10px 14px;
+        text-decoration: none;
+      }
+      button:hover,
+      .button-link:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .layout {
+        display: grid;
+        gap: 36px;
+        grid-template-columns: 238px minmax(0, 820px);
+        justify-content: center;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 22px 24px 96px;
+      }
+      .layout > * {
+        min-width: 0;
+      }
+      .toc-shell {
+        position: sticky;
+        top: 22px;
+        max-height: calc(100vh - 44px);
+        overflow: auto;
+        overscroll-behavior: contain;
+      }
+      .toc-shell > summary {
+        display: none;
+      }
+      #TOC {
+        border-left: 1px solid var(--border);
+        font-size: 12.5px;
+        padding-left: 14px;
+      }
+      #TOC ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      #TOC li {
+        margin: 0 0 7px;
+      }
+      #TOC a {
+        color: var(--muted);
+        display: block;
+        line-height: 1.35;
+        text-decoration: none;
+      }
+      #TOC a:hover {
+        color: var(--accent);
+      }
+      .document {
+        min-width: 0;
+      }
+      .document > p:first-child {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-left: 4px solid var(--accent);
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        padding: 16px 18px;
+      }
+      h2 {
+        border-top: 1px solid var(--border);
+        font-size: 26px;
+        letter-spacing: -0.012em;
+        line-height: 1.2;
+        margin: 56px 0 18px;
+        padding-top: 22px;
+      }
+      h3 {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 750;
+        letter-spacing: 0.065em;
+        line-height: 1.35;
+        margin: 34px 0 10px;
+        text-transform: uppercase;
+      }
+      p,
+      li,
+      td,
+      th {
+        overflow-wrap: anywhere;
+      }
+      p {
+        margin: 0 0 14px;
+      }
+      ul,
+      ol {
+        margin: 0 0 18px;
+        padding-left: 24px;
+      }
+      li {
+        margin: 7px 0;
+      }
+      blockquote {
+        border-left: 4px solid var(--gold);
+        font-family: var(--serif);
+        font-size: 19px;
+        line-height: 1.45;
+        margin: 22px 0;
+        padding: 4px 0 4px 18px;
+      }
+      blockquote p {
+        margin: 0;
+      }
+      code,
+      pre {
+        font-family: var(--mono);
+      }
+      code {
+        background: var(--canvas);
+        border-radius: 4px;
+        font-size: 0.88em;
+        padding: 1px 5px;
+      }
+      pre {
+        background: var(--canvas);
+        border-radius: 8px;
+        max-width: 100%;
+        overflow-x: auto;
+        overscroll-behavior: contain;
+        padding: 14px 16px;
+      }
+      strong {
+        color: var(--ink);
+      }
+      .table-scroll {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        max-width: 100%;
+        margin: 18px 0 26px;
+        overflow-x: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+      .table-scroll table {
+        border-collapse: collapse;
+        font-size: 14px;
+        max-width: none;
+        width: 100%;
+      }
+      .table-scroll th,
+      .table-scroll td {
+        border-bottom: 1px solid var(--border);
+        padding: 11px 13px;
+        text-align: left;
+        vertical-align: top;
+      }
+      .table-scroll th {
+        background: var(--ink);
+        color: #ffffff;
+        font-weight: 700;
+      }
+      .table-scroll tr:last-child td {
+        border-bottom: 0;
+      }
+      .table-scroll tbody tr:hover td {
+        background: var(--canvas);
+      }
+      .source-ref {
+        font-size: 0.9em;
+        white-space: nowrap;
+      }
+      .source-ref::after {
+        content: " ↗";
+        font-size: 0.8em;
+      }
+      .page-footer {
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 56px;
+        padding-top: 20px;
+      }
+      .copy-status {
+        color: var(--ok);
+        font-size: 13px;
+        min-height: 1.4em;
+        margin: 8px 0 0;
+      }
+      @media (max-width: 900px) {
+        .page-header {
+          padding: 28px 20px 10px;
+        }
+        .layout {
+          grid-template-columns: 1fr;
+          padding: 14px 20px 72px;
+        }
+        .toc-shell {
+          border: 1px solid var(--border);
+          border-radius: 10px;
+          box-shadow: var(--shadow);
+          max-height: none;
+          overflow: visible;
+          position: static;
+        }
+        .toc-shell > summary {
+          cursor: pointer;
+          display: flex;
+          font-size: 14px;
+          font-weight: 700;
+          min-height: 44px;
+          align-items: center;
+          padding: 0 14px;
+        }
+        #TOC {
+          border-left: 0;
+          border-top: 1px solid var(--border);
+          padding: 13px 15px 9px;
+        }
+        #TOC li {
+          margin-bottom: 10px;
+        }
+      }
+      @media (max-width: 720px) {
+        .table-scroll {
+          border: 0;
+          overflow: visible;
+        }
+        .table-scroll table,
+        .table-scroll tbody,
+        .table-scroll tr,
+        .table-scroll td {
+          display: block;
+          width: auto;
+          max-width: 100%;
+        }
+        .table-scroll thead {
+          display: none;
+        }
+        .table-scroll tr {
+          background: var(--surface);
+          border: 1px solid var(--border);
+          border-left: 4px solid var(--accent);
+          border-radius: 10px;
+          box-shadow: var(--shadow);
+          margin: 0 0 12px;
+          padding: 10px 12px;
+        }
+        .table-scroll tbody tr:hover td {
+          background: transparent;
+        }
+        .table-scroll td {
+          align-items: start;
+          border: 0;
+          display: grid;
+          font-size: 14px;
+          gap: 10px;
+          grid-template-columns: 108px minmax(0, 1fr);
+          padding: 4px 0;
+        }
+        .table-scroll td::before {
+          color: var(--muted);
+          content: attr(data-label);
+          font-size: 10px;
+          font-weight: 750;
+          letter-spacing: 0.04em;
+          padding-top: 3px;
+          text-transform: uppercase;
+        }
+        .table-scroll td:empty {
+          display: none;
+        }
+        .table-scroll td.c-head {
+          display: block;
+          font-size: 16px;
+          font-weight: 750;
+          line-height: 1.35;
+          margin-bottom: 5px;
+        }
+        .table-scroll td.c-head::before {
+          display: none;
+        }
+        .mobile-collapsible .memo-section h2 {
+          align-items: center;
+          cursor: pointer;
+          display: flex;
+          gap: 12px;
+          justify-content: space-between;
+          min-height: 52px;
+        }
+        .mobile-collapsible .memo-section h2::after {
+          color: var(--accent);
+          content: "+";
+          flex: 0 0 auto;
+          font-family: var(--sans);
+          font-size: 22px;
+        }
+        .mobile-collapsible .memo-section.open h2::after {
+          content: "−";
+        }
+        .mobile-collapsible .memo-section:not(.open) .section-body {
+          display: none;
+        }
+      }
+      @media (max-width: 600px) {
+        .page-header {
+          padding: 24px 16px 8px;
+        }
+        .layout {
+          gap: 18px;
+          padding: 10px 16px 64px;
+        }
+        h1 {
+          font-size: 30px;
+        }
+        h2 {
+          font-size: 23px;
+          margin-top: 42px;
+        }
+        button,
+        .button-link {
+          flex: 1 1 auto;
+          min-height: 44px;
+        }
+        .document > p:first-child {
+          padding: 14px;
+        }
+      }
+      @media print {
+        body {
+          font-size: 11pt;
+        }
+        .no-print,
+        .toc-column {
+          display: none !important;
+        }
+        .layout {
+          display: block;
+          max-width: none;
+          padding: 0;
+        }
+        .page-header {
+          max-width: none;
+          padding: 0 0 18px;
+        }
+        .document {
+          max-width: none;
+        }
+        .memo-section .section-body {
+          display: block !important;
+        }
+        a {
+          color: var(--text);
+          text-decoration: none;
+        }
+        .table-scroll {
+          border-radius: 0;
+          overflow: visible;
+        }
+        .table-scroll table {
+          font-size: 9pt;
+        }
+        h2,
+        h3,
+        tr,
+        blockquote {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="page-header">
+      <a class="crumb" href="../">BWAI Share / Decision memos</a>
+      <h1>Agentic Mirror as a Brilliant App</h1>
+      <p class="subtitle">Decision memo · Agent-authored and
+unreviewed · August 23, 2026</p>
+      <div class="toolbar no-print">
+        <button id="copy-md" type="button">Copy source Markdown</button>
+        <a class="button-link" href="../">All shared artifacts</a>
+      </div>
+      <p class="copy-status no-print" id="copy-status" role="status" aria-live="polite"></p>
+    </header>
+    <div class="layout">
+      <aside class="toc-column no-print">
+        <details class="toc-shell" open>
+          <summary>Sections</summary>
+          <nav id="TOC" aria-label="Memo sections"><ul>
+<li><a href="#executive-decision" id="toc-executive-decision">Executive
+decision</a></li>
+<li><a href="#evidence-status-and-investigation-boundary"
+id="toc-evidence-status-and-investigation-boundary">Evidence status and
+investigation boundary</a></li>
+<li><a href="#what-is-valuable-in-agentic-mirror"
+id="toc-what-is-valuable-in-agentic-mirror">What is valuable in Agentic
+Mirror</a></li>
+<li><a href="#product-concept-map"
+id="toc-product-concept-map">Product-concept map</a></li>
+<li><a href="#current-brilliant-apps-reality"
+id="toc-current-brilliant-apps-reality">Current Brilliant Apps
+reality</a></li>
+<li><a href="#option-a--native-brilliant-apps"
+id="toc-option-a--native-brilliant-apps">Option A — native Brilliant
+Apps</a></li>
+<li><a href="#option-b--companion-owned-mirror-runtime"
+id="toc-option-b--companion-owned-mirror-runtime">Option B —
+companion-owned Mirror runtime</a></li>
+<li><a href="#relationship-to-the-existing-mirror-app"
+id="toc-relationship-to-the-existing-mirror-app">Relationship to the
+existing Mirror app</a></li>
+<li><a href="#balanced-comparison" id="toc-balanced-comparison">Balanced
+comparison</a></li>
+<li><a href="#recommendation-in-full"
+id="toc-recommendation-in-full">Recommendation in full</a></li>
+<li><a href="#conditions-that-would-change-the-recommendation"
+id="toc-conditions-that-would-change-the-recommendation">Conditions that
+would change the recommendation</a></li>
+<li><a href="#key-unknowns-and-the-smallest-validation-for-each"
+id="toc-key-unknowns-and-the-smallest-validation-for-each">Key unknowns
+and the smallest validation for each</a></li>
+<li><a href="#decisions-required-before-a-migration-ready-plan"
+id="toc-decisions-required-before-a-migration-ready-plan">Decisions
+required before a migration-ready plan</a></li>
+<li><a href="#decision-ready-conclusion"
+id="toc-decision-ready-conclusion">Decision-ready conclusion</a></li>
+</ul></nav>
+        </details>
+      </aside>
+      <main class="document" id="document"><p><strong>Date:</strong>
+2026-08-23<br />
+<strong>Decision scope:</strong> Product and architecture direction
+only. This is not a migration plan.<br />
+<strong>Recommendation:</strong> Re-conceive Agentic Mirror as the next
+evolution of the existing Brilliant Mirror experience, not as a second
+product. Preserve <code>/mirror</code>, the Letter, historical Action
+Plans, and the report/chat surface while importing Agentic Mirror's
+deeper evidence, user-control, frozen-context, versioned-review, and
+acceptance model. Prefer a narrowly scoped, Brilliant-owned canonical
+data authority for new sensitive Mirror runs, contingent on proving its
+full erasure and stateless-inference contracts. Do not make persistent
+Core chat or flat ContextAssets canonical unless Core first proves the
+deletion, audit, and lifecycle guarantees Brilliant's own product policy
+requires. Decide request-bound versus durable-worker execution
+separately from storage ownership.</p>
+<h2 id="executive-decision">Executive decision</h2>
+<p>The concept belongs in Brilliant Apps. Agentic Mirror's real product
+advance is not its local launcher, SQLite schema, generic workflow
+generator, or multi-pane workspace. It is a trustworthy path from
+incomplete context to an accepted artifact:</p>
+<blockquote>
+<p>bounded evidence → explainable sufficiency → human-authorized
+transition → frozen generation truth → versioned artifact →
+user-approved review → explicit acceptance</p>
+</blockquote>
+<p>That nucleus strengthens Brilliant Mirror's intended role as an
+onboarding ritual that produces durable insight and eventually leads
+into XO. Brilliant already has intake, an adaptive interview, staged
+Letter/Action Plan generation, a durable report, and grounded follow-up
+chat; the explicit review-and-acceptance stage would be new. The right
+disposition is therefore <strong>evolve in place</strong>, with
+substantial internal replacement allowed, rather than wholesale product
+replacement or permanent coexistence. XO itself remains directional and
+is not a current production handoff (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/apps/web/AGENTS.md#L10"
+target="_blank" rel="noopener noreferrer">release status</a>, <a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/product-vision.md#L147"
+target="_blank" rel="noopener noreferrer">XO direction</a>).</p>
+<p>The preferred architecture candidate is <strong>Option B, a
+companion-owned canonical Mirror runtime</strong>, because the sensitive
+transcript, evidence ledger, frozen generation packet, revisions, and
+later profile proposals form one governed lifecycle. Current Core
+persistence can support the experience mechanically, but the repository
+confirms that it cannot presently prove hard deletion of task
+conversations or ContextAssets, supplies no native transaction/CAS
+semantics, and lacks the governed audit contract Brilliant says durable
+profile data requires. A queue layered over Core would not fix that; the
+smallest coherent external boundary must own the canonical content
+lifecycle and its deterministic transition/recovery rules. A separate
+durable worker is optional and should be selected only if failure
+testing proves request-bound execution inadequate.</p>
+<p>This recommendation is deliberately narrow. It is an exception to
+Brilliant's accepted Core-first architecture, not a proposal for a new
+general platform or a second workflow interpreter. Under the current
+binding trust policy, the native approach is appropriate only for
+synthetic, ephemeral, or explicitly non-production validation;
+disclosure alone does not satisfy the hard-erasure promise. Native would
+become the preferred production architecture if Core closes the specific
+governance and lifecycle gaps listed below, or if the user explicitly
+amends the governing product policy.</p>
+<h3 id="decisive-reasons">Decisive reasons</h3>
+<ol type="1">
+<li><strong>Product fit is already strong.</strong> Brilliant describes
+Mirror as an approximately 45-minute interview producing a Letter and
+Action Plan, with the route sequence start → form → interview →
+generation → report (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/apps/web/app/mirror/CONTEXT.md#L7"
+target="_blank" rel="noopener noreferrer">Mirror context</a>). Agentic
+Mirror can add a review-and-acceptance stage while preserving that route
+shell and overall journey.</li>
+<li><strong>Evolution preserves the valuable surface and installed
+product meaning.</strong> <code>/mirror/*</code> is the repository's
+live product route, while the current return surface already loads
+durable artifacts and recovers incomplete generation (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/apps/web/AGENTS.md#L8"
+target="_blank" rel="noopener noreferrer">route status</a>, <a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/apps/web/app/mirror/report/page.tsx#L17"
+target="_blank" rel="noopener noreferrer">report recovery</a>).</li>
+<li><strong>The trust contract is more demanding than the current native
+store.</strong> Brilliant promises hard deletion of the profile and
+derived artifacts and calls for user-visible access logs (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/product-vision.md#L260"
+target="_blank" rel="noopener noreferrer">product vision</a>). The
+current deletion runbook says the underlying Core task/conversation has
+no deletion API and can retain verbatim interview answers (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/runbooks/b2c-data-deletion.md#L509"
+target="_blank" rel="noopener noreferrer">deletion runbook</a>).</li>
+<li><strong>Agentic Mirror's value is inseparable from durable state
+semantics.</strong> Its implementation persists stage decisions,
+distillations, frozen snapshots, artifact versions, review decisions,
+corrections, and acceptance in a transactional SQLite model (<a
+href="https://github.com/Brilliant-With-AI-Dev/agentic-mirror/blob/705d7706d180df070395ee5e5f29fa412dce36de/src/persistence/workflow-store.ts#L905"
+target="_blank" rel="noopener noreferrer">workflow store</a>).
+Reproducing those guarantees over a flat overwrite store would move
+database responsibilities into application code.</li>
+<li><strong>A narrow companion can respect platform locality.</strong>
+Brilliant already centralizes AI behavior behind an
+<code>AiGateway</code>/<code>AiTransport</code> seam (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/apps/web/platform/ai/gateway.ts#L1"
+target="_blank" rel="noopener noreferrer">AI gateway</a>), and a
+proposed—but unratified—Team Mirror design independently identifies a
+narrow relational control plane when Core lacks required coordination
+semantics (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/decisions/2026-08-09-team-mirror-control-plane.md#L33"
+target="_blank" rel="noopener noreferrer">Team Mirror proposal</a>).
+Whether that boundary executes work in-request or through a durable
+worker is a separate decision.</li>
+</ol>
+<h2 id="evidence-status-and-investigation-boundary">Evidence status and
+investigation boundary</h2>
+<ul>
+<li><strong>Confirmed</strong> means directly supported by repository
+source or accepted documentation.</li>
+<li><strong>Inferred</strong> means the smallest design conclusion drawn
+from those sources.</li>
+<li><strong>Unknown</strong> means a fact that must be validated before
+a migration-ready plan.</li>
+</ul>
+<p>The requested Agentic Mirror checkout on <code>main</code> contains
+the original specification; the implemented application is in its
+registered sibling worktree, <code>agentic-mirror-integration</code>, on
+<code>integration/agentic-mirror-v1</code>. The implementation documents
+its local SQLite setup and its shared
+<code>createPublicWorkflowInterface</code> seam (<a
+href="https://github.com/Brilliant-With-AI-Dev/agentic-mirror/blob/705d7706d180df070395ee5e5f29fa412dce36de/README.md#L12"
+target="_blank" rel="noopener noreferrer">README</a>). Both the
+specification and implementation were considered. Brilliant Apps was
+inspected at its current checkout; source presence was not treated as
+proof that a feature flag is enabled in production.</p>
+<p>No repository was modified, no dependencies were installed, and no
+build, model call, or live production probe was run. Therefore behavior
+described as confirmed is source-confirmed, not runtime-verified.</p>
+<h2 id="what-is-valuable-in-agentic-mirror">What is valuable in Agentic
+Mirror</h2>
+<h3 id="confirmed-product-logic">Confirmed product logic</h3>
+<p>Agentic Mirror is a local, accountless, human-governed
+evidence-to-artifact system. Its models receive role-specific bounded
+snapshots and can propose questions, transitions, generation, and
+review; deterministic application code validates and commits
+consequential state through <code>createPublicWorkflowInterface</code>
+(<a
+href="https://github.com/Brilliant-With-AI-Dev/agentic-mirror/blob/705d7706d180df070395ee5e5f29fa412dce36de/src/workflow/public-interface.ts#L542"
+target="_blank" rel="noopener noreferrer">composition seam</a>, <a
+href="https://github.com/Brilliant-With-AI-Dev/agentic-mirror/blob/705d7706d180df070395ee5e5f29fa412dce36de/src/workflow/public-interface.ts#L248"
+target="_blank" rel="noopener noreferrer">bounded snapshots</a>, <a
+href="https://github.com/Brilliant-With-AI-Dev/agentic-mirror/blob/705d7706d180df070395ee5e5f29fa412dce36de/src/workflow/integrity-shell.ts#L79"
+target="_blank" rel="noopener noreferrer">integrity validation</a>).</p>
+<p>The valuable behaviors are:</p>
+<ul>
+<li>The system develops context before drafting instead of treating the
+first prompt as sufficient.</li>
+<li>Evidence is associated with requirements, provenance, confidence,
+and conflicts.</li>
+<li>The model may recommend a stage transition, but the user authorizes
+advancement and completion.</li>
+<li>Completed stages produce durable distillations; final interview
+completion creates a frozen, versioned generation snapshot.</li>
+<li>Provisional model output is distinct from canonical state.</li>
+<li>Review produces material recommendations without authority to mutate
+or accept the artifact.</li>
+<li>Users approve, reject, or annotate recommendations; approved changes
+produce a new artifact version.</li>
+<li>Completion requires explicit artifact acceptance, not merely a model
+verdict.</li>
+<li>Corrections supersede prior evidence and can invalidate downstream
+artifacts rather than silently rewriting history.</li>
+<li>Cross-run context can compound through provenance, supersession,
+correction, and later reuse; the persistence and approval policy is
+replaceable, but that compounding value is not.</li>
+<li>Recovery, export, and deletion are treated as part of product trust,
+not operational afterthoughts.</li>
+</ul>
+<p>The source makes those authorities explicit: the Interview model is
+limited to one focused question or a recommendation and cannot change
+state (<a
+href="https://github.com/Brilliant-With-AI-Dev/agentic-mirror/blob/705d7706d180df070395ee5e5f29fa412dce36de/src/model/interview-model.ts#L9"
+target="_blank" rel="noopener noreferrer">Interview model</a>);
+Generation receives frozen authority (<a
+href="https://github.com/Brilliant-With-AI-Dev/agentic-mirror/blob/705d7706d180df070395ee5e5f29fa412dce36de/src/model/generation-model.ts#L7"
+target="_blank" rel="noopener noreferrer">Generation model</a>); Review
+can recommend but not mutate or accept (<a
+href="https://github.com/Brilliant-With-AI-Dev/agentic-mirror/blob/705d7706d180df070395ee5e5f29fa412dce36de/src/model/review-model.ts#L12"
+target="_blank" rel="noopener noreferrer">Review model</a>); and
+acceptance is a separate workflow action (<a
+href="https://github.com/Brilliant-With-AI-Dev/agentic-mirror/blob/705d7706d180df070395ee5e5f29fa412dce36de/src/workflow/public-interface.ts#L2950"
+target="_blank" rel="noopener noreferrer">public interface</a>).</p>
+<h3
+id="implementation-specific-machinery-to-leave-behind">Implementation-specific
+machinery to leave behind</h3>
+<p>The following are adapters or product choices, not essential
+value:</p>
+<ul>
+<li>accountless local-only deployment, the macOS launcher, and
+browser-opening process;</li>
+<li>a user-supplied Gateway key, model picker, and local hard-dollar
+workflow cap;</li>
+<li>SQLite's exact normalized schema, WAL files, local backup rotation,
+and process-global lease;</li>
+<li>the generic user-facing workflow-definition language and support for
+many arbitrary writing workflows; per-run tailoring of Mirror's
+requirements and completion rubric should remain;</li>
+<li>the exact Grounding/Shaping phase names and five-pane workspace
+layout;</li>
+<li>NDJSON-over-localhost transport and developer recovery
+diagnostics;</li>
+<li>automatic, ungoverned global profile writes; provenance-bearing
+cross-run context remains essential but must adopt Brilliant's approval
+and erasure rules.</li>
+</ul>
+<p>The generic workflow-studio portion should not be smuggled into
+Mirror. Brilliant's product vision assigns data-defined workflows to
+Reflow and describes Mirror as the onboarding ritual that seeds XO and
+the Leadership Profile (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/product-vision.md#L202"
+target="_blank" rel="noopener noreferrer">Reflow</a>, <a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/product-vision.md#L192"
+target="_blank" rel="noopener noreferrer">Mirror direction</a>).</p>
+<h2 id="product-concept-map">Product-concept map</h2>
+<div class="table-scroll">
+<table>
+<thead>
+<tr>
+<th>Agentic Mirror concept</th>
+<th>Brilliant-compatible equivalent</th>
+<th>Recommended treatment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Outcome, Grounding, and Shaping</td>
+<td>Focused Mirror orientation and basic-information intake, followed by
+an internal coverage plan</td>
+<td>Preserve the behavior; hide generic workflow-building language from
+the user.</td>
+</tr>
+<tr>
+<td>Generated requirements, stages, and rubrics</td>
+<td>A per-run tailored Mirror interview contract defining evidence
+coverage and completion criteria inside fixed visible stages</td>
+<td>Preserve adaptive shaping as an internal typed contract, not a
+user-authored workflow DSL.</td>
+</tr>
+<tr>
+<td>Stage rail and user-approved advancement</td>
+<td>Visible interview progress, “keep exploring” controls, and explicit
+permission to synthesize</td>
+<td>Preserve human authority; present it conversationally.</td>
+</tr>
+<tr>
+<td>Evidence/conflict ledger</td>
+<td>Provenance-bearing interview notes, coverage state, and unresolved
+contradictions</td>
+<td>Preserve canonically; expose only useful explanations and
+corrections.</td>
+</tr>
+<tr>
+<td>Immutable stage distillations</td>
+<td>Checkpointed summaries that later stages can rely upon</td>
+<td>Preserve as versioned run state.</td>
+</tr>
+<tr>
+<td>Frozen interview snapshot</td>
+<td>Immutable generation packet containing accepted facts, evidence, and
+output contract</td>
+<td>Preserve exactly as an architectural invariant.</td>
+</tr>
+<tr>
+<td>Generic artifact generation</td>
+<td>The Mirror Letter plus a post-Letter next-action artifact</td>
+<td>Preserve the Letter and historical Action Plans. The fixed Action
+Plan remains current but its successor is intentionally unresolved (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/specs/continuous-mirror-redesign/context.md#L256"
+target="_blank" rel="noopener noreferrer">continuous redesign</a>).</td>
+</tr>
+<tr>
+<td>Distinct Review role</td>
+<td>A bounded quality review, separate in authority from generation,
+that proposes material improvements</td>
+<td>Preserve the role separation if validation shows material
+improvement; it need not use a different model.</td>
+</tr>
+<tr>
+<td>Review decisions and regeneration</td>
+<td>A compact, user-approved revision set followed by a new deliverable
+version</td>
+<td>Preserve human authority without requiring a line-by-line governance
+UI; one bounded cycle is the best initial product shape.</td>
+</tr>
+<tr>
+<td>Artifact acceptance</td>
+<td>Explicit “this is my Mirror” finalization before any future XO
+handoff</td>
+<td>Preserve. A model declaring “perfect” is insufficient.</td>
+</tr>
+<tr>
+<td>Corrections and supersession</td>
+<td>Direct correction that outranks inferred profile context and stales
+dependent output</td>
+<td>Preserve; this aligns with Brilliant's stated context rules (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/product-vision.md#L100"
+target="_blank" rel="noopener noreferrer">product vision</a>).</td>
+</tr>
+<tr>
+<td>Global durable profile</td>
+<td>Governed, compounding Leadership Profile context with provenance,
+supersession, and explicit decisions</td>
+<td>Preserve the cross-run value. Do not silently write profile facts;
+persist proposals only after governance is approved.</td>
+</tr>
+<tr>
+<td>Side-by-side artifact and conversation</td>
+<td>Existing <code>/mirror/report</code> artifact surface plus grounded
+chat; future XO continuation</td>
+<td>Evolve the current surface rather than creating another destination.
+Treat XO as directional, not current capability.</td>
+</tr>
+<tr>
+<td>Multiple arbitrary workflows</td>
+<td>Reflow or later XO-managed workflows</td>
+<td>Exclude from Mirror.</td>
+</tr>
+<tr>
+<td>Local database, API key, model picker, launcher</td>
+<td>Stytch identity, Brilliant server boundary, sanctioned AI adapter,
+governed persistence</td>
+<td>Replace.</td>
+</tr>
+<tr>
+<td>Local backup/delete implementation</td>
+<td>A service-level retention, export, audit, recovery, and
+verified-erasure contract</td>
+<td>Preserve the trust outcome, not the mechanism.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="current-brilliant-apps-reality">Current Brilliant Apps
+reality</h2>
+<h3 id="confirmed-platform-capabilities">Confirmed platform
+capabilities</h3>
+<p>Brilliant already supplies most of the visible experience skeleton,
+but not the requested independent review-and-acceptance stage:</p>
+<ul>
+<li>The route graph covers intake, interview preparation, interview,
+generation, and report (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/apps/web/app/mirror/CONTEXT.md#L44"
+target="_blank" rel="noopener noreferrer">Mirror context</a>).</li>
+<li>One Core task is the durable interview conversation, while Mirror
+stores only a thin app-state snapshot and reconstructs chat from task
+history (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/apps/web/lib/mirror/state-snapshot.ts#L1"
+target="_blank" rel="noopener noreferrer">state snapshot</a>).</li>
+<li>The current deliverable coordinator has an internal generation
+sequence—reasoning, Letter part one, complete Letter persistence, then
+Action Plan persistence—which is not the same as the proposed four-stage
+user experience (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/apps/web/app/mirror/_lib/inline-deliverables.ts#L294"
+target="_blank" rel="noopener noreferrer">inline deliverables</a>).</li>
+<li>Finished artifacts use per-run value keys and a manifest-last
+publication pattern so partially written state is not presented as
+complete; re-posting the same run key overwrites in place (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/apps/web/lib/mirror/return-persistence.ts#L1"
+target="_blank" rel="noopener noreferrer">return persistence</a>).</li>
+<li>The report surface includes grounded post-report chat whose messages
+are persisted by Core. It has no completion/advance state and does not
+yet constitute an XO handoff (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/apps/web/app/mirror/report/_components/ChatPanel.tsx#L4"
+target="_blank" rel="noopener noreferrer">ChatPanel</a>).</li>
+<li>Capability code receives AI, artifacts, context, authentication,
+flags, telemetry, and clock through typed seams; live AI calls are
+centralized behind <code>ctx.ai</code> (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/apps/web/platform/ai/capability.ts#L27"
+target="_blank" rel="noopener noreferrer">capability context</a>, <a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/apps/web/platform/ai/server.ts#L94"
+target="_blank" rel="noopener noreferrer">server wiring</a>).</li>
+</ul>
+<p>Stytch has a precise, limited role: it verifies human sessions,
+supplies organization/member identity, and mints M2M credentials for
+server-to-Core calls (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/packages/auth/CONTEXT.md#L1"
+target="_blank" rel="noopener noreferrer">auth context</a>). Browser
+code does not receive Core credentials. Stytch is not the artifact
+store, conversation store, orchestration engine, or model runtime.</p>
+<p>Other existing external-service boundaries—Deepgram, Stripe, Resend,
+Edge Config, Upstash, and Core—are typed, server-local adapters for
+specific concerns. Their existence demonstrates that Brilliant Apps is
+not literally dependency-free, but none provides a general relational
+product database. The app dependency set has no SQL driver or ORM (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/apps/web/package.json#L25"
+target="_blank" rel="noopener noreferrer">web package</a>); the root
+Upstash client is a narrow server-side KV seam (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/apps/web/lib/kv.ts#L1"
+target="_blank" rel="noopener noreferrer">KV client</a>).</p>
+<h3 id="confirmed-constraints">Confirmed constraints</h3>
+<p>The accepted architecture direction is Core-first: apps contain
+product modules, shared engines are singular, durable user data is
+intended to become governed ContextAssets, and Mirror should converge
+only after shared workflow primitives reach parity (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/decisions/2026-07-02-platform-architecture-spine.md#L30"
+target="_blank" rel="noopener noreferrer">architecture spine</a>). A
+separate Neon-backed path is allowed for prototypes or client handoff,
+not established as the production default (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/decisions/2026-06-11-stack-direction-stays-in-stack.md#L15"
+target="_blank" rel="noopener noreferrer">stack direction</a>).</p>
+<p>Current Core primitives are useful but shallow:</p>
+<ul>
+<li>visible chat messages persist, while other generated data is
+stream-only unless explicitly stored (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/architecture/platform-m2m/default-pattern.md#L119"
+target="_blank" rel="noopener noreferrer">M2M pattern</a>);</li>
+<li>ContextAssets are flat overwrite records; the SDK layers immutable
+version keys and manifests over them (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/packages/sdk/src/versioning.ts#L1"
+target="_blank" rel="noopener noreferrer">versioning</a>);</li>
+<li>Mirror itself documents that the platform has no delete verb and
+therefore uses tombstones (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/apps/web/lib/mirror/state-snapshot.ts#L534"
+target="_blank" rel="noopener noreferrer">state snapshot</a>);</li>
+<li>ContextAssets do not supply transactions, compare-and-swap, atomic
+multi-record publication, or a native audit ledger (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/decisions/2026-07-11-user-data-context-facet-model.md#L42"
+target="_blank" rel="noopener noreferrer">facet-model ADR</a>);</li>
+<li>model selection and generation parameters cannot be changed per
+request through current prompt overrides (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/architecture/platform-m2m/default-pattern.md#L79"
+target="_blank" rel="noopener noreferrer">M2M pattern</a>);</li>
+<li>dynamic recursion, fan-out, arbitrary tool execution, and durable
+wait/resume are not confirmed current platform capabilities;
+<code>fetch-tool</code> and <code>fan-out</code> are reserved/rejected
+today, while the broader patterns document is explicitly not a
+commitment (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/decisions/2026-07-02-platform-architecture-spine.md#L64"
+target="_blank" rel="noopener noreferrer">architecture spine</a>, <a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/architecture/engine-future-patterns.md#L1"
+target="_blank" rel="noopener noreferrer">future patterns</a>).</li>
+</ul>
+<p>Most importantly, the governance gap is explicit rather than
+hypothetical. The accepted product vision requires hard deletion and
+transparent access, while the current runbook says no API deletes the
+canonical Core interview conversation and warns against claiming
+otherwise (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/product-vision.md#L260"
+target="_blank" rel="noopener noreferrer">product vision</a>, <a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/runbooks/b2c-data-deletion.md#L521"
+target="_blank" rel="noopener noreferrer">deletion gap</a>). The
+facet-model ADR is <strong>Proposed</strong>, not authorizing, and
+concludes that production Leadership Profile persistence must wait for
+verifiable erasure and a user-visible audit ledger (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/decisions/2026-07-11-user-data-context-facet-model.md#L5"
+target="_blank" rel="noopener noreferrer">facet-model status</a>, <a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/decisions/2026-07-11-user-data-context-facet-model.md#L189"
+target="_blank" rel="noopener noreferrer">erasure requirement</a>). The
+accepted architecture spine independently blocks Leadership Profile
+storage work until the governing contract lands (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/decisions/2026-07-02-platform-architecture-spine.md#L64"
+target="_blank" rel="noopener noreferrer">architecture spine</a>).</p>
+<h3
+id="contrary-native-recommendation-already-in-the-repository">Contrary
+native recommendation already in the repository</h3>
+<p>A directly relevant 2026-08-18 document recommends user-scoped Core
+ContextAssets with one governed Runtime writer and no second production
+data system (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/decisions/2026-08-18-continuous-mirror-profile-storage.md#L14"
+target="_blank" rel="noopener noreferrer">continuous-profile
+recommendation</a>). That is the strongest documented case for Option A:
+it follows the accepted stack, partitions provenance, layers immutable
+records and manifests, and centralizes serialization/recovery in
+Runtime.</p>
+<p>This memo does not silently override it. The document is marked
+<strong>Proposed</strong> and explicitly authorizes no persistence or
+rollout (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/decisions/2026-08-18-continuous-mirror-profile-storage.md#L5"
+target="_blank" rel="noopener noreferrer">status</a>); it also keeps
+production writes disabled until erasure, audit, protected-write,
+tenancy, identity, and isolation prerequisites are proven (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/docs/decisions/2026-08-18-continuous-mirror-profile-storage.md#L199"
+target="_blank" rel="noopener noreferrer">production boundary</a>). Its
+recommended Core-backed writer is coherent only after those
+prerequisites exist. Under today's confirmed transcript-deletion gap, it
+cannot make persistent Core chat the canonical sensitive content plane.
+That is why this memo prefers Brilliant-owned canonical authority while
+preserving Core-plus-governed-Runtime as the leading architecture if
+Core closes the gap.</p>
+<h3 id="production-status-caveat">Production status caveat</h3>
+<p>The route is live, but source contains independently gated return,
+transcript-rebuild, inline-generation, and continuous-conversation
+paths. Default flag configuration is not proof of the current production
+Edge Config state. This memo therefore treats the existing code as
+demonstrated platform capability, not as a claim that every path is
+enabled for every production user.</p>
+<h2 id="option-a--native-brilliant-apps">Option A — native Brilliant
+Apps</h2>
+<h3 id="architecture-intent">Architecture intent</h3>
+<p>Use only existing Brilliant Apps capabilities: the current
+<code>/mirror</code> product module, Stytch authentication, Brilliant
+server routes, the sanctioned SDK/Core AI path, Core task history,
+ContextAssets, capability modules, and current report/chat surface.
+Introduce no new backend or database.</p>
+<p>This is not a stripped-down option. Its strongest form retains the
+complete four-stage experience and reproduces the important Agentic
+invariants through explicit schemas, immutable keys, manifests, fences,
+and user decisions.</p>
+<h3 id="conceptual-end-to-end-flow">Conceptual end-to-end flow</h3>
+<ol type="1">
+<li><strong>Basic information intake.</strong> The authenticated user
+starts or resumes a Mirror run. The existing owner-stamped browser
+envelope holds transient form progress; a thin <code>mirror/state</code>
+snapshot records the run ID, task ID, asserted intake facts, and current
+stage. Intake produces an internal evidence-coverage contract rather
+than a generic workflow definition.</li>
+<li><strong>Interview.</strong> One Core task remains the canonical
+conversation. The app injects a bounded Mirror interview contract and
+reconstructs the session from Core history. After each answer,
+deterministic application logic updates an evidence/conflict projection
+and asks one focused next question. The model may recommend advancement;
+the user chooses whether to continue, revisit a topic, or approve the
+transition. Each approved stage writes an immutable distillation plus a
+newer manifest pointer.</li>
+<li><strong>Deliverable generation.</strong> Explicit interview
+completion first writes a durable finished marker and an immutable
+generation packet. Bounded capability calls then produce the Letter and
+the currently configured post-Letter artifact; today that is the Action
+Plan, while the continuous redesign leaves its successor open. Each
+completed artifact version is written under a new key, read back where
+required, and published by updating its manifest last. Partial
+generation remains resumable and invisible as a finished report.</li>
+<li><strong>Deliverable review and chat.</strong>
+<code>/mirror/report</code> loads the published version. A separate
+bounded review capability returns only material suggestions. The user
+can inspect as deeply as desired, steer revisions in plain language,
+approve a compact change set, or accept the current artifact; approved
+changes generate a new version. Grounded report chat continues through
+Core. A later XO handoff may consume the accepted artifacts, but that is
+directional future behavior rather than current capability.</li>
+</ol>
+<h3 id="native-state-and-data-lifecycle">Native state and data
+lifecycle</h3>
+<div class="table-scroll">
+<table>
+<thead>
+<tr>
+<th>Lifecycle layer</th>
+<th>Canonical responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>React/local UI state</td>
+<td>Typing, streaming fragments, panel state; disposable.</td>
+</tr>
+<tr>
+<td>Owner-stamped session envelope</td>
+<td>Cross-step browser handoff and optimistic resume hints; never the
+durable final source.</td>
+</tr>
+<tr>
+<td>Core task history</td>
+<td>Canonical interview and post-report conversation.</td>
+</tr>
+<tr>
+<td>ContextAsset run records</td>
+<td>Thin run projection, evidence/coverage ledger, immutable stage
+distillations, frozen generation packet, artifact/review versions,
+acceptance record, and latest manifests.</td>
+</tr>
+<tr>
+<td>Governed profile</td>
+<td>No automatic profile write. At most, retain run-scoped profile
+proposals until the protected-write and erasure contract exists.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Each consequential write is append-then-publish: write a unique
+immutable value, verify it when needed, then overwrite the small
+manifest/pointer. Fences and idempotency keys prevent stale retries from
+winning. Recovery reads the finished marker, manifest, immutable values,
+and Core history to select the last complete state. A user correction
+creates a newer fact/evidence version and marks dependent output stale;
+it does not rewrite history.</p>
+<p>The lifecycle is mechanically feasible because current Mirror already
+uses thin snapshots, fenced <strong>intake-state</strong> revisions,
+finished markers, and values-first/manifest-last artifacts. Current
+completed artifact keys are unique per run but overwrite in place when
+the same run key is re-posted; immutable artifact/review versions would
+be new Option A machinery (<a
+href="https://github.com/Brilliant-With-AI-Dev/bapps/blob/3a58e94f1fc23497dee7d67af2101e88cdcf73f7/apps/web/lib/mirror/return-persistence.ts#L24"
+target="_blank" rel="noopener noreferrer">return persistence</a>). It
+remains application-emulated transactional behavior. Concurrent or
+partially failed writes can be detected and repaired, but not atomically
+committed as one database transaction.</p>
+<h3 id="native-strengths">Native strengths</h3>
+<ul>
+<li>Lowest incremental build and operating burden.</li>
+<li>Preserves the accepted Core/SDK architecture and central
+observability path.</li>
+<li>Reuses the live route, current Stytch/Core delegation, report, chat,
+recovery, and artifact modules.</li>
+<li>Avoids a new database vendor, migrations, backup policy, service
+credentials, and on-call surface.</li>
+<li>Lowest replacement and historical-compatibility risk.</li>
+<li>Makes capability improvements available to the existing platform
+without a parallel runtime.</li>
+</ul>
+<h3 id="native-constraints-and-costs">Native constraints and costs</h3>
+<ul>
+<li>The canonical transcript remains in a store Brilliant currently
+cannot verifiably erase through its API.</li>
+<li>Flat ContextAssets force the app to own versioning, manifests,
+fences, reconciliation, scans, and multi-write failure handling.</li>
+<li>Durable Leadership Profile writes remain blocked by governance
+requirements.</li>
+<li>Long generation/review sequences are tied to browser/server request
+lifetimes unless broken into manually recoverable operations.</li>
+<li>Core's model configuration, retention, payload, pagination,
+durability, and pricing contracts are not fully established in this
+repository.</li>
+<li>Reliability is recoverable-at-least-once rather than transactional
+exactly-once; a crash after model completion but before checkpointing
+may repeat an inference call.</li>
+</ul>
+<h3 id="when-option-a-is-the-superior-choice">When Option A is the
+superior choice</h3>
+<p>Under the current trust policy, Option A is superior for synthetic,
+ephemeral, or explicitly non-production product validation: it tests the
+interview, review, and acceptance experience with the least new
+machinery. It is not a compliant production choice merely because Core
+retention is disclosed. It becomes the preferred production option if
+Core adds the deletion, audit, transaction/durable-operation, and
+data-handling guarantees in the “conditions” section, or if the user
+explicitly changes the governing product promise with appropriate legal
+and trust review.</p>
+<h2 id="option-b--companion-owned-mirror-runtime">Option B —
+companion-owned Mirror runtime</h2>
+<h3 id="architecture-intent-1">Architecture intent</h3>
+<p>Keep Brilliant Apps as the only user-facing application and Stytch as
+the identity authority, but place authoritative sensitive Mirror state
+behind one private, purpose-built <code>MirrorRuntime</code> boundary.
+The runtime owns a managed relational database and code-authored
+lifecycle coordination. It may be deployed separately or initially
+colocated behind Brilliant's server routes; deployment topology is
+secondary to canonical ownership.</p>
+<p>The smallest coherent external boundary owns together:</p>
+<ul>
+<li>interview transcript and run events;</li>
+<li>evidence, conflicts, stage decisions, and frozen generation
+packets;</li>
+<li>artifact, review, correction, and acceptance versions;</li>
+<li>profile proposals and user decisions, if approved;</li>
+<li>idempotency, transition checkpoints, retries, and recovery; leases
+belong here only if asynchronous workers are selected;</li>
+<li>access audit, retention, export, deletion inventory, and deletion
+verification;</li>
+<li>stateless AI calls whose sensitive prompts and responses are not
+appended to persistent Core chat.</li>
+</ul>
+<p>A database-only companion while Core still owns persistent
+conversation content is incoherent: it creates two authorities and
+cannot delete the canonical transcript. An execution-only queue is also
+insufficient: it improves retries while leaving privacy and erasure
+unchanged. Canonical content and deterministic lifecycle transitions
+therefore belong behind one deep boundary.</p>
+<p>Two decisions must remain separate:</p>
+<ol type="1">
+<li><strong>Canonical content authority:</strong> Core versus a
+Brilliant-owned database. This memo recommends the Brilliant-owned
+authority, contingent on its governance proof.</li>
+<li><strong>Execution topology:</strong> request-bound server execution
+versus a durable asynchronous worker. Agentic Mirror itself does not
+prove a durable worker requirement; it uses a process-local lease,
+bounded retry state, and explicit replay (<a
+href="https://github.com/Brilliant-With-AI-Dev/agentic-mirror/blob/705d7706d180df070395ee5e5f29fa412dce36de/src/model/generation-lease.ts#L1"
+target="_blank" rel="noopener noreferrer">generation lease</a>, <a
+href="https://github.com/Brilliant-With-AI-Dev/agentic-mirror/blob/705d7706d180df070395ee5e5f29fa412dce36de/src/workflow/public-interface.ts#L2994"
+target="_blank" rel="noopener noreferrer">retry path</a>). Select a
+worker only if termination/resume tests or product latency requirements
+justify its operational cost.</li>
+</ol>
+<h3 id="conceptual-end-to-end-flow-1">Conceptual end-to-end flow</h3>
+<ol type="1">
+<li><strong>Basic information intake.</strong> A Brilliant server route
+verifies the Stytch session and resolves a stable owner subject. It
+creates or resumes a run through <code>MirrorRuntime</code>; the
+database transaction records intake assertions, consent/policy version,
+and the initial evidence-coverage contract. The browser receives only an
+opaque run ID and presentation state.</li>
+<li><strong>Interview.</strong> Each user message becomes an append-only
+run event scoped to the owner. The runtime builds a bounded model
+snapshot from accepted evidence and current stage, invokes AI through a
+stateless adapter behind Brilliant's existing AI-gateway abstraction,
+records the resulting proposal, validates it deterministically, and
+commits the canonical assistant turn and coverage changes. User-approved
+stage transitions transactionally write the decision and immutable
+distillation. Durable events stream back to the browser; reconnection
+resumes from an event cursor.</li>
+<li><strong>Deliverable generation.</strong> Explicit completion
+transactionally creates a frozen generation packet and an idempotent
+operation record. Request-bound execution may perform the bounded calls
+and checkpoint each result. If validation proves tab-independent
+execution necessary, a worker can instead lease that same operation and
+resume from the last committed checkpoint. The runtime stores immutable
+Letter and post-Letter artifact versions plus usage metadata in either
+topology.</li>
+<li><strong>Deliverable review and chat.</strong> The report route reads
+the accepted or latest reviewable version from the runtime. Review
+proposals, revision decisions, and accepted versions are first-class
+records, but the UI can remain plain-language and low-friction.
+Follow-up chat is grounded in accepted artifacts and stored in the same
+governed owner scope. A future XO integration receives only explicitly
+approved profile proposals or policy-safe derived context.</li>
+</ol>
+<h3 id="companion-state-and-data-lifecycle">Companion state and data
+lifecycle</h3>
+<p>The database holds append-only events and immutable content versions,
+with relational current-state projections for efficient reads. Every row
+carries owner, run, provenance, schema/policy version, and timestamps;
+consequential commands carry idempotency keys. Stage and artifact
+transitions occur inside transactions. Operations have attempt records
+and terminal outcomes; leases and heartbeats are added only if
+asynchronous execution is selected. The user-facing report points only
+to committed, published artifact versions.</p>
+<p>Deletion is a product command, not a manual database edit. It
+resolves all owner-linked run content, transcripts, artifacts, reviews,
+derived profile proposals, caches, indexes, and provider references;
+blocks new writes; performs the defined erasure or cryptographic-erasure
+procedure; and records non-content verification evidence. Exact backup
+expiration and external model-provider deletion cannot be asserted until
+contracts are chosen, so those remain explicit launch validations rather
+than assumed guarantees.</p>
+<p>Core is optional downstream infrastructure in this option. It may
+receive opaque identifiers or an explicitly approved, policy-safe
+derivative when its governance contract permits. It must not receive the
+only copy of sensitive content or silently persist prompts/responses. If
+Core later supplies a verified non-persistent inference mode, it can
+serve as the stateless AI transport; otherwise the runtime uses an
+approved model-provider adapter behind <code>AiGateway</code>. Either
+case requires an architecture exception because the current accepted
+production direction is Core-backed.</p>
+<h3 id="companion-strengths">Companion strengths</h3>
+<ul>
+<li>One canonical authority for content, transitions, recovery, audit,
+export, and deletion.</li>
+<li>Database transactions match the evidence/stage/version domain
+instead of emulating them with flat records.</li>
+<li>The same operation record can support request-bound execution first
+and durable workers later if tests justify them.</li>
+<li>Privacy, operator access, retention, and erasure become
+Brilliant-owned invariants rather than undocumented downstream
+assumptions.</li>
+<li>Better foundation for governed profile proposals, corrections,
+provenance, and future XO continuity.</li>
+<li>Keeps the user experience and product module in Brilliant Apps while
+isolating difficult state machinery behind a narrow server-only
+interface.</li>
+</ul>
+<h3 id="companion-constraints-and-costs">Companion constraints and
+costs</h3>
+<ul>
+<li>Highest initial build and migration risk.</li>
+<li>Adds a database, migrations, credentials, backup/restore policy,
+monitoring, incident response, capacity planning, and another failure
+domain; a worker would add further burden only if selected.</li>
+<li>Concentrates sensitive data under Brilliant's direct operational
+responsibility; poor access controls would make the trust posture worse,
+not better.</li>
+<li>Requires a sanctioned stateless inference path and verified provider
+retention/training terms.</li>
+<li>Creates architectural divergence from the accepted Core-first spine
+and needs an explicit, documented exception.</li>
+<li>Risks becoming a second generic workflow engine unless scope is held
+to Mirror's code-authored lifecycle.</li>
+<li>Has higher ongoing operating costs; exact database, optional-worker,
+model, and observability costs are unknown and must be sourced before
+planning.</li>
+</ul>
+<p>Option B is therefore a <strong>preferred architecture
+candidate</strong>, not yet a proven compliant production system.
+Brilliant-owned locality makes erasure and audit governable; it does not
+itself prove backup erasure, provider deletion, operator controls, or
+retention. If those proofs fail, the correct outcome is to avoid
+persisting sensitive production content—not to assume the companion
+solved it.</p>
+<h2 id="relationship-to-the-existing-mirror-app">Relationship to the
+existing Mirror app</h2>
+<h3 id="recommended-disposition-evolve">Recommended disposition:
+evolve</h3>
+<p>Treat Agentic Mirror as <strong>Mirror's deeper product
+model</strong>, not as a replacement brand or parallel application.</p>
+<p>Preserve:</p>
+<ul>
+<li>canonical <code>/mirror</code> entry and return routes;</li>
+<li>the current route shell, extended to satisfy the requested
+four-stage intake/interview/generation/review contract;</li>
+<li>the Letter as the central artifact and read access to historical
+Action Plans;</li>
+<li>Stytch login and Brilliant's server-side authorization
+boundary;</li>
+<li>existing artifacts and read access for prior runs;</li>
+<li>the report/chat surface and the directional future transition into
+XO;</li>
+<li>shared capability schemas, UI primitives, flags, and telemetry where
+they remain sound.</li>
+</ul>
+<p>Change conceptually:</p>
+<ul>
+<li>intake becomes an explicit coverage contract rather than only
+pre-context;</li>
+<li>interview stages gain evidence, conflict, sufficiency, and
+user-advance semantics;</li>
+<li>generation receives one immutable accepted packet and produces the
+Letter plus a separately decided next-action artifact;</li>
+<li>review is separated from generation and cannot mutate without
+approval;</li>
+<li>deliverables become explicit versions with corrections, staleness,
+and acceptance;</li>
+<li>canonical persistence moves behind a <code>MirrorRuntime</code>
+interface so native and companion adapters remain conceptually
+substitutable.</li>
+</ul>
+<p>“Evolve” describes continuity of product identity and user
+experience, not a requirement to preserve internals. Large parts of the
+existing state and generation implementation may eventually be replaced
+behind the same surface. Historical artifacts should remain readable;
+whether to transform or merely grandfather them is a later
+migration-planning decision.</p>
+<h3 id="why-not-replace">Why not replace</h3>
+<p>A separate Agentic Mirror would duplicate a live product journey,
+confuse the Mirror → XO story, fragment artifacts and chat, and force
+users to choose between two versions of the same promise. The valuable
+changes are compatible with the existing experience shape and should
+strengthen its meaning.</p>
+<h3 id="why-not-coexist">Why not coexist</h3>
+<p>Permanent coexistence is justified only if the local, accountless,
+user-controlled writing studio remains a distinct product with a
+distinct trust promise and arbitrary deliverables. That product is
+broader than Brilliant Mirror and belongs outside its route/product
+identity. Within Brilliant Apps, generic multi-workflow capability
+belongs to Reflow, not a second Mirror.</p>
+<h2 id="balanced-comparison">Balanced comparison</h2>
+<div class="table-scroll">
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>A. Native Brilliant Apps</th>
+<th>B. Companion-owned runtime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>End-user experience and capability</td>
+<td>Can add all four requested stages to the current route shell and
+preserve responsiveness. Best for one bounded, linear personal run.
+Complex background work and richer cross-run continuity remain
+constrained.</td>
+<td>Same visible experience, with stronger canonical evidence/version
+history and safer future continuity. Durable background progress is
+available only if a worker is separately selected.</td>
+</tr>
+<tr>
+<td>Persistence and conversation lifecycle</td>
+<td>Core chat is canonical; ContextAssets hold layered state. Proven
+current pattern, but flat, overwrite-oriented, and not transactionally
+unified.</td>
+<td>One relational authority for transcript, state, events, and policy.
+Stronger lifecycle semantics; new storage must be governed
+correctly.</td>
+</tr>
+<tr>
+<td>Generation, storage, review, and chat</td>
+<td>Current staged generation, manifest-last artifacts, and Core chat
+are reusable. Immutable review/version semantics are new; the app owns
+partial-write reconciliation and repeated-call risk.</td>
+<td>Artifact/review transactions unify the lifecycle. Request-bound
+operation records are sufficient unless tests justify a durable worker;
+either path requires stateless model transport and owned chat
+persistence.</td>
+</tr>
+<tr>
+<td>Architectural coherence</td>
+<td>Best fit with accepted Core-first architecture and shared SDK.
+Domain depth leaks into manifests, fences, and route logic because the
+store is shallow.</td>
+<td>Best fit with Agentic Mirror's stateful domain. Diverges from the
+accepted platform spine unless explicitly constrained and ratified.</td>
+</tr>
+<tr>
+<td>Platform integrity and future leverage</td>
+<td>Reinforces Core, capability modules, and one shared transport. Risks
+encoding more product-specific database emulation into every app.</td>
+<td>Creates a reusable governed-runtime pattern for high-sensitivity
+state, but risks platform fragmentation or a rival workflow engine. Keep
+it Mirror-specific.</td>
+</tr>
+<tr>
+<td>Security, privacy, and authentication</td>
+<td>Mature Stytch → M2M → on-behalf-of boundary; no browser secrets.
+Sensitive content spans Brilliant and Core, whose erasure/access
+contract is insufficiently proven.</td>
+<td>Keeps Stytch and server-only access while concentrating content
+governance. Can close the Core gap, but Brilliant assumes direct
+database, operator-access, and provider-security responsibility.</td>
+</tr>
+<tr>
+<td>Reliability and recoverability</td>
+<td>Existing snapshots, finished markers, fenced intake revisions, and
+manifest-last reads provide good recovery. No atomic multi-record
+commit; long work remains request/browser sensitive.</td>
+<td>Transactions and operation journals offer stronger reconciliation.
+Leases/event cursors can add tab-independent recovery if selected; the
+new database and any worker add failure domains.</td>
+</tr>
+<tr>
+<td>Operational and observability burden</td>
+<td>Lowest. Reuses current Core/SDK telemetry, though app-level
+reconciliation is harder to observe and downstream SLAs remain
+opaque.</td>
+<td>Highest. Requires database/job/model telemetry, alerts, migrations,
+backup drills, erasure proof, and on-call ownership. Offers end-to-end
+domain observability.</td>
+</tr>
+<tr>
+<td>Build and operating costs</td>
+<td>Lowest incremental build and service cost; exact Core usage cost is
+unknown. Ongoing engineering cost grows with manifest/fence
+workarounds.</td>
+<td>Higher build and recurring service cost; no precise estimate is
+supportable yet. May reduce long-term correctness and recovery
+engineering for a state-heavy product.</td>
+</tr>
+<tr>
+<td>Maintainability and evolvability</td>
+<td>Fewer systems and strongest existing-team familiarity. State
+invariants are distributed across flat-store conventions and can become
+brittle as features compound.</td>
+<td>Deep interface and relational model localize invariants and support
+future profile/review behavior. More infrastructure and schema evolution
+must be maintained.</td>
+</tr>
+<tr>
+<td>Migration and replacement risk</td>
+<td>Lowest: evolves current modules and persistence paths. Highest risk
+of a later second migration if governance requirements become
+non-negotiable.</td>
+<td>Highest near-term: new authority, identity mapping, historical
+reads, and cutover policy. Keeps UI/product migration lower if hidden
+behind existing routes.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="recommendation-in-full">Recommendation in full</h2>
+<h3 id="preferred-direction">Preferred direction</h3>
+<p><strong>Evolve the existing Mirror product in place and select
+Brilliant-owned canonical content authority as the preferred
+architecture candidate for new sensitive runs, subject to the minimum
+validations below. Decide colocated/request-bound versus separately
+deployed/durable execution only after recovery and latency
+tests.</strong></p>
+<p>This choice is not driven by a desire for more infrastructure. It
+follows from a mismatch between the domain and the current canonical
+store:</p>
+<ul>
+<li>Agentic Mirror's central value comes from durable, governable state
+transitions rather than clever prompting alone.</li>
+<li>Brilliant's own policy makes hard erasure, access transparency,
+correction, and ownership part of product correctness.</li>
+<li>The current Core interface does not prove those properties for the
+most sensitive record: the interview transcript.</li>
+<li>A flat-store native build can mimic versioning and recovery, but it
+cannot manufacture downstream deletion or audit authority.</li>
+<li>One narrow runtime boundary can preserve Brilliant's product, auth,
+UI, capability, and future XO shapes while owning the missing lifecycle
+coherently.</li>
+</ul>
+<p>Approve this only as a <strong>Mirror-specific, code-authored private
+runtime</strong>, with no generic planner, workflow DSL, or second
+public app. Preserve <code>AiGateway</code> as the AI-call seam and make
+Core replication optional and policy-gated. Treat production use as
+contingent on full-erasure, access-control, and stateless-inference
+proof; if the candidate cannot prove them, do not persist sensitive
+production content. The later migration plan should not begin until the
+architecture exception and data-rights launch bar are explicit.</p>
+<h3 id="strongest-non-selected-direction">Strongest non-selected
+direction</h3>
+<p>Native Brilliant Apps is a credible, lower-cost architecture, not a
+fallback in name only. It can add the complete requested journey and
+already has many recovery patterns needed. Under current policy it is
+superior for synthetic, ephemeral, or non-production validation, where
+no sensitive durable content is entrusted to an undeletable store. For
+production, Core must add verifiable hard deletion and audit plus
+adequate transactional/durable-operation semantics—or the user must
+explicitly amend the binding product policy. Once those conditions hold,
+native should displace the companion recommendation because it would
+deliver product integrity with the simpler platform shape.</p>
+<h2 id="conditions-that-would-change-the-recommendation">Conditions that
+would change the recommendation</h2>
+<h3 id="change-from-companion-to-native">Change from companion to
+native</h3>
+<p>Prefer Option A if all material conditions are demonstrated:</p>
+<ol type="1">
+<li>Core can verifiably erase, by owner, task chat, ContextAssets,
+immutable versions, derived artifacts, indexes/caches, and applicable
+backups.</li>
+<li>Core exposes a user-visible or independently auditable access log
+and an enforceable protected-write contract.</li>
+<li>Core documents retention, provider data handling, payload/pagination
+limits, durability, recovery objectives, and pricing sufficiently for
+the product promise.</li>
+<li>Core supplies either transactional/CAS publication or a durable
+idempotent operation ledger adequate for generation and review.</li>
+<li>Representative browser-kill and request-timeout tests prove the
+bounded generation/review chain recovers without duplicate authoritative
+output.</li>
+<li>Personal identity and portability requirements can be satisfied
+through the current Stytch/Core subject model.</li>
+</ol>
+<h3 id="strengthen-the-companion-recommendation">Strengthen the
+companion recommendation</h3>
+<p>Brilliant-owned canonical authority becomes even more compelling if
+Mirror must launch with any of these: a governed durable Leadership
+Profile, self-service verified deletion, sensitive access auditing,
+exportable provenance, or cross-run corrections that invalidate
+downstream artifacts. Long-running/background generation and
+cross-device event-level resume strengthen the separate case for a
+durable worker, not the storage decision by themselves.</p>
+<h3 id="reduce-the-scope-or-stop-the-concept">Reduce the scope or stop
+the concept</h3>
+<ul>
+<li>If blinded product evaluation shows the evidence/stage/review
+discipline does not materially improve Letter/Plan usefulness or trust,
+keep the current Mirror flow and import only small UX controls.</li>
+<li>If the desired product is an arbitrary local writing studio rather
+than Mirror onboarding, it does not belong inside Mirror; keep it
+separate or route generic workflow work to Reflow.</li>
+<li>If neither Core nor an approved companion can meet the data-rights
+launch bar, do not persist a Leadership Profile or imply long-term
+governed memory.</li>
+</ul>
+<h2 id="key-unknowns-and-the-smallest-validation-for-each">Key unknowns
+and the smallest validation for each</h2>
+<div class="table-scroll">
+<table>
+<thead>
+<tr>
+<th>Unknown</th>
+<th>Why it matters</th>
+<th>Smallest sufficient validation before planning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Core deletion scope and backup behavior</td>
+<td>Decides whether native can meet the binding trust contract</td>
+<td>Obtain a written owner contract by record class, then run one
+non-production deletion proof covering task/chat, ContextAsset
+values/versions, derivatives, indexes, and backup semantics.</td>
+</tr>
+<tr>
+<td>Core access audit and operator isolation</td>
+<td>Determines whether Core can hold canonical sensitive content</td>
+<td>Review the authoritative access-control/audit contract and
+demonstrate one user-visible access trail for a synthetic record.</td>
+</tr>
+<tr>
+<td>Current production Mirror flags and active pipeline</td>
+<td>Defines the real baseline and compatibility surface</td>
+<td>Read the approved production Edge Config once and record the enabled
+route/generation/return/chat arms.</td>
+</tr>
+<tr>
+<td>Approved stateless AI transport</td>
+<td>Companion must avoid recreating the Core persistence gap</td>
+<td>Prove one synthetic bounded generation through
+<code>AiGateway</code> where provider, retention/training policy, and
+persistence behavior are explicit.</td>
+</tr>
+<tr>
+<td>Companion trust boundary and deployment shape</td>
+<td>Determines security and operating burden</td>
+<td>Produce a minimal threat model and synthetic vertical proof:
+Stytch-authenticated owner isolation, no browser database access, one
+transactional run, and verified deletion. Treat separate deployment and
+durable workers as later choices.</td>
+</tr>
+<tr>
+<td>Stable personal subject across Stytch organizations</td>
+<td>Affects ownership, portability, and erasure completeness</td>
+<td>Get an owner decision on the canonical personal subject and test
+mapping across one organization change.</td>
+</tr>
+<tr>
+<td>Quality value of the Review/revision loop</td>
+<td>It adds latency, cost, and interaction complexity</td>
+<td>Blindly compare current output with one user-approved Review-role
+revision on a small representative set of completed runs. Measure
+preference and material defect removal, not style change; a different
+model is not required.</td>
+</tr>
+<tr>
+<td>Resumability and idempotency</td>
+<td>Both options can repeat provider work around failure boundaries;
+this decides whether a worker is justified</td>
+<td>For each candidate runtime, terminate the browser/request between
+model completion and commit, then prove exactly one authoritative
+artifact is published after resume. Add a durable worker only if
+request-bound recovery fails the product requirement.</td>
+</tr>
+<tr>
+<td>Existing artifact/run compatibility</td>
+<td>Determines whether evolution can preserve prior users</td>
+<td>Read a representative, sanitized corpus of current manifests,
+completed runs, and partial runs through the proposed conceptual read
+model; identify unrepresentable states.</td>
+</tr>
+<tr>
+<td>Leadership Profile launch scope</td>
+<td>Silent or premature writes violate current governance direction</td>
+<td>Decide whether the first release stores no profile, proposals only,
+or approved facets; require protected-write, audit, and erasure evidence
+before the latter two persist.</td>
+</tr>
+<tr>
+<td>Service cost and SLA</td>
+<td>Needed to compare real operating burden</td>
+<td>Obtain actual Core and candidate database/orchestration/model
+contracts or quotes. Until then, compare only relative complexity and
+cost.</td>
+</tr>
+<tr>
+<td>Current semantic quality of Agentic prompts</td>
+<td>Source proves machinery, not output quality</td>
+<td>Run the existing evaluation set or a representative blind review
+without changing production data; this is validation for planning, not
+part of this memo.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="decisions-required-before-a-migration-ready-plan">Decisions
+required before a migration-ready plan</h2>
+<p>The later planning assignment needs the user to decide these points
+explicitly:</p>
+<ol type="1">
+<li><p><strong>Product identity:</strong> Is this a deeper Mirror
+onboarding ritual or a generic writing/workflow studio?<br />
+<strong>Recommendation:</strong> Mirror-specific onboarding; leave
+generic workflows to Reflow.</p></li>
+<li><p><strong>Disposition:</strong> Replace, evolve, or coexist?<br />
+<strong>Recommendation:</strong> Evolve <code>/mirror</code> in place;
+do not create a permanent second experience.</p></li>
+<li><p><strong>Canonical architecture:</strong> Native
+Core/ContextAssets after its gaps close, or a Brilliant-owned canonical
+runtime?<br />
+<strong>Recommendation:</strong> Brilliant-owned authority as the
+preferred candidate, contingent on full-erasure and stateless-AI
+proof.</p></li>
+<li><p><strong>Architecture exception:</strong> Is a narrow
+Mirror-specific database/runtime exception to the Core-first spine
+authorized?<br />
+<strong>Recommendation:</strong> Authorize investigation and planning
+only after its scope and exit criteria are recorded; do not authorize a
+general platform fork.</p></li>
+<li><p><strong>Data-rights launch bar:</strong> Which record classes
+must support export, audit, retention disclosure, and verified deletion
+before launch?<br />
+<strong>Recommendation:</strong> Include transcripts, evidence, frozen
+packets, every artifact/review version, profile proposals,
+caches/indexes, and provider-held content.</p></li>
+<li><p><strong>Deliverable contract:</strong> What follows the Letter
+for new runs?<br />
+<strong>Recommendation:</strong> Keep the Letter central and historical
+Action Plans readable. Decide the revisable next-action artifact
+separately; do not broaden Mirror to arbitrary deliverables.</p></li>
+<li><p><strong>Profile policy:</strong> Persist no profile, proposals
+only, or approved durable facets?<br />
+<strong>Recommendation:</strong> No silent writes; proposals only after
+the governance contract is proven, then explicit user approval.</p></li>
+<li><p><strong>Review depth:</strong> One bounded judge/revision pass or
+repeated iterative review?<br />
+<strong>Recommendation:</strong> Validate one bounded pass first; expand
+only if it produces measurable value.</p></li>
+<li><p><strong>Historical continuity:</strong> Must existing Mirror runs
+remain readable under the current surface?<br />
+<strong>Recommendation:</strong> Yes. Grandfather read access; decide
+transformation only in the later migration plan.</p></li>
+<li><p><strong>Local Agentic Mirror future:</strong> Does its
+accountless, local-first, arbitrary-writing proposition remain
+separately valuable?<br />
+<strong>Recommendation:</strong> If yes, keep it a distinct product; do
+not make Brilliant Mirror carry both promises.</p></li>
+<li><p><strong>Execution topology:</strong> Must generation/review
+survive a dead request without user-triggered replay?<br />
+<strong>Recommendation:</strong> Start the later plan from request-bound
+operation records; authorize a durable worker only if failure and
+latency validation require it.</p></li>
+</ol>
+<h2 id="decision-ready-conclusion">Decision-ready conclusion</h2>
+<ul>
+<li><strong>Does the concept belong in Brilliant Apps?</strong> Yes—its
+evidence, human authority, frozen-context, versioned-review, and
+acceptance model materially strengthens Mirror.</li>
+<li><strong>Should it replace the current Mirror app?</strong> Evolve
+the current product identity and surface; replace internals selectively
+behind that surface. Do not create a second Mirror.</li>
+<li><strong>Should it be platform-native or use a companion?</strong>
+Prefer a narrowly scoped Brilliant-owned canonical authority,
+conditionally. Use native for non-production validation or after Core
+proves the missing guarantees. Decide durable-worker topology
+separately.</li>
+<li><strong>Proceed to migration planning now?</strong> Proceed only
+after the user makes the eleven decisions above and the smallest
+decisive validations establish the Core deletion boundary, approved
+stateless inference path, and companion trust boundary.</li>
+</ul>
+        <footer class="page-footer">
+          Agent-authored and unreviewed. Repository citations open pinned source revisions.
+        </footer>
+      </main>
+    </div>
+    <script>
+      const SOURCE_MD_B64 = "IyBEZWNpc2lvbiBtZW1vOiBBZ2VudGljIE1pcnJvciBhcyBhIEJyaWxsaWFudCBBcHAKCioqRGF0ZToqKiAyMDI2LTA4LTIzICAKKipEZWNpc2lvbiBzY29wZToqKiBQcm9kdWN0IGFuZCBhcmNoaXRlY3R1cmUgZGlyZWN0aW9uIG9ubHkuIFRoaXMgaXMgbm90IGEgbWlncmF0aW9uIHBsYW4uICAKKipSZWNvbW1lbmRhdGlvbjoqKiBSZS1jb25jZWl2ZSBBZ2VudGljIE1pcnJvciBhcyB0aGUgbmV4dCBldm9sdXRpb24gb2YgdGhlIGV4aXN0aW5nIEJyaWxsaWFudCBNaXJyb3IgZXhwZXJpZW5jZSwgbm90IGFzIGEgc2Vjb25kIHByb2R1Y3QuIFByZXNlcnZlIGAvbWlycm9yYCwgdGhlIExldHRlciwgaGlzdG9yaWNhbCBBY3Rpb24gUGxhbnMsIGFuZCB0aGUgcmVwb3J0L2NoYXQgc3VyZmFjZSB3aGlsZSBpbXBvcnRpbmcgQWdlbnRpYyBNaXJyb3IncyBkZWVwZXIgZXZpZGVuY2UsIHVzZXItY29udHJvbCwgZnJvemVuLWNvbnRleHQsIHZlcnNpb25lZC1yZXZpZXcsIGFuZCBhY2NlcHRhbmNlIG1vZGVsLiBQcmVmZXIgYSBuYXJyb3dseSBzY29wZWQsIEJyaWxsaWFudC1vd25lZCBjYW5vbmljYWwgZGF0YSBhdXRob3JpdHkgZm9yIG5ldyBzZW5zaXRpdmUgTWlycm9yIHJ1bnMsIGNvbnRpbmdlbnQgb24gcHJvdmluZyBpdHMgZnVsbCBlcmFzdXJlIGFuZCBzdGF0ZWxlc3MtaW5mZXJlbmNlIGNvbnRyYWN0cy4gRG8gbm90IG1ha2UgcGVyc2lzdGVudCBDb3JlIGNoYXQgb3IgZmxhdCBDb250ZXh0QXNzZXRzIGNhbm9uaWNhbCB1bmxlc3MgQ29yZSBmaXJzdCBwcm92ZXMgdGhlIGRlbGV0aW9uLCBhdWRpdCwgYW5kIGxpZmVjeWNsZSBndWFyYW50ZWVzIEJyaWxsaWFudCdzIG93biBwcm9kdWN0IHBvbGljeSByZXF1aXJlcy4gRGVjaWRlIHJlcXVlc3QtYm91bmQgdmVyc3VzIGR1cmFibGUtd29ya2VyIGV4ZWN1dGlvbiBzZXBhcmF0ZWx5IGZyb20gc3RvcmFnZSBvd25lcnNoaXAuCgojIyBFeGVjdXRpdmUgZGVjaXNpb24KClRoZSBjb25jZXB0IGJlbG9uZ3MgaW4gQnJpbGxpYW50IEFwcHMuIEFnZW50aWMgTWlycm9yJ3MgcmVhbCBwcm9kdWN0IGFkdmFuY2UgaXMgbm90IGl0cyBsb2NhbCBsYXVuY2hlciwgU1FMaXRlIHNjaGVtYSwgZ2VuZXJpYyB3b3JrZmxvdyBnZW5lcmF0b3IsIG9yIG11bHRpLXBhbmUgd29ya3NwYWNlLiBJdCBpcyBhIHRydXN0d29ydGh5IHBhdGggZnJvbSBpbmNvbXBsZXRlIGNvbnRleHQgdG8gYW4gYWNjZXB0ZWQgYXJ0aWZhY3Q6Cgo+IGJvdW5kZWQgZXZpZGVuY2Ug4oaSIGV4cGxhaW5hYmxlIHN1ZmZpY2llbmN5IOKGkiBodW1hbi1hdXRob3JpemVkIHRyYW5zaXRpb24g4oaSIGZyb3plbiBnZW5lcmF0aW9uIHRydXRoIOKGkiB2ZXJzaW9uZWQgYXJ0aWZhY3Qg4oaSIHVzZXItYXBwcm92ZWQgcmV2aWV3IOKGkiBleHBsaWNpdCBhY2NlcHRhbmNlCgpUaGF0IG51Y2xldXMgc3RyZW5ndGhlbnMgQnJpbGxpYW50IE1pcnJvcidzIGludGVuZGVkIHJvbGUgYXMgYW4gb25ib2FyZGluZyByaXR1YWwgdGhhdCBwcm9kdWNlcyBkdXJhYmxlIGluc2lnaHQgYW5kIGV2ZW50dWFsbHkgbGVhZHMgaW50byBYTy4gQnJpbGxpYW50IGFscmVhZHkgaGFzIGludGFrZSwgYW4gYWRhcHRpdmUgaW50ZXJ2aWV3LCBzdGFnZWQgTGV0dGVyL0FjdGlvbiBQbGFuIGdlbmVyYXRpb24sIGEgZHVyYWJsZSByZXBvcnQsIGFuZCBncm91bmRlZCBmb2xsb3ctdXAgY2hhdDsgdGhlIGV4cGxpY2l0IHJldmlldy1hbmQtYWNjZXB0YW5jZSBzdGFnZSB3b3VsZCBiZSBuZXcuIFRoZSByaWdodCBkaXNwb3NpdGlvbiBpcyB0aGVyZWZvcmUgKipldm9sdmUgaW4gcGxhY2UqKiwgd2l0aCBzdWJzdGFudGlhbCBpbnRlcm5hbCByZXBsYWNlbWVudCBhbGxvd2VkLCByYXRoZXIgdGhhbiB3aG9sZXNhbGUgcHJvZHVjdCByZXBsYWNlbWVudCBvciBwZXJtYW5lbnQgY29leGlzdGVuY2UuIFhPIGl0c2VsZiByZW1haW5zIGRpcmVjdGlvbmFsIGFuZCBpcyBub3QgYSBjdXJyZW50IHByb2R1Y3Rpb24gaGFuZG9mZiAoW3JlbGVhc2Ugc3RhdHVzXSgvVXNlcnMvTWFjRmlzaC9jb2RlL2JyaWxsaWFudC1hcHBzL2FwcHMvd2ViL0FHRU5UUy5tZDoxMCksIFtYTyBkaXJlY3Rpb25dKC9Vc2Vycy9NYWNGaXNoL2NvZGUvYnJpbGxpYW50LWFwcHMvZG9jcy9wcm9kdWN0LXZpc2lvbi5tZDoxNDcpKS4KClRoZSBwcmVmZXJyZWQgYXJjaGl0ZWN0dXJlIGNhbmRpZGF0ZSBpcyAqKk9wdGlvbiBCLCBhIGNvbXBhbmlvbi1vd25lZCBjYW5vbmljYWwgTWlycm9yIHJ1bnRpbWUqKiwgYmVjYXVzZSB0aGUgc2Vuc2l0aXZlIHRyYW5zY3JpcHQsIGV2aWRlbmNlIGxlZGdlciwgZnJvemVuIGdlbmVyYXRpb24gcGFja2V0LCByZXZpc2lvbnMsIGFuZCBsYXRlciBwcm9maWxlIHByb3Bvc2FscyBmb3JtIG9uZSBnb3Zlcm5lZCBsaWZlY3ljbGUuIEN1cnJlbnQgQ29yZSBwZXJzaXN0ZW5jZSBjYW4gc3VwcG9ydCB0aGUgZXhwZXJpZW5jZSBtZWNoYW5pY2FsbHksIGJ1dCB0aGUgcmVwb3NpdG9yeSBjb25maXJtcyB0aGF0IGl0IGNhbm5vdCBwcmVzZW50bHkgcHJvdmUgaGFyZCBkZWxldGlvbiBvZiB0YXNrIGNvbnZlcnNhdGlvbnMgb3IgQ29udGV4dEFzc2V0cywgc3VwcGxpZXMgbm8gbmF0aXZlIHRyYW5zYWN0aW9uL0NBUyBzZW1hbnRpY3MsIGFuZCBsYWNrcyB0aGUgZ292ZXJuZWQgYXVkaXQgY29udHJhY3QgQnJpbGxpYW50IHNheXMgZHVyYWJsZSBwcm9maWxlIGRhdGEgcmVxdWlyZXMuIEEgcXVldWUgbGF5ZXJlZCBvdmVyIENvcmUgd291bGQgbm90IGZpeCB0aGF0OyB0aGUgc21hbGxlc3QgY29oZXJlbnQgZXh0ZXJuYWwgYm91bmRhcnkgbXVzdCBvd24gdGhlIGNhbm9uaWNhbCBjb250ZW50IGxpZmVjeWNsZSBhbmQgaXRzIGRldGVybWluaXN0aWMgdHJhbnNpdGlvbi9yZWNvdmVyeSBydWxlcy4gQSBzZXBhcmF0ZSBkdXJhYmxlIHdvcmtlciBpcyBvcHRpb25hbCBhbmQgc2hvdWxkIGJlIHNlbGVjdGVkIG9ubHkgaWYgZmFpbHVyZSB0ZXN0aW5nIHByb3ZlcyByZXF1ZXN0LWJvdW5kIGV4ZWN1dGlvbiBpbmFkZXF1YXRlLgoKVGhpcyByZWNvbW1lbmRhdGlvbiBpcyBkZWxpYmVyYXRlbHkgbmFycm93LiBJdCBpcyBhbiBleGNlcHRpb24gdG8gQnJpbGxpYW50J3MgYWNjZXB0ZWQgQ29yZS1maXJzdCBhcmNoaXRlY3R1cmUsIG5vdCBhIHByb3Bvc2FsIGZvciBhIG5ldyBnZW5lcmFsIHBsYXRmb3JtIG9yIGEgc2Vjb25kIHdvcmtmbG93IGludGVycHJldGVyLiBVbmRlciB0aGUgY3VycmVudCBiaW5kaW5nIHRydXN0IHBvbGljeSwgdGhlIG5hdGl2ZSBhcHByb2FjaCBpcyBhcHByb3ByaWF0ZSBvbmx5IGZvciBzeW50aGV0aWMsIGVwaGVtZXJhbCwgb3IgZXhwbGljaXRseSBub24tcHJvZHVjdGlvbiB2YWxpZGF0aW9uOyBkaXNjbG9zdXJlIGFsb25lIGRvZXMgbm90IHNhdGlzZnkgdGhlIGhhcmQtZXJhc3VyZSBwcm9taXNlLiBOYXRpdmUgd291bGQgYmVjb21lIHRoZSBwcmVmZXJyZWQgcHJvZHVjdGlvbiBhcmNoaXRlY3R1cmUgaWYgQ29yZSBjbG9zZXMgdGhlIHNwZWNpZmljIGdvdmVybmFuY2UgYW5kIGxpZmVjeWNsZSBnYXBzIGxpc3RlZCBiZWxvdywgb3IgaWYgdGhlIHVzZXIgZXhwbGljaXRseSBhbWVuZHMgdGhlIGdvdmVybmluZyBwcm9kdWN0IHBvbGljeS4KCiMjIyBEZWNpc2l2ZSByZWFzb25zCgoxLiAqKlByb2R1Y3QgZml0IGlzIGFscmVhZHkgc3Ryb25nLioqIEJyaWxsaWFudCBkZXNjcmliZXMgTWlycm9yIGFzIGFuIGFwcHJveGltYXRlbHkgNDUtbWludXRlIGludGVydmlldyBwcm9kdWNpbmcgYSBMZXR0ZXIgYW5kIEFjdGlvbiBQbGFuLCB3aXRoIHRoZSByb3V0ZSBzZXF1ZW5jZSBzdGFydCDihpIgZm9ybSDihpIgaW50ZXJ2aWV3IOKGkiBnZW5lcmF0aW9uIOKGkiByZXBvcnQgKFtNaXJyb3IgY29udGV4dF0oL1VzZXJzL01hY0Zpc2gvY29kZS9icmlsbGlhbnQtYXBwcy9hcHBzL3dlYi9hcHAvbWlycm9yL0NPTlRFWFQubWQ6NykpLiBBZ2VudGljIE1pcnJvciBjYW4gYWRkIGEgcmV2aWV3LWFuZC1hY2NlcHRhbmNlIHN0YWdlIHdoaWxlIHByZXNlcnZpbmcgdGhhdCByb3V0ZSBzaGVsbCBhbmQgb3ZlcmFsbCBqb3VybmV5LgoyLiAqKkV2b2x1dGlvbiBwcmVzZXJ2ZXMgdGhlIHZhbHVhYmxlIHN1cmZhY2UgYW5kIGluc3RhbGxlZCBwcm9kdWN0IG1lYW5pbmcuKiogYC9taXJyb3IvKmAgaXMgdGhlIHJlcG9zaXRvcnkncyBsaXZlIHByb2R1Y3Qgcm91dGUsIHdoaWxlIHRoZSBjdXJyZW50IHJldHVybiBzdXJmYWNlIGFscmVhZHkgbG9hZHMgZHVyYWJsZSBhcnRpZmFjdHMgYW5kIHJlY292ZXJzIGluY29tcGxldGUgZ2VuZXJhdGlvbiAoW3JvdXRlIHN0YXR1c10oL1VzZXJzL01hY0Zpc2gvY29kZS9icmlsbGlhbnQtYXBwcy9hcHBzL3dlYi9BR0VOVFMubWQ6OCksIFtyZXBvcnQgcmVjb3ZlcnldKC9Vc2Vycy9NYWNGaXNoL2NvZGUvYnJpbGxpYW50LWFwcHMvYXBwcy93ZWIvYXBwL21pcnJvci9yZXBvcnQvcGFnZS50c3g6MTcpKS4KMy4gKipUaGUgdHJ1c3QgY29udHJhY3QgaXMgbW9yZSBkZW1hbmRpbmcgdGhhbiB0aGUgY3VycmVudCBuYXRpdmUgc3RvcmUuKiogQnJpbGxpYW50IHByb21pc2VzIGhhcmQgZGVsZXRpb24gb2YgdGhlIHByb2ZpbGUgYW5kIGRlcml2ZWQgYXJ0aWZhY3RzIGFuZCBjYWxscyBmb3IgdXNlci12aXNpYmxlIGFjY2VzcyBsb2dzIChbcHJvZHVjdCB2aXNpb25dKC9Vc2Vycy9NYWNGaXNoL2NvZGUvYnJpbGxpYW50LWFwcHMvZG9jcy9wcm9kdWN0LXZpc2lvbi5tZDoyNjApKS4gVGhlIGN1cnJlbnQgZGVsZXRpb24gcnVuYm9vayBzYXlzIHRoZSB1bmRlcmx5aW5nIENvcmUgdGFzay9jb252ZXJzYXRpb24gaGFzIG5vIGRlbGV0aW9uIEFQSSBhbmQgY2FuIHJldGFpbiB2ZXJiYXRpbSBpbnRlcnZpZXcgYW5zd2VycyAoW2RlbGV0aW9uIHJ1bmJvb2tdKC9Vc2Vycy9NYWNGaXNoL2NvZGUvYnJpbGxpYW50LWFwcHMvZG9jcy9ydW5ib29rcy9iMmMtZGF0YS1kZWxldGlvbi5tZDo1MDkpKS4KNC4gKipBZ2VudGljIE1pcnJvcidzIHZhbHVlIGlzIGluc2VwYXJhYmxlIGZyb20gZHVyYWJsZSBzdGF0ZSBzZW1hbnRpY3MuKiogSXRzIGltcGxlbWVudGF0aW9uIHBlcnNpc3RzIHN0YWdlIGRlY2lzaW9ucywgZGlzdGlsbGF0aW9ucywgZnJvemVuIHNuYXBzaG90cywgYXJ0aWZhY3QgdmVyc2lvbnMsIHJldmlldyBkZWNpc2lvbnMsIGNvcnJlY3Rpb25zLCBhbmQgYWNjZXB0YW5jZSBpbiBhIHRyYW5zYWN0aW9uYWwgU1FMaXRlIG1vZGVsIChbd29ya2Zsb3cgc3RvcmVdKC9Vc2Vycy9NYWNGaXNoL2NvZGUvYmlnLXN3aW5ncy9hZ2VudGljLW1pcnJvci1pbnRlZ3JhdGlvbi9zcmMvcGVyc2lzdGVuY2Uvd29ya2Zsb3ctc3RvcmUudHM6OTA1KSkuIFJlcHJvZHVjaW5nIHRob3NlIGd1YXJhbnRlZXMgb3ZlciBhIGZsYXQgb3ZlcndyaXRlIHN0b3JlIHdvdWxkIG1vdmUgZGF0YWJhc2UgcmVzcG9uc2liaWxpdGllcyBpbnRvIGFwcGxpY2F0aW9uIGNvZGUuCjUuICoqQSBuYXJyb3cgY29tcGFuaW9uIGNhbiByZXNwZWN0IHBsYXRmb3JtIGxvY2FsaXR5LioqIEJyaWxsaWFudCBhbHJlYWR5IGNlbnRyYWxpemVzIEFJIGJlaGF2aW9yIGJlaGluZCBhbiBgQWlHYXRld2F5YC9gQWlUcmFuc3BvcnRgIHNlYW0gKFtBSSBnYXRld2F5XSgvVXNlcnMvTWFjRmlzaC9jb2RlL2JyaWxsaWFudC1hcHBzL2FwcHMvd2ViL3BsYXRmb3JtL2FpL2dhdGV3YXkudHM6MSkpLCBhbmQgYSBwcm9wb3NlZOKAlGJ1dCB1bnJhdGlmaWVk4oCUVGVhbSBNaXJyb3IgZGVzaWduIGluZGVwZW5kZW50bHkgaWRlbnRpZmllcyBhIG5hcnJvdyByZWxhdGlvbmFsIGNvbnRyb2wgcGxhbmUgd2hlbiBDb3JlIGxhY2tzIHJlcXVpcmVkIGNvb3JkaW5hdGlvbiBzZW1hbnRpY3MgKFtUZWFtIE1pcnJvciBwcm9wb3NhbF0oL1VzZXJzL01hY0Zpc2gvY29kZS9icmlsbGlhbnQtYXBwcy9kb2NzL2RlY2lzaW9ucy8yMDI2LTA4LTA5LXRlYW0tbWlycm9yLWNvbnRyb2wtcGxhbmUubWQ6MzMpKS4gV2hldGhlciB0aGF0IGJvdW5kYXJ5IGV4ZWN1dGVzIHdvcmsgaW4tcmVxdWVzdCBvciB0aHJvdWdoIGEgZHVyYWJsZSB3b3JrZXIgaXMgYSBzZXBhcmF0ZSBkZWNpc2lvbi4KCiMjIEV2aWRlbmNlIHN0YXR1cyBhbmQgaW52ZXN0aWdhdGlvbiBib3VuZGFyeQoKLSAqKkNvbmZpcm1lZCoqIG1lYW5zIGRpcmVjdGx5IHN1cHBvcnRlZCBieSByZXBvc2l0b3J5IHNvdXJjZSBvciBhY2NlcHRlZCBkb2N1bWVudGF0aW9uLgotICoqSW5mZXJyZWQqKiBtZWFucyB0aGUgc21hbGxlc3QgZGVzaWduIGNvbmNsdXNpb24gZHJhd24gZnJvbSB0aG9zZSBzb3VyY2VzLgotICoqVW5rbm93bioqIG1lYW5zIGEgZmFjdCB0aGF0IG11c3QgYmUgdmFsaWRhdGVkIGJlZm9yZSBhIG1pZ3JhdGlvbi1yZWFkeSBwbGFuLgoKVGhlIHJlcXVlc3RlZCBBZ2VudGljIE1pcnJvciBjaGVja291dCBvbiBgbWFpbmAgY29udGFpbnMgdGhlIG9yaWdpbmFsIHNwZWNpZmljYXRpb247IHRoZSBpbXBsZW1lbnRlZCBhcHBsaWNhdGlvbiBpcyBpbiBpdHMgcmVnaXN0ZXJlZCBzaWJsaW5nIHdvcmt0cmVlLCBgL1VzZXJzL01hY0Zpc2gvY29kZS9iaWctc3dpbmdzL2FnZW50aWMtbWlycm9yLWludGVncmF0aW9uYCwgb24gYGludGVncmF0aW9uL2FnZW50aWMtbWlycm9yLXYxYC4gVGhlIGltcGxlbWVudGF0aW9uIGRvY3VtZW50cyBpdHMgbG9jYWwgU1FMaXRlIHNldHVwIGFuZCBpdHMgc2hhcmVkIGBjcmVhdGVQdWJsaWNXb3JrZmxvd0ludGVyZmFjZWAgc2VhbSAoW1JFQURNRV0oL1VzZXJzL01hY0Zpc2gvY29kZS9iaWctc3dpbmdzL2FnZW50aWMtbWlycm9yLWludGVncmF0aW9uL1JFQURNRS5tZDoxMikpLiBCb3RoIHRoZSBzcGVjaWZpY2F0aW9uIGFuZCBpbXBsZW1lbnRhdGlvbiB3ZXJlIGNvbnNpZGVyZWQuIEJyaWxsaWFudCBBcHBzIHdhcyBpbnNwZWN0ZWQgYXQgaXRzIGN1cnJlbnQgY2hlY2tvdXQ7IHNvdXJjZSBwcmVzZW5jZSB3YXMgbm90IHRyZWF0ZWQgYXMgcHJvb2YgdGhhdCBhIGZlYXR1cmUgZmxhZyBpcyBlbmFibGVkIGluIHByb2R1Y3Rpb24uCgpObyByZXBvc2l0b3J5IHdhcyBtb2RpZmllZCwgbm8gZGVwZW5kZW5jaWVzIHdlcmUgaW5zdGFsbGVkLCBhbmQgbm8gYnVpbGQsIG1vZGVsIGNhbGwsIG9yIGxpdmUgcHJvZHVjdGlvbiBwcm9iZSB3YXMgcnVuLiBUaGVyZWZvcmUgYmVoYXZpb3IgZGVzY3JpYmVkIGFzIGNvbmZpcm1lZCBpcyBzb3VyY2UtY29uZmlybWVkLCBub3QgcnVudGltZS12ZXJpZmllZC4KCiMjIFdoYXQgaXMgdmFsdWFibGUgaW4gQWdlbnRpYyBNaXJyb3IKCiMjIyBDb25maXJtZWQgcHJvZHVjdCBsb2dpYwoKQWdlbnRpYyBNaXJyb3IgaXMgYSBsb2NhbCwgYWNjb3VudGxlc3MsIGh1bWFuLWdvdmVybmVkIGV2aWRlbmNlLXRvLWFydGlmYWN0IHN5c3RlbS4gSXRzIG1vZGVscyByZWNlaXZlIHJvbGUtc3BlY2lmaWMgYm91bmRlZCBzbmFwc2hvdHMgYW5kIGNhbiBwcm9wb3NlIHF1ZXN0aW9ucywgdHJhbnNpdGlvbnMsIGdlbmVyYXRpb24sIGFuZCByZXZpZXc7IGRldGVybWluaXN0aWMgYXBwbGljYXRpb24gY29kZSB2YWxpZGF0ZXMgYW5kIGNvbW1pdHMgY29uc2VxdWVudGlhbCBzdGF0ZSB0aHJvdWdoIGBjcmVhdGVQdWJsaWNXb3JrZmxvd0ludGVyZmFjZWAgKFtjb21wb3NpdGlvbiBzZWFtXSgvVXNlcnMvTWFjRmlzaC9jb2RlL2JpZy1zd2luZ3MvYWdlbnRpYy1taXJyb3ItaW50ZWdyYXRpb24vc3JjL3dvcmtmbG93L3B1YmxpYy1pbnRlcmZhY2UudHM6NTQyKSwgW2JvdW5kZWQgc25hcHNob3RzXSgvVXNlcnMvTWFjRmlzaC9jb2RlL2JpZy1zd2luZ3MvYWdlbnRpYy1taXJyb3ItaW50ZWdyYXRpb24vc3JjL3dvcmtmbG93L3B1YmxpYy1pbnRlcmZhY2UudHM6MjQ4KSwgW2ludGVncml0eSB2YWxpZGF0aW9uXSgvVXNlcnMvTWFjRmlzaC9jb2RlL2JpZy1zd2luZ3MvYWdlbnRpYy1taXJyb3ItaW50ZWdyYXRpb24vc3JjL3dvcmtmbG93L2ludGVncml0eS1zaGVsbC50czo3OSkpLgoKVGhlIHZhbHVhYmxlIGJlaGF2aW9ycyBhcmU6CgotIFRoZSBzeXN0ZW0gZGV2ZWxvcHMgY29udGV4dCBiZWZvcmUgZHJhZnRpbmcgaW5zdGVhZCBvZiB0cmVhdGluZyB0aGUgZmlyc3QgcHJvbXB0IGFzIHN1ZmZpY2llbnQuCi0gRXZpZGVuY2UgaXMgYXNzb2NpYXRlZCB3aXRoIHJlcXVpcmVtZW50cywgcHJvdmVuYW5jZSwgY29uZmlkZW5jZSwgYW5kIGNvbmZsaWN0cy4KLSBUaGUgbW9kZWwgbWF5IHJlY29tbWVuZCBhIHN0YWdlIHRyYW5zaXRpb24sIGJ1dCB0aGUgdXNlciBhdXRob3JpemVzIGFkdmFuY2VtZW50IGFuZCBjb21wbGV0aW9uLgotIENvbXBsZXRlZCBzdGFnZXMgcHJvZHVjZSBkdXJhYmxlIGRpc3RpbGxhdGlvbnM7IGZpbmFsIGludGVydmlldyBjb21wbGV0aW9uIGNyZWF0ZXMgYSBmcm96ZW4sIHZlcnNpb25lZCBnZW5lcmF0aW9uIHNuYXBzaG90LgotIFByb3Zpc2lvbmFsIG1vZGVsIG91dHB1dCBpcyBkaXN0aW5jdCBmcm9tIGNhbm9uaWNhbCBzdGF0ZS4KLSBSZXZpZXcgcHJvZHVjZXMgbWF0ZXJpYWwgcmVjb21tZW5kYXRpb25zIHdpdGhvdXQgYXV0aG9yaXR5IHRvIG11dGF0ZSBvciBhY2NlcHQgdGhlIGFydGlmYWN0LgotIFVzZXJzIGFwcHJvdmUsIHJlamVjdCwgb3IgYW5ub3RhdGUgcmVjb21tZW5kYXRpb25zOyBhcHByb3ZlZCBjaGFuZ2VzIHByb2R1Y2UgYSBuZXcgYXJ0aWZhY3QgdmVyc2lvbi4KLSBDb21wbGV0aW9uIHJlcXVpcmVzIGV4cGxpY2l0IGFydGlmYWN0IGFjY2VwdGFuY2UsIG5vdCBtZXJlbHkgYSBtb2RlbCB2ZXJkaWN0LgotIENvcnJlY3Rpb25zIHN1cGVyc2VkZSBwcmlvciBldmlkZW5jZSBhbmQgY2FuIGludmFsaWRhdGUgZG93bnN0cmVhbSBhcnRpZmFjdHMgcmF0aGVyIHRoYW4gc2lsZW50bHkgcmV3cml0aW5nIGhpc3RvcnkuCi0gQ3Jvc3MtcnVuIGNvbnRleHQgY2FuIGNvbXBvdW5kIHRocm91Z2ggcHJvdmVuYW5jZSwgc3VwZXJzZXNzaW9uLCBjb3JyZWN0aW9uLCBhbmQgbGF0ZXIgcmV1c2U7IHRoZSBwZXJzaXN0ZW5jZSBhbmQgYXBwcm92YWwgcG9saWN5IGlzIHJlcGxhY2VhYmxlLCBidXQgdGhhdCBjb21wb3VuZGluZyB2YWx1ZSBpcyBub3QuCi0gUmVjb3ZlcnksIGV4cG9ydCwgYW5kIGRlbGV0aW9uIGFyZSB0cmVhdGVkIGFzIHBhcnQgb2YgcHJvZHVjdCB0cnVzdCwgbm90IG9wZXJhdGlvbmFsIGFmdGVydGhvdWdodHMuCgpUaGUgc291cmNlIG1ha2VzIHRob3NlIGF1dGhvcml0aWVzIGV4cGxpY2l0OiB0aGUgSW50ZXJ2aWV3IG1vZGVsIGlzIGxpbWl0ZWQgdG8gb25lIGZvY3VzZWQgcXVlc3Rpb24gb3IgYSByZWNvbW1lbmRhdGlvbiBhbmQgY2Fubm90IGNoYW5nZSBzdGF0ZSAoW0ludGVydmlldyBtb2RlbF0oL1VzZXJzL01hY0Zpc2gvY29kZS9iaWctc3dpbmdzL2FnZW50aWMtbWlycm9yLWludGVncmF0aW9uL3NyYy9tb2RlbC9pbnRlcnZpZXctbW9kZWwudHM6OSkpOyBHZW5lcmF0aW9uIHJlY2VpdmVzIGZyb3plbiBhdXRob3JpdHkgKFtHZW5lcmF0aW9uIG1vZGVsXSgvVXNlcnMvTWFjRmlzaC9jb2RlL2JpZy1zd2luZ3MvYWdlbnRpYy1taXJyb3ItaW50ZWdyYXRpb24vc3JjL21vZGVsL2dlbmVyYXRpb24tbW9kZWwudHM6NykpOyBSZXZpZXcgY2FuIHJlY29tbWVuZCBidXQgbm90IG11dGF0ZSBvciBhY2NlcHQgKFtSZXZpZXcgbW9kZWxdKC9Vc2Vycy9NYWNGaXNoL2NvZGUvYmlnLXN3aW5ncy9hZ2VudGljLW1pcnJvci1pbnRlZ3JhdGlvbi9zcmMvbW9kZWwvcmV2aWV3LW1vZGVsLnRzOjEyKSk7IGFuZCBhY2NlcHRhbmNlIGlzIGEgc2VwYXJhdGUgd29ya2Zsb3cgYWN0aW9uIChbcHVibGljIGludGVyZmFjZV0oL1VzZXJzL01hY0Zpc2gvY29kZS9iaWctc3dpbmdzL2FnZW50aWMtbWlycm9yLWludGVncmF0aW9uL3NyYy93b3JrZmxvdy9wdWJsaWMtaW50ZXJmYWNlLnRzOjI5NTApKS4KCiMjIyBJbXBsZW1lbnRhdGlvbi1zcGVjaWZpYyBtYWNoaW5lcnkgdG8gbGVhdmUgYmVoaW5kCgpUaGUgZm9sbG93aW5nIGFyZSBhZGFwdGVycyBvciBwcm9kdWN0IGNob2ljZXMsIG5vdCBlc3NlbnRpYWwgdmFsdWU6CgotIGFjY291bnRsZXNzIGxvY2FsLW9ubHkgZGVwbG95bWVudCwgdGhlIG1hY09TIGxhdW5jaGVyLCBhbmQgYnJvd3Nlci1vcGVuaW5nIHByb2Nlc3M7Ci0gYSB1c2VyLXN1cHBsaWVkIEdhdGV3YXkga2V5LCBtb2RlbCBwaWNrZXIsIGFuZCBsb2NhbCBoYXJkLWRvbGxhciB3b3JrZmxvdyBjYXA7Ci0gU1FMaXRlJ3MgZXhhY3Qgbm9ybWFsaXplZCBzY2hlbWEsIFdBTCBmaWxlcywgbG9jYWwgYmFja3VwIHJvdGF0aW9uLCBhbmQgcHJvY2Vzcy1nbG9iYWwgbGVhc2U7Ci0gdGhlIGdlbmVyaWMgdXNlci1mYWNpbmcgd29ya2Zsb3ctZGVmaW5pdGlvbiBsYW5ndWFnZSBhbmQgc3VwcG9ydCBmb3IgbWFueSBhcmJpdHJhcnkgd3JpdGluZyB3b3JrZmxvd3M7IHBlci1ydW4gdGFpbG9yaW5nIG9mIE1pcnJvcidzIHJlcXVpcmVtZW50cyBhbmQgY29tcGxldGlvbiBydWJyaWMgc2hvdWxkIHJlbWFpbjsKLSB0aGUgZXhhY3QgR3JvdW5kaW5nL1NoYXBpbmcgcGhhc2UgbmFtZXMgYW5kIGZpdmUtcGFuZSB3b3Jrc3BhY2UgbGF5b3V0OwotIE5ESlNPTi1vdmVyLWxvY2FsaG9zdCB0cmFuc3BvcnQgYW5kIGRldmVsb3BlciByZWNvdmVyeSBkaWFnbm9zdGljczsKLSBhdXRvbWF0aWMsIHVuZ292ZXJuZWQgZ2xvYmFsIHByb2ZpbGUgd3JpdGVzOyBwcm92ZW5hbmNlLWJlYXJpbmcgY3Jvc3MtcnVuIGNvbnRleHQgcmVtYWlucyBlc3NlbnRpYWwgYnV0IG11c3QgYWRvcHQgQnJpbGxpYW50J3MgYXBwcm92YWwgYW5kIGVyYXN1cmUgcnVsZXMuCgpUaGUgZ2VuZXJpYyB3b3JrZmxvdy1zdHVkaW8gcG9ydGlvbiBzaG91bGQgbm90IGJlIHNtdWdnbGVkIGludG8gTWlycm9yLiBCcmlsbGlhbnQncyBwcm9kdWN0IHZpc2lvbiBhc3NpZ25zIGRhdGEtZGVmaW5lZCB3b3JrZmxvd3MgdG8gUmVmbG93IGFuZCBkZXNjcmliZXMgTWlycm9yIGFzIHRoZSBvbmJvYXJkaW5nIHJpdHVhbCB0aGF0IHNlZWRzIFhPIGFuZCB0aGUgTGVhZGVyc2hpcCBQcm9maWxlIChbUmVmbG93XSgvVXNlcnMvTWFjRmlzaC9jb2RlL2JyaWxsaWFudC1hcHBzL2RvY3MvcHJvZHVjdC12aXNpb24ubWQ6MjAyKSwgW01pcnJvciBkaXJlY3Rpb25dKC9Vc2Vycy9NYWNGaXNoL2NvZGUvYnJpbGxpYW50LWFwcHMvZG9jcy9wcm9kdWN0LXZpc2lvbi5tZDoxOTIpKS4KCiMjIFByb2R1Y3QtY29uY2VwdCBtYXAKCnwgQWdlbnRpYyBNaXJyb3IgY29uY2VwdCB8IEJyaWxsaWFudC1jb21wYXRpYmxlIGVxdWl2YWxlbnQgfCBSZWNvbW1lbmRlZCB0cmVhdG1lbnQgfAp8LS0tfC0tLXwtLS18CnwgT3V0Y29tZSwgR3JvdW5kaW5nLCBhbmQgU2hhcGluZyB8IEZvY3VzZWQgTWlycm9yIG9yaWVudGF0aW9uIGFuZCBiYXNpYy1pbmZvcm1hdGlvbiBpbnRha2UsIGZvbGxvd2VkIGJ5IGFuIGludGVybmFsIGNvdmVyYWdlIHBsYW4gfCBQcmVzZXJ2ZSB0aGUgYmVoYXZpb3I7IGhpZGUgZ2VuZXJpYyB3b3JrZmxvdy1idWlsZGluZyBsYW5ndWFnZSBmcm9tIHRoZSB1c2VyLiB8CnwgR2VuZXJhdGVkIHJlcXVpcmVtZW50cywgc3RhZ2VzLCBhbmQgcnVicmljcyB8IEEgcGVyLXJ1biB0YWlsb3JlZCBNaXJyb3IgaW50ZXJ2aWV3IGNvbnRyYWN0IGRlZmluaW5nIGV2aWRlbmNlIGNvdmVyYWdlIGFuZCBjb21wbGV0aW9uIGNyaXRlcmlhIGluc2lkZSBmaXhlZCB2aXNpYmxlIHN0YWdlcyB8IFByZXNlcnZlIGFkYXB0aXZlIHNoYXBpbmcgYXMgYW4gaW50ZXJuYWwgdHlwZWQgY29udHJhY3QsIG5vdCBhIHVzZXItYXV0aG9yZWQgd29ya2Zsb3cgRFNMLiB8CnwgU3RhZ2UgcmFpbCBhbmQgdXNlci1hcHByb3ZlZCBhZHZhbmNlbWVudCB8IFZpc2libGUgaW50ZXJ2aWV3IHByb2dyZXNzLCDigJxrZWVwIGV4cGxvcmluZ+KAnSBjb250cm9scywgYW5kIGV4cGxpY2l0IHBlcm1pc3Npb24gdG8gc3ludGhlc2l6ZSB8IFByZXNlcnZlIGh1bWFuIGF1dGhvcml0eTsgcHJlc2VudCBpdCBjb252ZXJzYXRpb25hbGx5LiB8CnwgRXZpZGVuY2UvY29uZmxpY3QgbGVkZ2VyIHwgUHJvdmVuYW5jZS1iZWFyaW5nIGludGVydmlldyBub3RlcywgY292ZXJhZ2Ugc3RhdGUsIGFuZCB1bnJlc29sdmVkIGNvbnRyYWRpY3Rpb25zIHwgUHJlc2VydmUgY2Fub25pY2FsbHk7IGV4cG9zZSBvbmx5IHVzZWZ1bCBleHBsYW5hdGlvbnMgYW5kIGNvcnJlY3Rpb25zLiB8CnwgSW1tdXRhYmxlIHN0YWdlIGRpc3RpbGxhdGlvbnMgfCBDaGVja3BvaW50ZWQgc3VtbWFyaWVzIHRoYXQgbGF0ZXIgc3RhZ2VzIGNhbiByZWx5IHVwb24gfCBQcmVzZXJ2ZSBhcyB2ZXJzaW9uZWQgcnVuIHN0YXRlLiB8CnwgRnJvemVuIGludGVydmlldyBzbmFwc2hvdCB8IEltbXV0YWJsZSBnZW5lcmF0aW9uIHBhY2tldCBjb250YWluaW5nIGFjY2VwdGVkIGZhY3RzLCBldmlkZW5jZSwgYW5kIG91dHB1dCBjb250cmFjdCB8IFByZXNlcnZlIGV4YWN0bHkgYXMgYW4gYXJjaGl0ZWN0dXJhbCBpbnZhcmlhbnQuIHwKfCBHZW5lcmljIGFydGlmYWN0IGdlbmVyYXRpb24gfCBUaGUgTWlycm9yIExldHRlciBwbHVzIGEgcG9zdC1MZXR0ZXIgbmV4dC1hY3Rpb24gYXJ0aWZhY3QgfCBQcmVzZXJ2ZSB0aGUgTGV0dGVyIGFuZCBoaXN0b3JpY2FsIEFjdGlvbiBQbGFucy4gVGhlIGZpeGVkIEFjdGlvbiBQbGFuIHJlbWFpbnMgY3VycmVudCBidXQgaXRzIHN1Y2Nlc3NvciBpcyBpbnRlbnRpb25hbGx5IHVucmVzb2x2ZWQgKFtjb250aW51b3VzIHJlZGVzaWduXSgvVXNlcnMvTWFjRmlzaC9jb2RlL2JyaWxsaWFudC1hcHBzL2RvY3Mvc3BlY3MvY29udGludW91cy1taXJyb3ItcmVkZXNpZ24vY29udGV4dC5tZDoyNTYpKS4gfAp8IERpc3RpbmN0IFJldmlldyByb2xlIHwgQSBib3VuZGVkIHF1YWxpdHkgcmV2aWV3LCBzZXBhcmF0ZSBpbiBhdXRob3JpdHkgZnJvbSBnZW5lcmF0aW9uLCB0aGF0IHByb3Bvc2VzIG1hdGVyaWFsIGltcHJvdmVtZW50cyB8IFByZXNlcnZlIHRoZSByb2xlIHNlcGFyYXRpb24gaWYgdmFsaWRhdGlvbiBzaG93cyBtYXRlcmlhbCBpbXByb3ZlbWVudDsgaXQgbmVlZCBub3QgdXNlIGEgZGlmZmVyZW50IG1vZGVsLiB8CnwgUmV2aWV3IGRlY2lzaW9ucyBhbmQgcmVnZW5lcmF0aW9uIHwgQSBjb21wYWN0LCB1c2VyLWFwcHJvdmVkIHJldmlzaW9uIHNldCBmb2xsb3dlZCBieSBhIG5ldyBkZWxpdmVyYWJsZSB2ZXJzaW9uIHwgUHJlc2VydmUgaHVtYW4gYXV0aG9yaXR5IHdpdGhvdXQgcmVxdWlyaW5nIGEgbGluZS1ieS1saW5lIGdvdmVybmFuY2UgVUk7IG9uZSBib3VuZGVkIGN5Y2xlIGlzIHRoZSBiZXN0IGluaXRpYWwgcHJvZHVjdCBzaGFwZS4gfAp8IEFydGlmYWN0IGFjY2VwdGFuY2UgfCBFeHBsaWNpdCDigJx0aGlzIGlzIG15IE1pcnJvcuKAnSBmaW5hbGl6YXRpb24gYmVmb3JlIGFueSBmdXR1cmUgWE8gaGFuZG9mZiB8IFByZXNlcnZlLiBBIG1vZGVsIGRlY2xhcmluZyDigJxwZXJmZWN04oCdIGlzIGluc3VmZmljaWVudC4gfAp8IENvcnJlY3Rpb25zIGFuZCBzdXBlcnNlc3Npb24gfCBEaXJlY3QgY29ycmVjdGlvbiB0aGF0IG91dHJhbmtzIGluZmVycmVkIHByb2ZpbGUgY29udGV4dCBhbmQgc3RhbGVzIGRlcGVuZGVudCBvdXRwdXQgfCBQcmVzZXJ2ZTsgdGhpcyBhbGlnbnMgd2l0aCBCcmlsbGlhbnQncyBzdGF0ZWQgY29udGV4dCBydWxlcyAoW3Byb2R1Y3QgdmlzaW9uXSgvVXNlcnMvTWFjRmlzaC9jb2RlL2JyaWxsaWFudC1hcHBzL2RvY3MvcHJvZHVjdC12aXNpb24ubWQ6MTAwKSkuIHwKfCBHbG9iYWwgZHVyYWJsZSBwcm9maWxlIHwgR292ZXJuZWQsIGNvbXBvdW5kaW5nIExlYWRlcnNoaXAgUHJvZmlsZSBjb250ZXh0IHdpdGggcHJvdmVuYW5jZSwgc3VwZXJzZXNzaW9uLCBhbmQgZXhwbGljaXQgZGVjaXNpb25zIHwgUHJlc2VydmUgdGhlIGNyb3NzLXJ1biB2YWx1ZS4gRG8gbm90IHNpbGVudGx5IHdyaXRlIHByb2ZpbGUgZmFjdHM7IHBlcnNpc3QgcHJvcG9zYWxzIG9ubHkgYWZ0ZXIgZ292ZXJuYW5jZSBpcyBhcHByb3ZlZC4gfAp8IFNpZGUtYnktc2lkZSBhcnRpZmFjdCBhbmQgY29udmVyc2F0aW9uIHwgRXhpc3RpbmcgYC9taXJyb3IvcmVwb3J0YCBhcnRpZmFjdCBzdXJmYWNlIHBsdXMgZ3JvdW5kZWQgY2hhdDsgZnV0dXJlIFhPIGNvbnRpbnVhdGlvbiB8IEV2b2x2ZSB0aGUgY3VycmVudCBzdXJmYWNlIHJhdGhlciB0aGFuIGNyZWF0aW5nIGFub3RoZXIgZGVzdGluYXRpb24uIFRyZWF0IFhPIGFzIGRpcmVjdGlvbmFsLCBub3QgY3VycmVudCBjYXBhYmlsaXR5LiB8CnwgTXVsdGlwbGUgYXJiaXRyYXJ5IHdvcmtmbG93cyB8IFJlZmxvdyBvciBsYXRlciBYTy1tYW5hZ2VkIHdvcmtmbG93cyB8IEV4Y2x1ZGUgZnJvbSBNaXJyb3IuIHwKfCBMb2NhbCBkYXRhYmFzZSwgQVBJIGtleSwgbW9kZWwgcGlja2VyLCBsYXVuY2hlciB8IFN0eXRjaCBpZGVudGl0eSwgQnJpbGxpYW50IHNlcnZlciBib3VuZGFyeSwgc2FuY3Rpb25lZCBBSSBhZGFwdGVyLCBnb3Zlcm5lZCBwZXJzaXN0ZW5jZSB8IFJlcGxhY2UuIHwKfCBMb2NhbCBiYWNrdXAvZGVsZXRlIGltcGxlbWVudGF0aW9uIHwgQSBzZXJ2aWNlLWxldmVsIHJldGVudGlvbiwgZXhwb3J0LCBhdWRpdCwgcmVjb3ZlcnksIGFuZCB2ZXJpZmllZC1lcmFzdXJlIGNvbnRyYWN0IHwgUHJlc2VydmUgdGhlIHRydXN0IG91dGNvbWUsIG5vdCB0aGUgbWVjaGFuaXNtLiB8CgojIyBDdXJyZW50IEJyaWxsaWFudCBBcHBzIHJlYWxpdHkKCiMjIyBDb25maXJtZWQgcGxhdGZvcm0gY2FwYWJpbGl0aWVzCgpCcmlsbGlhbnQgYWxyZWFkeSBzdXBwbGllcyBtb3N0IG9mIHRoZSB2aXNpYmxlIGV4cGVyaWVuY2Ugc2tlbGV0b24sIGJ1dCBub3QgdGhlIHJlcXVlc3RlZCBpbmRlcGVuZGVudCByZXZpZXctYW5kLWFjY2VwdGFuY2Ugc3RhZ2U6CgotIFRoZSByb3V0ZSBncmFwaCBjb3ZlcnMgaW50YWtlLCBpbnRlcnZpZXcgcHJlcGFyYXRpb24sIGludGVydmlldywgZ2VuZXJhdGlvbiwgYW5kIHJlcG9ydCAoW01pcnJvciBjb250ZXh0XSgvVXNlcnMvTWFjRmlzaC9jb2RlL2JyaWxsaWFudC1hcHBzL2FwcHMvd2ViL2FwcC9taXJyb3IvQ09OVEVYVC5tZDo0NCkpLgotIE9uZSBDb3JlIHRhc2sgaXMgdGhlIGR1cmFibGUgaW50ZXJ2aWV3IGNvbnZlcnNhdGlvbiwgd2hpbGUgTWlycm9yIHN0b3JlcyBvbmx5IGEgdGhpbiBhcHAtc3RhdGUgc25hcHNob3QgYW5kIHJlY29uc3RydWN0cyBjaGF0IGZyb20gdGFzayBoaXN0b3J5IChbc3RhdGUgc25hcHNob3RdKC9Vc2Vycy9NYWNGaXNoL2NvZGUvYnJpbGxpYW50LWFwcHMvYXBwcy93ZWIvbGliL21pcnJvci9zdGF0ZS1zbmFwc2hvdC50czoxKSkuCi0gVGhlIGN1cnJlbnQgZGVsaXZlcmFibGUgY29vcmRpbmF0b3IgaGFzIGFuIGludGVybmFsIGdlbmVyYXRpb24gc2VxdWVuY2XigJRyZWFzb25pbmcsIExldHRlciBwYXJ0IG9uZSwgY29tcGxldGUgTGV0dGVyIHBlcnNpc3RlbmNlLCB0aGVuIEFjdGlvbiBQbGFuIHBlcnNpc3RlbmNl4oCUd2hpY2ggaXMgbm90IHRoZSBzYW1lIGFzIHRoZSBwcm9wb3NlZCBmb3VyLXN0YWdlIHVzZXIgZXhwZXJpZW5jZSAoW2lubGluZSBkZWxpdmVyYWJsZXNdKC9Vc2Vycy9NYWNGaXNoL2NvZGUvYnJpbGxpYW50LWFwcHMvYXBwcy93ZWIvYXBwL21pcnJvci9fbGliL2lubGluZS1kZWxpdmVyYWJsZXMudHM6Mjk0KSkuCi0gRmluaXNoZWQgYXJ0aWZhY3RzIHVzZSBwZXItcnVuIHZhbHVlIGtleXMgYW5kIGEgbWFuaWZlc3QtbGFzdCBwdWJsaWNhdGlvbiBwYXR0ZXJuIHNvIHBhcnRpYWxseSB3cml0dGVuIHN0YXRlIGlzIG5vdCBwcmVzZW50ZWQgYXMgY29tcGxldGU7IHJlLXBvc3RpbmcgdGhlIHNhbWUgcnVuIGtleSBvdmVyd3JpdGVzIGluIHBsYWNlIChbcmV0dXJuIHBlcnNpc3RlbmNlXSgvVXNlcnMvTWFjRmlzaC9jb2RlL2JyaWxsaWFudC1hcHBzL2FwcHMvd2ViL2xpYi9taXJyb3IvcmV0dXJuLXBlcnNpc3RlbmNlLnRzOjEpKS4KLSBUaGUgcmVwb3J0IHN1cmZhY2UgaW5jbHVkZXMgZ3JvdW5kZWQgcG9zdC1yZXBvcnQgY2hhdCB3aG9zZSBtZXNzYWdlcyBhcmUgcGVyc2lzdGVkIGJ5IENvcmUuIEl0IGhhcyBubyBjb21wbGV0aW9uL2FkdmFuY2Ugc3RhdGUgYW5kIGRvZXMgbm90IHlldCBjb25zdGl0dXRlIGFuIFhPIGhhbmRvZmYgKFtDaGF0UGFuZWxdKC9Vc2Vycy9NYWNGaXNoL2NvZGUvYnJpbGxpYW50LWFwcHMvYXBwcy93ZWIvYXBwL21pcnJvci9yZXBvcnQvX2NvbXBvbmVudHMvQ2hhdFBhbmVsLnRzeDo0KSkuCi0gQ2FwYWJpbGl0eSBjb2RlIHJlY2VpdmVzIEFJLCBhcnRpZmFjdHMsIGNvbnRleHQsIGF1dGhlbnRpY2F0aW9uLCBmbGFncywgdGVsZW1ldHJ5LCBhbmQgY2xvY2sgdGhyb3VnaCB0eXBlZCBzZWFtczsgbGl2ZSBBSSBjYWxscyBhcmUgY2VudHJhbGl6ZWQgYmVoaW5kIGBjdHguYWlgIChbY2FwYWJpbGl0eSBjb250ZXh0XSgvVXNlcnMvTWFjRmlzaC9jb2RlL2JyaWxsaWFudC1hcHBzL2FwcHMvd2ViL3BsYXRmb3JtL2FpL2NhcGFiaWxpdHkudHM6MjcpLCBbc2VydmVyIHdpcmluZ10oL1VzZXJzL01hY0Zpc2gvY29kZS9icmlsbGlhbnQtYXBwcy9hcHBzL3dlYi9wbGF0Zm9ybS9haS9zZXJ2ZXIudHM6OTQpKS4KClN0eXRjaCBoYXMgYSBwcmVjaXNlLCBsaW1pdGVkIHJvbGU6IGl0IHZlcmlmaWVzIGh1bWFuIHNlc3Npb25zLCBzdXBwbGllcyBvcmdhbml6YXRpb24vbWVtYmVyIGlkZW50aXR5LCBhbmQgbWludHMgTTJNIGNyZWRlbnRpYWxzIGZvciBzZXJ2ZXItdG8tQ29yZSBjYWxscyAoW2F1dGggY29udGV4dF0oL1VzZXJzL01hY0Zpc2gvY29kZS9icmlsbGlhbnQtYXBwcy9wYWNrYWdlcy9hdXRoL0NPTlRFWFQubWQ6MSkpLiBCcm93c2VyIGNvZGUgZG9lcyBub3QgcmVjZWl2ZSBDb3JlIGNyZWRlbnRpYWxzLiBTdHl0Y2ggaXMgbm90IHRoZSBhcnRpZmFjdCBzdG9yZSwgY29udmVyc2F0aW9uIHN0b3JlLCBvcmNoZXN0cmF0aW9uIGVuZ2luZSwgb3IgbW9kZWwgcnVudGltZS4KCk90aGVyIGV4aXN0aW5nIGV4dGVybmFsLXNlcnZpY2UgYm91bmRhcmllc+KAlERlZXBncmFtLCBTdHJpcGUsIFJlc2VuZCwgRWRnZSBDb25maWcsIFVwc3Rhc2gsIGFuZCBDb3Jl4oCUYXJlIHR5cGVkLCBzZXJ2ZXItbG9jYWwgYWRhcHRlcnMgZm9yIHNwZWNpZmljIGNvbmNlcm5zLiBUaGVpciBleGlzdGVuY2UgZGVtb25zdHJhdGVzIHRoYXQgQnJpbGxpYW50IEFwcHMgaXMgbm90IGxpdGVyYWxseSBkZXBlbmRlbmN5LWZyZWUsIGJ1dCBub25lIHByb3ZpZGVzIGEgZ2VuZXJhbCByZWxhdGlvbmFsIHByb2R1Y3QgZGF0YWJhc2UuIFRoZSBhcHAgZGVwZW5kZW5jeSBzZXQgaGFzIG5vIFNRTCBkcml2ZXIgb3IgT1JNIChbd2ViIHBhY2thZ2VdKC9Vc2Vycy9NYWNGaXNoL2NvZGUvYnJpbGxpYW50LWFwcHMvYXBwcy93ZWIvcGFja2FnZS5qc29uOjI1KSk7IHRoZSByb290IFVwc3Rhc2ggY2xpZW50IGlzIGEgbmFycm93IHNlcnZlci1zaWRlIEtWIHNlYW0gKFtLViBjbGllbnRdKC9Vc2Vycy9NYWNGaXNoL2NvZGUvYnJpbGxpYW50LWFwcHMvYXBwcy93ZWIvbGliL2t2LnRzOjEpKS4KCiMjIyBDb25maXJtZWQgY29uc3RyYWludHMKClRoZSBhY2NlcHRlZCBhcmNoaXRlY3R1cmUgZGlyZWN0aW9uIGlzIENvcmUtZmlyc3Q6IGFwcHMgY29udGFpbiBwcm9kdWN0IG1vZHVsZXMsIHNoYXJlZCBlbmdpbmVzIGFyZSBzaW5ndWxhciwgZHVyYWJsZSB1c2VyIGRhdGEgaXMgaW50ZW5kZWQgdG8gYmVjb21lIGdvdmVybmVkIENvbnRleHRBc3NldHMsIGFuZCBNaXJyb3Igc2hvdWxkIGNvbnZlcmdlIG9ubHkgYWZ0ZXIgc2hhcmVkIHdvcmtmbG93IHByaW1pdGl2ZXMgcmVhY2ggcGFyaXR5IChbYXJjaGl0ZWN0dXJlIHNwaW5lXSgvVXNlcnMvTWFjRmlzaC9jb2RlL2JyaWxsaWFudC1hcHBzL2RvY3MvZGVjaXNpb25zLzIwMjYtMDctMDItcGxhdGZvcm0tYXJjaGl0ZWN0dXJlLXNwaW5lLm1kOjMwKSkuIEEgc2VwYXJhdGUgTmVvbi1iYWNrZWQgcGF0aCBpcyBhbGxvd2VkIGZvciBwcm90b3R5cGVzIG9yIGNsaWVudCBoYW5kb2ZmLCBub3QgZXN0YWJsaXNoZWQgYXMgdGhlIHByb2R1Y3Rpb24gZGVmYXVsdCAoW3N0YWNrIGRpcmVjdGlvbl0oL1VzZXJzL01hY0Zpc2gvY29kZS9icmlsbGlhbnQtYXBwcy9kb2NzL2RlY2lzaW9ucy8yMDI2LTA2LTExLXN0YWNrLWRpcmVjdGlvbi1zdGF5cy1pbi1zdGFjay5tZDoxNSkpLgoKQ3VycmVudCBDb3JlIHByaW1pdGl2ZXMgYXJlIHVzZWZ1bCBidXQgc2hhbGxvdzoKCi0gdmlzaWJsZSBjaGF0IG1lc3NhZ2VzIHBlcnNpc3QsIHdoaWxlIG90aGVyIGdlbmVyYXRlZCBkYXRhIGlzIHN0cmVhbS1vbmx5IHVubGVzcyBleHBsaWNpdGx5IHN0b3JlZCAoW00yTSBwYXR0ZXJuXSgvVXNlcnMvTWFjRmlzaC9jb2RlL2JyaWxsaWFudC1hcHBzL2RvY3MvYXJjaGl0ZWN0dXJlL3BsYXRmb3JtLW0ybS9kZWZhdWx0LXBhdHRlcm4ubWQ6MTE5KSk7Ci0gQ29udGV4dEFzc2V0cyBhcmUgZmxhdCBvdmVyd3JpdGUgcmVjb3JkczsgdGhlIFNESyBsYXllcnMgaW1tdXRhYmxlIHZlcnNpb24ga2V5cyBhbmQgbWFuaWZlc3RzIG92ZXIgdGhlbSAoW3ZlcnNpb25pbmddKC9Vc2Vycy9NYWNGaXNoL2NvZGUvYnJpbGxpYW50LWFwcHMvcGFja2FnZXMvc2RrL3NyYy92ZXJzaW9uaW5nLnRzOjEpKTsKLSBNaXJyb3IgaXRzZWxmIGRvY3VtZW50cyB0aGF0IHRoZSBwbGF0Zm9ybSBoYXMgbm8gZGVsZXRlIHZlcmIgYW5kIHRoZXJlZm9yZSB1c2VzIHRvbWJzdG9uZXMgKFtzdGF0ZSBzbmFwc2hvdF0oL1VzZXJzL01hY0Zpc2gvY29kZS9icmlsbGlhbnQtYXBwcy9hcHBzL3dlYi9saWIvbWlycm9yL3N0YXRlLXNuYXBzaG90LnRzOjUzNCkpOwotIENvbnRleHRBc3NldHMgZG8gbm90IHN1cHBseSB0cmFuc2FjdGlvbnMsIGNvbXBhcmUtYW5kLXN3YXAsIGF0b21pYyBtdWx0aS1yZWNvcmQgcHVibGljYXRpb24sIG9yIGEgbmF0aXZlIGF1ZGl0IGxlZGdlciAoW2ZhY2V0LW1vZGVsIEFEUl0oL1VzZXJzL01hY0Zpc2gvY29kZS9icmlsbGlhbnQtYXBwcy9kb2NzL2RlY2lzaW9ucy8yMDI2LTA3LTExLXVzZXItZGF0YS1jb250ZXh0LWZhY2V0LW1vZGVsLm1kOjQyKSk7Ci0gbW9kZWwgc2VsZWN0aW9uIGFuZCBnZW5lcmF0aW9uIHBhcmFtZXRlcnMgY2Fubm90IGJlIGNoYW5nZWQgcGVyIHJlcXVlc3QgdGhyb3VnaCBjdXJyZW50IHByb21wdCBvdmVycmlkZXMgKFtNMk0gcGF0dGVybl0oL1VzZXJzL01hY0Zpc2gvY29kZS9icmlsbGlhbnQtYXBwcy9kb2NzL2FyY2hpdGVjdHVyZS9wbGF0Zm9ybS1tMm0vZGVmYXVsdC1wYXR0ZXJuLm1kOjc5KSk7Ci0gZHluYW1pYyByZWN1cnNpb24sIGZhbi1vdXQsIGFyYml0cmFyeSB0b29sIGV4ZWN1dGlvbiwgYW5kIGR1cmFibGUgd2FpdC9yZXN1bWUgYXJlIG5vdCBjb25maXJtZWQgY3VycmVudCBwbGF0Zm9ybSBjYXBhYmlsaXRpZXM7IGBmZXRjaC10b29sYCBhbmQgYGZhbi1vdXRgIGFyZSByZXNlcnZlZC9yZWplY3RlZCB0b2RheSwgd2hpbGUgdGhlIGJyb2FkZXIgcGF0dGVybnMgZG9jdW1lbnQgaXMgZXhwbGljaXRseSBub3QgYSBjb21taXRtZW50IChbYXJjaGl0ZWN0dXJlIHNwaW5lXSgvVXNlcnMvTWFjRmlzaC9jb2RlL2JyaWxsaWFudC1hcHBzL2RvY3MvZGVjaXNpb25zLzIwMjYtMDctMDItcGxhdGZvcm0tYXJjaGl0ZWN0dXJlLXNwaW5lLm1kOjY0KSwgW2Z1dHVyZSBwYXR0ZXJuc10oL1VzZXJzL01hY0Zpc2gvY29kZS9icmlsbGlhbnQtYXBwcy9kb2NzL2FyY2hpdGVjdHVyZS9lbmdpbmUtZnV0dXJlLXBhdHRlcm5zLm1kOjEpKS4KCk1vc3QgaW1wb3J0YW50bHksIHRoZSBnb3Zlcm5hbmNlIGdhcCBpcyBleHBsaWNpdCByYXRoZXIgdGhhbiBoeXBvdGhldGljYWwuIFRoZSBhY2NlcHRlZCBwcm9kdWN0IHZpc2lvbiByZXF1aXJlcyBoYXJkIGRlbGV0aW9uIGFuZCB0cmFuc3BhcmVudCBhY2Nlc3MsIHdoaWxlIHRoZSBjdXJyZW50IHJ1bmJvb2sgc2F5cyBubyBBUEkgZGVsZXRlcyB0aGUgY2Fub25pY2FsIENvcmUgaW50ZXJ2aWV3IGNvbnZlcnNhdGlvbiBhbmQgd2FybnMgYWdhaW5zdCBjbGFpbWluZyBvdGhlcndpc2UgKFtwcm9kdWN0IHZpc2lvbl0oL1VzZXJzL01hY0Zpc2gvY29kZS9icmlsbGlhbnQtYXBwcy9kb2NzL3Byb2R1Y3QtdmlzaW9uLm1kOjI2MCksIFtkZWxldGlvbiBnYXBdKC9Vc2Vycy9NYWNGaXNoL2NvZGUvYnJpbGxpYW50LWFwcHMvZG9jcy9ydW5ib29rcy9iMmMtZGF0YS1kZWxldGlvbi5tZDo1MjEpKS4gVGhlIGZhY2V0LW1vZGVsIEFEUiBpcyAqKlByb3Bvc2VkKiosIG5vdCBhdXRob3JpemluZywgYW5kIGNvbmNsdWRlcyB0aGF0IHByb2R1Y3Rpb24gTGVhZGVyc2hpcCBQcm9maWxlIHBlcnNpc3RlbmNlIG11c3Qgd2FpdCBmb3IgdmVyaWZpYWJsZSBlcmFzdXJlIGFuZCBhIHVzZXItdmlzaWJsZSBhdWRpdCBsZWRnZXIgKFtmYWNldC1tb2RlbCBzdGF0dXNdKC9Vc2Vycy9NYWNGaXNoL2NvZGUvYnJpbGxpYW50LWFwcHMvZG9jcy9kZWNpc2lvbnMvMjAyNi0wNy0xMS11c2VyLWRhdGEtY29udGV4dC1mYWNldC1tb2RlbC5tZDo1KSwgW2VyYXN1cmUgcmVxdWlyZW1lbnRdKC9Vc2Vycy9NYWNGaXNoL2NvZGUvYnJpbGxpYW50LWFwcHMvZG9jcy9kZWNpc2lvbnMvMjAyNi0wNy0xMS11c2VyLWRhdGEtY29udGV4dC1mYWNldC1tb2RlbC5tZDoxODkpKS4gVGhlIGFjY2VwdGVkIGFyY2hpdGVjdHVyZSBzcGluZSBpbmRlcGVuZGVudGx5IGJsb2NrcyBMZWFkZXJzaGlwIFByb2ZpbGUgc3RvcmFnZSB3b3JrIHVudGlsIHRoZSBnb3Zlcm5pbmcgY29udHJhY3QgbGFuZHMgKFthcmNoaXRlY3R1cmUgc3BpbmVdKC9Vc2Vycy9NYWNGaXNoL2NvZGUvYnJpbGxpYW50LWFwcHMvZG9jcy9kZWNpc2lvbnMvMjAyNi0wNy0wMi1wbGF0Zm9ybS1hcmNoaXRlY3R1cmUtc3BpbmUubWQ6NjQpKS4KCiMjIyBDb250cmFyeSBuYXRpdmUgcmVjb21tZW5kYXRpb24gYWxyZWFkeSBpbiB0aGUgcmVwb3NpdG9yeQoKQSBkaXJlY3RseSByZWxldmFudCAyMDI2LTA4LTE4IGRvY3VtZW50IHJlY29tbWVuZHMgdXNlci1zY29wZWQgQ29yZSBDb250ZXh0QXNzZXRzIHdpdGggb25lIGdvdmVybmVkIFJ1bnRpbWUgd3JpdGVyIGFuZCBubyBzZWNvbmQgcHJvZHVjdGlvbiBkYXRhIHN5c3RlbSAoW2NvbnRpbnVvdXMtcHJvZmlsZSByZWNvbW1lbmRhdGlvbl0oL1VzZXJzL01hY0Zpc2gvY29kZS9icmlsbGlhbnQtYXBwcy9kb2NzL2RlY2lzaW9ucy8yMDI2LTA4LTE4LWNvbnRpbnVvdXMtbWlycm9yLXByb2ZpbGUtc3RvcmFnZS5tZDoxNCkpLiBUaGF0IGlzIHRoZSBzdHJvbmdlc3QgZG9jdW1lbnRlZCBjYXNlIGZvciBPcHRpb24gQTogaXQgZm9sbG93cyB0aGUgYWNjZXB0ZWQgc3RhY2ssIHBhcnRpdGlvbnMgcHJvdmVuYW5jZSwgbGF5ZXJzIGltbXV0YWJsZSByZWNvcmRzIGFuZCBtYW5pZmVzdHMsIGFuZCBjZW50cmFsaXplcyBzZXJpYWxpemF0aW9uL3JlY292ZXJ5IGluIFJ1bnRpbWUuCgpUaGlzIG1lbW8gZG9lcyBub3Qgc2lsZW50bHkgb3ZlcnJpZGUgaXQuIFRoZSBkb2N1bWVudCBpcyBtYXJrZWQgKipQcm9wb3NlZCoqIGFuZCBleHBsaWNpdGx5IGF1dGhvcml6ZXMgbm8gcGVyc2lzdGVuY2Ugb3Igcm9sbG91dCAoW3N0YXR1c10oL1VzZXJzL01hY0Zpc2gvY29kZS9icmlsbGlhbnQtYXBwcy9kb2NzL2RlY2lzaW9ucy8yMDI2LTA4LTE4LWNvbnRpbnVvdXMtbWlycm9yLXByb2ZpbGUtc3RvcmFnZS5tZDo1KSk7IGl0IGFsc28ga2VlcHMgcHJvZHVjdGlvbiB3cml0ZXMgZGlzYWJsZWQgdW50aWwgZXJhc3VyZSwgYXVkaXQsIHByb3RlY3RlZC13cml0ZSwgdGVuYW5jeSwgaWRlbnRpdHksIGFuZCBpc29sYXRpb24gcHJlcmVxdWlzaXRlcyBhcmUgcHJvdmVuIChbcHJvZHVjdGlvbiBib3VuZGFyeV0oL1VzZXJzL01hY0Zpc2gvY29kZS9icmlsbGlhbnQtYXBwcy9kb2NzL2RlY2lzaW9ucy8yMDI2LTA4LTE4LWNvbnRpbnVvdXMtbWlycm9yLXByb2ZpbGUtc3RvcmFnZS5tZDoxOTkpKS4gSXRzIHJlY29tbWVuZGVkIENvcmUtYmFja2VkIHdyaXRlciBpcyBjb2hlcmVudCBvbmx5IGFmdGVyIHRob3NlIHByZXJlcXVpc2l0ZXMgZXhpc3QuIFVuZGVyIHRvZGF5J3MgY29uZmlybWVkIHRyYW5zY3JpcHQtZGVsZXRpb24gZ2FwLCBpdCBjYW5ub3QgbWFrZSBwZXJzaXN0ZW50IENvcmUgY2hhdCB0aGUgY2Fub25pY2FsIHNlbnNpdGl2ZSBjb250ZW50IHBsYW5lLiBUaGF0IGlzIHdoeSB0aGlzIG1lbW8gcHJlZmVycyBCcmlsbGlhbnQtb3duZWQgY2Fub25pY2FsIGF1dGhvcml0eSB3aGlsZSBwcmVzZXJ2aW5nIENvcmUtcGx1cy1nb3Zlcm5lZC1SdW50aW1lIGFzIHRoZSBsZWFkaW5nIGFyY2hpdGVjdHVyZSBpZiBDb3JlIGNsb3NlcyB0aGUgZ2FwLgoKIyMjIFByb2R1Y3Rpb24gc3RhdHVzIGNhdmVhdAoKVGhlIHJvdXRlIGlzIGxpdmUsIGJ1dCBzb3VyY2UgY29udGFpbnMgaW5kZXBlbmRlbnRseSBnYXRlZCByZXR1cm4sIHRyYW5zY3JpcHQtcmVidWlsZCwgaW5saW5lLWdlbmVyYXRpb24sIGFuZCBjb250aW51b3VzLWNvbnZlcnNhdGlvbiBwYXRocy4gRGVmYXVsdCBmbGFnIGNvbmZpZ3VyYXRpb24gaXMgbm90IHByb29mIG9mIHRoZSBjdXJyZW50IHByb2R1Y3Rpb24gRWRnZSBDb25maWcgc3RhdGUuIFRoaXMgbWVtbyB0aGVyZWZvcmUgdHJlYXRzIHRoZSBleGlzdGluZyBjb2RlIGFzIGRlbW9uc3RyYXRlZCBwbGF0Zm9ybSBjYXBhYmlsaXR5LCBub3QgYXMgYSBjbGFpbSB0aGF0IGV2ZXJ5IHBhdGggaXMgZW5hYmxlZCBmb3IgZXZlcnkgcHJvZHVjdGlvbiB1c2VyLgoKIyMgT3B0aW9uIEEg4oCUIG5hdGl2ZSBCcmlsbGlhbnQgQXBwcwoKIyMjIEFyY2hpdGVjdHVyZSBpbnRlbnQKClVzZSBvbmx5IGV4aXN0aW5nIEJyaWxsaWFudCBBcHBzIGNhcGFiaWxpdGllczogdGhlIGN1cnJlbnQgYC9taXJyb3JgIHByb2R1Y3QgbW9kdWxlLCBTdHl0Y2ggYXV0aGVudGljYXRpb24sIEJyaWxsaWFudCBzZXJ2ZXIgcm91dGVzLCB0aGUgc2FuY3Rpb25lZCBTREsvQ29yZSBBSSBwYXRoLCBDb3JlIHRhc2sgaGlzdG9yeSwgQ29udGV4dEFzc2V0cywgY2FwYWJpbGl0eSBtb2R1bGVzLCBhbmQgY3VycmVudCByZXBvcnQvY2hhdCBzdXJmYWNlLiBJbnRyb2R1Y2Ugbm8gbmV3IGJhY2tlbmQgb3IgZGF0YWJhc2UuCgpUaGlzIGlzIG5vdCBhIHN0cmlwcGVkLWRvd24gb3B0aW9uLiBJdHMgc3Ryb25nZXN0IGZvcm0gcmV0YWlucyB0aGUgY29tcGxldGUgZm91ci1zdGFnZSBleHBlcmllbmNlIGFuZCByZXByb2R1Y2VzIHRoZSBpbXBvcnRhbnQgQWdlbnRpYyBpbnZhcmlhbnRzIHRocm91Z2ggZXhwbGljaXQgc2NoZW1hcywgaW1tdXRhYmxlIGtleXMsIG1hbmlmZXN0cywgZmVuY2VzLCBhbmQgdXNlciBkZWNpc2lvbnMuCgojIyMgQ29uY2VwdHVhbCBlbmQtdG8tZW5kIGZsb3cKCjEuICoqQmFzaWMgaW5mb3JtYXRpb24gaW50YWtlLioqIFRoZSBhdXRoZW50aWNhdGVkIHVzZXIgc3RhcnRzIG9yIHJlc3VtZXMgYSBNaXJyb3IgcnVuLiBUaGUgZXhpc3Rpbmcgb3duZXItc3RhbXBlZCBicm93c2VyIGVudmVsb3BlIGhvbGRzIHRyYW5zaWVudCBmb3JtIHByb2dyZXNzOyBhIHRoaW4gYG1pcnJvci9zdGF0ZWAgc25hcHNob3QgcmVjb3JkcyB0aGUgcnVuIElELCB0YXNrIElELCBhc3NlcnRlZCBpbnRha2UgZmFjdHMsIGFuZCBjdXJyZW50IHN0YWdlLiBJbnRha2UgcHJvZHVjZXMgYW4gaW50ZXJuYWwgZXZpZGVuY2UtY292ZXJhZ2UgY29udHJhY3QgcmF0aGVyIHRoYW4gYSBnZW5lcmljIHdvcmtmbG93IGRlZmluaXRpb24uCjIuICoqSW50ZXJ2aWV3LioqIE9uZSBDb3JlIHRhc2sgcmVtYWlucyB0aGUgY2Fub25pY2FsIGNvbnZlcnNhdGlvbi4gVGhlIGFwcCBpbmplY3RzIGEgYm91bmRlZCBNaXJyb3IgaW50ZXJ2aWV3IGNvbnRyYWN0IGFuZCByZWNvbnN0cnVjdHMgdGhlIHNlc3Npb24gZnJvbSBDb3JlIGhpc3RvcnkuIEFmdGVyIGVhY2ggYW5zd2VyLCBkZXRlcm1pbmlzdGljIGFwcGxpY2F0aW9uIGxvZ2ljIHVwZGF0ZXMgYW4gZXZpZGVuY2UvY29uZmxpY3QgcHJvamVjdGlvbiBhbmQgYXNrcyBvbmUgZm9jdXNlZCBuZXh0IHF1ZXN0aW9uLiBUaGUgbW9kZWwgbWF5IHJlY29tbWVuZCBhZHZhbmNlbWVudDsgdGhlIHVzZXIgY2hvb3NlcyB3aGV0aGVyIHRvIGNvbnRpbnVlLCByZXZpc2l0IGEgdG9waWMsIG9yIGFwcHJvdmUgdGhlIHRyYW5zaXRpb24uIEVhY2ggYXBwcm92ZWQgc3RhZ2Ugd3JpdGVzIGFuIGltbXV0YWJsZSBkaXN0aWxsYXRpb24gcGx1cyBhIG5ld2VyIG1hbmlmZXN0IHBvaW50ZXIuCjMuICoqRGVsaXZlcmFibGUgZ2VuZXJhdGlvbi4qKiBFeHBsaWNpdCBpbnRlcnZpZXcgY29tcGxldGlvbiBmaXJzdCB3cml0ZXMgYSBkdXJhYmxlIGZpbmlzaGVkIG1hcmtlciBhbmQgYW4gaW1tdXRhYmxlIGdlbmVyYXRpb24gcGFja2V0LiBCb3VuZGVkIGNhcGFiaWxpdHkgY2FsbHMgdGhlbiBwcm9kdWNlIHRoZSBMZXR0ZXIgYW5kIHRoZSBjdXJyZW50bHkgY29uZmlndXJlZCBwb3N0LUxldHRlciBhcnRpZmFjdDsgdG9kYXkgdGhhdCBpcyB0aGUgQWN0aW9uIFBsYW4sIHdoaWxlIHRoZSBjb250aW51b3VzIHJlZGVzaWduIGxlYXZlcyBpdHMgc3VjY2Vzc29yIG9wZW4uIEVhY2ggY29tcGxldGVkIGFydGlmYWN0IHZlcnNpb24gaXMgd3JpdHRlbiB1bmRlciBhIG5ldyBrZXksIHJlYWQgYmFjayB3aGVyZSByZXF1aXJlZCwgYW5kIHB1Ymxpc2hlZCBieSB1cGRhdGluZyBpdHMgbWFuaWZlc3QgbGFzdC4gUGFydGlhbCBnZW5lcmF0aW9uIHJlbWFpbnMgcmVzdW1hYmxlIGFuZCBpbnZpc2libGUgYXMgYSBmaW5pc2hlZCByZXBvcnQuCjQuICoqRGVsaXZlcmFibGUgcmV2aWV3IGFuZCBjaGF0LioqIGAvbWlycm9yL3JlcG9ydGAgbG9hZHMgdGhlIHB1Ymxpc2hlZCB2ZXJzaW9uLiBBIHNlcGFyYXRlIGJvdW5kZWQgcmV2aWV3IGNhcGFiaWxpdHkgcmV0dXJucyBvbmx5IG1hdGVyaWFsIHN1Z2dlc3Rpb25zLiBUaGUgdXNlciBjYW4gaW5zcGVjdCBhcyBkZWVwbHkgYXMgZGVzaXJlZCwgc3RlZXIgcmV2aXNpb25zIGluIHBsYWluIGxhbmd1YWdlLCBhcHByb3ZlIGEgY29tcGFjdCBjaGFuZ2Ugc2V0LCBvciBhY2NlcHQgdGhlIGN1cnJlbnQgYXJ0aWZhY3Q7IGFwcHJvdmVkIGNoYW5nZXMgZ2VuZXJhdGUgYSBuZXcgdmVyc2lvbi4gR3JvdW5kZWQgcmVwb3J0IGNoYXQgY29udGludWVzIHRocm91Z2ggQ29yZS4gQSBsYXRlciBYTyBoYW5kb2ZmIG1heSBjb25zdW1lIHRoZSBhY2NlcHRlZCBhcnRpZmFjdHMsIGJ1dCB0aGF0IGlzIGRpcmVjdGlvbmFsIGZ1dHVyZSBiZWhhdmlvciByYXRoZXIgdGhhbiBjdXJyZW50IGNhcGFiaWxpdHkuCgojIyMgTmF0aXZlIHN0YXRlIGFuZCBkYXRhIGxpZmVjeWNsZQoKfCBMaWZlY3ljbGUgbGF5ZXIgfCBDYW5vbmljYWwgcmVzcG9uc2liaWxpdHkgfAp8LS0tfC0tLXwKfCBSZWFjdC9sb2NhbCBVSSBzdGF0ZSB8IFR5cGluZywgc3RyZWFtaW5nIGZyYWdtZW50cywgcGFuZWwgc3RhdGU7IGRpc3Bvc2FibGUuIHwKfCBPd25lci1zdGFtcGVkIHNlc3Npb24gZW52ZWxvcGUgfCBDcm9zcy1zdGVwIGJyb3dzZXIgaGFuZG9mZiBhbmQgb3B0aW1pc3RpYyByZXN1bWUgaGludHM7IG5ldmVyIHRoZSBkdXJhYmxlIGZpbmFsIHNvdXJjZS4gfAp8IENvcmUgdGFzayBoaXN0b3J5IHwgQ2Fub25pY2FsIGludGVydmlldyBhbmQgcG9zdC1yZXBvcnQgY29udmVyc2F0aW9uLiB8CnwgQ29udGV4dEFzc2V0IHJ1biByZWNvcmRzIHwgVGhpbiBydW4gcHJvamVjdGlvbiwgZXZpZGVuY2UvY292ZXJhZ2UgbGVkZ2VyLCBpbW11dGFibGUgc3RhZ2UgZGlzdGlsbGF0aW9ucywgZnJvemVuIGdlbmVyYXRpb24gcGFja2V0LCBhcnRpZmFjdC9yZXZpZXcgdmVyc2lvbnMsIGFjY2VwdGFuY2UgcmVjb3JkLCBhbmQgbGF0ZXN0IG1hbmlmZXN0cy4gfAp8IEdvdmVybmVkIHByb2ZpbGUgfCBObyBhdXRvbWF0aWMgcHJvZmlsZSB3cml0ZS4gQXQgbW9zdCwgcmV0YWluIHJ1bi1zY29wZWQgcHJvZmlsZSBwcm9wb3NhbHMgdW50aWwgdGhlIHByb3RlY3RlZC13cml0ZSBhbmQgZXJhc3VyZSBjb250cmFjdCBleGlzdHMuIHwKCkVhY2ggY29uc2VxdWVudGlhbCB3cml0ZSBpcyBhcHBlbmQtdGhlbi1wdWJsaXNoOiB3cml0ZSBhIHVuaXF1ZSBpbW11dGFibGUgdmFsdWUsIHZlcmlmeSBpdCB3aGVuIG5lZWRlZCwgdGhlbiBvdmVyd3JpdGUgdGhlIHNtYWxsIG1hbmlmZXN0L3BvaW50ZXIuIEZlbmNlcyBhbmQgaWRlbXBvdGVuY3kga2V5cyBwcmV2ZW50IHN0YWxlIHJldHJpZXMgZnJvbSB3aW5uaW5nLiBSZWNvdmVyeSByZWFkcyB0aGUgZmluaXNoZWQgbWFya2VyLCBtYW5pZmVzdCwgaW1tdXRhYmxlIHZhbHVlcywgYW5kIENvcmUgaGlzdG9yeSB0byBzZWxlY3QgdGhlIGxhc3QgY29tcGxldGUgc3RhdGUuIEEgdXNlciBjb3JyZWN0aW9uIGNyZWF0ZXMgYSBuZXdlciBmYWN0L2V2aWRlbmNlIHZlcnNpb24gYW5kIG1hcmtzIGRlcGVuZGVudCBvdXRwdXQgc3RhbGU7IGl0IGRvZXMgbm90IHJld3JpdGUgaGlzdG9yeS4KClRoZSBsaWZlY3ljbGUgaXMgbWVjaGFuaWNhbGx5IGZlYXNpYmxlIGJlY2F1c2UgY3VycmVudCBNaXJyb3IgYWxyZWFkeSB1c2VzIHRoaW4gc25hcHNob3RzLCBmZW5jZWQgKippbnRha2Utc3RhdGUqKiByZXZpc2lvbnMsIGZpbmlzaGVkIG1hcmtlcnMsIGFuZCB2YWx1ZXMtZmlyc3QvbWFuaWZlc3QtbGFzdCBhcnRpZmFjdHMuIEN1cnJlbnQgY29tcGxldGVkIGFydGlmYWN0IGtleXMgYXJlIHVuaXF1ZSBwZXIgcnVuIGJ1dCBvdmVyd3JpdGUgaW4gcGxhY2Ugd2hlbiB0aGUgc2FtZSBydW4ga2V5IGlzIHJlLXBvc3RlZDsgaW1tdXRhYmxlIGFydGlmYWN0L3JldmlldyB2ZXJzaW9ucyB3b3VsZCBiZSBuZXcgT3B0aW9uIEEgbWFjaGluZXJ5IChbcmV0dXJuIHBlcnNpc3RlbmNlXSgvVXNlcnMvTWFjRmlzaC9jb2RlL2JyaWxsaWFudC1hcHBzL2FwcHMvd2ViL2xpYi9taXJyb3IvcmV0dXJuLXBlcnNpc3RlbmNlLnRzOjI0KSkuIEl0IHJlbWFpbnMgYXBwbGljYXRpb24tZW11bGF0ZWQgdHJhbnNhY3Rpb25hbCBiZWhhdmlvci4gQ29uY3VycmVudCBvciBwYXJ0aWFsbHkgZmFpbGVkIHdyaXRlcyBjYW4gYmUgZGV0ZWN0ZWQgYW5kIHJlcGFpcmVkLCBidXQgbm90IGF0b21pY2FsbHkgY29tbWl0dGVkIGFzIG9uZSBkYXRhYmFzZSB0cmFuc2FjdGlvbi4KCiMjIyBOYXRpdmUgc3RyZW5ndGhzCgotIExvd2VzdCBpbmNyZW1lbnRhbCBidWlsZCBhbmQgb3BlcmF0aW5nIGJ1cmRlbi4KLSBQcmVzZXJ2ZXMgdGhlIGFjY2VwdGVkIENvcmUvU0RLIGFyY2hpdGVjdHVyZSBhbmQgY2VudHJhbCBvYnNlcnZhYmlsaXR5IHBhdGguCi0gUmV1c2VzIHRoZSBsaXZlIHJvdXRlLCBjdXJyZW50IFN0eXRjaC9Db3JlIGRlbGVnYXRpb24sIHJlcG9ydCwgY2hhdCwgcmVjb3ZlcnksIGFuZCBhcnRpZmFjdCBtb2R1bGVzLgotIEF2b2lkcyBhIG5ldyBkYXRhYmFzZSB2ZW5kb3IsIG1pZ3JhdGlvbnMsIGJhY2t1cCBwb2xpY3ksIHNlcnZpY2UgY3JlZGVudGlhbHMsIGFuZCBvbi1jYWxsIHN1cmZhY2UuCi0gTG93ZXN0IHJlcGxhY2VtZW50IGFuZCBoaXN0b3JpY2FsLWNvbXBhdGliaWxpdHkgcmlzay4KLSBNYWtlcyBjYXBhYmlsaXR5IGltcHJvdmVtZW50cyBhdmFpbGFibGUgdG8gdGhlIGV4aXN0aW5nIHBsYXRmb3JtIHdpdGhvdXQgYSBwYXJhbGxlbCBydW50aW1lLgoKIyMjIE5hdGl2ZSBjb25zdHJhaW50cyBhbmQgY29zdHMKCi0gVGhlIGNhbm9uaWNhbCB0cmFuc2NyaXB0IHJlbWFpbnMgaW4gYSBzdG9yZSBCcmlsbGlhbnQgY3VycmVudGx5IGNhbm5vdCB2ZXJpZmlhYmx5IGVyYXNlIHRocm91Z2ggaXRzIEFQSS4KLSBGbGF0IENvbnRleHRBc3NldHMgZm9yY2UgdGhlIGFwcCB0byBvd24gdmVyc2lvbmluZywgbWFuaWZlc3RzLCBmZW5jZXMsIHJlY29uY2lsaWF0aW9uLCBzY2FucywgYW5kIG11bHRpLXdyaXRlIGZhaWx1cmUgaGFuZGxpbmcuCi0gRHVyYWJsZSBMZWFkZXJzaGlwIFByb2ZpbGUgd3JpdGVzIHJlbWFpbiBibG9ja2VkIGJ5IGdvdmVybmFuY2UgcmVxdWlyZW1lbnRzLgotIExvbmcgZ2VuZXJhdGlvbi9yZXZpZXcgc2VxdWVuY2VzIGFyZSB0aWVkIHRvIGJyb3dzZXIvc2VydmVyIHJlcXVlc3QgbGlmZXRpbWVzIHVubGVzcyBicm9rZW4gaW50byBtYW51YWxseSByZWNvdmVyYWJsZSBvcGVyYXRpb25zLgotIENvcmUncyBtb2RlbCBjb25maWd1cmF0aW9uLCByZXRlbnRpb24sIHBheWxvYWQsIHBhZ2luYXRpb24sIGR1cmFiaWxpdHksIGFuZCBwcmljaW5nIGNvbnRyYWN0cyBhcmUgbm90IGZ1bGx5IGVzdGFibGlzaGVkIGluIHRoaXMgcmVwb3NpdG9yeS4KLSBSZWxpYWJpbGl0eSBpcyByZWNvdmVyYWJsZS1hdC1sZWFzdC1vbmNlIHJhdGhlciB0aGFuIHRyYW5zYWN0aW9uYWwgZXhhY3RseS1vbmNlOyBhIGNyYXNoIGFmdGVyIG1vZGVsIGNvbXBsZXRpb24gYnV0IGJlZm9yZSBjaGVja3BvaW50aW5nIG1heSByZXBlYXQgYW4gaW5mZXJlbmNlIGNhbGwuCgojIyMgV2hlbiBPcHRpb24gQSBpcyB0aGUgc3VwZXJpb3IgY2hvaWNlCgpVbmRlciB0aGUgY3VycmVudCB0cnVzdCBwb2xpY3ksIE9wdGlvbiBBIGlzIHN1cGVyaW9yIGZvciBzeW50aGV0aWMsIGVwaGVtZXJhbCwgb3IgZXhwbGljaXRseSBub24tcHJvZHVjdGlvbiBwcm9kdWN0IHZhbGlkYXRpb246IGl0IHRlc3RzIHRoZSBpbnRlcnZpZXcsIHJldmlldywgYW5kIGFjY2VwdGFuY2UgZXhwZXJpZW5jZSB3aXRoIHRoZSBsZWFzdCBuZXcgbWFjaGluZXJ5LiBJdCBpcyBub3QgYSBjb21wbGlhbnQgcHJvZHVjdGlvbiBjaG9pY2UgbWVyZWx5IGJlY2F1c2UgQ29yZSByZXRlbnRpb24gaXMgZGlzY2xvc2VkLiBJdCBiZWNvbWVzIHRoZSBwcmVmZXJyZWQgcHJvZHVjdGlvbiBvcHRpb24gaWYgQ29yZSBhZGRzIHRoZSBkZWxldGlvbiwgYXVkaXQsIHRyYW5zYWN0aW9uL2R1cmFibGUtb3BlcmF0aW9uLCBhbmQgZGF0YS1oYW5kbGluZyBndWFyYW50ZWVzIGluIHRoZSDigJxjb25kaXRpb25z4oCdIHNlY3Rpb24sIG9yIGlmIHRoZSB1c2VyIGV4cGxpY2l0bHkgY2hhbmdlcyB0aGUgZ292ZXJuaW5nIHByb2R1Y3QgcHJvbWlzZSB3aXRoIGFwcHJvcHJpYXRlIGxlZ2FsIGFuZCB0cnVzdCByZXZpZXcuCgojIyBPcHRpb24gQiDigJQgY29tcGFuaW9uLW93bmVkIE1pcnJvciBydW50aW1lCgojIyMgQXJjaGl0ZWN0dXJlIGludGVudAoKS2VlcCBCcmlsbGlhbnQgQXBwcyBhcyB0aGUgb25seSB1c2VyLWZhY2luZyBhcHBsaWNhdGlvbiBhbmQgU3R5dGNoIGFzIHRoZSBpZGVudGl0eSBhdXRob3JpdHksIGJ1dCBwbGFjZSBhdXRob3JpdGF0aXZlIHNlbnNpdGl2ZSBNaXJyb3Igc3RhdGUgYmVoaW5kIG9uZSBwcml2YXRlLCBwdXJwb3NlLWJ1aWx0IGBNaXJyb3JSdW50aW1lYCBib3VuZGFyeS4gVGhlIHJ1bnRpbWUgb3ducyBhIG1hbmFnZWQgcmVsYXRpb25hbCBkYXRhYmFzZSBhbmQgY29kZS1hdXRob3JlZCBsaWZlY3ljbGUgY29vcmRpbmF0aW9uLiBJdCBtYXkgYmUgZGVwbG95ZWQgc2VwYXJhdGVseSBvciBpbml0aWFsbHkgY29sb2NhdGVkIGJlaGluZCBCcmlsbGlhbnQncyBzZXJ2ZXIgcm91dGVzOyBkZXBsb3ltZW50IHRvcG9sb2d5IGlzIHNlY29uZGFyeSB0byBjYW5vbmljYWwgb3duZXJzaGlwLgoKVGhlIHNtYWxsZXN0IGNvaGVyZW50IGV4dGVybmFsIGJvdW5kYXJ5IG93bnMgdG9nZXRoZXI6CgotIGludGVydmlldyB0cmFuc2NyaXB0IGFuZCBydW4gZXZlbnRzOwotIGV2aWRlbmNlLCBjb25mbGljdHMsIHN0YWdlIGRlY2lzaW9ucywgYW5kIGZyb3plbiBnZW5lcmF0aW9uIHBhY2tldHM7Ci0gYXJ0aWZhY3QsIHJldmlldywgY29ycmVjdGlvbiwgYW5kIGFjY2VwdGFuY2UgdmVyc2lvbnM7Ci0gcHJvZmlsZSBwcm9wb3NhbHMgYW5kIHVzZXIgZGVjaXNpb25zLCBpZiBhcHByb3ZlZDsKLSBpZGVtcG90ZW5jeSwgdHJhbnNpdGlvbiBjaGVja3BvaW50cywgcmV0cmllcywgYW5kIHJlY292ZXJ5OyBsZWFzZXMgYmVsb25nIGhlcmUgb25seSBpZiBhc3luY2hyb25vdXMgd29ya2VycyBhcmUgc2VsZWN0ZWQ7Ci0gYWNjZXNzIGF1ZGl0LCByZXRlbnRpb24sIGV4cG9ydCwgZGVsZXRpb24gaW52ZW50b3J5LCBhbmQgZGVsZXRpb24gdmVyaWZpY2F0aW9uOwotIHN0YXRlbGVzcyBBSSBjYWxscyB3aG9zZSBzZW5zaXRpdmUgcHJvbXB0cyBhbmQgcmVzcG9uc2VzIGFyZSBub3QgYXBwZW5kZWQgdG8gcGVyc2lzdGVudCBDb3JlIGNoYXQuCgpBIGRhdGFiYXNlLW9ubHkgY29tcGFuaW9uIHdoaWxlIENvcmUgc3RpbGwgb3ducyBwZXJzaXN0ZW50IGNvbnZlcnNhdGlvbiBjb250ZW50IGlzIGluY29oZXJlbnQ6IGl0IGNyZWF0ZXMgdHdvIGF1dGhvcml0aWVzIGFuZCBjYW5ub3QgZGVsZXRlIHRoZSBjYW5vbmljYWwgdHJhbnNjcmlwdC4gQW4gZXhlY3V0aW9uLW9ubHkgcXVldWUgaXMgYWxzbyBpbnN1ZmZpY2llbnQ6IGl0IGltcHJvdmVzIHJldHJpZXMgd2hpbGUgbGVhdmluZyBwcml2YWN5IGFuZCBlcmFzdXJlIHVuY2hhbmdlZC4gQ2Fub25pY2FsIGNvbnRlbnQgYW5kIGRldGVybWluaXN0aWMgbGlmZWN5Y2xlIHRyYW5zaXRpb25zIHRoZXJlZm9yZSBiZWxvbmcgYmVoaW5kIG9uZSBkZWVwIGJvdW5kYXJ5LgoKVHdvIGRlY2lzaW9ucyBtdXN0IHJlbWFpbiBzZXBhcmF0ZToKCjEuICoqQ2Fub25pY2FsIGNvbnRlbnQgYXV0aG9yaXR5OioqIENvcmUgdmVyc3VzIGEgQnJpbGxpYW50LW93bmVkIGRhdGFiYXNlLiBUaGlzIG1lbW8gcmVjb21tZW5kcyB0aGUgQnJpbGxpYW50LW93bmVkIGF1dGhvcml0eSwgY29udGluZ2VudCBvbiBpdHMgZ292ZXJuYW5jZSBwcm9vZi4KMi4gKipFeGVjdXRpb24gdG9wb2xvZ3k6KiogcmVxdWVzdC1ib3VuZCBzZXJ2ZXIgZXhlY3V0aW9uIHZlcnN1cyBhIGR1cmFibGUgYXN5bmNocm9ub3VzIHdvcmtlci4gQWdlbnRpYyBNaXJyb3IgaXRzZWxmIGRvZXMgbm90IHByb3ZlIGEgZHVyYWJsZSB3b3JrZXIgcmVxdWlyZW1lbnQ7IGl0IHVzZXMgYSBwcm9jZXNzLWxvY2FsIGxlYXNlLCBib3VuZGVkIHJldHJ5IHN0YXRlLCBhbmQgZXhwbGljaXQgcmVwbGF5IChbZ2VuZXJhdGlvbiBsZWFzZV0oL1VzZXJzL01hY0Zpc2gvY29kZS9iaWctc3dpbmdzL2FnZW50aWMtbWlycm9yLWludGVncmF0aW9uL3NyYy9tb2RlbC9nZW5lcmF0aW9uLWxlYXNlLnRzOjEpLCBbcmV0cnkgcGF0aF0oL1VzZXJzL01hY0Zpc2gvY29kZS9iaWctc3dpbmdzL2FnZW50aWMtbWlycm9yLWludGVncmF0aW9uL3NyYy93b3JrZmxvdy9wdWJsaWMtaW50ZXJmYWNlLnRzOjI5OTQpKS4gU2VsZWN0IGEgd29ya2VyIG9ubHkgaWYgdGVybWluYXRpb24vcmVzdW1lIHRlc3RzIG9yIHByb2R1Y3QgbGF0ZW5jeSByZXF1aXJlbWVudHMganVzdGlmeSBpdHMgb3BlcmF0aW9uYWwgY29zdC4KCiMjIyBDb25jZXB0dWFsIGVuZC10by1lbmQgZmxvdwoKMS4gKipCYXNpYyBpbmZvcm1hdGlvbiBpbnRha2UuKiogQSBCcmlsbGlhbnQgc2VydmVyIHJvdXRlIHZlcmlmaWVzIHRoZSBTdHl0Y2ggc2Vzc2lvbiBhbmQgcmVzb2x2ZXMgYSBzdGFibGUgb3duZXIgc3ViamVjdC4gSXQgY3JlYXRlcyBvciByZXN1bWVzIGEgcnVuIHRocm91Z2ggYE1pcnJvclJ1bnRpbWVgOyB0aGUgZGF0YWJhc2UgdHJhbnNhY3Rpb24gcmVjb3JkcyBpbnRha2UgYXNzZXJ0aW9ucywgY29uc2VudC9wb2xpY3kgdmVyc2lvbiwgYW5kIHRoZSBpbml0aWFsIGV2aWRlbmNlLWNvdmVyYWdlIGNvbnRyYWN0LiBUaGUgYnJvd3NlciByZWNlaXZlcyBvbmx5IGFuIG9wYXF1ZSBydW4gSUQgYW5kIHByZXNlbnRhdGlvbiBzdGF0ZS4KMi4gKipJbnRlcnZpZXcuKiogRWFjaCB1c2VyIG1lc3NhZ2UgYmVjb21lcyBhbiBhcHBlbmQtb25seSBydW4gZXZlbnQgc2NvcGVkIHRvIHRoZSBvd25lci4gVGhlIHJ1bnRpbWUgYnVpbGRzIGEgYm91bmRlZCBtb2RlbCBzbmFwc2hvdCBmcm9tIGFjY2VwdGVkIGV2aWRlbmNlIGFuZCBjdXJyZW50IHN0YWdlLCBpbnZva2VzIEFJIHRocm91Z2ggYSBzdGF0ZWxlc3MgYWRhcHRlciBiZWhpbmQgQnJpbGxpYW50J3MgZXhpc3RpbmcgQUktZ2F0ZXdheSBhYnN0cmFjdGlvbiwgcmVjb3JkcyB0aGUgcmVzdWx0aW5nIHByb3Bvc2FsLCB2YWxpZGF0ZXMgaXQgZGV0ZXJtaW5pc3RpY2FsbHksIGFuZCBjb21taXRzIHRoZSBjYW5vbmljYWwgYXNzaXN0YW50IHR1cm4gYW5kIGNvdmVyYWdlIGNoYW5nZXMuIFVzZXItYXBwcm92ZWQgc3RhZ2UgdHJhbnNpdGlvbnMgdHJhbnNhY3Rpb25hbGx5IHdyaXRlIHRoZSBkZWNpc2lvbiBhbmQgaW1tdXRhYmxlIGRpc3RpbGxhdGlvbi4gRHVyYWJsZSBldmVudHMgc3RyZWFtIGJhY2sgdG8gdGhlIGJyb3dzZXI7IHJlY29ubmVjdGlvbiByZXN1bWVzIGZyb20gYW4gZXZlbnQgY3Vyc29yLgozLiAqKkRlbGl2ZXJhYmxlIGdlbmVyYXRpb24uKiogRXhwbGljaXQgY29tcGxldGlvbiB0cmFuc2FjdGlvbmFsbHkgY3JlYXRlcyBhIGZyb3plbiBnZW5lcmF0aW9uIHBhY2tldCBhbmQgYW4gaWRlbXBvdGVudCBvcGVyYXRpb24gcmVjb3JkLiBSZXF1ZXN0LWJvdW5kIGV4ZWN1dGlvbiBtYXkgcGVyZm9ybSB0aGUgYm91bmRlZCBjYWxscyBhbmQgY2hlY2twb2ludCBlYWNoIHJlc3VsdC4gSWYgdmFsaWRhdGlvbiBwcm92ZXMgdGFiLWluZGVwZW5kZW50IGV4ZWN1dGlvbiBuZWNlc3NhcnksIGEgd29ya2VyIGNhbiBpbnN0ZWFkIGxlYXNlIHRoYXQgc2FtZSBvcGVyYXRpb24gYW5kIHJlc3VtZSBmcm9tIHRoZSBsYXN0IGNvbW1pdHRlZCBjaGVja3BvaW50LiBUaGUgcnVudGltZSBzdG9yZXMgaW1tdXRhYmxlIExldHRlciBhbmQgcG9zdC1MZXR0ZXIgYXJ0aWZhY3QgdmVyc2lvbnMgcGx1cyB1c2FnZSBtZXRhZGF0YSBpbiBlaXRoZXIgdG9wb2xvZ3kuCjQuICoqRGVsaXZlcmFibGUgcmV2aWV3IGFuZCBjaGF0LioqIFRoZSByZXBvcnQgcm91dGUgcmVhZHMgdGhlIGFjY2VwdGVkIG9yIGxhdGVzdCByZXZpZXdhYmxlIHZlcnNpb24gZnJvbSB0aGUgcnVudGltZS4gUmV2aWV3IHByb3Bvc2FscywgcmV2aXNpb24gZGVjaXNpb25zLCBhbmQgYWNjZXB0ZWQgdmVyc2lvbnMgYXJlIGZpcnN0LWNsYXNzIHJlY29yZHMsIGJ1dCB0aGUgVUkgY2FuIHJlbWFpbiBwbGFpbi1sYW5ndWFnZSBhbmQgbG93LWZyaWN0aW9uLiBGb2xsb3ctdXAgY2hhdCBpcyBncm91bmRlZCBpbiBhY2NlcHRlZCBhcnRpZmFjdHMgYW5kIHN0b3JlZCBpbiB0aGUgc2FtZSBnb3Zlcm5lZCBvd25lciBzY29wZS4gQSBmdXR1cmUgWE8gaW50ZWdyYXRpb24gcmVjZWl2ZXMgb25seSBleHBsaWNpdGx5IGFwcHJvdmVkIHByb2ZpbGUgcHJvcG9zYWxzIG9yIHBvbGljeS1zYWZlIGRlcml2ZWQgY29udGV4dC4KCiMjIyBDb21wYW5pb24gc3RhdGUgYW5kIGRhdGEgbGlmZWN5Y2xlCgpUaGUgZGF0YWJhc2UgaG9sZHMgYXBwZW5kLW9ubHkgZXZlbnRzIGFuZCBpbW11dGFibGUgY29udGVudCB2ZXJzaW9ucywgd2l0aCByZWxhdGlvbmFsIGN1cnJlbnQtc3RhdGUgcHJvamVjdGlvbnMgZm9yIGVmZmljaWVudCByZWFkcy4gRXZlcnkgcm93IGNhcnJpZXMgb3duZXIsIHJ1biwgcHJvdmVuYW5jZSwgc2NoZW1hL3BvbGljeSB2ZXJzaW9uLCBhbmQgdGltZXN0YW1wczsgY29uc2VxdWVudGlhbCBjb21tYW5kcyBjYXJyeSBpZGVtcG90ZW5jeSBrZXlzLiBTdGFnZSBhbmQgYXJ0aWZhY3QgdHJhbnNpdGlvbnMgb2NjdXIgaW5zaWRlIHRyYW5zYWN0aW9ucy4gT3BlcmF0aW9ucyBoYXZlIGF0dGVtcHQgcmVjb3JkcyBhbmQgdGVybWluYWwgb3V0Y29tZXM7IGxlYXNlcyBhbmQgaGVhcnRiZWF0cyBhcmUgYWRkZWQgb25seSBpZiBhc3luY2hyb25vdXMgZXhlY3V0aW9uIGlzIHNlbGVjdGVkLiBUaGUgdXNlci1mYWNpbmcgcmVwb3J0IHBvaW50cyBvbmx5IHRvIGNvbW1pdHRlZCwgcHVibGlzaGVkIGFydGlmYWN0IHZlcnNpb25zLgoKRGVsZXRpb24gaXMgYSBwcm9kdWN0IGNvbW1hbmQsIG5vdCBhIG1hbnVhbCBkYXRhYmFzZSBlZGl0LiBJdCByZXNvbHZlcyBhbGwgb3duZXItbGlua2VkIHJ1biBjb250ZW50LCB0cmFuc2NyaXB0cywgYXJ0aWZhY3RzLCByZXZpZXdzLCBkZXJpdmVkIHByb2ZpbGUgcHJvcG9zYWxzLCBjYWNoZXMsIGluZGV4ZXMsIGFuZCBwcm92aWRlciByZWZlcmVuY2VzOyBibG9ja3MgbmV3IHdyaXRlczsgcGVyZm9ybXMgdGhlIGRlZmluZWQgZXJhc3VyZSBvciBjcnlwdG9ncmFwaGljLWVyYXN1cmUgcHJvY2VkdXJlOyBhbmQgcmVjb3JkcyBub24tY29udGVudCB2ZXJpZmljYXRpb24gZXZpZGVuY2UuIEV4YWN0IGJhY2t1cCBleHBpcmF0aW9uIGFuZCBleHRlcm5hbCBtb2RlbC1wcm92aWRlciBkZWxldGlvbiBjYW5ub3QgYmUgYXNzZXJ0ZWQgdW50aWwgY29udHJhY3RzIGFyZSBjaG9zZW4sIHNvIHRob3NlIHJlbWFpbiBleHBsaWNpdCBsYXVuY2ggdmFsaWRhdGlvbnMgcmF0aGVyIHRoYW4gYXNzdW1lZCBndWFyYW50ZWVzLgoKQ29yZSBpcyBvcHRpb25hbCBkb3duc3RyZWFtIGluZnJhc3RydWN0dXJlIGluIHRoaXMgb3B0aW9uLiBJdCBtYXkgcmVjZWl2ZSBvcGFxdWUgaWRlbnRpZmllcnMgb3IgYW4gZXhwbGljaXRseSBhcHByb3ZlZCwgcG9saWN5LXNhZmUgZGVyaXZhdGl2ZSB3aGVuIGl0cyBnb3Zlcm5hbmNlIGNvbnRyYWN0IHBlcm1pdHMuIEl0IG11c3Qgbm90IHJlY2VpdmUgdGhlIG9ubHkgY29weSBvZiBzZW5zaXRpdmUgY29udGVudCBvciBzaWxlbnRseSBwZXJzaXN0IHByb21wdHMvcmVzcG9uc2VzLiBJZiBDb3JlIGxhdGVyIHN1cHBsaWVzIGEgdmVyaWZpZWQgbm9uLXBlcnNpc3RlbnQgaW5mZXJlbmNlIG1vZGUsIGl0IGNhbiBzZXJ2ZSBhcyB0aGUgc3RhdGVsZXNzIEFJIHRyYW5zcG9ydDsgb3RoZXJ3aXNlIHRoZSBydW50aW1lIHVzZXMgYW4gYXBwcm92ZWQgbW9kZWwtcHJvdmlkZXIgYWRhcHRlciBiZWhpbmQgYEFpR2F0ZXdheWAuIEVpdGhlciBjYXNlIHJlcXVpcmVzIGFuIGFyY2hpdGVjdHVyZSBleGNlcHRpb24gYmVjYXVzZSB0aGUgY3VycmVudCBhY2NlcHRlZCBwcm9kdWN0aW9uIGRpcmVjdGlvbiBpcyBDb3JlLWJhY2tlZC4KCiMjIyBDb21wYW5pb24gc3RyZW5ndGhzCgotIE9uZSBjYW5vbmljYWwgYXV0aG9yaXR5IGZvciBjb250ZW50LCB0cmFuc2l0aW9ucywgcmVjb3ZlcnksIGF1ZGl0LCBleHBvcnQsIGFuZCBkZWxldGlvbi4KLSBEYXRhYmFzZSB0cmFuc2FjdGlvbnMgbWF0Y2ggdGhlIGV2aWRlbmNlL3N0YWdlL3ZlcnNpb24gZG9tYWluIGluc3RlYWQgb2YgZW11bGF0aW5nIHRoZW0gd2l0aCBmbGF0IHJlY29yZHMuCi0gVGhlIHNhbWUgb3BlcmF0aW9uIHJlY29yZCBjYW4gc3VwcG9ydCByZXF1ZXN0LWJvdW5kIGV4ZWN1dGlvbiBmaXJzdCBhbmQgZHVyYWJsZSB3b3JrZXJzIGxhdGVyIGlmIHRlc3RzIGp1c3RpZnkgdGhlbS4KLSBQcml2YWN5LCBvcGVyYXRvciBhY2Nlc3MsIHJldGVudGlvbiwgYW5kIGVyYXN1cmUgYmVjb21lIEJyaWxsaWFudC1vd25lZCBpbnZhcmlhbnRzIHJhdGhlciB0aGFuIHVuZG9jdW1lbnRlZCBkb3duc3RyZWFtIGFzc3VtcHRpb25zLgotIEJldHRlciBmb3VuZGF0aW9uIGZvciBnb3Zlcm5lZCBwcm9maWxlIHByb3Bvc2FscywgY29ycmVjdGlvbnMsIHByb3ZlbmFuY2UsIGFuZCBmdXR1cmUgWE8gY29udGludWl0eS4KLSBLZWVwcyB0aGUgdXNlciBleHBlcmllbmNlIGFuZCBwcm9kdWN0IG1vZHVsZSBpbiBCcmlsbGlhbnQgQXBwcyB3aGlsZSBpc29sYXRpbmcgZGlmZmljdWx0IHN0YXRlIG1hY2hpbmVyeSBiZWhpbmQgYSBuYXJyb3cgc2VydmVyLW9ubHkgaW50ZXJmYWNlLgoKIyMjIENvbXBhbmlvbiBjb25zdHJhaW50cyBhbmQgY29zdHMKCi0gSGlnaGVzdCBpbml0aWFsIGJ1aWxkIGFuZCBtaWdyYXRpb24gcmlzay4KLSBBZGRzIGEgZGF0YWJhc2UsIG1pZ3JhdGlvbnMsIGNyZWRlbnRpYWxzLCBiYWNrdXAvcmVzdG9yZSBwb2xpY3ksIG1vbml0b3JpbmcsIGluY2lkZW50IHJlc3BvbnNlLCBjYXBhY2l0eSBwbGFubmluZywgYW5kIGFub3RoZXIgZmFpbHVyZSBkb21haW47IGEgd29ya2VyIHdvdWxkIGFkZCBmdXJ0aGVyIGJ1cmRlbiBvbmx5IGlmIHNlbGVjdGVkLgotIENvbmNlbnRyYXRlcyBzZW5zaXRpdmUgZGF0YSB1bmRlciBCcmlsbGlhbnQncyBkaXJlY3Qgb3BlcmF0aW9uYWwgcmVzcG9uc2liaWxpdHk7IHBvb3IgYWNjZXNzIGNvbnRyb2xzIHdvdWxkIG1ha2UgdGhlIHRydXN0IHBvc3R1cmUgd29yc2UsIG5vdCBiZXR0ZXIuCi0gUmVxdWlyZXMgYSBzYW5jdGlvbmVkIHN0YXRlbGVzcyBpbmZlcmVuY2UgcGF0aCBhbmQgdmVyaWZpZWQgcHJvdmlkZXIgcmV0ZW50aW9uL3RyYWluaW5nIHRlcm1zLgotIENyZWF0ZXMgYXJjaGl0ZWN0dXJhbCBkaXZlcmdlbmNlIGZyb20gdGhlIGFjY2VwdGVkIENvcmUtZmlyc3Qgc3BpbmUgYW5kIG5lZWRzIGFuIGV4cGxpY2l0LCBkb2N1bWVudGVkIGV4Y2VwdGlvbi4KLSBSaXNrcyBiZWNvbWluZyBhIHNlY29uZCBnZW5lcmljIHdvcmtmbG93IGVuZ2luZSB1bmxlc3Mgc2NvcGUgaXMgaGVsZCB0byBNaXJyb3IncyBjb2RlLWF1dGhvcmVkIGxpZmVjeWNsZS4KLSBIYXMgaGlnaGVyIG9uZ29pbmcgb3BlcmF0aW5nIGNvc3RzOyBleGFjdCBkYXRhYmFzZSwgb3B0aW9uYWwtd29ya2VyLCBtb2RlbCwgYW5kIG9ic2VydmFiaWxpdHkgY29zdHMgYXJlIHVua25vd24gYW5kIG11c3QgYmUgc291cmNlZCBiZWZvcmUgcGxhbm5pbmcuCgpPcHRpb24gQiBpcyB0aGVyZWZvcmUgYSAqKnByZWZlcnJlZCBhcmNoaXRlY3R1cmUgY2FuZGlkYXRlKiosIG5vdCB5ZXQgYSBwcm92ZW4gY29tcGxpYW50IHByb2R1Y3Rpb24gc3lzdGVtLiBCcmlsbGlhbnQtb3duZWQgbG9jYWxpdHkgbWFrZXMgZXJhc3VyZSBhbmQgYXVkaXQgZ292ZXJuYWJsZTsgaXQgZG9lcyBub3QgaXRzZWxmIHByb3ZlIGJhY2t1cCBlcmFzdXJlLCBwcm92aWRlciBkZWxldGlvbiwgb3BlcmF0b3IgY29udHJvbHMsIG9yIHJldGVudGlvbi4gSWYgdGhvc2UgcHJvb2ZzIGZhaWwsIHRoZSBjb3JyZWN0IG91dGNvbWUgaXMgdG8gYXZvaWQgcGVyc2lzdGluZyBzZW5zaXRpdmUgcHJvZHVjdGlvbiBjb250ZW504oCUbm90IHRvIGFzc3VtZSB0aGUgY29tcGFuaW9uIHNvbHZlZCBpdC4KCiMjIFJlbGF0aW9uc2hpcCB0byB0aGUgZXhpc3RpbmcgTWlycm9yIGFwcAoKIyMjIFJlY29tbWVuZGVkIGRpc3Bvc2l0aW9uOiBldm9sdmUKClRyZWF0IEFnZW50aWMgTWlycm9yIGFzICoqTWlycm9yJ3MgZGVlcGVyIHByb2R1Y3QgbW9kZWwqKiwgbm90IGFzIGEgcmVwbGFjZW1lbnQgYnJhbmQgb3IgcGFyYWxsZWwgYXBwbGljYXRpb24uCgpQcmVzZXJ2ZToKCi0gY2Fub25pY2FsIGAvbWlycm9yYCBlbnRyeSBhbmQgcmV0dXJuIHJvdXRlczsKLSB0aGUgY3VycmVudCByb3V0ZSBzaGVsbCwgZXh0ZW5kZWQgdG8gc2F0aXNmeSB0aGUgcmVxdWVzdGVkIGZvdXItc3RhZ2UgaW50YWtlL2ludGVydmlldy9nZW5lcmF0aW9uL3JldmlldyBjb250cmFjdDsKLSB0aGUgTGV0dGVyIGFzIHRoZSBjZW50cmFsIGFydGlmYWN0IGFuZCByZWFkIGFjY2VzcyB0byBoaXN0b3JpY2FsIEFjdGlvbiBQbGFuczsKLSBTdHl0Y2ggbG9naW4gYW5kIEJyaWxsaWFudCdzIHNlcnZlci1zaWRlIGF1dGhvcml6YXRpb24gYm91bmRhcnk7Ci0gZXhpc3RpbmcgYXJ0aWZhY3RzIGFuZCByZWFkIGFjY2VzcyBmb3IgcHJpb3IgcnVuczsKLSB0aGUgcmVwb3J0L2NoYXQgc3VyZmFjZSBhbmQgdGhlIGRpcmVjdGlvbmFsIGZ1dHVyZSB0cmFuc2l0aW9uIGludG8gWE87Ci0gc2hhcmVkIGNhcGFiaWxpdHkgc2NoZW1hcywgVUkgcHJpbWl0aXZlcywgZmxhZ3MsIGFuZCB0ZWxlbWV0cnkgd2hlcmUgdGhleSByZW1haW4gc291bmQuCgpDaGFuZ2UgY29uY2VwdHVhbGx5OgoKLSBpbnRha2UgYmVjb21lcyBhbiBleHBsaWNpdCBjb3ZlcmFnZSBjb250cmFjdCByYXRoZXIgdGhhbiBvbmx5IHByZS1jb250ZXh0OwotIGludGVydmlldyBzdGFnZXMgZ2FpbiBldmlkZW5jZSwgY29uZmxpY3QsIHN1ZmZpY2llbmN5LCBhbmQgdXNlci1hZHZhbmNlIHNlbWFudGljczsKLSBnZW5lcmF0aW9uIHJlY2VpdmVzIG9uZSBpbW11dGFibGUgYWNjZXB0ZWQgcGFja2V0IGFuZCBwcm9kdWNlcyB0aGUgTGV0dGVyIHBsdXMgYSBzZXBhcmF0ZWx5IGRlY2lkZWQgbmV4dC1hY3Rpb24gYXJ0aWZhY3Q7Ci0gcmV2aWV3IGlzIHNlcGFyYXRlZCBmcm9tIGdlbmVyYXRpb24gYW5kIGNhbm5vdCBtdXRhdGUgd2l0aG91dCBhcHByb3ZhbDsKLSBkZWxpdmVyYWJsZXMgYmVjb21lIGV4cGxpY2l0IHZlcnNpb25zIHdpdGggY29ycmVjdGlvbnMsIHN0YWxlbmVzcywgYW5kIGFjY2VwdGFuY2U7Ci0gY2Fub25pY2FsIHBlcnNpc3RlbmNlIG1vdmVzIGJlaGluZCBhIGBNaXJyb3JSdW50aW1lYCBpbnRlcmZhY2Ugc28gbmF0aXZlIGFuZCBjb21wYW5pb24gYWRhcHRlcnMgcmVtYWluIGNvbmNlcHR1YWxseSBzdWJzdGl0dXRhYmxlLgoK4oCcRXZvbHZl4oCdIGRlc2NyaWJlcyBjb250aW51aXR5IG9mIHByb2R1Y3QgaWRlbnRpdHkgYW5kIHVzZXIgZXhwZXJpZW5jZSwgbm90IGEgcmVxdWlyZW1lbnQgdG8gcHJlc2VydmUgaW50ZXJuYWxzLiBMYXJnZSBwYXJ0cyBvZiB0aGUgZXhpc3Rpbmcgc3RhdGUgYW5kIGdlbmVyYXRpb24gaW1wbGVtZW50YXRpb24gbWF5IGV2ZW50dWFsbHkgYmUgcmVwbGFjZWQgYmVoaW5kIHRoZSBzYW1lIHN1cmZhY2UuIEhpc3RvcmljYWwgYXJ0aWZhY3RzIHNob3VsZCByZW1haW4gcmVhZGFibGU7IHdoZXRoZXIgdG8gdHJhbnNmb3JtIG9yIG1lcmVseSBncmFuZGZhdGhlciB0aGVtIGlzIGEgbGF0ZXIgbWlncmF0aW9uLXBsYW5uaW5nIGRlY2lzaW9uLgoKIyMjIFdoeSBub3QgcmVwbGFjZQoKQSBzZXBhcmF0ZSBBZ2VudGljIE1pcnJvciB3b3VsZCBkdXBsaWNhdGUgYSBsaXZlIHByb2R1Y3Qgam91cm5leSwgY29uZnVzZSB0aGUgTWlycm9yIOKGkiBYTyBzdG9yeSwgZnJhZ21lbnQgYXJ0aWZhY3RzIGFuZCBjaGF0LCBhbmQgZm9yY2UgdXNlcnMgdG8gY2hvb3NlIGJldHdlZW4gdHdvIHZlcnNpb25zIG9mIHRoZSBzYW1lIHByb21pc2UuIFRoZSB2YWx1YWJsZSBjaGFuZ2VzIGFyZSBjb21wYXRpYmxlIHdpdGggdGhlIGV4aXN0aW5nIGV4cGVyaWVuY2Ugc2hhcGUgYW5kIHNob3VsZCBzdHJlbmd0aGVuIGl0cyBtZWFuaW5nLgoKIyMjIFdoeSBub3QgY29leGlzdAoKUGVybWFuZW50IGNvZXhpc3RlbmNlIGlzIGp1c3RpZmllZCBvbmx5IGlmIHRoZSBsb2NhbCwgYWNjb3VudGxlc3MsIHVzZXItY29udHJvbGxlZCB3cml0aW5nIHN0dWRpbyByZW1haW5zIGEgZGlzdGluY3QgcHJvZHVjdCB3aXRoIGEgZGlzdGluY3QgdHJ1c3QgcHJvbWlzZSBhbmQgYXJiaXRyYXJ5IGRlbGl2ZXJhYmxlcy4gVGhhdCBwcm9kdWN0IGlzIGJyb2FkZXIgdGhhbiBCcmlsbGlhbnQgTWlycm9yIGFuZCBiZWxvbmdzIG91dHNpZGUgaXRzIHJvdXRlL3Byb2R1Y3QgaWRlbnRpdHkuIFdpdGhpbiBCcmlsbGlhbnQgQXBwcywgZ2VuZXJpYyBtdWx0aS13b3JrZmxvdyBjYXBhYmlsaXR5IGJlbG9uZ3MgdG8gUmVmbG93LCBub3QgYSBzZWNvbmQgTWlycm9yLgoKIyMgQmFsYW5jZWQgY29tcGFyaXNvbgoKfCBEaW1lbnNpb24gfCBBLiBOYXRpdmUgQnJpbGxpYW50IEFwcHMgfCBCLiBDb21wYW5pb24tb3duZWQgcnVudGltZSB8CnwtLS18LS0tfC0tLXwKfCBFbmQtdXNlciBleHBlcmllbmNlIGFuZCBjYXBhYmlsaXR5IHwgQ2FuIGFkZCBhbGwgZm91ciByZXF1ZXN0ZWQgc3RhZ2VzIHRvIHRoZSBjdXJyZW50IHJvdXRlIHNoZWxsIGFuZCBwcmVzZXJ2ZSByZXNwb25zaXZlbmVzcy4gQmVzdCBmb3Igb25lIGJvdW5kZWQsIGxpbmVhciBwZXJzb25hbCBydW4uIENvbXBsZXggYmFja2dyb3VuZCB3b3JrIGFuZCByaWNoZXIgY3Jvc3MtcnVuIGNvbnRpbnVpdHkgcmVtYWluIGNvbnN0cmFpbmVkLiB8IFNhbWUgdmlzaWJsZSBleHBlcmllbmNlLCB3aXRoIHN0cm9uZ2VyIGNhbm9uaWNhbCBldmlkZW5jZS92ZXJzaW9uIGhpc3RvcnkgYW5kIHNhZmVyIGZ1dHVyZSBjb250aW51aXR5LiBEdXJhYmxlIGJhY2tncm91bmQgcHJvZ3Jlc3MgaXMgYXZhaWxhYmxlIG9ubHkgaWYgYSB3b3JrZXIgaXMgc2VwYXJhdGVseSBzZWxlY3RlZC4gfAp8IFBlcnNpc3RlbmNlIGFuZCBjb252ZXJzYXRpb24gbGlmZWN5Y2xlIHwgQ29yZSBjaGF0IGlzIGNhbm9uaWNhbDsgQ29udGV4dEFzc2V0cyBob2xkIGxheWVyZWQgc3RhdGUuIFByb3ZlbiBjdXJyZW50IHBhdHRlcm4sIGJ1dCBmbGF0LCBvdmVyd3JpdGUtb3JpZW50ZWQsIGFuZCBub3QgdHJhbnNhY3Rpb25hbGx5IHVuaWZpZWQuIHwgT25lIHJlbGF0aW9uYWwgYXV0aG9yaXR5IGZvciB0cmFuc2NyaXB0LCBzdGF0ZSwgZXZlbnRzLCBhbmQgcG9saWN5LiBTdHJvbmdlciBsaWZlY3ljbGUgc2VtYW50aWNzOyBuZXcgc3RvcmFnZSBtdXN0IGJlIGdvdmVybmVkIGNvcnJlY3RseS4gfAp8IEdlbmVyYXRpb24sIHN0b3JhZ2UsIHJldmlldywgYW5kIGNoYXQgfCBDdXJyZW50IHN0YWdlZCBnZW5lcmF0aW9uLCBtYW5pZmVzdC1sYXN0IGFydGlmYWN0cywgYW5kIENvcmUgY2hhdCBhcmUgcmV1c2FibGUuIEltbXV0YWJsZSByZXZpZXcvdmVyc2lvbiBzZW1hbnRpY3MgYXJlIG5ldzsgdGhlIGFwcCBvd25zIHBhcnRpYWwtd3JpdGUgcmVjb25jaWxpYXRpb24gYW5kIHJlcGVhdGVkLWNhbGwgcmlzay4gfCBBcnRpZmFjdC9yZXZpZXcgdHJhbnNhY3Rpb25zIHVuaWZ5IHRoZSBsaWZlY3ljbGUuIFJlcXVlc3QtYm91bmQgb3BlcmF0aW9uIHJlY29yZHMgYXJlIHN1ZmZpY2llbnQgdW5sZXNzIHRlc3RzIGp1c3RpZnkgYSBkdXJhYmxlIHdvcmtlcjsgZWl0aGVyIHBhdGggcmVxdWlyZXMgc3RhdGVsZXNzIG1vZGVsIHRyYW5zcG9ydCBhbmQgb3duZWQgY2hhdCBwZXJzaXN0ZW5jZS4gfAp8IEFyY2hpdGVjdHVyYWwgY29oZXJlbmNlIHwgQmVzdCBmaXQgd2l0aCBhY2NlcHRlZCBDb3JlLWZpcnN0IGFyY2hpdGVjdHVyZSBhbmQgc2hhcmVkIFNESy4gRG9tYWluIGRlcHRoIGxlYWtzIGludG8gbWFuaWZlc3RzLCBmZW5jZXMsIGFuZCByb3V0ZSBsb2dpYyBiZWNhdXNlIHRoZSBzdG9yZSBpcyBzaGFsbG93LiB8IEJlc3QgZml0IHdpdGggQWdlbnRpYyBNaXJyb3IncyBzdGF0ZWZ1bCBkb21haW4uIERpdmVyZ2VzIGZyb20gdGhlIGFjY2VwdGVkIHBsYXRmb3JtIHNwaW5lIHVubGVzcyBleHBsaWNpdGx5IGNvbnN0cmFpbmVkIGFuZCByYXRpZmllZC4gfAp8IFBsYXRmb3JtIGludGVncml0eSBhbmQgZnV0dXJlIGxldmVyYWdlIHwgUmVpbmZvcmNlcyBDb3JlLCBjYXBhYmlsaXR5IG1vZHVsZXMsIGFuZCBvbmUgc2hhcmVkIHRyYW5zcG9ydC4gUmlza3MgZW5jb2RpbmcgbW9yZSBwcm9kdWN0LXNwZWNpZmljIGRhdGFiYXNlIGVtdWxhdGlvbiBpbnRvIGV2ZXJ5IGFwcC4gfCBDcmVhdGVzIGEgcmV1c2FibGUgZ292ZXJuZWQtcnVudGltZSBwYXR0ZXJuIGZvciBoaWdoLXNlbnNpdGl2aXR5IHN0YXRlLCBidXQgcmlza3MgcGxhdGZvcm0gZnJhZ21lbnRhdGlvbiBvciBhIHJpdmFsIHdvcmtmbG93IGVuZ2luZS4gS2VlcCBpdCBNaXJyb3Itc3BlY2lmaWMuIHwKfCBTZWN1cml0eSwgcHJpdmFjeSwgYW5kIGF1dGhlbnRpY2F0aW9uIHwgTWF0dXJlIFN0eXRjaCDihpIgTTJNIOKGkiBvbi1iZWhhbGYtb2YgYm91bmRhcnk7IG5vIGJyb3dzZXIgc2VjcmV0cy4gU2Vuc2l0aXZlIGNvbnRlbnQgc3BhbnMgQnJpbGxpYW50IGFuZCBDb3JlLCB3aG9zZSBlcmFzdXJlL2FjY2VzcyBjb250cmFjdCBpcyBpbnN1ZmZpY2llbnRseSBwcm92ZW4uIHwgS2VlcHMgU3R5dGNoIGFuZCBzZXJ2ZXItb25seSBhY2Nlc3Mgd2hpbGUgY29uY2VudHJhdGluZyBjb250ZW50IGdvdmVybmFuY2UuIENhbiBjbG9zZSB0aGUgQ29yZSBnYXAsIGJ1dCBCcmlsbGlhbnQgYXNzdW1lcyBkaXJlY3QgZGF0YWJhc2UsIG9wZXJhdG9yLWFjY2VzcywgYW5kIHByb3ZpZGVyLXNlY3VyaXR5IHJlc3BvbnNpYmlsaXR5LiB8CnwgUmVsaWFiaWxpdHkgYW5kIHJlY292ZXJhYmlsaXR5IHwgRXhpc3Rpbmcgc25hcHNob3RzLCBmaW5pc2hlZCBtYXJrZXJzLCBmZW5jZWQgaW50YWtlIHJldmlzaW9ucywgYW5kIG1hbmlmZXN0LWxhc3QgcmVhZHMgcHJvdmlkZSBnb29kIHJlY292ZXJ5LiBObyBhdG9taWMgbXVsdGktcmVjb3JkIGNvbW1pdDsgbG9uZyB3b3JrIHJlbWFpbnMgcmVxdWVzdC9icm93c2VyIHNlbnNpdGl2ZS4gfCBUcmFuc2FjdGlvbnMgYW5kIG9wZXJhdGlvbiBqb3VybmFscyBvZmZlciBzdHJvbmdlciByZWNvbmNpbGlhdGlvbi4gTGVhc2VzL2V2ZW50IGN1cnNvcnMgY2FuIGFkZCB0YWItaW5kZXBlbmRlbnQgcmVjb3ZlcnkgaWYgc2VsZWN0ZWQ7IHRoZSBuZXcgZGF0YWJhc2UgYW5kIGFueSB3b3JrZXIgYWRkIGZhaWx1cmUgZG9tYWlucy4gfAp8IE9wZXJhdGlvbmFsIGFuZCBvYnNlcnZhYmlsaXR5IGJ1cmRlbiB8IExvd2VzdC4gUmV1c2VzIGN1cnJlbnQgQ29yZS9TREsgdGVsZW1ldHJ5LCB0aG91Z2ggYXBwLWxldmVsIHJlY29uY2lsaWF0aW9uIGlzIGhhcmRlciB0byBvYnNlcnZlIGFuZCBkb3duc3RyZWFtIFNMQXMgcmVtYWluIG9wYXF1ZS4gfCBIaWdoZXN0LiBSZXF1aXJlcyBkYXRhYmFzZS9qb2IvbW9kZWwgdGVsZW1ldHJ5LCBhbGVydHMsIG1pZ3JhdGlvbnMsIGJhY2t1cCBkcmlsbHMsIGVyYXN1cmUgcHJvb2YsIGFuZCBvbi1jYWxsIG93bmVyc2hpcC4gT2ZmZXJzIGVuZC10by1lbmQgZG9tYWluIG9ic2VydmFiaWxpdHkuIHwKfCBCdWlsZCBhbmQgb3BlcmF0aW5nIGNvc3RzIHwgTG93ZXN0IGluY3JlbWVudGFsIGJ1aWxkIGFuZCBzZXJ2aWNlIGNvc3Q7IGV4YWN0IENvcmUgdXNhZ2UgY29zdCBpcyB1bmtub3duLiBPbmdvaW5nIGVuZ2luZWVyaW5nIGNvc3QgZ3Jvd3Mgd2l0aCBtYW5pZmVzdC9mZW5jZSB3b3JrYXJvdW5kcy4gfCBIaWdoZXIgYnVpbGQgYW5kIHJlY3VycmluZyBzZXJ2aWNlIGNvc3Q7IG5vIHByZWNpc2UgZXN0aW1hdGUgaXMgc3VwcG9ydGFibGUgeWV0LiBNYXkgcmVkdWNlIGxvbmctdGVybSBjb3JyZWN0bmVzcyBhbmQgcmVjb3ZlcnkgZW5naW5lZXJpbmcgZm9yIGEgc3RhdGUtaGVhdnkgcHJvZHVjdC4gfAp8IE1haW50YWluYWJpbGl0eSBhbmQgZXZvbHZhYmlsaXR5IHwgRmV3ZXIgc3lzdGVtcyBhbmQgc3Ryb25nZXN0IGV4aXN0aW5nLXRlYW0gZmFtaWxpYXJpdHkuIFN0YXRlIGludmFyaWFudHMgYXJlIGRpc3RyaWJ1dGVkIGFjcm9zcyBmbGF0LXN0b3JlIGNvbnZlbnRpb25zIGFuZCBjYW4gYmVjb21lIGJyaXR0bGUgYXMgZmVhdHVyZXMgY29tcG91bmQuIHwgRGVlcCBpbnRlcmZhY2UgYW5kIHJlbGF0aW9uYWwgbW9kZWwgbG9jYWxpemUgaW52YXJpYW50cyBhbmQgc3VwcG9ydCBmdXR1cmUgcHJvZmlsZS9yZXZpZXcgYmVoYXZpb3IuIE1vcmUgaW5mcmFzdHJ1Y3R1cmUgYW5kIHNjaGVtYSBldm9sdXRpb24gbXVzdCBiZSBtYWludGFpbmVkLiB8CnwgTWlncmF0aW9uIGFuZCByZXBsYWNlbWVudCByaXNrIHwgTG93ZXN0OiBldm9sdmVzIGN1cnJlbnQgbW9kdWxlcyBhbmQgcGVyc2lzdGVuY2UgcGF0aHMuIEhpZ2hlc3QgcmlzayBvZiBhIGxhdGVyIHNlY29uZCBtaWdyYXRpb24gaWYgZ292ZXJuYW5jZSByZXF1aXJlbWVudHMgYmVjb21lIG5vbi1uZWdvdGlhYmxlLiB8IEhpZ2hlc3QgbmVhci10ZXJtOiBuZXcgYXV0aG9yaXR5LCBpZGVudGl0eSBtYXBwaW5nLCBoaXN0b3JpY2FsIHJlYWRzLCBhbmQgY3V0b3ZlciBwb2xpY3kuIEtlZXBzIFVJL3Byb2R1Y3QgbWlncmF0aW9uIGxvd2VyIGlmIGhpZGRlbiBiZWhpbmQgZXhpc3Rpbmcgcm91dGVzLiB8CgojIyBSZWNvbW1lbmRhdGlvbiBpbiBmdWxsCgojIyMgUHJlZmVycmVkIGRpcmVjdGlvbgoKKipFdm9sdmUgdGhlIGV4aXN0aW5nIE1pcnJvciBwcm9kdWN0IGluIHBsYWNlIGFuZCBzZWxlY3QgQnJpbGxpYW50LW93bmVkIGNhbm9uaWNhbCBjb250ZW50IGF1dGhvcml0eSBhcyB0aGUgcHJlZmVycmVkIGFyY2hpdGVjdHVyZSBjYW5kaWRhdGUgZm9yIG5ldyBzZW5zaXRpdmUgcnVucywgc3ViamVjdCB0byB0aGUgbWluaW11bSB2YWxpZGF0aW9ucyBiZWxvdy4gRGVjaWRlIGNvbG9jYXRlZC9yZXF1ZXN0LWJvdW5kIHZlcnN1cyBzZXBhcmF0ZWx5IGRlcGxveWVkL2R1cmFibGUgZXhlY3V0aW9uIG9ubHkgYWZ0ZXIgcmVjb3ZlcnkgYW5kIGxhdGVuY3kgdGVzdHMuKioKClRoaXMgY2hvaWNlIGlzIG5vdCBkcml2ZW4gYnkgYSBkZXNpcmUgZm9yIG1vcmUgaW5mcmFzdHJ1Y3R1cmUuIEl0IGZvbGxvd3MgZnJvbSBhIG1pc21hdGNoIGJldHdlZW4gdGhlIGRvbWFpbiBhbmQgdGhlIGN1cnJlbnQgY2Fub25pY2FsIHN0b3JlOgoKLSBBZ2VudGljIE1pcnJvcidzIGNlbnRyYWwgdmFsdWUgY29tZXMgZnJvbSBkdXJhYmxlLCBnb3Zlcm5hYmxlIHN0YXRlIHRyYW5zaXRpb25zIHJhdGhlciB0aGFuIGNsZXZlciBwcm9tcHRpbmcgYWxvbmUuCi0gQnJpbGxpYW50J3Mgb3duIHBvbGljeSBtYWtlcyBoYXJkIGVyYXN1cmUsIGFjY2VzcyB0cmFuc3BhcmVuY3ksIGNvcnJlY3Rpb24sIGFuZCBvd25lcnNoaXAgcGFydCBvZiBwcm9kdWN0IGNvcnJlY3RuZXNzLgotIFRoZSBjdXJyZW50IENvcmUgaW50ZXJmYWNlIGRvZXMgbm90IHByb3ZlIHRob3NlIHByb3BlcnRpZXMgZm9yIHRoZSBtb3N0IHNlbnNpdGl2ZSByZWNvcmQ6IHRoZSBpbnRlcnZpZXcgdHJhbnNjcmlwdC4KLSBBIGZsYXQtc3RvcmUgbmF0aXZlIGJ1aWxkIGNhbiBtaW1pYyB2ZXJzaW9uaW5nIGFuZCByZWNvdmVyeSwgYnV0IGl0IGNhbm5vdCBtYW51ZmFjdHVyZSBkb3duc3RyZWFtIGRlbGV0aW9uIG9yIGF1ZGl0IGF1dGhvcml0eS4KLSBPbmUgbmFycm93IHJ1bnRpbWUgYm91bmRhcnkgY2FuIHByZXNlcnZlIEJyaWxsaWFudCdzIHByb2R1Y3QsIGF1dGgsIFVJLCBjYXBhYmlsaXR5LCBhbmQgZnV0dXJlIFhPIHNoYXBlcyB3aGlsZSBvd25pbmcgdGhlIG1pc3NpbmcgbGlmZWN5Y2xlIGNvaGVyZW50bHkuCgpBcHByb3ZlIHRoaXMgb25seSBhcyBhICoqTWlycm9yLXNwZWNpZmljLCBjb2RlLWF1dGhvcmVkIHByaXZhdGUgcnVudGltZSoqLCB3aXRoIG5vIGdlbmVyaWMgcGxhbm5lciwgd29ya2Zsb3cgRFNMLCBvciBzZWNvbmQgcHVibGljIGFwcC4gUHJlc2VydmUgYEFpR2F0ZXdheWAgYXMgdGhlIEFJLWNhbGwgc2VhbSBhbmQgbWFrZSBDb3JlIHJlcGxpY2F0aW9uIG9wdGlvbmFsIGFuZCBwb2xpY3ktZ2F0ZWQuIFRyZWF0IHByb2R1Y3Rpb24gdXNlIGFzIGNvbnRpbmdlbnQgb24gZnVsbC1lcmFzdXJlLCBhY2Nlc3MtY29udHJvbCwgYW5kIHN0YXRlbGVzcy1pbmZlcmVuY2UgcHJvb2Y7IGlmIHRoZSBjYW5kaWRhdGUgY2Fubm90IHByb3ZlIHRoZW0sIGRvIG5vdCBwZXJzaXN0IHNlbnNpdGl2ZSBwcm9kdWN0aW9uIGNvbnRlbnQuIFRoZSBsYXRlciBtaWdyYXRpb24gcGxhbiBzaG91bGQgbm90IGJlZ2luIHVudGlsIHRoZSBhcmNoaXRlY3R1cmUgZXhjZXB0aW9uIGFuZCBkYXRhLXJpZ2h0cyBsYXVuY2ggYmFyIGFyZSBleHBsaWNpdC4KCiMjIyBTdHJvbmdlc3Qgbm9uLXNlbGVjdGVkIGRpcmVjdGlvbgoKTmF0aXZlIEJyaWxsaWFudCBBcHBzIGlzIGEgY3JlZGlibGUsIGxvd2VyLWNvc3QgYXJjaGl0ZWN0dXJlLCBub3QgYSBmYWxsYmFjayBpbiBuYW1lIG9ubHkuIEl0IGNhbiBhZGQgdGhlIGNvbXBsZXRlIHJlcXVlc3RlZCBqb3VybmV5IGFuZCBhbHJlYWR5IGhhcyBtYW55IHJlY292ZXJ5IHBhdHRlcm5zIG5lZWRlZC4gVW5kZXIgY3VycmVudCBwb2xpY3kgaXQgaXMgc3VwZXJpb3IgZm9yIHN5bnRoZXRpYywgZXBoZW1lcmFsLCBvciBub24tcHJvZHVjdGlvbiB2YWxpZGF0aW9uLCB3aGVyZSBubyBzZW5zaXRpdmUgZHVyYWJsZSBjb250ZW50IGlzIGVudHJ1c3RlZCB0byBhbiB1bmRlbGV0YWJsZSBzdG9yZS4gRm9yIHByb2R1Y3Rpb24sIENvcmUgbXVzdCBhZGQgdmVyaWZpYWJsZSBoYXJkIGRlbGV0aW9uIGFuZCBhdWRpdCBwbHVzIGFkZXF1YXRlIHRyYW5zYWN0aW9uYWwvZHVyYWJsZS1vcGVyYXRpb24gc2VtYW50aWNz4oCUb3IgdGhlIHVzZXIgbXVzdCBleHBsaWNpdGx5IGFtZW5kIHRoZSBiaW5kaW5nIHByb2R1Y3QgcG9saWN5LiBPbmNlIHRob3NlIGNvbmRpdGlvbnMgaG9sZCwgbmF0aXZlIHNob3VsZCBkaXNwbGFjZSB0aGUgY29tcGFuaW9uIHJlY29tbWVuZGF0aW9uIGJlY2F1c2UgaXQgd291bGQgZGVsaXZlciBwcm9kdWN0IGludGVncml0eSB3aXRoIHRoZSBzaW1wbGVyIHBsYXRmb3JtIHNoYXBlLgoKIyMgQ29uZGl0aW9ucyB0aGF0IHdvdWxkIGNoYW5nZSB0aGUgcmVjb21tZW5kYXRpb24KCiMjIyBDaGFuZ2UgZnJvbSBjb21wYW5pb24gdG8gbmF0aXZlCgpQcmVmZXIgT3B0aW9uIEEgaWYgYWxsIG1hdGVyaWFsIGNvbmRpdGlvbnMgYXJlIGRlbW9uc3RyYXRlZDoKCjEuIENvcmUgY2FuIHZlcmlmaWFibHkgZXJhc2UsIGJ5IG93bmVyLCB0YXNrIGNoYXQsIENvbnRleHRBc3NldHMsIGltbXV0YWJsZSB2ZXJzaW9ucywgZGVyaXZlZCBhcnRpZmFjdHMsIGluZGV4ZXMvY2FjaGVzLCBhbmQgYXBwbGljYWJsZSBiYWNrdXBzLgoyLiBDb3JlIGV4cG9zZXMgYSB1c2VyLXZpc2libGUgb3IgaW5kZXBlbmRlbnRseSBhdWRpdGFibGUgYWNjZXNzIGxvZyBhbmQgYW4gZW5mb3JjZWFibGUgcHJvdGVjdGVkLXdyaXRlIGNvbnRyYWN0LgozLiBDb3JlIGRvY3VtZW50cyByZXRlbnRpb24sIHByb3ZpZGVyIGRhdGEgaGFuZGxpbmcsIHBheWxvYWQvcGFnaW5hdGlvbiBsaW1pdHMsIGR1cmFiaWxpdHksIHJlY292ZXJ5IG9iamVjdGl2ZXMsIGFuZCBwcmljaW5nIHN1ZmZpY2llbnRseSBmb3IgdGhlIHByb2R1Y3QgcHJvbWlzZS4KNC4gQ29yZSBzdXBwbGllcyBlaXRoZXIgdHJhbnNhY3Rpb25hbC9DQVMgcHVibGljYXRpb24gb3IgYSBkdXJhYmxlIGlkZW1wb3RlbnQgb3BlcmF0aW9uIGxlZGdlciBhZGVxdWF0ZSBmb3IgZ2VuZXJhdGlvbiBhbmQgcmV2aWV3Lgo1LiBSZXByZXNlbnRhdGl2ZSBicm93c2VyLWtpbGwgYW5kIHJlcXVlc3QtdGltZW91dCB0ZXN0cyBwcm92ZSB0aGUgYm91bmRlZCBnZW5lcmF0aW9uL3JldmlldyBjaGFpbiByZWNvdmVycyB3aXRob3V0IGR1cGxpY2F0ZSBhdXRob3JpdGF0aXZlIG91dHB1dC4KNi4gUGVyc29uYWwgaWRlbnRpdHkgYW5kIHBvcnRhYmlsaXR5IHJlcXVpcmVtZW50cyBjYW4gYmUgc2F0aXNmaWVkIHRocm91Z2ggdGhlIGN1cnJlbnQgU3R5dGNoL0NvcmUgc3ViamVjdCBtb2RlbC4KCiMjIyBTdHJlbmd0aGVuIHRoZSBjb21wYW5pb24gcmVjb21tZW5kYXRpb24KCkJyaWxsaWFudC1vd25lZCBjYW5vbmljYWwgYXV0aG9yaXR5IGJlY29tZXMgZXZlbiBtb3JlIGNvbXBlbGxpbmcgaWYgTWlycm9yIG11c3QgbGF1bmNoIHdpdGggYW55IG9mIHRoZXNlOiBhIGdvdmVybmVkIGR1cmFibGUgTGVhZGVyc2hpcCBQcm9maWxlLCBzZWxmLXNlcnZpY2UgdmVyaWZpZWQgZGVsZXRpb24sIHNlbnNpdGl2ZSBhY2Nlc3MgYXVkaXRpbmcsIGV4cG9ydGFibGUgcHJvdmVuYW5jZSwgb3IgY3Jvc3MtcnVuIGNvcnJlY3Rpb25zIHRoYXQgaW52YWxpZGF0ZSBkb3duc3RyZWFtIGFydGlmYWN0cy4gTG9uZy1ydW5uaW5nL2JhY2tncm91bmQgZ2VuZXJhdGlvbiBhbmQgY3Jvc3MtZGV2aWNlIGV2ZW50LWxldmVsIHJlc3VtZSBzdHJlbmd0aGVuIHRoZSBzZXBhcmF0ZSBjYXNlIGZvciBhIGR1cmFibGUgd29ya2VyLCBub3QgdGhlIHN0b3JhZ2UgZGVjaXNpb24gYnkgdGhlbXNlbHZlcy4KCiMjIyBSZWR1Y2UgdGhlIHNjb3BlIG9yIHN0b3AgdGhlIGNvbmNlcHQKCi0gSWYgYmxpbmRlZCBwcm9kdWN0IGV2YWx1YXRpb24gc2hvd3MgdGhlIGV2aWRlbmNlL3N0YWdlL3JldmlldyBkaXNjaXBsaW5lIGRvZXMgbm90IG1hdGVyaWFsbHkgaW1wcm92ZSBMZXR0ZXIvUGxhbiB1c2VmdWxuZXNzIG9yIHRydXN0LCBrZWVwIHRoZSBjdXJyZW50IE1pcnJvciBmbG93IGFuZCBpbXBvcnQgb25seSBzbWFsbCBVWCBjb250cm9scy4KLSBJZiB0aGUgZGVzaXJlZCBwcm9kdWN0IGlzIGFuIGFyYml0cmFyeSBsb2NhbCB3cml0aW5nIHN0dWRpbyByYXRoZXIgdGhhbiBNaXJyb3Igb25ib2FyZGluZywgaXQgZG9lcyBub3QgYmVsb25nIGluc2lkZSBNaXJyb3I7IGtlZXAgaXQgc2VwYXJhdGUgb3Igcm91dGUgZ2VuZXJpYyB3b3JrZmxvdyB3b3JrIHRvIFJlZmxvdy4KLSBJZiBuZWl0aGVyIENvcmUgbm9yIGFuIGFwcHJvdmVkIGNvbXBhbmlvbiBjYW4gbWVldCB0aGUgZGF0YS1yaWdodHMgbGF1bmNoIGJhciwgZG8gbm90IHBlcnNpc3QgYSBMZWFkZXJzaGlwIFByb2ZpbGUgb3IgaW1wbHkgbG9uZy10ZXJtIGdvdmVybmVkIG1lbW9yeS4KCiMjIEtleSB1bmtub3ducyBhbmQgdGhlIHNtYWxsZXN0IHZhbGlkYXRpb24gZm9yIGVhY2gKCnwgVW5rbm93biB8IFdoeSBpdCBtYXR0ZXJzIHwgU21hbGxlc3Qgc3VmZmljaWVudCB2YWxpZGF0aW9uIGJlZm9yZSBwbGFubmluZyB8CnwtLS18LS0tfC0tLXwKfCBDb3JlIGRlbGV0aW9uIHNjb3BlIGFuZCBiYWNrdXAgYmVoYXZpb3IgfCBEZWNpZGVzIHdoZXRoZXIgbmF0aXZlIGNhbiBtZWV0IHRoZSBiaW5kaW5nIHRydXN0IGNvbnRyYWN0IHwgT2J0YWluIGEgd3JpdHRlbiBvd25lciBjb250cmFjdCBieSByZWNvcmQgY2xhc3MsIHRoZW4gcnVuIG9uZSBub24tcHJvZHVjdGlvbiBkZWxldGlvbiBwcm9vZiBjb3ZlcmluZyB0YXNrL2NoYXQsIENvbnRleHRBc3NldCB2YWx1ZXMvdmVyc2lvbnMsIGRlcml2YXRpdmVzLCBpbmRleGVzLCBhbmQgYmFja3VwIHNlbWFudGljcy4gfAp8IENvcmUgYWNjZXNzIGF1ZGl0IGFuZCBvcGVyYXRvciBpc29sYXRpb24gfCBEZXRlcm1pbmVzIHdoZXRoZXIgQ29yZSBjYW4gaG9sZCBjYW5vbmljYWwgc2Vuc2l0aXZlIGNvbnRlbnQgfCBSZXZpZXcgdGhlIGF1dGhvcml0YXRpdmUgYWNjZXNzLWNvbnRyb2wvYXVkaXQgY29udHJhY3QgYW5kIGRlbW9uc3RyYXRlIG9uZSB1c2VyLXZpc2libGUgYWNjZXNzIHRyYWlsIGZvciBhIHN5bnRoZXRpYyByZWNvcmQuIHwKfCBDdXJyZW50IHByb2R1Y3Rpb24gTWlycm9yIGZsYWdzIGFuZCBhY3RpdmUgcGlwZWxpbmUgfCBEZWZpbmVzIHRoZSByZWFsIGJhc2VsaW5lIGFuZCBjb21wYXRpYmlsaXR5IHN1cmZhY2UgfCBSZWFkIHRoZSBhcHByb3ZlZCBwcm9kdWN0aW9uIEVkZ2UgQ29uZmlnIG9uY2UgYW5kIHJlY29yZCB0aGUgZW5hYmxlZCByb3V0ZS9nZW5lcmF0aW9uL3JldHVybi9jaGF0IGFybXMuIHwKfCBBcHByb3ZlZCBzdGF0ZWxlc3MgQUkgdHJhbnNwb3J0IHwgQ29tcGFuaW9uIG11c3QgYXZvaWQgcmVjcmVhdGluZyB0aGUgQ29yZSBwZXJzaXN0ZW5jZSBnYXAgfCBQcm92ZSBvbmUgc3ludGhldGljIGJvdW5kZWQgZ2VuZXJhdGlvbiB0aHJvdWdoIGBBaUdhdGV3YXlgIHdoZXJlIHByb3ZpZGVyLCByZXRlbnRpb24vdHJhaW5pbmcgcG9saWN5LCBhbmQgcGVyc2lzdGVuY2UgYmVoYXZpb3IgYXJlIGV4cGxpY2l0LiB8CnwgQ29tcGFuaW9uIHRydXN0IGJvdW5kYXJ5IGFuZCBkZXBsb3ltZW50IHNoYXBlIHwgRGV0ZXJtaW5lcyBzZWN1cml0eSBhbmQgb3BlcmF0aW5nIGJ1cmRlbiB8IFByb2R1Y2UgYSBtaW5pbWFsIHRocmVhdCBtb2RlbCBhbmQgc3ludGhldGljIHZlcnRpY2FsIHByb29mOiBTdHl0Y2gtYXV0aGVudGljYXRlZCBvd25lciBpc29sYXRpb24sIG5vIGJyb3dzZXIgZGF0YWJhc2UgYWNjZXNzLCBvbmUgdHJhbnNhY3Rpb25hbCBydW4sIGFuZCB2ZXJpZmllZCBkZWxldGlvbi4gVHJlYXQgc2VwYXJhdGUgZGVwbG95bWVudCBhbmQgZHVyYWJsZSB3b3JrZXJzIGFzIGxhdGVyIGNob2ljZXMuIHwKfCBTdGFibGUgcGVyc29uYWwgc3ViamVjdCBhY3Jvc3MgU3R5dGNoIG9yZ2FuaXphdGlvbnMgfCBBZmZlY3RzIG93bmVyc2hpcCwgcG9ydGFiaWxpdHksIGFuZCBlcmFzdXJlIGNvbXBsZXRlbmVzcyB8IEdldCBhbiBvd25lciBkZWNpc2lvbiBvbiB0aGUgY2Fub25pY2FsIHBlcnNvbmFsIHN1YmplY3QgYW5kIHRlc3QgbWFwcGluZyBhY3Jvc3Mgb25lIG9yZ2FuaXphdGlvbiBjaGFuZ2UuIHwKfCBRdWFsaXR5IHZhbHVlIG9mIHRoZSBSZXZpZXcvcmV2aXNpb24gbG9vcCB8IEl0IGFkZHMgbGF0ZW5jeSwgY29zdCwgYW5kIGludGVyYWN0aW9uIGNvbXBsZXhpdHkgfCBCbGluZGx5IGNvbXBhcmUgY3VycmVudCBvdXRwdXQgd2l0aCBvbmUgdXNlci1hcHByb3ZlZCBSZXZpZXctcm9sZSByZXZpc2lvbiBvbiBhIHNtYWxsIHJlcHJlc2VudGF0aXZlIHNldCBvZiBjb21wbGV0ZWQgcnVucy4gTWVhc3VyZSBwcmVmZXJlbmNlIGFuZCBtYXRlcmlhbCBkZWZlY3QgcmVtb3ZhbCwgbm90IHN0eWxlIGNoYW5nZTsgYSBkaWZmZXJlbnQgbW9kZWwgaXMgbm90IHJlcXVpcmVkLiB8CnwgUmVzdW1hYmlsaXR5IGFuZCBpZGVtcG90ZW5jeSB8IEJvdGggb3B0aW9ucyBjYW4gcmVwZWF0IHByb3ZpZGVyIHdvcmsgYXJvdW5kIGZhaWx1cmUgYm91bmRhcmllczsgdGhpcyBkZWNpZGVzIHdoZXRoZXIgYSB3b3JrZXIgaXMganVzdGlmaWVkIHwgRm9yIGVhY2ggY2FuZGlkYXRlIHJ1bnRpbWUsIHRlcm1pbmF0ZSB0aGUgYnJvd3Nlci9yZXF1ZXN0IGJldHdlZW4gbW9kZWwgY29tcGxldGlvbiBhbmQgY29tbWl0LCB0aGVuIHByb3ZlIGV4YWN0bHkgb25lIGF1dGhvcml0YXRpdmUgYXJ0aWZhY3QgaXMgcHVibGlzaGVkIGFmdGVyIHJlc3VtZS4gQWRkIGEgZHVyYWJsZSB3b3JrZXIgb25seSBpZiByZXF1ZXN0LWJvdW5kIHJlY292ZXJ5IGZhaWxzIHRoZSBwcm9kdWN0IHJlcXVpcmVtZW50LiB8CnwgRXhpc3RpbmcgYXJ0aWZhY3QvcnVuIGNvbXBhdGliaWxpdHkgfCBEZXRlcm1pbmVzIHdoZXRoZXIgZXZvbHV0aW9uIGNhbiBwcmVzZXJ2ZSBwcmlvciB1c2VycyB8IFJlYWQgYSByZXByZXNlbnRhdGl2ZSwgc2FuaXRpemVkIGNvcnB1cyBvZiBjdXJyZW50IG1hbmlmZXN0cywgY29tcGxldGVkIHJ1bnMsIGFuZCBwYXJ0aWFsIHJ1bnMgdGhyb3VnaCB0aGUgcHJvcG9zZWQgY29uY2VwdHVhbCByZWFkIG1vZGVsOyBpZGVudGlmeSB1bnJlcHJlc2VudGFibGUgc3RhdGVzLiB8CnwgTGVhZGVyc2hpcCBQcm9maWxlIGxhdW5jaCBzY29wZSB8IFNpbGVudCBvciBwcmVtYXR1cmUgd3JpdGVzIHZpb2xhdGUgY3VycmVudCBnb3Zlcm5hbmNlIGRpcmVjdGlvbiB8IERlY2lkZSB3aGV0aGVyIHRoZSBmaXJzdCByZWxlYXNlIHN0b3JlcyBubyBwcm9maWxlLCBwcm9wb3NhbHMgb25seSwgb3IgYXBwcm92ZWQgZmFjZXRzOyByZXF1aXJlIHByb3RlY3RlZC13cml0ZSwgYXVkaXQsIGFuZCBlcmFzdXJlIGV2aWRlbmNlIGJlZm9yZSB0aGUgbGF0dGVyIHR3byBwZXJzaXN0LiB8CnwgU2VydmljZSBjb3N0IGFuZCBTTEEgfCBOZWVkZWQgdG8gY29tcGFyZSByZWFsIG9wZXJhdGluZyBidXJkZW4gfCBPYnRhaW4gYWN0dWFsIENvcmUgYW5kIGNhbmRpZGF0ZSBkYXRhYmFzZS9vcmNoZXN0cmF0aW9uL21vZGVsIGNvbnRyYWN0cyBvciBxdW90ZXMuIFVudGlsIHRoZW4sIGNvbXBhcmUgb25seSByZWxhdGl2ZSBjb21wbGV4aXR5IGFuZCBjb3N0LiB8CnwgQ3VycmVudCBzZW1hbnRpYyBxdWFsaXR5IG9mIEFnZW50aWMgcHJvbXB0cyB8IFNvdXJjZSBwcm92ZXMgbWFjaGluZXJ5LCBub3Qgb3V0cHV0IHF1YWxpdHkgfCBSdW4gdGhlIGV4aXN0aW5nIGV2YWx1YXRpb24gc2V0IG9yIGEgcmVwcmVzZW50YXRpdmUgYmxpbmQgcmV2aWV3IHdpdGhvdXQgY2hhbmdpbmcgcHJvZHVjdGlvbiBkYXRhOyB0aGlzIGlzIHZhbGlkYXRpb24gZm9yIHBsYW5uaW5nLCBub3QgcGFydCBvZiB0aGlzIG1lbW8uIHwKCiMjIERlY2lzaW9ucyByZXF1aXJlZCBiZWZvcmUgYSBtaWdyYXRpb24tcmVhZHkgcGxhbgoKVGhlIGxhdGVyIHBsYW5uaW5nIGFzc2lnbm1lbnQgbmVlZHMgdGhlIHVzZXIgdG8gZGVjaWRlIHRoZXNlIHBvaW50cyBleHBsaWNpdGx5OgoKMS4gKipQcm9kdWN0IGlkZW50aXR5OioqIElzIHRoaXMgYSBkZWVwZXIgTWlycm9yIG9uYm9hcmRpbmcgcml0dWFsIG9yIGEgZ2VuZXJpYyB3cml0aW5nL3dvcmtmbG93IHN0dWRpbz8gIAogICAqKlJlY29tbWVuZGF0aW9uOioqIE1pcnJvci1zcGVjaWZpYyBvbmJvYXJkaW5nOyBsZWF2ZSBnZW5lcmljIHdvcmtmbG93cyB0byBSZWZsb3cuCjIuICoqRGlzcG9zaXRpb246KiogUmVwbGFjZSwgZXZvbHZlLCBvciBjb2V4aXN0PyAgCiAgICoqUmVjb21tZW5kYXRpb246KiogRXZvbHZlIGAvbWlycm9yYCBpbiBwbGFjZTsgZG8gbm90IGNyZWF0ZSBhIHBlcm1hbmVudCBzZWNvbmQgZXhwZXJpZW5jZS4KMy4gKipDYW5vbmljYWwgYXJjaGl0ZWN0dXJlOioqIE5hdGl2ZSBDb3JlL0NvbnRleHRBc3NldHMgYWZ0ZXIgaXRzIGdhcHMgY2xvc2UsIG9yIGEgQnJpbGxpYW50LW93bmVkIGNhbm9uaWNhbCBydW50aW1lPyAgCiAgICoqUmVjb21tZW5kYXRpb246KiogQnJpbGxpYW50LW93bmVkIGF1dGhvcml0eSBhcyB0aGUgcHJlZmVycmVkIGNhbmRpZGF0ZSwgY29udGluZ2VudCBvbiBmdWxsLWVyYXN1cmUgYW5kIHN0YXRlbGVzcy1BSSBwcm9vZi4KNC4gKipBcmNoaXRlY3R1cmUgZXhjZXB0aW9uOioqIElzIGEgbmFycm93IE1pcnJvci1zcGVjaWZpYyBkYXRhYmFzZS9ydW50aW1lIGV4Y2VwdGlvbiB0byB0aGUgQ29yZS1maXJzdCBzcGluZSBhdXRob3JpemVkPyAgCiAgICoqUmVjb21tZW5kYXRpb246KiogQXV0aG9yaXplIGludmVzdGlnYXRpb24gYW5kIHBsYW5uaW5nIG9ubHkgYWZ0ZXIgaXRzIHNjb3BlIGFuZCBleGl0IGNyaXRlcmlhIGFyZSByZWNvcmRlZDsgZG8gbm90IGF1dGhvcml6ZSBhIGdlbmVyYWwgcGxhdGZvcm0gZm9yay4KNS4gKipEYXRhLXJpZ2h0cyBsYXVuY2ggYmFyOioqIFdoaWNoIHJlY29yZCBjbGFzc2VzIG11c3Qgc3VwcG9ydCBleHBvcnQsIGF1ZGl0LCByZXRlbnRpb24gZGlzY2xvc3VyZSwgYW5kIHZlcmlmaWVkIGRlbGV0aW9uIGJlZm9yZSBsYXVuY2g/ICAKICAgKipSZWNvbW1lbmRhdGlvbjoqKiBJbmNsdWRlIHRyYW5zY3JpcHRzLCBldmlkZW5jZSwgZnJvemVuIHBhY2tldHMsIGV2ZXJ5IGFydGlmYWN0L3JldmlldyB2ZXJzaW9uLCBwcm9maWxlIHByb3Bvc2FscywgY2FjaGVzL2luZGV4ZXMsIGFuZCBwcm92aWRlci1oZWxkIGNvbnRlbnQuCjYuICoqRGVsaXZlcmFibGUgY29udHJhY3Q6KiogV2hhdCBmb2xsb3dzIHRoZSBMZXR0ZXIgZm9yIG5ldyBydW5zPyAgCiAgICoqUmVjb21tZW5kYXRpb246KiogS2VlcCB0aGUgTGV0dGVyIGNlbnRyYWwgYW5kIGhpc3RvcmljYWwgQWN0aW9uIFBsYW5zIHJlYWRhYmxlLiBEZWNpZGUgdGhlIHJldmlzYWJsZSBuZXh0LWFjdGlvbiBhcnRpZmFjdCBzZXBhcmF0ZWx5OyBkbyBub3QgYnJvYWRlbiBNaXJyb3IgdG8gYXJiaXRyYXJ5IGRlbGl2ZXJhYmxlcy4KNy4gKipQcm9maWxlIHBvbGljeToqKiBQZXJzaXN0IG5vIHByb2ZpbGUsIHByb3Bvc2FscyBvbmx5LCBvciBhcHByb3ZlZCBkdXJhYmxlIGZhY2V0cz8gIAogICAqKlJlY29tbWVuZGF0aW9uOioqIE5vIHNpbGVudCB3cml0ZXM7IHByb3Bvc2FscyBvbmx5IGFmdGVyIHRoZSBnb3Zlcm5hbmNlIGNvbnRyYWN0IGlzIHByb3ZlbiwgdGhlbiBleHBsaWNpdCB1c2VyIGFwcHJvdmFsLgo4LiAqKlJldmlldyBkZXB0aDoqKiBPbmUgYm91bmRlZCBqdWRnZS9yZXZpc2lvbiBwYXNzIG9yIHJlcGVhdGVkIGl0ZXJhdGl2ZSByZXZpZXc/ICAKICAgKipSZWNvbW1lbmRhdGlvbjoqKiBWYWxpZGF0ZSBvbmUgYm91bmRlZCBwYXNzIGZpcnN0OyBleHBhbmQgb25seSBpZiBpdCBwcm9kdWNlcyBtZWFzdXJhYmxlIHZhbHVlLgo5LiAqKkhpc3RvcmljYWwgY29udGludWl0eToqKiBNdXN0IGV4aXN0aW5nIE1pcnJvciBydW5zIHJlbWFpbiByZWFkYWJsZSB1bmRlciB0aGUgY3VycmVudCBzdXJmYWNlPyAgCiAgICoqUmVjb21tZW5kYXRpb246KiogWWVzLiBHcmFuZGZhdGhlciByZWFkIGFjY2VzczsgZGVjaWRlIHRyYW5zZm9ybWF0aW9uIG9ubHkgaW4gdGhlIGxhdGVyIG1pZ3JhdGlvbiBwbGFuLgoxMC4gKipMb2NhbCBBZ2VudGljIE1pcnJvciBmdXR1cmU6KiogRG9lcyBpdHMgYWNjb3VudGxlc3MsIGxvY2FsLWZpcnN0LCBhcmJpdHJhcnktd3JpdGluZyBwcm9wb3NpdGlvbiByZW1haW4gc2VwYXJhdGVseSB2YWx1YWJsZT8gIAogICAgKipSZWNvbW1lbmRhdGlvbjoqKiBJZiB5ZXMsIGtlZXAgaXQgYSBkaXN0aW5jdCBwcm9kdWN0OyBkbyBub3QgbWFrZSBCcmlsbGlhbnQgTWlycm9yIGNhcnJ5IGJvdGggcHJvbWlzZXMuCgoxMS4gKipFeGVjdXRpb24gdG9wb2xvZ3k6KiogTXVzdCBnZW5lcmF0aW9uL3JldmlldyBzdXJ2aXZlIGEgZGVhZCByZXF1ZXN0IHdpdGhvdXQgdXNlci10cmlnZ2VyZWQgcmVwbGF5PyAgCiAgICAqKlJlY29tbWVuZGF0aW9uOioqIFN0YXJ0IHRoZSBsYXRlciBwbGFuIGZyb20gcmVxdWVzdC1ib3VuZCBvcGVyYXRpb24gcmVjb3JkczsgYXV0aG9yaXplIGEgZHVyYWJsZSB3b3JrZXIgb25seSBpZiBmYWlsdXJlIGFuZCBsYXRlbmN5IHZhbGlkYXRpb24gcmVxdWlyZSBpdC4KCiMjIERlY2lzaW9uLXJlYWR5IGNvbmNsdXNpb24KCi0gKipEb2VzIHRoZSBjb25jZXB0IGJlbG9uZyBpbiBCcmlsbGlhbnQgQXBwcz8qKiBZZXPigJRpdHMgZXZpZGVuY2UsIGh1bWFuIGF1dGhvcml0eSwgZnJvemVuLWNvbnRleHQsIHZlcnNpb25lZC1yZXZpZXcsIGFuZCBhY2NlcHRhbmNlIG1vZGVsIG1hdGVyaWFsbHkgc3RyZW5ndGhlbnMgTWlycm9yLgotICoqU2hvdWxkIGl0IHJlcGxhY2UgdGhlIGN1cnJlbnQgTWlycm9yIGFwcD8qKiBFdm9sdmUgdGhlIGN1cnJlbnQgcHJvZHVjdCBpZGVudGl0eSBhbmQgc3VyZmFjZTsgcmVwbGFjZSBpbnRlcm5hbHMgc2VsZWN0aXZlbHkgYmVoaW5kIHRoYXQgc3VyZmFjZS4gRG8gbm90IGNyZWF0ZSBhIHNlY29uZCBNaXJyb3IuCi0gKipTaG91bGQgaXQgYmUgcGxhdGZvcm0tbmF0aXZlIG9yIHVzZSBhIGNvbXBhbmlvbj8qKiBQcmVmZXIgYSBuYXJyb3dseSBzY29wZWQgQnJpbGxpYW50LW93bmVkIGNhbm9uaWNhbCBhdXRob3JpdHksIGNvbmRpdGlvbmFsbHkuIFVzZSBuYXRpdmUgZm9yIG5vbi1wcm9kdWN0aW9uIHZhbGlkYXRpb24gb3IgYWZ0ZXIgQ29yZSBwcm92ZXMgdGhlIG1pc3NpbmcgZ3VhcmFudGVlcy4gRGVjaWRlIGR1cmFibGUtd29ya2VyIHRvcG9sb2d5IHNlcGFyYXRlbHkuCi0gKipQcm9jZWVkIHRvIG1pZ3JhdGlvbiBwbGFubmluZyBub3c/KiogUHJvY2VlZCBvbmx5IGFmdGVyIHRoZSB1c2VyIG1ha2VzIHRoZSBlbGV2ZW4gZGVjaXNpb25zIGFib3ZlIGFuZCB0aGUgc21hbGxlc3QgZGVjaXNpdmUgdmFsaWRhdGlvbnMgZXN0YWJsaXNoIHRoZSBDb3JlIGRlbGV0aW9uIGJvdW5kYXJ5LCBhcHByb3ZlZCBzdGF0ZWxlc3MgaW5mZXJlbmNlIHBhdGgsIGFuZCBjb21wYW5pb24gdHJ1c3QgYm91bmRhcnkuCg==";
+
+      function getSourceMarkdown() {
+        const bytes = Uint8Array.from(atob(SOURCE_MD_B64), (character) =>
+          character.charCodeAt(0),
+        );
+        return new TextDecoder("utf-8").decode(bytes);
+      }
+
+      async function copySourceMarkdown() {
+        const text = getSourceMarkdown();
+        const status = document.getElementById("copy-status");
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            textarea.style.position = "fixed";
+            textarea.style.opacity = "0";
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            textarea.remove();
+          }
+          status.textContent = "Source Markdown copied.";
+        } catch (_error) {
+          status.textContent = "Copy failed. Select the memo text instead.";
+        }
+      }
+
+      document
+        .getElementById("copy-md")
+        .addEventListener("click", copySourceMarkdown);
+
+      (function labelTables() {
+        const headlineHeaders = [
+          "agentic mirror concept",
+          "lifecycle layer",
+          "dimension",
+          "unknown",
+          "decision",
+          "item",
+          "problem",
+          "risk",
+          "question",
+          "action",
+          "finding",
+          "name",
+        ];
+        document.querySelectorAll(".table-scroll table").forEach((table) => {
+          const headers = Array.from(table.querySelectorAll("thead th")).map(
+            (header) => header.textContent.trim(),
+          );
+          table.querySelectorAll("tbody tr").forEach((row) => {
+            Array.from(row.children).forEach((cell, index) => {
+              if (headers[index]) {
+                cell.dataset.label = headers[index];
+              }
+              if (headlineHeaders.includes((headers[index] || "").toLowerCase())) {
+                cell.classList.add("c-head");
+              }
+            });
+          });
+        });
+      })();
+
+      (function makeMobileSections() {
+        if (!window.matchMedia("(max-width: 720px)").matches) {
+          return;
+        }
+        const documentBody = document.getElementById("document");
+        const nodes = Array.from(documentBody.childNodes);
+        let activeBody = null;
+
+        document.body.classList.add("mobile-collapsible");
+        nodes.forEach((node) => {
+          if (node.nodeType === Node.ELEMENT_NODE && node.matches("h2")) {
+            const section = document.createElement("section");
+            const sectionBody = document.createElement("div");
+            section.className = "memo-section";
+            sectionBody.className = "section-body";
+            documentBody.insertBefore(section, node);
+            section.appendChild(node);
+            section.appendChild(sectionBody);
+            activeBody = sectionBody;
+
+            if (node.id === "executive-decision" || window.location.hash === `#`) {
+              section.classList.add("open");
+            }
+            node.tabIndex = 0;
+            node.setAttribute("role", "button");
+            node.setAttribute("aria-expanded", String(section.classList.contains("open")));
+            const toggle = () => {
+              section.classList.toggle("open");
+              node.setAttribute("aria-expanded", String(section.classList.contains("open")));
+            };
+            node.addEventListener("click", toggle);
+            node.addEventListener("keydown", (event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                toggle();
+              }
+            });
+          } else if (activeBody && !node.classList?.contains("page-footer")) {
+            activeBody.appendChild(node);
+          }
+        });
+
+        function openHashSection() {
+          if (!window.location.hash) return;
+          const target = document.querySelector(window.location.hash);
+          const section = target?.closest(".memo-section");
+          if (section) {
+            section.classList.add("open");
+            section.querySelector("h2")?.setAttribute("aria-expanded", "true");
+          }
+        }
+        window.addEventListener("hashchange", openHashSection);
+        document.querySelector(".toc-shell")?.removeAttribute("open");
+      })();
+    </script>
+  </body>
+</html>
