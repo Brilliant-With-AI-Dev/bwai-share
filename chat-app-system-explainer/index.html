@@ -389,6 +389,31 @@
         margin-top: 20px;
       }
 
+      .screenshot-list {
+        display: grid;
+        gap: 32px;
+        margin-top: 24px;
+      }
+
+      .screenshot-list figure {
+        margin: 0;
+      }
+
+      .screenshot-list img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: var(--surface);
+      }
+
+      .screenshot-list figcaption {
+        padding: 10px 2px 0;
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+
       button {
         min-height: 44px;
         padding: 10px 16px;
@@ -570,6 +595,7 @@
         <span class="nav-group">Understand Chat</span>
         <a href="#orientation">Start here</a>
         <a href="#capabilities">Capabilities</a>
+        <a href="#screenshots">Screenshots</a>
         <a href="#member-journey">Member journey</a>
         <a href="#data-privacy">Data and privacy</a>
         <span class="nav-group">Details</span>
@@ -720,6 +746,79 @@
             </article>
           </div>
           <p><a href="#features">Read the feature details and constraints.</a></p>
+        </section>
+
+        <section id="screenshots">
+          <h2>See Chat in use</h2>
+          <p class="lede">
+            These authenticated Preview captures show the main workspace,
+            conversation output, artifact panel, and thread organization.
+          </p>
+          <div class="callout">
+            <p>
+              The captures use isolated example data. They contain no member
+              records. Labels and controls reflect Preview build
+              <code>e4801f40389c</code>.
+            </p>
+          </div>
+          <div class="screenshot-list">
+            <figure>
+              <img
+                src="images/new-conversation.webp"
+                width="1232"
+                height="952"
+                loading="lazy"
+                decoding="async"
+                alt="Empty Chat workspace with conversation history, personal context control, and composer"
+              />
+              <figcaption>
+                A new conversation keeps history and optional context quiet.
+                The composer remains the primary action.
+              </figcaption>
+            </figure>
+            <figure>
+              <img
+                src="images/conversation-artifact.webp"
+                width="1232"
+                height="952"
+                loading="lazy"
+                decoding="async"
+                alt="Chat conversation containing an attached file, structured answer, and inline artifact card"
+              />
+              <figcaption>
+                A saved thread combines its messages, attached file reference,
+                and a clear entry to the substantial output.
+              </figcaption>
+            </figure>
+            <figure>
+              <img
+                src="images/artifact-panel.webp"
+                width="1232"
+                height="952"
+                loading="lazy"
+                decoding="async"
+                alt="Chat artifact panel open beside the source conversation with copy, download, and close controls"
+              />
+              <figcaption>
+                The artifact panel keeps focused output beside its source
+                conversation. Members can copy, download, or close it.
+              </figcaption>
+            </figure>
+            <figure>
+              <img
+                src="images/thread-details.webp"
+                width="1232"
+                height="952"
+                loading="lazy"
+                decoding="async"
+                alt="Thread details menu showing project, pin, favorite, status, tags, description, notes, and archive controls"
+              />
+              <figcaption>
+                Thread details collect optional organization controls without
+                replacing the conversation workspace.
+              </figcaption>
+            </figure>
+          </div>
         </section>
 
         <section id="member-journey">
