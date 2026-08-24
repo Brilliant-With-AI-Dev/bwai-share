@@ -1,0 +1,1061 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agentic Mirror — desktop walkthrough</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230071e3'/%3E%3C/svg%3E" />
+    <style>
+      :root {
+        --ink: #1d1d1f;
+        --muted: #6e6e73;
+        --line: #d2d2d7;
+        --faint: #f5f5f7;
+        --paper: #fff;
+        --card: #fff;
+        --blue: #0071e3;
+        --blue-soft: #e8f2fe;
+        --green: #1d7a4c;
+        --green-soft: #e4f4ec;
+        --amber: #8a5a00;
+        --amber-soft: #fdf1dc;
+        --red: #b3261e;
+        --red-soft: #fdeceb;
+        --shadow:
+          0 1px 2px rgba(0, 0, 0, 0.04), 0 12px 32px rgba(0, 0, 0, 0.06);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font:
+          17px/1.6 -apple-system,
+          BlinkMacSystemFont,
+          "SF Pro Text",
+          "Segoe UI",
+          Helvetica,
+          Arial,
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      h1,
+      h2,
+      h3 {
+        letter-spacing: -0.022em;
+        line-height: 1.08;
+        margin: 0;
+      }
+      h1 {
+        font-size: clamp(2.4rem, 5.5vw, 4rem);
+        font-weight: 700;
+      }
+      h2 {
+        font-size: clamp(1.7rem, 3vw, 2.5rem);
+        font-weight: 700;
+        margin: 0 0 0.5rem;
+      }
+      h3 {
+        font-size: 1.2rem;
+        font-weight: 650;
+        margin: 0 0 0.3rem;
+      }
+      p {
+        margin: 0.5rem 0 1rem;
+      }
+      a {
+        color: var(--blue);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .wrap {
+        width: min(1080px, calc(100% - 40px));
+        margin: 0 auto;
+      }
+
+      .hero {
+        padding: 80px 0 44px;
+      }
+      .eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 0.13em;
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: var(--muted);
+        margin: 0 0 14px;
+      }
+      .lede {
+        max-width: 720px;
+        font-size: 1.2rem;
+        color: #424245;
+        margin-top: 20px;
+      }
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 26px;
+      }
+      .pill {
+        border: 1px solid var(--line);
+        border-radius: 980px;
+        padding: 6px 13px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--muted);
+        background: var(--card);
+      }
+      .pill.ok {
+        background: var(--green-soft);
+        border-color: #bfe3d0;
+        color: var(--green);
+      }
+      .pill.warn {
+        background: var(--amber-soft);
+        border-color: #eed9ae;
+        color: var(--amber);
+      }
+
+      .sticky {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.82);
+        backdrop-filter: saturate(180%) blur(20px);
+      }
+      .nav {
+        display: flex;
+        gap: 4px;
+        overflow-x: auto;
+        padding: 10px 0;
+        scrollbar-width: none;
+      }
+      .nav::-webkit-scrollbar {
+        display: none;
+      }
+      .nav a {
+        white-space: nowrap;
+        padding: 6px 12px;
+        border-radius: 980px;
+        color: var(--muted);
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+      .nav a:hover {
+        background: var(--faint);
+        color: var(--ink);
+        text-decoration: none;
+      }
+
+      main {
+        padding: 56px 0 90px;
+      }
+      .section {
+        scroll-margin-top: 64px;
+        margin: 0 0 76px;
+      }
+      .section > p {
+        max-width: 720px;
+        color: #424245;
+      }
+
+      .step {
+        margin: 44px 0 0;
+        padding-top: 34px;
+        border-top: 1px solid var(--line);
+      }
+      .step:first-of-type {
+        border-top: 0;
+        padding-top: 0;
+      }
+      .step-head {
+        display: flex;
+        gap: 14px;
+        align-items: baseline;
+        margin-bottom: 6px;
+      }
+      .num {
+        flex: none;
+        font-variant-numeric: tabular-nums;
+        font-weight: 700;
+        font-size: 0.82rem;
+        color: var(--muted);
+        letter-spacing: 0.04em;
+        padding-top: 4px;
+      }
+      .note {
+        max-width: 720px;
+        color: #424245;
+        margin: 0.4rem 0 1.1rem;
+      }
+
+      figure {
+        margin: 0 0 8px;
+      }
+      figure img {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1440 / 900;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+        background: var(--faint);
+      }
+      figcaption {
+        margin-top: 10px;
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+
+      blockquote {
+        margin: 0 0 18px;
+        padding: 14px 18px;
+        border-left: 3px solid var(--blue);
+        background: var(--blue-soft);
+        border-radius: 0 10px 10px 0;
+        font-size: 1.02rem;
+        color: #1d1d1f;
+      }
+      blockquote p {
+        margin: 0;
+      }
+      blockquote p + p {
+        margin-top: 8px;
+      }
+      blockquote cite {
+        display: block;
+        margin-top: 8px;
+        font-style: normal;
+        font-size: 0.78rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .callout {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 18px 20px;
+        margin: 20px 0;
+        background: var(--card);
+      }
+      .callout.issue {
+        background: var(--amber-soft);
+        border-color: #eed9ae;
+      }
+      .callout.good {
+        background: var(--green-soft);
+        border-color: #bfe3d0;
+      }
+      .callout h3 {
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+      .callout.issue h3 {
+        color: var(--amber);
+      }
+      .callout.good h3 {
+        color: var(--green);
+      }
+      .callout p:last-child,
+      .callout ul:last-child {
+        margin-bottom: 0;
+      }
+      ul {
+        margin: 0.4rem 0 1rem;
+        padding-left: 1.15rem;
+        max-width: 720px;
+      }
+      li {
+        margin: 0.35rem 0;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 0.92rem;
+        margin: 8px 0 4px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 11px 12px;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+      th {
+        font-size: 0.74rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        font-weight: 700;
+      }
+      td code {
+        font-size: 0.86em;
+      }
+      .scroller {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.88em;
+        background: var(--faint);
+        padding: 2px 6px;
+        border-radius: 5px;
+      }
+
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 34px 0 60px;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+      footer p {
+        max-width: 720px;
+      }
+
+      @media (max-width: 640px) {
+        .hero {
+          padding: 52px 0 30px;
+        }
+        .step-head {
+          flex-direction: column;
+          gap: 2px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="wrap">
+        <p class="eyebrow">Agentic Mirror · desktop rescue</p>
+        <h1>A local-first workflow you can actually follow</h1>
+        <p class="lede">
+          Sixteen screenshots of the running application at 1440&times;900,
+          taken in deterministic mock mode against fresh databases. The primary
+          journey first, then the branches where things go wrong. Every
+          quotation below is the interface's own words, copied verbatim.
+        </p>
+        <div class="meta">
+          <span class="pill ok">Tickets 01&ndash;09 merged</span>
+          <span class="pill">491 / 492 tests</span>
+          <span class="pill">Type-check, lint, build clean</span>
+          <span class="pill warn">Ticket 10 in progress</span>
+          <span class="pill">Captured 2026-08-23</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="sticky">
+      <nav class="wrap nav">
+        <a href="#idea">The idea</a>
+        <a href="#journey">The journey</a>
+        <a href="#branches">When things go wrong</a>
+        <a href="#review">What review found</a>
+        <a href="#status">Status</a>
+      </nav>
+    </div>
+
+    <main class="wrap">
+      <section class="section" id="idea">
+        <h2>The idea</h2>
+        <p>
+          Agentic Mirror interviews you, locks what it learned as evidence,
+          writes a document from that evidence, and lets you review and accept
+          it. It runs on your machine against your own model gateway. Nothing is
+          stored anywhere else.
+        </p>
+        <p>
+          The design constraint that shapes every screen:
+          <strong
+            >the application must never assert something its own record does not
+            support.</strong
+          >
+          If it says a call was charged, it was charged. If it says nothing
+          moved, nothing moved. If it says your words are held and unsent, they
+          are. Most of the work below is in service of that one rule &mdash; and
+          the places where it still breaks are named honestly in
+          <a href="#review">what review found</a>.
+        </p>
+        <div class="callout">
+          <h3>How these were captured</h3>
+          <p>
+            Deterministic mock mode (<code>AGENTIC_MIRROR_MOCK_MODE=1</code>), a
+            fresh SQLite database per scenario, Chrome at 1440&times;900.
+            Failure states were produced with real fault injection
+            (<code>AGENTIC_MIRROR_MOCK_FAULT</code>), not staged. No screenshot
+            was edited, and no application file was changed to make a state
+            easier to reach.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="journey">
+        <h2>The journey</h2>
+        <p>
+          First launch through explicitly accepting a finished document. Nine
+          steps, each one telling you what will happen before you commit to it.
+        </p>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="num">01</span>
+            <h3>Connect your model gateway</h3>
+          </div>
+          <p class="note">
+            One key, one model, one spending cap. No account, no sign-up, no
+            server.
+          </p>
+          <blockquote>
+            <p>Agentic Mirror needs one gateway key and one model to begin.</p>
+          </blockquote>
+          <figure>
+            <img
+              src="shots/01-setup.png"
+              alt="Setup screen with gateway key, model selection, and spending cap fields"
+              loading="lazy"
+            />
+            <figcaption>
+              Setup. The cap set here is the one enforced later, at every call.
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="num">02</span>
+            <h3>Three durable details, once</h3>
+          </div>
+          <p class="note">
+            Optional calibration. What you answer here persists across every
+            future workflow, which is exactly why it is skippable.
+          </p>
+          <blockquote>
+            <p>Answer these now, or skip directly to your first outcome.</p>
+          </blockquote>
+          <figure>
+            <img
+              src="shots/02-calibration.png"
+              alt="Calibration screen offering three durable questions with a skip option"
+              loading="lazy"
+            />
+            <figcaption>Calibration, with an explicit way out.</figcaption>
+          </figure>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="num">03</span>
+            <h3>Clarify the goal</h3>
+          </div>
+          <p class="note">
+            You say what you want to make. The application commits to asking one
+            focused question at a time rather than a form.
+          </p>
+          <blockquote>
+            <p>
+              Setup is saved and now lives in the details panel. Tell me what
+              you want to make and I will ask one focused question at a time.
+            </p>
+          </blockquote>
+          <figure>
+            <img
+              src="shots/03-goal.png"
+              alt="Goal entry screen with suggested starting responses"
+              loading="lazy"
+            />
+            <figcaption>
+              Suggested openers, each with Send&nbsp;now and Edit&nbsp;first.
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="num">04</span>
+            <h3>Review the brief</h3>
+          </div>
+          <p class="note">
+            Before the interview begins, the brief it will be run against is
+            shown back to you &mdash; along with what continuing does and does
+            not commit.
+          </p>
+          <blockquote>
+            <p>
+              Continuing starts the interview against this brief. Nothing is
+              written yet, and your answers stay editable until you freeze the
+              evidence.
+            </p>
+          </blockquote>
+          <figure>
+            <img
+              src="shots/04-brief.png"
+              alt="The agreed brief card with continue action"
+              loading="lazy"
+            />
+            <figcaption>
+              &ldquo;The brief we agreed&rdquo; &mdash; the last cheap moment to
+              disagree.
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="num">05</span>
+            <h3>Deepen the thinking</h3>
+          </div>
+          <p class="note">
+            The interview proper. One question, the transcript above it, and a
+            composer that states plainly that nothing is saved until you send.
+          </p>
+          <blockquote>
+            <p>What is the single biggest risk to this decision?</p>
+          </blockquote>
+          <figure>
+            <img
+              src="shots/05-interview.png"
+              alt="Interview question with transcript above and composer below"
+              loading="lazy"
+            />
+            <figcaption>
+              Interview mid-flow. The cramped transcript band is a known issue
+              &mdash; see below.
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="num">06</span>
+            <h3>Lock the evidence</h3>
+          </div>
+          <p class="note">
+            The hinge of the whole workflow. Everything after this is written
+            from what is frozen here, so the card separates what locks from what
+            stays open.
+          </p>
+          <blockquote>
+            <p>
+              Finishing locks the evidence below as the basis for your draft.
+              Staying here keeps adding to it instead.
+            </p>
+          </blockquote>
+          <figure>
+            <img
+              src="shots/06-lock-evidence.png"
+              alt="Lock evidence decision card listing what gets locked and what stays open"
+              loading="lazy"
+            />
+            <figcaption>
+              Two columns: what gets locked, what stays open.
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="num">07</span>
+            <h3>The draft exists</h3>
+          </div>
+          <p class="note">
+            Version 1 is saved beside the conversation, not inside it. Review is
+            a separate model pass and it does not start on its own.
+          </p>
+          <blockquote>
+            <p>
+              Review has not started and will not start on its own. It is a
+              separate model pass that reads this version and proposes changes
+              you approve one at a time.
+            </p>
+          </blockquote>
+          <figure>
+            <img
+              src="shots/07-draft-v1.png"
+              alt="Saved draft version 1 shown in the companion panel"
+              loading="lazy"
+            />
+            <figcaption>
+              The draft lives in the details panel and survives restarts.
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="num">08</span>
+            <h3>Decide on every recommendation</h3>
+          </div>
+          <p class="note">
+            Critical, Important, Optional &mdash; each with the stake spelled
+            out, a note field, and a counter. Nothing is rewritten until you
+            have decided all of them and asked for the rewrite yourself.
+          </p>
+          <blockquote>
+            <p>Review read version 1 and proposes 3 changes.</p>
+            <p>
+              Nothing is rewritten until you decide on every one of them and ask
+              for the rewrite yourself.
+            </p>
+          </blockquote>
+          <figure>
+            <img
+              src="shots/08-review-recommendations.png"
+              alt="Review recommendations list with Critical and Important tiers and a decided counter"
+              loading="lazy"
+            />
+            <figcaption>
+              &ldquo;0 of 3 decided&rdquo;. Each note is only saved by pressing
+              Approve.
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="num">09</span>
+            <h3>See exactly what will be sent</h3>
+          </div>
+          <p class="note">
+            Before the rewrite runs, the application restates what goes to the
+            model and what is dropped &mdash; including the notes you attached.
+          </p>
+          <blockquote>
+            <p>Rewrite version 1 with the 2 changes you approved.</p>
+            <p>
+              The one recommendation you rejected is dropped, along with any
+              note on it.
+            </p>
+          </blockquote>
+          <figure>
+            <img
+              src="shots/09-pre-rewrite-summary.png"
+              alt="Pre-rewrite summary listing approved changes and the dropped rejection"
+              loading="lazy"
+            />
+            <figcaption>What is sent, and what is not.</figcaption>
+          </figure>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="num">10</span>
+            <h3>Accept and finish</h3>
+          </div>
+          <p class="note">
+            Acceptance is framed as your act, not the model's verdict. Earlier
+            versions stay readable.
+          </p>
+          <blockquote>
+            <p>Version 2 is the finished result.</p>
+            <p>&hellip; nothing here runs again on its own.</p>
+          </blockquote>
+          <figure>
+            <img
+              src="shots/10-complete.png"
+              alt="Completion screen confirming version 2 as the accepted result"
+              loading="lazy"
+            />
+            <figcaption>Done, and explicitly inert.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section" id="branches">
+        <h2>When things go wrong</h2>
+        <p>
+          The failure states are where this application earns its keep. Each one
+          was produced by real fault injection against a fresh database.
+        </p>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="num">11</span>
+            <h3>The spending cap stops a call</h3>
+          </div>
+          <p class="note">
+            It states the estimate, the spend so far, the projection, and what
+            is being held &mdash; then offers four differentiated exits.
+          </p>
+          <blockquote>
+            <p>This call would take the workflow past its spending cap.</p>
+            <p>
+              Writing the draft is estimated at $1.55. This workflow has spent
+              $8.93 of its $10.00 cap, so running it would reach about $10.48.
+              That is why it stopped instead.
+            </p>
+          </blockquote>
+          <figure>
+            <img
+              src="shots/11-spending-cap.png"
+              alt="Spending cap pause card with allow, leave paused, raise cap, and set cap options"
+              loading="lazy"
+            />
+            <figcaption>
+              All three independent reviewers named this the strongest screen in
+              the product.
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="num">12</span>
+            <h3>A retry is not progress</h3>
+          </div>
+          <p class="note">
+            The transport dropped and the call is being retried. The notice
+            exists specifically so a retry cannot be mistaken for a step
+            forward. It is on screen for about a second.
+          </p>
+          <blockquote>
+            <p>The connection dropped. Trying again &mdash; attempt 2.</p>
+            <p>
+              This is a retry, not progress. Nothing has been saved and your
+              workflow has not moved on.
+            </p>
+          </blockquote>
+          <figure>
+            <img
+              src="shots/12-transport-retry.png"
+              alt="Retry notice reading RETRYING, NOT ADVANCING"
+              loading="lazy"
+            />
+            <figcaption>Captured live, not reconstructed.</figcaption>
+          </figure>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="num">13</span>
+            <h3>A model answer is rejected</h3>
+          </div>
+          <p class="note">
+            The model returned something that failed validation and could not be
+            repaired without changing its meaning. The application refuses to do
+            that on your behalf.
+          </p>
+          <blockquote>
+            <p>
+              That answer came back unusable, so I rejected it. Nothing was
+              saved.
+            </p>
+            <p>
+              It could only be salvaged by changing what it said, and putting
+              words in your record is not mine to do.
+            </p>
+          </blockquote>
+          <figure>
+            <img
+              src="shots/13-rejected-answer.png"
+              alt="Rejected model answer card with diagnostics and forward paths"
+              loading="lazy"
+            />
+            <figcaption>
+              Charge accounting, expandable diagnostics, and two real ways
+              forward.
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="num">14</span>
+            <h3>Correcting what it understood</h3>
+          </div>
+          <p class="note">
+            When the application has recorded something wrong about your
+            situation, the correction is previewed in full before it applies
+            &mdash; what changes, what does not, and which saved drafts go
+            stale.
+          </p>
+          <blockquote>
+            <p>
+              Change what this workflow reads as who the memo is written for?
+            </p>
+            <p>
+              Nothing below has happened yet. This is what would follow if you
+              applied it.
+            </p>
+          </blockquote>
+          <figure>
+            <img
+              src="shots/14-context-correction.png"
+              alt="Context correction preview showing consequences before applying"
+              loading="lazy"
+            />
+            <figcaption>
+              Declining performs zero canonical mutation, and says so.
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="num">15</span>
+            <h3>Recovery points</h3>
+          </div>
+          <p class="note">
+            A verified recovery point is written after every successful change.
+            Restoring one is deliberate: inspect, read the consequence, confirm.
+          </p>
+          <blockquote>
+            <p>Restore the recovery point from 2 minutes ago?</p>
+            <p>
+              Nothing is restored automatically. You choose a point, read what
+              it would replace, and confirm before anything changes.
+            </p>
+          </blockquote>
+          <figure>
+            <img
+              src="shots/15-recovery-points.png"
+              alt="Recovery point list with an open restore decision card"
+              loading="lazy"
+            />
+            <figcaption>
+              Replacing newer healthy work needs a second, explicit
+              confirmation.
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="num">16</span>
+            <h3>The database is gone</h3>
+          </div>
+          <p class="note">
+            The primary database was moved out from under a running install. The
+            application says so plainly, and still restores nothing without
+            being told.
+          </p>
+          <blockquote>
+            <p>The database you were working in is not where it should be.</p>
+            <p>
+              Agentic Mirror could not find the primary database where it
+              expects it, and it is holding 5 verified recovery points. Nothing
+              has been restored for you.
+            </p>
+          </blockquote>
+          <figure>
+            <img
+              src="shots/16-missing-primary.png"
+              alt="Missing primary database recovery screen listing verified recovery points"
+              loading="lazy"
+            />
+            <figcaption>
+              Healthy, missing, and corrupt primaries each get distinct,
+              truthful orientation.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section" id="review">
+        <h2>What review found</h2>
+        <p>
+          Three independent reviewers walked the running application with no
+          access to its source: one on the primary journey, one on the failure
+          branches, one on keyboard and screen-reader behaviour. These are their
+          open findings, unedited in substance. They are not yet fixed.
+        </p>
+
+        <div class="callout issue">
+          <h3>Found by more than one reviewer</h3>
+          <p>
+            <strong
+              >Version 2 is byte-identical to version 1 while the interface
+              claims a rewrite.</strong
+            >
+            The version card reads &ldquo;Rewritten to apply 2 approved
+            changes&rdquo; and the completion screen repeats it, but the
+            document text is unchanged &mdash; the approved changes appear
+            nowhere. This is a mock-adapter limitation, but the claim is
+            application copy, not model output, and it breaks the one rule the
+            whole design rests on. It is the highest-priority fix outstanding.
+          </p>
+        </div>
+
+        <div class="callout issue">
+          <h3>Also open</h3>
+          <ul>
+            <li>
+              <strong>Focus is dropped to the page body</strong> after nearly
+              every transition. The spending-cap card already does this
+              correctly; the rest do not, so keyboard users re-tab from the top
+              at each of the nine steps.
+            </li>
+            <li>
+              <strong
+                >Successful retries charge triple with no disclosure.</strong
+              >
+              When retries end in failure the card accounts for every attempt
+              exactly; when they succeed, the extra charge is silent.
+            </li>
+            <li>
+              <strong>The repair-model default disables repair.</strong> The
+              setup copy implies repair runs by default; it does not until a
+              separate model is chosen.
+            </li>
+            <li>
+              <strong>Setup validation flags the wrong field</strong>, misses
+              the empty required one, and leaves stale errors on screen after
+              they are fixed.
+            </li>
+            <li>
+              <strong>At 200% zoom the centre pane collapses</strong> and is
+              painted over by the details panel.
+            </li>
+            <li>
+              <strong>The transcript is crushed to a thin band</strong> whenever
+              a decision card is docked &mdash; visible in step 05 above &mdash;
+              at exactly the moments the interface asks you to verify against
+              your own words.
+            </li>
+            <li>
+              <strong
+                >Long decision cards open scrolled past their own
+                headline</strong
+              >, as in the spending-cap capture above.
+            </li>
+          </ul>
+        </div>
+
+        <div class="callout">
+          <h3>Reported, then disproved</h3>
+          <p>
+            One reviewer reported that the Enter key was swallowed
+            application-wide, making every link keyboard-inoperable &mdash; a
+            critical finding if true. It is not: the source contains no key
+            handler and no event listener of any kind, and every
+            <code>preventDefault</code> is an ordinary form submit handler. It
+            was an artifact of synthetic key events in the automation harness.
+            It is being re-verified with real key input before it is closed.
+          </p>
+        </div>
+
+        <div class="callout good">
+          <h3>What the reviewers agreed works</h3>
+          <ul>
+            <li>
+              The failure cards. Every fault mode produced a truthful, specific
+              card with exact charge accounting, honest diagnostics, and a
+              working way forward. Typed words survived every failure.
+            </li>
+            <li>
+              The spending-cap pause, independently singled out by all three.
+            </li>
+            <li>
+              The review-decision model: tiered recommendations, one-line
+              stakes, a decided counter, and a pre-rewrite summary that restates
+              exactly what will be sent.
+            </li>
+            <li>
+              Consequence-before-commitment copy throughout &mdash; and, apart
+              from the rewrite claim above, it came true every time it was
+              checked.
+            </li>
+            <li>
+              Restart durability: kill the server mid-journey and you land back
+              where you were, with the right next action.
+            </li>
+          </ul>
+          <p>
+            These are explicitly out of scope for the visual refinement pass.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="status">
+        <h2>Status</h2>
+        <div class="scroller">
+          <table>
+            <thead>
+              <tr>
+                <th>Ticket</th>
+                <th>Scope</th>
+                <th>State</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>01&ndash;05</td>
+                <td>
+                  Entry, brief approval, evidence locking, durable draft, accept
+                  and revisit
+                </td>
+                <td>Merged</td>
+              </tr>
+              <tr>
+                <td>06</td>
+                <td>Correct context with visible consequences</td>
+                <td>Merged</td>
+              </tr>
+              <tr>
+                <td>07</td>
+                <td>Pause and resume spending decisions</td>
+                <td>Merged</td>
+              </tr>
+              <tr>
+                <td>08</td>
+                <td>Recover invalid and interrupted model work</td>
+                <td>Merged</td>
+              </tr>
+              <tr>
+                <td>09</td>
+                <td>Restore canonical state without losing newer work</td>
+                <td>Merged</td>
+              </tr>
+              <tr>
+                <td>10</td>
+                <td>Validate and refine the complete desktop experience</td>
+                <td>In progress</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Each ticket was implemented test-first, reviewed adversarially, and
+          its accepted findings fixed before merge. The integrated branch passes
+          491 of 492 tests; the single failure is an unrelated test that
+          hard-codes a port already held on the capture machine. Type-checking,
+          linting, and the production build are clean.
+        </p>
+        <p>
+          Remaining on ticket 10: fix the findings above, apply restrained
+          visual refinement, and run the whole deterministic journey once more.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <p>
+          Agentic Mirror desktop walkthrough &mdash; captured 2026-08-23 in
+          deterministic mock mode at 1440&times;900. Screenshots are unedited.
+          All quoted text is the application's own copy.
+        </p>
+        <p>
+          This is a share and research surface, not production. Assembled by
+          Claude Code and not independently reviewed by a human before
+          publication.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
