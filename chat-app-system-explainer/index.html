@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="A source-grounded explanation of the Brilliant Apps Chat application, including Core data flows, storage, routes, features, and known gaps."
+      content="How Brilliant Apps Chat works for members, what it stores, what remains unfinished, and the technical details behind it."
     />
-    <title>Brilliant Apps Chat: system and Core data flows</title>
+    <title>How Brilliant Apps Chat works</title>
     <style>
       :root {
         --paper: #f5f1e8;
@@ -98,6 +98,11 @@
         font-size: 0.84rem;
       }
 
+      main .source-line {
+        margin: 0 0 24px;
+        color: var(--muted);
+      }
+
       .layout {
         display: grid;
         grid-template-columns: 220px minmax(0, 920px);
@@ -120,6 +125,16 @@
         margin-bottom: 10px;
         font-size: 0.77rem;
         letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      nav .nav-group {
+        display: block;
+        margin: 18px 10px 5px;
+        color: var(--ink);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.06em;
         text-transform: uppercase;
       }
 
@@ -183,6 +198,19 @@
         border-radius: 14px;
         background: var(--surface);
         box-shadow: var(--shadow);
+      }
+
+      .section-disclosure > summary {
+        font-size: 1rem;
+      }
+
+      .journey li strong {
+        display: block;
+      }
+
+      .status-line {
+        margin-bottom: 8px;
+        font-weight: 800;
       }
 
       .card {
@@ -526,80 +554,114 @@
   </head>
   <body>
     <header class="masthead">
-      <p class="eyebrow">Technical reference · 24 August 2026</p>
-      <h1>Brilliant Apps Chat: system and Core data flows</h1>
+      <p class="eyebrow">Product documentation · 24 August 2026</p>
+      <h1>How Brilliant Apps Chat works</h1>
       <p class="dek">
-        A source-grounded account of what enters Chat, how Core carries and
-        stores it, what returns to the browser, and where the current design is
-        incomplete.
+        Brilliant Apps Chat is an AI workspace. Members ask questions, add
+        saved context and files, organize conversations, and keep useful
+        outputs. This page explains the member experience first. Technical
+        implementation details follow.
       </p>
-      <div class="source-line">
-        <span>Source checkpoint: <code>1bb93be96e12</code></span>
-        <span>Branch: <code>codex/chat-metadata-assistant</code></span>
-        <span>Agent-authored and unreviewed</span>
-      </div>
     </header>
 
     <div class="layout">
       <nav aria-label="Contents">
         <strong>Contents</strong>
-        <a href="#orientation">Orientation</a>
-        <a href="#overview">System overview</a>
-        <a href="#flows">Data flows</a>
-        <a href="#storage">Storage model</a>
-        <a href="#routes">Route reference</a>
-        <a href="#features">Feature behavior</a>
-        <a href="#boundaries">Boundaries</a>
+        <span class="nav-group">Understand Chat</span>
+        <a href="#orientation">Start here</a>
+        <a href="#capabilities">Capabilities</a>
+        <a href="#member-journey">Member journey</a>
+        <a href="#data-privacy">Data and privacy</a>
+        <span class="nav-group">Details</span>
+        <a href="#features">Feature details</a>
         <a href="#issues">Issues and gaps</a>
+        <span class="nav-group">Technical reference</span>
+        <a href="#overview">System map</a>
+        <a href="#flows">Detailed flows</a>
+        <a href="#storage">Storage</a>
+        <a href="#routes">Routes</a>
+        <a href="#boundaries">Trust boundaries</a>
         <a href="#evidence">Evidence</a>
       </nav>
 
       <main>
         <section id="orientation">
-          <h2>Orientation</h2>
+          <h2>Start here</h2>
           <p class="lede">
-            Chat is an authenticated, desktop-first workspace inside Brilliant
-            Apps. Core owns conversation execution and two distinct storage
-            planes. The Next.js app owns the user experience, record shapes,
-            authorization checks, and browser-side orchestration.
+            Chat is Brilliant Apps' desktop-first AI conversation workspace.
+            It is for authenticated members. It combines normal AI chat with
+            the member's Brilliant Apps Profile, completed Mirrors, uploaded
+            files, saved conversations, and organized outputs.
           </p>
+
+          <div class="callout warn">
+            <p class="status-line">Current status: Preview only</p>
+            <p>
+              Chat works in development and Preview. It is not available in
+              production. The product direction still needs owner approval.
+              Treat every capability below as pre-release behavior.
+            </p>
+          </div>
 
           <div class="grid">
             <article class="card">
-              <span class="number">Today</span>
+              <h3>What Chat does</h3>
               <p>
-                Behavior is distributed across browser hooks, API routes, SDK
-                packages, Core contracts, and hidden context assets.
+                It streams AI replies, accepts supported files, takes voice
+                dictation, and keeps conversations for later.
               </p>
             </article>
             <article class="card">
-              <span class="number">After</span>
+              <h3>Who can access it</h3>
               <p>
-                This page gives one trace from user input through Core and back,
-                with route, storage, and feature references.
+                Only a signed-in member can access their own threads, Profile,
+                completed Mirrors, files, projects, and artifacts.
               </p>
             </article>
             <article class="card">
-              <span class="number">Why</span>
+              <h3>What gets saved</h3>
               <p>
-                A shared map makes product review, privacy review, debugging,
-                and future migration decisions less speculative.
+                Messages, thread organization, extracted file text, and
+                artifacts persist. Unsent drafts and workspace state do not.
               </p>
             </article>
           </div>
 
           <div class="callout">
-            <h3>Plain-English summary</h3>
+            <h3>The essential distinction</h3>
             <p>
-              The browser never calls Core directly for Chat. It calls the
-              Brilliant Apps server. The server authenticates the member, checks
-              the release flag, and uses shared SDK clients. Core retains the
-              actual conversation in a task step. Separately, Core context
-              assets hold Chat's thread, project, attachment, event, and artifact
-              records. The browser receives sanitized views and keeps transient
-              workspace state in memory.
+              Chat saves the conversation separately from its organization.
+              Core, Brilliant's backend service, runs the AI conversation and
+              stores its messages. Separate Chat records store titles, tags,
+              projects, files, artifacts, and other organization. The Brilliant
+              Apps server checks access before reading either set.
             </p>
           </div>
+
+          <h3>Terms used on this page</h3>
+          <dl>
+            <dt><strong>Thread</strong></dt>
+            <dd>One saved conversation with the assistant.</dd>
+            <dt><strong>Profile</strong></dt>
+            <dd>The member information Chat includes automatically.</dd>
+            <dt><strong>Mirror</strong></dt>
+            <dd>A completed Brilliant Apps output selected as conversation context.</dd>
+            <dt><strong>Artifact</strong></dt>
+            <dd>A substantial reply saved for focused viewing or download.</dd>
+            <dt><strong>Project</strong></dt>
+            <dd>An optional container for organizing related threads.</dd>
+            <dt><strong>Core</strong></dt>
+            <dd>Brilliant's backend service for AI conversations and durable data.</dd>
+          </dl>
+
+          <h3>Choose what you need</h3>
+          <ul>
+            <li><a href="#capabilities">See what members can do.</a></li>
+            <li><a href="#member-journey">Follow one conversation from start to finish.</a></li>
+            <li><a href="#data-privacy">Understand what Chat stores and shares.</a></li>
+            <li><a href="#issues">Review known limitations and release blockers.</a></li>
+            <li><a href="#overview">Open the technical implementation reference.</a></li>
+          </ul>
 
           <div class="legend" aria-label="Evidence labels">
             <span class="badge">CONFIRMED</span>
@@ -610,38 +672,104 @@
             <span>The available contract does not answer it.</span>
           </div>
 
-          <h3>TL;DR</h3>
+        </section>
+
+        <section id="capabilities">
+          <h2>What members can do</h2>
+          <p class="lede">
+            These are the current user-facing capabilities. The detailed
+            behavior and constraints remain available below.
+          </p>
+          <p>
+            Jump to:
+            <a href="#feature-workspace">workspace</a>,
+            <a href="#feature-composer">conversation controls</a>,
+            <a href="#feature-metadata">thread organization</a>,
+            <a href="#feature-commands">commands</a>,
+            <a href="#feature-attachments">files</a>,
+            <a href="#feature-artifacts">artifacts</a>,
+            <a href="#feature-context">context</a>,
+            <a href="#feature-projects">projects</a>,
+            <a href="#feature-voice">voice dictation</a>, or
+            <a href="#feature-exclusions">excluded capabilities</a>.
+          </p>
+          <div class="grid">
+            <article class="card">
+              <h3>Have a conversation</h3>
+              <p>Start a thread, watch replies stream, stop a reply, retry, and copy messages.</p>
+            </article>
+            <article class="card">
+              <h3>Add context</h3>
+              <p>Use the current Profile, select completed Mirrors, attach files, or dictate a draft.</p>
+            </article>
+            <article class="card">
+              <h3>Organize work</h3>
+              <p>Search, rename, tag, pin, favorite, archive, restore, and group threads into projects.</p>
+            </article>
+            <article class="card">
+              <h3>Keep useful outputs</h3>
+              <p>Open substantial Markdown or code replies as artifacts. Copy or download them safely.</p>
+            </article>
+            <article class="card">
+              <h3>Control metadata</h3>
+              <p>Edit titles, status, tags, descriptions, notes, and project assignment in the interface.</p>
+            </article>
+            <article class="card">
+              <h3>Use explicit commands</h3>
+              <p>Commands such as <code>/thread rename Quarterly plan</code> update thread organization.</p>
+            </article>
+          </div>
+          <p><a href="#features">Read the feature details and constraints.</a></p>
+        </section>
+
+        <section id="member-journey">
+          <h2>One conversation, start to finish</h2>
+          <ol class="journey">
+            <li><strong>Sign in.</strong> Chat loads only the member's data.</li>
+            <li><strong>Choose context.</strong> The Profile is automatic. Completed Mirrors are optional.</li>
+            <li><strong>Ask something.</strong> Type, dictate, or add supported files.</li>
+            <li><strong>Receive the reply.</strong> Text appears while Core generates it.</li>
+            <li><strong>Keep things organized.</strong> Rename, tag, group, archive, or favorite the thread.</li>
+            <li><strong>Return later.</strong> Chat reloads the saved conversation and organization.</li>
+          </ol>
+          <div class="callout warn">
+            <h3>Context cannot change later</h3>
+            <p>
+              The Profile and selected Mirrors guide every reply in the thread.
+              To use different context, start another thread.
+            </p>
+          </div>
+        </section>
+
+        <section id="data-privacy">
+          <h2>What Chat stores and shares</h2>
+          <p class="lede">
+            Messages, Profile and Mirror snapshots, extracted file text, and
+            saved artifacts stay server-side. Chat returns only the signed-in
+            member's records to the browser.
+          </p>
           <ul>
-            <li>
-              Chat is gated by authentication and <code>release.chat-app</code>.
-            </li>
-            <li>
-              Core task-step chat stores system, user, and assistant turns.
-            </li>
-            <li>
-              User-scoped Core context assets store Chat application records.
-            </li>
-            <li>
-              Attachments become extracted text before model submission.
-            </li>
-            <li>
-              Artifact discovery is heuristic, then server-verified.
-            </li>
-            <li>
-              Metadata commands are explicit slash commands, not model tools.
-            </li>
-            <li>
-              Production exposure and product direction remain unresolved.
-            </li>
+            <li>Uploaded documents become extracted text. Original layout may be lost.</li>
+            <li>Large document text is clipped at the published limits.</li>
+            <li>Thread and project deletion is reversible, not permanent.</li>
+            <li>The available contracts do not state a retention duration.</li>
+            <li>Voice audio goes directly from the browser to Deepgram.</li>
           </ul>
+          <p>
+            <a href="#boundaries">Read the detailed trust boundaries.</a>
+            <a href="#storage">Read the technical storage reference.</a>
+          </p>
         </section>
 
         <section id="overview">
-          <h2>System overview</h2>
+          <h2>Technical reference: system map</h2>
           <p class="lede">
-            Five runtime boundaries matter: the browser, the Next.js server,
-            shared Brilliant Apps packages, Core, and Deepgram.
+            Open this section when you need implementation boundaries,
+            responsibilities, or access gates.
           </p>
+          <details class="section-disclosure">
+            <summary>Open the system map</summary>
+            <div class="details-body">
 
           <pre aria-label="System architecture diagram"><code>Authenticated browser
   |
@@ -735,15 +863,19 @@ Browser memory
             <code>packages/sdk/src/session.ts:25-40</code>;
             <code>apps/web/lib/flags/registry.json:2-10</code>.
           </p>
+            </div>
+          </details>
         </section>
 
         <section id="flows">
-          <h2>Data flows</h2>
+          <h2>Technical reference: detailed flows</h2>
           <p class="lede">
-            The most important distinction is between conversation history and
-            Chat application records. Both live behind Core contracts, but they
-            use different APIs and record shapes.
+            Open this section to trace each operation through routes, Core, and
+            stored records.
           </p>
+          <details class="section-disclosure">
+            <summary>Open all six implementation traces</summary>
+            <div class="details-body">
 
           <h3>1. Create a thread</h3>
           <pre aria-label="Thread creation flow"><code>Profile + selected completed Mirrors + optional project
@@ -861,14 +993,19 @@ Browser memory
             Sources: <code>packages/voice/src/useVoiceInput.ts:266-280,322-394,492-498</code>;
             <code>apps/web/app/api/[...path]/route.ts:35,138</code>.
           </p>
+            </div>
+          </details>
         </section>
 
         <section id="storage">
-          <h2>Storage model</h2>
+          <h2>Technical reference: storage</h2>
           <p class="lede">
-            Core holds durable state. The browser holds working state. Chat uses
-            the Core context-asset store as an owner-scoped record database.
+            Open this section for record types, write patterns, limits, and
+            browser-only state.
           </p>
+          <details class="section-disclosure">
+            <summary>Open the storage model</summary>
+            <div class="details-body">
 
           <div class="grid">
             <article class="card">
@@ -978,14 +1115,18 @@ Browser memory
             in local storage. Durable conversation and Chat records stay
             server-side.
           </p>
+            </div>
+          </details>
         </section>
 
         <section id="routes">
-          <h2>Route reference</h2>
+          <h2>Technical reference: routes</h2>
           <p class="lede">
-            All routes below are release-gated, authenticated, owner-scoped, and
-            server-mediated. Browsers do not call Core directly.
+            Open this section for the complete authenticated application API.
           </p>
+          <details class="section-disclosure">
+            <summary>Open the route inventory</summary>
+            <div class="details-body">
 
           <div class="table-wrap">
             <table>
@@ -1106,12 +1247,17 @@ Browser memory
               are not returned to the browser.
             </p>
           </div>
+            </div>
+          </details>
         </section>
 
         <section id="features">
-          <h2>Feature-by-feature behavior</h2>
+          <h2>Feature details</h2>
+          <p class="lede">
+            Open a feature for its current behavior and constraints.
+          </p>
 
-          <details open>
+          <details id="feature-workspace" open>
             <summary>Workspace and navigation</summary>
             <div class="details-body">
               <p>
@@ -1130,7 +1276,7 @@ Browser memory
             </div>
           </details>
 
-          <details>
+          <details id="feature-composer">
             <summary>Composer, streaming, stopping, and retry</summary>
             <div class="details-body">
               <p>
@@ -1148,7 +1294,7 @@ Browser memory
             </div>
           </details>
 
-          <details>
+          <details id="feature-metadata">
             <summary>Thread metadata</summary>
             <div class="details-body">
               <p>
@@ -1166,14 +1312,17 @@ Browser memory
             </div>
           </details>
 
-          <details>
+          <details id="feature-commands">
             <summary>Slash commands</summary>
             <div class="details-body">
               <p>
-                Supported commands cover help, show, notes, rename, pin,
-                favorite, archive, restore, status, tags, description, notes,
-                and project assignment. Invalid command syntax never reaches
-                Core's model. Deleted threads allow only help, show, and restore.
+                Commands include <code>/thread show</code>,
+                <code>/thread rename Quarterly plan</code>,
+                <code>/thread status waiting</code>, and
+                <code>/thread tags set research, planning</code>. They also
+                cover pinning, favorites, descriptions, notes, projects,
+                archiving, and restoration. Deleted threads allow only help,
+                show, and restore.
               </p>
               <p>
                 Commands are normal API mutations, not tools available to the
@@ -1183,14 +1332,15 @@ Browser memory
             </div>
           </details>
 
-          <details>
+          <details id="feature-attachments">
             <summary>Attachments</summary>
             <div class="details-body">
               <p>
                 The browser accepts TXT, Markdown, PDF, and DOCX by picker or
                 drag-and-drop. The server requires matching extension and MIME,
-                parses text with format-specific readers, trims and clips it,
-                then stores it in a hidden context asset.
+                extracts text, trims and clips it, then stores it in a hidden
+                context asset. The assistant receives extracted text, not the
+                original document layout. Large documents may be incomplete.
               </p>
               <p>
                 Selected attachment text is treated as untrusted data in the
@@ -1200,7 +1350,7 @@ Browser memory
             </div>
           </details>
 
-          <details>
+          <details id="feature-artifacts">
             <summary>Artifacts</summary>
             <div class="details-body">
               <p>
@@ -1213,19 +1363,20 @@ Browser memory
             </div>
           </details>
 
-          <details>
+          <details id="feature-context">
             <summary>Context selection</summary>
             <div class="details-body">
               <p>
                 Before thread creation, Chat shows the current profile and lets
                 the member select completed Mirrors with bounded previews.
                 Profile use is automatic when available. The context selection
-                becomes immutable after creation.
+                guides every reply and becomes fixed after creation. To change
+                context, the member must start another thread.
               </p>
             </div>
           </details>
 
-          <details>
+          <details id="feature-projects">
             <summary>Projects</summary>
             <div class="details-body">
               <p>
@@ -1233,12 +1384,13 @@ Browser memory
                 threads by header control or slash command. Server routes also
                 support rename and soft deletion, including detaching threads.
                 The current browser client and interface do not expose those two
-                project administration actions.
+                project administration actions. Projects organize threads.
+                They do not add context to assistant replies.
               </p>
             </div>
           </details>
 
-          <details>
+          <details id="feature-voice">
             <summary>Voice dictation</summary>
             <div class="details-body">
               <p>
@@ -1251,7 +1403,7 @@ Browser memory
             </div>
           </details>
 
-          <details>
+          <details id="feature-exclusions">
             <summary>Deliberate exclusions</summary>
             <div class="details-body">
               <p>
@@ -1330,12 +1482,14 @@ Browser memory
             Inferences identify credible consequences, not measured incidents.
           </p>
 
+          <h3>Availability and product decisions</h3>
+
           <article class="issue">
             <h3><span class="badge">CONFIRMED</span> Production remains dark</h3>
             <p>
               The release registry enables Chat for development and Preview but
               disables production. The work remains on a feature branch.
-              <strong>Impact:</strong> users cannot rely on this surface in
+              <strong>Impact:</strong> users cannot rely on Chat in
               production.
             </p>
           </article>
@@ -1343,12 +1497,15 @@ Browser memory
           <article class="issue">
             <h3><span class="badge">CONFIRMED</span> Product direction is unresolved</h3>
             <p>
-              The work record marks a conflict with the thread-oriented product
-              vision and requires owner approval before merge.
-              <strong>Impact:</strong> implementation quality alone cannot
-              authorize release.
+              The implementation is a standalone workspace for persistent,
+              open-ended conversations. The binding product vision may instead
+              require outcome-oriented workflows. The owner must decide whether
+              this standalone Chat product belongs in Brilliant Apps.
+              <strong>Impact:</strong> passing tests cannot authorize release.
             </p>
           </article>
+
+          <h3>User experience and data behavior</h3>
 
           <article class="issue">
             <h3><span class="badge">CONFIRMED</span> Project administration is incomplete</h3>
@@ -1439,11 +1596,13 @@ Browser memory
             <h3><span class="badge">CONFIRMED</span> Some failure feedback is coarse</h3>
             <p>
               Tags, description, and notes save on blur with a shared error
-              surface. Artifact copy lacks the rejection handling used by reply
+              message. Artifact copy lacks the rejection handling used by reply
               copy. <strong>Impact:</strong> recovery is unclear for individual
               failed actions.
             </p>
           </article>
+
+          <h3>Engineering risks and unknowns</h3>
 
           <article class="issue">
             <h3><span class="badge inferred">INFERRED</span> Full asset scans may scale poorly</h3>
@@ -1502,6 +1661,10 @@ Browser memory
             Claims were traced at source checkpoint <code>1bb93be96e12</code>.
             Generated navigation was used only to find canonical files.
           </p>
+          <div class="source-line">
+            <span>Branch: <code>codex/chat-metadata-assistant</code></span>
+            <span>Agent-authored and unreviewed</span>
+          </div>
 
           <h3>Primary source areas</h3>
           <ul>
@@ -1541,15 +1704,15 @@ Browser memory
           </ul>
 
           <div class="copy-row">
-            <button id="copy-summary" type="button">Copy executive summary</button>
+            <button id="copy-summary" type="button">Copy plain-language summary</button>
             <span id="copy-status" role="status" aria-live="polite"></span>
           </div>
         </section>
 
         <footer>
           <p>
-            Published as a static BWAI Share technical reference. All behavior
-            labels describe the source checkpoint, not a production promise.
+            Published as static BWAI Share documentation. All behavior labels
+            describe the source checkpoint, not a production promise.
           </p>
         </footer>
       </main>
@@ -1568,6 +1731,15 @@ Browser memory
             });
           });
         });
+
+        function revealHashTarget() {
+          if (!window.location.hash) return;
+          var target = document.querySelector(window.location.hash);
+          if (target && target.tagName === "DETAILS") target.open = true;
+        }
+
+        window.addEventListener("hashchange", revealHashTarget);
+        revealHashTarget();
 
         var links = Array.from(document.querySelectorAll("nav a"));
         var sections = links
@@ -1597,14 +1769,12 @@ Browser memory
         }
 
         var summary =
-          "Brilliant Apps Chat is an authenticated, feature-gated workspace. " +
-          "The browser calls Next.js routes, never Core directly. Core task-step " +
-          "history stores system, user, and assistant turns. Separate hidden, " +
-          "user-scoped Core context assets store threads, events, projects, " +
-          "attachments, and artifacts. Confirmed gaps include dark production " +
-          "exposure, unresolved product direction, no deep links, incomplete " +
-          "project administration, memory-only drafts and commands, heuristic " +
-          "artifacts, soft-only deletion, and a client-maintained search index.";
+          "Brilliant Apps Chat is a Preview-only AI conversation workspace. " +
+          "Members can use their Profile, completed Mirrors, supported files, " +
+          "and voice dictation. Messages and organization persist server-side. " +
+          "Drafts and current workspace state do not. Deletion remains " +
+          "reversible, retention is unknown, and production release requires " +
+          "an owner decision.";
         var button = document.getElementById("copy-summary");
         var status = document.getElementById("copy-status");
 
@@ -1615,7 +1785,7 @@ Browser memory
               status.textContent = "Copied.";
             })
             .catch(function () {
-              status.textContent = "Copy failed. Select the TL;DR instead.";
+              status.textContent = "Copy failed. Select the opening summary.";
             });
         });
       })();
