@@ -1,0 +1,1624 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A source-grounded explanation of the Brilliant Apps Chat application, including Core data flows, storage, routes, features, and known gaps."
+    />
+    <title>Brilliant Apps Chat: system and Core data flows</title>
+    <style>
+      :root {
+        --paper: #f5f1e8;
+        --surface: #fffdf8;
+        --ink: #1d2528;
+        --muted: #5b6668;
+        --line: #d8d1c3;
+        --accent: #215b50;
+        --accent-soft: #dce9e4;
+        --warn: #8a4b18;
+        --warn-soft: #f6e6d3;
+        --unknown: #5f5575;
+        --unknown-soft: #ebe6f2;
+        --shadow: 0 12px 32px rgb(29 37 40 / 8%);
+        --sans: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        --serif: Georgia, "Times New Roman", serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--paper);
+        font: 16px/1.62 var(--sans);
+      }
+
+      a {
+        color: var(--accent);
+        text-underline-offset: 0.18em;
+      }
+
+      a:focus-visible,
+      button:focus-visible,
+      summary:focus-visible {
+        outline: 3px solid #b86e28;
+        outline-offset: 3px;
+      }
+
+      .masthead {
+        padding: 64px max(24px, calc((100vw - 1180px) / 2));
+        color: #f7f4ed;
+        background: #183c36;
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2 {
+        font-family: var(--serif);
+        font-weight: 500;
+        line-height: 1.08;
+      }
+
+      h1 {
+        max-width: 920px;
+        margin: 0;
+        font-size: clamp(2.4rem, 6vw, 5.4rem);
+        letter-spacing: -0.035em;
+      }
+
+      .dek {
+        max-width: 770px;
+        margin: 24px 0 0;
+        color: #d9e3df;
+        font-size: clamp(1rem, 2vw, 1.25rem);
+      }
+
+      .source-line {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 20px;
+        margin-top: 28px;
+        color: #bed0ca;
+        font-size: 0.84rem;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 220px minmax(0, 920px);
+        gap: 48px;
+        max-width: 1210px;
+        margin: 0 auto;
+        padding: 40px 24px 96px;
+      }
+
+      nav {
+        position: sticky;
+        top: 22px;
+        align-self: start;
+        max-height: calc(100vh - 44px);
+        overflow: auto;
+      }
+
+      nav strong {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 0.77rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      nav a {
+        display: block;
+        min-height: 40px;
+        padding: 8px 10px;
+        border-left: 2px solid var(--line);
+        color: var(--muted);
+        font-size: 0.88rem;
+        text-decoration: none;
+      }
+
+      nav a:hover,
+      nav a.active {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+
+      main {
+        min-width: 0;
+      }
+
+      section {
+        scroll-margin-top: 20px;
+        margin-bottom: 68px;
+      }
+
+      h2 {
+        margin: 0 0 20px;
+        font-size: clamp(2rem, 4vw, 3rem);
+        letter-spacing: -0.025em;
+      }
+
+      h3 {
+        margin: 32px 0 10px;
+        font-size: 1.12rem;
+        line-height: 1.3;
+      }
+
+      p {
+        margin: 0 0 16px;
+      }
+
+      .lede {
+        color: var(--muted);
+        font-size: 1.08rem;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .card,
+      .callout,
+      details {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+      }
+
+      .card {
+        padding: 22px;
+      }
+
+      .card h3 {
+        margin: 0 0 8px;
+      }
+
+      .card p:last-child,
+      .callout p:last-child {
+        margin-bottom: 0;
+      }
+
+      .number {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--accent);
+        font: 500 2rem/1 var(--serif);
+      }
+
+      .callout {
+        margin: 20px 0;
+        padding: 22px;
+        border-left: 5px solid var(--accent);
+      }
+
+      .callout.warn {
+        border-left-color: var(--warn);
+        background: var(--warn-soft);
+      }
+
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 16px 0 26px;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        min-height: 28px;
+        padding: 3px 9px;
+        border-radius: 999px;
+        color: var(--accent);
+        background: var(--accent-soft);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+      }
+
+      .badge.inferred {
+        color: var(--warn);
+        background: var(--warn-soft);
+      }
+
+      .badge.unknown {
+        color: var(--unknown);
+        background: var(--unknown-soft);
+      }
+
+      pre {
+        overflow: auto;
+        margin: 20px 0;
+        padding: 22px;
+        border-radius: 12px;
+        color: #e7eeeb;
+        background: #172b28;
+        font: 0.83rem/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        white-space: pre;
+      }
+
+      code {
+        padding: 0.12em 0.32em;
+        border-radius: 4px;
+        background: #e8e2d6;
+        font: 0.88em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        overflow-wrap: anywhere;
+      }
+
+      pre code {
+        display: block;
+        padding: 0;
+        background: transparent;
+        overflow-wrap: normal;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+        margin: 18px 0;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--surface);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.86rem;
+      }
+
+      th,
+      td {
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        color: var(--muted);
+        background: #eee9df;
+        font-size: 0.72rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      ul,
+      ol {
+        padding-left: 22px;
+      }
+
+      li {
+        margin-bottom: 8px;
+      }
+
+      details {
+        margin: 14px 0;
+        overflow: clip;
+      }
+
+      summary {
+        min-height: 48px;
+        padding: 14px 18px;
+        cursor: pointer;
+        color: var(--accent);
+        font-weight: 750;
+      }
+
+      .details-body {
+        padding: 0 18px 18px;
+      }
+
+      .issue {
+        margin: 0;
+        padding: 18px 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .issue:first-of-type {
+        border-top: 0;
+      }
+
+      .issue h3 {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 6px;
+      }
+
+      .citation {
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .copy-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-top: 20px;
+      }
+
+      button {
+        min-height: 44px;
+        padding: 10px 16px;
+        border: 0;
+        border-radius: 8px;
+        color: white;
+        background: var(--accent);
+        font: 700 0.9rem var(--sans);
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #17483f;
+      }
+
+      footer {
+        padding-top: 24px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+
+      @media (max-width: 900px) {
+        .layout {
+          display: block;
+        }
+
+        nav {
+          position: static;
+          margin-bottom: 46px;
+        }
+
+        nav a {
+          display: inline-flex;
+          align-items: center;
+          margin: 0 5px 6px 0;
+          border: 1px solid var(--line);
+          border-radius: 999px;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .masthead {
+          padding: 44px 20px;
+        }
+
+        .layout {
+          padding: 28px 16px 72px;
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .table-wrap {
+          overflow: visible;
+          border: 0;
+          background: transparent;
+        }
+
+        table,
+        thead,
+        tbody,
+        tr,
+        th,
+        td {
+          display: block;
+        }
+
+        thead {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          overflow: hidden;
+          clip: rect(0 0 0 0);
+        }
+
+        tr {
+          margin-bottom: 12px;
+          padding: 10px 14px;
+          border: 1px solid var(--line);
+          border-radius: 12px;
+          background: var(--surface);
+        }
+
+        td {
+          display: grid;
+          grid-template-columns: 104px minmax(0, 1fr);
+          gap: 10px;
+          padding: 8px 0;
+          border-bottom: 1px solid var(--line);
+          overflow-wrap: anywhere;
+        }
+
+        td::before {
+          content: attr(data-label);
+          color: var(--muted);
+          font-size: 0.69rem;
+          font-weight: 800;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+        }
+
+        td:last-child {
+          border-bottom: 0;
+        }
+
+        pre {
+          margin-inline: -6px;
+          padding: 16px;
+          font-size: 0.73rem;
+        }
+      }
+
+      @media print {
+        body {
+          background: white;
+          font-size: 11pt;
+        }
+
+        .masthead {
+          padding: 28px 0;
+          color: var(--ink);
+          background: white;
+          border-bottom: 2px solid var(--ink);
+        }
+
+        .dek,
+        .source-line {
+          color: var(--muted);
+        }
+
+        .layout {
+          display: block;
+          max-width: none;
+          padding: 24px 0;
+        }
+
+        nav,
+        .copy-row {
+          display: none;
+        }
+
+        section,
+        details,
+        .card,
+        .callout,
+        tr {
+          break-inside: avoid;
+          box-shadow: none;
+        }
+
+        details:not([open]) > *:not(summary) {
+          display: block;
+        }
+
+        a {
+          color: inherit;
+          text-decoration: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="masthead">
+      <p class="eyebrow">Technical reference · 24 August 2026</p>
+      <h1>Brilliant Apps Chat: system and Core data flows</h1>
+      <p class="dek">
+        A source-grounded account of what enters Chat, how Core carries and
+        stores it, what returns to the browser, and where the current design is
+        incomplete.
+      </p>
+      <div class="source-line">
+        <span>Source checkpoint: <code>1bb93be96e12</code></span>
+        <span>Branch: <code>codex/chat-metadata-assistant</code></span>
+        <span>Agent-authored and unreviewed</span>
+      </div>
+    </header>
+
+    <div class="layout">
+      <nav aria-label="Contents">
+        <strong>Contents</strong>
+        <a href="#orientation">Orientation</a>
+        <a href="#overview">System overview</a>
+        <a href="#flows">Data flows</a>
+        <a href="#storage">Storage model</a>
+        <a href="#routes">Route reference</a>
+        <a href="#features">Feature behavior</a>
+        <a href="#boundaries">Boundaries</a>
+        <a href="#issues">Issues and gaps</a>
+        <a href="#evidence">Evidence</a>
+      </nav>
+
+      <main>
+        <section id="orientation">
+          <h2>Orientation</h2>
+          <p class="lede">
+            Chat is an authenticated, desktop-first workspace inside Brilliant
+            Apps. Core owns conversation execution and two distinct storage
+            planes. The Next.js app owns the user experience, record shapes,
+            authorization checks, and browser-side orchestration.
+          </p>
+
+          <div class="grid">
+            <article class="card">
+              <span class="number">Today</span>
+              <p>
+                Behavior is distributed across browser hooks, API routes, SDK
+                packages, Core contracts, and hidden context assets.
+              </p>
+            </article>
+            <article class="card">
+              <span class="number">After</span>
+              <p>
+                This page gives one trace from user input through Core and back,
+                with route, storage, and feature references.
+              </p>
+            </article>
+            <article class="card">
+              <span class="number">Why</span>
+              <p>
+                A shared map makes product review, privacy review, debugging,
+                and future migration decisions less speculative.
+              </p>
+            </article>
+          </div>
+
+          <div class="callout">
+            <h3>Plain-English summary</h3>
+            <p>
+              The browser never calls Core directly for Chat. It calls the
+              Brilliant Apps server. The server authenticates the member, checks
+              the release flag, and uses shared SDK clients. Core retains the
+              actual conversation in a task step. Separately, Core context
+              assets hold Chat's thread, project, attachment, event, and artifact
+              records. The browser receives sanitized views and keeps transient
+              workspace state in memory.
+            </p>
+          </div>
+
+          <div class="legend" aria-label="Evidence labels">
+            <span class="badge">CONFIRMED</span>
+            <span>Directly supported by source, tests, or work records.</span>
+            <span class="badge inferred">INFERRED</span>
+            <span>A code-derived consequence that was not measured.</span>
+            <span class="badge unknown">UNKNOWN</span>
+            <span>The available contract does not answer it.</span>
+          </div>
+
+          <h3>TL;DR</h3>
+          <ul>
+            <li>
+              Chat is gated by authentication and <code>release.chat-app</code>.
+            </li>
+            <li>
+              Core task-step chat stores system, user, and assistant turns.
+            </li>
+            <li>
+              User-scoped Core context assets store Chat application records.
+            </li>
+            <li>
+              Attachments become extracted text before model submission.
+            </li>
+            <li>
+              Artifact discovery is heuristic, then server-verified.
+            </li>
+            <li>
+              Metadata commands are explicit slash commands, not model tools.
+            </li>
+            <li>
+              Production exposure and product direction remain unresolved.
+            </li>
+          </ul>
+        </section>
+
+        <section id="overview">
+          <h2>System overview</h2>
+          <p class="lede">
+            Five runtime boundaries matter: the browser, the Next.js server,
+            shared Brilliant Apps packages, Core, and Deepgram.
+          </p>
+
+          <pre aria-label="System architecture diagram"><code>Authenticated browser
+  |
+  | /chat, /api/chat/*, /api/voice/token
+  v
+Brilliant Apps Next.js server
+  |-- release flag + Stytch session
+  |-- ChatRepository + route validation
+  |-- @bwai/sdk / @bwai/platform-client
+  |-- @bwai/chat-engine stream parsing contract
+  |
+  +---------------------------> Core
+  |                              |-- task + step chat history
+  |                              |-- user-scoped context assets
+  |                              |-- voice token minting
+  |
+  +-- token returns to browser --+--> Deepgram WebSocket
+
+Browser memory
+  |-- active thread and draft
+  |-- streamed assistant text
+  |-- filters, retry state, selected artifact
+  +-- local-only command acknowledgments</code></pre>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Layer</th>
+                  <th>Responsibility</th>
+                  <th>Reads</th>
+                  <th>Writes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Browser</td>
+                  <td>Workspace, composer, rendering, stream consumption</td>
+                  <td>Sanitized API responses and SSE</td>
+                  <td>API requests; transient memory; two storage hints</td>
+                </tr>
+                <tr>
+                  <td>Next.js routes</td>
+                  <td>Auth, validation, orchestration, response shaping</td>
+                  <td>Session, Core history, context assets</td>
+                  <td>Core turns and Chat records</td>
+                </tr>
+                <tr>
+                  <td>Shared packages</td>
+                  <td>Typed transport, store access, stream parsing</td>
+                  <td>Core contracts and responses</td>
+                  <td>Delegated Core requests</td>
+                </tr>
+                <tr>
+                  <td>Core</td>
+                  <td>Conversation execution, history, context-asset storage</td>
+                  <td>Task template, task history, delegated assets</td>
+                  <td>Turns, task state, context assets, voice token</td>
+                </tr>
+                <tr>
+                  <td>Deepgram</td>
+                  <td>Live speech transcription</td>
+                  <td>Browser microphone chunks</td>
+                  <td>Transcript events to browser</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Gate sequence</h3>
+          <ol>
+            <li>
+              <code>/chat</code> calls the release flag and returns 404 when off.
+            </li>
+            <li>
+              The app-wide Stytch guard requires an authenticated session.
+            </li>
+            <li>
+              Every Chat API request checks the same flag first.
+            </li>
+            <li>
+              The API derives organization and member ownership from Stytch.
+            </li>
+            <li>
+              A user-scoped store and owner-scoped repository are created.
+            </li>
+          </ol>
+          <p class="citation">
+            Sources: <code>apps/web/app/chat/page.tsx:6-8</code>;
+            <code>apps/web/lib/chat/server.ts:9-26</code>;
+            <code>packages/sdk/src/session.ts:25-40</code>;
+            <code>apps/web/lib/flags/registry.json:2-10</code>.
+          </p>
+        </section>
+
+        <section id="flows">
+          <h2>Data flows</h2>
+          <p class="lede">
+            The most important distinction is between conversation history and
+            Chat application records. Both live behind Core contracts, but they
+            use different APIs and record shapes.
+          </p>
+
+          <h3>1. Create a thread</h3>
+          <pre aria-label="Thread creation flow"><code>Profile + selected completed Mirrors + optional project
+  -> POST /api/chat/threads
+  -> validate owner-scoped context
+  -> Core: create task
+  -> Core: inject system turn into step-01, no LLM submission
+  -> Core context asset: write chat/thread/v1/&lt;threadId&gt;
+  -> browser: receive public thread and select it</code></pre>
+          <p>
+            The server always tries to use the current profile when available.
+            Selected Mirrors must be completed, owned, and listed in the
+            member's manifest. Profile and Mirror content is clipped, template
+            syntax is neutralized, HTML is escaped, and the result is wrapped as
+            data inside a system prompt. The prompt forbids treating this data
+            as instructions or mutating it.
+          </p>
+          <p>
+            The Core task ID and fixed <code>step-01</code> are then referenced
+            by the Chat thread record. Core task creation and initialization
+            happen before the record write.
+          </p>
+          <p class="citation">
+            Sources: <code>apps/web/app/api/chat/threads/route.ts:39-63</code>;
+            <code>apps/web/lib/chat/runtime.ts:28-49,116-134</code>;
+            <code>apps/web/lib/chat/context.ts:55-167</code>.
+          </p>
+
+          <h3>2. Send a message and stream a reply</h3>
+          <pre aria-label="Message streaming flow"><code>Draft + selected attachment IDs
+  -> browser uploads files, if any
+  -> optimistic user message
+  -> POST /api/chat/threads/&lt;id&gt;/messages
+  -> load owned thread and extracted attachment text
+  -> write attachment consumption events
+  -> Core inject-turn: user content, submitToLlm=true
+  -> raw Core SSE returns through Next.js
+  -> @bwai/chat-engine parses text and envelope
+  -> browser commits assistant display
+  -> patch local searchText
+  -> optional artifact and automatic-title follow-ups</code></pre>
+          <p>
+            Attachment text is escaped and wrapped with a warning that it is
+            untrusted data. The user message is also encoded before the shared
+            Core client submits it. The server returns Core's SSE body without a
+            hand-written event parser. The browser uses
+            <code>@bwai/chat-engine</code> and aborts after 45 seconds without
+            stream activity.
+          </p>
+          <p>
+            Core commits the user and assistant turns to the task step. Search
+            text, artifacts, and title are follow-up writes. A successful reply
+            can therefore exist even when one of those derived writes fails.
+          </p>
+          <p class="citation">
+            Sources:
+            <code>apps/web/app/api/chat/threads/[threadId]/messages/route.ts</code>;
+            <code>apps/web/lib/chat/runtime.ts:136-185</code>;
+            <code>packages/sdk/src/core-backend.ts:443-486,526-573</code>.
+          </p>
+
+          <h3>3. Reopen history</h3>
+          <pre aria-label="History read flow"><code>GET /api/chat/threads/&lt;id&gt;
+  -> read thread + events from user-scoped context assets
+  -> Core typed client: read task, then step chat
+  -> verify task and expected template
+  -> keep user and assistant turns
+  -> strip attachment wrappers and assistant envelopes
+  -> attach public artifact and attachment metadata
+  -> browser renders committed transcript</code></pre>
+          <p>
+            Historic attachment chips are rebuilt from attachment metadata.
+            Extracted text is not returned in the public attachment shape. Core
+            remains the authority for committed conversation history.
+          </p>
+
+          <h3>4. Update metadata</h3>
+          <p>
+            Rename, pin, favorite, status, tags, description, notes, project,
+            archive, delete, and restore do not mutate the base record. Each
+            produces an immutable event context asset. Reads sort events by
+            timestamp and ID, then fold them over the base thread. Later
+            same-field events win. A manual title prevents a late automatic
+            title from replacing it.
+          </p>
+          <p class="citation">
+            Source: <code>apps/web/lib/chat/repository.ts:80-89,137-184</code>.
+          </p>
+
+          <h3>5. Extract and persist an artifact</h3>
+          <p>
+            The browser marks an assistant reply as a candidate when it contains
+            a long fenced block or substantial structured Markdown. It then
+            reconciles against committed Core history and sends only the source
+            message ID. The server reloads history, verifies that committed
+            assistant message, runs detection again, clips content to 20,000
+            characters, and writes a deterministic immutable artifact record.
+          </p>
+
+          <h3>6. Dictate with voice</h3>
+          <pre aria-label="Voice transcription flow"><code>Microphone permission
+  -> POST /api/voice/token with Stytch token
+  -> Brilliant Apps catch-all proxy
+  -> Core voice-token endpoint
+  -> token returns to browser
+  -> browser opens Deepgram WebSocket
+  -> MediaRecorder sends microphone chunks
+  -> transcript updates the composer draft</code></pre>
+          <p>
+            Voice is dictation only. It is not a Core conversation turn until
+            the member sends the resulting text. Chat does not provide
+            text-to-speech or read-aloud output.
+          </p>
+          <p class="citation">
+            Sources: <code>packages/voice/src/useVoiceInput.ts:266-280,322-394,492-498</code>;
+            <code>apps/web/app/api/[...path]/route.ts:35,138</code>.
+          </p>
+        </section>
+
+        <section id="storage">
+          <h2>Storage model</h2>
+          <p class="lede">
+            Core holds durable state. The browser holds working state. Chat uses
+            the Core context-asset store as an owner-scoped record database.
+          </p>
+
+          <div class="grid">
+            <article class="card">
+              <h3>Conversation plane</h3>
+              <p>
+                Core task and <code>step-01</code> store the initialization
+                prompt plus committed user and assistant turns.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Application plane</h3>
+              <p>
+                Hidden user-scoped context assets store threads, events,
+                projects, attachments, and artifacts.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Working plane</h3>
+              <p>
+                React memory stores drafts, selection, streaming text, filters,
+                retries, and local command replies.
+              </p>
+            </article>
+          </div>
+
+          <h3>Context-asset keys and payloads</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Key prefix</th>
+                  <th>Stored data</th>
+                  <th>Write pattern</th>
+                  <th>Public read shape</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>chat/thread/v1/</code></td>
+                  <td>Core task link, title, context, dates, owner</td>
+                  <td>One base record</td>
+                  <td>Owner fields removed; current event fold applied</td>
+                </tr>
+                <tr>
+                  <td><code>chat/thread-event/v1/</code></td>
+                  <td>Metadata, archive, delete, restore, AI title</td>
+                  <td>Immutable event per change</td>
+                  <td>Not returned directly</td>
+                </tr>
+                <tr>
+                  <td><code>chat/attachment/v1/</code></td>
+                  <td>Name, MIME, extracted text, owner, dates</td>
+                  <td>Record plus consume/release events</td>
+                  <td>ID, name, MIME, type, date only</td>
+                </tr>
+                <tr>
+                  <td><code>chat/project/v1/</code></td>
+                  <td>Project title, owner, dates</td>
+                  <td>Base record</td>
+                  <td>Project identity and current title</td>
+                </tr>
+                <tr>
+                  <td><code>chat/project-event/v1/</code></td>
+                  <td>Rename and delete events</td>
+                  <td>Immutable event</td>
+                  <td>Folded into project</td>
+                </tr>
+                <tr>
+                  <td><code>chat/artifact/v1/</code></td>
+                  <td>Kind, language, content, source message</td>
+                  <td>Deterministic immutable record</td>
+                  <td>Content returned for viewing and download</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>
+            Every record includes organization and member ownership. Reads
+            filter on both. Writes use <code>type: state</code> and
+            <code>visible: false</code>. The SDK sends machine credentials plus
+            <code>X-On-Behalf-Of</code> delegation for context-asset access.
+          </p>
+          <p class="citation">
+            Sources: <code>apps/web/lib/chat/repository.ts:29-38,201-213,268-365</code>;
+            <code>packages/sdk/src/store.ts:106-150,220-251</code>;
+            <code>packages/sdk/src/core-backend.ts:271-340</code>.
+          </p>
+
+          <h3>Limits enforced by Chat</h3>
+          <ul>
+            <li>Five live attachments per thread.</li>
+            <li>Ten megabytes per uploaded file.</li>
+            <li>Fifty thousand extracted characters per attachment.</li>
+            <li>Eighty thousand selected attachment characters per turn.</li>
+            <li>Twelve artifacts per thread.</li>
+            <li>Twenty thousand characters in thread search text.</li>
+            <li>Twelve tags; 32 characters per tag.</li>
+            <li>Description 500 characters; notes 4,000 characters.</li>
+          </ul>
+
+          <h3>Browser persistence</h3>
+          <p>
+            Chat does not persist the active thread, draft, filters, retry
+            candidate, or selected artifact. It writes two small voice hints:
+            composer mode in session storage and an authentication-failure flag
+            in local storage. Durable conversation and Chat records stay
+            server-side.
+          </p>
+        </section>
+
+        <section id="routes">
+          <h2>Route reference</h2>
+          <p class="lede">
+            All routes below are release-gated, authenticated, owner-scoped, and
+            server-mediated. Browsers do not call Core directly.
+          </p>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Method and route</th>
+                  <th>Input</th>
+                  <th>Reads and transformations</th>
+                  <th>Writes and output</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>GET <code>/api/chat/threads</code></td>
+                  <td>Session</td>
+                  <td>Lists thread, event, project, artifact assets</td>
+                  <td>Sanitized threads and projects, including deleted</td>
+                </tr>
+                <tr>
+                  <td>POST <code>/api/chat/threads</code></td>
+                  <td>Context selection; optional project</td>
+                  <td>Validates profile and completed Mirror context</td>
+                  <td>Core task, system turn, thread asset; public thread</td>
+                </tr>
+                <tr>
+                  <td>GET <code>/api/chat/threads/:id</code></td>
+                  <td>Thread ID</td>
+                  <td>Thread fold, Core history, attachments, artifacts</td>
+                  <td>Committed display transcript and public records</td>
+                </tr>
+                <tr>
+                  <td>PATCH <code>/api/chat/threads/:id</code></td>
+                  <td>Strict metadata patch</td>
+                  <td>Loads owned current thread</td>
+                  <td>Immutable event; folded public thread</td>
+                </tr>
+                <tr>
+                  <td>DELETE <code>/api/chat/threads/:id</code></td>
+                  <td>Thread ID</td>
+                  <td>Loads owned thread</td>
+                  <td>Soft-delete event; 204</td>
+                </tr>
+                <tr>
+                  <td>POST <code>/api/chat/threads/:id/restore</code></td>
+                  <td>Thread ID</td>
+                  <td>Loads deleted thread</td>
+                  <td>Restore event; public thread</td>
+                </tr>
+                <tr>
+                  <td>POST <code>/api/chat/threads/:id/messages</code></td>
+                  <td>Text and attachment IDs</td>
+                  <td>Builds guarded context; consumes attachments</td>
+                  <td>Core turn; raw SSE response</td>
+                </tr>
+                <tr>
+                  <td>POST <code>/api/chat/threads/:id/name</code></td>
+                  <td>First user text</td>
+                  <td>Skips manual title; invokes <code>chat.name</code></td>
+                  <td>AI-title event or deterministic fallback</td>
+                </tr>
+                <tr>
+                  <td>POST <code>/api/chat/threads/:id/commands</code></td>
+                  <td>Slash command string</td>
+                  <td>Parses explicit metadata command</td>
+                  <td>Event and local-display acknowledgment</td>
+                </tr>
+                <tr>
+                  <td>POST <code>/api/chat/threads/:id/attachments</code></td>
+                  <td>Multipart TXT, MD, PDF, or DOCX</td>
+                  <td>Validates type and size; extracts and clips text</td>
+                  <td>Hidden attachment asset; public metadata</td>
+                </tr>
+                <tr>
+                  <td>DELETE <code>/api/chat/threads/:id/attachments/:id</code></td>
+                  <td>Thread and attachment IDs</td>
+                  <td>Validates ownership and membership</td>
+                  <td>Removal event; 204</td>
+                </tr>
+                <tr>
+                  <td>POST <code>/api/chat/threads/:id/artifacts</code></td>
+                  <td>Source message ID</td>
+                  <td>Reloads Core history; verifies and detects</td>
+                  <td>Immutable artifact asset; public artifact</td>
+                </tr>
+                <tr>
+                  <td>GET <code>/api/chat/context</code></td>
+                  <td>Optional Mirror run ID</td>
+                  <td>Reads profile and completed Mirror manifest</td>
+                  <td>Catalog and bounded preview</td>
+                </tr>
+                <tr>
+                  <td>POST <code>/api/chat/projects</code></td>
+                  <td>Project title</td>
+                  <td>Validates title</td>
+                  <td>Project base asset</td>
+                </tr>
+                <tr>
+                  <td>PATCH <code>/api/chat/projects/:id</code></td>
+                  <td>Project title</td>
+                  <td>Loads owned project</td>
+                  <td>Rename event; project</td>
+                </tr>
+                <tr>
+                  <td>DELETE <code>/api/chat/projects/:id</code></td>
+                  <td>Project ID</td>
+                  <td>Finds attached threads</td>
+                  <td>Detaches threads; project delete event</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout warn">
+            <h3>Error boundary</h3>
+            <p>
+              Upstream 401, 403, and 404 responses are normalized. Other platform
+              and configuration failures become 502 responses. Internal details
+              are not returned to the browser.
+            </p>
+          </div>
+        </section>
+
+        <section id="features">
+          <h2>Feature-by-feature behavior</h2>
+
+          <details open>
+            <summary>Workspace and navigation</summary>
+            <div class="details-body">
+              <p>
+                On load, the browser fetches thread history and context in
+                parallel. The history sidebar supports search, grouping,
+                projects, recent threads, pinning, and filters for active,
+                waiting, done, archived, and deleted states. Search is local
+                over title, search text, description, notes, status, tags, and
+                project title.
+              </p>
+              <p>
+                The active thread is not encoded in the URL. Navigation epochs
+                abort stale loads, streams, retries, and artifact reconciliation.
+                Changing threads clears draft attachments and artifact selection.
+              </p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Composer, streaming, stopping, and retry</summary>
+            <div class="details-body">
+              <p>
+                Sending lazily creates a thread, uploads files sequentially,
+                appends an optimistic user message, and streams assistant text.
+                Stop aborts the browser fetch. The textarea remains editable
+                during a stream.
+              </p>
+              <p>
+                Retry first reconciles with committed Core history. It never
+                duplicates a reply already committed. If only the user turn was
+                committed, Chat refuses to repeat it and asks for a follow-up.
+                Post-commit aborts are not retried.
+              </p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Thread metadata</summary>
+            <div class="details-body">
+              <p>
+                The header supports title, project, pin, favorite, status, tags,
+                description, notes, archive, trash, and restore. Browser writes
+                are serialized through one mutation queue. Tags, description,
+                and notes save on blur.
+              </p>
+              <p>
+                A separate naming capability proposes the first title after a
+                successful initial reply. It creates a fresh Core completion
+                task. Failure uses a sanitized first-line fallback. A manual
+                title always wins.
+              </p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Slash commands</summary>
+            <div class="details-body">
+              <p>
+                Supported commands cover help, show, notes, rename, pin,
+                favorite, archive, restore, status, tags, description, notes,
+                and project assignment. Invalid command syntax never reaches
+                Core's model. Deleted threads allow only help, show, and restore.
+              </p>
+              <p>
+                Commands are normal API mutations, not tools available to the
+                assistant. Their acknowledgment messages are appended only in
+                browser memory and disappear on reload.
+              </p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Attachments</summary>
+            <div class="details-body">
+              <p>
+                The browser accepts TXT, Markdown, PDF, and DOCX by picker or
+                drag-and-drop. The server requires matching extension and MIME,
+                parses text with format-specific readers, trims and clips it,
+                then stores it in a hidden context asset.
+              </p>
+              <p>
+                Selected attachment text is treated as untrusted data in the
+                model turn. Consumption events enforce one concurrent use. The
+                public transcript receives names and types, not extracted text.
+              </p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Artifacts</summary>
+            <div class="details-body">
+              <p>
+                Candidate replies show an artifact card and open a side panel,
+                or a modal below 1,280 pixels. The panel renders Markdown and
+                supports copy and safe-filename download. Source-message
+                verification prevents a browser from persisting arbitrary
+                content.
+              </p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Context selection</summary>
+            <div class="details-body">
+              <p>
+                Before thread creation, Chat shows the current profile and lets
+                the member select completed Mirrors with bounded previews.
+                Profile use is automatic when available. The context selection
+                becomes immutable after creation.
+              </p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Projects</summary>
+            <div class="details-body">
+              <p>
+                Members can create projects after a thread exists and assign
+                threads by header control or slash command. Server routes also
+                support rename and soft deletion, including detaching threads.
+                The current browser client and interface do not expose those two
+                project administration actions.
+              </p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Voice dictation</summary>
+            <div class="details-body">
+              <p>
+                Voice checks browser capabilities, obtains microphone
+                permission, gets a short-lived token through the authenticated
+                server proxy, and streams media to Deepgram. Interim and final
+                transcript text updates the draft. The user still chooses
+                whether to send it.
+              </p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Deliberate exclusions</summary>
+            <div class="details-body">
+              <p>
+                The current scope excludes web search, general end-user tools,
+                action-taking integrations, live conversational voice,
+                text-to-speech, and direct external model providers. Files are
+                model context, not callable tools.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <section id="boundaries">
+          <h2>External and trust boundaries</h2>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Boundary</th>
+                  <th>Credential or trust</th>
+                  <th>Data crossing</th>
+                  <th>Control</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Browser to Next.js</td>
+                  <td>Stytch member session</td>
+                  <td>Drafts, file bytes, IDs, metadata</td>
+                  <td>Flag, session, schema, ownership checks</td>
+                </tr>
+                <tr>
+                  <td>Next.js to Core tasks</td>
+                  <td>User JWT or M2M plus delegation</td>
+                  <td>System context, turns, history reads</td>
+                  <td>Typed shared clients and task verification</td>
+                </tr>
+                <tr>
+                  <td>Next.js to Core assets</td>
+                  <td>M2M scopes plus <code>X-On-Behalf-Of</code></td>
+                  <td>Chat records and extracted attachment text</td>
+                  <td>User scope and embedded owner filters</td>
+                </tr>
+                <tr>
+                  <td>Browser to Deepgram</td>
+                  <td>Short-lived Core-minted token</td>
+                  <td>Live microphone media; transcript events</td>
+                  <td>Permission and explicit dictation control</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>
+            Selected profile and Mirror material is a retrieval-only snapshot.
+            It is sanitized and labeled as data before entering the system
+            prompt. Uploaded file text receives a similar untrusted-data wrapper.
+            These measures reduce instruction injection risk without claiming
+            that arbitrary content is harmless.
+          </p>
+
+          <p>
+            This explanation stops at the published SDK and application
+            contracts. It did not inspect the private Core implementation
+            repository. Core's internal database schema, indexes, retention
+            jobs, and provider routing are therefore outside the confirmed
+            boundary.
+          </p>
+        </section>
+
+        <section id="issues">
+          <h2>Known issues, incomplete areas, and gaps</h2>
+          <p class="lede">
+            Confirmed gaps are directly visible in source or work records.
+            Inferences identify credible consequences, not measured incidents.
+          </p>
+
+          <article class="issue">
+            <h3><span class="badge">CONFIRMED</span> Production remains dark</h3>
+            <p>
+              The release registry enables Chat for development and Preview but
+              disables production. The work remains on a feature branch.
+              <strong>Impact:</strong> users cannot rely on this surface in
+              production.
+            </p>
+          </article>
+
+          <article class="issue">
+            <h3><span class="badge">CONFIRMED</span> Product direction is unresolved</h3>
+            <p>
+              The work record marks a conflict with the thread-oriented product
+              vision and requires owner approval before merge.
+              <strong>Impact:</strong> implementation quality alone cannot
+              authorize release.
+            </p>
+          </article>
+
+          <article class="issue">
+            <h3><span class="badge">CONFIRMED</span> Project administration is incomplete</h3>
+            <p>
+              Server routes implement project rename and delete, but the browser
+              client and interface do not expose them. Projects can only be
+              created after a thread exists. <strong>Impact:</strong> members
+              cannot finish normal project housekeeping.
+            </p>
+          </article>
+
+          <article class="issue">
+            <h3><span class="badge">CONFIRMED</span> No thread deep links</h3>
+            <p>
+              Active selection lives only in React memory.
+              <strong>Impact:</strong> reload loses location; a specific thread
+              cannot be bookmarked or shared.
+            </p>
+          </article>
+
+          <article class="issue">
+            <h3><span class="badge">CONFIRMED</span> Several states are memory-only</h3>
+            <p>
+              Drafts, retry candidates, filters, selected artifacts, and command
+              acknowledgments disappear on reload or navigation.
+              <strong>Impact:</strong> interrupted work is not fully recoverable.
+            </p>
+          </article>
+
+          <article class="issue">
+            <h3><span class="badge">CONFIRMED</span> Context is fixed at creation</h3>
+            <p>
+              Existing threads cannot add or remove profile or Mirror context.
+              An available profile is automatic, with no browser opt-out.
+              <strong>Impact:</strong> member control is limited and old
+              conversations cannot adopt new context.
+            </p>
+          </article>
+
+          <article class="issue">
+            <h3><span class="badge">CONFIRMED</span> Search can become stale</h3>
+            <p>
+              The browser maintains a clipped search-text field after a reply.
+              It is not a server-derived full-transcript index.
+              <strong>Impact:</strong> a failed metadata patch can leave a saved
+              reply undiscoverable through local text search.
+            </p>
+          </article>
+
+          <article class="issue">
+            <h3><span class="badge">CONFIRMED</span> Artifact detection is heuristic</h3>
+            <p>
+              Core returns no structured artifact marker. Chat infers one from
+              long code fences or substantial Markdown, then performs extra
+              reconciliation. <strong>Impact:</strong> valid artifacts can be
+              missed or ordinary replies can be offered as artifacts.
+            </p>
+          </article>
+
+          <article class="issue">
+            <h3><span class="badge">CONFIRMED</span> Deletion is soft only</h3>
+            <p>
+              Thread and project deletion writes events. No permanent deletion
+              route exists. <strong>Impact:</strong> underlying Core data remains
+              stored and restorable.
+            </p>
+          </article>
+
+          <article class="issue">
+            <h3><span class="badge">CONFIRMED</span> Metadata conflicts use last-event-wins</h3>
+            <p>
+              Events sort by creation time and ID. Same-field concurrent edits
+              have no explicit conflict response. <strong>Impact:</strong> one
+              successful edit can silently supersede another.
+            </p>
+          </article>
+
+          <article class="issue">
+            <h3><span class="badge">CONFIRMED</span> Stream timeouts differ</h3>
+            <p>
+              The browser has a 45-second idle timeout while the server permits
+              up to 300 seconds. <strong>Impact:</strong> a long silent
+              generation can abort client-side before server duration expires.
+            </p>
+          </article>
+
+          <article class="issue">
+            <h3><span class="badge">CONFIRMED</span> Some failure feedback is coarse</h3>
+            <p>
+              Tags, description, and notes save on blur with a shared error
+              surface. Artifact copy lacks the rejection handling used by reply
+              copy. <strong>Impact:</strong> recovery is unclear for individual
+              failed actions.
+            </p>
+          </article>
+
+          <article class="issue">
+            <h3><span class="badge inferred">INFERRED</span> Full asset scans may scale poorly</h3>
+            <p>
+              Several thread, project, and artifact operations call the
+              user-scoped store list and filter in application code.
+              <strong>Impact:</strong> latency and Core reads may grow with a
+              member's total context-asset count. No threshold was measured.
+            </p>
+          </article>
+
+          <article class="issue">
+            <h3><span class="badge inferred">INFERRED</span> Failed creation can orphan a Core task</h3>
+            <p>
+              Task creation and system-turn injection precede the thread record
+              write. No compensating task deletion is visible.
+              <strong>Impact:</strong> a later validation or storage failure can
+              leave a Core task unreachable from Chat.
+            </p>
+          </article>
+
+          <article class="issue">
+            <h3><span class="badge inferred">INFERRED</span> Immutable writes are not atomic</h3>
+            <p>
+              The repository enforces immutability with read-then-write over a
+              store without compare-and-set. <strong>Impact:</strong> concurrent
+              writes to the same deterministic key could race, although unique
+              IDs make most collisions unlikely.
+            </p>
+          </article>
+
+          <article class="issue">
+            <h3><span class="badge inferred">INFERRED</span> Aborted attachment flows may leave records</h3>
+            <p>
+              Attachment consumption is released only when the Core call throws
+              before returning a stream. A later browser abort does not show a
+              server release path. <strong>Impact:</strong> retry can require a
+              new upload while hidden attachment records remain.
+            </p>
+          </article>
+
+          <article class="issue">
+            <h3><span class="badge unknown">UNKNOWN</span> Core internals and retention</h3>
+            <p>
+              Published contracts do not specify internal indexes, physical
+              tables, retention schedules, or cleanup for naming tasks and
+              hidden Chat assets. <strong>Impact:</strong> this report cannot
+              establish storage cost, retention duration, or deletion SLA.
+            </p>
+          </article>
+        </section>
+
+        <section id="evidence">
+          <h2>Evidence and verification</h2>
+          <p class="lede">
+            Claims were traced at source checkpoint <code>1bb93be96e12</code>.
+            Generated navigation was used only to find canonical files.
+          </p>
+
+          <h3>Primary source areas</h3>
+          <ul>
+            <li><code>apps/web/app/chat/</code> and its workspace hooks</li>
+            <li><code>apps/web/app/api/chat/</code> route handlers</li>
+            <li><code>apps/web/lib/chat/</code> repository, runtime, schemas</li>
+            <li><code>apps/web/capabilities/chat-name/</code></li>
+            <li><code>packages/sdk/src/</code> store, session, Core backend</li>
+            <li><code>packages/platform-client/</code> typed transport</li>
+            <li><code>packages/voice/src/useVoiceInput.ts</code></li>
+            <li><code>.scratch/chat/</code> scope and Preview proof records</li>
+          </ul>
+
+          <h3>Direct test run</h3>
+          <p>
+            <code>pnpm exec vitest run app/chat lib/chat app/api/chat capabilities/chat-name</code>
+            completed with 25 test files and 180 tests passing. The run covered
+            the Chat interface, browser orchestration, repository, API routes,
+            and naming capability at the stated checkpoint.
+          </p>
+
+          <h3>Recorded browser proof</h3>
+          <p>
+            The work record contains earlier authenticated Preview evidence for
+            thread creation, streaming, upload, persistence, artifact download,
+            and metadata journeys. This report did not rerun those browser
+            journeys. They remain historical evidence tied to the recorded
+            Preview commits, not fresh production proof.
+          </p>
+
+          <h3>Limitations</h3>
+          <ul>
+            <li>No production exposure was tested because the flag is off.</li>
+            <li>No Core implementation repository was inspected.</li>
+            <li>No performance, retention, or concurrency load test was run.</li>
+            <li>Source may change after the checkpoint shown above.</li>
+          </ul>
+
+          <div class="copy-row">
+            <button id="copy-summary" type="button">Copy executive summary</button>
+            <span id="copy-status" role="status" aria-live="polite"></span>
+          </div>
+        </section>
+
+        <footer>
+          <p>
+            Published as a static BWAI Share technical reference. All behavior
+            labels describe the source checkpoint, not a production promise.
+          </p>
+        </footer>
+      </main>
+    </div>
+
+    <script>
+      (function () {
+        var tables = document.querySelectorAll("table");
+        tables.forEach(function (table) {
+          var labels = Array.from(table.querySelectorAll("th")).map(function (th) {
+            return th.textContent.trim();
+          });
+          table.querySelectorAll("tbody tr").forEach(function (row) {
+            Array.from(row.children).forEach(function (cell, index) {
+              cell.setAttribute("data-label", labels[index] || "Value");
+            });
+          });
+        });
+
+        var links = Array.from(document.querySelectorAll("nav a"));
+        var sections = links
+          .map(function (link) {
+            return document.querySelector(link.getAttribute("href"));
+          })
+          .filter(Boolean);
+
+        if ("IntersectionObserver" in window) {
+          var observer = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+                links.forEach(function (link) {
+                  link.classList.toggle(
+                    "active",
+                    link.getAttribute("href") === "#" + entry.target.id
+                  );
+                });
+              });
+            },
+            { rootMargin: "-20% 0px -70% 0px" }
+          );
+          sections.forEach(function (section) {
+            observer.observe(section);
+          });
+        }
+
+        var summary =
+          "Brilliant Apps Chat is an authenticated, feature-gated workspace. " +
+          "The browser calls Next.js routes, never Core directly. Core task-step " +
+          "history stores system, user, and assistant turns. Separate hidden, " +
+          "user-scoped Core context assets store threads, events, projects, " +
+          "attachments, and artifacts. Confirmed gaps include dark production " +
+          "exposure, unresolved product direction, no deep links, incomplete " +
+          "project administration, memory-only drafts and commands, heuristic " +
+          "artifacts, soft-only deletion, and a client-maintained search index.";
+        var button = document.getElementById("copy-summary");
+        var status = document.getElementById("copy-status");
+
+        button.addEventListener("click", function () {
+          navigator.clipboard
+            .writeText(summary)
+            .then(function () {
+              status.textContent = "Copied.";
+            })
+            .catch(function () {
+              status.textContent = "Copy failed. Select the TL;DR instead.";
+            });
+        });
+      })();
+    </script>
+  </body>
+</html>
