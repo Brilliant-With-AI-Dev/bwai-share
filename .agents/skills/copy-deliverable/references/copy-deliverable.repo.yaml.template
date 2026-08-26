@@ -1,0 +1,22 @@
+# Minimal template — copy to repo root as copy-deliverable.repo.yaml
+
+version: 1
+eval_gate: silent
+
+# copy_rules_overlay: docs/copy-rules-overlay.md
+# concepts: CONCEPTS.md
+
+# deploy:
+#   workflows:
+#     - deploy.yml
+#   path_map:
+#     default: deploy.yml
+#   url_rules: docs/knowledge/do-not-share-deployment-urls-before-confirm.md
+
+# trigger_globs:
+#   - sites/**/*.html
+
+# types: {}
+# voice_skills: {}
+# domain_skills: {}
+# exemplars: {}
