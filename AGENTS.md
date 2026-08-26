@@ -9,6 +9,8 @@ published at https://bwai-share.vercel.app/.
   reviews, comments, and other public repository activity. Never impersonate a
   human author. Any agent-authored message not posted by an obviously identified
   bot must disclose that it is agent-authored and unreviewed.
+- Use configured administrator credentials only for repository settings the bot
+  cannot manage. Do not use them for authored commits or public messages.
 - GitHub organization: `Brilliant-With-AI-Dev`. Repository:
   https://github.com/Brilliant-With-AI-Dev/bwai-share.
 - Vercel scope: `alignmktgs-projects`. Project: `bwai-share`.
