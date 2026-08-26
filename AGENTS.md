@@ -38,3 +38,11 @@ one. Preview deployments are allowed when they do not affect production.
 See `README.md` for the artifact structure. Adding an artifact normally means
 adding a directory containing `index.html` and linking it from the root
 `index.html`; use the branch-and-PR workflow above.
+
+## Copy work routing
+
+Auto-run `copy-deliverable` for copy/HTML work. Repo plug-in: `copy-deliverable.repo.yaml`.
+Silent quality loop by default; paste eval prompt for explicit Improvements + A/B.
+
+Skill: `.agents/skills/copy-deliverable/SKILL.md` (run `bootstrapskills` to mirror from
+`~/.claude/skills/`).

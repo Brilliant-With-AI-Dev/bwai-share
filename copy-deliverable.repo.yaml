@@ -1,0 +1,17 @@
+version: 1
+eval_gate: silent
+
+deploy:
+  note: Push to main auto-deploys bwai-share on Vercel (see CLAUDE.md)
+  url_rules: docs/knowledge/do-not-share-deployment-urls-before-confirm.md
+
+trigger_globs:
+  - "**/*.html"
+
+types:
+  marketing-page:
+    signals: [static share, artifact, landing]
+    exemplar: index.html
+
+exemplars:
+  marketing_page: index.html
