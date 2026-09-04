@@ -17,6 +17,10 @@ This is a **share/research surface, not production**. Anyone with the URL can re
 3. Add a link to the new artifact in the root `index.html`.
 4. Commit and push to `main`. Vercel auto-deploys.
 
+“Publish this” authorizes the named artifact without another approval.
+PRs, reviews, and existing validation checks are optional. No bot account is required.
+Keep secrets/customer data private and preserve force-push/deletion safeguards.
+
 ## URL pattern
 
 ```

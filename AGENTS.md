@@ -1,16 +1,13 @@
 # bwai-share — repository policy
 
-`bwai-share` is a shared, public, production repository. Its static site is
+`bwai-share` is a public share/research surface. Its static site is
 published at https://bwai-share.vercel.app/.
 
 ## Identity and account routing
 
-- Use an identified bot account for agent-authored commits, pull requests,
-  reviews, comments, and other public repository activity. Never impersonate a
-  human author. Any agent-authored message not posted by an obviously identified
-  bot must disclose that it is agent-authored and unreviewed.
-- Use configured administrator credentials only for repository settings the bot
-  cannot manage. Do not use them for authored commits or public messages.
+- Use currently configured credentials and attribution; a bot account is optional.
+  Never impersonate a human author. Agent-authored public messages must disclose
+  that they are agent-authored and unreviewed, unless posted by an identified bot.
 - GitHub organization: `Brilliant-With-AI-Dev`. Repository:
   https://github.com/Brilliant-With-AI-Dev/bwai-share.
 - Vercel scope: `alignmktgs-projects`. Project: `bwai-share`.
@@ -18,23 +15,20 @@ published at https://bwai-share.vercel.app/.
 
 ## Change workflow
 
-- Never commit or push directly to `main`.
-- Create a focused branch and open a pull request for every change.
-- Require passing CI and required reviews/checks before merge.
-- Keep `main` protected with server-side branch protection. Do not bypass,
-  weaken, or work around protection rules.
-- Do not merge a pull request without explicit authorization when the acting
-  agent is responsible for the merge.
+- Edit, commit, and push completed work directly to `main`.
+- Branches, pull requests, reviews, and existing validation are optional.
+- Do not require GitHub review, status-check, or direct-push workflow gates.
+- Preserve secret protections and safeguards against force-push and deletion.
 
 ## Production deployments
 
-Updates to `main` may automatically deploy the public production site. Treat a
-merge to `main`, `vercel deploy --prod`, and any other production promotion as a
-production deployment. Obtain explicit user approval immediately before causing
-one. Preview deployments are allowed when they do not affect production.
+Updates to `main` automatically deploy the public site. “Publish this” authorizes
+publishing the named artifact without a second approval or mandatory PR.
+Do not publish unrelated artifacts. Public hosting alone creates no extra gate.
+Secrets, customer data, and credentials must not be published.
 
 ## Artifacts
 
 See `README.md` for the artifact structure. Adding an artifact normally means
 adding a directory containing `index.html` and linking it from the root
-`index.html`; use the branch-and-PR workflow above.
+`index.html`; commit and push directly to `main`.
