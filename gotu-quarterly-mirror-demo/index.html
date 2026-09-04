@@ -1,0 +1,1783 @@
+<!doctype html>
+<html lang="en" data-visualize-standalone>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>GoTu Mirror — Interactive Walkthrough</title>
+<style>:root{color-scheme:light dark;background:light-dark(rgb(255 255 255), rgb(24 24 24))}html,body{margin:0}body{box-sizing:border-box;padding:1rem;background:inherit}iframe{display:block;width:100%;height:calc(100vh - 2rem);margin:0 auto;border:0}</style>
+</head>
+<body>
+<iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="GoTu Mirror — Interactive Walkthrough" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot; data-visualize-standalone&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; &#x27;wasm-unsafe-eval&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src &#x27;unsafe-inline&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src &#x27;none&#x27;; object-src &#x27;none&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;&quot;&gt;
+&lt;title&gt;GoTu Mirror — Interactive Walkthrough&lt;/title&gt;
+&lt;style&gt;:root {
+  color-scheme: light dark;
+  background-color: var(
+    --background,
+    var(--color-background-primary, light-dark(rgb(255 255 255), rgb(24 24 24)))
+  ) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: var(
+    --color-background-primary,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --card: color-mix(in oklab, var(--foreground) 5%, var(--background));
+  --card-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --popover: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255), rgb(45 45 45))
+  );
+  --popover-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --primary: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --primary-foreground: var(
+    --color-text-inverse,
+    light-dark(rgb(255 255 255), rgb(13 13 13))
+  );
+  --secondary: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%))
+  );
+  --secondary-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: var(
+    --color-text-secondary,
+    light-dark(rgb(26 28 31 / 49.4%), rgb(255 255 255 / 49.8%))
+  );
+  --accent: var(
+    --color-background-info,
+    light-dark(rgb(229 242 255), rgb(13 39 63))
+  );
+  --accent-foreground: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --destructive: var(
+    --color-text-warning,
+    light-dark(rgb(226 85 7), rgb(255 133 73))
+  );
+  --border: var(
+    --color-border-secondary,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+  --input: var(
+    --color-border-primary,
+    light-dark(
+      rgb(26 28 31 / 11.8%),
+      color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+    )
+  );
+  --ring: var(
+    --color-ring-primary,
+    light-dark(rgb(51 156 255), rgb(131 195 255 / 76%))
+  );
+  --font-size-base: var(--font-text-md-size, 14px);
+  --blue: light-dark(rgb(51 156 255), rgb(51 156 255));
+  --orange: light-dark(rgb(226 85 7), rgb(251 106 34));
+  --green: light-dark(rgb(0 162 64), rgb(64 201 119));
+  --red: light-dark(rgb(224 46 42), rgb(255 103 100));
+  --purple: light-dark(rgb(146 79 247), rgb(173 123 249));
+  --yellow: light-dark(rgb(255 195 0), rgb(255 210 64));
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans: -apple-system, system-ui, &quot;Segoe UI&quot;, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, &quot;SF Mono&quot;, Menlo, Consolas, &quot;Liberation Mono&quot;,
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 430;
+  --font-weight-medium: 500;
+  --icon-size: 16px;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --corner-shape: round;
+  --radius: var(--border-radius-lg, 10px);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; viewBox=&#x27;0 0 17 17&#x27;%3E%3Cpath d=&#x27;M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z&#x27;/%3E%3C/svg%3E&quot;);
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+}
+
+:root[data-theme=&quot;light&quot;] {
+  color-scheme: light;
+}
+
+:root[data-theme=&quot;dark&quot;] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html &gt; body {
+  /* Preserve MCP aliases for older inline renderers without creating :root cycles. */
+  --color-background-primary: var(
+    --background,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --color-text-primary: var(
+    --foreground,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --color-border-secondary: var(
+    --border,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+
+  margin: 0;
+  padding: var(--visualize-paint-gutter, 0px);
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans) !important;
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: pointer;
+  font-weight: var(--font-weight-medium, 500);
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+b,
+strong,
+th {
+  font-weight: var(--font-weight-medium);
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: var(--corner-shape);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--foreground);
+  font: inherit;
+  text-align: start;
+}
+
+.table :is(th, td) {
+  padding-block: 10px;
+  padding-inline: 0 24px;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+}
+
+.table-responsive &gt; .table :is(th, td) {
+  overflow-wrap: break-word;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table :is(caption, thead th) {
+  font-weight: 600;
+}
+
+.table thead th {
+  padding-block: 8px;
+  border-bottom-color: color-mix(in srgb, var(--foreground) 16%, transparent);
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+
+.table.table-sm :is(th, td) {
+  padding-block: 6px;
+}
+
+.table.table-sm :is(th, td):not(:last-child) {
+  padding-inline-end: 16px;
+}
+
+.table :is(.text-end, [align=&quot;right&quot;]) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(.text-center, [align=&quot;center&quot;]) {
+  text-align: center;
+}
+
+.table .text-nowrap {
+  white-space: nowrap;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: var(--corner-shape);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+#widget &gt; :not(.card, .progress) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--popover-foreground);
+  background: var(--popover);
+  box-shadow: none;
+  font-size: var(--font-size-tooltip);
+  line-height: var(--line-height-tooltip);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+hr {
+  width: 100%;
+  height: 1px;
+  margin-block: 6px;
+  border: 0;
+  background: var(--border);
+}
+
+.nav {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 4px;
+}
+
+.progress {
+  display: flex;
+  height: 8px;
+  margin-block: calc((var(--line-height-normal, 1.5em) - 8px) / 2);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+}
+
+.progress-bar:only-child {
+  border-radius: var(--radius-full);
+}
+
+.progress-bar {
+  height: 100%;
+  flex-shrink: 0;
+  border: 0;
+  background: var(--viz-series-1);
+}
+
+.viz-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  color: var(--accent-foreground);
+  background: var(--accent);
+  font-weight: var(--font-weight-medium);
+}
+
+small,
+.text-small,
+.viz-badge {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls &gt; .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls &gt; .form-label &gt; :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.nav-link,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+.btn,
+.nav-link {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover,
+.nav-link:not(:disabled):not([aria-disabled=&quot;true&quot;]):hover {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn-primary {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: padding-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: padding-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.nav-pills .nav-link {
+  min-width: 0;
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.nav-justified .nav-link {
+  flex: 1 1 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.nav-pills .nav-link.active {
+  color: var(--foreground);
+  background: var(--muted);
+}
+
+.btn:disabled,
+.nav-link:disabled,
+.nav-link[aria-disabled=&quot;true&quot;] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  background: var(--secondary);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type=&quot;file&quot;] {
+  padding: 0;
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control[type=&quot;file&quot;]::file-selector-button {
+  min-height: 26px;
+  margin-right: 8px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+}
+
+.form-control[type=&quot;file&quot;]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type=&quot;color&quot;] {
+  width: 40px;
+  height: 28px;
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: var(--corner-shape);
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 72px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 32px 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+    linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 10px) 50%;
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-check {
+  display: flex;
+  min-height: 20px;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;] {
+  border-color: var(--input);
+  border-radius: var(--radius-sm);
+  corner-shape: var(--corner-shape);
+  background-color: var(--secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;]:checked {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;checkbox&quot;]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: &quot;&quot;;
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+}
+
+.form-check-input[type=&quot;radio&quot;] {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+}
+
+.form-check-input[type=&quot;radio&quot;]:checked {
+  border: 2px solid var(--primary);
+  background:
+    radial-gradient(circle, var(--primary-foreground) 0 2.5px, transparent 3px),
+    var(--primary);
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+  box-shadow: var(--shadow-sm);
+  content: &quot;&quot;;
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--primary);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  accent-color: var(--primary);
+  background: linear-gradient(
+      color-mix(in srgb, var(--foreground) 7%, transparent),
+      color-mix(in srgb, var(--foreground) 7%, transparent)
+    )
+    center / 100% 2px no-repeat;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-webkit-slider-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range::-moz-range-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+  [aria-pressed=&quot;true&quot;],
+  [aria-selected=&quot;true&quot;],
+  .is-selected
+) {
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
+.btn.viz-tile:is([aria-pressed=&quot;true&quot;], [aria-selected=&quot;true&quot;], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible,
+.nav-link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+@media (pointer: coarse) {
+  .btn,
+  .nav-link,
+  .form-control,
+  .form-select {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Keep small-screen WebKit from zooming when a text field receives focus. */
+  .form-control,
+  .form-select {
+    font-size: max(16px, var(--font-size-normal));
+  }
+
+  .form-control[type=&quot;file&quot;]::file-selector-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .form-control-color[type=&quot;color&quot;] {
+    width: 44px;
+    height: 44px;
+  }
+
+  .form-control:is(
+    [type=&quot;date&quot;],
+    [type=&quot;datetime-local&quot;],
+    [type=&quot;month&quot;],
+    [type=&quot;time&quot;],
+    [type=&quot;week&quot;]
+  ) {
+    min-width: 0;
+    max-width: 100%;
+    padding-block: 8px;
+  }
+
+  .form-check {
+    min-height: 44px;
+    padding-inline: 15px;
+  }
+
+  .form-check-input {
+    position: relative;
+  }
+
+  .form-check-input::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    content: &quot;&quot;;
+    transform: translate(-50%, -50%);
+  }
+
+  .form-check-label {
+    display: inline-flex;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .form-range {
+    height: 44px;
+    touch-action: pan-y;
+  }
+
+  .form-range::-webkit-slider-runnable-track {
+    height: 44px;
+  }
+
+  .form-range::-moz-range-track {
+    height: 44px;
+  }
+
+  .form-range::-webkit-slider-thumb {
+    margin-top: 12px;
+  }
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget &gt; svg {
+  width: 100%;
+}
+
+/* Model-authored chart rules can otherwise stretch icons after these styles load. */
+svg.lucide {
+  display: block;
+  width: var(--icon-size) !important;
+  height: var(--icon-size) !important;
+  flex: none;
+  margin: 0 !important;
+  stroke-width: 1.6;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html&gt;body{padding:0}&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500&amp;family=Outfit:wght@400;500&amp;display=swap&quot;&gt;
+&lt;style&gt;
+/* Standalone mock: light values copied from BApps packages/design-system/tokens.css.
+   Dark counterparts are proposed. Component geometry follows COMPONENTS.md.
+   No production components, authentication, model calls, microphone, or delivery. */
+#gotu-mirror-demo {
+  --gm-page:light-dark(#fcfcfd,#101925); --gm-panel:light-dark(#ffffff,#172232);
+  --gm-inset:light-dark(#eef0f4,#223145); --gm-ink:light-dark(#0a1628,#f0f3f7);
+  --gm-secondary:light-dark(#46505f,#c0c9d5); --gm-line:light-dark(#e2e6ed,#3e4e62);
+  --gm-accent:light-dark(#157a4e,#8de0b9); --gm-accent-ink:light-dark(#fcfcfd,#0a1628);
+  --gm-soft:light-dark(#f0f8f4,#19362c); --gm-warning:light-dark(#b03a2e,#ffb6ae);
+  --gm-body:&quot;Outfit&quot;,system-ui,sans-serif; --gm-display:&quot;Newsreader&quot;,Georgia,serif;
+  --gm-small:13px; --gm-base:16px; --gm-title:26px; --gm-radius:12px;
+  color-scheme:light dark; font-family:var(--gm-body);font-size:var(--gm-base);font-weight:400;
+  line-height:1.6;color:var(--gm-ink);background:var(--gm-page);border:1px solid var(--gm-line);
+  border-radius:var(--gm-radius);overflow:clip;width:100%;box-sizing:border-box;
+}
+#gotu-mirror-demo *{box-sizing:border-box}
+#gotu-mirror-demo [hidden]{display:none!important}
+#gotu-mirror-demo p{margin:0 0 16px}
+#gotu-mirror-demo h1,#gotu-mirror-demo h2{font-family:var(--gm-display);font-weight:500;line-height:1.25;letter-spacing:-.02em;margin:0 0 16px}
+#gotu-mirror-demo h1{font-size:var(--gm-title)}
+#gotu-mirror-demo h2{font-size:22px}
+#gotu-mirror-demo h3{font-size:16px;font-weight:500;margin:0 0 8px}
+#gotu-mirror-demo strong{font-weight:500}
+#gotu-mirror-demo button,#gotu-mirror-demo input,#gotu-mirror-demo textarea,#gotu-mirror-demo select{font:inherit;color:inherit}
+#gotu-mirror-demo button{cursor:pointer;min-height:44px;padding:8px 16px;border:1px solid var(--gm-line);border-radius:8px;background:var(--gm-inset);font-weight:500;white-space:normal}
+#gotu-mirror-demo button:hover:not(:disabled){filter:brightness(.96)}
+#gotu-mirror-demo button:disabled{opacity:.48;cursor:not-allowed}
+#gotu-mirror-demo .gm-primary{background:var(--gm-accent);color:var(--gm-accent-ink);border-color:var(--gm-accent)}
+#gotu-mirror-demo .gm-quiet{background:transparent;border-color:transparent;color:var(--gm-secondary)}
+#gotu-mirror-demo .gm-text-action{padding:4px 0;min-height:40px;background:transparent;border:0;text-decoration:underline;text-underline-offset:3px;text-align:left}
+#gotu-mirror-demo label{display:block;font-weight:500;margin-bottom:6px}
+#gotu-mirror-demo input:not([type=checkbox]),#gotu-mirror-demo textarea,#gotu-mirror-demo select{display:block;width:100%;background:var(--gm-panel);border:1px solid var(--gm-line);border-radius:8px;padding:12px;min-width:0;font-size:16px}
+#gotu-mirror-demo textarea{resize:vertical;line-height:1.6;min-height:176px}
+#gotu-mirror-demo input[type=checkbox]{width:18px;height:18px;accent-color:var(--gm-accent);flex-shrink:0;margin-top:4px}
+#gotu-mirror-demo .gm-check{display:flex;gap:12px;font-weight:400;align-items:flex-start}
+#gotu-mirror-demo .gm-top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 24px;background:var(--gm-panel);border-bottom:1px solid var(--gm-line);flex-wrap:wrap}
+#gotu-mirror-demo .gm-brand{font-weight:500;letter-spacing:.02em}
+#gotu-mirror-demo .gm-brand span{color:var(--gm-secondary);font-weight:400}
+#gotu-mirror-demo .gm-small{font-size:var(--gm-small);color:var(--gm-secondary)}
+#gotu-mirror-demo .gm-label{font-size:var(--gm-small);text-transform:uppercase;letter-spacing:.06em;color:var(--gm-secondary);margin-bottom:8px}
+#gotu-mirror-demo .gm-top-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#gotu-mirror-demo .gm-stage-nav{display:flex;gap:4px;padding:12px 20px;border-bottom:1px solid var(--gm-line);flex-wrap:wrap}
+#gotu-mirror-demo .gm-stage-nav button{font-size:var(--gm-small);background:transparent;border-color:transparent;padding:8px 12px;flex:1;text-align:left}
+#gotu-mirror-demo .gm-stage-nav button[aria-current=step]{background:var(--gm-inset);border-color:var(--gm-line);color:var(--gm-ink)}
+#gotu-mirror-demo .gm-stage-num{display:inline-block;margin-right:8px;color:var(--gm-secondary)}
+#gotu-mirror-demo .gm-layout{display:grid;grid-template-columns:minmax(0,1fr) 250px}
+#gotu-mirror-demo .gm-layout.gm-notes-off{grid-template-columns:minmax(0,1fr)}
+#gotu-mirror-demo .gm-main{min-width:0;padding:32px;background:var(--gm-page)}
+#gotu-mirror-demo .gm-content{max-width:680px;margin:0 auto}
+#gotu-mirror-demo .gm-notes{border-left:1px solid var(--gm-line);padding:24px 20px;background:var(--gm-inset);font-size:14px;min-width:0}
+#gotu-mirror-demo .gm-notes p{margin-bottom:16px}
+#gotu-mirror-demo .gm-notes h2{font:500 14px var(--gm-body);margin-bottom:20px}
+#gotu-mirror-demo .gm-note-title{font-weight:500;margin-bottom:6px}
+#gotu-mirror-demo .gm-note-detail{color:var(--gm-secondary)}
+#gotu-mirror-demo .gm-rule{border:0;border-top:1px solid var(--gm-line);margin:20px 0}
+#gotu-mirror-demo .gm-panel{background:var(--gm-panel);border:1px solid var(--gm-line);border-radius:var(--gm-radius);padding:24px;margin-bottom:20px}
+#gotu-mirror-demo .gm-privacy{display:flex;gap:8px;align-items:center;color:var(--gm-accent);font-size:var(--gm-small);font-weight:500;margin-bottom:16px}
+#gotu-mirror-demo .gm-privacy.gm-shared{color:var(--gm-secondary)}
+#gotu-mirror-demo .gm-field{margin-bottom:20px}
+#gotu-mirror-demo .gm-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+#gotu-mirror-demo .gm-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+#gotu-mirror-demo .gm-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--gm-line);padding-top:20px;margin-top:24px}
+#gotu-mirror-demo .gm-disclosure{border-top:1px solid var(--gm-line);padding-top:16px;margin-top:20px}
+#gotu-mirror-demo details&gt;summary{cursor:pointer;min-height:40px;font-weight:500}
+#gotu-mirror-demo .gm-chat{border-left:2px solid var(--gm-line);padding-left:20px;margin:0 0 24px}
+#gotu-mirror-demo .gm-chat-user{background:var(--gm-inset);border-radius:12px;padding:20px;margin-bottom:24px}
+#gotu-mirror-demo .gm-chat-user p:last-child,#gotu-mirror-demo .gm-chat p:last-child{margin-bottom:0}
+#gotu-mirror-demo .gm-turns{margin:20px 0}
+#gotu-mirror-demo .gm-voice{border:1px solid var(--gm-line);border-radius:12px;padding:16px;background:var(--gm-panel);margin-bottom:16px}
+#gotu-mirror-demo .gm-wave{display:flex;align-items:center;gap:4px;height:24px;min-width:68px}
+#gotu-mirror-demo .gm-wave span{width:4px;border-radius:6px;background:var(--gm-accent)}
+#gotu-mirror-demo .gm-wave span:nth-child(3n){height:20px}
+#gotu-mirror-demo .gm-wave span:nth-child(3n + 1){height:10px}
+#gotu-mirror-demo .gm-wave span:nth-child(3n + 2){height:16px}
+#gotu-mirror-demo .gm-private-box{background:var(--gm-inset);border:1px solid var(--gm-line);border-radius:12px;padding:16px;margin:20px 0}
+#gotu-mirror-demo .gm-private-box summary{display:flex;align-items:center;justify-content:space-between;gap:8px;list-style:none}
+#gotu-mirror-demo .gm-private-box p{margin:8px 0 0}
+#gotu-mirror-demo .gm-private-tag{font-size:12px;font-weight:400;color:var(--gm-secondary)}
+#gotu-mirror-demo .gm-progress{height:4px;background:var(--gm-inset);margin:12px 0 24px}
+#gotu-mirror-demo .gm-progress&gt;div{height:100%;background:var(--gm-accent)}
+#gotu-mirror-demo .gm-question-nav{margin:16px 0}
+#gotu-mirror-demo .gm-question-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
+#gotu-mirror-demo .gm-question-list button{text-align:left;font-size:13px;background:transparent}
+#gotu-mirror-demo .gm-answer{white-space:pre-wrap;overflow-wrap:anywhere;margin-top:12px}
+#gotu-mirror-demo .gm-review-item{border-bottom:1px solid var(--gm-line);padding:20px 0}
+#gotu-mirror-demo .gm-review-head{display:flex;justify-content:space-between;gap:16px;align-items:center}
+#gotu-mirror-demo .gm-review-head h2{font-family:var(--gm-body);font-size:16px;margin:0}
+#gotu-mirror-demo .gm-excluded{color:var(--gm-secondary)}
+#gotu-mirror-demo .gm-hint{padding:12px 16px;background:var(--gm-soft);border-radius:8px;margin:16px 0}
+#gotu-mirror-demo .gm-error{color:var(--gm-warning);margin-top:12px}
+#gotu-mirror-demo .gm-bottom{border-top:1px solid var(--gm-line);padding:12px 24px;color:var(--gm-secondary);font-size:12px;background:var(--gm-panel)}
+#gotu-mirror-demo .gm-source{padding:24px;background:var(--gm-inset);border-bottom:1px solid var(--gm-line)}
+#gotu-mirror-demo pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--gm-inset);padding:16px;border-radius:8px;font-size:12px}
+#gotu-mirror-demo ul{padding-left:20px;margin:8px 0 16px}
+#gotu-mirror-demo .gm-recipient{background:var(--gm-panel);border:1px solid var(--gm-line);border-radius:12px;padding:24px}
+#gotu-mirror-demo .gm-recipient .gm-review-item:last-child{border-bottom:0}
+#gotu-mirror-demo .gm-live{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+@media(max-width:760px){#gotu-mirror-demo .gm-layout{grid-template-columns:minmax(0,1fr)}#gotu-mirror-demo .gm-notes{border-left:0;border-top:1px solid var(--gm-line)}#gotu-mirror-demo .gm-main{padding:24px}#gotu-mirror-demo .gm-stage-nav{padding:8px}#gotu-mirror-demo .gm-stage-nav button{flex:1 1 29%}}
+@media(max-width:420px){#gotu-mirror-demo .gm-main,#gotu-mirror-demo .gm-panel,#gotu-mirror-demo .gm-recipient{padding:16px}#gotu-mirror-demo .gm-top{padding:12px 16px}#gotu-mirror-demo .gm-cols{grid-template-columns:1fr}#gotu-mirror-demo .gm-question-list{grid-template-columns:1fr}#gotu-mirror-demo .gm-stage-nav button{padding:8px;font-size:12px}#gotu-mirror-demo .gm-brand span{display:block}}
+&lt;/style&gt;
+&lt;div id=&quot;gotu-mirror-demo&quot; aria-label=&quot;GoTu quarterly planning interactive walkthrough&quot;&gt;
+  &lt;header class=&quot;gm-top&quot;&gt;
+    &lt;div class=&quot;gm-brand&quot;&gt;GoTu &lt;span&gt;/ Quarterly planning&lt;/span&gt;&lt;/div&gt;
+    &lt;div class=&quot;gm-top-actions&quot;&gt;&lt;span class=&quot;gm-small&quot;&gt;Interactive mock · Morgan&lt;/span&gt;&lt;button type=&quot;button&quot; class=&quot;gm-quiet&quot; data-action=&quot;toggle-notes&quot; aria-pressed=&quot;true&quot;&gt;Walkthrough notes&lt;/button&gt;&lt;button type=&quot;button&quot; class=&quot;gm-quiet&quot; data-action=&quot;toggle-source&quot; aria-expanded=&quot;false&quot;&gt;About this example&lt;/button&gt;&lt;/div&gt;
+  &lt;/header&gt;
+  &lt;section class=&quot;gm-source&quot; hidden aria-label=&quot;Example provenance&quot;&gt;&lt;/section&gt;
+  &lt;nav class=&quot;gm-stage-nav&quot; aria-label=&quot;Experience stages&quot;&gt;&lt;/nav&gt;
+  &lt;div class=&quot;gm-layout&quot;&gt;&lt;main class=&quot;gm-main&quot;&gt;&lt;div class=&quot;gm-content&quot;&gt;&lt;/div&gt;&lt;/main&gt;&lt;aside class=&quot;gm-notes&quot; aria-label=&quot;Walkthrough notes&quot;&gt;&lt;/aside&gt;&lt;/div&gt;
+  &lt;footer class=&quot;gm-bottom&quot;&gt;Scripted, source-inspired scenario. No live AI, microphone, saving, or sending. Edits last only while this walkthrough stays open.&lt;/footer&gt;
+  &lt;div class=&quot;gm-live&quot; role=&quot;status&quot; aria-live=&quot;polite&quot; data-status&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;script type=&quot;application/json&quot; id=&quot;gotu-demo-data&quot;&gt;
+{
+  &quot;background&quot;: [
+    {
+      &quot;question&quot;: &quot;Think back over the quarter. What’s gone well, and what’s been harder than you hoped? Highlights, disappointments, things still on your mind—start wherever you like. You don’t need to organize it yet.&quot;,
+      &quot;sample&quot;: &quot;Honestly, I’m proud of the team. We had a really strong quarter with fewer people, and the team kept showing up. We kept the accountability and the culture, which isn’t something I take for granted when things keep changing.\n\nBut I feel two ways about the results. They’re good, and we should recognize that. At the same time, quite a lot of our success came from adapting. It didn’t always feel like we were executing one stable plan. People would figure something out, then priorities would move, and we’d figure it out again.\n\nThe other thing is new markets. We’ve learned a lot about what it takes to build them. They need runway. You don’t necessarily start with a neat, small territory and expect everything to work immediately. I think we know more than we’ve actually written down or agreed to repeat.\n\nPersonally, getting back into routines has helped. Exercise, meal preparation, being more consistent outside work. I notice I’m a better leader when that part of my life is steadier. I don’t need to go deep into that here, but it’s been a good thing this quarter.&quot;,
+      &quot;why&quot;: &quot;A broad opening lets achievement and strain coexist without forcing polished answers. Illustrative, source-inspired dialogue—not real quotes.&quot;
+    },
+    {
+      &quot;question&quot;: &quot;When you say the team kept adapting, what would you want someone outside Sales to understand about that?&quot;,
+      &quot;sample&quot;: &quot;That the issue isn’t effort. I don’t think people are sitting around or not caring. We’ve got people who really want this to work.\n\nIt’s more that the different parts of the business need the same game plan. Sales can be pushing one thing, while another team is working from a different assumption. Then someone has to connect it all in real time.\n\nI’d like us to turn more of what we’ve learned into a way of operating. Not a giant manual. Something that makes ownership, expectations, and the handoffs clearer. I want managers spending more time coaching and less time reconstructing the plan.&quot;,
+      &quot;why&quot;: &quot;One follow-up distinguishes alignment from effort without inventing blame or demanding a culprit.&quot;
+    },
+    {
+      &quot;question&quot;: &quot;Before we switch to the planning questions, what else should I understand? Maybe something you’re especially proud of, something the results hide, or a topic we haven’t touched.&quot;,
+      &quot;sample&quot;: &quot;Recognition is one. I don’t mean just compensation. I’d like high performers to see a path to developing and taking on more responsibility.\n\nAnd I’d like better visibility into leading indicators. If we only look at the result at the end, we’ve missed chances to coach earlier. That’s probably enough background. Those are the main things.&quot;,
+      &quot;why&quot;: &quot;A closing invitation catches remaining themes and respects the participant’s choice to stop.&quot;
+    }
+  ],
+  &quot;fields&quot;: [
+    {
+      &quot;id&quot;: &quot;personal_best&quot;,
+      &quot;label&quot;: &quot;Personal Best&quot;,
+      &quot;prompt&quot;: &quot;What was a personal highlight from the quarter?&quot;,
+      &quot;sample&quot;: &quot;I’ve been more consistent about taking care of myself, especially exercise, meal preparation, and daily routines. It’s helped me feel steadier, and I notice that carries into how I lead. I’m proud of rebuilding that consistency.&quot;,
+      &quot;privateHint&quot;: &quot;You mentioned rebuilding routines outside work. Share only the part you’d want included in your planning response. Something else—or a brief answer—is fine too.&quot;,
+      &quot;why&quot;: &quot;A useful personal thread remains optional; the prompt does not demand health details.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;professional_best&quot;,
+      &quot;label&quot;: &quot;Professional Best&quot;,
+      &quot;prompt&quot;: &quot;What professional accomplishment are you most proud of?&quot;,
+      &quot;sample&quot;: &quot;Leading the regional team to record performance despite a smaller team and changing priorities. We maintained a culture of accountability, resilience, and continuous improvement. I’m especially proud that the team kept producing strong results without losing the way we support and challenge each other.&quot;,
+      &quot;privateHint&quot;: &quot;Think about both the result and how the team achieved it. What deserves recognition beyond the headline number?&quot;,
+      &quot;why&quot;: &quot;The achievement stands on its own. Softer region and staffing details reduce identifiability.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;quarter_rating&quot;,
+      &quot;label&quot;: &quot;Quarter Rating&quot;,
+      &quot;prompt&quot;: &quot;How would you rate the quarter?&quot;,
+      &quot;sample&quot;: &quot;8&quot;,
+      &quot;privateHint&quot;: &quot;&quot;,
+      &quot;why&quot;: &quot;The rating stays participant-selected. The storyboard’s 1–10 validation remains proposed.&quot;,
+      &quot;type&quot;: &quot;number&quot;
+    },
+    {
+      &quot;id&quot;: &quot;rating_reason&quot;,
+      &quot;label&quot;: &quot;Rating Reason&quot;,
+      &quot;prompt&quot;: &quot;What led you to that rating?&quot;,
+      &quot;sample&quot;: &quot;We produced record performance, grew revenue, built momentum with strategic partnerships, and maintained our culture through significant change. That deserves recognition.\n\nIt isn’t higher because too much of our success depended on reacting and adapting. I think there’s another level available if we have a clearer, more stable plan and better alignment across teams. The result was strong; the way we got there could be more repeatable.&quot;,
+      &quot;privateHint&quot;: &quot;You described strong results and a lot of adaptation. What earned the score? What kept it from being higher?&quot;,
+      &quot;why&quot;: &quot;The explanation preserves pride and dissatisfaction instead of collapsing them into one judgment.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;eos_component&quot;,
+      &quot;label&quot;: &quot;EOS Component&quot;,
+      &quot;prompt&quot;: &quot;EOS Component&quot;,
+      &quot;sample&quot;: &quot;Vision&quot;,
+      &quot;privateHint&quot;: &quot;&quot;,
+      &quot;why&quot;: &quot;The participant owns this selection. The complete option list and original wording remain unverified.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;eos_example&quot;,
+      &quot;label&quot;: &quot;EOS Example&quot;,
+      &quot;prompt&quot;: &quot;What example explains your choice?&quot;,
+      &quot;sample&quot;: &quot;I think we’re bought into where the company is going. What’s less consistent is visibility into how we’re getting there. In newer markets, we’ve learned useful lessons, but we haven’t always turned those lessons into a repeatable approach.\n\nI’d like leaders to have clearer expectations about market development, ownership, and the assumptions behind the plan. Then they can spend more time executing and improving it, rather than figuring out the approach again.&quot;,
+      &quot;privateHint&quot;: &quot;You distinguished agreement on the destination from clarity about getting there. What does that difference look like in practice?&quot;,
+      &quot;why&quot;: &quot;The example gives Vision operational meaning without the model changing the selected component.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;avoided_conversation&quot;,
+      &quot;label&quot;: &quot;Avoided Conversation&quot;,
+      &quot;prompt&quot;: &quot;What conversation should we have that we haven’t really had?&quot;,
+      &quot;sample&quot;: &quot;We need to talk about what scaling should actually look like. There’s always going to be trial and error in newer markets. I’m not asking for certainty. But at some point we should capture what we’ve learned and agree on a repeatable approach. Leaders shouldn’t have to build the playbook while trying to execute it.&quot;,
+      &quot;privateHint&quot;: &quot;Think about what a successful market launch needs before execution starts. What should teams agree on together, rather than rediscover separately?&quot;,
+      &quot;why&quot;: &quot;This draft already answers the question. Optional help proposes an addition requiring explicit acceptance.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;biggest_issue&quot;,
+      &quot;label&quot;: &quot;Biggest Issue&quot;,
+      &quot;prompt&quot;: &quot;What is the biggest issue limiting your team?&quot;,
+      &quot;sample&quot;: &quot;Alignment across Sales, Enterprise, Marketing, and Operations. We have people who care and want the company to win. The opportunity is connecting the work so everyone has the same game plan, clearer ownership, and shared expectations.\n\nBetter alignment would make execution more consistent and reduce the need to reconfirm ownership and priorities while an initiative is already underway.&quot;,
+      &quot;privateHint&quot;: &quot;You said effort isn’t the main issue. What would become easier if teams shared the same game plan?&quot;,
+      &quot;why&quot;: &quot;The final reviewed wording preserves coordination concerns without adding named accusations.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;success_vision&quot;,
+      &quot;label&quot;: &quot;Success Vision (90 days)&quot;,
+      &quot;prompt&quot;: &quot;What would a wildly successful next quarter look like?&quot;,
+      &quot;sample&quot;: &quot;We’d have stronger alignment across the business, clearer ownership between teams, and a more repeatable way to execute our biggest initiatives. We’d have turned lessons from the past year into processes that help every team succeed.\n\nFor me, that would mean a leader could explain the approach, the handoffs, and the indicators they’re watching without having to invent those things independently. We would still adapt, but from a shared starting point.&quot;,
+      &quot;privateHint&quot;: &quot;Picture the difference in everyday execution. What would teams understand or do consistently that is harder today?&quot;,
+      &quot;why&quot;: &quot;An illustrative everyday test makes success recognizable without inventing numeric targets.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;top_rock&quot;,
+      &quot;label&quot;: &quot;Top Rock&quot;,
+      &quot;prompt&quot;: &quot;What is the most important Rock to prioritize?&quot;,
+      &quot;sample&quot;: &quot;Capture what we’ve learned from entering new markets and turn it into a repeatable operating playbook for future expansion.\n\nI’d want it to cover launch assumptions, expected runway, ownership, cross-team handoffs, and leading indicators. A useful first version should be something a market leader can use to plan a launch, not just a document that gets filed away.&quot;,
+      &quot;privateHint&quot;: &quot;You’ve returned to making market expansion repeatable. What could one focused Rock produce? How would you know the output was useful?&quot;,
+      &quot;why&quot;: &quot;The source-inspired priority gains an illustrative usability test, not an assigned owner or company commitment.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;issues_list&quot;,
+      &quot;label&quot;: &quot;Issues List&quot;,
+      &quot;prompt&quot;: &quot;What else should be considered during planning?&quot;,
+      &quot;sample&quot;: &quot;Recognition and career development for high performers beyond compensation.\n\nBetter visibility into leading indicators so leaders can coach proactively, rather than mainly reacting to lagging results.\n\nHow we balance speed with process as the company continues to scale.&quot;,
+      &quot;privateHint&quot;: &quot;You also mentioned recognition, development, and coaching earlier. Include any that deserve attention, even if they aren’t your top Rock.&quot;,
+      &quot;why&quot;: &quot;Secondary source-inspired issues remain visible without competing with the selected top Rock.&quot;
+    }
+  ],
+  &quot;followup&quot;: {
+    &quot;question&quot;: &quot;What would you want that conversation to settle?&quot;,
+    &quot;sample&quot;: &quot;What runway a new market needs, what we expect at different stages, and who owns the handoffs between teams. We’ve seen established markets evolve from bigger territories into more focused ones. That experience should inform the next launch.\n\nI’d want us to agree what we’re repeating, what we’re testing, and how we’ll tell the difference. Not pretend every market is identical. Just stop making the same foundational decisions from scratch.&quot;,
+    &quot;addition&quot;: &quot;That conversation should settle what runway a new market needs, what we expect at different stages, and who owns the handoffs between teams. We’ve seen established markets evolve from bigger territories into more focused ones. That experience should inform the next launch.\n\nI’d want us to agree what we’re repeating, what we’re testing, and how we’ll tell the difference. Not pretend every market is identical. Just stop making the same foundational decisions from scratch.&quot;
+  }
+}
+&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  const root=document.getElementById(&#x27;gotu-mirror-demo&#x27;);
+  const data=JSON.parse(document.getElementById(&#x27;gotu-demo-data&#x27;).textContent);
+  const main=root.querySelector(&#x27;.gm-content&#x27;), notes=root.querySelector(&#x27;.gm-notes&#x27;), nav=root.querySelector(&#x27;.gm-stage-nav&#x27;);
+  const stages=[&#x27;Confirm details&#x27;,&#x27;Talk privately&#x27;,&#x27;Prepare prompts&#x27;,&#x27;Your answers&#x27;,&#x27;Review &amp; package&#x27;];
+  const state={stage:0,maxStage:0,notice:false,name:&#x27;Morgan&#x27;,team:&#x27;Sales&#x27;,role:&#x27;Regional sales leader&#x27;,bg:0,bgAnswers:[&#x27;&#x27;,&#x27;&#x27;,&#x27;&#x27;],answers:{},field:0,notes:true,source:false,prepared:false,preparing:false,voice:null,helper:false,followDraft:&#x27;&#x27;,added:false,reviewReturn:false,approved:false,submitted:null,recipient:false};
+  const design={privatePrompts:&#x27;Open&#x27;};
+  let renderedContext=null;
+  const esc=v=&gt;String(v??&#x27;&#x27;).replace(/[&amp;&lt;&gt;&quot;&#x27;]/g,c=&gt;({&#x27;&amp;&#x27;:&#x27;&amp;amp;&#x27;,&#x27;&lt;&#x27;:&#x27;&amp;lt;&#x27;,&#x27;&gt;&#x27;:&#x27;&amp;gt;&#x27;,&#x27;&quot;&#x27;:&#x27;&amp;quot;&#x27;,&quot;&#x27;&quot;:&#x27;&amp;#39;&#x27;}[c]));
+  const para=v=&gt;String(v??&#x27;&#x27;).split(/\n\n+/).map(p=&gt;`&lt;p&gt;${esc(p)}&lt;/p&gt;`).join(&#x27;&#x27;);
+  const icon=n=&gt;`&lt;i data-lucide=&quot;${n}&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;`;
+  const button=(text,action,primary=false,disabled=false,extra=&#x27;&#x27;)=&gt;`&lt;button type=&quot;button&quot; data-action=&quot;${action}&quot; class=&quot;${primary?&#x27;gm-primary&#x27;:&#x27;&#x27;}&quot; ${disabled?&#x27;disabled&#x27;:&#x27;&#x27;} ${extra}&gt;${text}&lt;/button&gt;`;
+  const privacy=shared=&gt;`&lt;div class=&quot;gm-privacy ${shared?&#x27;gm-shared&#x27;:&#x27;&#x27;}&quot;&gt;${icon(shared?&#x27;send&#x27;:&#x27;lock-keyhole&#x27;)}${shared?&#x27;For your reviewed submission to Tev&#x27;:&#x27;Private · not included in your submission&#x27;}&lt;/div&gt;`;
+  function announce(t){root.querySelector(&#x27;[data-status]&#x27;).textContent=t;}
+  function sizeTextareas(){root.querySelectorAll(&#x27;textarea&#x27;).forEach(t=&gt;{t.style.height=&#x27;auto&#x27;;t.style.height=(t.scrollHeight+2)+&#x27;px&#x27;;});}
+  function go(stage){state.voice=null;state.stage=stage;state.maxStage=Math.max(state.maxStage,stage);state.approved=false;render();}
+  function filled(){return data.fields.filter(f=&gt;(state.answers[f.id]||&#x27;&#x27;).trim()).length;}
+  function validationErrors(){const out=[];if(!state.name.trim()||!state.team.trim())out.push(&#x27;Confirm your name and team before approving.&#x27;);const v=state.answers.quarter_rating||&#x27;&#x27;;if(v!==&#x27;&#x27;&amp;&amp;(!Number.isInteger(Number(v))||Number(v)&lt;1||Number(v)&gt;10))out.push(&#x27;Quarter Rating must be a whole number from 1 to 10 in this mock.&#x27;);return out;}
+  function currentKey(){return state.stage===1?&#x27;background-&#x27;+state.bg:data.fields[state.field]?.id;}
+  function getValue(){return state.stage===1?state.bgAnswers[state.bg]:(state.answers[data.fields[state.field]?.id]||&#x27;&#x27;);}
+  function setValue(value){if(state.stage===1)state.bgAnswers[state.bg]=value;else state.answers[data.fields[state.field].id]=value;state.approved=false;}
+  function sampleValue(){return state.stage===1?data.background[state.bg].sample:data.fields[state.field].sample;}
+  function voiceEditor(value,label=&#x27;Your answer&#x27;) {
+    const phase=state.voice?.key===currentKey()?state.voice.phase:null;
+    const wave=`&lt;div class=&quot;gm-wave&quot; aria-hidden=&quot;true&quot;&gt;${&#x27;&lt;span&gt;&lt;/span&gt;&#x27;.repeat(10)}&lt;/div&gt;`;
+    return `&lt;div class=&quot;gm-voice&quot;&gt;&lt;div class=&quot;gm-row&quot;&gt;${phase===&#x27;recording&#x27;?wave:icon(&#x27;mic&#x27;)}${phase===&#x27;recording&#x27;?button(&#x27;Finish sample&#x27;,&#x27;finish-voice&#x27;):phase===&#x27;transcribing&#x27;?button(&#x27;Transcribing sample…&#x27;,&#x27;noop&#x27;,false,true):button(value?&#x27;Replace with sample dictation&#x27;:&#x27;Try sample dictation&#x27;,&#x27;start-voice&#x27;)}&lt;span class=&quot;gm-small&quot;&gt;${phase===&#x27;recording&#x27;?&#x27;Simulated listening · no microphone&#x27;:phase===&#x27;transcribing&#x27;?&#x27;Simulated speech-to-text&#x27;:&#x27;Or type below · sample speech only&#x27;}&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;label for=&quot;gm-answer&quot;&gt;${label}&lt;/label&gt;&lt;textarea id=&quot;gm-answer&quot; data-edit=&quot;answer&quot; rows=&quot;8&quot; ${phase?&#x27;disabled&#x27;:&#x27;&#x27;} placeholder=&quot;Talk it through, or type here…&quot;&gt;${esc(value)}&lt;/textarea&gt;&lt;p class=&quot;gm-small&quot;&gt;${state.stage===1?&#x27;This text stays in the private background of this demo.&#x27;:&#x27;Check the transcription. Only the text you approve belongs in your submission.&#x27;}&lt;/p&gt;`;
+  }
+  function noteContent() {
+    if(state.recipient) return &#x27;&#x27;;
+    const base=[
+      [&#x27;Confirm, don’t interrogate&#x27;,&#x27;The runtime supplies identity; the person corrects it. The AI doesn’t guess their name.&#x27;,&#x27;Context available&#x27;,&#x27;Confirmed details and an approved organizational reference. No previous private Mirror is loaded in this example.&#x27;],
+      [&#x27;A different kind of thinking&#x27;,&#x27;Start broad: achievements, frustrations, and what’s on their mind. No planning form to fill yet.&#x27;,&#x27;What stays private&#x27;,&#x27;The transcript informs later AI tailoring. It is never an organizer export field. Three questions here are a demo choice, not a settled cap.&#x27;],
+      [&#x27;Same questions. Personal support.&#x27;,&#x27;AI adds a private “For You” box to a fixed question. It does not rewrite the question or generate the participant’s answer.&#x27;,&#x27;Boundary by construction&#x27;,&#x27;The private helper is a separate field. A judge could add screening, but runtime exclusion controls what gets packaged.&#x27;],
+      [&#x27;Deliberate sharing starts here&#x27;,&#x27;These are draft answers for Tev, not the private background chat. “For You” boxes never become shared answers automatically.&#x27;,&#x27;Why this prompt?&#x27;,data.fields[state.field]?.why||&#x27;&#x27;],
+      [&#x27;Approval is the boundary&#x27;,&#x27;The participant reviews identity and the actual outgoing answers. Editing an answer clears approval.&#x27;,&#x27;What the runtime does&#x27;,&#x27;Builds a package from allowed fields, not by asking AI to redact a transcript. The destination and real delivery mechanism remain TBD.&#x27;]
+    ][state.stage];
+    let extra=state.stage===1?`&lt;p class=&quot;gm-note-title&quot;&gt;Why this follow-up?&lt;/p&gt;&lt;p class=&quot;gm-note-detail&quot;&gt;${esc(data.background[state.bg]?.why||&#x27;&#x27;)}&lt;/p&gt;`:&#x27;&#x27;;
+    if(state.stage===3)extra=`&lt;p class=&quot;gm-note-title&quot;&gt;Try it&lt;/p&gt;&lt;p class=&quot;gm-note-detail&quot;&gt;Dictate the sample, edit a phrase, then continue. At “Avoided Conversation,” try the optional follow-up. You can also fill unanswered fields with Morgan’s examples.&lt;/p&gt;`;
+    if(state.submitted)extra=`&lt;p class=&quot;gm-note-title&quot;&gt;Inspect the result&lt;/p&gt;&lt;p class=&quot;gm-note-detail&quot;&gt;“View as Tev” shows only the approved package. Background responses and private helpers are absent, even if you edited them.&lt;/p&gt;`;
+    return `&lt;h2&gt;Walkthrough notes&lt;/h2&gt;&lt;p class=&quot;gm-note-title&quot;&gt;${esc(base[0])}&lt;/p&gt;&lt;p class=&quot;gm-note-detail&quot;&gt;${esc(base[1])}&lt;/p&gt;&lt;hr class=&quot;gm-rule&quot;&gt;&lt;p class=&quot;gm-note-title&quot;&gt;${esc(base[2])}&lt;/p&gt;&lt;p class=&quot;gm-note-detail&quot;&gt;${esc(base[3])}&lt;/p&gt;${extra}&lt;hr class=&quot;gm-rule&quot;&gt;&lt;p class=&quot;gm-small&quot;&gt;Proposed behavior—not a claim about the live app. Responses are based on one anonymized Sales respondent, with illustrative elaboration.&lt;/p&gt;`;
+  }
+  function identity() {
+    if(state.notice) return `&lt;p class=&quot;gm-label&quot;&gt;Before we begin&lt;/p&gt;&lt;h1&gt;A little space to think.&lt;/h1&gt;${privacy(false)}&lt;p&gt;First, a short conversation about your quarter. You don’t need polished answers—just talk it through.&lt;/p&gt;&lt;div class=&quot;gm-panel&quot;&gt;&lt;h2&gt;Two different spaces&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;Your private background conversation&lt;/strong&gt;&lt;br&gt;The AI uses it to prepare helpful prompts. It won’t be included in your planning submission.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Your planning answers&lt;/strong&gt;&lt;br&gt;You’ll review what Tev Greene receives before choosing to submit.&lt;/p&gt;&lt;/div&gt;&lt;details class=&quot;gm-disclosure&quot;&gt;&lt;summary&gt;How your information is used&lt;/summary&gt;&lt;p&gt;Tev receives your approved name, team, standard questions, and submitted answers for quarterly planning preparation. Your background conversation and private prompts are excluded.&lt;/p&gt;&lt;p class=&quot;gm-small&quot;&gt;Production retention, provider access, and administrator permissions still need defining. These labels describe the intended sharing boundary—not a verified operational guarantee.&lt;/p&gt;&lt;/details&gt;&lt;div class=&quot;gm-footer&quot;&gt;${button(&#x27;Back&#x27;,&#x27;identity-back&#x27;)}${button(&#x27;Start private conversation&#x27;,&#x27;begin-private&#x27;,true)}&lt;/div&gt;`;
+    return `&lt;p class=&quot;gm-label&quot;&gt;1 · Confirm your details&lt;/p&gt;&lt;h1&gt;Does this look right?&lt;/h1&gt;&lt;p&gt;You’re trying the experience as Morgan, a regional Sales leader.&lt;/p&gt;&lt;div class=&quot;gm-panel&quot;&gt;&lt;div class=&quot;gm-field&quot;&gt;&lt;label for=&quot;gm-name&quot;&gt;Name&lt;/label&gt;&lt;input id=&quot;gm-name&quot; data-edit=&quot;name&quot; value=&quot;${esc(state.name)}&quot; autocomplete=&quot;off&quot;&gt;&lt;/div&gt;&lt;div class=&quot;gm-cols&quot;&gt;&lt;div class=&quot;gm-field&quot;&gt;&lt;label for=&quot;gm-team&quot;&gt;Team&lt;/label&gt;&lt;input id=&quot;gm-team&quot; data-edit=&quot;team&quot; value=&quot;${esc(state.team)}&quot;&gt;&lt;/div&gt;&lt;div class=&quot;gm-field&quot;&gt;&lt;label for=&quot;gm-role&quot;&gt;Role&lt;/label&gt;&lt;input id=&quot;gm-role&quot; data-edit=&quot;role&quot; value=&quot;${esc(state.role)}&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;p class=&quot;gm-small&quot;&gt;Provided with the invitation. Correct anything that’s wrong.&lt;/p&gt;&lt;/div&gt;&lt;p class=&quot;gm-small&quot;&gt;All dialogue is illustrative. Try the controls; nothing is recorded or sent.&lt;/p&gt;&lt;div class=&quot;gm-footer&quot;&gt;&lt;span class=&quot;gm-small&quot;&gt;Your details stay editable.&lt;/span&gt;${button(&#x27;That’s me&#x27;,&#x27;confirm&#x27;,true,!state.name.trim()||!state.team.trim())}&lt;/div&gt;`;
+  }
+  function background() {
+    const exchange=data.background[state.bg];
+    const history=state.bg?`&lt;details class=&quot;gm-disclosure&quot;&gt;&lt;summary&gt;Earlier in your private conversation&lt;/summary&gt;&lt;div class=&quot;gm-turns&quot;&gt;${data.background.slice(0,state.bg).map((b,i)=&gt;`&lt;div class=&quot;gm-chat&quot;&gt;&lt;p class=&quot;gm-small&quot;&gt;Mirror&lt;/p&gt;${para(b.question)}&lt;/div&gt;&lt;div class=&quot;gm-chat-user&quot;&gt;&lt;p class=&quot;gm-small&quot;&gt;${esc(state.name)}&lt;/p&gt;${para(state.bgAnswers[i]||&#x27;No response added.&#x27;)}&lt;/div&gt;`).join(&#x27;&#x27;)}&lt;/div&gt;&lt;/details&gt;`:&#x27;&#x27;;
+    return `&lt;p class=&quot;gm-label&quot;&gt;2 · Talk privately&lt;/p&gt;&lt;h1&gt;Let’s talk about your quarter.&lt;/h1&gt;${privacy(false)}${history}&lt;div class=&quot;gm-chat&quot;&gt;&lt;p class=&quot;gm-small&quot;&gt;Mirror · ${state.bg+1} of 3 background prompts&lt;/p&gt;${para(exchange.question)}&lt;/div&gt;${voiceEditor(getValue(),&#x27;Your private response&#x27;)}&lt;div class=&quot;gm-footer&quot;&gt;${button(state.bg?&#x27;Previous prompt&#x27;:&#x27;Back&#x27;,&#x27;bg-back&#x27;)}${button(state.bg===2?&#x27;That’s enough—get my questions&#x27;:&#x27;Continue conversation&#x27;,&#x27;bg-next&#x27;,true,!getValue().trim())}&lt;/div&gt;${state.bg&lt;2?`&lt;button class=&quot;gm-text-action&quot; data-action=&quot;bg-enough&quot; ${getValue().trim()?&#x27;&#x27;:&#x27;hidden&#x27;}&gt;That’s enough background. Move to my questions.&lt;/button&gt;`:&#x27;&#x27;}&lt;p class=&quot;gm-small gm-disclosure&quot;&gt;This example follows a scripted conversation. Edits won’t trigger a live AI response.&lt;/p&gt;`;
+  }
+  function prepare() {
+    const custom=state.bgAnswers.some((v,i)=&gt;v.trim()&amp;&amp;v!==data.background[i].sample);
+    const example=data.fields.find(f=&gt;f.id===&#x27;avoided_conversation&#x27;);
+    return `&lt;p class=&quot;gm-label&quot;&gt;3 · Prepare private thought-starters&lt;/p&gt;&lt;h1&gt;${state.prepared?&#x27;Your questions are ready.&#x27;:&#x27;A few prompts, just for you.&#x27;}&lt;/h1&gt;${privacy(false)}&lt;p&gt;The planning questions stay the same. The AI uses your background conversation to suggest useful angles.&lt;/p&gt;${custom?&#x27;&lt;p class=&quot;gm-hint&quot;&gt;You edited the background. This offline demo still uses the original sample thought-starters; no AI is running.&lt;/p&gt;&#x27;:&#x27;&#x27;}${state.prepared?`&lt;div class=&quot;gm-panel&quot;&gt;&lt;p class=&quot;gm-small&quot;&gt;Standard question · unchanged&lt;/p&gt;&lt;h2&gt;${esc(example.label)}&lt;/h2&gt;&lt;p&gt;${esc(example.prompt)}&lt;/p&gt;&lt;div class=&quot;gm-private-box&quot;&gt;&lt;strong&gt;For You&lt;/strong&gt; &lt;span class=&quot;gm-private-tag&quot;&gt;· private&lt;/span&gt;&lt;p&gt;${esc(example.privateHint)}&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;p&gt;These prompts are suggestions, not answers you need to agree with.&lt;/p&gt;`:`&lt;div class=&quot;gm-panel&quot;&gt;&lt;p&gt;&lt;strong&gt;Used to prepare prompts&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Confirmed basic information&lt;/li&gt;&lt;li&gt;Approved organizational reference&lt;/li&gt;&lt;li&gt;Private background conversation&lt;/li&gt;&lt;li&gt;Standard planning questions&lt;/li&gt;&lt;/ul&gt;&lt;p class=&quot;gm-small&quot;&gt;Output: private prompts attached to the standard questions—not a completed form.&lt;/p&gt;&lt;/div&gt;`}&lt;div class=&quot;gm-footer&quot;&gt;${button(&#x27;Back to background&#x27;,&#x27;prepare-back&#x27;)}${state.prepared?button(&#x27;Start my planning answers&#x27;,&#x27;begin-answers&#x27;,true):button(state.preparing?&#x27;Preparing sample prompts…&#x27;:&#x27;Prepare sample prompts&#x27;,&#x27;generate&#x27;,true,state.preparing)}&lt;/div&gt;`;
+  }
+  function answerForm() {
+    const f=data.fields[state.field],value=state.answers[f.id]||&#x27;&#x27;;
+    const numeric=f.type===&#x27;number&#x27;;
+    const input=numeric?`&lt;label for=&quot;gm-answer&quot;&gt;Your quarter rating&lt;/label&gt;&lt;input id=&quot;gm-answer&quot; data-edit=&quot;answer&quot; type=&quot;number&quot; min=&quot;1&quot; max=&quot;10&quot; step=&quot;1&quot; value=&quot;${esc(value)}&quot; placeholder=&quot;1–10&quot;&gt;&lt;div class=&quot;gm-row&quot;&gt;${button(&#x27;Use Morgan’s rating: 8&#x27;,&#x27;use-number&#x27;)}&lt;/div&gt;&lt;p class=&quot;gm-small&quot;&gt;The 1–10 control is proposed. Original form validation is unverified.&lt;/p&gt;`:voiceEditor(value);
+    const optional=f.id===&#x27;avoided_conversation&#x27;?`&lt;div class=&quot;gm-disclosure&quot; data-helper-section ${value.trim()?&#x27;&#x27;:&#x27;hidden&#x27;}&gt;${state.helper?`&lt;h2&gt;One useful follow-up&lt;/h2&gt;&lt;p&gt;${esc(data.followup.question)}&lt;/p&gt;&lt;p class=&quot;gm-small&quot;&gt;Uses this answer—not the private background transcript. Optional, scripted example.&lt;/p&gt;&lt;label for=&quot;gm-follow&quot;&gt;Your additional thinking&lt;/label&gt;&lt;textarea id=&quot;gm-follow&quot; data-edit=&quot;followup&quot; rows=&quot;5&quot;&gt;${esc(state.followDraft)}&lt;/textarea&gt;&lt;div class=&quot;gm-row&quot;&gt;${button(&#x27;Use sample follow-up&#x27;,&#x27;sample-follow&#x27;)}${button(&#x27;Add this to my answer&#x27;,&#x27;add-follow&#x27;,true,!state.followDraft.trim())}${button(&#x27;Leave it out&#x27;,&#x27;close-follow&#x27;)}&lt;/div&gt;`:button(state.added?&#x27;Explore another angle (sample)&#x27;:&#x27;Help me go deeper&#x27;,&#x27;show-follow&#x27;)}${state.added?&#x27;&lt;p class=&quot;gm-small&quot;&gt;You added the follow-up to the answer. It remains editable above.&lt;/p&gt;&#x27;:&#x27;&#x27;}&lt;/div&gt;`:&#x27;&#x27;;
+    return `&lt;p class=&quot;gm-label&quot;&gt;4 · Your planning answers&lt;/p&gt;${privacy(true)}&lt;div class=&quot;gm-row&quot;&gt;&lt;span class=&quot;gm-small&quot;&gt;Question ${state.field+1} of ${data.fields.length}&lt;/span&gt;&lt;span class=&quot;gm-small&quot;&gt;${esc(state.name)} · ${esc(state.team)}&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;gm-progress&quot; role=&quot;progressbar&quot; aria-label=&quot;Question position&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;${data.fields.length}&quot; aria-valuenow=&quot;${state.field+1}&quot;&gt;&lt;div style=&quot;width:${((state.field+1)/data.fields.length)*100}%&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;h1&gt;${esc(f.label)}&lt;/h1&gt;&lt;p&gt;${esc(f.prompt)}&lt;/p&gt;${f.privateHint?`&lt;details class=&quot;gm-private-box&quot; ${design.privatePrompts===&#x27;Open&#x27;?&#x27;open&#x27;:&#x27;&#x27;}&gt;&lt;summary&gt;&lt;span&gt;${icon(&#x27;lock-keyhole&#x27;)} For You&lt;/span&gt;&lt;span class=&quot;gm-private-tag&quot;&gt;Private · not submitted&lt;/span&gt;&lt;/summary&gt;&lt;p&gt;${esc(f.privateHint)}&lt;/p&gt;&lt;p class=&quot;gm-small&quot;&gt;Use what helps. Ignore what doesn’t.&lt;/p&gt;&lt;/details&gt;`:&#x27;&#x27;}${input}${optional}&lt;div class=&quot;gm-footer&quot;&gt;${button(state.field?&#x27;Previous question&#x27;:&#x27;Back&#x27;,&#x27;answer-back&#x27;)}${state.reviewReturn?button(&#x27;Return to review&#x27;,&#x27;return-review&#x27;,true):button(state.field===data.fields.length-1?&#x27;Review my submission&#x27;:&#x27;Continue&#x27;,&#x27;answer-next&#x27;,true,numeric&amp;&amp;value!==&#x27;&#x27;&amp;&amp;(!Number.isInteger(Number(value))||Number(value)&lt;1||Number(value)&gt;10))}&lt;/div&gt;&lt;p class=&quot;gm-small&quot;&gt;${value.trim()?&#x27;Draft only. You’ll approve the full submission later.&#x27;:&#x27;You can leave this blank in the mock. Required fields are not yet defined.&#x27;}&lt;/p&gt;&lt;details class=&quot;gm-question-nav&quot;&gt;&lt;summary&gt;Jump to another question · ${filled()} answered&lt;/summary&gt;&lt;div class=&quot;gm-question-list&quot;&gt;${data.fields.map((q,i)=&gt;button(`${state.answers[q.id]?.trim()?&#x27;✓ &#x27;:&#x27;&#x27;}${esc(q.label)}`,&#x27;jump-question&#x27;,false,false,`data-index=&quot;${i}&quot;`)).join(&#x27;&#x27;)}&lt;/div&gt;&lt;/details&gt;&lt;div class=&quot;gm-disclosure&quot;&gt;&lt;span class=&quot;gm-small&quot;&gt;Walkthrough shortcut · preserves your existing answers&lt;/span&gt;&lt;br&gt;${button(&#x27;Fill unanswered fields with Morgan’s examples&#x27;,&#x27;fill-examples&#x27;)}&lt;/div&gt;`;
+  }
+  function answerRows(answers,edit=false) {
+    return data.fields.map((f,i)=&gt;`&lt;section class=&quot;gm-review-item&quot;&gt;&lt;div class=&quot;gm-review-head&quot;&gt;&lt;h2&gt;${esc(f.label)}&lt;/h2&gt;${edit?button(&#x27;Edit&#x27;,&#x27;edit-question&#x27;,false,false,`data-index=&quot;${i}&quot; aria-label=&quot;Edit ${esc(f.label)}&quot;`):&#x27;&#x27;}&lt;/div&gt;&lt;div class=&quot;gm-answer&quot;&gt;${esc(answers[f.id]||&#x27;No answer provided.&#x27;)}&lt;/div&gt;&lt;/section&gt;${f.id===&#x27;rating_reason&#x27;?`&lt;section class=&quot;gm-review-item&quot;&gt;&lt;h2&gt;Team&lt;/h2&gt;&lt;div&gt;${esc(state.submitted?state.submitted.participant.team:state.team)}&lt;/div&gt;&lt;/section&gt;`:&#x27;&#x27;}`).join(&#x27;&#x27;);
+  }
+  function review() {
+    if(state.submitted) {
+      const approved=Object.fromEntries(state.submitted.questions.map(q=&gt;[q.id,q.answer]));
+      return `&lt;p class=&quot;gm-label&quot;&gt;5 · Package prepared · simulation&lt;/p&gt;&lt;h1&gt;Your approved answers, and nothing else.&lt;/h1&gt;&lt;p&gt;This package is ready in the mock. Nothing has been sent to Tev.&lt;/p&gt;&lt;div class=&quot;gm-panel&quot;&gt;&lt;p&gt;&lt;strong&gt;Intended recipient:&lt;/strong&gt; ${esc(state.submitted.recipient)}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Included:&lt;/strong&gt; Confirmed name and team, standard questions, approved answers.&lt;/p&gt;&lt;p class=&quot;gm-excluded&quot;&gt;&lt;strong&gt;Excluded:&lt;/strong&gt; Background transcript, “For You” prompts, unaccepted follow-ups, voice recordings.&lt;/p&gt;&lt;/div&gt;&lt;div class=&quot;gm-row&quot;&gt;${button(&#x27;View as Tev&#x27;,&#x27;recipient-view&#x27;,true)}${button(&#x27;Revise my draft&#x27;,&#x27;revise&#x27;)}&lt;/div&gt;&lt;details class=&quot;gm-disclosure&quot;&gt;&lt;summary&gt;Inspect the exact sample package&lt;/summary&gt;&lt;pre&gt;${esc(JSON.stringify(state.submitted,null,2))}&lt;/pre&gt;&lt;/details&gt;&lt;details class=&quot;gm-disclosure&quot;&gt;&lt;summary&gt;Read the approved answers here&lt;/summary&gt;${answerRows(approved)}&lt;/details&gt;&lt;p class=&quot;gm-small gm-disclosure&quot;&gt;Export destination, delivery acknowledgment, and facilitator prompts remain undecided. The Mirror stops at the participant-approved package.&lt;/p&gt;`;
+    }
+    return `&lt;p class=&quot;gm-label&quot;&gt;5 · Review before sharing&lt;/p&gt;&lt;h1&gt;What Tev would receive.&lt;/h1&gt;&lt;p&gt;Read this as your actual submission. Change anything that doesn’t sound like you.&lt;/p&gt;&lt;div class=&quot;gm-panel&quot;&gt;&lt;p&gt;&lt;strong&gt;Recipient:&lt;/strong&gt; Tev Greene&lt;br&gt;&lt;strong&gt;Purpose:&lt;/strong&gt; GoTu quarterly planning preparation&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Name:&lt;/strong&gt; ${esc(state.name)}&lt;br&gt;&lt;strong&gt;Teams:&lt;/strong&gt; ${esc(state.team)}&lt;/p&gt;&lt;p class=&quot;gm-small&quot;&gt;Your role is background context and is not included in this sample package.&lt;/p&gt;&lt;hr class=&quot;gm-rule&quot;&gt;&lt;p&gt;Included: these standard questions and the answers below.&lt;/p&gt;&lt;p class=&quot;gm-excluded&quot;&gt;Not included: your private conversation, private thought-starters, unaccepted helper text, or audio.&lt;/p&gt;&lt;/div&gt;${validationErrors().length?`&lt;div class=&quot;gm-error&quot; role=&quot;alert&quot;&gt;${validationErrors().map(m=&gt;`&lt;p&gt;${esc(m)}&lt;/p&gt;`).join(&#x27;&#x27;)}${!state.name.trim()||!state.team.trim()?button(&#x27;Fix my details&#x27;,&#x27;fix-identity&#x27;):&#x27;&#x27;}&lt;/div&gt;`:&#x27;&#x27;}${filled()&lt;data.fields.length?`&lt;p class=&quot;gm-hint&quot;&gt;${data.fields.length-filled()} fields are unanswered. The mock permits blanks; production requirements remain TBD.&lt;/p&gt;${button(&#x27;Fill unanswered fields with Morgan’s examples&#x27;,&#x27;fill-examples&#x27;)}`:&#x27;&#x27;}${answerRows(state.answers,true)}&lt;div class=&quot;gm-disclosure&quot;&gt;&lt;label class=&quot;gm-check&quot;&gt;&lt;input type=&quot;checkbox&quot; data-edit=&quot;approval&quot; ${state.approved?&#x27;checked&#x27;:&#x27;&#x27;}&gt;&lt;span&gt;I’ve reviewed these questions and answers for sharing with Tev Greene.&lt;/span&gt;&lt;/label&gt;&lt;p class=&quot;gm-small&quot;&gt;Demo only. Approval creates a local sample package; it does not send anything.&lt;/p&gt;&lt;div class=&quot;gm-footer&quot;&gt;${button(&#x27;Back to my answers&#x27;,&#x27;review-back&#x27;)}${button(&#x27;Approve &amp; package (demo)&#x27;,&#x27;submit&#x27;,true,!state.approved||validationErrors().length&gt;0)}&lt;/div&gt;&lt;/div&gt;`;
+  }
+  function recipient() {
+    const p=state.submitted,values=Object.fromEntries(p.questions.map(q=&gt;[q.id,q.answer]));
+    return `&lt;div class=&quot;gm-row&quot;&gt;&lt;span class=&quot;gm-label&quot;&gt;Recipient view · simulated&lt;/span&gt;${button(&#x27;Back to walkthrough&#x27;,&#x27;recipient-back&#x27;)}&lt;/div&gt;&lt;div class=&quot;gm-recipient&quot;&gt;&lt;p class=&quot;gm-label&quot;&gt;GoTu quarterly planning submission&lt;/p&gt;&lt;h1&gt;${esc(p.participant.name)}&lt;/h1&gt;&lt;p&gt;Teams: ${esc(p.participant.team)}&lt;br&gt;Prepared for ${esc(p.recipient)}&lt;/p&gt;${answerRows(values)}&lt;/div&gt;&lt;p class=&quot;gm-small gm-disclosure&quot;&gt;This view contains only the approved package. No private transcript or “For You” box travels with it. Real delivery has not occurred.&lt;/p&gt;`;
+  }
+  function render() {
+    const context=[state.stage,state.bg,state.field,state.notice,state.recipient].join(&#x27;:&#x27;);
+    const moved=renderedContext!==null&amp;&amp;context!==renderedContext;
+    renderedContext=context;announce(&#x27;&#x27;);
+    nav.innerHTML=stages.map((s,i)=&gt;`&lt;button data-action=&quot;stage&quot; data-index=&quot;${i}&quot; ${i&gt;state.maxStage||state.submitted?&#x27;disabled&#x27;:&#x27;&#x27;} ${state.stage===i?&#x27;aria-current=&quot;step&quot;&#x27;:&#x27;&#x27;}&gt;&lt;span class=&quot;gm-stage-num&quot;&gt;${i+1}&lt;/span&gt;${s}&lt;/button&gt;`).join(&#x27;&#x27;);
+    nav.hidden=state.recipient;
+    root.querySelector(&#x27;.gm-layout&#x27;).classList.toggle(&#x27;gm-notes-off&#x27;,!state.notes||state.recipient);
+    notes.hidden=!state.notes||state.recipient;notes.innerHTML=noteContent();
+    const source=root.querySelector(&#x27;.gm-source&#x27;);source.hidden=!state.source;
+    source.innerHTML=`&lt;h2&gt;One real response. An illustrative experience.&lt;/h2&gt;&lt;p&gt;“Morgan” is a pseudonym for one rich Sales respondent—not a composite. Region and staffing specifics are softened. Their rating, EOS choice, market-expansion themes, and proposed Rock ground this scenario.&lt;/p&gt;&lt;p&gt;All dialogue, personalized prompts, interface behavior, and expanded planning details are invented for the mock. They are not additional statements from the actual person.&lt;/p&gt;&lt;p class=&quot;gm-small&quot;&gt;Source: BWAI Request Tevano Green Prework Final Sheet.xlsx · prework-2026-q2-2026-07-08 · field labels E1:P1. Full original form wording remains unverified. This historical sheet is labelled Q2 2026, not last year.&lt;/p&gt;&lt;p class=&quot;gm-small&quot;&gt;Visual precedent: BApps VoiceFormExperience and VoiceTextarea. Light palette/type/radii copied from packages/design-system/tokens.css and COMPONENTS.md; dark adaptation is proposed. Private background, personal helpers, and approval-controlled packaging are proposed—not verified live features.&lt;/p&gt;&lt;p class=&quot;gm-small&quot;&gt;This walkthrough shows private and shared material for design review. It is not itself a participant export.&lt;/p&gt;`;
+    root.querySelector(&#x27;[data-action=&quot;toggle-notes&quot;]&#x27;).setAttribute(&#x27;aria-pressed&#x27;,String(state.notes));
+    root.querySelector(&#x27;[data-action=&quot;toggle-source&quot;]&#x27;).setAttribute(&#x27;aria-expanded&#x27;,String(state.source));
+    main.innerHTML=state.recipient?recipient():[identity,background,prepare,answerForm,review][state.stage]();
+    sizeTextareas();
+    if(moved)main.querySelector(&#x27;h1&#x27;)?.scrollIntoView({block:&#x27;start&#x27;,behavior:&#x27;instant&#x27;});
+    if(globalThis.lucide)globalThis.lucide.createIcons({attrs:{width:16,height:16}});
+  }
+  function syncControls(){
+    const c=root.querySelector(&#x27;[data-action=&quot;confirm&quot;]&#x27;);if(c)c.disabled=!state.name.trim()||!state.team.trim();
+    const n=root.querySelector(&#x27;[data-action=&quot;bg-next&quot;]&#x27;);if(n)n.disabled=!getValue().trim();
+    const enough=root.querySelector(&#x27;[data-action=&quot;bg-enough&quot;]&#x27;);if(enough)enough.hidden=!getValue().trim();
+    const helper=root.querySelector(&#x27;[data-helper-section]&#x27;);if(helper)helper.hidden=!getValue().trim();
+    const a=root.querySelector(&#x27;[data-action=&quot;add-follow&quot;]&#x27;);if(a)a.disabled=!state.followDraft.trim();
+    const s=root.querySelector(&#x27;[data-action=&quot;submit&quot;]&#x27;);if(s)s.disabled=!state.approved||validationErrors().length&gt;0;
+    const q=data.fields[state.field],next=root.querySelector(&#x27;[data-action=&quot;answer-next&quot;]&#x27;);
+    if(next&amp;&amp;q.type===&#x27;number&#x27;){const v=state.answers[q.id]||&#x27;&#x27;;next.disabled=v!==&#x27;&#x27;&amp;&amp;(!Number.isInteger(Number(v))||Number(v)&lt;1||Number(v)&gt;10);}
+  }
+  root.addEventListener(&#x27;input&#x27;,e=&gt;{
+    const key=e.target.dataset.edit;if(!key)return;
+    if(key===&#x27;answer&#x27;)setValue(e.target.value);
+    else if(key===&#x27;followup&#x27;)state.followDraft=e.target.value;
+    else if(key===&#x27;approval&#x27;)state.approved=e.target.checked;
+    else {state[key]=e.target.value;state.approved=false;}
+    syncControls();
+    sizeTextareas();
+  });
+  root.addEventListener(&#x27;click&#x27;,e=&gt;{
+    const el=e.target.closest(&#x27;button[data-action]&#x27;);if(!el||el.disabled)return;
+    const action=el.dataset.action;
+    if(action===&#x27;toggle-notes&#x27;){state.notes=!state.notes;render();return;}
+    if(action===&#x27;toggle-source&#x27;){state.source=!state.source;render();return;}
+    if(action===&#x27;stage&#x27;){go(Number(el.dataset.index));return;}
+    if(action===&#x27;confirm&#x27;){if(!state.name.trim()||!state.team.trim())return;state.notice=true;render();return;}
+    if(action===&#x27;identity-back&#x27;){state.notice=false;render();return;}
+    if(action===&#x27;fix-identity&#x27;){state.notice=false;go(0);return;}
+    if(action===&#x27;begin-private&#x27;){go(1);return;}
+    if(action===&#x27;start-voice&#x27;){state.voice={key:currentKey(),phase:&#x27;recording&#x27;};render();announce(&#x27;Simulated listening. Select Finish sample to see the transcription.&#x27;);return;}
+    if(action===&#x27;finish-voice&#x27;){
+      const key=currentKey(),stage=state.stage;state.voice={key,phase:&#x27;transcribing&#x27;};render();
+      setTimeout(()=&gt;{if(state.stage!==stage||currentKey()!==key||state.voice?.key!==key)return;setValue(sampleValue());state.voice=null;render();announce(&#x27;Sample transcription ready. You can edit it.&#x27;);},650);return;
+    }
+    if(action===&#x27;bg-next&#x27;){if(!getValue().trim())return;if(state.bg&lt;2){state.bg++;state.voice=null;render();}else go(2);return;}
+    if(action===&#x27;bg-enough&#x27;){go(2);return;}
+    if(action===&#x27;bg-back&#x27;){state.voice=null;if(state.bg){state.bg--;render();}else go(0);return;}
+    if(action===&#x27;prepare-back&#x27;){go(1);return;}
+    if(action===&#x27;generate&#x27;){state.preparing=true;render();setTimeout(()=&gt;{state.preparing=false;state.prepared=true;render();announce(&#x27;Sample private prompts prepared.&#x27;);},650);return;}
+    if(action===&#x27;begin-answers&#x27;){state.field=0;go(3);return;}
+    if(action===&#x27;use-number&#x27;){state.answers[data.fields[state.field].id]=&#x27;8&#x27;;state.approved=false;render();return;}
+    if(action===&#x27;answer-back&#x27;){state.voice=null;state.helper=false;if(state.field){state.field--;render();}else go(2);return;}
+    if(action===&#x27;answer-next&#x27;){state.voice=null;state.helper=false;if(state.field&lt;data.fields.length-1){state.field++;render();}else go(4);return;}
+    if(action===&#x27;jump-question&#x27;){state.voice=null;state.helper=false;state.field=Number(el.dataset.index);render();return;}
+    if(action===&#x27;fill-examples&#x27;){data.fields.forEach(f=&gt;{if(!(state.answers[f.id]||&#x27;&#x27;).trim())state.answers[f.id]=f.sample;});state.approved=false;render();announce(&#x27;Unanswered fields filled with Morgan’s illustrative examples. Existing answers preserved.&#x27;);return;}
+    if(action===&#x27;show-follow&#x27;){state.helper=true;render();return;}
+    if(action===&#x27;sample-follow&#x27;){state.followDraft=data.followup.sample;render();return;}
+    if(action===&#x27;close-follow&#x27;){state.helper=false;state.followDraft=&#x27;&#x27;;render();return;}
+    if(action===&#x27;add-follow&#x27;){if(!state.followDraft.trim())return;const id=data.fields[state.field].id;state.answers[id]=(state.answers[id]||&#x27;&#x27;)+&#x27;\n\n&#x27;+state.followDraft.trim();state.followDraft=&#x27;&#x27;;state.helper=false;state.added=true;state.approved=false;render();announce(&#x27;Your follow-up was added to the draft answer.&#x27;);return;}
+    if(action===&#x27;edit-question&#x27;){state.field=Number(el.dataset.index);state.reviewReturn=true;state.helper=false;go(3);return;}
+    if(action===&#x27;return-review&#x27;){state.reviewReturn=false;go(4);return;}
+    if(action===&#x27;review-back&#x27;){state.field=data.fields.length-1;go(3);return;}
+    if(action===&#x27;submit&#x27;){
+      if(!state.approved||validationErrors().length){announce(&#x27;Fix the highlighted details before approval.&#x27;);return;}
+      const questions=[];data.fields.forEach(f=&gt;{questions.push({id:f.id,question:f.label,answer:(state.answers[f.id]||&#x27;&#x27;).trim()});if(f.id===&#x27;rating_reason&#x27;)questions.push({id:&#x27;team&#x27;,question:&#x27;Team&#x27;,answer:state.team.trim()});});
+      state.submitted={recipient:&#x27;Tev Greene&#x27;,purpose:&#x27;GoTu quarterly planning preparation&#x27;,participant:{name:state.name.trim(),team:state.team.trim()},questions};
+      render();announce(&#x27;Demo package created locally. Nothing was sent.&#x27;);return;
+    }
+    if(action===&#x27;recipient-view&#x27;){state.recipient=true;render();return;}
+    if(action===&#x27;recipient-back&#x27;){state.recipient=false;render();return;}
+    if(action===&#x27;revise&#x27;){state.submitted=null;state.approved=false;render();return;}
+  });
+  render();
+  if(globalThis.Tweak){const tweaks=new globalThis.Tweak({container:root,onChange:render});tweaks.addSelect(design,&#x27;privatePrompts&#x27;,{label:&#x27;Private prompts start&#x27;,options:[&#x27;Open&#x27;,&#x27;Collapsed&#x27;]});}
+})();
+&lt;/script&gt;
+
+&lt;script src=&quot;https://unpkg.com/@floating-ui/core@1.7.3/dist/floating-ui.core.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://unpkg.com/@floating-ui/dom@1.7.4/dist/floating-ui.dom.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  if (window.FloatingUIDOM == null) {
+    return;
+  }
+  const { autoUpdate, computePosition, flip, offset, shift, size } =
+    window.FloatingUIDOM;
+  const tooltipPlacements = new Set([&quot;top&quot;, &quot;right&quot;, &quot;bottom&quot;, &quot;left&quot;]);
+  const tooltipId = `codex-visualization-tooltip-${
+    window.crypto?.randomUUID?.() ?? Date.now().toString(36)
+  }`;
+  const tooltipGap = 5;
+  const hoverDelay = 700;
+  const skipDelay = 300;
+  let activeTrigger = null;
+  let pendingTrigger = null;
+  let tooltip = null;
+  let openTimeout = null;
+  let autoUpdateCleanup = null;
+  let positionRequest = 0;
+  let skipDelayUntil = 0;
+  let lastPointerWasTouch = false;
+  let pinnedByTouch = false;
+
+  const getTrigger = (target) =&gt;
+    target?.nodeType === Node.ELEMENT_NODE
+      ? target.closest(&quot;[data-tooltip]&quot;)
+      : null;
+  const containsTarget = (trigger, target) =&gt;
+    target?.nodeType != null &amp;&amp; trigger.contains(target);
+  const getContent = (trigger) =&gt;
+    trigger.getAttribute(&quot;data-tooltip&quot;)?.trim() ?? &quot;&quot;;
+  const getPlacement = (trigger) =&gt; {
+    const placement = trigger.getAttribute(&quot;data-tooltip-placement&quot;);
+    return tooltipPlacements.has(placement) ? placement : &quot;top&quot;;
+  };
+  const getTooltip = () =&gt; {
+    if (tooltip == null) {
+      tooltip = document.createElement(&quot;div&quot;);
+      tooltip.id = tooltipId;
+      tooltip.className = &quot;tooltip&quot;;
+      tooltip.setAttribute(&quot;role&quot;, &quot;tooltip&quot;);
+    }
+    return tooltip;
+  };
+  const setDescribedBy = (trigger, described) =&gt; {
+    const ids = new Set(
+      (trigger.getAttribute(&quot;aria-describedby&quot;) ?? &quot;&quot;)
+        .split(/\s+/)
+        .filter(Boolean),
+    );
+    if (described) {
+      ids.add(tooltipId);
+    } else {
+      ids.delete(tooltipId);
+    }
+    if (ids.size === 0) {
+      trigger.removeAttribute(&quot;aria-describedby&quot;);
+    } else {
+      trigger.setAttribute(&quot;aria-describedby&quot;, [...ids].join(&quot; &quot;));
+    }
+  };
+  const clearOpenTimeout = () =&gt; {
+    if (openTimeout != null) {
+      window.clearTimeout(openTimeout);
+      openTimeout = null;
+    }
+    pendingTrigger = null;
+  };
+  const closeTooltip = (activateSkipDelay = true) =&gt; {
+    clearOpenTimeout();
+    pinnedByTouch = false;
+    positionRequest += 1;
+    autoUpdateCleanup?.();
+    autoUpdateCleanup = null;
+    if (activeTrigger == null) {
+      return;
+    }
+    setDescribedBy(activeTrigger, false);
+    activeTrigger = null;
+    tooltip?.remove();
+    if (activateSkipDelay) {
+      skipDelayUntil = Date.now() + skipDelay;
+    }
+  };
+  const updatePosition = (trigger, floating) =&gt; {
+    const request = ++positionRequest;
+    void computePosition(trigger, floating, {
+      middleware: [
+        offset(tooltipGap),
+        flip({ padding: tooltipGap }),
+        shift({ padding: tooltipGap }),
+        size({
+          padding: tooltipGap,
+          apply({ availableHeight, availableWidth, elements }) {
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-width&quot;,
+              `${Math.max(0, availableWidth)}px`,
+            );
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-height&quot;,
+              `${Math.max(0, availableHeight)}px`,
+            );
+          },
+        }),
+      ],
+      placement: getPlacement(trigger),
+      strategy: &quot;fixed&quot;,
+    })
+      .then(({ x, y }) =&gt; {
+        if (activeTrigger !== trigger || request !== positionRequest) {
+          return;
+        }
+        const scale = window.devicePixelRatio || 1;
+        floating.style.transform = `translate(${Math.round(x * scale) / scale}px, ${Math.round(y * scale) / scale}px)`;
+        floating.style.visibility = &quot;visible&quot;;
+      })
+      .catch(() =&gt; {
+        if (activeTrigger === trigger &amp;&amp; request === positionRequest) {
+          closeTooltip(false);
+        }
+      });
+  };
+  const openTooltip = (trigger) =&gt; {
+    const content = getContent(trigger);
+    if (!trigger.isConnected || content.length === 0) {
+      return;
+    }
+    clearOpenTimeout();
+    if (activeTrigger === trigger) {
+      return;
+    }
+    closeTooltip();
+    const floating = getTooltip();
+    floating.textContent = content;
+    floating.style.visibility = &quot;hidden&quot;;
+    floating.style.transform = &quot;translate(0, 0)&quot;;
+    document.body.appendChild(floating);
+    activeTrigger = trigger;
+    setDescribedBy(trigger, true);
+    autoUpdateCleanup = autoUpdate(trigger, floating, () =&gt; {
+      updatePosition(trigger, floating);
+    });
+  };
+  const requestOpen = (trigger, immediate = false) =&gt; {
+    if (
+      getContent(trigger).length === 0 ||
+      activeTrigger === trigger ||
+      pendingTrigger === trigger
+    ) {
+      return;
+    }
+    clearOpenTimeout();
+    pendingTrigger = trigger;
+    const delay =
+      immediate || activeTrigger != null || Date.now() &lt; skipDelayUntil
+        ? 0
+        : hoverDelay;
+    if (delay === 0) {
+      openTooltip(trigger);
+      return;
+    }
+    openTimeout = window.setTimeout(() =&gt; {
+      openTimeout = null;
+      pendingTrigger = null;
+      openTooltip(trigger);
+    }, delay);
+  };
+  const handlePointerOpen = (event) =&gt; {
+    if (event.pointerType === &quot;touch&quot;) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    requestOpen(trigger);
+  };
+  const handlePointer = (event) =&gt; {
+    lastPointerWasTouch =
+      event.type === &quot;pointerdown&quot; &amp;&amp; event.pointerType === &quot;touch&quot;;
+  };
+  const handleTouchClick = (event) =&gt; {
+    const isTouch = event.pointerType === &quot;touch&quot; || lastPointerWasTouch;
+    lastPointerWasTouch = false;
+    if (!isTouch || event.detail === 0) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (
+      trigger == null ||
+      !trigger.isConnected ||
+      getContent(trigger).length === 0 ||
+      (pinnedByTouch &amp;&amp; activeTrigger === trigger)
+    ) {
+      if (pinnedByTouch) {
+        closeTooltip();
+      }
+      return;
+    }
+    openTooltip(trigger);
+    pinnedByTouch = activeTrigger === trigger;
+    window.setTimeout(() =&gt; {
+      if (activeTrigger === trigger &amp;&amp; !trigger.isConnected) {
+        closeTooltip(false);
+      }
+    }, 0);
+  };
+  const handleLeave = (event) =&gt; {
+    if (pinnedByTouch) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const handleFocusIn = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger?.matches(&quot;:focus-visible&quot;)) {
+      requestOpen(trigger, true);
+    }
+  };
+  const handleKeyDown = (event) =&gt; {
+    if (event.key === &quot;Escape&quot;) {
+      closeTooltip();
+    }
+  };
+  const handleContextMenu = (event) =&gt; {
+    lastPointerWasTouch = false;
+    const trigger = getTrigger(event.target);
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const destroy = () =&gt; {
+    closeTooltip(false);
+    lastPointerWasTouch = false;
+    document.removeEventListener(&quot;pointerover&quot;, handlePointerOpen);
+    document.removeEventListener(&quot;pointerdown&quot;, handlePointer);
+    document.removeEventListener(&quot;pointercancel&quot;, handlePointer);
+    document.removeEventListener(&quot;click&quot;, handleTouchClick);
+    document.removeEventListener(&quot;pointerout&quot;, handleLeave);
+    document.removeEventListener(&quot;focusin&quot;, handleFocusIn);
+    document.removeEventListener(&quot;focusout&quot;, handleLeave);
+    document.removeEventListener(&quot;keydown&quot;, handleKeyDown);
+    document.removeEventListener(&quot;contextmenu&quot;, handleContextMenu);
+    tooltip = null;
+  };
+
+  document.addEventListener(&quot;pointerover&quot;, handlePointerOpen);
+  document.addEventListener(&quot;pointerdown&quot;, handlePointer);
+  document.addEventListener(&quot;pointercancel&quot;, handlePointer);
+  document.addEventListener(&quot;click&quot;, handleTouchClick);
+  document.addEventListener(&quot;pointerout&quot;, handleLeave);
+  document.addEventListener(&quot;focusin&quot;, handleFocusIn);
+  document.addEventListener(&quot;focusout&quot;, handleLeave);
+  document.addEventListener(&quot;keydown&quot;, handleKeyDown);
+  document.addEventListener(&quot;contextmenu&quot;, handleContextMenu);
+  window.addEventListener(&quot;pagehide&quot;, destroy, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-tabs&quot;&gt;
+(() =&gt; {
+  const selector = &#x27;.nav[role=&quot;tablist&quot;] [role=&quot;tab&quot;]&#x27;;
+  const disabled = &#x27;:disabled,[aria-disabled=&quot;true&quot;]&#x27;;
+  const selectTab = (selected) =&gt; {
+    const panelId = selected.getAttribute(&quot;aria-controls&quot;);
+    for (const tab of selected.closest(&#x27;[role=&quot;tablist&quot;]&#x27;).querySelectorAll(&#x27;[role=&quot;tab&quot;]&#x27;)) {
+      const active = tab === selected;
+      tab.classList.toggle(&quot;active&quot;, active);
+      tab.setAttribute(&quot;aria-selected&quot;, String(active));
+      const id = tab.getAttribute(&quot;aria-controls&quot;);
+      const panel = id &amp;&amp; document.getElementById(id);
+      if (panel != null) {
+        panel.hidden = id !== panelId;
+        if (!panel.hidden &amp;&amp; selected.id) {
+          panel.setAttribute(&quot;aria-labelledby&quot;, selected.id);
+        }
+      }
+    }
+  };
+  const interact = (event) =&gt; {
+    const tab = event.target?.closest?.(selector);
+    if (event.defaultPrevented || tab == null || tab.matches(disabled)) {
+      return;
+    }
+    if (event.type === &quot;click&quot;) {
+      selectTab(tab);
+      return;
+    }
+    const tabs = Array.from(
+      tab.closest(&#x27;[role=&quot;tablist&quot;]&#x27;).querySelectorAll(&#x27;[role=&quot;tab&quot;]&#x27;),
+    ).filter((candidate) =&gt; !candidate.matches(disabled));
+    const current = tabs.indexOf(tab);
+    let next;
+    if (event.key === &quot;ArrowRight&quot; || event.key === &quot;ArrowDown&quot;) {
+      next = (current + 1) % tabs.length;
+    } else if (event.key === &quot;ArrowLeft&quot; || event.key === &quot;ArrowUp&quot;) {
+      next = (current + tabs.length - 1) % tabs.length;
+    } else if (event.key === &quot;Home&quot;) {
+      next = 0;
+    } else if (event.key === &quot;End&quot;) {
+      next = tabs.length - 1;
+    } else {
+      return;
+    }
+    event.preventDefault();
+    tabs[next].focus();
+    selectTab(tabs[next]);
+  };
+
+  for (const list of document.querySelectorAll(&#x27;.nav[role=&quot;tablist&quot;]&#x27;)) {
+    const selected =
+      list.querySelector(&#x27;[role=&quot;tab&quot;][aria-selected=&quot;true&quot;]&#x27;) ??
+      list.querySelector(&#x27;[role=&quot;tab&quot;].active&#x27;) ??
+      list.querySelector(&#x27;[role=&quot;tab&quot;]&#x27;);
+    if (selected != null) {
+      selectTab(selected);
+    }
+  }
+  document.addEventListener(&quot;click&quot;, interact);
+  document.addEventListener(&quot;keydown&quot;, interact);
+  window.addEventListener(&quot;pagehide&quot;, () =&gt; {
+    document.removeEventListener(&quot;click&quot;, interact);
+    document.removeEventListener(&quot;keydown&quot;, interact);
+  }, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-lucide&quot; async src=&quot;https://unpkg.com/lucide@1.17.0/dist/umd/lucide.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  const initialize = () =&gt; {
+    globalThis.lucide?.createIcons({ attrs: { width: 16, height: 16 } });
+  };
+  if (globalThis.lucide != null) {
+    initialize();
+    return;
+  }
+  document
+    .getElementById(&quot;codex-visualization-lucide&quot;)
+    ?.addEventListener(&quot;load&quot;, initialize, { once: true });
+})();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</body>
+</html>
