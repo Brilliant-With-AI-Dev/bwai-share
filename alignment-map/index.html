@@ -53,6 +53,8 @@
   p { margin: 0 0 14px; max-width: 66ch; }
   .lede { color: var(--ink-2); max-width: 62ch; margin-bottom: 26px; font-size: 16px; }
   .guide p { color: var(--ink-2); }
+  .guide code { font-family: "IBM Plex Mono", monospace; font-size: 13px; background: var(--well); padding: 1px 5px; border-radius: 4px; color: var(--ink); }
+  .guide .hero { margin-bottom: 8px; }
   .guide p strong { color: var(--ink); font-weight: 600; }
   .guide .not { border-left: 2px solid var(--rule); padding-left: 16px; margin: 6px 0 14px; }
   .guide .not p { margin-bottom: 8px; }
@@ -182,9 +184,6 @@
   .cgrid .why { grid-column: 2; }
   .cgrid .room { grid-column: 1 / -1; padding-top: 22px; border-top: 1px solid var(--rule-soft); }
   @media (min-width: 641px) { .big { display: none; } }
-  .why .rl { margin: 0; padding: 0; list-style: none; max-width: 60ch; }
-  .why .rl li { padding: 8px 0; border-top: 1px solid var(--rule-soft); font-size: 15px; font-weight: 500; line-height: 1.4; color: var(--ink); }
-  .why .rl li:first-child { border-top: 0; padding-top: 0; }
   .room .finding { font-size: 15px; line-height: 1.45; color: var(--navy-2); max-width: 60ch; margin: 0 0 18px; padding: 12px 16px; border-radius: 8px; background: var(--accent-soft); }
   .canvas h4 .hn { font-family: "IBM Plex Sans", system-ui, sans-serif; font-size: 12.5px; letter-spacing: 0; text-transform: none; font-weight: 400; margin-left: 8px; }
   .canvas .k2 { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
@@ -275,19 +274,24 @@
 
   <!-- ============ GUIDE ============ -->
   <section class="panel guide" id="p-guide" role="tabpanel" aria-labelledby="t-guide">
-    <div class="eyebrow"><span>Alignment Map</span><span class="ex">Sample · read this first</span></div>
-    <h1>What this sample is, and what it isn't</h1>
-    <p class="lede">A take at the Alignment Map frame, built on a made-up company so we can argue about the shape before we put a real team's data in it. Everything on the Demo tab is invented. The choices behind it are the point.</p>
+    <div class="hero">
+      <div class="eyebrow"><span>Alignment Map</span><span class="ex">Sample · read this first</span></div>
+      <h1>What this sample is, and what it isn't</h1>
+      <p class="lede">A take at the Alignment Map, built on an invented company so we can argue about the shape before a real team's data goes in. Everything on the Demo tab is made up. The choices behind it are the point.</p>
+    </div>
 
-    <h2>The one-sentence job</h2>
-    <p>Show a leadership team where they actually agree and disagree, by how much, on the questions that matter for the thing they're about to do, so the facilitator knows where to spend the room's time. Nish's framing: <strong>the conversation is the work.</strong> The map doesn't catalyze change; it tells the humans which conflicts deserve their attention.</p>
+    <h2>The job, in one sentence</h2>
+    <p>Show a leadership team where they actually agree and disagree, by how much, on the questions that bear on the thing they are about to do, so the facilitator knows where to spend the room's time. Nish's framing: <strong>the conversation is the work.</strong> The map does not catalyze change. It tells the humans which conflicts deserve their attention.</p>
+
+    <h2>Two readers, two views, one artifact</h2>
+    <p>The facilitator prepares the session. The team looks at itself in the room. The Demo tab has a toggle for each. The <strong>participant view</strong> is what the room sees: the map, and under each row the shape, each leader's reason in plain words, and the questions. No quotes. The <strong>facilitator view</strong> carries everything: each leader's reason with the quote beneath it, our one-line read of the row, a minutes estimate, and a session plan at the top. The facilitator decides what more the room sees.</p>
 
     <h2>The unit is a question, not a person</h2>
-    <p>Every row is a strategic question the team is implicitly answering every week. Leaders appear as marks on the row, never as the subject of it. Three reasons. It keeps the map about the business rather than personalities, so a team can look at it together without anyone getting defensive. It makes maps comparable across companies, because the questions recur even when the people don't. And it makes anonymization mechanical: swap names for role chips and the map is unchanged. That's why a client's version and a pitch version can be the same artifact.</p>
+    <p>Every row is a strategic question the team is implicitly answering every week. Leaders appear as marks on the row, never as the subject of it. That keeps the map about the business, so a team can look at it together without anyone getting defensive. It makes maps comparable across companies, because the questions recur even when the people don't. And it makes anonymization mechanical: names become role chips and the map is unchanged. A person can still be a lens. Add <code>?role=ceo</code> to the address and everyone else's marks dim.</p>
 
-    <h2>Two tracks per row</h2>
+    <h2>Two tracks per row: what we say, and why</h2>
     <p>The top track is what each leader says. The bottom track is why they say it, or what they mean by it. This is the whole trick. Alignment has two failure modes that look identical from the top track alone, and they need opposite treatment in the room.</p>
-    <p><strong>Same words, different reasons.</strong> Everyone says "stop custom builds" but for five reasons. It holds until the first hard case, then three people fold. This is the one that sells the category, because no other artifact shows it.</p>
+    <p><strong>Same words, different reasons.</strong> Everyone says "stop custom builds" for five different reasons. It holds until the first hard case, then three people fold. This is the one that sells the category, because no other artifact shows it.</p>
     <p><strong>Different words, same view.</strong> The CEO says "move fast," the COO says "discipline," Delivery says "predictable." They mean the same thing and have been butting heads over vocabulary. Nish's addition, and the one that makes a team laugh in recognition.</p>
 
     <h2>The four states a row can be in</h2>
@@ -306,37 +310,38 @@
         <p>Real, defensible disagreement. Name it so the team stops relitigating it by accident. Gets the most room time.</p></div>
     </div>
 
+    <h2>How to read the shape</h2>
+    <p>Two renderings of the same marks, chosen by the space. <strong>At rest</strong>, each track is a line with a dot per leader and a shaded band. The band is how far apart we are. That reads on a phone and from across a table. <strong>Open a row</strong> on a wide screen and the same marks become a 2x2: what we say runs left to right, why runs bottom to top, and the two tracks ride the edges as ticks. The four states turn into shapes: a scatter, a stack, a line, a cluster. On a phone the opened row keeps the two tracks and puts the 2x2 below them.</p>
+
+    <h2>Room time, not a score</h2>
+    <p>Each row carries a three-step indicator, Little, Some, or Most, set by how far apart the marks are and how much the question bears on the context. It is coarse on purpose. A number for the disagreement invites arguing about the number. The facilitator view adds a minutes estimate beside it, and a session plan that totals them against the session. Those are a plan, not a score.</p>
+
+    <h2>Scoped to a context</h2>
+    <p>The map names what it is for: here, Northline's Q4 planning. This is the noise filter. Plenty of disagreements are real and irrelevant. Rows are chosen and weighted by whether they bear on the thing the team is about to decide, and the session plan says what was considered and left off. The facilitator, not the map, decides what gets no time.</p>
+
     <h2>How the map is ordered</h2>
     <p>Matches first, then gaps, then landmines, then moonshots. Start with what we share. Spend the room's time on what we don't. Name what could blow up, sized by what it would cost. End on what could be. It is one map, read top to bottom, not four.</p>
 
-    <h2>Open a row</h2>
-    <p>The map reads at rest, on a phone, printed. Every row also opens into a bigger canvas. There are two views of it, one artifact. The <strong>participant view</strong> is safe in front of the whole team: the shape, the reasons as an unattributed list, and the questions for the room. The <strong>facilitator view</strong> carries everything: each leader's reason with the quote under it, our one-line read of the row, a minutes estimate, and a session plan at the top.</p>
-    <p><strong>Because over quote.</strong> In the opened row, each leader's reason is the readable line, in plain words. The quote sits beneath it as evidence. Thirty-five quotes at a glance is a wall; thirty-five reasons is a picture. Nothing is lost, and a paraphrase is harder to trace back to a person than their exact words.</p>
-    <p><strong>Two renderings of one shape.</strong> Bars where vertical space is scarce: the map at rest, and phones. The 2x2 when space allows: an opened row on a wide screen, with the say axis left to right, the why axis bottom to top, and the two tracks as ticks on its edges. The four states show up as shapes in both: a stack, a line, a cluster, a scatter.</p>
+    <h2>Questions, not conclusions, for the room</h2>
+    <p>Each row ends with a question the facilitator could open with and the further questions the room should take up. Never an agenda. Implementers design the room; their identity is in that. In the facilitator view each leader's reason is the readable line, in plain words, with the quote beneath it as evidence, attributed to a role chip and never to a name. The facilitator also gets our one-line read of the row, labelled as ours. The room sees the reasons and the questions, not the quotes. The marks already say who stands where; a paraphrase beside a role chip adds no exposure a quote would not, and hiding the chip while keeping the order would be coy.</p>
 
-    <h2>Degrees, not a score</h2>
-    <p>The earlier draft put a decimal spread on each row. It's gone. What the facilitator needs is a room-time allocation, so each row carries a three-step "room time" indicator derived from how far apart the marks are and how much the question bears on the context. It's deliberately coarse. A number invites arguing about the number.</p>
-
-    <h2>Scoped to a context</h2>
-    <p>The map names what it's for: here, Northline's Q4 planning. This is the noise filter. Plenty of disagreements are real and irrelevant. Rows are chosen and weighted by whether they bear on the thing the team is about to decide. A different context, say an annual plan or a market entry, produces a different map from the same conversations.</p>
-
-    <h2>Questions, not conclusions</h2>
-    <p>Each opened row carries a question the facilitator could open with and the further questions the room should take up, with the evidence beside them as quotes attributed to a role chip, never to a name. The facilitator also gets our one-line read of each row, labelled as ours; the room sees only questions. Not an agenda. Implementers design the room; their identity is in that. We give them the raw material and the trace back to why.</p>
+    <h2>Anonymization is built in</h2>
+    <p>Leaders are role chips from the first row, so a real client's map and a version we can show a prospect are the same artifact with different data. What is still open is whether role chips are enough when the questions themselves identify a company. That needs the client's sign-off, and probably a fictional wrapper like this one.</p>
 
     <h2>What it is not</h2>
     <div class="not">
       <p><strong>Not the Patterns report.</strong> Patterns nest inside it. Landmines and moonshots that aren't about alignment get their own sections at the end, for the team to decide whether they deserve time.</p>
       <p><strong>Not a personality map.</strong> No one is scored. Marks show positions, not people.</p>
-      <p><strong>Not a walkaway document.</strong> It's pre-read for the one person preparing the session, and an opening frame for the room. The team leaves with conversations they've had, not a PDF.</p>
-      <p><strong>Not a network diagram, and not one 2x2 for everything.</strong> Nodes and edges look sophisticated and communicate nothing at a glance. A single 2x2 flattens every question onto the same axes; each row here gets its own. A row of dots on a line is readable from across a table.</p>
+      <p><strong>Not an agenda.</strong> It says which conversations deserve the room's time and hands the facilitator the questions and the evidence. The order of the meeting is theirs.</p>
+      <p><strong>Not a network diagram, and not one 2x2 for everything.</strong> Nodes and edges look sophisticated and communicate nothing at a glance. A single 2x2 flattens every question onto the same axes; each row here gets its own.</p>
       <p><strong>Not a one-time artifact.</strong> Not in v1, but the data model keeps versions so a team can see what closed, what opened, and what held from quarter to quarter.</p>
     </div>
 
-    <h2>Open for Pulse</h2>
+    <h2>Still open</h2>
     <ul class="open">
       <li>Where do the questions come from: a fixed library we tune per context, or emergent from the conversations each time?</li>
       <li>Who places the marks, and how do we show confidence in the placement?</li>
-      <li>Are unattributed reasons safe in a room of five, or does the participant view need to show less?</li>
+      <li>Are paraphrased reasons beside a role chip safe in a room of five, or does the participant view need to show less?</li>
       <li>What does a client need to approve for an anonymized version to be shown to a prospect?</li>
     </ul>
 
@@ -353,7 +358,7 @@
     </div>
     <div class="viewbar"><span class="k">View</span><div class="view" role="group" aria-label="View">
       <button type="button" id="v-fac" aria-pressed="true">Facilitator</button><button type="button" id="v-par" aria-pressed="false">Participants</button>
-    </div><span class="vh fac">Everything: reasons, quotes, our read, minutes.</span><span class="vh par">Safe for the whole team: the shape, the reasons unattributed, the questions.</span></div>
+    </div><span class="vh fac">Everything: reasons, quotes, our read, minutes.</span><span class="vh par">For the whole team: the shape, each leader's reason, the questions. No quotes.</span></div>
     <div class="plan fac" id="d-plan"></div>
     <div class="legend" id="d-legend"></div>
     <div id="d-lens"></div>
@@ -491,19 +496,16 @@
     h += '<div class="cap">' + SHAPE[q.state] + '</div></section>';
     // why: sorted by position on the why track, so the list reads like the band
     var byWhy = order.slice().sort(function (a, b) { return q.tracks.why.positions[a].value - q.tracks.why.positions[b].value; });
-    h += '<section class="why"><h4><span class="fac">Why each leader lands there</span><span class="par">The reasons in the room</span><span class="hn">left to right on the Because axis</span></h4>';
-    h += '<div class="fac">';
+    h += '<section class="why"><h4>Why each leader lands there<span class="hn">left to right on the Because axis</span></h4>';
     byWhy.forEach(function (k) {
       var w = q.tracks.why.positions[k], s = q.tracks.say.positions[k];
       h += '<div class="wl" data-l="' + esc(k) + '">' + dot(k) + '<div><div class="who">' + esc(L[k].name) + '</div>';
       h += '<div class="bc">' + (w.because ? esc(w.because) : '<span class="nb">Reason not yet written</span>') + '</div>';
-      h += '<div class="ev"><span class="k">Says</span><q>' + esc(s.quote) + '</q></div>';
-      h += '<div class="ev"><span class="k">Why, in their words</span><q>' + esc(w.quote) + '</q></div>';
+      h += '<div class="ev fac"><span class="k">Says</span><q>' + esc(s.quote) + '</q></div>';
+      h += '<div class="ev fac"><span class="k">Why, in their words</span><q>' + esc(w.quote) + '</q></div>';
       h += '</div></div>';
     });
-    h += '</div><ul class="rl par">';
-    byWhy.forEach(function (k) { var w = q.tracks.why.positions[k]; if (w.because) h += '<li>' + esc(w.because) + '</li>'; });
-    h += '</ul></section>';
+    h += '</section>';
     h += '<section class="room"><h4>For the room</h4>';
     if (q.finding) h += '<div class="fac"><div class="k2">Our read</div><p class="finding">' + esc(q.finding) + '</p></div>';
     h += '<div class="k2">Open with</div><p class="opening">' + esc(q.suggested_conversation) + '</p>';
