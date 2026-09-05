@@ -105,6 +105,9 @@
 
   /* click-down */
   .down { grid-column: 1 / -1; margin-top: 4px; }
+  .row:has(.down[open]) .head, .row:has(.down[open]) .tracks { display: none; }
+  .row:has(.down[open]) .down { margin-top: 0; }
+  .canvas .sub .time { display: inline-block; margin-left: 10px; }
   .down summary { cursor: pointer; font-size: 12px; color: var(--ink-2); font-family: "IBM Plex Mono", monospace; letter-spacing: .06em; text-transform: uppercase; list-style: none; display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px 6px 8px; border: 1px solid var(--rule); border-radius: 4px; background: var(--panel); }
   .down summary:hover { border-color: var(--ink-2); }
   .down summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
@@ -376,7 +379,7 @@
 
   /* ---------- opened row ---------- */
   function canvas(q) {
-    var h = '<div class="canvas"><h3>' + esc(q.question) + '</h3><div class="sub">' + esc(q.subtitle) + '</div>';
+    var h = '<div class="canvas"><h3>' + esc(q.question) + '</h3><div class="sub">' + esc(q.subtitle) + time(q) + '</div>';
     h += '<div class="big">' + lane(q.tracks.say, 'say') + lane(q.tracks.why, 'why') + '</div>';
     h += '<div class="cgrid">';
     // why: sorted by position on the why track, so the list reads like the band
@@ -400,11 +403,14 @@
     return h + '</div></div>';
   }
 
-  function row(q) {
+  function time(q) {
     var bars = ''; for (var b = 1; b <= 3; b++) bars += '<i class="' + (b <= q.room_time ? 'on' : '') + '"></i>';
+    return '<span class="time">Room time <b>' + TIME[q.room_time - 1] + '</b><span class="bars">' + bars + '</span></span>';
+  }
+  function row(q) {
     var h = '<div class="row" id="q-' + esc(q.id) + '">';
     h += '<div class="head"><div class="q">' + esc(q.question) + '<small>' + esc(q.subtitle) + '</small></div>';
-    h += '<div class="time">Room time <b>' + TIME[q.room_time - 1] + '</b><span class="bars">' + bars + '</span></div></div>';
+    h += time(q) + '</div>';
     h += '<div class="tracks">' + lane(q.tracks.say, 'say') + lane(q.tracks.why, 'why') + '</div>';
     h += '<details class="down"><summary><span class="so">Open this question</span><span class="sc">Close</span></summary>' + canvas(q) + '</details>';
     return h + '</div>';
