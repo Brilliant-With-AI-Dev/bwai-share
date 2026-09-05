@@ -14,64 +14,64 @@
     --shadow: 0 20px 60px rgba(29, 41, 74, .11), 0 1px 2px rgba(29, 41, 74, .06);
     --c-1: #2F61D5; --c-2: #DA5B4E; --c-3: #0E8F93; --c-4: #AD7414; --c-5: #7559BD;
   }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      color-scheme: dark;
-      --paper: #0D1330; --panel: #161F42; --well: #111939; --edge: #2A3560; --ink: #EEF1F8; --ink-2: #B9C2D9; --muted: #8A94B3;
-      --rule: #2A3560; --rule-soft: #1F2A50; --track: #2F3A66; --ring: var(--panel);
-      --navy: #0A1024; --navy-2: #161F42; --accent: #7C9CF0; --accent-soft: #1C2A5C; --band: rgba(255, 255, 255, .14);
-      --shadow: 0 20px 60px rgba(0, 0, 0, .45), 0 1px 2px rgba(0, 0, 0, .3);
-      --c-1: #6F8FF0; --c-2: #F07A6B; --c-3: #35B7BA; --c-4: #D9A13A; --c-5: #A48AD9;
-    }
-  }
-  :root[data-theme="dark"] {
-    color-scheme: dark;
-    --paper: #0D1330; --panel: #161F42; --well: #111939; --edge: #2A3560; --ink: #EEF1F8; --ink-2: #B9C2D9; --muted: #8A94B3;
-    --rule: #2A3560; --rule-soft: #1F2A50; --track: #2F3A66; --ring: var(--panel);
-    --navy: #0A1024; --navy-2: #161F42; --accent: #7C9CF0; --accent-soft: #1C2A5C; --band: rgba(255, 255, 255, .14);
-    --shadow: 0 20px 60px rgba(0, 0, 0, .45), 0 1px 2px rgba(0, 0, 0, .3);
-    --c-1: #6F8FF0; --c-2: #F07A6B; --c-3: #35B7BA; --c-4: #D9A13A; --c-5: #A48AD9;
-  }
 
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif; font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
-  .page { max-width: 960px; margin: 0 auto; padding: 32px 20px 80px; }
-  .k, .tl, .eyebrow, .sn { font-family: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace; }
+  .page { max-width: 960px; margin: 0 auto; padding: 22px 20px 60px; }
+  .k, .tl, .eyebrow, .sn, .kick { font-family: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace; }
+  a { color: inherit; }
 
-  /* tabs */
-  .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--rule); margin-bottom: 28px; }
-  .tab { appearance: none; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; padding: 10px 14px; font: inherit; font-weight: 500; color: var(--muted); cursor: pointer; }
+  /* top bar: wordmark and tabs */
+  .top { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--rule); margin-bottom: 24px; }
+  .wordmark { font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: 20px; letter-spacing: -.01em; color: var(--navy); text-decoration: none; padding-bottom: 10px; white-space: nowrap; }
+  .wordmark span { color: var(--accent); }
+  .tabs { display: flex; gap: 4px; }
+  .tab { appearance: none; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; padding: 10px 12px; font: inherit; font-weight: 500; color: var(--muted); cursor: pointer; white-space: nowrap; }
   .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
   .tab:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
   .panel[hidden] { display: none; }
+  .site { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; }
+  .site .wordmark { font-size: 15px; padding: 0; }
 
   .eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
   .eyebrow .ex { color: var(--ink-2); }
   h1 { font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: clamp(26px, 4.4vw, 40px); line-height: 1.12; letter-spacing: -.01em; text-wrap: balance; margin: 12px 0 10px; max-width: 22ch; }
-  h2 { font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: 22px; line-height: 1.2; margin: 40px 0 10px; letter-spacing: -.005em; text-wrap: balance; }
+  h2 { font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: 22px; line-height: 1.2; margin: 40px 0 10px; letter-spacing: -.005em; text-wrap: balance; scroll-margin-top: 16px; }
   h2:first-of-type { margin-top: 24px; }
   p { margin: 0 0 14px; max-width: 66ch; }
   .lede { color: var(--ink-2); max-width: 62ch; margin-bottom: 26px; font-size: 16px; }
-  .guide p { color: var(--ink-2); }
-  .guide code { font-family: "IBM Plex Mono", monospace; font-size: 13px; background: var(--well); padding: 1px 5px; border-radius: 4px; color: var(--ink); }
-  .guide .hero { margin-bottom: 8px; }
-  .guide p strong { color: var(--ink); font-weight: 600; }
-  .guide .not { border-left: 2px solid var(--rule); padding-left: 16px; margin: 6px 0 14px; }
-  .guide .not p { margin-bottom: 8px; }
+
+  /* prose tabs: How To Use and My Guide */
+  .prose p { color: var(--ink-2); }
+  .prose p strong { color: var(--ink); font-weight: 600; }
+  .prose code, .prose kbd { font-family: "IBM Plex Mono", monospace; font-size: 13px; background: var(--well); padding: 1px 6px; border-radius: 4px; color: var(--ink); }
+  .prose .hero { margin-bottom: 8px; }
+  .prose ul.plain { margin: 0 0 14px; padding-left: 18px; color: var(--ink-2); max-width: 66ch; }
+  .prose ul.plain li { margin-bottom: 6px; }
+  .callout { background: var(--accent-soft); color: var(--navy-2); border-radius: 12px; padding: 16px 20px; margin: 14px 0 20px; max-width: 70ch; }
+  .callout p { color: var(--navy-2); margin-bottom: 8px; } .callout p:last-child { margin-bottom: 0; }
+  .ex-card { background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; padding: 18px 20px 14px; margin: 14px 0 18px; --ring: var(--panel); }
+  .ex-card .tracks { max-width: 620px; }
+  .ex-card .xy { max-width: 360px; }
+  .ex-card .cap { font-size: 13px; color: var(--muted); margin-top: 10px; }
   .states { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 14px 0 20px; }
   .state { background: var(--panel); border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; }
-  .state .n { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .state .n { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; font-weight: 600; }
   .state .s { font-weight: 600; margin-bottom: 4px; }
   .state p { font-size: 13.5px; margin: 0; color: var(--ink-2); }
   .mini { display: flex; gap: 6px; margin: 8px 0 2px; }
   .mini i { display: block; height: 3px; flex: 1; border-radius: 2px; background: var(--track); position: relative; }
   .mini i::before { content: ""; position: absolute; top: -3px; height: 9px; width: var(--w); left: var(--l); background: var(--ink-2); border-radius: 5px; }
-  .open { margin: 14px 0 0; padding: 0; list-style: none; max-width: 66ch; }
-  .open li { padding: 10px 0; border-top: 1px solid var(--rule-soft); color: var(--ink-2); }
-  .open li:last-child { border-bottom: 1px solid var(--rule-soft); }
+  .meters { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0 18px; }
+  .meters > div { background: var(--panel); border: 1px solid var(--rule); border-radius: 12px; padding: 12px 16px; font-size: 13.5px; color: var(--ink-2); }
+  .meters .k { margin-bottom: 8px; }
+  .meters .m { display: flex; align-items: center; gap: 10px; padding: 3px 0; }
+  .meters .m b { font-weight: 500; color: var(--ink); }
   .go { display: inline-block; margin-top: 22px; padding: 10px 16px; border: 0; border-radius: 8px; color: #fff; text-decoration: none; font-weight: 600; background: var(--navy); font: inherit; cursor: pointer; }
+  .back { display: inline-block; margin-bottom: 14px; font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .back:hover { color: var(--accent); border-color: var(--accent); }
 
-  /* demo header: a navy hero on the light page */
+  /* hero: a navy card on the light page */
   .hero { background: linear-gradient(135deg, #111A3A 0%, #1B2A5E 100%); color: #fff; border-radius: 16px; padding: 34px 36px 30px; margin: 0 0 22px; box-shadow: var(--shadow); }
   .hero .eyebrow { color: #7FD6D3; }
   .hero .eyebrow .ex { color: #C5CDE3; }
@@ -87,8 +87,8 @@
   .dot { width: 18px; height: 18px; border-radius: 50%; display: inline-grid; place-items: center; font-family: "IBM Plex Mono", monospace; font-size: 10px; font-weight: 500; color: #fff; background: var(--c); box-shadow: 0 0 0 2px var(--ring); flex: none; }
   .legend .hint { margin-left: auto; font-size: 12.5px; color: var(--muted); }
 
-  /* views: facilitator (default) and participant */
-  .viewbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 4px 0 14px; border-bottom: 1px solid var(--rule); margin-bottom: 4px; }
+  /* views: participant deck (default) and facilitator page */
+  .viewbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 0 0 14px; margin-bottom: 14px; border-bottom: 1px solid var(--rule); }
   .viewbar .k { display: inline; }
   .view { display: inline-flex; border: 1px solid var(--edge); border-radius: 8px; overflow: hidden; background: var(--panel); }
   .view button { appearance: none; border: 0; background: var(--panel); color: var(--muted); font: inherit; font-size: 12.5px; font-weight: 500; padding: 6px 12px; cursor: pointer; min-height: 32px; }
@@ -118,7 +118,7 @@
   .secn { font-family: "Fraunces", Georgia, serif; font-size: 22px; font-weight: 500; line-height: 1.2; }
   .sech p { margin: 0; font-size: 13.5px; color: var(--ink-2); max-width: 60ch; }
   .stateh { display: grid; grid-template-columns: 200px 1fr; gap: 4px 22px; align-items: start; padding: 20px 0 4px; }
-  .stateh .sn { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-weight: 600; background: var(--accent-soft); padding: 4px 9px; border-radius: 6px; justify-self: start; }
+  .sn { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-weight: 600; background: var(--accent-soft); padding: 4px 9px; border-radius: 6px; justify-self: start; display: inline-block; white-space: nowrap; }
   .stateh .sd { font-size: 12.5px; color: var(--muted); }
   .stateh .run { font-size: 12.5px; color: var(--ink-2); grid-column: 2; }
 
@@ -127,21 +127,24 @@
   .head { display: flex; flex-direction: column; gap: 8px; }
   .q { font-weight: 600; font-size: 16.5px; line-height: 1.3; }
   .q small { display: block; font-weight: 400; font-size: 12.5px; color: var(--muted); margin-top: 3px; }
-  .time { font-size: 12.5px; color: var(--muted); }
+  .time { font-size: 12.5px; color: var(--muted); white-space: nowrap; }
   .time b { font-weight: 600; color: var(--ink-2); }
-  .time .bars { display: inline-flex; gap: 2px; margin-left: 6px; vertical-align: middle; }
-  .time .bars i { width: 8px; height: 8px; border-radius: 1px; background: var(--track); }
-  .time .bars i.on { background: var(--ink-2); }
+  .bars { display: inline-flex; gap: 2px; margin-left: 6px; vertical-align: middle; }
+  .bars i { width: 8px; height: 8px; border-radius: 1px; background: var(--track); }
+  .bars i.on { background: var(--ink-2); }
 
   .tracks { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
   .track { display: grid; grid-template-columns: 78px 1fr; gap: 12px; align-items: center; }
-  .tl { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); text-align: right; white-space: nowrap; }
-  .lane { position: relative; height: 46px; margin: 0 10px; }
+  .tl { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); text-align: right; white-space: nowrap; font-weight: 500; }
+  .lane { position: relative; height: 48px; margin: 0 12px; }
   .lane .bar { position: absolute; left: 0; right: 0; top: 14px; height: 2px; background: var(--track); border-radius: 1px; }
   .lane .band { position: absolute; top: 6px; height: 18px; min-width: 18px; margin-left: -9px; padding-right: 18px; box-sizing: content-box; border-radius: 9px; background: var(--band); }
-  .lane .pole { position: absolute; top: 29px; font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted); white-space: nowrap; letter-spacing: .02em; }
-  .lane .pole.l { left: -10px; } .lane .pole.r { right: -10px; }
+  .lane .pole { position: absolute; top: 30px; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--ink-2); white-space: nowrap; letter-spacing: .02em; }
+  .lane .pole.l { left: -12px; } .lane .pole.r { right: -12px; }
   .mk { position: absolute; top: 5px; width: 20px; height: 20px; margin-left: -10px; border-radius: 50%; background: var(--c); color: #fff; display: grid; place-items: center; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; font-weight: 500; box-shadow: 0 0 0 2px var(--ring); }
+  /* marks that would touch collapse into one pill, letters in order */
+  .pill { position: absolute; top: 4px; height: 22px; display: flex; align-items: center; gap: 2px; padding: 0 3px; border-radius: 11px; background: var(--panel); box-shadow: 0 0 0 2px var(--ring), inset 0 0 0 1px var(--edge); }
+  .mk.in { position: static; width: 16px; height: 16px; margin: 0; font-size: 9px; box-shadow: none; }
 
   /* click-down */
   .down { grid-column: 1 / -1; margin-top: 4px; }
@@ -160,6 +163,7 @@
   .down[open] summary::before { transform: rotate(-135deg) translate(-1px, -1px); }
   .down summary .sc { display: none; } .down[open] summary .so { display: none; } .down[open] summary .sc { display: inline; }
 
+  /* the opened row and the deck slide share one card */
   .canvas { padding: 26px 26px 18px; background: var(--panel); border: 1px solid var(--edge); border-radius: 16px; box-shadow: var(--shadow); --ring: var(--panel); }
   .canvas .eyebrow { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; margin-bottom: 10px; }
   .canvas .eyebrow .st { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-weight: 600; background: var(--accent-soft); padding: 4px 9px; border-radius: 6px; }
@@ -178,6 +182,8 @@
   .big .lane .pole { top: 58px; font-size: 12.5px; color: var(--ink-2); }
   .big .lane .pole.l { left: -16px; } .big .lane .pole.r { right: -16px; }
   .big .mk { top: 9px; width: 34px; height: 34px; margin-left: -17px; font-size: 15px; box-shadow: 0 0 0 3px var(--ring); }
+  .big .pill { top: 8px; height: 36px; border-radius: 18px; padding: 0 4px; gap: 3px; box-shadow: 0 0 0 3px var(--ring), inset 0 0 0 1px var(--edge); }
+  .big .mk.in { position: static; margin: 0; width: 24px; height: 24px; font-size: 12px; box-shadow: none; }
 
   .cgrid { display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 26px 36px; align-items: start; }
   .cgrid .xy { grid-column: 1; }
@@ -186,7 +192,7 @@
   @media (min-width: 641px) { .big { display: none; } }
   .room .finding { font-size: 15px; line-height: 1.45; color: var(--navy-2); max-width: 60ch; margin: 0 0 18px; padding: 12px 16px; border-radius: 8px; background: var(--accent-soft); }
   .canvas h4 .hn { font-family: "IBM Plex Sans", system-ui, sans-serif; font-size: 12.5px; letter-spacing: 0; text-transform: none; font-weight: 400; margin-left: 8px; }
-  .canvas .k2 { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  .k2 { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
   .room .k2 + ul { margin-bottom: 0; } .room .opening + .k2 { margin-top: 18px; }
   .wl { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; padding: 9px 0; border-top: 1px solid var(--rule-soft); }
   .wl:first-of-type { border-top: 0; padding-top: 0; }
@@ -196,12 +202,12 @@
   .wl .bc .nb { color: var(--muted); font-weight: 400; font-style: italic; }
   .wl .ev { font-size: 13px; color: var(--muted); line-height: 1.45; margin-top: 3px; max-width: 70ch; }
   .wl .ev .k { display: inline; margin-right: 4px; }
-  .wl .ev q { quotes: "\201C" "\201D"; font-style: italic; }
+  q { quotes: "\201C" "\201D"; font-style: italic; }
 
-  .room .opening { font-family: "Fraunces", Georgia, serif; font-size: 19px; line-height: 1.3; color: var(--ink); margin: 0; letter-spacing: -.005em; max-width: 46ch; }
-  .room ul { margin: 0; padding: 0; list-style: none; }
-  .room li { padding: 8px 0 8px 18px; border-top: 1px solid var(--rule-soft); color: var(--ink-2); font-size: 14.5px; position: relative; max-width: 64ch; }
-  .room li::before { content: "?"; position: absolute; left: 0; top: 8px; font-family: "IBM Plex Mono", monospace; color: var(--muted); }
+  .opening { font-family: "Fraunces", Georgia, serif; font-size: 19px; line-height: 1.3; color: var(--ink); margin: 0; letter-spacing: -.005em; max-width: 46ch; }
+  .room ul, .qs { margin: 0; padding: 0; list-style: none; }
+  .room li, .qs li { padding: 8px 0 8px 18px; border-top: 1px solid var(--rule-soft); color: var(--ink-2); font-size: 14.5px; position: relative; max-width: 64ch; }
+  .room li::before, .qs li::before { content: "?"; position: absolute; left: 0; top: 8px; font-family: "IBM Plex Mono", monospace; color: var(--muted); }
 
   .xy svg { width: 100%; height: auto; display: block; }
   .xy .cap { font-size: 13.5px; color: var(--ink-2); max-width: 44ch; margin-top: 8px; }
@@ -219,204 +225,303 @@
 
   /* landmines and moonshots */
   .cards { display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch; padding-top: 18px; }
-  .card { background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; }
+  .card { background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; }
   .card .k { margin-bottom: 2px; }
   .card .t { color: var(--ink); }
-  .card .by { font-size: 12.5px; color: var(--muted); margin-top: auto; }
-  .card.huge { flex: 1 1 100%; padding: 26px 28px; border-width: 2px; border-color: var(--c-2); box-shadow: var(--shadow); }
-  .card.huge .t { font-family: "Fraunces", Georgia, serif; font-size: clamp(20px, 3vw, 27px); line-height: 1.25; letter-spacing: -.01em; max-width: 34ch; text-wrap: balance; }
-  .card.small { flex: 0 1 46%; min-width: 240px; padding: 12px 14px; }
-  .card.small .t { font-size: 13.5px; color: var(--ink-2); }
+  .meter { display: flex; flex-wrap: wrap; gap: 4px 22px; font-size: 12.5px; color: var(--muted); }
+  .meter span { white-space: nowrap; }
+  .meter b { font-weight: 600; color: var(--ink-2); }
+  .card .meter { margin-top: 2px; }
+  .card .nx { font-size: 13.5px; color: var(--ink-2); margin-top: auto; padding-top: 6px; border-top: 1px solid var(--rule-soft); }
+  .card .nx .k { display: inline; margin-right: 6px; }
+  .card.high { flex: 1 1 100%; padding: 26px 28px; border-width: 2px; border-color: var(--c-2); box-shadow: var(--shadow); }
+  .card.high .t { font-family: "Fraunces", Georgia, serif; font-size: clamp(20px, 3vw, 27px); line-height: 1.25; letter-spacing: -.01em; max-width: 34ch; text-wrap: balance; }
+  .card.medium { flex: 1 1 100%; }
+  .card.medium .t { font-size: 16px; }
+  .card.low { flex: 0 1 46%; min-width: 240px; padding: 12px 14px; }
+  .card.low .t { font-size: 13.5px; color: var(--ink-2); }
   .card.moon { flex: 1 1 100%; border-color: var(--c-5); }
   .card.moon .t { font-family: "Fraunces", Georgia, serif; font-size: 20px; line-height: 1.3; max-width: 40ch; }
 
   .foot { margin-top: 34px; font-size: 13px; color: var(--muted); max-width: 70ch; }
 
+  /* ---------- participant deck ---------- */
+  .deckbar { position: sticky; top: 0; z-index: 6; display: flex; align-items: center; gap: 12px; padding: 8px 0 10px; margin-bottom: 14px; background: var(--paper); border-bottom: 1px solid var(--rule); }
+  .deckbar .dt { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+  .deckbar .dt a { color: var(--ink-2); text-decoration: none; }
+  .deckbar .dn { display: inline-flex; align-items: center; gap: 4px; }
+  .deckbar .dn button { appearance: none; border: 1px solid var(--edge); background: var(--panel); color: var(--ink); font: inherit; width: 40px; height: 36px; border-radius: 8px; cursor: pointer; display: grid; place-items: center; }
+  .deckbar .dn button:disabled { opacity: .35; cursor: default; }
+  .deckbar .dn button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .deckbar .dc { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--ink-2); min-width: 54px; text-align: center; }
+  .slide { scroll-margin-top: 70px; }
+  .slide[hidden] { display: none; }
+  .sfoot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px; margin-top: 26px; padding-top: 14px; border-top: 1px solid var(--rule-soft); font-size: 13px; }
+  .sfoot a { text-decoration: none; }
+  .sfoot .how { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); border-bottom: 1px solid var(--rule); }
+  .sfoot .how:hover { color: var(--accent); border-color: var(--accent); }
+  .sfoot .nx { color: var(--navy-2); font-weight: 500; }
+  .sfoot .nx:hover { color: var(--accent); }
+  /* summary slide */
+  .slide .hero { border-radius: 16px 16px 0 0; margin: -26px -26px 22px; box-shadow: none; }
+  .slide .legend { padding-top: 0; }
+  .sum { margin-top: 18px; }
+  .sum .sech { padding-bottom: 8px; margin: 26px 0 2px; }
+  .sum .sech:first-child { margin-top: 4px; }
+  .sum .secn { font-size: 18px; }
+  .srow { display: grid; grid-template-columns: 200px 1fr; gap: 6px 22px; padding: 14px 0; border-bottom: 1px solid var(--rule-soft); align-items: start; }
+  .srow .head { gap: 6px; }
+  .srow .q { font-size: 15.5px; }
+  .srow .q a { text-decoration: none; }
+  .srow .q a:hover { color: var(--accent); }
+  .srow .sn { font-size: 10px; padding: 2px 7px; }
+  .srow .tracks { gap: 6px; }
+  .srow:last-child { border-bottom: 0; }
+  .sum .olist { display: flex; flex-direction: column; gap: 8px; padding: 12px 0 4px; }
+  .sum .olist a { display: flex; align-items: baseline; gap: 12px; color: var(--ink-2); text-decoration: none; font-size: 14px; }
+  .sum .olist a:hover { color: var(--accent); }
+  .sum .olist .kick { flex: none; }
+  .kick { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  /* section slide */
+  .sect h3 { font-size: clamp(30px, 5vw, 44px); margin: 6px 0 10px; }
+  .sect .lede { margin-bottom: 26px; }
+  .sect .qlist { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule-soft); }
+  .sect .qlist li { padding: 12px 0; border-bottom: 1px solid var(--rule-soft); display: grid; grid-template-columns: 1fr auto; gap: 4px 18px; align-items: center; }
+  .sect .qlist a { font-weight: 500; font-size: 16px; text-decoration: none; }
+  .sect .qlist a:hover { color: var(--accent); }
+  .sect .qlist .stn { grid-column: 1 / -1; }
+  .sect .qlist .stn + li { border-top: 0; }
+  .sect .qlist small { display: block; color: var(--muted); font-size: 12.5px; font-weight: 400; }
+  /* outlier slide */
+  .oslide .t { font-family: "Fraunces", Georgia, serif; font-size: clamp(22px, 3.4vw, 30px); line-height: 1.25; letter-spacing: -.01em; max-width: 34ch; text-wrap: balance; margin: 6px 0 26px; }
+  .oslide .beat { display: grid; grid-template-columns: 200px 1fr; gap: 6px 22px; padding: 16px 0; border-top: 1px solid var(--rule-soft); align-items: start; }
+  .oslide .beat .bh { display: flex; flex-direction: column; gap: 6px; }
+  .oslide .beat .bh .k { color: var(--accent); }
+  .oslide .beat .meter { font-size: 14px; }
+  .oslide .beat p { margin: 0; color: var(--ink-2); font-size: 15px; max-width: 60ch; }
+  .oslide .beat .opening { font-size: 20px; }
+  .oslide.mine .beat .bh .k { color: var(--c-2); }
+  .oslide.moon .beat .bh .k { color: var(--c-5); }
+
+  /* ---------- My Guide ---------- */
+  .roles { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 22px; }
+  .roles button { appearance: none; border: 1px solid var(--edge); background: var(--panel); color: var(--ink-2); font: inherit; font-size: 13.5px; font-weight: 500; padding: 8px 14px 8px 10px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; }
+  .roles button[aria-pressed="true"] { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .roles button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .gq { background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; padding: 18px 22px; margin: 0 0 14px; }
+  .gq .kick { margin-bottom: 4px; }
+  .gq h3 { font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: 20px; line-height: 1.2; margin: 0 0 2px; }
+  .gq .sub { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+  .gq .said { display: grid; grid-template-columns: 78px 1fr; gap: 6px 14px; align-items: baseline; margin-bottom: 8px; }
+  .gq .said .k { padding-top: 3px; }
+  .gq .said div { color: var(--ink); font-size: 15px; max-width: 60ch; }
+  .gq .said .bc { color: var(--ink-2); font-size: 14px; }
+  .gq .prep { margin: 12px 0 0; padding: 12px 16px; border-radius: 8px; background: var(--accent-soft); color: var(--navy-2); font-size: 14px; max-width: 60ch; }
+  .gq .prep .k { color: var(--accent); display: inline; margin-right: 6px; }
+  .gq .expect { margin-top: 14px; }
+  .gq .expect .k { margin-bottom: 4px; }
+  .gq .expect .opening { font-size: 17px; margin-bottom: 4px; }
+  .gq .expect .qs li { font-size: 14px; }
+  .gq.empty { color: var(--muted); font-size: 14px; }
+
   @media (max-width: 640px) {
-    .page { padding: 20px 16px 60px; }
-    .row, .sech, .stateh { grid-template-columns: 1fr; gap: 8px; }
-    .track { grid-template-columns: 1fr; gap: 2px; }
-    .tl { text-align: left; }
+    .page { padding: 14px 16px 50px; }
+    .top { align-items: stretch; flex-direction: column; gap: 0; }
+    .wordmark { padding: 4px 0 6px; }
+    .tabs { overflow-x: auto; }
+    .tab { padding: 8px 10px; font-size: 14px; }
+    .row, .sech, .stateh, .srow, .oslide .beat { grid-template-columns: 1fr; gap: 8px; }
+    .track { grid-template-columns: 62px 1fr; gap: 8px; }
+    .tl { text-align: right; font-size: 10.5px; }
+    .lane { margin: 0 10px; }
     .legend .hint { margin-left: 0; width: 100%; }
-    .states { grid-template-columns: 1fr; }
+    .states, .meters { grid-template-columns: 1fr; }
     .ctx { grid-template-columns: 1fr 1fr; }
     .hero { padding: 24px 20px 20px; border-radius: 12px; }
     .canvas { padding: 18px 16px 16px; }
+    .slide .hero { margin: -18px -16px 18px; border-radius: 16px 16px 0 0; }
     .canvas h3 { font-size: 22px; }
     .big .lane { margin: 0 12px; }
+    .big .track { grid-template-columns: 1fr; }
+    .big .tl { text-align: left; }
     .cgrid { grid-template-columns: 1fr; gap: 22px; padding-top: 20px; border-top: 1px solid var(--rule-soft); }
     .cgrid .xy, .cgrid .why, .cgrid .room { grid-column: 1; }
     .cgrid .xy { order: 3; padding-top: 22px; border-top: 1px solid var(--rule-soft); }
     .cgrid .room { padding-top: 0; border-top: 0; }
     .xy svg { max-width: 360px; }
-    .card.small { flex-basis: 100%; }
+    .card.low { flex-basis: 100%; }
+    .gq .said { grid-template-columns: 1fr; gap: 2px; }
+    .gq .said .k { padding-top: 0; }
+    .sect .qlist li { grid-template-columns: 1fr; }
   }
   @media (prefers-reduced-motion: reduce) { .down summary::before { transition: none; } }
   @media print {
     body { background: #fff; color: #000; }
     .hero { background: #fff; color: #000; box-shadow: none; padding: 0; }
     .hero h1, .hero .lede, .hero .eyebrow, .ctx div, .ctx .k { color: #000; }
-    .tabs, .go, .down summary, .upq, .viewbar { display: none !important; }
-    .canvas { border-color: #bbb; background: #fff; break-inside: avoid; }
-    .row, .card { break-inside: avoid; }
+    .tabs, .go, .down summary, .upq, .viewbar, .deckbar, .sfoot, .back { display: none !important; }
+    .slide[hidden] { display: block; }
+    .slide { margin-bottom: 18px; break-inside: avoid; }
+    .canvas { border-color: #bbb; background: #fff; break-inside: avoid; box-shadow: none; }
+    .row, .card, .gq { break-inside: avoid; }
     .lane .band { background: rgba(0, 0, 0, .16); }
-    .mk, .dot { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .mk, .dot, .pill { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 </style>
 </head>
 <body>
 
 <div class="page">
-  <div class="tabs" role="tablist">
-    <button class="tab" role="tab" id="t-guide" aria-selected="true" aria-controls="p-guide">Guide</button>
-    <button class="tab" role="tab" id="t-demo" aria-selected="false" aria-controls="p-demo">Demo</button>
+  <div class="top">
+    <a class="wordmark" href="#s-summary">TheMirror<span>.ai</span></a>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" id="t-how" aria-selected="false" aria-controls="p-how">How To Use</button>
+      <button class="tab" role="tab" id="t-demo" aria-selected="true" aria-controls="p-demo">Demo</button>
+      <button class="tab" role="tab" id="t-guide" aria-selected="false" aria-controls="p-guide">My Guide</button>
+    </div>
   </div>
 
-  <!-- ============ GUIDE ============ -->
-  <section class="panel guide" id="p-guide" role="tabpanel" aria-labelledby="t-guide">
+  <!-- ============ HOW TO USE ============ -->
+  <section class="panel prose" id="p-how" role="tabpanel" aria-labelledby="t-how" hidden>
+    <a class="back" href="#s-summary" id="how-back">Back to the deck</a>
     <div class="hero">
-      <div class="eyebrow"><span>Alignment Map</span><span class="ex">Sample · read this first</span></div>
-      <h1>What this sample is, and what it isn't</h1>
-      <p class="lede">A take at the Alignment Map, built on an invented company so we can argue about the shape before a real team's data goes in. Everything on the Demo tab is made up. The choices behind it are the point.</p>
+      <div class="eyebrow"><span>TheMirror.ai · Alignment Map</span><span class="ex">How to use</span></div>
+      <h1>How to read an Alignment Map</h1>
+      <p class="lede">The conventions behind every line, mark, and label on the Demo tab. Northline, the company on that tab, is invented. Read this once; after that, the map should explain itself.</p>
     </div>
 
-    <h2>The job, in one sentence</h2>
-    <p>Show a leadership team where they actually agree and disagree, by how much, on the questions that bear on the thing they are about to do, so the facilitator knows where to spend the room's time. Nish's framing: <strong>the conversation is the work.</strong> The map does not catalyze change. It tells the humans which conflicts deserve their attention.</p>
-
-    <h2>Two readers, two views, one artifact</h2>
-    <p>The facilitator prepares the session. The team looks at itself in the room. The Demo tab has a toggle for each. The <strong>participant view</strong> is what the room sees: the map, and under each row the shape, each leader's reason in plain words, and the questions. No quotes. The <strong>facilitator view</strong> carries everything: each leader's reason with the quote beneath it, our one-line read of the row, a minutes estimate, and a session plan at the top. The facilitator decides what more the room sees.</p>
-
-    <h2>The unit is a question, not a person</h2>
-    <p>Every row is a strategic question the team is implicitly answering every week. Leaders appear as marks on the row, never as the subject of it. That keeps the map about the business, so a team can look at it together without anyone getting defensive. It makes maps comparable across companies, because the questions recur even when the people don't. And it makes anonymization mechanical: names become role chips and the map is unchanged. A person can still be a lens. Add <code>?role=ceo</code> to the address and everyone else's marks dim.</p>
-
-    <h2>Two tracks per row: what we say, and why</h2>
-    <p>The top track is what each leader says. The bottom track is why they say it, or what they mean by it. This is the whole trick. Alignment has two failure modes that look identical from the top track alone, and they need opposite treatment in the room.</p>
-    <p><strong>Same words, different reasons.</strong> Everyone says "stop custom builds" for five different reasons. It holds until the first hard case, then three people fold. This is the one that sells the category, because no other artifact shows it.</p>
-    <p><strong>Different words, same view.</strong> The CEO says "move fast," the COO says "discipline," Delivery says "predictable." They mean the same thing and have been butting heads over vocabulary. Nish's addition, and the one that makes a team laugh in recognition.</p>
-
-    <h2>The four states a row can be in</h2>
-    <div class="states">
-      <div class="state"><div class="n">Aligned</div><div class="s">Tight on both tracks</div>
-        <div class="mini"><i style="--l:80%;--w:15%"></i></div><div class="mini"><i style="--l:80%;--w:15%"></i></div>
-        <p>An asset, not a row to skip. Nish caught himself on this: spend a little time on why it's solid and what would break it.</p></div>
-      <div class="state"><div class="n">Different words, same view</div><div class="s">Wide on top, tight underneath</div>
-        <div class="mini"><i style="--l:5%;--w:90%"></i></div><div class="mini"><i style="--l:70%;--w:20%"></i></div>
-        <p>A vocabulary problem wearing a strategy problem's clothes. Agree on one word and move on. Costs ten minutes, saves a quarter.</p></div>
-      <div class="state"><div class="n">Same words, different reasons</div><div class="s">Tight on top, wide underneath</div>
-        <div class="mini"><i style="--l:80%;--w:15%"></i></div><div class="mini"><i style="--l:5%;--w:90%"></i></div>
-        <p>False alignment. Looks settled, isn't. The facilitator's job is to stress-test it before reality does.</p></div>
-      <div class="state"><div class="n">Contested</div><div class="s">Wide on both tracks</div>
-        <div class="mini"><i style="--l:5%;--w:90%"></i></div><div class="mini"><i style="--l:5%;--w:90%"></i></div>
-        <p>Real, defensible disagreement. Name it so the team stops relitigating it by accident. Gets the most room time.</p></div>
+    <h2 id="how-northline">Northline is invented. This is a demo.</h2>
+    <div class="callout">
+      <p><strong>Nothing on the Demo tab is real.</strong> Northline, its two plants, its five leaders, every number, and every quote are composites written to show what an Alignment Map looks like with a team's data in it. No client data appears anywhere on this page.</p>
+      <p>A real map is the same artifact with a real team's questions in it. Each leader is interviewed one to one by the AI Mirror, the interviews are synthesized into the rows you see here, and the map goes to the facilitator before the session and to the room during it.</p>
     </div>
 
-    <h2>How to read the shape</h2>
-    <p>Two renderings of the same marks, chosen by the space. <strong>At rest</strong>, each track is a line with a dot per leader and a shaded band. The band is how far apart we are. That reads on a phone and from across a table. <strong>Open a row</strong> on a wide screen and the same marks become a 2x2: what we say runs left to right, why runs bottom to top, and the two tracks ride the edges as ticks. The four states turn into shapes: a scatter, a stack, a line, a cluster. On a phone the opened row keeps the two tracks and puts the 2x2 below them.</p>
-
-    <h2>Room time, not a score</h2>
-    <p>Each row carries a three-step indicator, Little, Some, or Most, set by how far apart the marks are and how much the question bears on the context. It is coarse on purpose. A number for the disagreement invites arguing about the number. The facilitator view adds a minutes estimate beside it, and a session plan that totals them against the session. Those are a plan, not a score.</p>
-
-    <h2>Scoped to a context</h2>
-    <p>The map names what it is for: here, Northline's Q4 planning. This is the noise filter. Plenty of disagreements are real and irrelevant. Rows are chosen and weighted by whether they bear on the thing the team is about to decide, and the session plan says what was considered and left off. The facilitator, not the map, decides what gets no time.</p>
-
-    <h2>How the map is ordered</h2>
-    <p>Matches first, then gaps, then landmines, then moonshots. Start with what we share. Spend the room's time on what we don't. Name what could blow up, sized by what it would cost. End on what could be. It is one map, read top to bottom, not four.</p>
-
-    <h2>Questions, not conclusions, for the room</h2>
-    <p>Each row ends with a question the facilitator could open with and the further questions the room should take up. Never an agenda. Implementers design the room; their identity is in that. In the facilitator view each leader's reason is the readable line, in plain words, with the quote beneath it as evidence, attributed to a role chip and never to a name. The facilitator also gets our one-line read of the row, labelled as ours. The room sees the reasons and the questions, not the quotes. The marks already say who stands where; a paraphrase beside a role chip adds no exposure a quote would not, and hiding the chip while keeping the order would be coy.</p>
-
-    <h2>Anonymization is built in</h2>
-    <p>Leaders are role chips from the first row, so a real client's map and a version we can show a prospect are the same artifact with different data. What is still open is whether role chips are enough when the questions themselves identify a company. That needs the client's sign-off, and probably a fictional wrapper like this one.</p>
-
-    <h2>What it is not</h2>
-    <div class="not">
-      <p><strong>Not the Patterns report.</strong> Patterns nest inside it. Landmines and moonshots that aren't about alignment get their own sections at the end, for the team to decide whether they deserve time.</p>
-      <p><strong>Not a personality map.</strong> No one is scored. Marks show positions, not people.</p>
-      <p><strong>Not an agenda.</strong> It says which conversations deserve the room's time and hands the facilitator the questions and the evidence. The order of the meeting is theirs.</p>
-      <p><strong>Not a network diagram, and not one 2x2 for everything.</strong> Nodes and edges look sophisticated and communicate nothing at a glance. A single 2x2 flattens every question onto the same axes; each row here gets its own.</p>
-      <p><strong>Not a one-time artifact.</strong> Not in v1, but the data model keeps versions so a team can see what closed, what opened, and what held from quarter to quarter.</p>
-    </div>
-
-    <h2>Still open</h2>
-    <ul class="open">
-      <li>Where do the questions come from: a fixed library we tune per context, or emergent from the conversations each time?</li>
-      <li>Who places the marks, and how do we show confidence in the placement?</li>
-      <li>What does a client need to approve for an anonymized version to be shown to a prospect?</li>
+    <h2 id="how-conventions">Conventions</h2>
+    <ul class="plain">
+      <li><strong>Leaders are letters.</strong> Each leader is a role, never a name, shown as one letter in one color. The legend on the summary slide is the key.</li>
+      <li><strong>The map says "we."</strong> Every question is one the team is answering together. Nothing on it is addressed to any one person.</li>
+      <li><strong>Questions, not conclusions.</strong> The map hands the room questions. What to decide, and in what order, belongs to the people in the room.</li>
+      <li><strong>Nothing hides behind a hover or a tap.</strong> Everything you can learn from a slide is printed on it.</li>
     </ul>
 
-    <button class="go" id="go-demo">See the Northline demo</button>
+    <h2 id="how-lines">How to read a line</h2>
+    <p>Every question gets two lines. The top line, <strong>We say</strong>, is what each leader said the answer is. The bottom line, <strong>Because</strong>, is why they said it. The words at either end are the poles: the two ends of the answer, chosen so the spread means something. A leader's letter sits where their answer landed between them. The shaded band runs from the leftmost mark to the rightmost: the wider the band, the further apart we are.</p>
+    <p>When two or more marks would touch, they collapse into one pill with the letters in order. A pill is not a tie; it means those leaders landed within a hair of each other on that line.</p>
+    <div class="ex-card" id="how-line-ex"></div>
+    <p>Read the two lines together. Tight on top over wide underneath means we agree on the words and not the reasons. Wide on top over tight underneath means we are using different words for the same view.</p>
+
+    <h2 id="how-2x2">How to read the 2x2</h2>
+    <p>On a wide screen, each question slide shows the same marks as a 2x2. <strong>We say</strong> runs left to right, with the same poles as the top line. <strong>Because</strong> runs bottom to top, with the poles of the bottom line. The two lines ride the edges as a spread band and a tick per leader, so you can read either rendering off the other. The four states turn into shapes: a scatter, a vertical stack, a horizontal line, a cluster.</p>
+    <div class="ex-card"><div class="xy" id="how-xy-ex"></div></div>
+
+    <h2 id="how-states">The four states</h2>
+    <p>Each question is in one of four states, read off the two lines. The state is a judgment made in synthesis, not a score.</p>
+    <div class="states">
+      <div class="state"><div class="n">Aligned</div><div class="s">Tight on both lines</div>
+        <div class="mini"><i style="--l:80%;--w:15%"></i></div><div class="mini"><i style="--l:80%;--w:15%"></i></div>
+        <p>An asset, not a row to skip. Worth a few minutes on why it holds and what would break it.</p></div>
+      <div class="state"><div class="n">Different words, same view</div><div class="s">Wide on top, tight underneath</div>
+        <div class="mini"><i style="--l:5%;--w:90%"></i></div><div class="mini"><i style="--l:70%;--w:20%"></i></div>
+        <p>A vocabulary problem wearing a strategy problem's clothes. Agree on one word and move on.</p></div>
+      <div class="state"><div class="n">Same words, different reasons</div><div class="s">Tight on top, wide underneath</div>
+        <div class="mini"><i style="--l:80%;--w:15%"></i></div><div class="mini"><i style="--l:5%;--w:90%"></i></div>
+        <p>Looks settled, isn't. It holds until the first hard case. Stress-test it before reality does.</p></div>
+      <div class="state"><div class="n">Contested</div><div class="s">Wide on both lines</div>
+        <div class="mini"><i style="--l:5%;--w:90%"></i></div><div class="mini"><i style="--l:5%;--w:90%"></i></div>
+        <p>Real, defensible disagreement. Name it so the team stops relitigating it by accident.</p></div>
+    </div>
+    <p>The map is read in one order: where we match, then where we don't, then landmines, then moonshots. Start with what we share, spend the time on what we don't, name what could blow up, end on what could be.</p>
+
+    <h2 id="how-time">Room time</h2>
+    <p>Each question carries a three-step indicator: <strong>Little</strong>, <strong>Some</strong>, or <strong>Most</strong>, drawn as one, two, or three filled squares. It is set by how far apart the marks are and how much the question bears on what the team is about to decide. It is coarse on purpose. A number for the disagreement invites an argument about the number. The facilitator turns it into minutes; the room only needs the ranking.</p>
+
+    <h2 id="how-outliers">Landmines and moonshots: confidence and impact</h2>
+    <p>Some of what comes up in the interviews is not an alignment question. A <strong>landmine</strong> is something that could go wrong that nobody owns. A <strong>moonshot</strong> is an idea one person raised that nobody else mentioned. Each carries two three-step indicators drawn the same way as room time.</p>
+    <div class="meters">
+      <div><span class="k">Confidence · how sure we are</span>
+        <div class="m"><span class="bars"><i class="on"></i><i></i><i></i></span><b>One voice</b> raised it</div>
+        <div class="m"><span class="bars"><i class="on"></i><i class="on"></i><i></i></span><b>Several of us</b> raised it, independently</div>
+        <div class="m"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i></span><b>All of us</b> raised it</div></div>
+      <div><span class="k">Impact · what it would cost</span>
+        <div class="m"><span class="bars"><i class="on"></i><i></i><i></i></span><b>Low.</b> An owner and ten minutes.</div>
+        <div class="m"><span class="bars"><i class="on"></i><i class="on"></i><i></i></span><b>Medium.</b> A quarter's plan, or a good person.</div>
+        <div class="m"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i></span><b>High.</b> The year, or the company.</div></div>
+    </div>
+    <p>Confidence comes from how many leaders raised the same thing without being asked. Impact is a judgment made in synthesis. Each slide says what it is, how sure we are, what it would cost, and who should own the next ten minutes. For a moonshot, cost reads as what it would take.</p>
+
+    <h2 id="how-views">Views</h2>
+    <p><strong>Participants</strong> see a deck: a summary of the whole map, a slide for each section, one slide per question, and one per landmine and moonshot. Every question slide shows the state, the question, the shape, each leader's reason in plain words beside their letter, and the questions for the room. No verbatim quotes. Move with the arrows on screen, or <kbd>←</kbd> and <kbd>→</kbd> on a keyboard. Every slide has its own address, so a link to <code>#s-q-what-are-we</code> opens that question.</p>
+    <p><strong>The facilitator</strong> sees the same map as one scrolling page, with the quotes under each reason, a one-line read of each row, a minutes estimate, and a session plan. Switch with the toggle at the top of the Demo tab. Add <code>?role=ceo</code> to the address and everyone else's marks dim.</p>
+    <p><strong>My Guide</strong> is one leader's own crib notes for the session: what they said, why, and the questions to expect where they hold one end of a line. It contains nothing about anyone else. In a real engagement it is generated at the end of that leader's Mirror interview and sent only to them.</p>
+
+    <a class="go" href="#s-summary">Open the Northline deck</a>
   </section>
 
   <!-- ============ DEMO ============ -->
-  <section class="panel" id="p-demo" role="tabpanel" aria-labelledby="t-demo" hidden>
-    <div class="hero">
-      <div class="eyebrow"><span>Alignment Map</span><span class="ex" id="d-ex"></span></div>
-      <h1 id="d-headline"></h1>
-      <p class="lede" id="d-lede"></p>
-      <div class="ctx" id="d-ctx"></div>
-    </div>
+  <section class="panel" id="p-demo" role="tabpanel" aria-labelledby="t-demo" data-view="participant">
     <div class="viewbar"><span class="k">View</span><div class="view" role="group" aria-label="View">
-      <button type="button" id="v-fac" aria-pressed="true">Facilitator</button><button type="button" id="v-par" aria-pressed="false">Participants</button>
-    </div><span class="vh fac">Everything: reasons, quotes, our read, minutes.</span><span class="vh par">For the whole team: the shape, each leader's reason, the questions. No quotes.</span></div>
-    <div class="plan fac" id="d-plan"></div>
-    <div class="legend" id="d-legend"></div>
-    <div id="d-lens"></div>
-    <div id="rows"></div>
-    <div class="foot" id="d-foot"></div>
+      <button type="button" id="v-par" aria-pressed="true">Participants</button><button type="button" id="v-fac" aria-pressed="false">Facilitator</button>
+    </div><span class="vh par">The deck the room sees: the shape, each leader's reason, the questions. No quotes.</span><span class="vh fac">Everything: reasons, quotes, our read, minutes.</span></div>
+
+    <div class="par" id="deck">
+      <div class="deckbar"><span class="dt" id="dk-title"></span><span class="dn"><button type="button" id="dk-prev" aria-label="Previous slide">&#8592;</button><span class="dc" id="dk-count"></span><button type="button" id="dk-next" aria-label="Next slide">&#8594;</button></span></div>
+      <div id="slides"></div>
+    </div>
+
+    <div class="fac" id="fac-page">
+      <div class="hero">
+        <div class="eyebrow"><span>TheMirror.ai · Alignment Map</span><span class="ex" id="d-ex"></span></div>
+        <h1 id="d-headline"></h1>
+        <p class="lede" id="d-lede"></p>
+        <div class="ctx" id="d-ctx"></div>
+      </div>
+      <div class="plan" id="d-plan"></div>
+      <div class="legend" id="d-legend"></div>
+      <div id="d-lens"></div>
+      <div id="rows"></div>
+      <div class="foot" id="d-foot"></div>
+    </div>
   </section>
+
+  <!-- ============ MY GUIDE ============ -->
+  <section class="panel prose" id="p-guide" role="tabpanel" aria-labelledby="t-guide" hidden>
+    <div class="hero">
+      <div class="eyebrow"><span>TheMirror.ai · Alignment Map</span><span class="ex">My Guide · sample</span></div>
+      <h1>One leader's notes for the room</h1>
+      <p class="lede">What you said, why you said it, and the questions to expect where you hold one end of a line. Nothing here is about anyone else. In a real engagement this is generated at the end of your Mirror interview and sent only to you.</p>
+    </div>
+    <div class="roles" id="g-roles" role="group" aria-label="Choose a role"></div>
+    <div id="g-body"></div>
+  </section>
+
+  <footer class="site"><span class="wordmark">TheMirror<span>.ai</span></span><span>Alignment Map</span><span id="site-note"></span></footer>
 </div>
 
-<script id="map-data" type="application/json">{"company":"Northline","note":"Northline is invented: a 141-person specialty engineering and fabrication firm building process systems for food and beverage plants. The people, the numbers, and every quote are composites written for demonstration. No client data appears in this map. Backstory in docs/northline-case-study.md. See SCHEMA.md.","context":{"name":"Q4 planning session","team":"5 leaders, interviewed 1:1 over two weeks","facilitator":"External EOS Implementer","session_minutes":180,"left_off":["Replacing the 2014 ERP","Field crew travel and per-diem policy","Opening a Texas service office"]},"leaders":[{"id":"ceo","label":"CEO","initial":"C"},{"id":"coo","label":"COO","initial":"O"},{"id":"sales","label":"Sales","initial":"S"},{"id":"product","label":"Product","initial":"P"},{"id":"delivery","label":"Delivery","initial":"D"}],"headline":"We agree on what to stop. We don’t agree on what we are.","states":[{"id":"contested","name":"Contested","description":"Wide on both lines. Real disagreement, defensible on each side. Name it so the team stops relitigating it by accident.","run":"Name it. Hear each reason once, then agree how it gets decided."},{"id":"false","name":"Same words, different reasons","description":"Tight on top, wide underneath. Looks settled; isn’t. Stress-test it before reality does.","run":"Put the first hard case on the table before reality does."},{"id":"vocab","name":"Different words, same view","description":"Wide on top, tight underneath. A vocabulary problem dressed as a strategy problem. Agree on one word and move on.","run":"Ten minutes. Get one word agreed, then move on."},{"id":"aligned","name":"Aligned","description":"Tight on both lines. An asset to protect, not a row to skip.","run":"Five minutes. Ask what would make it slip and who is watching."}],"questions":[{"id":"what-are-we","question":"What are we?","subtitle":"A custom shop or a product company","state":"contested","room_time":3,"tracks":{"say":{"poles":["Services","Product"],"positions":{"delivery":{"value":0.04,"quote":"We’re the shop people call when nothing off the shelf will fit. That’s the business."},"coo":{"value":0.2,"quote":"The standard line is a bet. Custom work is the payroll."},"ceo":{"value":0.55,"quote":"A product company that still runs a custom shop."},"sales":{"value":0.72,"quote":"I lead with the NL units now. Custom closes whatever they don’t cover."},"product":{"value":0.96,"quote":"Custom is the past tense around here."}}},"why":{"poles":["It pays today","It scales tomorrow"],"positions":{"delivery":{"value":0.08,"quote":"Shop hours booked against a job. That’s the number that pays us.","because":"Billable shop hours are what keep everyone employed."},"coo":{"value":0.14,"quote":"Custom covers the quarter. It doesn’t cover the tooling.","because":"Cash from custom work funds everything else we try."},"sales":{"value":0.5,"quote":"Standard units close faster. Custom jobs are bigger.","because":"Each kind of deal wins on a different thing."},"ceo":{"value":0.62,"quote":"Nobody has ever paid a multiple for a job shop.","because":"Repeatable revenue is what a buyer will pay for."},"product":{"value":0.95,"quote":"Nothing compounds here except the line. We build everything once.","because":"Only a design we repeat gets better and cheaper."}}}},"suggested_conversation":"Is “product company” a description of who we are today, or an aspiration with a date? If it’s an aspiration, what has to be true by the end of Q4?","room_questions":["If the NL-Series were 40% of revenue, what would the custom shop be for?","Which of this year’s custom jobs would we turn down next year, and who tells the customer?","Whatever we say in this room, what does the December decision on the $2.6M cell say about what we are?"],"minutes":40,"finding":"The row is wide because the disagreement is real, not because anyone is confused. Both camps are right about what they value."},{"id":"who-is-the-customer","question":"Who is the customer?","subtitle":"Where the next ten plants come from","state":"contested","room_time":3,"tracks":{"say":{"poles":["Enterprise","Mid-market"],"positions":{"sales":{"value":0.05,"quote":"The national processors. That’s where the money is."},"ceo":{"value":0.16,"quote":"Nationals, with a regional on-ramp."},"coo":{"value":0.5,"quote":"Whoever we can actually put a crew on."},"product":{"value":0.84,"quote":"Regionals. The nationals break the standard line."},"delivery":{"value":0.93,"quote":"Regionals. The nationals break the crews."}}},"why":{"poles":["Deal size","Delivery capacity"],"positions":{"sales":{"value":0.05,"quote":"One plant-wide job at a national is a whole quarter.","because":"One national order fills a quarter of the plan."},"ceo":{"value":0.22,"quote":"Those names are what a bank or a buyer looks at first.","because":"Marquee customers raise what the company is worth."},"product":{"value":0.6,"quote":"Every national wants one change to a standard drawing.","because":"Custom requests turn a standard design back into custom."},"coo":{"value":0.7,"quote":"We can’t hire welders fast enough to serve them properly.","because":"Hiring cannot keep up with what nationals demand."},"delivery":{"value":0.95,"quote":"Every national account is two of my leads, full time, for a year.","because":"Each national ties up my best people for months."}}}},"suggested_conversation":"Sales and Delivery are at opposite ends for reasons that are both true. What would a national account have to look like for Delivery to want it?","room_questions":["Which of our top five accounts would we take again today, knowing what each one cost the crews?","Is a national that buys standard units a national account, or a regional-sized order with a bigger logo?","Who decides when a change to a standard drawing turns a product order back into a custom job?"],"minutes":35,"finding":"Three different reasons to oppose the nationals, and the COO is on a different axis altogether: whoever can be staffed."},{"id":"hire-ahead-of-revenue","question":"Hire ahead of revenue?","subtitle":"Staffing for the plan or for the pipeline","state":"contested","room_time":2,"tracks":{"say":{"poles":["No","Yes"],"positions":{"coo":{"value":0.07,"quote":"Not until the contracts are signed and the deposits land."},"delivery":{"value":0.16,"quote":"We hired ahead in 2023. I made the layoff calls myself."},"ceo":{"value":0.8,"quote":"If we don’t, we turn down the work that proves the plan."},"product":{"value":0.86,"quote":"Two controls engineers now, or the line slips a year."},"sales":{"value":0.92,"quote":"I have quotes sitting out there I can’t put a date on."}}},"why":{"poles":["Protect margin","Buy momentum"],"positions":{"coo":{"value":0.06,"quote":"Margin is the only thing in this building we control.","because":"Margin is the one lever we actually control."},"delivery":{"value":0.2,"quote":"Nothing loses a good welder faster than a month of sweeping.","because":"Idle crews leave before the work shows up."},"product":{"value":0.7,"quote":"The constraint is people, not orders. It always has been.","because":"Engineering capacity, not demand, is what limits us."},"ceo":{"value":0.85,"quote":"The growth rate is the story we’re telling the bank in January.","because":"Our growth number is the story outsiders buy."},"sales":{"value":0.94,"quote":"Quotes go stale while we wait to be brave.","because":"Deals die during the months we spend waiting."}}}},"suggested_conversation":"This is two camps, not five opinions. What signal would move the COO to yes, and what signal would move the CEO to wait?","room_questions":["What did 2023 teach us that still applies, and what was specific to that one job?","Which two hires would we make if the deposits landed tomorrow, and are they already on a list?","Is there a trigger tied to signed backlog that both camps would accept in advance?"],"minutes":20,"finding":"Two camps, no middle. The gap is memory, not values. One of us made the 2023 layoff calls; nobody else did."},{"id":"what-does-growth-mean-in-12-months","question":"What does growth mean in 12 months?","subtitle":"The number the year is judged on","state":"contested","room_time":2,"tracks":{"say":{"poles":["Margin","Revenue"],"positions":{"coo":{"value":0.1,"quote":"Twenty points of gross margin. Nothing else."},"delivery":{"value":0.34,"quote":"Profitable, and nobody good quits."},"product":{"value":0.46,"quote":"Standard line past half of what we ship."},"ceo":{"value":0.8,"quote":"Double the top line."},"sales":{"value":0.9,"quote":"Double bookings."}}},"why":{"poles":["Survive","Get acquired"],"positions":{"coo":{"value":0.08,"quote":"Cash and the covenant. That’s the plan.","because":"Staying inside the bank covenant comes before everything."},"delivery":{"value":0.25,"quote":"The crew is the asset. The rest of it is steel.","because":"A stable crew is the thing we cannot replace."},"product":{"value":0.5,"quote":"A manufacturer is worth more than a job shop is.","because":"A product line changes what the company is worth."},"sales":{"value":0.78,"quote":"Growth is the thing a buyer actually pays for.","because":"Buyers pay for the growth curve, not the backlog."},"ceo":{"value":0.92,"quote":"We’re building this to be bought. I’ve never said that in a room.","because":"The plan has always been a sale in three years."}}}},"suggested_conversation":"Half the room is planning to survive and half is planning to be bought. Has the exit intent ever been said out loud to the whole team?","room_questions":["If we are building to be bought, what does a buyer need to see in twelve months, and does the plan produce it?","What is the covenant headroom in April under the growth plan, and who has run that number?","Can “twenty points of margin” and “double the top line” both be true? If not, which one wins?"],"minutes":25,"finding":"One of us is planning to be acquired and has never said so in a full room. Everyone senses it. Nobody has heard it."},{"id":"do-we-stop-doing-custom-builds","question":"Do we stop doing custom builds?","subtitle":"Everyone said stop; the reasons don’t match","state":"false","room_time":3,"tracks":{"say":{"poles":["Keep","Stop"],"positions":{"delivery":{"value":0.84,"quote":"Stop. Please."},"coo":{"value":0.88,"quote":"Stop. We can’t staff them anyway."},"sales":{"value":0.9,"quote":"Stop, unless the job is big enough to matter."},"ceo":{"value":0.93,"quote":"Stop. They’re a distraction from what we’re becoming."},"product":{"value":0.96,"quote":"Stop. Every one of them eats the standard line."}}},"why":{"poles":["About the people","About the strategy"],"positions":{"delivery":{"value":0.05,"quote":"They burn out the crews. I’ve watched it happen twice.","because":"Custom jobs are what makes good people leave."},"coo":{"value":0.26,"quote":"I can’t staff one without robbing another job to do it.","because":"We do not have the people to run them."},"sales":{"value":0.5,"quote":"The margin on them is bad, and I know it’s bad.","because":"Custom work prices well and earns badly."},"product":{"value":0.75,"quote":"Every exception becomes a drawing nobody else can ever use.","because":"Each one-off pulls engineers off the standard design."},"ceo":{"value":0.95,"quote":"They muddy the story we’re trying to tell about this company.","because":"One-offs keep us looking like a job shop."}}}},"suggested_conversation":"We all said stop. A $1.8M custom build lands in November with good margin and a crew available. Who still says stop, and why?","room_questions":["What is the rule for the exception: size, margin, customer, or a vote?","Which of the five reasons to stop is the one we would defend to an eleven-year customer?","If we keep a custom shop on purpose, what is it for, and how big is it allowed to be?"],"minutes":35,"finding":"Five reasons to stop that hold until a good-margin custom job lands in November. Then three of them fold."},{"id":"how-do-we-run-the-quarter","question":"How do we run the quarter?","subtitle":"Operating rhythm","state":"vocab","room_time":1,"tracks":{"say":{"poles":["Speed","Discipline"],"positions":{"ceo":{"value":0.06,"quote":"Move. We take too long to decide anything around here."},"sales":{"value":0.22,"quote":"Build what I can sell, when I can sell it."},"product":{"value":0.5,"quote":"Short cycles. Look at it honestly every two weeks."},"delivery":{"value":0.82,"quote":"Predictable. Tell me what’s coming and when."},"coo":{"value":0.94,"quote":"Discipline. Scope creep is eating the margin."}}},"why":{"poles":["Ad hoc","Fixed cadence"],"positions":{"sales":{"value":0.7,"quote":"Give me a ship date I can actually promise someone.","because":"A date I can commit to is all I need."},"ceo":{"value":0.78,"quote":"Two-week schedule, frozen. No exceptions, including from me.","because":"Reopening decisions is what costs us the quarter."},"product":{"value":0.84,"quote":"Two-week planning cycle, scope locked once it starts.","because":"Engineering only finishes when the scope stops moving."},"delivery":{"value":0.88,"quote":"A schedule I can plan crews around two weeks out.","because":"A fixed schedule is what lets me staff jobs."},"coo":{"value":0.92,"quote":"Two-week freeze on the floor. No mid-cycle changes.","because":"Changes mid-cycle are where the margin disappears."}}}},"suggested_conversation":"We all described the same thing: two-week cycles with the schedule frozen. Can we agree on one word for it and stop having the speed-versus-discipline argument?","room_questions":["What is the one word for the two-week cycle, and who is allowed to break the freeze?","What actually happened the last three times the schedule changed mid-cycle?"],"minutes":10,"finding":"Three words for one mechanism: a two-week cycle with the shop schedule frozen once it starts. Agree the word and move on."},{"id":"do-we-raise-in-2027","question":"Do we raise in 2027?","subtitle":"Capital","state":"aligned","room_time":1,"tracks":{"say":{"poles":["No","Yes"],"positions":{"coo":{"value":0.8,"quote":"Yes, if we finish this year clean."},"delivery":{"value":0.86,"quote":"Yes. We can’t do it out of cash flow."},"product":{"value":0.9,"quote":"Yes. The line needs the cell built."},"sales":{"value":0.92,"quote":"Yes."},"ceo":{"value":0.95,"quote":"Yes. Second quarter."}}},"why":{"poles":["Cover the gap","Fund the bet"],"positions":{"coo":{"value":0.72,"quote":"Without it the covenant gets tight in the spring.","because":"We need the headroom before cash gets tight."},"delivery":{"value":0.8,"quote":"It pays for people we already needed last year.","because":"It covers hiring we should have done already."},"sales":{"value":0.84,"quote":"It pays for growing instead of just replacing.","because":"It funds growth instead of patching what breaks."},"product":{"value":0.9,"quote":"It builds the cell. That is the entire bet.","because":"It funds the dedicated cell the line needs."},"ceo":{"value":0.94,"quote":"It funds the bet. Everything else it does is secondary.","because":"It funds the product bet and nothing else."}}}},"suggested_conversation":"This one is solid. Spend five minutes on it anyway: what would have to go wrong in Q4 for the raise to slip, and who is watching for it?","room_questions":["What has to be true in the December plan for the bank to say yes in January?","If the raise slipped a year, would we still order the cell in December?"],"minutes":10,"finding":"Everyone says yes for nearly the same reason. Spend the time on what would make it slip, and who is watching."}],"outliers":[{"type":"landmine","size":"huge","text":"The largest customer’s supply agreement renews in January. Asked who owns it, two leaders named each other. That account is 19% of revenue.","raised_by":2},{"type":"landmine","size":"small","text":"The empty half of Plant 2 is being used for overflow storage by two departments, each of which thinks it owns the space the cell would go in.","raised_by":2},{"type":"moonshot","text":"Product floated an online configurator that would let a plant engineer spec and price a standard unit without calling anyone here.","raised_by":1}],"lede":"Seven questions we are answering every week without saying so. On each row, the top line is what each of us says and the bottom line is why. The shaded band is how far apart we are. Open a row for the reasons, the questions for the room, and the same five marks as a 2x2.","groups":[{"id":"matches","name":"Where we match","description":"Two shapes. Tight on both lines is aligned, an asset to protect. Wide on top and tight underneath is a vocabulary fight over a view we already share.","states":["aligned","vocab"]},{"id":"gaps","name":"Where we don’t","description":"Tight on top and wide underneath looks settled and isn’t. Wide on both lines is real disagreement, defensible on each side.","states":["false","contested"]},{"id":"landmines","name":"Landmines","description":"Surfaced in the 1:1s. Not about alignment. Sized by what each could cost us if nobody picks it up.","outliers":"landmine"},{"id":"moonshots","name":"Moonshots","description":"One person’s idea that nobody else mentioned. Surfaced, not placed. We decide whether it deserves any time at all.","outliers":"moonshot"}]}</script>
+<script id="map-data" type="application/json">{"company":"Northline","note":"Northline is invented: a 141-person specialty engineering and fabrication firm building process systems for food and beverage plants. The people, the numbers, and every quote are composites written for demonstration. No client data appears in this map. Backstory in docs/northline-case-study.md. See SCHEMA.md.","context":{"name":"Q4 planning session","team":"5 leaders, interviewed 1:1 via AI Mirror","facilitator":"External EOS Implementer","session_minutes":180,"left_off":["Replacing the 2014 ERP","Field crew travel and per-diem policy","Opening a Texas service office"]},"leaders":[{"id":"ceo","label":"CEO","initial":"C"},{"id":"coo","label":"COO","initial":"O"},{"id":"sales","label":"Sales","initial":"S"},{"id":"product","label":"Product","initial":"P"},{"id":"delivery","label":"Delivery","initial":"D"}],"headline":"We agree on what to stop. We don’t agree on what we are.","states":[{"id":"contested","name":"Contested","description":"Wide on both lines. Real disagreement, defensible on each side. Name it so the team stops relitigating it by accident.","run":"Name it. Hear each reason once, then agree how it gets decided."},{"id":"false","name":"Same words, different reasons","description":"Tight on top, wide underneath. Looks settled; isn’t. Stress-test it before reality does.","run":"Put the first hard case on the table before reality does."},{"id":"vocab","name":"Different words, same view","description":"Wide on top, tight underneath. A vocabulary problem dressed as a strategy problem. Agree on one word and move on.","run":"Ten minutes. Get one word agreed, then move on."},{"id":"aligned","name":"Aligned","description":"Tight on both lines. An asset to protect, not a row to skip.","run":"Five minutes. Ask what would make it slip and who is watching."}],"questions":[{"id":"what-are-we","question":"What are we?","subtitle":"A custom shop or a product company","state":"contested","room_time":3,"tracks":{"say":{"poles":["Services","Product"],"positions":{"delivery":{"value":0.04,"quote":"We’re the shop people call when nothing off the shelf will fit. That’s the business."},"coo":{"value":0.2,"quote":"The standard line is a bet. Custom work is the payroll."},"ceo":{"value":0.55,"quote":"A product company that still runs a custom shop."},"sales":{"value":0.72,"quote":"I lead with the NL units now. Custom closes whatever they don’t cover."},"product":{"value":0.96,"quote":"Custom is the past tense around here."}}},"why":{"poles":["It pays today","It scales tomorrow"],"positions":{"delivery":{"value":0.08,"quote":"Shop hours booked against a job. That’s the number that pays us.","because":"Billable shop hours are what keep everyone employed."},"coo":{"value":0.14,"quote":"Custom covers the quarter. It doesn’t cover the tooling.","because":"Cash from custom work funds everything else we try."},"sales":{"value":0.5,"quote":"Standard units close faster. Custom jobs are bigger.","because":"Each kind of deal wins on a different thing."},"ceo":{"value":0.62,"quote":"Nobody has ever paid a multiple for a job shop.","because":"Repeatable revenue is what a buyer will pay for."},"product":{"value":0.95,"quote":"Nothing compounds here except the line. We build everything once.","because":"Only a design we repeat gets better and cheaper."}}}},"suggested_conversation":"Is “product company” a description of who we are today, or an aspiration with a date? If it’s an aspiration, what has to be true by the end of Q4?","room_questions":["If the NL-Series were 40% of revenue, what would the custom shop be for?","Which of this year’s custom jobs would we turn down next year, and who tells the customer?","Whatever we say in this room, what does the December decision on the $2.6M cell say about what we are?"],"minutes":40,"finding":"The row is wide because the disagreement is real, not because anyone is confused. Both camps are right about what they value."},{"id":"who-is-the-customer","question":"Who is the customer?","subtitle":"Where the next ten plants come from","state":"contested","room_time":3,"tracks":{"say":{"poles":["Enterprise","Mid-market"],"positions":{"sales":{"value":0.05,"quote":"The national processors. That’s where the money is."},"ceo":{"value":0.16,"quote":"Nationals, with a regional on-ramp."},"coo":{"value":0.5,"quote":"Whoever we can actually put a crew on."},"product":{"value":0.84,"quote":"Regionals. The nationals break the standard line."},"delivery":{"value":0.93,"quote":"Regionals. The nationals break the crews."}}},"why":{"poles":["Deal size","Delivery capacity"],"positions":{"sales":{"value":0.05,"quote":"One plant-wide job at a national is a whole quarter.","because":"One national order fills a quarter of the plan."},"ceo":{"value":0.22,"quote":"Those names are what a bank or a buyer looks at first.","because":"Marquee customers raise what the company is worth."},"product":{"value":0.6,"quote":"Every national wants one change to a standard drawing.","because":"Custom requests turn a standard design back into custom."},"coo":{"value":0.7,"quote":"We can’t hire welders fast enough to serve them properly.","because":"Hiring cannot keep up with what nationals demand."},"delivery":{"value":0.95,"quote":"Every national account is two of my leads, full time, for a year.","because":"Each national ties up my best people for months."}}}},"suggested_conversation":"Sales and Delivery are at opposite ends for reasons that are both true. What would a national account have to look like for Delivery to want it?","room_questions":["Which of our top five accounts would we take again today, knowing what each one cost the crews?","Is a national that buys standard units a national account, or a regional-sized order with a bigger logo?","Who decides when a change to a standard drawing turns a product order back into a custom job?"],"minutes":35,"finding":"Three different reasons to oppose the nationals, and the COO is on a different axis altogether: whoever can be staffed."},{"id":"hire-ahead-of-revenue","question":"Hire ahead of revenue?","subtitle":"Staffing for the plan or for the pipeline","state":"contested","room_time":2,"tracks":{"say":{"poles":["No","Yes"],"positions":{"coo":{"value":0.07,"quote":"Not until the contracts are signed and the deposits land."},"delivery":{"value":0.16,"quote":"We hired ahead in 2023. I made the layoff calls myself."},"ceo":{"value":0.8,"quote":"If we don’t, we turn down the work that proves the plan."},"product":{"value":0.86,"quote":"Two controls engineers now, or the line slips a year."},"sales":{"value":0.92,"quote":"I have quotes sitting out there I can’t put a date on."}}},"why":{"poles":["Protect margin","Buy momentum"],"positions":{"coo":{"value":0.06,"quote":"Margin is the only thing in this building we control.","because":"Margin is the one lever we actually control."},"delivery":{"value":0.2,"quote":"Nothing loses a good welder faster than a month of sweeping.","because":"Idle crews leave before the work shows up."},"product":{"value":0.7,"quote":"The constraint is people, not orders. It always has been.","because":"Engineering capacity, not demand, is what limits us."},"ceo":{"value":0.85,"quote":"The growth rate is the story we’re telling the bank in January.","because":"Our growth number is the story outsiders buy."},"sales":{"value":0.94,"quote":"Quotes go stale while we wait to be brave.","because":"Deals die during the months we spend waiting."}}}},"suggested_conversation":"This is two camps, not five opinions. What signal would move the COO to yes, and what signal would move the CEO to wait?","room_questions":["What did 2023 teach us that still applies, and what was specific to that one job?","Which two hires would we make if the deposits landed tomorrow, and are they already on a list?","Is there a trigger tied to signed backlog that both camps would accept in advance?"],"minutes":20,"finding":"Two camps, no middle. The gap is memory, not values. One of us made the 2023 layoff calls; nobody else did."},{"id":"what-does-growth-mean-in-12-months","question":"What does growth mean in 12 months?","subtitle":"The number the year is judged on","state":"contested","room_time":2,"tracks":{"say":{"poles":["Margin","Revenue"],"positions":{"coo":{"value":0.1,"quote":"Twenty points of gross margin. Nothing else."},"delivery":{"value":0.34,"quote":"Profitable, and nobody good quits."},"product":{"value":0.46,"quote":"Standard line past half of what we ship."},"ceo":{"value":0.8,"quote":"Double the top line."},"sales":{"value":0.9,"quote":"Double bookings."}}},"why":{"poles":["Survive","Get acquired"],"positions":{"coo":{"value":0.08,"quote":"Cash and the covenant. That’s the plan.","because":"Staying inside the bank covenant comes before everything."},"delivery":{"value":0.25,"quote":"The crew is the asset. The rest of it is steel.","because":"A stable crew is the thing we cannot replace."},"product":{"value":0.5,"quote":"A manufacturer is worth more than a job shop is.","because":"A product line changes what the company is worth."},"sales":{"value":0.78,"quote":"Growth is the thing a buyer actually pays for.","because":"Buyers pay for the growth curve, not the backlog."},"ceo":{"value":0.92,"quote":"We’re building this to be bought. I’ve never said that in a room.","because":"The plan has always been a sale in three years."}}}},"suggested_conversation":"Half the room is planning to survive and half is planning to be bought. Has the exit intent ever been said out loud to the whole team?","room_questions":["If we are building to be bought, what does a buyer need to see in twelve months, and does the plan produce it?","What is the covenant headroom in April under the growth plan, and who has run that number?","Can “twenty points of margin” and “double the top line” both be true? If not, which one wins?"],"minutes":25,"finding":"One of us is planning to be acquired and has never said so in a full room. Everyone senses it. Nobody has heard it."},{"id":"do-we-stop-doing-custom-builds","question":"Do we stop doing custom builds?","subtitle":"Everyone said stop; the reasons don’t match","state":"false","room_time":3,"tracks":{"say":{"poles":["Keep","Stop"],"positions":{"delivery":{"value":0.84,"quote":"Stop. Please."},"coo":{"value":0.88,"quote":"Stop. We can’t staff them anyway."},"sales":{"value":0.9,"quote":"Stop, unless the job is big enough to matter."},"ceo":{"value":0.93,"quote":"Stop. They’re a distraction from what we’re becoming."},"product":{"value":0.96,"quote":"Stop. Every one of them eats the standard line."}}},"why":{"poles":["About the people","About the strategy"],"positions":{"delivery":{"value":0.05,"quote":"They burn out the crews. I’ve watched it happen twice.","because":"Custom jobs are what makes good people leave."},"coo":{"value":0.26,"quote":"I can’t staff one without robbing another job to do it.","because":"We do not have the people to run them."},"sales":{"value":0.5,"quote":"The margin on them is bad, and I know it’s bad.","because":"Custom work prices well and earns badly."},"product":{"value":0.75,"quote":"Every exception becomes a drawing nobody else can ever use.","because":"Each one-off pulls engineers off the standard design."},"ceo":{"value":0.95,"quote":"They muddy the story we’re trying to tell about this company.","because":"One-offs keep us looking like a job shop."}}}},"suggested_conversation":"We all said stop. A $1.8M custom build lands in November with good margin and a crew available. Who still says stop, and why?","room_questions":["What is the rule for the exception: size, margin, customer, or a vote?","Which of the five reasons to stop is the one we would defend to an eleven-year customer?","If we keep a custom shop on purpose, what is it for, and how big is it allowed to be?"],"minutes":35,"finding":"Five reasons to stop that hold until a good-margin custom job lands in November. Then three of them fold."},{"id":"how-do-we-run-the-quarter","question":"How do we run the quarter?","subtitle":"Operating rhythm","state":"vocab","room_time":1,"tracks":{"say":{"poles":["Speed","Discipline"],"positions":{"ceo":{"value":0.06,"quote":"Move. We take too long to decide anything around here."},"sales":{"value":0.22,"quote":"Build what I can sell, when I can sell it."},"product":{"value":0.5,"quote":"Short cycles. Look at it honestly every two weeks."},"delivery":{"value":0.82,"quote":"Predictable. Tell me what’s coming and when."},"coo":{"value":0.94,"quote":"Discipline. Scope creep is eating the margin."}}},"why":{"poles":["Ad hoc","Fixed cadence"],"positions":{"sales":{"value":0.7,"quote":"Give me a ship date I can actually promise someone.","because":"A date I can commit to is all I need."},"ceo":{"value":0.78,"quote":"Two-week schedule, frozen. No exceptions, including from me.","because":"Reopening decisions is what costs us the quarter."},"product":{"value":0.84,"quote":"Two-week planning cycle, scope locked once it starts.","because":"Engineering only finishes when the scope stops moving."},"delivery":{"value":0.88,"quote":"A schedule I can plan crews around two weeks out.","because":"A fixed schedule is what lets me staff jobs."},"coo":{"value":0.92,"quote":"Two-week freeze on the floor. No mid-cycle changes.","because":"Changes mid-cycle are where the margin disappears."}}}},"suggested_conversation":"We all described the same thing: two-week cycles with the schedule frozen. Can we agree on one word for it and stop having the speed-versus-discipline argument?","room_questions":["What is the one word for the two-week cycle, and who is allowed to break the freeze?","What actually happened the last three times the schedule changed mid-cycle?"],"minutes":10,"finding":"Three words for one mechanism: a two-week cycle with the shop schedule frozen once it starts. Agree the word and move on."},{"id":"do-we-raise-in-2027","question":"Do we raise in 2027?","subtitle":"Capital","state":"aligned","room_time":1,"tracks":{"say":{"poles":["No","Yes"],"positions":{"coo":{"value":0.8,"quote":"Yes, if we finish this year clean."},"delivery":{"value":0.86,"quote":"Yes. We can’t do it out of cash flow."},"product":{"value":0.9,"quote":"Yes. The line needs the cell built."},"sales":{"value":0.92,"quote":"Yes."},"ceo":{"value":0.95,"quote":"Yes. Second quarter."}}},"why":{"poles":["Cover the gap","Fund the bet"],"positions":{"coo":{"value":0.72,"quote":"Without it the covenant gets tight in the spring.","because":"We need the headroom before cash gets tight."},"delivery":{"value":0.8,"quote":"It pays for people we already needed last year.","because":"It covers hiring we should have done already."},"sales":{"value":0.84,"quote":"It pays for growing instead of just replacing.","because":"It funds growth instead of patching what breaks."},"product":{"value":0.9,"quote":"It builds the cell. That is the entire bet.","because":"It funds the dedicated cell the line needs."},"ceo":{"value":0.94,"quote":"It funds the bet. Everything else it does is secondary.","because":"It funds the product bet and nothing else."}}}},"suggested_conversation":"This one is solid. Spend five minutes on it anyway: what would have to go wrong in Q4 for the raise to slip, and who is watching for it?","room_questions":["What has to be true in the December plan for the bank to say yes in January?","If the raise slipped a year, would we still order the cell in December?"],"minutes":10,"finding":"Everyone says yes for nearly the same reason. Spend the time on what would make it slip, and who is watching."}],"outliers":[{"id":"renewal-owner","type":"landmine","impact":"high","text":"The largest customer’s supply agreement renews in January. Asked who owns it, two leaders named each other. That account is 19% of revenue.","raised_by":2,"raised_note":"Neither knew the other had been asked.","cost":"Nineteen percent of revenue, and the covenant with it. A renewal nobody is running does not lapse loudly; it lapses in a procurement inbox in December.","next":"Who owns the renewal from today, and what do they need from the rest of us before January?","raised":[{"leader":"ceo","said":"Sales owns that relationship. He’s carried it since he got here."},{"leader":"sales","said":"The MSA? That’s hers. I do the plants; she does the paper."}]},{"id":"plant-2-floor","type":"landmine","impact":"low","text":"The empty half of Plant 2 is being used for overflow storage by two departments, each of which thinks it owns the space the cell would go in.","raised_by":2,"raised_note":"","cost":"An owner and ten minutes now, or a month of arguing in Q3 when the tooling arrives and the floor is full of someone else’s racking.","next":"Who owns the floor in Plant 2, and by what date is it clear?","raised":[{"leader":"coo","said":"Purchasing has been staging there since the second building came online. It’s ours until someone needs it."},{"leader":"product","said":"That bay is the cell. It’s on every drawing I’ve shown the board."}]},{"id":"configurator","type":"moonshot","impact":"medium","text":"Product floated an online configurator that would let a plant engineer spec and price a standard unit without calling anyone here.","raised_by":1,"raised_note":"Raised once, without much hope.","cost":"One engineer for a quarter and a pricing rule for standard units that Sales would have to live with.","next":"Does this deserve any time in Q4, and if so, whose?","raised":[{"leader":"product","said":"If a plant engineer could price an NL unit at eleven at night without calling us, we’d know the line was real."}]}],"lede":"Seven questions we are answering every week without saying so. On each row, the top line is what each of us says and the bottom line is why. The shaded band is how far apart we are. Open a row for the reasons, the questions for the room, and the same five marks as a 2x2.","groups":[{"id":"matches","name":"Where we match","description":"Two shapes. Tight on both lines is aligned, an asset to protect. Wide on top and tight underneath is a vocabulary fight over a view we already share.","states":["aligned","vocab"]},{"id":"gaps","name":"Where we don’t","description":"Tight on top and wide underneath looks settled and isn’t. Wide on both lines is real disagreement, defensible on each side.","states":["false","contested"]},{"id":"landmines","name":"Landmines","description":"Surfaced in the 1:1s. Not about alignment. Each carries how sure we are and what it would cost us if nobody picks it up.","outliers":"landmine"},{"id":"moonshots","name":"Moonshots","description":"One person’s idea that nobody else mentioned. Surfaced, not placed. We decide whether it deserves any time at all.","outliers":"moonshot"}],"guides":{"ceo":{"intro":"You hold one end of the line on three of the seven questions, and all three are about what the company is for. Expect the session to keep coming back to whether the exit is on the table, and decide before you walk in whether you want to say it out loud.","prep":{"what-are-we":"Be ready to say whether “product company” is a description or a date, and what has to be true by the end of Q4 if it is a date.","who-is-the-customer":"Be ready to describe a national account that Delivery would want, not just one that a bank would notice.","hire-ahead-of-revenue":"Be ready to name the signal that would make you wait. If you cannot, expect the question to be turned around on you.","what-does-growth-mean-in-12-months":"You have said in your interview that the plan is a sale in three years. Decide beforehand whether the room hears that today.","do-we-stop-doing-custom-builds":"A $1.8M custom job with good margin lands in November. Decide now whether your answer is still stop.","how-do-we-run-the-quarter":"You described a two-week frozen schedule with no exceptions, including from you. Expect to be held to the last clause.","do-we-raise-in-2027":"Second quarter is your date. Be ready to say what has to be in the December plan for the bank to say yes."},"closing":"A real guide would carry the same sections, generated from your own interview at the end of your Mirror. It would never contain anyone else’s positions, only where you stand and what the room is likely to ask you."},"delivery":{"intro":"You hold one end of the line on three of the seven questions, and on each of them your reason is the same: the crew. Expect to be asked about 2023 more than once. You are the only person in the room who made those calls, and the map shows it.","prep":{"what-are-we":"Be ready to say what the custom shop is for if the standard line becomes 40% of revenue, in your words rather than Product’s.","who-is-the-customer":"Be ready to describe what a national account would have to look like for you to want it. “None” is an answer, but expect a follow-up.","hire-ahead-of-revenue":"Be ready to separate what 2023 taught us from what was specific to that one job. The room will ask.","what-does-growth-mean-in-12-months":"Your growth number is “nobody good quits.” Be ready to say what that costs in margin or revenue, if anything.","do-we-stop-doing-custom-builds":"A $1.8M custom job with good margin lands in November and a crew is free. Decide now whether your answer is still stop.","how-do-we-run-the-quarter":"You asked for a schedule you can plan crews around two weeks out. Be ready to say what happened the last three times it changed mid-cycle.","do-we-raise-in-2027":"You said the raise pays for people we already needed last year. Be ready to name them."},"closing":"A real guide would carry the same sections, generated from your own interview at the end of your Mirror. It would never contain anyone else’s positions, only where you stand and what the room is likely to ask you."}}}</script>
 <script>
 (function () {
   var DATA = JSON.parse(document.getElementById('map-data').textContent);
-
-  /* ---------- tabs ---------- */
-  var tabs = document.querySelectorAll('.tab'), panels = document.querySelectorAll('.panel');
-  function select(id, keepScroll) {
-    tabs.forEach(function (t) { t.setAttribute('aria-selected', t.id === id ? 'true' : 'false'); });
-    panels.forEach(function (p) { p.hidden = p.getAttribute('aria-labelledby') !== id; });
-    if (id === 't-demo' && window.layoutSmall) window.layoutSmall();
-    try { localStorage.setItem('am-tab', id); } catch (e) {}
-    if (!keepScroll) window.scrollTo(0, 0);
-  }
-  tabs.forEach(function (t) { t.addEventListener('click', function () { select(t.id); }); });
-  document.getElementById('go-demo').addEventListener('click', function () { select('t-demo'); });
 
   /* ---------- helpers ---------- */
   function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
   var leaders = DATA.leaders, order = leaders.map(function (l) { return l.id; });
   var L = {}; leaders.forEach(function (l, i) { L[l.id] = { i: l.initial, name: l.label, c: 'var(--c-' + (i + 1) + ')' }; });
   var stateById = {}; DATA.states.forEach(function (s) { stateById[s.id] = s; });
+  var qById = {}; DATA.questions.forEach(function (q) { qById[q.id] = q; });
   var TL = { say: 'We say', why: 'Because' };
   var TIME = ['Little', 'Some', 'Most'];
+  var CONF = ['One voice', 'Several of us', 'All of us'];
+  var IMPACT = { low: 1, medium: 2, high: 3 };
   var SHAPE = { contested: 'Here the marks scatter: contested.', false: 'Here the marks stack vertically: same words, different reasons.', vocab: 'Here the marks line up horizontally: different words, same view.', aligned: 'Here the marks cluster: aligned.' };
   function pct(v) { return (v * 100).toFixed(1) + '%'; }
   function dot(id) { return '<span class="dot" style="--c:' + L[id].c + '">' + esc(L[id].i) + '</span>'; }
+  function bars(n) { var h = '<span class="bars">'; for (var b = 1; b <= 3; b++) h += '<i class="' + (b <= n ? 'on' : '') + '"></i>'; return h + '</span>'; }
+  function conf(o) { return o.raised_by >= leaders.length ? 3 : o.raised_by > 1 ? 2 : 1; }
+  function confText(o) { var c = conf(o); return c === 1 ? 'One of us raised it.' : c === 2 ? o.raised_by + ' of ' + leaders.length + ' raised it, independently.' : 'All ' + leaders.length + ' of us raised it.'; }
+  function impactText(o) { return o.impact === 'high' ? 'High' : o.impact === 'medium' ? 'Medium' : 'Low'; }
   var params = new URLSearchParams(location.search);
   var demo = document.getElementById('p-demo');
-
-  /* ---------- header ---------- */
-  document.getElementById('d-ex').textContent = DATA.company + ' · example data';
-  document.getElementById('d-headline').textContent = DATA.headline;
-  document.getElementById('d-lede').textContent = DATA.lede || '';
-  document.getElementById('d-ctx').innerHTML =
-    '<div><span class="k">Context</span>' + esc(DATA.context.name) + '</div>' +
-    '<div><span class="k">Team</span>' + esc(DATA.context.team) + '</div>' +
-    '<div><span class="k">Facilitator</span>' + esc(DATA.context.facilitator) + '</div>';
-  document.getElementById('d-legend').innerHTML = '<span class="lab">Leaders</span>' +
-    leaders.map(function (l) { return '<span class="chip" data-l="' + esc(l.id) + '">' + dot(l.id) + esc(l.label) + '</span>'; }).join('') +
-    '<span class="hint fac">Open any row for the reasons, the questions, and the 2x2.</span><span class="hint par">Open any row for the shape and the questions.</span>';
-  (function () {
-    var total = DATA.questions.reduce(function (n, q) { return n + (q.minutes || 0); }, 0);
-    var ctx = DATA.context, left = ctx.left_off || [];
-    var h = '<span class="k">Session plan</span><div class="pg">';
-    h += '<div><b>' + total + ' min</b> of ' + (ctx.session_minutes || '?') + ' across ' + DATA.questions.length + ' questions. Minutes are a plan, not a score; the room time bars are the ranking.</div>';
-    h += '<div><b>Order</b> ' + DATA.groups.map(function (g) { return g.name.toLowerCase(); }).join(', ') + '. Aligned rows get five minutes, not none.</div>';
-    if (left.length) h += '<div><b>Considered and left off</b> ' + left.map(esc).join('; ') + '. Real, and not bearing on ' + esc(ctx.name) + '.</div>';
-    document.getElementById('d-plan').innerHTML = h + '</div>';
-  })();
-  document.getElementById('d-foot').textContent = DATA.note || '';
+  var legendHtml = '<span class="lab">Leaders</span>' + leaders.map(function (l) { return '<span class="chip" data-l="' + esc(l.id) + '">' + dot(l.id) + esc(l.label) + '</span>'; }).join('');
 
   /* ---------- tracks ---------- */
   function lane(track, key) {
@@ -430,11 +535,61 @@
     h += '<div class="band" style="left:' + pct(lo) + ';width:' + pct(hi - lo) + '"></div>';
     order.forEach(function (k) {
       var p = track.positions[k];
-      var tip = L[k].name + ': ' + (key === 'why' && p.because ? p.because : p.quote);
-      h += '<span class="mk" data-l="' + esc(k) + '" style="--c:' + L[k].c + ';left:' + pct(p.value) + '" title="' + esc(tip) + '">' + esc(L[k].i) + '</span>';
+      h += '<span class="mk" data-l="' + esc(k) + '" data-x="' + p.value + '" style="--c:' + L[k].c + ';left:' + pct(p.value) + '">' + esc(L[k].i) + '</span>';
     });
     h += '<span class="pole l">' + esc(track.poles[0]) + '</span><span class="pole r">' + esc(track.poles[1]) + '</span></div></div>';
     return h;
+  }
+  function lanes(q) { return lane(q.tracks.say, 'say') + lane(q.tracks.why, 'why'); }
+
+  /* ---------- lanes: marks that would touch collapse into one pill, letters in order ---------- */
+  var SMALL = { d: 20, pd: 16, gap: 6, pad: 3, ig: 2 }, BIG = { d: 34, pd: 24, gap: 8, pad: 4, ig: 2 };
+  function layoutLane(lane, c) {
+    var w = lane.clientWidth; if (!w) return;
+    Array.prototype.slice.call(lane.querySelectorAll('.pill')).forEach(function (p) { while (p.firstChild) lane.appendChild(p.firstChild); p.parentNode.removeChild(p); });
+    var mks = Array.prototype.slice.call(lane.querySelectorAll('.mk'));
+    mks.forEach(function (m) { m.classList.remove('in'); m.style.left = ''; });
+    mks.sort(function (a, b) { return parseFloat(a.getAttribute('data-x')) - parseFloat(b.getAttribute('data-x')); });
+    var cl = mks.map(function (m) { return { items: [m] }; });
+    function width(g) { var n = g.items.length; return n === 1 ? c.d : n * c.pd + (n - 1) * c.ig + c.pad * 2; }
+    function place() {
+      cl.forEach(function (g) {
+        var x = g.items.reduce(function (s, m) { return s + parseFloat(m.getAttribute('data-x')) * w; }, 0) / g.items.length;
+        var half = width(g) / 2;
+        g.x = Math.max(half, Math.min(w - half, x));
+      });
+    }
+    place();
+    for (var guard = 0; guard < 20; guard++) {
+      var merged = false;
+      for (var i = 0; i < cl.length - 1; i++) {
+        var a = cl[i], b = cl[i + 1];
+        if ((b.x - width(b) / 2) - (a.x + width(a) / 2) < c.gap) { a.items = a.items.concat(b.items); cl.splice(i + 1, 1); merged = true; break; }
+      }
+      if (!merged) break;
+      place();
+    }
+    // the band follows the clusters, so a pill clamped at an edge is still inside it
+    var band = lane.querySelector('.band');
+    if (band && cl.length) {
+      var bl = cl[0].x - width(cl[0]) / 2 - 1, br = cl[cl.length - 1].x + width(cl[cl.length - 1]) / 2 + 1;
+      band.style.left = bl.toFixed(1) + 'px'; band.style.width = (br - bl).toFixed(1) + 'px'; band.style.marginLeft = '0'; band.style.paddingRight = '0';
+    }
+    cl.forEach(function (g) {
+      if (g.items.length === 1) { g.items[0].style.left = g.x.toFixed(1) + 'px'; return; }
+      var p = document.createElement('span'); p.className = 'pill';
+      p.style.left = (g.x - width(g) / 2).toFixed(1) + 'px';
+      var names = g.items.map(function (m) { return L[m.getAttribute('data-l')].name; });
+      p.setAttribute('aria-label', names.join(', ') + ' together');
+      g.items.forEach(function (m) { m.classList.add('in'); p.appendChild(m); });
+      lane.insertBefore(p, lane.querySelector('.pole'));
+    });
+  }
+  function layoutIn(root) {
+    root.querySelectorAll('.lane').forEach(function (l) { layoutLane(l, l.closest('.big') ? BIG : SMALL); });
+  }
+  function layoutVisible() {
+    document.querySelectorAll('.panel:not([hidden]) .lane').forEach(function (l) { layoutLane(l, l.closest('.big') ? BIG : SMALL); });
   }
 
   /* ---------- 2x2: say left-to-right, why bottom-to-top; the two tracks ride the edges as ticks ---------- */
@@ -443,7 +598,6 @@
     var pts = order.map(function (k) {
       return { k: k, x: pad + q.tracks.say.positions[k].value * span, y: S - pad - q.tracks.why.positions[k].value * span };
     });
-    // nudge overlapping marks apart so every letter stays legible
     for (var it = 0; it < 24; it++) {
       for (var i = 0; i < pts.length; i++) for (var j = i + 1; j < pts.length; j++) {
         var dx = pts[j].x - pts[i].x, dy = pts[j].y - pts[i].y, d = Math.sqrt(dx * dx + dy * dy), min = R * 2 + 3;
@@ -462,13 +616,10 @@
     h += '<rect class="frame" x="' + f0 + '" y="' + f0 + '" width="' + (f1 - f0) + '" height="' + (f1 - f0) + '" rx="6"/>';
     h += '<line class="grid" x1="' + S / 2 + '" y1="' + f0 + '" x2="' + S / 2 + '" y2="' + f1 + '"/>';
     h += '<line class="grid" x1="' + f0 + '" y1="' + S / 2 + '" x2="' + f1 + '" y2="' + S / 2 + '"/>';
-    // the say track along the bottom edge: spread band, then a tick per leader
-    h += '<rect class="bd" x="' + (pad + rs[0] * span - 4).toFixed(1) + '" y="' + (f1 + 4) + '" width="' + (rs[1] - rs[0]) * span + 8 + '" height="8" rx="4"/>';
+    h += '<rect class="bd" x="' + (pad + rs[0] * span - 4).toFixed(1) + '" y="' + (f1 + 4) + '" width="' + ((rs[1] - rs[0]) * span + 8).toFixed(1) + '" height="8" rx="4"/>';
     order.forEach(function (k) { var x = (pad + say.positions[k].value * span).toFixed(1); h += '<line class="tk" x1="' + x + '" y1="' + (f1 + 3) + '" x2="' + x + '" y2="' + (f1 + 13) + '" stroke="' + L[k].c + '"/>'; });
-    // the why track up the left edge
-    h += '<rect class="bd" x="' + (f0 - 12) + '" y="' + (S - pad - rw[1] * span - 4).toFixed(1) + '" width="8" height="' + (rw[1] - rw[0]) * span + 8 + '" rx="4"/>';
+    h += '<rect class="bd" x="' + (f0 - 12) + '" y="' + (S - pad - rw[1] * span - 4).toFixed(1) + '" width="8" height="' + ((rw[1] - rw[0]) * span + 8).toFixed(1) + '" rx="4"/>';
     order.forEach(function (k) { var y = (S - pad - why.positions[k].value * span).toFixed(1); h += '<line class="tk" x1="' + (f0 - 13) + '" y1="' + y + '" x2="' + (f0 - 3) + '" y2="' + y + '" stroke="' + L[k].c + '"/>'; });
-    // axis names and poles: say along the bottom, why rotated up the left
     h += '<text class="ax" x="' + f0 + '" y="' + (S - 19) + '">' + esc(say.poles[0]) + '</text>';
     h += '<text class="ax" x="' + f1 + '" y="' + (S - 19) + '" text-anchor="end">' + esc(say.poles[1]) + '</text>';
     h += '<text class="axn" x="' + S / 2 + '" y="' + (S - 3) + '" text-anchor="middle">We say</text>';
@@ -482,61 +633,84 @@
     return h + '</svg>';
   }
 
-  /* ---------- opened row ---------- */
-  function canvas(q) {
-    var h = '<div class="canvas"><div class="eyebrow"><span class="st">' + esc(stateById[q.state].name) + '</span>' + time(q);
-    if (q.minutes) h += '<span class="mins fac">about ' + q.minutes + ' min</span>';
+  /* ---------- the question card: the opened row for the facilitator, the slide for participants ---------- */
+  function time(q) { return '<span class="time">Room time <b>' + TIME[q.room_time - 1] + '</b>' + bars(q.room_time) + '</span>'; }
+  function canvasInner(q, fac) {
+    var h = '<div class="eyebrow"><span class="st">' + esc(stateById[q.state].name) + '</span>' + time(q);
+    if (fac && q.minutes) h += '<span class="mins">about ' + q.minutes + ' min</span>';
     h += '</div>';
     h += '<h3>' + esc(q.question) + '</h3><div class="sub">' + esc(q.subtitle) + '</div>';
-    // phones lead with the two tracks; wide screens hide these and lead with the 2x2
-    h += '<div class="big">' + lane(q.tracks.say, 'say') + lane(q.tracks.why, 'why') + '</div>';
+    h += '<div class="big">' + lanes(q) + '</div>';
     h += '<div class="cgrid">';
-    h += '<section class="xy"><h4>Both axes at once<span class="hn">the two tracks ride the edges</span></h4><div>' + xy(q) + '</div>';
+    h += '<section class="xy"><h4>Both axes at once<span class="hn">the two lines ride the edges</span></h4><div>' + xy(q) + '</div>';
     h += '<div class="cap">' + SHAPE[q.state] + '</div></section>';
-    // why: sorted by position on the why track, so the list reads like the band
     var byWhy = order.slice().sort(function (a, b) { return q.tracks.why.positions[a].value - q.tracks.why.positions[b].value; });
-    h += '<section class="why"><h4>Why each leader lands there<span class="hn">left to right on the Because axis</span></h4>';
+    h += '<section class="why"><h4>Why each leader lands there<span class="hn">left to right on the Because line</span></h4>';
     byWhy.forEach(function (k) {
       var w = q.tracks.why.positions[k], s = q.tracks.say.positions[k];
       h += '<div class="wl" data-l="' + esc(k) + '">' + dot(k) + '<div><div class="who">' + esc(L[k].name) + '</div>';
       h += '<div class="bc">' + (w.because ? esc(w.because) : '<span class="nb">Reason not yet written</span>') + '</div>';
-      h += '<div class="ev fac"><span class="k">Says</span><q>' + esc(s.quote) + '</q></div>';
-      h += '<div class="ev fac"><span class="k">Why, in their words</span><q>' + esc(w.quote) + '</q></div>';
+      if (fac) {
+        h += '<div class="ev"><span class="k">Says</span><q>' + esc(s.quote) + '</q></div>';
+        h += '<div class="ev"><span class="k">Why, in their words</span><q>' + esc(w.quote) + '</q></div>';
+      }
       h += '</div></div>';
     });
     h += '</section>';
     h += '<section class="room"><h4>For the room</h4>';
-    if (q.finding) h += '<div class="fac"><div class="k2">Our read</div><p class="finding">' + esc(q.finding) + '</p></div>';
+    if (fac && q.finding) h += '<div class="k2">Our read</div><p class="finding">' + esc(q.finding) + '</p>';
     h += '<div class="k2">Open with</div><p class="opening">' + esc(q.suggested_conversation) + '</p>';
     if (q.room_questions && q.room_questions.length) {
       h += '<div class="k2">Then ask</div><ul>' + q.room_questions.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>';
     }
-    h += '</section>';
-    h += '</div><a class="upq" href="#q-' + esc(q.id) + '">Back to the top of this question</a></div>';
-    return h;
-  }
-
-  function time(q) {
-    var bars = ''; for (var b = 1; b <= 3; b++) bars += '<i class="' + (b <= q.room_time ? 'on' : '') + '"></i>';
-    return '<span class="time">Room time <b>' + TIME[q.room_time - 1] + '</b><span class="bars">' + bars + '</span></span>';
+    return h + '</section></div>';
   }
   function row(q) {
     var h = '<div class="row" id="q-' + esc(q.id) + '">';
-    h += '<div class="head"><div class="q">' + esc(q.question) + '<small>' + esc(q.subtitle) + '</small></div>';
-    h += time(q) + '</div>';
-    h += '<div class="tracks">' + lane(q.tracks.say, 'say') + lane(q.tracks.why, 'why') + '</div>';
-    h += '<details class="down"><summary><span class="so">Open this question</span><span class="sc">Close<b>' + esc(q.question) + '</b></span></summary>' + canvas(q) + '</details>';
+    h += '<div class="head"><div class="q">' + esc(q.question) + '<small>' + esc(q.subtitle) + '</small></div>' + time(q) + '</div>';
+    h += '<div class="tracks">' + lanes(q) + '</div>';
+    h += '<details class="down"><summary><span class="so">Open this question</span><span class="sc">Close<b>' + esc(q.question) + '</b></span></summary>';
+    h += '<div class="canvas">' + canvasInner(q, true) + '<a class="upq" href="#q-' + esc(q.id) + '">Back to the top of this question</a></div></details>';
     return h + '</div>';
   }
 
-  function card(o) {
-    var cls = o.type === 'moonshot' ? 'moon' : (o.size === 'huge' ? 'huge' : 'small');
-    var label = o.type === 'moonshot' ? 'Moonshot' : ('Landmine · ' + (o.size === 'huge' ? 'huge' : 'small'));
-    var by = o.raised_by === 1 ? 'Raised by one of us.' : 'Raised by ' + o.raised_by + ' of ' + leaders.length + ', independently.';
-    return '<div class="card ' + cls + '"><span class="k">' + label + '</span><div class="t">' + esc(o.text) + '</div><div class="by">' + by + '</div></div>';
+  /* ---------- landmines and moonshots ---------- */
+  function meter(o) {
+    return '<div class="meter"><span>' + bars(conf(o)) + ' <b>' + CONF[conf(o) - 1] + '</b></span><span>' + bars(IMPACT[o.impact] || 1) + ' <b>' + impactText(o) + '</b> impact</span></div>';
   }
+  function card(o) {
+    var cls = o.type === 'moonshot' ? 'moon' : (IMPACT[o.impact] === 3 ? 'high' : IMPACT[o.impact] === 2 ? 'medium' : 'low');
+    var label = o.type === 'moonshot' ? 'Moonshot' : 'Landmine';
+    var h = '<div class="card ' + cls + '"><span class="k">' + label + '</span><div class="t">' + esc(o.text) + '</div>' + meter(o);
+    if (o.cost) h += '<div class="nx"><span class="k">' + (o.type === 'moonshot' ? 'What it would take' : 'What it would cost') + '</span>' + esc(o.cost) + '</div>';
+    if (o.next) h += '<div class="nx"><span class="k">The next ten minutes</span>' + esc(o.next) + '</div>';
+    return h + '</div>';
+  }
+  function byImpact(a, b) { return (IMPACT[b.impact] || 0) - (IMPACT[a.impact] || 0); }
 
-  /* ---------- assemble ---------- */
+  /* ---------- facilitator page ---------- */
+  document.getElementById('d-ex').textContent = DATA.company + ' · example data';
+  document.getElementById('d-headline').textContent = DATA.headline;
+  document.getElementById('d-lede').textContent = DATA.lede || '';
+  function ctxHtml() {
+    return '<div><span class="k">Context</span>' + esc(DATA.context.name) + '</div>' +
+      '<div><span class="k">Team</span>' + esc(DATA.context.team) + '</div>' +
+      '<div><span class="k">Facilitator</span>' + esc(DATA.context.facilitator) + '</div>';
+  }
+  document.getElementById('d-ctx').innerHTML = ctxHtml();
+  document.getElementById('d-legend').innerHTML = legendHtml + '<span class="hint">Open any row for the reasons, the questions, and the 2x2.</span>';
+  (function () {
+    var total = DATA.questions.reduce(function (n, q) { return n + (q.minutes || 0); }, 0);
+    var ctx = DATA.context, left = ctx.left_off || [];
+    var h = '<span class="k">Session plan</span><div class="pg">';
+    h += '<div><b>' + total + ' min</b> of ' + (ctx.session_minutes || '?') + ' across ' + DATA.questions.length + ' questions. Minutes are a plan, not a score; the room time bars are the ranking.</div>';
+    h += '<div><b>Order</b> ' + DATA.groups.map(function (g) { return g.name.toLowerCase(); }).join(', ') + '. Aligned rows get five minutes, not none.</div>';
+    if (left.length) h += '<div><b>Considered and left off</b> ' + left.map(esc).join('; ') + '. Real, and not bearing on ' + esc(ctx.name) + '.</div>';
+    document.getElementById('d-plan').innerHTML = h + '</div>';
+  })();
+  document.getElementById('d-foot').textContent = DATA.note || '';
+  document.getElementById('site-note').textContent = DATA.company + ' is invented. Every number and quote is a composite written for demonstration.';
+
   var out = '';
   DATA.groups.forEach(function (g) {
     out += '<div class="sec"><div class="sech"><div class="secn">' + esc(g.name) + '</div><p>' + esc(g.description) + '</p></div>';
@@ -545,70 +719,183 @@
         var qs = DATA.questions.filter(function (q) { return q.state === sid; });
         if (!qs.length) return;
         var st = stateById[sid];
-        out += '<div class="stateh"><span class="sn">' + esc(st.name) + '</span><span class="sd">' + esc(st.description) + '</span>' + (st.run ? '<span class="run fac">' + esc(st.run) + '</span>' : '') + '</div>';
+        out += '<div class="stateh"><span class="sn">' + esc(st.name) + '</span><span class="sd">' + esc(st.description) + '</span>' + (st.run ? '<span class="run">' + esc(st.run) + '</span>' : '') + '</div>';
         qs.forEach(function (q) { out += row(q); });
       });
     } else if (g.outliers) {
-      var os = DATA.outliers.filter(function (o) { return o.type === g.outliers; });
-      os.sort(function (a, b) { return (a.size === 'huge' ? 0 : 1) - (b.size === 'huge' ? 0 : 1); });
+      var os = DATA.outliers.filter(function (o) { return o.type === g.outliers; }).sort(byImpact);
       out += '<div class="cards">' + os.map(card).join('') + '</div>';
     }
     out += '</div>';
   });
   document.getElementById('rows').innerHTML = out;
 
-  /* ---------- lanes: stack marks that would overlap, so every letter stays readable ---------- */
-  var BIG = { top: 9, gap: 38, near: 22, h: 84, pole: 58 }, SMALL = { top: 5, gap: 22, near: 16, h: 46, pole: 29 };
-  function layoutLane(lane, c) {
-    var w = lane.clientWidth; if (!w) return;
-    var mks = Array.prototype.slice.call(lane.querySelectorAll('.mk'));
-    mks.sort(function (a, b) { return parseFloat(a.style.left) - parseFloat(b.style.left); });
-    var last = [];
-    mks.forEach(function (m) {
-      var x = parseFloat(m.style.left) / 100 * w, lvl = 0;
-      while (last[lvl] !== undefined && x - last[lvl] < c.near) lvl++;
-      last[lvl] = x;
-      m.style.top = (c.top + lvl * c.gap) + 'px';
-    });
-    var extra = (last.length - 1) * c.gap;
-    lane.style.height = (c.h + extra) + 'px';
-    lane.querySelectorAll('.pole').forEach(function (p) { p.style.top = (c.pole + extra) + 'px'; });
-  }
-  function layoutBig(root) { root.querySelectorAll('.big .lane').forEach(function (l) { layoutLane(l, BIG); }); }
-  function layoutSmall() { document.querySelectorAll('.tracks .lane').forEach(function (l) { layoutLane(l, SMALL); }); }
-  window.layoutSmall = layoutSmall;
   document.querySelectorAll('.down').forEach(function (d) {
     var byUser = false;
     d.querySelector('summary').addEventListener('click', function () { byUser = true; });
     d.addEventListener('toggle', function () {
-      if (d.open) layoutBig(d);
+      if (d.open) layoutIn(d);
       if (!byUser) return;
       byUser = false;
       var r = d.closest('.row');
       r.scrollIntoView({ block: 'start' });
-      try { history.replaceState(null, '', d.open ? '#' + r.id : location.pathname + location.search); } catch (e) {}
+      try { history.replaceState(null, '', d.open ? '#' + r.id : '#facilitator'); } catch (e) {}
     });
   });
-  window.addEventListener('resize', function () {
-    layoutSmall();
-    document.querySelectorAll('.down[open]').forEach(layoutBig);
+
+  /* ---------- participant deck ---------- */
+  var slides = [];
+  function slideQ(q) { return { id: 's-q-' + q.id, title: q.question, how: 'how-lines', html: canvasInner(q, false) }; }
+  function slideSection(g) {
+    var h = '<div class="sect"><span class="kick">' + esc(g.name) + '</span><h3>' + esc(g.name) + '</h3><p class="lede">' + esc(g.description) + '</p>';
+    if (g.states) {
+      h += '<ul class="qlist">';
+      g.states.forEach(function (sid) {
+        var qs = DATA.questions.filter(function (q) { return q.state === sid; });
+        if (!qs.length) return;
+        h += '<li class="stn"><span class="sn">' + esc(stateById[sid].name) + '</span></li>';
+        qs.forEach(function (q) { h += '<li><a href="#s-q-' + esc(q.id) + '">' + esc(q.question) + '<small>' + esc(q.subtitle) + '</small></a>' + time(q) + '</li>'; });
+      });
+      h += '</ul>';
+    } else {
+      var os = DATA.outliers.filter(function (o) { return o.type === g.outliers; }).sort(byImpact);
+      h += '<ul class="qlist">' + os.map(function (o) { return '<li><a href="#s-o-' + esc(o.id) + '">' + esc(o.text) + '</a>' + meter(o) + '</li>'; }).join('') + '</ul>';
+    }
+    return { id: 's-' + g.id, title: g.name, how: g.states ? 'how-states' : 'how-outliers', html: h + '</div>' };
+  }
+  function slideOutlier(o, n, total) {
+    var moon = o.type === 'moonshot', label = moon ? 'Moonshot' : 'Landmine';
+    var h = '<div class="oslide ' + (moon ? 'moon' : 'mine') + '"><span class="kick">' + label + ' ' + n + ' of ' + total + '</span>';
+    h += '<div class="t">' + esc(o.text) + '</div>';
+    h += '<div class="beat"><div class="bh"><span class="k">How sure we are</span><span class="meter"><span>' + bars(conf(o)) + ' <b>' + CONF[conf(o) - 1] + '</b></span></span></div><p>' + esc(confText(o)) + (o.raised_note ? ' ' + esc(o.raised_note) : '') + '</p></div>';
+    h += '<div class="beat"><div class="bh"><span class="k">' + (moon ? 'What it would take' : 'What it would cost') + '</span><span class="meter"><span>' + bars(IMPACT[o.impact] || 1) + ' <b>' + impactText(o) + '</b> impact</span></span></div><p>' + esc(o.cost || '') + '</p></div>';
+    h += '<div class="beat"><div class="bh"><span class="k">The next ten minutes</span></div><p class="opening">' + esc(o.next || '') + '</p></div>';
+    return { id: 's-o-' + o.id, title: label + ' ' + n + ' of ' + total, how: 'how-outliers', html: h + '</div>' };
+  }
+  function slideSummary() {
+    var h = '<div class="hero"><div class="eyebrow"><span>TheMirror.ai · Alignment Map</span><span class="ex">' + esc(DATA.company) + ' · example data</span></div>';
+    h += '<h1>' + esc(DATA.headline) + '</h1><div class="ctx">' + ctxHtml() + '</div></div>';
+    h += '<div class="legend">' + legendHtml + '</div><div class="sum">';
+    DATA.groups.forEach(function (g) {
+      h += '<div class="sech"><div class="secn"><a href="#s-' + esc(g.id) + '" style="text-decoration:none">' + esc(g.name) + '</a></div><p>' + esc(g.description) + '</p></div>';
+      if (g.states) {
+        g.states.forEach(function (sid) {
+          DATA.questions.filter(function (q) { return q.state === sid; }).forEach(function (q) {
+            h += '<div class="srow"><div class="head"><span class="sn">' + esc(stateById[sid].name) + '</span><div class="q"><a href="#s-q-' + esc(q.id) + '">' + esc(q.question) + '</a><small>' + esc(q.subtitle) + '</small></div>' + time(q) + '</div>';
+            h += '<div class="tracks">' + lanes(q) + '</div></div>';
+          });
+        });
+      } else {
+        var os = DATA.outliers.filter(function (o) { return o.type === g.outliers; }).sort(byImpact);
+        h += '<div class="olist">' + os.map(function (o) { return '<a href="#s-o-' + esc(o.id) + '"><span class="kick">' + (o.type === 'moonshot' ? 'Moonshot' : 'Landmine') + '</span><span>' + esc(o.text) + '</span></a>'; }).join('') + '</div>';
+      }
+    });
+    return { id: 's-summary', title: 'The whole map', how: 'how-lines', html: h + '</div>' };
+  }
+  slides.push(slideSummary());
+  DATA.groups.forEach(function (g) {
+    slides.push(slideSection(g));
+    if (g.states) {
+      g.states.forEach(function (sid) { DATA.questions.filter(function (q) { return q.state === sid; }).forEach(function (q) { slides.push(slideQ(q)); }); });
+    } else {
+      var os = DATA.outliers.filter(function (o) { return o.type === g.outliers; }).sort(byImpact);
+      os.forEach(function (o, i) { slides.push(slideOutlier(o, i + 1, os.length)); });
+    }
+  });
+  var slideIndex = {};
+  document.getElementById('slides').innerHTML = slides.map(function (s, i) {
+    slideIndex[s.id] = i;
+    var nx = slides[i + 1];
+    var foot = '<div class="sfoot"><a class="how" href="#' + s.how + '">How to read this</a>' + (nx ? '<a class="nx" href="#' + nx.id + '">Next: ' + esc(nx.title) + ' &#8594;</a>' : '<a class="nx" href="#s-summary">Back to the whole map &#8594;</a>') + '</div>';
+    return '<section class="slide canvas" id="' + s.id + '" hidden>' + s.html + foot + '</section>';
+  }).join('');
+  var current = 0;
+  function showSlide(i) {
+    current = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach(function (s, j) { document.getElementById(s.id).hidden = j !== current; });
+    document.getElementById('dk-count').textContent = (current + 1) + ' / ' + slides.length;
+    document.getElementById('dk-prev').disabled = current === 0;
+    document.getElementById('dk-next').disabled = current === slides.length - 1;
+    document.getElementById('dk-title').innerHTML = '<a href="#s-summary">' + esc(DATA.company) + '</a> · ' + esc(slides[current].title);
+    layoutIn(document.getElementById(slides[current].id));
+    window.scrollTo(0, 0);
+  }
+  document.getElementById('dk-prev').addEventListener('click', function () { if (current > 0) go(slides[current - 1].id); });
+  document.getElementById('dk-next').addEventListener('click', function () { if (current < slides.length - 1) go(slides[current + 1].id); });
+  document.addEventListener('keydown', function (e) {
+    if (demo.hidden || demo.getAttribute('data-view') !== 'participant') return;
+    var tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === 'j') { if (current < slides.length - 1) { e.preventDefault(); go(slides[current + 1].id); } }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'k') { if (current > 0) { e.preventDefault(); go(slides[current - 1].id); } }
+    else if (e.key === 'Home') { e.preventDefault(); go('s-summary'); }
+  });
+
+  /* ---------- How To Use: live examples from the map ---------- */
+  var exq = qById['do-we-stop-doing-custom-builds'] || DATA.questions[0];
+  document.getElementById('how-line-ex').innerHTML = '<span class="kick">' + esc(exq.question) + '</span><div class="tracks" style="margin-top:8px">' + lanes(exq) + '</div><div class="cap">' + esc(stateById[exq.state].name) + ': tight on top, wide underneath. Everyone said the same word for five different reasons.</div>';
+  document.getElementById('how-xy-ex').innerHTML = xy(exq) + '<div class="cap">The same question as a 2x2: ' + SHAPE[exq.state].replace('Here the marks', 'the marks') + '</div>';
+
+  /* ---------- My Guide ---------- */
+  var guides = DATA.guides || {};
+  var gRoles = document.getElementById('g-roles');
+  gRoles.innerHTML = leaders.map(function (l) { return '<button type="button" data-role="' + esc(l.id) + '" aria-pressed="false">' + dot(l.id) + esc(l.label) + '</button>'; }).join('');
+  function atEnd(q, k) {
+    function ends(t) { var v = order.map(function (id) { return t.positions[id].value; }); var me = t.positions[k].value; return me === Math.min.apply(null, v) || me === Math.max.apply(null, v); }
+    return q.state !== 'aligned' && (ends(q.tracks.say) || ends(q.tracks.why));
+  }
+  function renderGuide(role) {
+    gRoles.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-role') === role ? 'true' : 'false'); });
+    var body = document.getElementById('g-body');
+    if (!role || !L[role]) { body.innerHTML = '<p>Pick a role to see that leader’s notes. In this sample, two are filled in.</p>'; return; }
+    var g = guides[role];
+    if (!g) { body.innerHTML = '<div class="gq empty"><span class="kick">' + esc(L[role].name) + '</span><p style="margin:8px 0 0">Not generated in this sample. In a real engagement every leader gets one, produced at the end of their own Mirror interview.</p></div>'; return; }
+    var h = '<div class="callout"><p><strong>' + esc(L[role].name) + '.</strong> ' + esc(g.intro) + '</p></div>';
+    DATA.groups.forEach(function (grp) {
+      if (!grp.states) return;
+      grp.states.forEach(function (sid) {
+        DATA.questions.filter(function (q) { return q.state === sid; }).forEach(function (q) {
+          var s = q.tracks.say.positions[role], w = q.tracks.why.positions[role];
+          h += '<div class="gq"><span class="kick">' + esc(stateById[sid].name) + '</span><h3>' + esc(q.question) + '</h3><div class="sub">' + esc(q.subtitle) + '</div>';
+          h += '<div class="said"><span class="k">You said</span><div><q>' + esc(s.quote) + '</q></div></div>';
+          h += '<div class="said"><span class="k">Because</span><div><q>' + esc(w.quote) + '</q><div class="bc">In plain words: ' + esc(w.because || '') + '</div></div></div>';
+          if (g.prep && g.prep[q.id]) h += '<div class="prep"><span class="k">Be ready</span>' + esc(g.prep[q.id]) + '</div>';
+          if (atEnd(q, role)) {
+            h += '<div class="expect"><span class="k">Expect to be asked · you hold one end of this line</span><p class="opening">' + esc(q.suggested_conversation) + '</p>';
+            if (q.room_questions && q.room_questions.length) h += '<ul class="qs">' + q.room_questions.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>';
+            h += '</div>';
+          }
+          h += '</div>';
+        });
+      });
+    });
+    var mine = DATA.outliers.filter(function (o) { return (o.raised || []).some(function (r) { return r.leader === role; }); });
+    h += '<h2>Landmines and moonshots you raised</h2>';
+    if (!mine.length) h += '<p>You did not raise a landmine or a moonshot in your interview.</p>';
+    mine.forEach(function (o) {
+      var r = o.raised.filter(function (x) { return x.leader === role; })[0];
+      h += '<div class="gq"><span class="kick">' + (o.type === 'moonshot' ? 'Moonshot' : 'Landmine') + '</span><h3>' + esc(o.text) + '</h3>';
+      h += '<div class="said"><span class="k">You said</span><div><q>' + esc(r.said) + '</q></div></div>';
+      if (o.next) h += '<div class="expect"><span class="k">Expect to be asked</span><p class="opening">' + esc(o.next) + '</p></div>';
+      h += '</div>';
+    });
+    if (g.closing) h += '<div class="callout"><p>' + esc(g.closing) + '</p></div>';
+    body.innerHTML = h;
+  }
+  gRoles.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-role]'); if (!b) return;
+    go('guide-' + b.getAttribute('data-role'));
   });
 
   /* ---------- views ---------- */
-  function setView(v, write) {
+  function setView(v) {
     demo.setAttribute('data-view', v);
     document.getElementById('v-fac').setAttribute('aria-pressed', v === 'facilitator' ? 'true' : 'false');
     document.getElementById('v-par').setAttribute('aria-pressed', v === 'participant' ? 'true' : 'false');
-    if (write) {
-      if (v === 'participant') params.set('view', 'participant'); else params.delete('view');
-      var qs = params.toString();
-      try { history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash); } catch (e) {}
-    }
-    document.querySelectorAll('.down[open]').forEach(layoutBig);
   }
-  document.getElementById('v-fac').addEventListener('click', function () { setView('facilitator', true); });
-  document.getElementById('v-par').addEventListener('click', function () { setView('participant', true); });
-  setView(params.get('view') === 'participant' ? 'participant' : 'facilitator', false);
+  var lastSlide = 's-summary', lastDemo = 's-summary', lastRole = '';
+  document.getElementById('v-fac').addEventListener('click', function () { go('facilitator'); });
+  document.getElementById('v-par').addEventListener('click', function () { go(lastSlide); });
 
   /* ---------- person lens: ?role=<leader id> mutes everyone else's marks ---------- */
   var role = params.get('role');
@@ -616,31 +903,63 @@
     demo.classList.add('lens');
     demo.querySelectorAll('[data-l="' + role + '"]').forEach(function (el) { el.classList.add('me'); });
     var p2 = new URLSearchParams(params); p2.delete('role'); var qs2 = p2.toString();
-    document.getElementById('d-lens').innerHTML = '<div class="lensbar">Showing <b>' + esc(L[role].name) + '</b> across every row. Everyone else is dimmed.<a href="' + (qs2 ? '?' + qs2 : location.pathname) + '">Show everyone</a></div>';
+    document.getElementById('d-lens').innerHTML = '<div class="lensbar">Showing <b>' + esc(L[role].name) + '</b> across every row. Everyone else is dimmed.<a href="' + (qs2 ? '?' + qs2 : location.pathname) + '#facilitator">Show everyone</a></div>';
   }
 
   /* ---------- open every row when printing ---------- */
   var wasOpen = [];
   window.addEventListener('beforeprint', function () {
     wasOpen = [];
-    document.querySelectorAll('.down').forEach(function (d) { wasOpen.push(d.open); d.open = true; layoutBig(d); });
+    document.querySelectorAll('.down').forEach(function (d) { wasOpen.push(d.open); d.open = true; layoutIn(d); });
+    if (demo.getAttribute('data-view') === 'participant') slides.forEach(function (s) { var el = document.getElementById(s.id); el.hidden = false; layoutIn(el); });
   });
   window.addEventListener('afterprint', function () {
     document.querySelectorAll('.down').forEach(function (d, i) { d.open = !!wasOpen[i]; });
+    showSlide(current);
   });
 
-  /* ---------- restore tab, honour deep links (#q-<id>) ---------- */
-  var hash = location.hash.replace('#', '');
-  if (hash && document.getElementById(hash)) {
-    select('t-demo', true);
-    var d = document.querySelector('#' + hash + ' .down'); if (d) { d.open = true; layoutBig(d); }
-    document.getElementById(hash).scrollIntoView();
-  } else if (params.has('view') || params.has('role')) {
-    select('t-demo', true);
-  } else {
-    try { var saved = localStorage.getItem('am-tab'); if (saved === 't-demo') select(saved); } catch (e) {}
+  /* ---------- routing: the hash is the whole state ----------
+     #s-<slide>            participant deck, one slide: s-summary, s-<group id>, s-q-<question id>, s-o-<outlier id>
+     #facilitator          facilitator page; #q-<question id> opens that row
+     #how, #how-<section>  How To Use, optionally scrolled to a section
+     #guide, #guide-<role> My Guide, optionally with a role chosen                                          */
+  var tabs = document.querySelectorAll('.tab'), panels = document.querySelectorAll('.panel');
+  function showTab(id) {
+    tabs.forEach(function (t) { t.setAttribute('aria-selected', t.id === id ? 'true' : 'false'); });
+    panels.forEach(function (p) { p.hidden = p.getAttribute('aria-labelledby') !== id; });
   }
-  layoutSmall();
+  function go(h) { if (location.hash === '#' + h) route(); else location.hash = h; }
+  function route() {
+    var h = location.hash.replace('#', '');
+    if (!h) h = (params.get('view') === 'facilitator' || params.has('role')) ? 'facilitator' : 's-summary';
+    if (h === 'how' || h.indexOf('how-') === 0) {
+      showTab('t-how'); layoutVisible();
+      var el = h !== 'how' && document.getElementById(h);
+      if (el) el.scrollIntoView({ block: 'start' }); else window.scrollTo(0, 0);
+      document.getElementById('how-back').setAttribute('href', '#' + lastDemo);
+    } else if (h === 'guide' || h.indexOf('guide-') === 0) {
+      showTab('t-guide');
+      if (h !== 'guide') lastRole = h.slice(6);
+      renderGuide(lastRole);
+      if (h === 'guide') window.scrollTo(0, 0);
+    } else if (h === 'facilitator' || h.indexOf('q-') === 0) {
+      showTab('t-demo'); setView('facilitator'); lastDemo = h;
+      layoutVisible();
+      var r = h !== 'facilitator' && document.getElementById(h);
+      if (r) { var d = r.querySelector('.down'); if (d && !d.open) { d.open = true; layoutIn(d); } r.scrollIntoView({ block: 'start' }); }
+      else window.scrollTo(0, 0);
+    } else {
+      if (slideIndex[h] === undefined) h = 's-summary';
+      showTab('t-demo'); setView('participant'); lastSlide = h; lastDemo = h;
+      showSlide(slideIndex[h]);
+    }
+  }
+  tabs.forEach(function (t) { t.addEventListener('click', function () {
+    go(t.id === 't-demo' ? lastDemo : t.id === 't-guide' ? (lastRole ? 'guide-' + lastRole : 'guide') : 'how');
+  }); });
+  window.addEventListener('hashchange', route);
+  window.addEventListener('resize', layoutVisible);
+  route();
 })();
 </script>
 
