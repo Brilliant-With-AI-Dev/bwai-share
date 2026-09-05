@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Northline Alignment Map</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --paper: #F2F3F5; --panel: #FAFBFC; --ink: #1B2027; --ink-2: #4E5663; --muted: #7A8290;
+    --rule: #D3D7DD; --rule-soft: #E4E7EB; --track: #DDE1E6; --ring: #FAFBFC;
+    --c-1: #2a78d6; --c-2: #eb6834; --c-3: #1baf7a; --c-4: #eda100; --c-5: #e87ba4;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --paper: #171A1F; --panel: #1E2229; --ink: #ECEEF1; --ink-2: #B9C0C9; --muted: #8D95A0;
+      --rule: #333941; --rule-soft: #272C34; --track: #2E343C; --ring: #1E2229;
+      --c-1: #3987e5; --c-2: #d95926; --c-3: #199e70; --c-4: #c98500; --c-5: #d55181;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --paper: #171A1F; --panel: #1E2229; --ink: #ECEEF1; --ink-2: #B9C0C9; --muted: #8D95A0;
+    --rule: #333941; --rule-soft: #272C34; --track: #2E343C; --ring: #1E2229;
+    --c-1: #3987e5; --c-2: #d95926; --c-3: #199e70; --c-4: #c98500; --c-5: #d55181;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif; font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .page { max-width: 960px; margin: 0 auto; padding: 32px 20px 80px; }
+  .k, .tl, .eyebrow, .sn { font-family: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace; }
+
+  /* tabs */
+  .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--rule); margin-bottom: 28px; }
+  .tab { appearance: none; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; padding: 10px 14px; font: inherit; font-weight: 500; color: var(--muted); cursor: pointer; }
+  .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+  .tab:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+  .panel[hidden] { display: none; }
+
+  .eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
+  .eyebrow .ex { color: var(--ink-2); }
+  h1 { font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: clamp(26px, 4.4vw, 40px); line-height: 1.12; letter-spacing: -.01em; text-wrap: balance; margin: 12px 0 10px; max-width: 22ch; }
+  h2 { font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: 22px; line-height: 1.2; margin: 40px 0 10px; letter-spacing: -.005em; text-wrap: balance; }
+  h2:first-of-type { margin-top: 24px; }
+  p { margin: 0 0 14px; max-width: 66ch; }
+  .lede { color: var(--ink-2); max-width: 62ch; margin-bottom: 26px; font-size: 16px; }
+  .guide p { color: var(--ink-2); }
+  .guide p strong { color: var(--ink); font-weight: 600; }
+  .guide .not { border-left: 2px solid var(--rule); padding-left: 16px; margin: 6px 0 14px; }
+  .guide .not p { margin-bottom: 8px; }
+  .states { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 14px 0 20px; }
+  .state { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; }
+  .state .n { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .state .s { font-weight: 600; margin-bottom: 4px; }
+  .state p { font-size: 13.5px; margin: 0; color: var(--ink-2); }
+  .mini { display: flex; gap: 6px; margin: 8px 0 2px; }
+  .mini i { display: block; height: 3px; flex: 1; border-radius: 2px; background: var(--track); position: relative; }
+  .mini i::before { content: ""; position: absolute; top: -3px; height: 9px; width: var(--w); left: var(--l); background: var(--ink-2); border-radius: 5px; }
+  .open { margin: 14px 0 0; padding: 0; list-style: none; max-width: 66ch; }
+  .open li { padding: 10px 0; border-top: 1px solid var(--rule-soft); color: var(--ink-2); }
+  .open li:last-child { border-bottom: 1px solid var(--rule-soft); }
+  .go { display: inline-block; margin-top: 22px; padding: 9px 14px; border: 1px solid var(--ink); border-radius: 4px; color: var(--ink); text-decoration: none; font-weight: 500; background: none; font: inherit; cursor: pointer; }
+
+  /* demo header */
+  .ctx { display: grid; grid-template-columns: repeat(3, auto); gap: 8px 28px; padding: 14px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); margin-bottom: 4px; justify-content: start; }
+  .ctx div { font-size: 13.5px; }
+  .k { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: block; }
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--rule); margin-bottom: 4px; }
+  .legend .lab { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
+  .chip { display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; color: var(--ink-2); }
+  .dot { width: 18px; height: 18px; border-radius: 50%; display: inline-grid; place-items: center; font-family: "IBM Plex Mono", monospace; font-size: 10px; font-weight: 500; color: #fff; background: var(--c); box-shadow: 0 0 0 2px var(--ring); flex: none; }
+  .legend .hint { margin-left: auto; font-size: 12.5px; color: var(--muted); }
+
+  /* groups and states */
+  .sec { margin-top: 34px; }
+  .sech { display: grid; grid-template-columns: 200px 1fr; gap: 6px 22px; align-items: baseline; padding-bottom: 10px; border-bottom: 2px solid var(--ink); }
+  .secn { font-family: "Fraunces", Georgia, serif; font-size: 22px; font-weight: 500; line-height: 1.2; }
+  .sech p { margin: 0; font-size: 13.5px; color: var(--ink-2); max-width: 60ch; }
+  .stateh { display: grid; grid-template-columns: 200px 1fr; gap: 4px 22px; align-items: baseline; padding: 16px 0 4px; }
+  .stateh .sn { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); font-weight: 500; }
+  .stateh .sd { font-size: 12.5px; color: var(--muted); }
+
+  /* row, compact */
+  .row { display: grid; grid-template-columns: 200px 1fr; gap: 6px 22px; padding: 20px 0; border-bottom: 1px solid var(--rule-soft); }
+  .head { display: flex; flex-direction: column; gap: 8px; }
+  .q { font-weight: 600; font-size: 16.5px; line-height: 1.3; }
+  .q small { display: block; font-weight: 400; font-size: 12.5px; color: var(--muted); margin-top: 3px; }
+  .time { font-size: 12.5px; color: var(--muted); }
+  .time b { font-weight: 600; color: var(--ink-2); }
+  .time .bars { display: inline-flex; gap: 2px; margin-left: 6px; vertical-align: middle; }
+  .time .bars i { width: 8px; height: 8px; border-radius: 1px; background: var(--track); }
+  .time .bars i.on { background: var(--ink-2); }
+
+  .tracks { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .track { display: grid; grid-template-columns: 78px 1fr; gap: 12px; align-items: center; }
+  .tl { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); text-align: right; white-space: nowrap; }
+  .lane { position: relative; height: 46px; margin: 0 10px; }
+  .lane .bar { position: absolute; left: 0; right: 0; top: 14px; height: 2px; background: var(--track); border-radius: 1px; }
+  .lane .band { position: absolute; top: 6px; height: 18px; min-width: 18px; margin-left: -9px; padding-right: 18px; box-sizing: content-box; border-radius: 9px; background: var(--ink-2); opacity: .16; }
+  .lane .pole { position: absolute; top: 29px; font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted); white-space: nowrap; letter-spacing: .02em; }
+  .lane .pole.l { left: -10px; } .lane .pole.r { right: -10px; }
+  .mk { position: absolute; top: 5px; width: 20px; height: 20px; margin-left: -10px; border-radius: 50%; background: var(--c); color: #fff; display: grid; place-items: center; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; font-weight: 500; box-shadow: 0 0 0 2px var(--ring); }
+
+  /* click-down */
+  .down { grid-column: 1 / -1; margin-top: 4px; }
+  .down summary { cursor: pointer; font-size: 12px; color: var(--ink-2); font-family: "IBM Plex Mono", monospace; letter-spacing: .06em; text-transform: uppercase; list-style: none; display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px 6px 8px; border: 1px solid var(--rule); border-radius: 4px; background: var(--panel); }
+  .down summary:hover { border-color: var(--ink-2); }
+  .down summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .down summary::-webkit-details-marker { display: none; }
+  .down summary::before { content: ""; width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg) translate(-1px, -1px); transition: transform .12s; }
+  .down[open] summary::before { transform: rotate(-135deg) translate(-1px, -1px); }
+  .down summary .sc { display: none; } .down[open] summary .so { display: none; } .down[open] summary .sc { display: inline; }
+
+  .canvas { margin-top: 14px; padding: 22px 22px 8px; background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; }
+  .canvas h3 { font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: 26px; line-height: 1.15; margin: 0 0 2px; letter-spacing: -.01em; text-wrap: balance; }
+  .canvas .sub { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+  .canvas h4 { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin: 0 0 10px; }
+
+  .big { display: flex; flex-direction: column; gap: 22px; margin-bottom: 26px; }
+  .big .track { grid-template-columns: 1fr; gap: 6px; }
+  .big .tl { text-align: left; font-size: 12px; color: var(--ink-2); }
+  .big .lane { height: 84px; margin: 0 16px; }
+  .big .lane .bar { top: 24px; height: 3px; }
+  .big .lane .band { top: 10px; height: 32px; min-width: 32px; margin-left: -16px; padding-right: 32px; border-radius: 16px; }
+  .big .lane .pole { top: 58px; font-size: 12.5px; color: var(--ink-2); }
+  .big .lane .pole.l { left: -16px; } .big .lane .pole.r { right: -16px; }
+  .big .mk { top: 9px; width: 34px; height: 34px; margin-left: -17px; font-size: 15px; box-shadow: 0 0 0 3px var(--ring); }
+
+  .cgrid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 28px 36px; padding-top: 20px; border-top: 1px solid var(--rule-soft); }
+  .wl { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; padding: 9px 0; border-top: 1px solid var(--rule-soft); }
+  .wl:first-of-type { border-top: 0; padding-top: 0; }
+  .wl .dot { width: 24px; height: 24px; font-size: 12px; margin-top: 1px; }
+  .wl .who { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-family: "IBM Plex Mono", monospace; margin-bottom: 1px; }
+  .wl .bc { font-size: 15px; font-weight: 500; line-height: 1.4; color: var(--ink); }
+  .wl .ev { font-size: 13px; color: var(--muted); line-height: 1.45; margin-top: 3px; }
+  .wl .ev .k { display: inline; margin-right: 4px; }
+  .wl .ev q { quotes: "\201C" "\201D"; font-style: italic; }
+
+  .room .opening { font-family: "Fraunces", Georgia, serif; font-size: 19px; line-height: 1.3; color: var(--ink); margin: 0 0 16px; letter-spacing: -.005em; }
+  .room ul { margin: 0; padding: 0; list-style: none; }
+  .room li { padding: 8px 0 8px 18px; border-top: 1px solid var(--rule-soft); color: var(--ink-2); font-size: 14.5px; position: relative; }
+  .room li::before { content: "?"; position: absolute; left: 0; top: 8px; font-family: "IBM Plex Mono", monospace; color: var(--muted); }
+
+  .xy { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(220px, 300px) 1fr; gap: 12px 32px; align-items: start; padding: 22px 0 14px; border-top: 1px solid var(--rule-soft); }
+  .xy h4 { grid-column: 1 / -1; margin-bottom: 0; }
+  .xy svg { width: 100%; height: auto; display: block; }
+  .xy .cap { font-size: 13.5px; color: var(--ink-2); max-width: 44ch; margin-top: 8px; }
+  .xy .cap strong { color: var(--ink); font-weight: 600; }
+  .xy .ax { font-family: "IBM Plex Mono", monospace; font-size: 11px; fill: var(--muted); letter-spacing: .02em; }
+  .xy .grid { stroke: var(--rule); stroke-width: 1; }
+  .xy .frame { fill: var(--paper); stroke: var(--rule); }
+  .xy .pt { stroke: var(--ring); stroke-width: 2.5; }
+  .xy .pl { font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 500; fill: #fff; text-anchor: middle; dominant-baseline: central; }
+
+  /* landmines and moonshots */
+  .cards { display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch; padding-top: 18px; }
+  .card { background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; }
+  .card .k { margin-bottom: 2px; }
+  .card .t { color: var(--ink); }
+  .card .by { font-size: 12.5px; color: var(--muted); margin-top: auto; }
+  .card.huge { flex: 1 1 100%; padding: 26px 28px; border-width: 2px; border-color: var(--ink-2); }
+  .card.huge .t { font-family: "Fraunces", Georgia, serif; font-size: clamp(20px, 3vw, 27px); line-height: 1.25; letter-spacing: -.01em; max-width: 34ch; text-wrap: balance; }
+  .card.small { flex: 0 1 46%; min-width: 240px; padding: 12px 14px; }
+  .card.small .t { font-size: 13.5px; color: var(--ink-2); }
+  .card.moon { flex: 1 1 100%; }
+  .card.moon .t { font-family: "Fraunces", Georgia, serif; font-size: 20px; line-height: 1.3; max-width: 40ch; }
+
+  .foot { margin-top: 34px; font-size: 13px; color: var(--muted); max-width: 70ch; }
+
+  @media (max-width: 640px) {
+    .page { padding: 20px 16px 60px; }
+    .row, .sech, .stateh { grid-template-columns: 1fr; gap: 8px; }
+    .track { grid-template-columns: 1fr; gap: 2px; }
+    .tl { text-align: left; }
+    .legend .hint { margin-left: 0; width: 100%; }
+    .states { grid-template-columns: 1fr; }
+    .ctx { grid-template-columns: 1fr 1fr; }
+    .canvas { padding: 16px 14px 6px; margin-left: -4px; margin-right: -4px; }
+    .canvas h3 { font-size: 22px; }
+    .big .lane { margin: 0 12px; }
+    .cgrid { grid-template-columns: 1fr; gap: 22px; }
+    .xy { grid-template-columns: 1fr; }
+    .card.small { flex-basis: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) { .down summary::before { transition: none; } }
+  @media print {
+    body { background: #fff; color: #000; }
+    .tabs, .go, .down summary { display: none !important; }
+    .canvas { border-color: #bbb; background: #fff; break-inside: avoid; }
+    .row, .card { break-inside: avoid; }
+    .lane .band { opacity: .22; }
+    .mk, .dot { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" id="t-guide" aria-selected="true" aria-controls="p-guide">Guide</button>
+    <button class="tab" role="tab" id="t-demo" aria-selected="false" aria-controls="p-demo">Demo</button>
+  </div>
+
+  <!-- ============ GUIDE ============ -->
+  <section class="panel guide" id="p-guide" role="tabpanel" aria-labelledby="t-guide">
+    <div class="eyebrow"><span>Alignment Map</span><span class="ex">Sample · read this first</span></div>
+    <h1>What this sample is, and what it isn't</h1>
+    <p class="lede">A take at the Alignment Map frame, built on a made-up company so we can argue about the shape before we put a real team's data in it. Everything on the Demo tab is invented. The choices behind it are the point.</p>
+
+    <h2>The one-sentence job</h2>
+    <p>Show a leadership team where they actually agree and disagree, by how much, on the questions that matter for the thing they're about to do, so the facilitator knows where to spend the room's time. Nish's framing: <strong>the conversation is the work.</strong> The map doesn't catalyze change; it tells the humans which conflicts deserve their attention.</p>
+
+    <h2>The unit is a question, not a person</h2>
+    <p>Every row is a strategic question the team is implicitly answering every week. Leaders appear as marks on the row, never as the subject of it. Three reasons. It keeps the map about the business rather than personalities, so a team can look at it together without anyone getting defensive. It makes maps comparable across companies, because the questions recur even when the people don't. And it makes anonymization mechanical: swap names for role chips and the map is unchanged. That's why a client's version and a pitch version can be the same artifact.</p>
+
+    <h2>Two tracks per row</h2>
+    <p>The top track is what each leader says. The bottom track is why they say it, or what they mean by it. This is the whole trick. Alignment has two failure modes that look identical from the top track alone, and they need opposite treatment in the room.</p>
+    <p><strong>Same words, different reasons.</strong> Everyone says "stop custom builds" but for five reasons. It holds until the first hard case, then three people fold. This is the one that sells the category, because no other artifact shows it.</p>
+    <p><strong>Different words, same view.</strong> The CEO says "move fast," the COO says "discipline," Delivery says "predictable." They mean the same thing and have been butting heads over vocabulary. Nish's addition, and the one that makes a team laugh in recognition.</p>
+
+    <h2>The four states a row can be in</h2>
+    <div class="states">
+      <div class="state"><div class="n">Aligned</div><div class="s">Tight on both tracks</div>
+        <div class="mini"><i style="--l:80%;--w:15%"></i></div><div class="mini"><i style="--l:80%;--w:15%"></i></div>
+        <p>An asset, not a row to skip. Nish caught himself on this: spend a little time on why it's solid and what would break it.</p></div>
+      <div class="state"><div class="n">Different words, same view</div><div class="s">Wide on top, tight underneath</div>
+        <div class="mini"><i style="--l:5%;--w:90%"></i></div><div class="mini"><i style="--l:70%;--w:20%"></i></div>
+        <p>A vocabulary problem wearing a strategy problem's clothes. Agree on one word and move on. Costs ten minutes, saves a quarter.</p></div>
+      <div class="state"><div class="n">Same words, different reasons</div><div class="s">Tight on top, wide underneath</div>
+        <div class="mini"><i style="--l:80%;--w:15%"></i></div><div class="mini"><i style="--l:5%;--w:90%"></i></div>
+        <p>False alignment. Looks settled, isn't. The facilitator's job is to stress-test it before reality does.</p></div>
+      <div class="state"><div class="n">Contested</div><div class="s">Wide on both tracks</div>
+        <div class="mini"><i style="--l:5%;--w:90%"></i></div><div class="mini"><i style="--l:5%;--w:90%"></i></div>
+        <p>Real, defensible disagreement. Name it so the team stops relitigating it by accident. Gets the most room time.</p></div>
+    </div>
+
+    <h2>How the map is ordered</h2>
+    <p>Matches first, then gaps, then landmines, then moonshots. Start with what we share. Spend the room's time on what we don't. Name what could blow up, sized by what it would cost. End on what could be. It is one map, read top to bottom, not four.</p>
+
+    <h2>Open a row</h2>
+    <p>The map reads at rest, on a phone, printed. Every row also opens into a bigger canvas for the person preparing the session: the two tracks at full size, why each of us lands where we do, the questions for the room, and the same five marks drawn as a 2x2.</p>
+    <p><strong>Because over quote.</strong> In the opened row, each leader's reason is the readable line, in plain words. The quote sits beneath it as evidence. Thirty-five quotes at a glance is a wall; thirty-five reasons is a picture. Nothing is lost, and a paraphrase is harder to trace back to a person than their exact words.</p>
+    <p><strong>The 2x2 is a second look, not the map.</strong> A 2x2 forces every question onto the same two axes. Each row here has its own. Under a row, the say track runs left to right and the why track runs bottom to top, so the four states show up as shapes: a stack, a line, a cluster, a scatter.</p>
+
+    <h2>Degrees, not a score</h2>
+    <p>The earlier draft put a decimal spread on each row. It's gone. What the facilitator needs is a room-time allocation, so each row carries a three-step "room time" indicator derived from how far apart the marks are and how much the question bears on the context. It's deliberately coarse. A number invites arguing about the number.</p>
+
+    <h2>Scoped to a context</h2>
+    <p>The map names what it's for: here, Northline's Q4 planning. This is the noise filter. Plenty of disagreements are real and irrelevant. Rows are chosen and weighted by whether they bear on the thing the team is about to decide. A different context, say an annual plan or a market entry, produces a different map from the same conversations.</p>
+
+    <h2>Questions, not conclusions</h2>
+    <p>Each opened row ends with a question the facilitator could open with, and the further questions the room should take up, with the evidence beneath as unattributed quotes. Not an agenda. Implementers design the room; their identity is in that. We give them the raw material and the trace back to why.</p>
+
+    <h2>What it is not</h2>
+    <div class="not">
+      <p><strong>Not the Patterns report.</strong> Patterns nest inside it. Landmines and moonshots that aren't about alignment get their own sections at the end, for the team to decide whether they deserve time.</p>
+      <p><strong>Not a personality map.</strong> No one is scored. Marks show positions, not people.</p>
+      <p><strong>Not a walkaway document.</strong> It's pre-read for the one person preparing the session, and an opening frame for the room. The team leaves with conversations they've had, not a PDF.</p>
+      <p><strong>Not a network diagram, and not a 2x2.</strong> Nodes and edges look sophisticated and communicate nothing at a glance. A single 2x2 flattens every question onto the same axes. A row of dots on a line is readable from across a table.</p>
+      <p><strong>Not a one-time artifact.</strong> Not in v1, but the data model keeps versions so a team can see what closed, what opened, and what held from quarter to quarter.</p>
+    </div>
+
+    <h2>Open for Pulse</h2>
+    <ul class="open">
+      <li>Where do the questions come from: a fixed library we tune per context, or emergent from the conversations each time?</li>
+      <li>Who places the marks, and how do we show confidence in the placement?</li>
+      <li>How much of the "because" track is safe to show a full team versus the facilitator only?</li>
+      <li>What does a client need to approve for an anonymized version to be shown to a prospect?</li>
+    </ul>
+
+    <button class="go" id="go-demo">See the Northline demo</button>
+  </section>
+
+  <!-- ============ DEMO ============ -->
+  <section class="panel" id="p-demo" role="tabpanel" aria-labelledby="t-demo" hidden>
+    <div class="eyebrow"><span>Alignment Map</span><span class="ex" id="d-ex"></span></div>
+    <h1 id="d-headline"></h1>
+    <p class="lede" id="d-lede"></p>
+    <div class="ctx" id="d-ctx"></div>
+    <div class="legend" id="d-legend"></div>
+    <div id="rows"></div>
+    <div class="foot" id="d-foot"></div>
+  </section>
+</div>
+
+<script id="map-data" type="application/json">{"company":"Northline","note":"Northline is invented: a 141-person specialty engineering and fabrication firm building process systems for food and beverage plants. The people, the numbers, and every quote are composites written for demonstration. No client data appears in this map. Backstory in docs/northline-case-study.md. See SCHEMA.md.","context":{"name":"Q4 planning session","team":"5 leaders, interviewed 1:1 over two weeks","facilitator":"External EOS Implementer"},"leaders":[{"id":"ceo","label":"CEO","initial":"C"},{"id":"coo","label":"COO","initial":"O"},{"id":"sales","label":"Sales","initial":"S"},{"id":"product","label":"Product","initial":"P"},{"id":"delivery","label":"Delivery","initial":"D"}],"headline":"We agree on what to stop. We don’t agree on what we are.","states":[{"id":"contested","name":"Contested","description":"Wide on both lines. Real disagreement, defensible on each side. Name it so the team stops relitigating it by accident."},{"id":"false","name":"Same words, different reasons","description":"Tight on top, wide underneath. Looks settled; isn’t. Stress-test it before reality does."},{"id":"vocab","name":"Different words, same view","description":"Wide on top, tight underneath. A vocabulary problem dressed as a strategy problem. Agree on one word and move on."},{"id":"aligned","name":"Aligned","description":"Tight on both lines. An asset to protect, not a row to skip."}],"questions":[{"id":"what-are-we","question":"What are we?","subtitle":"A custom shop or a product company","state":"contested","room_time":3,"tracks":{"say":{"poles":["Services","Product"],"positions":{"delivery":{"value":0.04,"quote":"We’re the shop people call when nothing off the shelf will fit. That’s the business."},"coo":{"value":0.2,"quote":"The standard line is a bet. Custom work is the payroll."},"ceo":{"value":0.55,"quote":"A product company that still runs a custom shop."},"sales":{"value":0.72,"quote":"I lead with the NL units now. Custom closes whatever they don’t cover."},"product":{"value":0.96,"quote":"Custom is the past tense around here."}}},"why":{"poles":["It pays today","It scales tomorrow"],"positions":{"delivery":{"value":0.08,"quote":"Shop hours booked against a job. That’s the number that pays us.","because":"Billable shop hours are what keep everyone employed."},"coo":{"value":0.14,"quote":"Custom covers the quarter. It doesn’t cover the tooling.","because":"Cash from custom work funds everything else we try."},"sales":{"value":0.5,"quote":"Standard units close faster. Custom jobs are bigger.","because":"Each kind of deal wins on a different thing."},"ceo":{"value":0.62,"quote":"Nobody has ever paid a multiple for a job shop.","because":"Repeatable revenue is what a buyer will pay for."},"product":{"value":0.95,"quote":"Nothing compounds here except the line. We build everything once.","because":"Only a design we repeat gets better and cheaper."}}}},"suggested_conversation":"Is “product company” a description of who we are today, or an aspiration with a date? If it’s an aspiration, what has to be true by the end of Q4?","room_questions":["If the NL-Series were 40% of revenue, what would the custom shop be for?","Which of this year’s custom jobs would we turn down next year, and who tells the customer?","Whatever we say in this room, what does the December decision on the $2.6M cell say about what we are?"]},{"id":"who-is-the-customer","question":"Who is the customer?","subtitle":"Where the next ten plants come from","state":"contested","room_time":3,"tracks":{"say":{"poles":["Enterprise","Mid-market"],"positions":{"sales":{"value":0.05,"quote":"The national processors. That’s where the money is."},"ceo":{"value":0.16,"quote":"Nationals, with a regional on-ramp."},"coo":{"value":0.5,"quote":"Whoever we can actually put a crew on."},"product":{"value":0.84,"quote":"Regionals. The nationals break the standard line."},"delivery":{"value":0.93,"quote":"Regionals. The nationals break the crews."}}},"why":{"poles":["Deal size","Delivery capacity"],"positions":{"sales":{"value":0.05,"quote":"One plant-wide job at a national is a whole quarter.","because":"One national order fills a quarter of the plan."},"ceo":{"value":0.22,"quote":"Those names are what a bank or a buyer looks at first.","because":"Marquee customers raise what the company is worth."},"product":{"value":0.6,"quote":"Every national wants one change to a standard drawing.","because":"Custom requests turn a standard design back into custom."},"coo":{"value":0.7,"quote":"We can’t hire welders fast enough to serve them properly.","because":"Hiring cannot keep up with what nationals demand."},"delivery":{"value":0.95,"quote":"Every national account is two of my leads, full time, for a year.","because":"Each national ties up my best people for months."}}}},"suggested_conversation":"Sales and Delivery are at opposite ends for reasons that are both true. What would a national account have to look like for Delivery to want it?","room_questions":["Which of our top five accounts would we take again today, knowing what each one cost the crews?","Is a national that buys standard units a national account, or a regional-sized order with a bigger logo?","Who decides when a change to a standard drawing turns a product order back into a custom job?"]},{"id":"hire-ahead-of-revenue","question":"Hire ahead of revenue?","subtitle":"Staffing for the plan or for the pipeline","state":"contested","room_time":2,"tracks":{"say":{"poles":["No","Yes"],"positions":{"coo":{"value":0.07,"quote":"Not until the contracts are signed and the deposits land."},"delivery":{"value":0.16,"quote":"We hired ahead in 2023. I made the layoff calls myself."},"ceo":{"value":0.8,"quote":"If we don’t, we turn down the work that proves the plan."},"product":{"value":0.86,"quote":"Two controls engineers now, or the line slips a year."},"sales":{"value":0.92,"quote":"I have quotes sitting out there I can’t put a date on."}}},"why":{"poles":["Protect margin","Buy momentum"],"positions":{"coo":{"value":0.06,"quote":"Margin is the only thing in this building we control.","because":"Margin is the one lever we actually control."},"delivery":{"value":0.2,"quote":"Nothing loses a good welder faster than a month of sweeping.","because":"Idle crews leave before the work shows up."},"product":{"value":0.7,"quote":"The constraint is people, not orders. It always has been.","because":"Engineering capacity, not demand, is what limits us."},"ceo":{"value":0.85,"quote":"The growth rate is the story we’re telling the bank in January.","because":"Our growth number is the story outsiders buy."},"sales":{"value":0.94,"quote":"Quotes go stale while we wait to be brave.","because":"Deals die during the months we spend waiting."}}}},"suggested_conversation":"This is two camps, not five opinions. What signal would move the COO to yes, and what signal would move the CEO to wait?","room_questions":["What did 2023 teach us that still applies, and what was specific to that one job?","Which two hires would we make if the deposits landed tomorrow, and are they already on a list?","Is there a trigger tied to signed backlog that both camps would accept in advance?"]},{"id":"what-does-growth-mean-in-12-months","question":"What does growth mean in 12 months?","subtitle":"The number the year is judged on","state":"contested","room_time":2,"tracks":{"say":{"poles":["Margin","Revenue"],"positions":{"coo":{"value":0.1,"quote":"Twenty points of gross margin. Nothing else."},"delivery":{"value":0.34,"quote":"Profitable, and nobody good quits."},"product":{"value":0.46,"quote":"Standard line past half of what we ship."},"ceo":{"value":0.8,"quote":"Double the top line."},"sales":{"value":0.9,"quote":"Double bookings."}}},"why":{"poles":["Survive","Get acquired"],"positions":{"coo":{"value":0.08,"quote":"Cash and the covenant. That’s the plan.","because":"Staying inside the bank covenant comes before everything."},"delivery":{"value":0.25,"quote":"The crew is the asset. The rest of it is steel.","because":"A stable crew is the thing we cannot replace."},"product":{"value":0.5,"quote":"A manufacturer is worth more than a job shop is.","because":"A product line changes what the company is worth."},"sales":{"value":0.78,"quote":"Growth is the thing a buyer actually pays for.","because":"Buyers pay for the growth curve, not the backlog."},"ceo":{"value":0.92,"quote":"We’re building this to be bought. I’ve never said that in a room.","because":"The plan has always been a sale in three years."}}}},"suggested_conversation":"Half the room is planning to survive and half is planning to be bought. Has the exit intent ever been said out loud to the whole team?","room_questions":["If we are building to be bought, what does a buyer need to see in twelve months, and does the plan produce it?","What is the covenant headroom in April under the growth plan, and who has run that number?","Can “twenty points of margin” and “double the top line” both be true? If not, which one wins?"]},{"id":"do-we-stop-doing-custom-builds","question":"Do we stop doing custom builds?","subtitle":"The one thing everyone agreed to drop","state":"false","room_time":3,"tracks":{"say":{"poles":["Keep","Stop"],"positions":{"delivery":{"value":0.84,"quote":"Stop. Please."},"coo":{"value":0.88,"quote":"Stop. We can’t staff them anyway."},"sales":{"value":0.9,"quote":"Stop, unless the job is big enough to matter."},"ceo":{"value":0.93,"quote":"Stop. They’re a distraction from what we’re becoming."},"product":{"value":0.96,"quote":"Stop. Every one of them eats the standard line."}}},"why":{"poles":["About the people","About the strategy"],"positions":{"delivery":{"value":0.05,"quote":"They burn out the crews. I’ve watched it happen twice.","because":"Custom jobs are what makes good people leave."},"coo":{"value":0.26,"quote":"I can’t staff one without robbing another job to do it.","because":"We do not have the people to run them."},"sales":{"value":0.5,"quote":"The margin on them is bad, and I know it’s bad.","because":"Custom work prices well and earns badly."},"product":{"value":0.75,"quote":"Every exception becomes a drawing nobody else can ever use.","because":"Each one-off pulls engineers off the standard design."},"ceo":{"value":0.95,"quote":"They muddy the story we’re trying to tell about this company.","because":"One-offs keep us looking like a job shop."}}}},"suggested_conversation":"We all said stop. A $1.8M custom build lands in November with good margin and a crew available. Who still says stop, and why?","room_questions":["What is the rule for the exception: size, margin, customer, or a vote?","Which of the five reasons to stop is the one we would defend to an eleven-year customer?","If we keep a custom shop on purpose, what is it for, and how big is it allowed to be?"]},{"id":"how-do-we-run-the-quarter","question":"How do we run the quarter?","subtitle":"Operating rhythm","state":"vocab","room_time":1,"tracks":{"say":{"poles":["Speed","Discipline"],"positions":{"ceo":{"value":0.06,"quote":"Move. We take too long to decide anything around here."},"sales":{"value":0.22,"quote":"Build what I can sell, when I can sell it."},"product":{"value":0.5,"quote":"Short cycles. Look at it honestly every two weeks."},"delivery":{"value":0.82,"quote":"Predictable. Tell me what’s coming and when."},"coo":{"value":0.94,"quote":"Discipline. Scope creep is eating the margin."}}},"why":{"poles":["Ad hoc","Fixed cadence"],"positions":{"sales":{"value":0.7,"quote":"Give me a ship date I can actually promise someone.","because":"A date I can commit to is all I need."},"ceo":{"value":0.78,"quote":"Two-week schedule, frozen. No exceptions, including from me.","because":"Decide every two weeks and stop reopening it."},"product":{"value":0.84,"quote":"Two-week planning cycle, scope locked once it starts.","because":"Lock the two weeks so engineering can finish something."},"delivery":{"value":0.88,"quote":"A schedule I can plan crews around two weeks out.","because":"A fixed schedule is what lets me staff jobs."},"coo":{"value":0.92,"quote":"Two-week freeze on the floor. No mid-cycle changes.","because":"Changes mid-cycle are where the margin disappears."}}}},"suggested_conversation":"We all described the same thing: two-week cycles with the schedule frozen. Can we agree on one word for it and stop having the speed-versus-discipline argument?","room_questions":["What is the one word for the two-week cycle, and who is allowed to break the freeze?","What actually happened the last three times the schedule changed mid-cycle?"]},{"id":"do-we-raise-in-2027","question":"Do we raise in 2027?","subtitle":"Capital","state":"aligned","room_time":1,"tracks":{"say":{"poles":["No","Yes"],"positions":{"coo":{"value":0.8,"quote":"Yes, if we finish this year clean."},"delivery":{"value":0.86,"quote":"Yes. We can’t do it out of cash flow."},"product":{"value":0.9,"quote":"Yes. The line needs the cell built."},"sales":{"value":0.92,"quote":"Yes."},"ceo":{"value":0.95,"quote":"Yes. Second quarter."}}},"why":{"poles":["Cover the gap","Fund the bet"],"positions":{"coo":{"value":0.72,"quote":"Without it the covenant gets tight in the spring.","because":"We need the headroom before cash gets tight."},"delivery":{"value":0.8,"quote":"It pays for people we already needed last year.","because":"It covers hiring we should have done already."},"sales":{"value":0.84,"quote":"It pays for growing instead of just replacing.","because":"It funds growth instead of patching what breaks."},"product":{"value":0.9,"quote":"It builds the cell. That is the entire bet.","because":"It funds the dedicated cell the line needs."},"ceo":{"value":0.94,"quote":"It funds the bet. Everything else it does is secondary.","because":"It funds the product bet and nothing else."}}}},"suggested_conversation":"This one is solid. Spend five minutes on it anyway: what would have to go wrong in Q4 for the raise to slip, and who is watching for it?","room_questions":["What has to be true in the December plan for the bank to say yes in January?","If the raise slipped a year, would we still order the cell in December?"]}],"outliers":[{"type":"landmine","size":"huge","text":"The largest customer’s supply agreement renews in January. Asked who owns it, two leaders named each other. That account is 19% of revenue.","raised_by":2},{"type":"landmine","size":"small","text":"The empty half of Plant 2 is being used for overflow storage by two departments, each of which thinks it owns the space the cell would go in.","raised_by":2},{"type":"moonshot","text":"Product floated an online configurator that would let a plant engineer spec and price a standard unit without calling anyone here.","raised_by":1}],"lede":"Seven questions we are answering every week without saying so. On each row, the top line is what each of us says and the bottom line is why. The shaded band is how far apart we are. Open a row for the reasons, the questions for the room, and the same five marks as a 2x2.","groups":[{"id":"matches","name":"Where we match","description":"Two shapes. Tight on both lines is aligned, an asset to protect. Wide on top and tight underneath is a vocabulary fight over a view we already share.","states":["aligned","vocab"]},{"id":"gaps","name":"Where we don’t","description":"Tight on top and wide underneath looks settled and isn’t. Wide on both lines is real disagreement, defensible on each side.","states":["false","contested"]},{"id":"landmines","name":"Landmines","description":"Surfaced in the 1:1s. Not about alignment. Sized by what each could cost us if nobody picks it up.","outliers":"landmine"},{"id":"moonshots","name":"Moonshots","description":"One person’s idea that nobody else mentioned. Surfaced, not placed. We decide whether it deserves any time at all.","outliers":"moonshot"}]}</script>
+<script>
+(function () {
+  var DATA = JSON.parse(document.getElementById('map-data').textContent);
+
+  /* ---------- tabs ---------- */
+  var tabs = document.querySelectorAll('.tab'), panels = document.querySelectorAll('.panel');
+  function select(id, keepScroll) {
+    tabs.forEach(function (t) { t.setAttribute('aria-selected', t.id === id ? 'true' : 'false'); });
+    panels.forEach(function (p) { p.hidden = p.getAttribute('aria-labelledby') !== id; });
+    try { localStorage.setItem('am-tab', id); } catch (e) {}
+    if (!keepScroll) window.scrollTo(0, 0);
+  }
+  tabs.forEach(function (t) { t.addEventListener('click', function () { select(t.id); }); });
+  document.getElementById('go-demo').addEventListener('click', function () { select('t-demo'); });
+
+  /* ---------- helpers ---------- */
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  var leaders = DATA.leaders, order = leaders.map(function (l) { return l.id; });
+  var L = {}; leaders.forEach(function (l, i) { L[l.id] = { i: l.initial, name: l.label, c: 'var(--c-' + (i + 1) + ')' }; });
+  var stateById = {}; DATA.states.forEach(function (s) { stateById[s.id] = s; });
+  var TL = { say: 'We say', why: 'Because' };
+  var TIME = ['Little', 'Some', 'Most'];
+  function pct(v) { return (v * 100).toFixed(1) + '%'; }
+  function dot(id) { return '<span class="dot" style="--c:' + L[id].c + '">' + esc(L[id].i) + '</span>'; }
+
+  /* ---------- header ---------- */
+  document.getElementById('d-ex').textContent = DATA.company + ' · example data';
+  document.getElementById('d-headline').textContent = DATA.headline;
+  document.getElementById('d-lede').textContent = DATA.lede || '';
+  document.getElementById('d-ctx').innerHTML =
+    '<div><span class="k">Context</span>' + esc(DATA.context.name) + '</div>' +
+    '<div><span class="k">Team</span>' + esc(DATA.context.team) + '</div>' +
+    '<div><span class="k">Facilitator</span>' + esc(DATA.context.facilitator) + '</div>';
+  document.getElementById('d-legend').innerHTML = '<span class="lab">Leaders</span>' +
+    leaders.map(function (l) { return '<span class="chip">' + dot(l.id) + esc(l.label) + '</span>'; }).join('') +
+    '<span class="hint">Open any row for the reasons, the questions, and the 2x2.</span>';
+  document.getElementById('d-foot').textContent = DATA.note || '';
+
+  /* ---------- tracks ---------- */
+  function lane(track, key) {
+    var v = order.map(function (k) { return track.positions[k].value; });
+    var lo = Math.min.apply(null, v), hi = Math.max.apply(null, v);
+    var h = '<div class="track"><span class="tl">' + TL[key] + '</span><div class="lane"><div class="bar"></div>';
+    h += '<div class="band" style="left:' + pct(lo) + ';width:' + pct(hi - lo) + '"></div>';
+    order.forEach(function (k) {
+      var p = track.positions[k];
+      var tip = L[k].name + ': ' + (key === 'why' && p.because ? p.because : p.quote);
+      h += '<span class="mk" style="--c:' + L[k].c + ';left:' + pct(p.value) + '" title="' + esc(tip) + '">' + esc(L[k].i) + '</span>';
+    });
+    h += '<span class="pole l">' + esc(track.poles[0]) + '</span><span class="pole r">' + esc(track.poles[1]) + '</span></div></div>';
+    return h;
+  }
+
+  /* ---------- 2x2: say left-to-right, why bottom-to-top ---------- */
+  function xy(q) {
+    var S = 320, pad = 26, R = 13, span = S - pad * 2, f0 = pad - 8, f1 = S - pad + 8;
+    var pts = order.map(function (k) {
+      return { k: k, x: pad + q.tracks.say.positions[k].value * span, y: S - pad - q.tracks.why.positions[k].value * span };
+    });
+    // nudge overlapping marks apart so every letter stays legible
+    for (var it = 0; it < 24; it++) {
+      for (var i = 0; i < pts.length; i++) for (var j = i + 1; j < pts.length; j++) {
+        var dx = pts[j].x - pts[i].x, dy = pts[j].y - pts[i].y, d = Math.sqrt(dx * dx + dy * dy), min = R * 2 + 3;
+        if (d < min) {
+          if (d < 0.01) { dx = 1; dy = 0; d = 1; }
+          var push = (min - d) / 2;
+          pts[i].x -= dx / d * push; pts[i].y -= dy / d * push; pts[j].x += dx / d * push; pts[j].y += dy / d * push;
+        }
+      }
+    }
+    pts.forEach(function (p) { p.x = Math.max(pad, Math.min(S - pad, p.x)); p.y = Math.max(pad, Math.min(S - pad, p.y)); });
+    var say = q.tracks.say.poles, why = q.tracks.why.poles;
+    var h = '<svg viewBox="0 0 ' + S + ' ' + S + '" role="img" aria-label="' + esc(q.question) + ' as a 2x2">';
+    h += '<rect class="frame" x="' + f0 + '" y="' + f0 + '" width="' + (f1 - f0) + '" height="' + (f1 - f0) + '" rx="6"/>';
+    h += '<line class="grid" x1="' + S / 2 + '" y1="' + f0 + '" x2="' + S / 2 + '" y2="' + f1 + '"/>';
+    h += '<line class="grid" x1="' + f0 + '" y1="' + S / 2 + '" x2="' + f1 + '" y2="' + S / 2 + '"/>';
+    // say poles along the bottom edge; why poles rotated along the left edge
+    h += '<text class="ax" x="' + f0 + '" y="' + (S - 4) + '">' + esc(say[0]) + '</text>';
+    h += '<text class="ax" x="' + f1 + '" y="' + (S - 4) + '" text-anchor="end">' + esc(say[1]) + '</text>';
+    h += '<text class="ax" transform="rotate(-90)" x="' + (-f1) + '" y="11">' + esc(why[0]) + '</text>';
+    h += '<text class="ax" transform="rotate(-90)" x="' + (-f0) + '" y="11" text-anchor="end">' + esc(why[1]) + '</text>';
+    pts.forEach(function (p) {
+      h += '<circle class="pt" cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="' + R + '" fill="' + L[p.k].c + '"><title>' + esc(L[p.k].name) + '</title></circle>';
+      h += '<text class="pl" x="' + p.x.toFixed(1) + '" y="' + p.y.toFixed(1) + '">' + esc(L[p.k].i) + '</text>';
+    });
+    return h + '</svg>';
+  }
+
+  /* ---------- opened row ---------- */
+  function canvas(q) {
+    var h = '<div class="canvas"><h3>' + esc(q.question) + '</h3><div class="sub">' + esc(q.subtitle) + '</div>';
+    h += '<div class="big">' + lane(q.tracks.say, 'say') + lane(q.tracks.why, 'why') + '</div>';
+    h += '<div class="cgrid">';
+    // why: sorted by position on the why track, so the list reads like the band
+    h += '<section class="why"><h4>Why each of us lands there</h4>';
+    order.slice().sort(function (a, b) { return q.tracks.why.positions[a].value - q.tracks.why.positions[b].value; }).forEach(function (k) {
+      var w = q.tracks.why.positions[k], s = q.tracks.say.positions[k];
+      h += '<div class="wl">' + dot(k) + '<div><div class="who">' + esc(L[k].name) + '</div>';
+      h += '<div class="bc">' + esc(w.because || w.quote) + '</div>';
+      h += '<div class="ev"><span class="k">Says</span><q>' + esc(s.quote) + '</q></div>';
+      if (w.because) h += '<div class="ev"><span class="k">Why</span><q>' + esc(w.quote) + '</q></div>';
+      h += '</div></div>';
+    });
+    h += '</section>';
+    h += '<section class="room"><h4>For the room</h4><p class="opening">' + esc(q.suggested_conversation) + '</p>';
+    if (q.room_questions && q.room_questions.length) {
+      h += '<ul>' + q.room_questions.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>';
+    }
+    h += '</section>';
+    h += '<section class="xy"><h4>The same five marks as a 2x2</h4><div>' + xy(q) + '</div>';
+    h += '<div class="cap">Left to right is what we say, <strong>' + esc(q.tracks.say.poles[0]) + '</strong> to <strong>' + esc(q.tracks.say.poles[1]) + '</strong>. Bottom to top is why, <strong>' + esc(q.tracks.why.poles[0]) + '</strong> to <strong>' + esc(q.tracks.why.poles[1]) + '</strong>. A vertical stack is same words, different reasons. A horizontal line is different words, same view. A cluster is aligned. A scatter is contested.</div></section>';
+    return h + '</div></div>';
+  }
+
+  function row(q) {
+    var bars = ''; for (var b = 1; b <= 3; b++) bars += '<i class="' + (b <= q.room_time ? 'on' : '') + '"></i>';
+    var h = '<div class="row" id="q-' + esc(q.id) + '">';
+    h += '<div class="head"><div class="q">' + esc(q.question) + '<small>' + esc(q.subtitle) + '</small></div>';
+    h += '<div class="time">Room time <b>' + TIME[q.room_time - 1] + '</b><span class="bars">' + bars + '</span></div></div>';
+    h += '<div class="tracks">' + lane(q.tracks.say, 'say') + lane(q.tracks.why, 'why') + '</div>';
+    h += '<details class="down"><summary><span class="so">Open this question</span><span class="sc">Close</span></summary>' + canvas(q) + '</details>';
+    return h + '</div>';
+  }
+
+  function card(o) {
+    var cls = o.type === 'moonshot' ? 'moon' : (o.size === 'huge' ? 'huge' : 'small');
+    var label = o.type === 'moonshot' ? 'Moonshot' : ('Landmine · ' + (o.size === 'huge' ? 'huge' : 'small'));
+    var by = o.raised_by === 1 ? 'Raised by one of us.' : 'Raised by ' + o.raised_by + ' of ' + leaders.length + ', independently.';
+    return '<div class="card ' + cls + '"><span class="k">' + label + '</span><div class="t">' + esc(o.text) + '</div><div class="by">' + by + '</div></div>';
+  }
+
+  /* ---------- assemble ---------- */
+  var out = '';
+  DATA.groups.forEach(function (g) {
+    out += '<div class="sec"><div class="sech"><div class="secn">' + esc(g.name) + '</div><p>' + esc(g.description) + '</p></div>';
+    if (g.states) {
+      g.states.forEach(function (sid) {
+        var qs = DATA.questions.filter(function (q) { return q.state === sid; });
+        if (!qs.length) return;
+        var st = stateById[sid];
+        out += '<div class="stateh"><span class="sn">' + esc(st.name) + '</span><span class="sd">' + esc(st.description) + '</span></div>';
+        qs.forEach(function (q) { out += row(q); });
+      });
+    } else if (g.outliers) {
+      var os = DATA.outliers.filter(function (o) { return o.type === g.outliers; });
+      os.sort(function (a, b) { return (a.size === 'huge' ? 0 : 1) - (b.size === 'huge' ? 0 : 1); });
+      out += '<div class="cards">' + os.map(card).join('') + '</div>';
+    }
+    out += '</div>';
+  });
+  document.getElementById('rows').innerHTML = out;
+
+  /* ---------- big lanes: stack marks that would overlap, so every letter stays readable ---------- */
+  var MK = 34, GAP = 38, NEAR = 22; // marks closer than NEAR px drop to the next level
+  function layoutBig(root) {
+    root.querySelectorAll('.big .lane').forEach(function (lane) {
+      var w = lane.clientWidth; if (!w) return;
+      var mks = Array.prototype.slice.call(lane.querySelectorAll('.mk'));
+      mks.sort(function (a, b) { return parseFloat(a.style.left) - parseFloat(b.style.left); });
+      var last = [];
+      mks.forEach(function (m) {
+        var x = parseFloat(m.style.left) / 100 * w, lvl = 0;
+        while (last[lvl] !== undefined && x - last[lvl] < NEAR) lvl++;
+        last[lvl] = x;
+        m.style.top = (9 + lvl * GAP) + 'px';
+      });
+      var extra = (last.length - 1) * GAP;
+      lane.style.height = (84 + extra) + 'px';
+      lane.querySelectorAll('.pole').forEach(function (p) { p.style.top = (58 + extra) + 'px'; });
+    });
+  }
+  document.querySelectorAll('.down').forEach(function (d) {
+    d.addEventListener('toggle', function () { if (d.open) layoutBig(d); });
+  });
+  window.addEventListener('resize', function () {
+    document.querySelectorAll('.down[open]').forEach(layoutBig);
+  });
+
+  /* ---------- open every row when printing ---------- */
+  var wasOpen = [];
+  window.addEventListener('beforeprint', function () {
+    wasOpen = [];
+    document.querySelectorAll('.down').forEach(function (d) { wasOpen.push(d.open); d.open = true; layoutBig(d); });
+  });
+  window.addEventListener('afterprint', function () {
+    document.querySelectorAll('.down').forEach(function (d, i) { d.open = !!wasOpen[i]; });
+  });
+
+  /* ---------- restore tab, honour deep links (#q-<id>) ---------- */
+  var hash = location.hash.replace('#', '');
+  if (hash && document.getElementById(hash)) {
+    select('t-demo', true);
+    var d = document.querySelector('#' + hash + ' .down'); if (d) { d.open = true; layoutBig(d); }
+    document.getElementById(hash).scrollIntoView();
+  } else {
+    try { var saved = localStorage.getItem('am-tab'); if (saved === 't-demo') select(saved); } catch (e) {}
+  }
+})();
+</script>
+
+</body>
+</html>
