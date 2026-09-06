@@ -465,16 +465,16 @@
 
 <div class="page">
   <div class="top">
-    <a class="wordmark" href="#s-summary">TheMirror<span>.ai</span></a>
+    <a class="wordmark" href="#how">TheMirror<span>.ai</span></a>
     <div class="tabs" role="tablist">
-      <button class="tab" role="tab" id="t-how" aria-selected="false" aria-controls="p-how">How To Use</button>
-      <button class="tab" role="tab" id="t-demo" aria-selected="true" aria-controls="p-demo">Demo</button>
+      <button class="tab" role="tab" id="t-how" aria-selected="true" aria-controls="p-how">How To Use</button>
+      <button class="tab" role="tab" id="t-demo" aria-selected="false" aria-controls="p-demo">Demo</button>
       <button class="tab" role="tab" id="t-guide" aria-selected="false" aria-controls="p-guide">My Guide</button>
     </div>
   </div>
 
   <!-- ============ HOW TO USE ============ -->
-  <section class="panel prose" id="p-how" role="tabpanel" aria-labelledby="t-how" hidden>
+  <section class="panel prose" id="p-how" role="tabpanel" aria-labelledby="t-how">
     <a class="back" href="#s-summary" id="how-back">Back to the deck</a>
     <div class="hero">
       <div class="eyebrow"><span>TheMirror.ai · Alignment Map</span><span class="ex">How to use</span></div>
@@ -576,7 +576,7 @@
   </section>
 
   <!-- ============ DEMO ============ -->
-  <section class="panel" id="p-demo" role="tabpanel" aria-labelledby="t-demo" data-view="participant">
+  <section class="panel" id="p-demo" role="tabpanel" aria-labelledby="t-demo" data-view="participant" hidden>
     <div class="viewbar"><span class="k">View</span><div class="view" role="group" aria-label="View">
       <button type="button" id="v-par" aria-pressed="true">Participants</button><button type="button" id="v-fac" aria-pressed="false">Facilitator</button>
     </div><span class="vh par">The deck the room sees: the shape, each leader's reason, the questions. No quotes.</span><span class="vh fac">Everything: reasons, quotes, our read, minutes.</span></div>
@@ -1080,7 +1080,7 @@
   function go(h) { if (location.hash === '#' + h) route(); else location.hash = h; }
   function route() {
     var h = location.hash.replace('#', '');
-    if (!h) h = (params.get('view') === 'facilitator' || params.has('role')) ? 'facilitator' : 's-summary';
+    if (!h) h = (params.get('view') === 'facilitator' || params.has('role')) ? 'facilitator' : params.get('view') === 'participant' ? 's-summary' : 'how';
     if (h === 'how' || h.indexOf('how-') === 0) {
       showTab('t-how'); layoutVisible();
       var el = h !== 'how' && document.getElementById(h);
