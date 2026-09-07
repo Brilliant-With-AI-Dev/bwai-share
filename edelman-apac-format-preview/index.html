@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How will teams make time for learning and changed working practices?</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root { color-scheme: light; --paper: #FCFCFD; --panel: #FFFFFF; --well: #EEF0F4; --edge: #DCE3EE; --ink: #0A1628; --ink-2: #59627A; --muted: #667088; --navy: #111A3A; --accent: #2F61D5; --accent-soft: #EAF0FF; --shadow: 0 20px 60px rgba(29,41,74,.11), 0 1px 2px rgba(29,41,74,.06); --c-1: #2F61D5; --c-2: #DA5B4E; --c-3: #0E8F93; --c-4: #AD7414; --c-5: #7559BD; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.5 "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  main { max-width: 1060px; margin: auto; padding: 24px 24px 40px; }
+  .top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; margin-bottom: 22px; }
+  .wordmark { font: 500 20px "Fraunces", Georgia, serif; color: var(--navy); }
+  .wordmark span { color: var(--accent); }
+  .eyebrow, .label, .heads { font: 500 12px/1.5 "IBM Plex Mono", Menlo, monospace; }
+  .eyebrow { color: var(--ink-2); }
+  h1 { font: 500 clamp(28px, 3.6vw, 38px)/1.18 "Fraunces", Georgia, serif; margin: 0 0 10px; letter-spacing: -.01em; text-wrap: balance; }
+  p { margin: 0; }
+  .comparison { color: var(--ink-2); font-size: 17px; margin-bottom: 22px; }
+  .sheet { border: 1px solid var(--edge); border-radius: 16px; background: var(--panel); box-shadow: var(--shadow); overflow: hidden; }
+  .heads, .leader { display: grid; grid-template-columns: 150px minmax(0,1fr) minmax(0,1fr); gap: 8px 24px; padding: 12px 22px; }
+  .heads { background: var(--accent-soft); color: var(--navy); }
+  .leader { padding-top: 17px; padding-bottom: 13px; border-top: 1px solid var(--edge); }
+  .leader > * { min-width: 0; }
+  .identity { display: flex; align-items: center; gap: 9px; margin: 0; font-size: 15px; font-weight: 600; align-self: start; }
+  .chip { display: inline-flex; flex: 0 0 28px; width: 28px; height: 28px; align-items: center; justify-content: center; background: var(--leader); border-radius: 50%; color: white; font: 500 12px "IBM Plex Mono", Menlo, monospace; }
+  .cell { overflow-wrap: anywhere; }
+  .cell .label { display: none; }
+  .related { display: block; font-size: 12px; font-weight: 600; color: var(--ink-2); margin: 0 0 3px; }
+  details { grid-column: 2 / -1; color: var(--ink-2); font-size: 14px; }
+  summary { cursor: pointer; width: fit-content; min-height: 34px; padding: 7px 0; color: var(--ink-2); }
+  summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 2px; }
+  .evidence { border-top: 1px solid var(--edge); padding: 12px 0 4px; }
+  blockquote { margin: 0 0 12px; padding: 0 0 0 12px; border-left: 2px solid var(--edge); color: var(--ink); overflow-wrap: anywhere; }
+  blockquote p { white-space: pre-wrap; }
+  cite { display: block; font-size: 12px; font-style: normal; color: var(--ink-2); margin-top: 4px; }
+  .limits { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px; }
+  .limits .label { display: block; color: var(--ink); margin-bottom: 4px; }
+  .limits p { overflow-wrap: anywhere; }
+  .room { margin-top: 20px; padding: 17px 22px; background: var(--accent-soft); border-radius: 12px; }
+  .room h2 { font: 500 12px/1.5 "IBM Plex Mono", Menlo, monospace; margin: 0 0 5px; }
+  .room p { font-size: 18px; }
+  .disclosure { font-size: 12px; color: var(--ink-2); margin-top: 15px; }
+  @media (max-width: 640px) {
+    main { padding: 18px 16px 28px; }
+    .top { margin-bottom: 20px; }
+    .comparison { font-size: 16px; margin-bottom: 18px; }
+    .sheet { border: 0; border-radius: 0; background: transparent; box-shadow: none; overflow: visible; }
+    .heads { display: none; }
+    .leader { grid-template-columns: minmax(0,1fr); gap: 12px; margin-bottom: 12px; padding: 17px 18px 10px; border: 1px solid var(--edge); border-radius: 12px; background: var(--panel); }
+    .cell .label { display: block; color: var(--ink-2); margin-bottom: 3px; }
+    details { grid-column: 1; }
+    summary { min-height: 44px; padding: 11px 0; }
+    .limits { grid-template-columns: 1fr; }
+    .room { margin-top: 18px; padding: 16px 18px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <div class="top"><div class="wordmark">TheMirror<span>.ai</span></div><div class="eyebrow">Alternate format · local preview</div></div>
+  <header><h1>How will teams make time for learning and changed working practices?</h1><p class="comparison">Different responses to the capacity problem: personal responsibility, better planning, reassignment, learning space, and reporting discipline.</p></header>
+  <section class="sheet" aria-label="Leadership comparison">
+    <div class="heads" aria-hidden="true"><span>Leader</span><span>What we heard</span><span>Because</span></div>
+    <article class="leader" aria-labelledby="leader-0" style="--leader: var(--c-1)">
+      <h2 class="identity" id="leader-0"><span class="chip">C</span>CEO, APAC</h2>
+      <div class="cell" aria-label="What we heard"><span class="label" aria-hidden="true">What we heard</span><p>Make time for learning alongside the job; automate grunt work.</p></div>
+      <div class="cell" aria-label="Because"><span class="label" aria-hidden="true">Because</span><p>AI proficiency is controllable, but understaffing limits experimentation.</p></div>
+      <details><summary>Evidence and limits</summary><div class="evidence">
+        <blockquote><p>“This is something you have to learn and you have to do. So you have to make time for it. Alongside the day job.”</p><cite>Intake · AI friction</cite></blockquote>
+<blockquote><p>“We are not hiring. People are short staffed. And it&#39;s ironical that since they are short staffed, they don&#39;t have time for enough time for experimentation or training, but they do what they can.”</p><cite>Intake · AI friction</cite></blockquote>
+<blockquote><p>“they should be doing more thinking and less of the grunt work. Even if it is client demanding grunt work.”</p><cite>Interview · turn 26</cite></blockquote>
+        <div class="limits"><div><span class="label">Inference scope</span><p>He directly demands alongside-job learning and less grunt work, but does not explicitly earmark saved hours for training. His explicit destination for automation gains is more thinking and sharper delivery.</p></div><div><span class="label">Context and open details</span><p>He acknowledges insufficient time; he has not prescribed protected learning hours.</p></div></div>
+      </div></details>
+    </article>
+<article class="leader" aria-labelledby="leader-1" style="--leader: var(--c-2)">
+      <h2 class="identity" id="leader-1"><span class="chip">O</span>COO APAC</h2>
+      <div class="cell" aria-label="What we heard"><span class="label" aria-hidden="true">What we heard</span><p>Improve planning and train client teams where PM coverage cannot stretch.</p></div>
+      <div class="cell" aria-label="Because"><span class="label" aria-hidden="true">Because</span><p>Busyness and weak planning make changing work difficult.</p></div>
+      <details><summary>Evidence and limits</summary><div class="evidence">
+        <blockquote><p>“It feels like people are so busy that they don&#39;t see. The benefits really from stepping back and doing it differently.”</p><cite>Interview · turn 16</cite></blockquote>
+<blockquote><p>“we would need to make sure how we actually enable that by training because we would not we don&#39;t have enough PMs to support each account.”</p><cite>Interview · turn 34</cite></blockquote>
+        <div class="limits"><div><span class="label">Inference scope</span><p>Her answers progress from excessive busyness to planning, PM capability, and training before wider mandates. These provide an enabling position without claiming protected hours or a quantified capacity plan.</p></div><div><span class="label">Context and open details</span><p>This enables change; protected learning hours and additional staffing are not specified.</p></div></div>
+      </div></details>
+    </article>
+<article class="leader" aria-labelledby="leader-2" style="--leader: var(--c-3)">
+      <h2 class="identity" id="leader-2"><span class="chip">F</span>CFO EMEA &amp; APAC</h2>
+      <div class="cell" aria-label="What we heard"><span class="label" aria-hidden="true">What we heard</span><p>Leaders must create time and practical support for process change; reassign OpEx ownership to free compensation-data expertise.</p></div>
+      <div class="cell" aria-label="Because"><span class="label" aria-hidden="true">Because</span><p>Recurring deadlines leave no thinking time; enthusiasts need leadership and a framework beyond side projects.</p></div>
+      <details><summary>Evidence and limits</summary><div class="evidence">
+        <blockquote><p>“Globally, we do not have time for thinking.”</p><cite>Interview · turn 8</cite></blockquote>
+<blockquote><p>“But there&#39;s no budget or time carved out for it”</p><cite>Interview · turn 12</cite></blockquote>
+<blockquote><p>“This will be about me finding someone else to do OpEx. So that she has time to do comp”</p><cite>Interview · turn 66</cite></blockquote>
+        <div class="limits"><div><span class="label">Inference scope</span><p>Her concrete comp/OpEx staffing trade illustrates how leaders can fund changed practices with time. Its relevance extends beyond learning new tools, which she explicitly says is not the central friction.</p></div><div><span class="label">Context and open details</span><p>OpEx replacement coverage is proposed, not confirmed; dedicated expertise and monthly progress expectations are possibilities, not universal learning hours.</p></div></div>
+      </div></details>
+    </article>
+<article class="leader" aria-labelledby="leader-3" style="--leader: var(--c-4)">
+      <h2 class="identity" id="leader-3"><span class="chip">S</span>Chief of Staff, APAC; Interim Co-CEO Australia</h2>
+      <div class="cell" aria-label="What we heard"><span class="label" aria-hidden="true">What we heard</span><p>Make room for learning, collective curiosity, and better change management.</p></div>
+      <div class="cell" aria-label="Because"><span class="label" aria-hidden="true">Because</span><p>Stretched, change-fatigued teams need conditions for thoughtful work and experimentation.</p></div>
+      <details><summary>Evidence and limits</summary><div class="evidence">
+        <blockquote><p>“I think the challenge that we&#39;ve got is time. Time to learn, the time to be curious,”</p><cite>Intake · AI friction</cite></blockquote>
+<blockquote><p>“We&#39;ve had significant change, and the organization is not equipped to do change management well.”</p><cite>Intake · AI friction</cite></blockquote>
+<blockquote><p>“we&#39;re not engaging people enough. Or giving them the environment to be curious. As groups, as teams.”</p><cite>Intake · AI situation</cite></blockquote>
+        <div class="limits"><div><span class="label">Inference scope</span><p>Identifying time and collective curiosity as missing requirements supports making room for learning. It does not establish protected hours, utilization relief, or specific work to stop.</p></div><div><span class="label">Context and open details</span><p>This is a desired condition; she has not specified protected hours or work to stop.</p></div></div>
+      </div></details>
+    </article>
+<article class="leader" aria-labelledby="leader-4" style="--leader: var(--c-5)">
+      <h2 class="identity" id="leader-4"><span class="chip">P</span>APAC CPO</h2>
+      <div class="cell" aria-label="What we heard"><span class="label" aria-hidden="true">What we heard</span><p>Keep reporting to agreed cadence; create bandwidth and confidence for adoption.</p></div>
+      <div class="cell" aria-label="Because"><span class="label" aria-hidden="true">Because</span><p>Concurrent transformations and repeated reporting consume attention and create change fatigue.</p></div>
+      <details><summary>Evidence and limits</summary><div class="evidence">
+        <blockquote><p>“A lot of time is spent on process stewardship, reporting. Versus taking time away from client and AI transformation. So no additional headcount is given for AI.”</p><cite>Intake · AI friction</cite></blockquote>
+<blockquote><p>“Similarly, we are not given enough budget or time to think about how we can make it real for employees to use AI”</p><cite>Interview · turn 12</cite></blockquote>
+<blockquote><p>“It has to be the leaders who are then taking the accountability to want to do it and to focus and prioritize their actions on it.”</p><cite>Interview · turn 12</cite></blockquote>
+<blockquote><p>“the original agreed monthly cadence”</p><cite>Interview · turn 18</cite></blockquote>
+        <div class="limits"><div><span class="label">Inference scope</span><p>She directly says reporting takes time away from AI transformation and calls for bandwidth and space. Recovering that time is supported even though she supplies no protected-hours allocation.</p></div><div><span class="label">Context and open details</span><p>She still supports useful reporting and active adoption; protected hours are unspecified.</p></div></div>
+      </div></details>
+    </article>
+  </section>
+  <section class="room" aria-labelledby="room-title"><h2 id="room-title">For the room</h2><p>For one priority change, how will we make time, and who will make that possible?</p></section>
+  <p class="disclosure">Agent-authored interpretation for format review. These are paraphrased positions, not agreed commitments. Six-question rebuild; full map not yet released.</p>
+</main>
+</body>
+</html>
