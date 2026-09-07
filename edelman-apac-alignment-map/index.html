@@ -768,7 +768,7 @@
     if (fac && q.minutes) h += '<span class="mins">about ' + q.minutes + ' min</span>';
     h += '</div>';
     h += '<h3>' + esc(q.question) + '</h3><div class="sub">' + esc(q.subtitle) + '</div>';
-    h += '<div class="big">' + lanes(q) + '</div>';
+    h += '<div class="big">' + lanes(q) + unplacedLine(q) + '</div>';
     h += '<div class="cgrid">';
     h += '<section class="xy"><h4>Both axes at once<span class="hn">the two lines ride the edges</span></h4><div>' + xy(q) + '</div>';
     h += '<div class="cap">' + SHAPE[q.state] + '</div>' + unplacedLine(q);
