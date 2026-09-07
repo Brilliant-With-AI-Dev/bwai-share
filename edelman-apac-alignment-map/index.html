@@ -1,0 +1,1121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edelman Alignment Map · Draft</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --paper: #FCFCFD; --panel: #FFFFFF; --well: #EEF0F4; --edge: #DCE3EE; --ink: #0A1628; --ink-2: #59627A; --muted: #667088;
+    --rule: #DCE3EE; --rule-soft: #EEF2F8; --track: #DCE3EE; --ring: var(--panel);
+    --navy: #111A3A; --navy-2: #202B55; --accent: #2F61D5; --accent-soft: #EAF0FF; --band: rgba(32, 43, 85, .13);
+    --shadow: 0 20px 60px rgba(29, 41, 74, .11), 0 1px 2px rgba(29, 41, 74, .06);
+    --c-1: #2F61D5; --c-2: #DA5B4E; --c-3: #0E8F93; --c-4: #AD7414; --c-5: #7559BD;
+    --st-contested: #9F1239; --st-contested-bg: #FBE4EB; --st-false: #7C4A03; --st-false-bg: #FBEBCF;
+    --st-vocab: #0F6E62; --st-vocab-bg: #D7F1EA; --st-aligned: #15803D; --st-aligned-bg: #DDF3E3;
+    --mine: #A61E3C; --mine-bg: #FBE4EB; --moon: #4F46E5; --moon-bg: #E8E7FB;
+  }
+  [data-st="contested"] { --sc: var(--st-contested); --sb: var(--st-contested-bg); }
+  [data-st="false"] { --sc: var(--st-false); --sb: var(--st-false-bg); }
+  [data-st="vocab"] { --sc: var(--st-vocab); --sb: var(--st-vocab-bg); }
+  [data-st="aligned"] { --sc: var(--st-aligned); --sb: var(--st-aligned-bg); }
+  .mine { --oc: var(--mine); --ob: var(--mine-bg); }
+  .moon { --oc: var(--moon); --ob: var(--moon-bg); }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif; font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .page { max-width: 960px; margin: 0 auto; padding: 22px 20px 60px; }
+  .k, .tl, .eyebrow, .sn, .kick { font-family: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace; }
+  a { color: inherit; }
+
+  /* top bar: wordmark and tabs */
+  .top { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--rule); margin-bottom: 24px; }
+  .wordmark { font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: 20px; letter-spacing: -.01em; color: var(--navy); text-decoration: none; padding-bottom: 10px; white-space: nowrap; }
+  .wordmark span { color: var(--accent); }
+  .tabs { display: flex; gap: 4px; }
+  .tab { appearance: none; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; padding: 10px 12px; font: inherit; font-weight: 500; color: var(--muted); cursor: pointer; white-space: nowrap; }
+  .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+  .tab:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+  .panel[hidden] { display: none; }
+  .site { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; }
+  .site .wordmark { font-size: 15px; padding: 0; }
+
+  .eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
+  .eyebrow .ex { color: var(--ink-2); }
+  h1 { font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: clamp(26px, 4.4vw, 40px); line-height: 1.12; letter-spacing: -.01em; text-wrap: balance; margin: 12px 0 10px; max-width: 22ch; }
+  h2 { font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: 22px; line-height: 1.2; margin: 40px 0 10px; letter-spacing: -.005em; text-wrap: balance; scroll-margin-top: 16px; }
+  h2:first-of-type { margin-top: 24px; }
+  p { margin: 0 0 14px; max-width: 66ch; }
+  .lede { color: var(--ink-2); max-width: 62ch; margin-bottom: 26px; font-size: 16px; }
+
+  /* prose tabs: How To Use and My Guide */
+  .prose p { color: var(--ink-2); }
+  .prose p strong { color: var(--ink); font-weight: 600; }
+  .prose code, .prose kbd { font-family: "IBM Plex Mono", monospace; font-size: 13px; background: var(--well); padding: 1px 6px; border-radius: 4px; color: var(--ink); }
+  .prose .hero { margin-bottom: 8px; }
+  .prose ul.plain { margin: 0 0 14px; padding-left: 18px; color: var(--ink-2); max-width: 66ch; }
+  .prose ul.plain li { margin-bottom: 6px; }
+  .callout { background: var(--accent-soft); color: var(--navy-2); border-radius: 12px; padding: 16px 20px; margin: 14px 0 20px; max-width: 70ch; }
+  .callout p { color: var(--navy-2); margin-bottom: 8px; } .callout p:last-child { margin-bottom: 0; }
+  .ex-card { background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; padding: 18px 20px 14px; margin: 14px 0 18px; --ring: var(--panel); }
+  .ex-card .tracks { max-width: 620px; }
+  .ex-card .xy { max-width: 380px; margin: 0 auto; }
+  .ex-card .cap { font-size: 13px; color: var(--muted); margin-top: 10px; }
+  .hsec { display: grid; grid-template-columns: minmax(0, 11fr) minmax(0, 9fr); gap: 12px 36px; align-items: start; margin-top: 36px; scroll-margin-top: 16px; }
+  .hsec.wide { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .hsec .txt h2 + h2, .hsec .txt p + h2 { margin-top: 26px; }
+  .hsec.full { display: block; }
+  .hsec h2 { margin-top: 0; }
+  .hsec .txt p, .hsec .txt ul.plain, .hsec.full > p { max-width: none; }
+  .hsec .fig { min-width: 0; }
+  .hsec .fig .ex-card { margin: 0; }
+  .fact { background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; padding: 16px 18px; font-size: 14px; color: var(--ink-2); }
+  .fact .k { margin-bottom: 6px; }
+  .fact ul.plain { margin: 0 0 12px; }
+  .fact .m { display: flex; align-items: center; gap: 10px; padding: 4px 0; }
+  .fact .m b { font-weight: 600; color: var(--ink); }
+  .fact kbd { margin-right: 2px; }
+  .meters .k.oc { color: var(--oc); }
+  .states { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 14px 0 20px; }
+  .state { background: var(--panel); border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; }
+  .state { border-top: 3px solid var(--sc, var(--accent)); }
+  .state .nh { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+  .state .s { font-weight: 600; margin-bottom: 4px; }
+  .state p { font-size: 13.5px; margin: 0; color: var(--ink-2); }
+  .mini { display: flex; gap: 6px; margin: 8px 0 2px; }
+  .mini i { display: block; height: 3px; flex: 1; border-radius: 2px; background: var(--track); position: relative; }
+  .mini i::before { content: ""; position: absolute; top: -2px; height: 7px; width: var(--w); left: var(--l); background: var(--sc, var(--ink-2)); opacity: .55; border-radius: 4px; }
+  .meters { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0 18px; }
+  .meters > div { background: var(--panel); border: 1px solid var(--rule); border-radius: 12px; padding: 12px 16px; font-size: 13.5px; color: var(--ink-2); }
+  .meters .k { margin-bottom: 8px; }
+  .meters .m { display: flex; align-items: center; gap: 10px; padding: 3px 0; }
+  .meters .m b { font-weight: 500; color: var(--ink); }
+  .go { display: inline-block; margin-top: 22px; padding: 10px 16px; border: 0; border-radius: 8px; color: #fff; text-decoration: none; font-weight: 600; background: var(--navy); font: inherit; cursor: pointer; }
+  .back { display: inline-block; margin-bottom: 14px; font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .back:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* hero: a navy card on the light page */
+  .hero { background: linear-gradient(135deg, #111A3A 0%, #1B2A5E 100%); color: #fff; border-radius: 16px; padding: 34px 36px 30px; margin: 0 0 22px; box-shadow: var(--shadow); }
+  .hero .eyebrow { color: #7FD6D3; }
+  .hero .eyebrow .ex { color: #C5CDE3; }
+  .hero h1 { color: #fff; max-width: 24ch; }
+  .hero .lede { color: #C5CDE3; margin-bottom: 22px; max-width: 84ch; }
+  .ctx { display: grid; grid-template-columns: repeat(3, auto); gap: 8px 36px; padding: 16px 0 0; border-top: 1px solid rgba(255, 255, 255, .14); justify-content: start; }
+  .ctx div { font-size: 13.5px; color: #E6EAF5; }
+  .ctx .k { color: #7FD6D3; }
+  .k { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: block; }
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--rule); margin-bottom: 4px; }
+  .legend .lab { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
+  .chip { display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; color: var(--ink-2); }
+  .dot { width: 18px; height: 18px; border-radius: 50%; display: inline-grid; place-items: center; font-family: "IBM Plex Mono", monospace; font-size: 10px; font-weight: 500; color: #fff; background: var(--c); box-shadow: 0 0 0 2px var(--ring); flex: none; }
+  .legend .hint { margin-left: auto; font-size: 12.5px; color: var(--muted); }
+
+  /* views: participant deck (default) and facilitator page */
+  .viewbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 0 0 14px; margin-bottom: 14px; border-bottom: 1px solid var(--rule); }
+  .viewbar .k { display: inline; }
+  .view { display: inline-flex; border: 1px solid var(--edge); border-radius: 8px; overflow: hidden; background: var(--panel); }
+  .view button { appearance: none; border: 0; background: var(--panel); color: var(--muted); font: inherit; font-size: 12.5px; font-weight: 500; padding: 6px 12px; cursor: pointer; min-height: 32px; }
+  .view button[aria-pressed="true"] { background: var(--navy); color: #fff; }
+  .view button:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+  .viewbar .vh { font-size: 12.5px; color: var(--muted); }
+  #p-demo[data-view="participant"] .fac { display: none !important; }
+  #p-demo:not([data-view="participant"]) .par { display: none !important; }
+
+  /* session plan, facilitator only */
+  .plan { display: grid; grid-template-columns: 140px 1fr; gap: 6px 22px; padding: 18px 22px; margin: 14px 0 6px; font-size: 13.5px; color: var(--ink-2); background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; }
+  .plan .k { padding-top: 3px; color: var(--accent); }
+  .plan .pg { display: flex; flex-direction: column; gap: 8px; max-width: 70ch; }
+  .plan .pg div { border-left: 3px solid var(--accent); padding-left: 12px; }
+  .plan b { color: var(--ink); font-weight: 600; }
+
+  /* person lens */
+  .lensbar { font-size: 13.5px; color: var(--navy-2); padding: 10px 14px; margin-top: 10px; border-radius: 8px; background: var(--accent-soft); }
+  .lensbar b { color: var(--ink); }
+  .lensbar a { color: var(--ink); margin-left: 8px; }
+  .lens .mk:not(.me), .lens .xy g:not(.me), .lens .chip:not(.me) { opacity: .22; }
+  .lens .wl:not(.me) { opacity: .45; }
+
+  /* groups and states */
+  .sec { margin-top: 34px; }
+  .sech { display: grid; grid-template-columns: 200px 1fr; gap: 6px 22px; align-items: baseline; padding-bottom: 10px; border-bottom: 2px solid var(--navy); }
+  .secn { font-family: "Fraunces", Georgia, serif; font-size: 22px; font-weight: 500; line-height: 1.2; }
+  .sech p { margin: 0; font-size: 13.5px; color: var(--ink-2); }
+  .stateh { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; padding: 22px 0 4px; }
+  .sn { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--sc, var(--accent)); font-weight: 600; background: var(--sb, var(--accent-soft)); padding: 4px 9px; border-radius: 6px; justify-self: start; display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
+  .sn.big { font-size: 12px; padding: 5px 11px; }
+  .stateh .sd { font-size: 12.5px; color: var(--muted); }
+  .stateh .run { font-size: 12.5px; color: var(--ink-2); }
+  .stateh .run::before { content: "Run it: "; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+
+  /* row, compact */
+  .row { display: grid; grid-template-columns: 200px 1fr; gap: 6px 22px; padding: 20px 0; border-bottom: 1px solid var(--rule-soft); --ring: var(--paper); scroll-margin-top: 12px; }
+  .head { display: flex; flex-direction: column; gap: 8px; }
+  .q { font-weight: 600; font-size: 16.5px; line-height: 1.3; }
+  .q small { display: block; font-weight: 400; font-size: 12.5px; color: var(--muted); margin-top: 3px; }
+  .time { font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+  .time b { font-weight: 600; color: var(--ink-2); }
+  .bars { display: inline-flex; gap: 2px; margin-left: 6px; vertical-align: middle; }
+  .bars i { width: 8px; height: 8px; border-radius: 1px; background: var(--track); }
+  .bars i.on { background: var(--ink-2); }
+
+  .tracks { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .track { display: grid; grid-template-columns: 78px 1fr; gap: 12px; align-items: center; }
+  .tl { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); text-align: right; white-space: nowrap; font-weight: 500; }
+  .lane { position: relative; height: 48px; margin: 0 12px; }
+  .lane .bar { position: absolute; left: 0; right: 0; top: 14px; height: 2px; background: var(--track); border-radius: 1px; }
+  .lane .band { position: absolute; top: 6px; height: 18px; min-width: 18px; margin-left: -9px; padding-right: 18px; box-sizing: content-box; border-radius: 9px; background: var(--band); }
+  .lane .pole { position: absolute; top: 30px; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--ink-2); white-space: nowrap; letter-spacing: .02em; }
+  .lane .pole.l { left: -12px; } .lane .pole.r { right: -12px; }
+  .mk { position: absolute; top: 5px; width: 20px; height: 20px; margin-left: -10px; border-radius: 50%; background: var(--c); color: #fff; display: grid; place-items: center; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; font-weight: 500; box-shadow: 0 0 0 2px var(--ring); }
+  /* marks that would touch collapse into one pill, letters in order */
+  .pill { position: absolute; top: 4px; height: 22px; display: flex; align-items: center; gap: 3px; padding: 0 3px; border-radius: 11px; background: var(--panel); box-shadow: 0 0 0 2px var(--ring), inset 0 0 0 1px var(--edge); }
+  .mk.in { position: static; width: 16px; height: 16px; margin: 0; font-size: 9px; box-shadow: none; }
+
+  /* click-down */
+  .down { grid-column: 1 / -1; margin-top: 4px; }
+  @media screen {
+    .row:has(.down[open]) .head, .row:has(.down[open]) .tracks { display: none; }
+    .row:has(.down[open]) .down { margin-top: 0; }
+  }
+  .down summary { cursor: pointer; font-size: 12px; color: var(--navy-2); font-family: "IBM Plex Mono", monospace; letter-spacing: .06em; text-transform: uppercase; list-style: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px 0 12px; border: 1px solid var(--edge); border-radius: 8px; background: var(--panel); }
+  .down[open] summary { position: sticky; top: 0; z-index: 5; display: flex; width: 100%; border-radius: 0; border-width: 0 0 1px; background: var(--paper); margin-bottom: 12px; }
+  .down summary .sc { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+  .down summary .sc b { font-family: "IBM Plex Sans", system-ui, sans-serif; font-weight: 500; font-size: 13.5px; letter-spacing: 0; text-transform: none; color: var(--ink); margin-left: 6px; }
+  .down summary:hover { border-color: var(--accent); color: var(--accent); }
+  .down summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .down summary::-webkit-details-marker { display: none; }
+  .down summary::before { content: ""; width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg) translate(-1px, -1px); transition: transform .12s; }
+  .down[open] summary::before { transform: rotate(-135deg) translate(-1px, -1px); }
+  .down summary .sc { display: none; } .down[open] summary .so { display: none; } .down[open] summary .sc { display: inline; }
+
+  /* the opened row and the deck slide share one card */
+  .canvas { padding: 26px 26px 18px; background: var(--panel); border: 1px solid var(--edge); border-radius: 16px; box-shadow: var(--shadow); --ring: var(--panel); }
+  .canvas .eyebrow { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; margin-bottom: 10px; }
+  .canvas .eyebrow .st { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--sc, var(--accent)); font-weight: 600; background: var(--sb, var(--accent-soft)); padding: 4px 9px; border-radius: 6px; display: inline-flex; align-items: center; gap: 7px; }
+  .shp.md { width: 24px; height: 24px; vertical-align: middle; }
+  .canvas .eyebrow > span[data-st] { display: inline-flex; margin-left: -6px; }
+  .canvas .eyebrow .time { font-size: 12.5px; }
+  .canvas .eyebrow .mins { font-size: 12.5px; color: var(--muted); }
+  .canvas h3 { font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: 26px; line-height: 1.15; margin: 0 0 2px; letter-spacing: -.01em; text-wrap: balance; }
+  .canvas .sub { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+  .canvas h4 { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin: 0 0 10px; }
+
+  .big { display: flex; flex-direction: column; gap: 22px; margin-bottom: 26px; }
+  .big .track { grid-template-columns: 1fr; gap: 6px; }
+  .big .tl { text-align: left; font-size: 12px; color: var(--ink-2); }
+  .big .lane { height: 84px; margin: 0 16px; }
+  .big .lane .bar { top: 24px; height: 3px; }
+  .big .lane .band { top: 10px; height: 32px; min-width: 32px; margin-left: -16px; padding-right: 32px; border-radius: 16px; }
+  .big .lane .pole { top: 58px; font-size: 12.5px; color: var(--ink-2); }
+  .big .lane .pole.l { left: -16px; } .big .lane .pole.r { right: -16px; }
+  .big .mk { top: 9px; width: 34px; height: 34px; margin-left: -17px; font-size: 15px; box-shadow: 0 0 0 3px var(--ring); }
+  .big .pill { top: 8px; height: 36px; border-radius: 18px; padding: 0 4px; gap: 4px; box-shadow: 0 0 0 3px var(--ring), inset 0 0 0 1px var(--edge); }
+  .big .mk.in { position: static; margin: 0; width: 24px; height: 24px; font-size: 12px; box-shadow: none; }
+
+  .cgrid { display: grid; grid-template-columns: minmax(280px, 380px) minmax(0, 1fr); gap: 26px 36px; }
+  .cgrid .xy { grid-column: 1; }
+  .cgrid .why { grid-column: 2; }
+  .cgrid .room { grid-column: 1 / -1; padding-top: 22px; border-top: 1px solid var(--rule-soft); }
+  @media (min-width: 641px) { .big { display: none; } }
+  .finding { font-size: 15px; line-height: 1.45; color: var(--navy-2); max-width: none; margin: 0 0 18px; padding: 12px 16px; border-radius: 8px; background: var(--accent-soft); }
+  .canvas h4 .hn { font-family: "IBM Plex Sans", system-ui, sans-serif; font-size: 12.5px; letter-spacing: 0; text-transform: none; font-weight: 400; margin-left: 8px; }
+  .k2 { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  .room .k2 + ul { margin-bottom: 0; }
+  .room .rg { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px 40px; align-items: start; }
+  .room .rg .opening { max-width: none; }
+  .room .rg li { max-width: none; }
+  .slide .wl { padding: 12px 0; align-items: center; }
+  .slide .wl .bc { font-size: 16px; }
+  .cgrid { align-items: stretch; }
+  .why { display: flex; flex-direction: column; }
+  .why .wl { flex: 1; }
+  .why h4 { flex: none; }
+  .wl { align-items: center; }
+  .wl { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; padding: 9px 0; border-top: 1px solid var(--rule-soft); }
+  .wl:first-of-type { border-top: 0; padding-top: 0; }
+  .wl .dot { width: 24px; height: 24px; font-size: 12px; margin-top: 1px; }
+  .wl .who { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-family: "IBM Plex Mono", monospace; margin-bottom: 1px; }
+  .wl .bc { font-size: 15px; font-weight: 500; line-height: 1.4; color: var(--ink); max-width: 64ch; }
+  .wl .bc .nb { color: var(--muted); font-weight: 400; font-style: italic; }
+  .wl .ev { font-size: 13px; color: var(--muted); line-height: 1.45; margin-top: 3px; max-width: 70ch; }
+  .wl .ev .k { display: inline; margin-right: 4px; }
+  q { quotes: "\201C" "\201D"; font-style: italic; }
+
+  .opening { font-family: "Fraunces", Georgia, serif; font-size: 19px; line-height: 1.3; color: var(--ink); margin: 0; letter-spacing: -.005em; max-width: 46ch; }
+  .room ul, .qs { margin: 0; padding: 0; list-style: none; }
+  .room li, .qs li { padding: 8px 0 8px 18px; border-top: 1px solid var(--rule-soft); color: var(--ink-2); font-size: 14.5px; position: relative; max-width: 64ch; }
+  .room li::before, .qs li::before { content: "?"; position: absolute; left: 0; top: 8px; font-family: "IBM Plex Mono", monospace; color: var(--muted); }
+
+  .xy svg { width: 100%; height: auto; display: block; }
+  .xy .cap { font-size: 13.5px; color: var(--ink-2); max-width: 44ch; margin-top: 8px; }
+  .xy .cap strong { color: var(--ink); font-weight: 600; }
+  .xy .ax { font-family: "IBM Plex Sans", system-ui, sans-serif; font-size: 12.5px; fill: var(--ink-2); }
+  .xy .axn { font-family: "IBM Plex Mono", monospace; font-size: 11px; fill: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+  .xy .tk { stroke-width: 3; stroke-linecap: round; }
+  .xy .bd { fill: var(--band); }
+  .xy .grid { stroke: var(--rule); stroke-width: 1; }
+  .xy .frame { fill: var(--well); stroke: var(--rule); }
+  .upq { display: inline-block; margin-top: 22px; font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .upq:hover { color: var(--accent); border-color: var(--accent); }
+  .xy .pt { stroke: var(--ring); stroke-width: 2.5; }
+  .xy .pl { font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 500; fill: #fff; text-anchor: middle; dominant-baseline: central; }
+
+  /* landmines and moonshots */
+  .cards { display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch; padding-top: 18px; }
+  .card { background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; }
+  .card .k { margin-bottom: 2px; }
+  .card .t { color: var(--ink); }
+  .meter { display: flex; flex-wrap: wrap; gap: 4px 22px; font-size: 12.5px; color: var(--muted); }
+  .meter span { white-space: nowrap; }
+  .meter b { font-weight: 600; color: var(--ink-2); }
+  .card .meter { margin-top: 2px; }
+  .card .nx { font-size: 13.5px; color: var(--ink-2); margin-top: auto; padding-top: 6px; border-top: 1px solid var(--rule-soft); }
+  .card .nx .k { display: inline; margin-right: 6px; }
+  .card.mine, .card.moon { border-left: 4px solid var(--oc); }
+  .card .k { color: var(--oc, var(--muted)); font-weight: 600; }
+  .card { flex: 1 1 100%; padding: 22px 26px; }
+  .card .t { font-family: "Fraunces", Georgia, serif; line-height: 1.25; letter-spacing: -.01em; text-wrap: balance; font-size: 21px; }
+  .card.high { box-shadow: var(--shadow); }
+  .card.high .t { font-size: clamp(22px, 3vw, 28px); }
+  .card.low .t { font-size: 19px; }
+
+  .foot { margin-top: 34px; font-size: 13px; color: var(--muted); max-width: 70ch; }
+
+  /* ---------- participant deck ---------- */
+  .deckbar { position: sticky; top: 0; z-index: 6; display: flex; align-items: center; gap: 12px; padding: 8px 0 10px; margin-bottom: 14px; background: var(--paper); border-bottom: 1px solid var(--rule); }
+  .deckbar .dt { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+  .deckbar .dt a { color: var(--ink-2); text-decoration: none; }
+  .deckbar .dn { display: inline-flex; align-items: center; gap: 4px; }
+  .deckbar .dn button { appearance: none; border: 1px solid var(--edge); background: var(--panel); color: var(--ink); font: inherit; width: 40px; height: 36px; border-radius: 8px; cursor: pointer; display: grid; place-items: center; }
+  .deckbar .dn button:disabled { opacity: .35; cursor: default; }
+  .deckbar .dn button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .deckbar .dc { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--ink-2); min-width: 54px; text-align: center; }
+  .toc { position: relative; }
+  .toc summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border: 1px solid var(--edge); border-radius: 8px; background: var(--panel); font-size: 13px; font-weight: 500; color: var(--ink); white-space: nowrap; }
+  .toc summary::-webkit-details-marker { display: none; }
+  .toc summary::after { content: ""; width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg) translate(-1px, -1px); }
+  .toc[open] summary { border-color: var(--navy); }
+  .toc summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .toc .menu { position: absolute; right: 0; top: 42px; z-index: 20; width: min(440px, calc(100vw - 32px)); max-height: calc(100vh - 90px); overflow: auto; background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; box-shadow: var(--shadow); padding: 8px; }
+  .toc .menu .g { padding: 8px 10px 2px; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .toc .menu a { display: flex; align-items: baseline; gap: 10px; padding: 6px 10px; border-radius: 8px; text-decoration: none; font-size: 14px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .toc .menu a:hover { background: var(--accent-soft); color: var(--navy-2); }
+  .toc .menu a.on { background: var(--navy); color: #fff; }
+  .toc .menu a .n { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted); min-width: 18px; text-align: right; flex: none; }
+  .toc .menu a.on .n { color: #C5CDE3; }
+  .slide { scroll-margin-top: 70px; }
+  .slide[hidden] { display: none; }
+  .sfoot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 20px; margin-top: 26px; padding-top: 14px; border-top: 1px solid var(--rule-soft); font-size: 13px; }
+
+  .sfoot a { text-decoration: none; }
+  .sfoot .how { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); border-bottom: 1px solid var(--rule); }
+  .sfoot .how:hover { color: var(--accent); border-color: var(--accent); }
+  .sfoot .nx { color: var(--navy-2); font-weight: 500; }
+  .sfoot .nx:hover { color: var(--accent); }
+  /* summary slide */
+  .slide .hero { border-radius: 16px 16px 0 0; margin: -26px -26px 22px; box-shadow: none; }
+  .slide .legend { padding-top: 0; }
+  .ov { margin-top: 8px; }
+  .ovg { margin-top: 22px; }
+  .ovg .secn { font-size: 19px; margin-bottom: 2px; }
+  .ovg > p { margin: 0 0 10px; font-size: 13.5px; color: var(--ink-2); max-width: none; }
+  .ovg .rows { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ovg .rows > .ovr { flex: 1 1 280px; min-width: 0; }
+  .ovr { display: grid; grid-template-columns: 1fr auto; gap: 2px 14px; align-items: center; padding: 10px 14px; background: var(--well); border-radius: 10px; }
+  .ovr .sn { font-size: 10px; padding: 2px 7px; grid-column: 1 / -1; margin-bottom: 2px; }
+  .ovr .q { font-size: 15px; font-weight: 600; line-height: 1.25; }
+  .ovr .q small { font-size: 12px; margin-top: 1px; }
+  .ovr { border-left: 3px solid var(--sc, var(--oc, transparent)); grid-template-rows: auto auto auto; }
+  .ovr .sn { grid-column: 1; grid-row: 1; white-space: normal; font-size: 11px; padding: 4px 9px; }
+  .ovr .q { grid-column: 1; grid-row: 2; }
+  .ovr .shp.lg { width: 44px; height: 44px; grid-row: 1 / span 2; grid-column: 2; align-self: start; }
+  .ovr .time { grid-column: 1 / -1; grid-row: 3; }
+  .ovr .kick, .ovr .t { grid-column: 1 / -1; }
+
+  .ovr .t { font-size: 14px; color: var(--ink-2); line-height: 1.4; }
+  .ovr .meter { grid-column: 1 / -1; }
+  .kick { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .kick.oc, .mine > .kick, .moon > .kick { color: var(--oc); font-weight: 600; }
+  .mine .bars i.on, .moon .bars i.on { background: var(--oc); }
+  .mine .meter b, .moon .meter b { color: var(--oc); }
+  .qc.mine, .qc.moon { border-left: 3px solid var(--oc); }
+  .toc .menu .g.mine, .toc .menu .g.moon { color: var(--oc); }
+  /* section slide */
+  .sect h3 { font-size: clamp(30px, 5vw, 44px); margin: 6px 0 10px; }
+  .sect .lede { margin-bottom: 26px; }
+  .sect .lede { max-width: none; font-size: 17px; }
+  .sect .qgrid { display: flex; flex-wrap: wrap; gap: 12px; }
+  .sect .qgrid > .qc { flex: 1 1 280px; min-width: 0; }
+  .sect .qc[data-st] { border-left: 3px solid var(--sc); }
+  .sect .qc .qh { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .sect .qc .qh .shp { width: 40px; height: 40px; flex: none; }
+  .sect .qc .qh .sn { min-width: 0; white-space: normal; }
+  .sect .qc { background: var(--well); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+  .sect .qc .q { font-size: 17px; }
+  .sect .qc .q small { font-size: 12.5px; }
+  .sect .qc .sn { align-self: flex-start; }
+  .sect .qc .t { font-size: 15px; color: var(--ink); line-height: 1.4; }
+  .sect .qc .time, .sect .qc .meter { margin-top: auto; padding-top: 4px; }
+  /* outlier slide */
+  .oslide .t { font-family: "Fraunces", Georgia, serif; font-size: clamp(22px, 3.4vw, 30px); line-height: 1.25; letter-spacing: -.01em; max-width: 44ch; text-wrap: balance; margin: 6px 0 26px; }
+  .oslide .beat { display: grid; grid-template-columns: 200px 1fr; gap: 6px 22px; padding: 16px 0; border-top: 1px solid var(--rule-soft); align-items: start; }
+  .oslide .beat .bh { display: flex; flex-direction: column; gap: 6px; }
+  .oslide .beat .bh .k { color: var(--accent); }
+  .oslide .beat .meter { font-size: 14px; }
+  .oslide .beat p { margin: 0; color: var(--ink-2); font-size: 15px; }
+  .oslide .beat .opening { font-size: 20px; }
+  .oslide .beat .bh .k { color: var(--oc); }
+  .oslide .t { border-left: 4px solid var(--oc); padding-left: 18px; }
+  .oslide .beat .opening { border-left: 0; }
+  .oslide .beat:last-child { padding-bottom: 2px; }
+
+  /* ---------- My Guide ---------- */
+  .roles { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 22px; }
+  .roles button { appearance: none; border: 1px solid var(--edge); background: var(--panel); color: var(--ink-2); font: inherit; font-size: 13.5px; font-weight: 500; padding: 8px 14px 8px 10px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; }
+  .roles button[aria-pressed="true"] { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .roles button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .gq { background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; padding: 18px 22px; margin: 0 0 14px; }
+  .gq .kick { margin-bottom: 4px; }
+  .gq.mine .kick, .gq.moon .kick { color: var(--oc); font-weight: 600; }
+  .gq.mine, .gq.moon { border-left: 4px solid var(--oc); }
+  .gq h3 { font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: 20px; line-height: 1.2; margin: 0 0 2px; }
+  .gq .sub { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+  .gq .said { display: grid; grid-template-columns: 78px 1fr; gap: 6px 14px; align-items: baseline; margin-bottom: 8px; }
+  .gq .said .k { padding-top: 3px; }
+  .gq .said div { color: var(--ink); font-size: 15px; }
+  .gq .said .bc { color: var(--ink-2); font-size: 14px; }
+  .gq .prep { margin: 0 0 10px; padding: 12px 16px; border-radius: 8px; background: var(--accent-soft); color: var(--navy-2); font-size: 14px; }
+  .gq .prep .k { color: var(--accent); display: inline; margin-right: 6px; }
+  .gq .expect .k { margin-bottom: 4px; }
+  .gq .expect .opening { font-size: 17px; margin-bottom: 4px; max-width: none; }
+  .gq .expect .qs li { font-size: 14px; max-width: none; }
+  .gq.empty { color: var(--muted); font-size: 14px; }
+  .gq .gh { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; }
+  .gq .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 32px; margin-top: 12px; align-items: start; }
+  .gq .cols > div { min-width: 0; }
+  .gq .watch { font-size: 14px; color: var(--ink-2); padding: 0 2px; }
+  .gq .watch .k { display: inline; margin-right: 6px; }
+  .glance { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 28px; background: var(--navy); color: #fff; border-radius: 12px; padding: 20px 24px; margin: 0 0 14px; }
+  .glance .k { color: #7FD6D3; margin-bottom: 6px; }
+  .glance ul { margin: 0; padding-left: 18px; font-size: 14.5px; color: #E6EAF5; }
+  .glance li { margin-bottom: 4px; }
+  .glance .ends { display: flex; flex-wrap: wrap; gap: 6px; }
+  .glance .ends span { font-size: 13px; padding: 4px 10px; border-radius: 999px; background: rgba(255, 255, 255, .12); color: #fff; }
+  .before { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 0 0 22px; }
+  .before > div { background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; padding: 14px 18px; font-size: 14.5px; color: var(--ink-2); }
+  .before b { display: block; color: var(--ink); font-weight: 600; margin-bottom: 4px; }
+  .prose .gsec { margin: 26px 0 10px; }
+
+  @media (max-width: 640px) {
+    .page { padding: 14px 16px 50px; }
+    .top { align-items: stretch; flex-direction: column; gap: 0; }
+    .wordmark { padding: 4px 0 6px; }
+    .tabs { overflow-x: auto; }
+    .tab { padding: 8px 10px; font-size: 14px; }
+    .row, .sech, .stateh, .srow, .oslide .beat { grid-template-columns: 1fr; gap: 8px; }
+    .track { grid-template-columns: 62px 1fr; gap: 8px; }
+    .tl { text-align: right; font-size: 10.5px; }
+    .lane { margin: 0 10px; }
+    .legend .hint { margin-left: 0; width: 100%; }
+    .states, .meters, .hsec, .hsec.wide { grid-template-columns: 1fr; }
+    .hsec { margin-top: 28px; }
+    .ctx { grid-template-columns: 1fr 1fr; }
+    .hero { padding: 24px 20px 20px; border-radius: 12px; }
+    .canvas { padding: 18px 16px 16px; }
+    .slide .hero { margin: -18px -16px 18px; border-radius: 16px 16px 0 0; }
+    .canvas h3 { font-size: 22px; }
+    .big .lane { margin: 0 12px; }
+    .big .track { grid-template-columns: 1fr; }
+    .big .tl { text-align: left; }
+    .cgrid { grid-template-columns: 1fr; gap: 22px; padding-top: 20px; border-top: 1px solid var(--rule-soft); }
+    .cgrid .xy, .cgrid .why, .cgrid .room { grid-column: 1; }
+    .cgrid .xy { order: 3; padding-top: 22px; border-top: 1px solid var(--rule-soft); }
+    .cgrid .room { padding-top: 0; border-top: 0; }
+    .xy svg { max-width: 360px; }
+    .card.low { flex-basis: 100%; }
+    .gq .said { grid-template-columns: 1fr; gap: 2px; }
+    .gq .said .k { padding-top: 0; }
+    .gq .cols, .glance, .before, .room .rg { grid-template-columns: 1fr; }
+    .ovg .rows > .ovr, .sect .qgrid > .qc { flex-basis: 100%; }
+    .deckbar .dt { display: none; }
+    .deckbar { justify-content: space-between; }
+    .toc { position: static; }
+    .deckbar .dt .co, .deckbar .dt .sep, .viewbar .vh { display: none; }
+    .toc .menu { position: fixed; left: 12px; right: 12px; top: 58px; width: auto; max-height: calc(100vh - 80px); }
+    .ovr .gl { width: 72px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .down summary::before { transition: none; } }
+  @media print {
+    body { background: #fff; color: #000; }
+    .hero { background: #fff; color: #000; box-shadow: none; padding: 0; }
+    .hero h1, .hero .lede, .hero .eyebrow, .ctx div, .ctx .k { color: #000; }
+    .tabs, .go, .down summary, .upq, .viewbar, .deckbar, .sfoot, .back { display: none !important; }
+    .slide[hidden] { display: block; }
+    .slide { margin-bottom: 18px; break-inside: avoid; }
+    .canvas { border-color: #bbb; background: #fff; break-inside: avoid; box-shadow: none; }
+    .row, .card, .gq { break-inside: avoid; }
+    .lane .band { background: rgba(0, 0, 0, .16); }
+    .mk, .dot, .pill { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="top">
+    <a class="wordmark" href="#how">TheMirror<span>.ai</span></a>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" id="t-how" aria-selected="true" aria-controls="p-how">How To Use</button>
+      <button class="tab" role="tab" id="t-demo" aria-selected="false" aria-controls="p-demo">Draft</button>
+      <button class="tab" role="tab" id="t-guide" aria-selected="false" aria-controls="p-guide">My Guide</button>
+    </div>
+  </div>
+
+  <!-- ============ HOW TO USE ============ -->
+  <section class="panel prose" id="p-how" role="tabpanel" aria-labelledby="t-how">
+    <a class="back" href="#s-summary" id="how-back">Back to the deck</a>
+    <div class="hero">
+      <div class="eyebrow"><span>TheMirror.ai · Alignment Map</span><span class="ex">How to use</span></div>
+      <h1>How to read an Alignment Map</h1>
+      <p class="lede">The conventions behind every line, mark, chip, and color on the Demo tab. This is a working discussion draft. Read this once; after that, the map should explain itself.</p>
+    </div>
+
+    <section class="hsec" id="how-draft">
+      <div class="txt"><h2>A working draft for discussion</h2><p>Agent-authored and unreviewed. Positions and classifications are provisional interpretations of separate interviews. The facilitator details preserve evidence and qualifications.</p><p>Missing evidence stays unplaced; it never becomes an invented midpoint.</p></div>
+      <div class="fig"><div class="fact"><span class="k">Draft scope</span><p>Five questions, two landmines, one moonshot. Prepared for discussion with Nish.</p></div></div>
+    </section>
+
+    <section class="hsec" id="how-conventions">
+      <div class="txt"><h2>Conventions</h2>
+        <ul class="plain">
+          <li><strong>Leaders are letters.</strong> Each leader is a role, never a name, shown as one letter in one color.</li>
+          <li><strong>The map says "we."</strong> Every question is one the team is answering together. Nothing on it is addressed to any one person.</li>
+          <li><strong>Questions, not conclusions.</strong> The map hands the room questions. What to decide, and in what order, belongs to the people in the room.</li>
+          <li><strong>Nothing hides behind a hover or a tap.</strong> Everything you can learn from a slide is printed on it.</li>
+        </ul></div>
+      <div class="fig"><div class="fact"><span class="k">The key</span><div class="legend" id="how-legend" style="border:0;padding:8px 0 0"></div></div></div>
+    </section>
+
+    <section class="hsec wide" id="how-lines">
+      <div class="txt"><h2>How to read a line</h2>
+        <p>Every question gets two lines. The top line, <strong>We say</strong>, is what each leader said the answer is. The bottom line, <strong>Because</strong>, is why they said it. The words at either end are the poles: the two ends of the answer, chosen so the spread means something. A leader's letter sits where their answer landed between them. The shaded band runs from the leftmost mark to the rightmost: the wider the band, the further apart we are.</p>
+        <p>When two or more marks would touch, they collapse into one pill with the letters in order. A pill is not a tie; it means those leaders landed within a hair of each other on that line.</p>
+        <p>Read the two lines together. Tight on top over wide underneath means we agree on the words and not the reasons. Wide on top over tight underneath means we are using different words for the same view.</p>
+        <h2 id="how-2x2">And the 2x2</h2>
+        <p>On a wide screen, each question slide shows the same marks as a 2x2. <strong>We say</strong> runs left to right, with the same poles as the top line. <strong>Because</strong> runs bottom to top, with the poles of the bottom line. The two lines ride the edges as a spread band and a tick per leader, so you can read either rendering off the other.</p>
+        <p>The four states turn into shapes: a scatter, a vertical stack, a horizontal line, a cluster. The small tile beside every state chip is that shape.</p></div>
+      <div class="fig"><div class="ex-card" id="how-line-ex"></div><div class="ex-card" style="margin-top:14px"><div class="xy" id="how-xy-ex"></div></div></div>
+    </section>
+
+    <section class="hsec full" id="how-states">
+      <h2>The four states</h2>
+      <p>Each question is in one of four states, read off the two lines. Each state has a color and a shape, and both follow the question everywhere it appears. The state is a judgment made in synthesis, not a score.</p>
+      <div class="states">
+        <div class="state" data-st="aligned"><div class="nh"><span class="sn">Aligned</span><svg class="shp md" viewBox="0 0 24 24" aria-hidden="true"><rect x="0.5" y="0.5" width="23" height="23" rx="5" fill="var(--sb)" stroke="var(--sc)" stroke-opacity=".35"/><circle cx="9.5" cy="9.5" r="2.4" fill="var(--sc)"/><circle cx="14.5" cy="9.5" r="2.4" fill="var(--sc)"/><circle cx="9.5" cy="14.5" r="2.4" fill="var(--sc)"/><circle cx="14.5" cy="14.5" r="2.4" fill="var(--sc)"/></svg></div><div class="s">Tight on both lines</div>
+          <div class="mini"><i style="--l:80%;--w:15%"></i></div><div class="mini"><i style="--l:80%;--w:15%"></i></div>
+          <p>An asset, not a row to skip. Worth a few minutes on why it holds and what would break it.</p></div>
+        <div class="state" data-st="vocab"><div class="nh"><span class="sn">Different words, same view</span><svg class="shp md" viewBox="0 0 24 24" aria-hidden="true"><rect x="0.5" y="0.5" width="23" height="23" rx="5" fill="var(--sb)" stroke="var(--sc)" stroke-opacity=".35"/><circle cx="4.5" cy="12" r="2.4" fill="var(--sc)"/><circle cx="9.5" cy="12" r="2.4" fill="var(--sc)"/><circle cx="14.5" cy="12" r="2.4" fill="var(--sc)"/><circle cx="19.5" cy="12" r="2.4" fill="var(--sc)"/></svg></div><div class="s">Wide on top, tight underneath</div>
+          <div class="mini"><i style="--l:5%;--w:90%"></i></div><div class="mini"><i style="--l:70%;--w:20%"></i></div>
+          <p>A vocabulary problem wearing a strategy problem's clothes. Agree on one word and move on.</p></div>
+        <div class="state" data-st="false"><div class="nh"><span class="sn">Same words, different reasons</span><svg class="shp md" viewBox="0 0 24 24" aria-hidden="true"><rect x="0.5" y="0.5" width="23" height="23" rx="5" fill="var(--sb)" stroke="var(--sc)" stroke-opacity=".35"/><circle cx="12" cy="4.5" r="2.4" fill="var(--sc)"/><circle cx="12" cy="9.5" r="2.4" fill="var(--sc)"/><circle cx="12" cy="14.5" r="2.4" fill="var(--sc)"/><circle cx="12" cy="19.5" r="2.4" fill="var(--sc)"/></svg></div><div class="s">Tight on top, wide underneath</div>
+          <div class="mini"><i style="--l:80%;--w:15%"></i></div><div class="mini"><i style="--l:5%;--w:90%"></i></div>
+          <p>Looks settled, isn't. It holds until the first hard case. Stress-test it before reality does.</p></div>
+        <div class="state" data-st="contested"><div class="nh"><span class="sn">Contested</span><svg class="shp md" viewBox="0 0 24 24" aria-hidden="true"><rect x="0.5" y="0.5" width="23" height="23" rx="5" fill="var(--sb)" stroke="var(--sc)" stroke-opacity=".35"/><circle cx="6" cy="6" r="2.4" fill="var(--sc)"/><circle cx="18" cy="8" r="2.4" fill="var(--sc)"/><circle cx="7" cy="17" r="2.4" fill="var(--sc)"/><circle cx="17" cy="18" r="2.4" fill="var(--sc)"/></svg></div><div class="s">Wide on both lines</div>
+          <div class="mini"><i style="--l:5%;--w:90%"></i></div><div class="mini"><i style="--l:5%;--w:90%"></i></div>
+          <p>Real, defensible disagreement. Name it so the team stops relitigating it by accident.</p></div>
+      </div>
+      <p>The map is read in one order: where we match, then where we don't, then landmines, then moonshots. Start with what we share, spend the time on what we don't, name what could blow up, end on what could be.</p>
+    </section>
+
+    <section class="hsec" id="how-time">
+      <div class="txt"><h2>Room time</h2>
+        <p>Each question carries a three-step indicator, drawn as one, two, or three filled squares. It is set by how far apart the marks are and how much the question bears on what the team is about to decide. It is coarse on purpose. A number for the disagreement invites an argument about the number. The facilitator turns it into minutes; the room only needs the ranking.</p></div>
+      <div class="fig"><div class="fact"><span class="k">Room time</span>
+        <div class="m"><span class="bars"><i class="on"></i><i></i><i></i></span><b>Little.</b> Five or ten minutes. Confirm it and move on.</div>
+        <div class="m"><span class="bars"><i class="on"></i><i class="on"></i><i></i></span><b>Some.</b> A real conversation, bounded.</div>
+        <div class="m"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i></span><b>Most.</b> Where the session's time goes.</div></div></div>
+    </section>
+
+    <section class="hsec full" id="how-outliers">
+      <h2>Landmines and moonshots: confidence and impact</h2>
+      <p>Some of what comes up in the interviews is not an alignment question. A <strong>landmine</strong> is something that could go wrong that nobody owns; it wears crimson. A <strong>moonshot</strong> is an idea one person raised that nobody else mentioned; it wears indigo. Each carries two three-step indicators drawn the same way as room time.</p>
+      <div class="meters">
+        <div class="mine"><span class="k oc">Confidence · how sure we are</span>
+          <div class="m"><span class="bars"><i class="on"></i><i></i><i></i></span><b>One voice</b> raised it</div>
+          <div class="m"><span class="bars"><i class="on"></i><i class="on"></i><i></i></span><b>Several of us</b> raised it, independently</div>
+          <div class="m"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i></span><b>All of us</b> raised it</div></div>
+        <div class="moon"><span class="k oc">Impact · what it would cost</span>
+          <div class="m"><span class="bars"><i class="on"></i><i></i><i></i></span><b>Low.</b> An owner and ten minutes.</div>
+          <div class="m"><span class="bars"><i class="on"></i><i class="on"></i><i></i></span><b>Medium.</b> A quarter's plan, or a good person.</div>
+          <div class="m"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i></span><b>High.</b> The year, or the company.</div></div>
+      </div>
+      <p>Confidence comes from how many leaders raised the same thing without being asked. Impact is a judgment made in synthesis. Each slide says what it is, how sure we are, what it would cost, and who should own the next ten minutes. For a moonshot, cost reads as what it would take.</p>
+    </section>
+
+    <section class="hsec" id="how-views">
+      <div class="txt"><h2>Views</h2>
+        <p><strong>Participants</strong> see a deck: an overview, a slide for each section, one slide per question, and one per landmine and moonshot. Every question slide shows the state, the question, the shape, each leader's reason in plain words beside their letter, and the questions for the room. No verbatim quotes.</p>
+        <p><strong>The facilitator</strong> sees the same map as one scrolling page, with the quotes under each reason, a one-line read of each row, a minutes estimate, and a session plan. Switch with the toggle at the top of the Draft tab.</p>
+        <p><strong>My Guide</strong> is one leader's own crib notes for the session: what they said, why, and the questions to expect where they hold one end of a line. It contains nothing about anyone else. In a real engagement it is generated at the end of that leader's Mirror interview and sent only to them.</p></div>
+      <div class="fig"><div class="fact"><span class="k">Moving around</span>
+        <div class="m"><kbd>←</kbd><kbd>→</kbd> previous and next slide</div>
+        <div class="m"><kbd>Home</kbd> back to the overview</div>
+        <div class="m"><b>Contents</b> in the deck bar jumps to any slide</div>
+        <span class="k" style="margin-top:12px">Addresses</span>
+        <div class="m"><code>#s-q-what-are-we</code> one question</div>
+        <div class="m"><code>#s-landmines</code> a section</div>
+        <div class="m"><code>#facilitator</code> the facilitator page</div>
+        <div class="m"><code>?role=ceo#facilitator</code> dims everyone else's marks</div></div></div>
+    </section>
+
+    <a class="go" href="#s-summary">Open the draft deck</a>
+  </section>
+
+  <!-- ============ DEMO ============ -->
+  <section class="panel" id="p-demo" role="tabpanel" aria-labelledby="t-demo" data-view="participant" hidden>
+    <div class="viewbar"><span class="k">View</span><div class="view" role="group" aria-label="View">
+      <button type="button" id="v-par" aria-pressed="true">Participants</button><button type="button" id="v-fac" aria-pressed="false">Facilitator</button>
+    </div><span class="vh par">The deck the room sees: the shape, each leader's reason, the questions. No quotes.</span><span class="vh fac">Everything: reasons, quotes, our read, minutes.</span></div>
+
+    <div class="par" id="deck">
+      <div class="deckbar"><span class="dt" id="dk-title"></span><details class="toc" id="dk-toc"><summary>Contents</summary><div class="menu" id="dk-menu"></div></details><span class="dn"><button type="button" id="dk-prev" aria-label="Previous slide">&#8592;</button><span class="dc" id="dk-count"></span><button type="button" id="dk-next" aria-label="Next slide">&#8594;</button></span></div>
+      <div id="slides"></div>
+    </div>
+
+    <div class="fac" id="fac-page">
+      <div class="hero">
+        <div class="eyebrow"><span>TheMirror.ai · Alignment Map</span><span class="ex" id="d-ex"></span></div>
+        <h1 id="d-headline"></h1>
+        <p class="lede" id="d-lede"></p>
+        <div class="ctx" id="d-ctx"></div>
+      </div>
+      <div class="plan" id="d-plan"></div>
+      <div class="legend" id="d-legend"></div>
+      <div id="d-lens"></div>
+      <div id="rows"></div>
+      <div class="foot" id="d-foot"></div>
+    </div>
+  </section>
+
+  <!-- ============ MY GUIDE ============ -->
+  <section class="panel prose" id="p-guide" role="tabpanel" aria-labelledby="t-guide" hidden>
+    <div class="hero">
+      <div class="eyebrow"><span>TheMirror.ai · Alignment Map</span><span class="ex">My Guide · sample</span></div>
+      <h1>One leader's notes for the room</h1>
+      <p class="lede">What you said, why you said it, and the questions to expect where you hold one end of a line. Nothing here is about anyone else. In a real engagement this is generated at the end of your Mirror interview and sent only to you.</p>
+    </div>
+    <div class="roles" id="g-roles" role="group" aria-label="Choose a role"></div>
+    <div id="g-body"></div>
+  </section>
+
+  <footer class="site"><span class="wordmark">TheMirror<span>.ai</span></span><span>Alignment Map</span><span id="site-note"></span></footer>
+</div>
+
+<script id="map-data" type="application/json">{"company":"Edelman","context":{"name":"How do we accelerate profitable recovery over the next 90 days—and where can AI help?","team":"Five leaders, interviewed separately via AI Mirror","facilitator":"Nish (draft assumption)","session_minutes":180,"left_off":["Standard workflows versus local design — held for later; relevant safeguards remain in quality and ownership.","Creator growth — held for later unless it changes the 90-day recovery decision.","Finance intelligence — held for later; capacity and sensitive-use evidence remain in the selected questions."]},"leaders":[{"id":"ceo","label":"CEO, APAC","initial":"C"},{"id":"coo","label":"COO APAC","initial":"O"},{"id":"cfo","label":"CFO EMEA & APAC","initial":"F"},{"id":"cos","label":"Chief of Staff, APAC; Interim Co-CEO Australia","initial":"S"},{"id":"cpo","label":"APAC CPO","initial":"P"}],"headline":"How do we accelerate profitable recovery over the next 90 days—and where can AI help?","lede":"Which choices would unlock profitable recovery—and what must we agree before acting?","note":"DISCUSSION DRAFT · Agent-authored and unreviewed. Provisional interpretation for discussion with Nish. Participant quotes are verbatim; reasons and placements are editorial. Separate-session independence is assumed, not proven. Unplaced chips indicate missing or non-comparable evidence. No My Guides generated; paper testing deferred.","evidence_warning":"Discussion draft: shapes show tentative emphasis, not established opposing camps. Confirm interpretations with the leaders.","states":[{"id":"contested","name":"Contested","description":"Wide on both lines. Real disagreement, defensible on each side. Name it so the team stops relitigating it by accident.","run":"Name it. Hear each reason once, then agree how it gets decided."},{"id":"false","name":"Same words, different reasons","description":"Tight on top, wide underneath. Looks settled; isn’t. Stress-test it before reality does.","run":"Put the first hard case on the table before reality does."},{"id":"vocab","name":"Different words, same view","description":"Wide on top, tight underneath. A vocabulary problem dressed as a strategy problem. Agree on one word and move on.","run":"Ten minutes. Get one word agreed, then move on."},{"id":"aligned","name":"Aligned","description":"Tight on both lines. An asset to protect, not a row to skip.","run":"Five minutes. Ask what would make it slip and who is watching."}],"groups":[{"id":"matches","name":"Where we match","description":"Two shapes. Tight on both lines is aligned, an asset to protect. Wide on top and tight underneath is a vocabulary fight over a view we already share.","states":["aligned","vocab"]},{"id":"gaps","name":"Where we don’t","description":"Tight on top and wide underneath looks settled and isn’t. Wide on both lines is real disagreement, defensible on each side.","states":["false","contested"]},{"id":"landmines","name":"Landmines","description":"Surfaced in the 1:1s. Not about alignment. Each carries how sure we are and what it would cost us if nobody picks it up.","outliers":"landmine"},{"id":"moonshots","name":"Moonshots","description":"One person’s idea that nobody else mentioned. Surfaced, not placed. We decide whether it deserves any time at all.","outliers":"moonshot"}],"questions":[{"id":"margin-investment","discovery_id":"Q1","question":"When should we protect current margin, and when should we invest in recovery?","tracks":{"say":{"poles":["Protect current margin","Prioritize recovery investment"],"positions":{"ceo":{"stance":"Invest in stronger talent and higher salaries to support premium fees. Affordability constrains rebuilding; no margin-miss permission or investment timing rule is stated.","quote":"In addition to the grunt work, there is also a need for talent upgrade, and that means better better pay pay. Better salaries, It's almost like we need our own premiumization strategy.","source":"transcript","locator":{"qn":"Q18","turn_ordinal":38,"line":314},"confidence":"inferred","inference_note":"The investment direction is explicit; its priority against current margin is not.","internal_tension":{"quote":"And now we are in a situation where we don't have the affordability, so we have to build and buy, build and buy, build and buy.","source":"transcript","locator":{"qn":"Q3","turn_ordinal":8,"line":72},"note":"Capability investment is desired despite restricted affordability."},"value":0.6,"placement_confidence":"provisional"},"coo":{"stance":"Improve project contribution margin and redeploy released resources into new work. No explicit timing rule or willingness to miss current margin commitments is stated.","quote":"We would have great quality output. We would have improved contribution margin on projects, and we would have freed up resources that we could deploy on new work.","source":"transcript","locator":{"qn":"Q26","turn_ordinal":54,"line":440},"confidence":"clear","inference_note":null,"internal_tension":null,"absence_note":null,"value":0.4,"placement_confidence":"provisional"},"cfo":{"stance":"Protect regional margin commitments even when revenue falls; selective efficiency investment remains compatible.","quote":"I'd say my first KPI is meeting our regional margin targets. No matter where the revenue lands, we have to make sure that the cost of this business are on track meeting margin targets in line with what Global needs us to do.","source":"transcript","locator":{"qn":null,"interviewer_question_label":"Q1","turn_ordinal":4,"line":36},"confidence":"clear","inference_note":null,"internal_tension":{"quote":"I would like to have a smaller but more efficient team and take steps to be able to do that on a lower cost base, but with super engaged and team that are enjoying what they do and good at what they do and excited about being part of the future.","source":"transcript","locator":{"qn":null,"interviewer_question_label":"Q1","turn_ordinal":4,"line":36},"note":"Efficiency and team renewal are also desired; no margin miss is endorsed."},"value":0.05,"placement_confidence":"provisional"},"cos":{"stance":"Invest selectively in rebuilding growth while continuing to treat margin as critical.","quote":"Look. I mean, margin's really important. No. A 100%, but I feel like if margin is the number one driver for a rebuild and reputation regrowth, we will continue to just do cost management rather than invest to grow But that's not to say we invest to grow in everything. It's about being diligent about what we invest in.","source":"transcript","locator":{"qn":"Q2","turn_ordinal":6},"confidence":"clear","inference_note":null,"internal_tension":null,"absence_note":null,"value":0.85,"placement_confidence":"provisional"},"cpo":{"stance":"Seek financial-target achievement alongside job preservation, collaboration, and shared AI transformation. No explicit current-margin versus recovery-investment allocation is specified.","quote":"The win win situation will be one whereby are able to all have our own jobs, but yet at the same time, working in a very deep collaborative way to achieve the financial targets that the organization wants us to have while at the same time and everybody taking shared accountability in driving AI transformation and the transformation we need.","source":"transcript","locator":{"qn":"Q18","turn_ordinal":38},"confidence":"inferred","inference_note":"The desired combination is explicit; interpreting it as a margin/investment stance is indirect. No investment amount, accepted margin miss, or allocation of verified AI gains is stated. Not placed: available evidence does not establish a comparable position on this axis.","absence_note":null,"internal_tension":null,"value":null,"placement_note":"Not placed: available evidence does not establish a comparable position on this axis.","placement_confidence":"unplaced"}},"short_poles":["Current margin","Recovery investment"],"diagnostic":{"placed":4,"unplaced":1,"spread":0.8,"band":"wide"}},"why":{"poles":["Deliver current financial commitments","Rebuild future client and revenue confidence"],"positions":{"ceo":{"stance":"Seek profitable growth alongside happier clients, stronger people, and renewed reputation. Present profitability and future strength coexist.","quote":"So from a hard matrix perspective, more growth, better margin, retention of people, and retention of clients, yes. And then the real ones, in terms of better vision, better visibility for a domain. We are behind on that. More reputation. And better bench strength, better client people, better leaders, I'm looking at all that.","source":"transcript","locator":{"qn":"Q1","turn_ordinal":4,"line":38},"confidence":"clear","inference_note":null,"internal_tension":{"quote":"I guess the hard trade is markets wanting to do every piece of business so that their numbers are met. And even after the numbers are met, they're not getting increments. So they go for every piece of work.","source":"transcript","locator":{"qn":"Q20","turn_ordinal":42,"line":346},"note":"Current number pressure obstructs choosing premium revenue."},"value":0.65,"because":"Stronger people and clients support profitable future growth.","placement_confidence":"provisional"},"coo":{"stance":"Profitable growth is the stated performance obligation; future revenue and current profit are pursued together.","quote":"What really needs to happen is profitable growth. That is what we are measured on.","source":"transcript","locator":{"qn":null,"turn_ordinal":4,"line":36,"explicit_question_label":"Q1"},"confidence":"clear","inference_note":null,"internal_tension":null,"absence_note":null,"value":0.4,"because":"Profitable growth combines stronger margin with new work.","placement_confidence":"provisional"},"cfo":{"stance":"Deliver promised profitability despite revenue uncertainty, across both regions.","quote":"So even if the revenue drops, they have to be planning to operate profitable, at the level profitability that they have promised.","source":"transcript","locator":{"qn":"Q21","interviewer_question_label":"Q21","turn_ordinal":50,"line":409},"confidence":"clear","inference_note":null,"internal_tension":null,"value":0.1,"because":"Promised profitability must hold despite uncertain revenue levels.","placement_confidence":"provisional"},"cos":{"stance":"Recovery depends on client satisfaction, stronger pipeline, and staff engagement; margin alone cannot establish growth readiness.","quote":"Australia, the one to two indicators would be client satisfaction. We need to be able to have a good NPS score to measure client satisfaction. The pipeline the volume and dollar size of the pipeline in increasing that. And thirdly, it all boils down to staff engagement. And ensuring that our engagement scores stay consistent I'm not gonna say margin. Margin is a is absolutely always critical, and it is a metric. But it shouldn't be the number one driver for putting it in a position to grow","source":"transcript","locator":{"qn":"Q2","turn_ordinal":6},"confidence":"clear","inference_note":null,"internal_tension":null,"absence_note":null,"value":0.9,"because":"Client confidence and engaged people enable recovery growth.","placement_confidence":"provisional"},"cpo":{"stance":"Make financial commitments executable through accountable market action, while retaining shared responsibility for transformation.","quote":"But once again, asking the data doesn't help when there is no accountability in following up, following through with market leaders that are not performing and have been asked to find targets and savings and they are not delivering.","source":"transcript","locator":{"qn":"Q10","turn_ordinal":22},"confidence":"inferred","inference_note":"The rationale for financial accountability is direct. Its application to a recovery-investment tradeoff is inferred; future client or revenue confidence is not addressed.","absence_note":null,"internal_tension":null,"value":0.3,"because":"Financial targets need accountable follow-through from market leaders.","placement_confidence":"provisional"}},"short_poles":["Financial promises","Future confidence"],"diagnostic":{"placed":5,"unplaced":0,"spread":0.8,"band":"wide"}}},"scope_note":"Include the allocation of any verified AI capacity gains. Do not assume selective investment means accepting a margin miss.","state":"contested","classification_label":"Different priorities","provisional":true,"caveat":"The CFO prioritizes promised margin; the CoS prioritizes selective rebuilding. Neither explicitly accepts a margin miss.","minutes":30,"room_time":3,"subtitle":"Which investment would test our recovery priorities?","suggested_conversation":"Could we assess one recovery investment against the same margin commitment?","room_questions":["What evidence would justify funding it within 90 days?","How would we allocate verified AI gains between margin, delivery quality, and recovery?"],"finding":"Different priorities are explicit; a decision conflict needs testing against one investment and financial envelope."},{"id":"transformation-capacity","discovery_id":"Q7","question":"How will we create capacity for the next AI rollout?","tracks":{"say":{"poles":["Fit change around existing duties","Stop or reassign named work"],"positions":{"ceo":{"stance":"A defined rollout capacity plan is unspecified. No named duties are stopped or reassigned.","quote":null,"source":null,"locator":null,"confidence":"absent","inference_note":null,"internal_tension":null,"absence_note":"The 90-day rollout and work-removal question receives no concrete plan (Q23, participant turn 48). Intake discusses learning alongside the day job, which does not establish enterprise rollout resourcing.","value":null,"placement_confidence":"unplaced"},"coo":{"stance":"Enable wider rollout through training and PM-supported planning. PM coverage is insufficient, so client teams must run simpler accounts. No named work is explicitly stopped to fund rollout.","quote":"we would need to make sure how we actually enable that by training because we would not we don't have enough PMs to support each account.","source":"transcript","locator":{"qn":"Q16","turn_ordinal":34,"line":280},"confidence":"inferred","inference_note":"The training and staffing constraints are explicit. This implies an enabling-capacity approach, without specifying protected time or removed duties. Not placed: available evidence does not establish a comparable position on this axis.","internal_tension":{"quote":"While the other accounts were less complex or or integrated and who are just in market need to be run. By the client team.","source":"transcript","locator":{"qn":"Q17","turn_ordinal":36,"line":296},"note":"Rollout cannot rely on universal PM reassignment; simpler accounts remain with client teams."},"absence_note":null,"value":null,"placement_note":"Not placed: available evidence does not establish a comparable position on this axis.","placement_confidence":"unplaced"},"cfo":{"stance":"Reassign operating-cost work to release a specific finance operator for compensation-data improvement.","quote":"This will be about me finding someone else to do OpEx. So that she has time to do comp","source":"transcript","locator":{"qn":"Q29","interviewer_question_label":"Q29","turn_ordinal":66,"line":537},"confidence":"clear","inference_note":"Concrete capacity trade concerns the data foundation for an AI-assisted finance workflow; a staffing transfer is proposed, not completed.","internal_tension":{"quote":"Comp is riskier. Worst case on OpEx, I'll just set a bunch of budgets. And leave it the way it is. I do think we can maybe do both, though.","source":"transcript","locator":{"qn":"Q30","interviewer_question_label":"Q30","turn_ordinal":68,"line":553},"note":"Would simplify operating-cost management if needed, but prefers keeping both projects moving."},"value":0.9,"placement_confidence":"provisional"},"cos":{"stance":"No defined method for creating capacity for the next rollout is stated.","quote":null,"source":null,"locator":null,"confidence":"absent","inference_note":null,"internal_tension":null,"absence_note":"Neither stopping or reassigning named work nor fitting a defined rollout around duties is proposed. Reporting relief and allocation of verified AI gains are not specified.","value":null,"placement_confidence":"unplaced"},"cpo":{"stance":"Return repeated reporting requests to the agreed monthly cadence, releasing attention from churn. This suggests protected transformation capacity, without a defined next-rollout staffing plan.","quote":"So the constant repeated ask of what is the the updated headcount, what is the updated savings, without giving you know, TrueBlue opportunity for the team to market. And sticking to the original agreed monthly cadence just frustrating and creating a lot of churn for everyone.","source":"transcript","locator":{"qn":"Q8","turn_ordinal":18},"confidence":"inferred","inference_note":"The complaint identifies a specific burden and agreed cadence. Capacity release for a particular next rollout remains an inference; ASR makes the cadence sentence awkward.","absence_note":null,"internal_tension":null,"value":0.7,"placement_confidence":"provisional"}},"short_poles":["Alongside duties","Reassign work"],"diagnostic":{"placed":2,"unplaced":3,"spread":0.2,"band":"tight"}},"why":{"poles":["Personal initiative creates progress","Protected capacity enables execution"],"positions":{"ceo":{"stance":"Personal effort is expected for learning; shortages also constrain experimentation. This offers only indirect evidence for the rationale behind rollout capacity.","quote":"This is something you have to learn and you have to do. So you have to make time for it. Alongside the day job.","source":"intake","locator":{"intake_field":"AI friction","turn_ordinal":null,"line":17},"confidence":"inferred","inference_note":"Explicit learning expectation; cannot equate personal learning with a defined rollout. Not placed: available evidence does not establish a comparable position on this axis.","internal_tension":{"quote":"We are not hiring. People are short staffed. And it's ironical that since they are short staffed, they don't have time for enough time for experimentation or training, but they do what they can.","source":"intake","locator":{"intake_field":"AI friction","turn_ordinal":null,"line":17},"note":"Acknowledges the capacity constraint without specifying protected rollout time."},"value":null,"placement_note":"Not placed: available evidence does not establish a comparable position on this axis.","because":"Personal learning is expected alongside existing job duties.","placement_confidence":"unplaced"},"coo":{"stance":"Busyness prevents teams from stepping back and changing their work. Better planning should create room to adopt new methods.","quote":"It feels like people are so busy that they don't see. The benefits really from stepping back and doing it differently.","source":"transcript","locator":{"qn":"Q7","turn_ordinal":16,"line":132},"confidence":"inferred","inference_note":"Time pressure is explicit; a preference for protected rollout capacity is inferred. No protected-time commitment is given.","internal_tension":null,"absence_note":null,"value":0.7,"because":"Overloaded teams struggle to step back and change.","placement_confidence":"provisional"},"cfo":{"stance":"Protected operator capacity enables consistent inputs and useful reporting.","quote":"For that, I need a person with some time. Because my best people are flat out. And so it would be then a case of seeing what I could stop for them to prioritize this. Or finding someone else.","source":"transcript","locator":{"qn":"Q26","interviewer_question_label":"Q26","turn_ordinal":60,"line":489},"confidence":"clear","inference_note":"The immediately preceding discussion concerns clean personnel inputs, repeatable dashboards, and leaders acting on shared insights.","internal_tension":null,"value":0.9,"because":"Dedicated operator time makes better finance inputs possible.","placement_confidence":"provisional"},"cos":{"stance":"Time to learn and explore is a binding constraint; efficiency pressure risks displacing quality.","quote":"I think the challenge that we've got is time. Time to learn, the time to be curious, We're fast, I think, becoming I think we're fast using it as an efficiency driver and not a quality driver.","source":"intake","locator":{"qn":null,"line":19,"turn_ordinal":null,"intake_field":"AI friction"},"confidence":"inferred","inference_note":"The time constraint is explicit. Protected rollout capacity is a reasonable implication, not an explicit allocation commitment.","internal_tension":null,"absence_note":null,"value":0.8,"because":"Time for curiosity protects quality beyond efficiency gains.","placement_confidence":"provisional"},"cpo":{"stance":"Transformation requires time and energy beyond overlapping foundational implementation work.","quote":"So once again, it's a lot of cultivating priorities, and we didn't have time nor energy to really think about what true transformation looks like. Because we are essentially building the foundational box to help us to get there with like I said, you know, workday implementation as a step one.","source":"transcript","locator":{"qn":"Q7","turn_ordinal":16},"confidence":"clear","inference_note":null,"absence_note":null,"internal_tension":{"quote":"From a HR perspective, we are also using our monthly team meetings to showcase some of the AI enabled work such as know, getting AI to introduce each other in a more fun way, engaging way, looking at improving presentation, productivity, and doing self analysis and crafting of paperwork.","source":"transcript","locator":{"qn":"Q6","turn_ordinal":14},"note":"Small AI activities already fit into existing meetings. Their coexistence with capacity constraints does not establish capacity for a defined rollout."},"value":0.9,"because":"Foundational implementation has consumed time needed for transformation.","placement_confidence":"provisional"}},"short_poles":["Personal initiative","Protected capacity"],"diagnostic":{"placed":4,"unplaced":1,"spread":0.2,"band":"tight"}}},"scope_note":"Include reporting burden as a source of releasable capacity. Compare a defined rollout, not personal learning against enterprise change.","state":"aligned","classification_label":"Capacity gap","provisional":true,"caveat":"Only some leaders describe concrete capacity changes. Personal learning and enterprise rollout are different commitments.","minutes":25,"room_time":3,"subtitle":"What can we stop so the next rollout succeeds?","suggested_conversation":"For one named AI rollout, what existing work could we stop or reassign?","room_questions":["Could recurring reporting move to an agreed cadence?","Who would receive protected time, and what would they deliver?"],"finding":"Protected capacity is a practical need. The evidence does not establish an opposing camp for this same rollout."},{"id":"client-scope","discovery_id":"Q8","question":"How will we agree client priorities and control unplanned work?","tracks":{"say":{"poles":["Keep priorities flexible with clients","Agree deliverables before resourcing"],"positions":{"ceo":{"stance":"Agree an anticipated work list with clients and prioritize jointly. Avoid endless reactive work; no formal resourcing gate is specified.","quote":"I would say more predictable anticipated, and discussed with client list of work that is coming up rather than every day having something new and endless volumes of work that is just work and is not really yielding results.","source":"transcript","locator":{"qn":"Q15","turn_ordinal":32,"line":266},"confidence":"clear","inference_note":null,"internal_tension":null,"value":0.7,"placement_confidence":"provisional"},"coo":{"stance":"Agree client priorities, map deliverables, then assign people. Record midweek changes explicitly.","quote":"Starts with What are we going to work on next week, in a month? And try to map that down, what needs to be delivered. That is the starting point, and then we can define who needs to deliver it.","source":"transcript","locator":{"qn":"Q8","turn_ordinal":18,"line":148},"confidence":"clear","inference_note":null,"internal_tension":{"quote":"If a client changed something mid week, I think then it just needs a change request locked into the system. Right?","source":"transcript","locator":{"qn":"Q19","turn_ordinal":40,"line":328},"note":"Planning accommodates changing priorities through recorded requests; it does not eliminate client flexibility."},"absence_note":null,"value":0.9,"placement_confidence":"provisional"},"cfo":{"stance":"Negotiate a smaller scope before discounting; discuss affordability with clients.","quote":"On pricing, know, our instinct is to discount Whereas, I'm trying to help them understand that your instinct should be to discuss the scope and drop the scope if you can't afford it for the money. Don't talk about cutting. Like, discounting is the last line of defence, not the first.","source":"transcript","locator":{"qn":null,"interviewer_question_label":"Q4","turn_ordinal":10,"line":78},"confidence":"clear","inference_note":"Supports explicit scope negotiation; does not specify a pre-resourcing approval gate or unplanned-work protocol.","internal_tension":null,"value":0.8,"placement_confidence":"provisional"},"cos":{"stance":"No explicit position on agreeing deliverables before resourcing or managing unplanned client work.","quote":null,"source":null,"locator":null,"confidence":"absent","inference_note":null,"internal_tension":null,"absence_note":"The interview discusses client satisfaction, portfolio accountability, staffing, and demand planning, without describing scope agreements or change control.","value":null,"placement_confidence":"unplaced"},"cpo":{"stance":null,"quote":null,"source":null,"locator":null,"confidence":"absent","inference_note":null,"absence_note":"Neither source states how client priorities, deliverables, resourcing, or unplanned scope should be agreed. Client-information sharing is not evidence of a scope-control position.","internal_tension":null,"value":null,"placement_confidence":"unplaced"}},"short_poles":["Client flexibility","Agreed deliverables"],"diagnostic":{"placed":3,"unplaced":2,"spread":0.2,"band":"tight"}},"why":{"poles":["Protect the client relationship","Protect delivery economics"],"positions":{"ceo":{"stance":"Trusted client leadership enables prioritization and better outcomes. Relationship strength and work discipline reinforce each other.","quote":"It's not about who needs to start saying no. It is about having that equation with the client and the trust And that's why those important client leaders who can hold clients' hand and say, what do we prioritize here and what do we do? Rather than accepting and being note takers.","source":"transcript","locator":{"qn":"Q16","turn_ordinal":34,"line":282},"confidence":"clear","inference_note":null,"internal_tension":null,"value":0.1,"because":"Trusted client relationships enable meaningful choices about priorities.","placement_confidence":"provisional"},"coo":{"stance":"Clear scope and a defined delivery process protect margin. The same planning rhythm should benefit clients.","quote":"Where the margin dies,  is where the scope is not clearly defined and where we not have a clearly defined  process to get to the output and what it looks like.","source":"transcript","locator":{"qn":"Q20","turn_ordinal":42,"line":344},"confidence":"clear","inference_note":null,"internal_tension":{"quote":"I think we would benefit if we get into a better rhythm with clients because also, they would benefit from it.","source":"transcript","locator":{"qn":"Q8","turn_ordinal":18,"line":148},"note":"Client benefit is a complementary reason for planning discipline."},"absence_note":null,"value":0.9,"because":"Clear scope and delivery processes protect project margin.","placement_confidence":"provisional"},"cfo":{"stance":"Secure fair compensation and efficient delivery; client relationships are not framed as opposing scope discipline.","quote":"We're never gonna be the cheapest in the market. It would be great to get paid what we're worth and then run our business in an efficient way once we've got that client.","source":"transcript","locator":{"qn":null,"interviewer_question_label":"Q2","turn_ordinal":6,"line":50},"confidence":"clear","inference_note":null,"internal_tension":null,"value":0.85,"because":"Fair compensation and efficient delivery support sustainable accounts.","placement_confidence":"provisional"},"cos":{"stance":"No stated rationale connects client flexibility or scope controls to relationships or delivery economics.","quote":null,"source":null,"locator":null,"confidence":"absent","inference_note":null,"internal_tension":null,"absence_note":"Client satisfaction is a recovery priority, but that alone does not establish a rationale for a particular scope-control approach.","value":null,"because":"A rationale about client scope was not established.","placement_confidence":"unplaced"},"cpo":{"stance":null,"quote":null,"source":null,"locator":null,"confidence":"absent","inference_note":null,"absence_note":"Neither source supplies a rationale connecting client scope choices to relationship protection or delivery economics.","internal_tension":null,"value":null,"because":"A rationale about client scope was not established.","placement_confidence":"unplaced"}},"short_poles":["Client relationship","Delivery economics"],"diagnostic":{"placed":3,"unplaced":2,"spread":0.8,"band":"wide"}}},"scope_note":"Do not manufacture conflict between relationships and scope controls. They can be complementary.","state":"false","classification_label":"Complementary approaches","provisional":true,"caveat":"The available evidence supports client prioritization and scope discipline together. Two leaders have no established position.","minutes":20,"room_time":2,"subtitle":"How could client trust and scope discipline reinforce each other?","suggested_conversation":"When a client adds work midweek, how would we agree the trade-off?","room_questions":["Which changes would require extra fees or revised deliverables?","Who could make that agreement before people are reassigned?"],"finding":"Relationship trust and delivery economics motivate a potentially shared operating approach."},{"id":"delivery-quality","discovery_id":"Q4","question":"What quality standard must AI-assisted client work meet?","tracks":{"say":{"poles":["Let account teams set review checks","Require a common assurance standard"],"positions":{"ceo":{"stance":"Combine AI and human input with senior checking. Define workflow steps, outputs, and quality accountability; no common assurance regime is specified.","quote":"AI plus human inputs put together and checked by somebody senior.","source":"transcript","locator":{"qn":"Q13","turn_ordinal":28,"line":234},"confidence":"clear","inference_note":"Not placed: available evidence does not establish a comparable position on this axis.","internal_tension":null,"value":null,"placement_note":"Not placed: available evidence does not establish a comparable position on this axis.","placement_confidence":"unplaced"},"coo":{"stance":"Require mapped workflows and prescribed AI tools across deliverables. The stated standard emphasizes common process; substantive verification criteria are unspecified.","quote":"And for me, the standard is more that we have them all mapped and that if the teams will deliver they deliverables according to the defined workflow that we have and with the defined AI tools that should be used for it.","source":"transcript","locator":{"qn":"Q4","turn_ordinal":10,"line":84},"confidence":"clear","inference_note":null,"internal_tension":null,"absence_note":null,"value":0.85,"placement_confidence":"provisional"},"cfo":{"stance":"For finance AI, require testing, a pilot, and post-pilot checks; client-deliverable governance remains unspecified.","quote":"a team to help design/build/test, change management and a roll out plan to pilot and then checks and balances after we pilot to make sure it's right.","source":"transcript","locator":{"qn":"Q12","interviewer_question_label":"Q12","turn_ordinal":26,"line":219},"confidence":"inferred","inference_note":"Direct evidence concerns a global finance proration agent. Extending this assurance preference to AI-assisted client work is an inference; no account-team versus common client standard is stated. Not placed: available evidence does not establish a comparable position on this axis.","internal_tension":null,"value":null,"placement_note":"Not placed: available evidence does not establish a comparable position on this axis.","placement_confidence":"unplaced"},"cos":{"stance":"Establish consistent, top-down measures of deliverable quality, with senior expertise validating foundational inputs.","quote":"I don't think we have a consistent way to, one, measure quality of our work to clients. Therefore, if we don't have a culture of quality and excellence. And we don't put in measures that are systematized or you know, driven from top down, then it becomes very easy for people to create AI slop or create whatever they want.","source":"transcript","locator":{"qn":"Q21","turn_ordinal":46},"confidence":"clear","inference_note":null,"internal_tension":{"quote":"I didn't really know the answer to that. Right now.","source":"transcript","locator":{"qn":"Q9","overall_turn_ordinal":22},"note":"Supports systematic assurance, but cannot specify current creator-work guardrails when asked about sensitive data, human review, and sanctioned tools."},"absence_note":null,"value":0.9,"placement_confidence":"provisional"},"cpo":{"stance":null,"quote":null,"source":null,"locator":null,"confidence":"absent","inference_note":null,"absence_note":"Neither source sets review checks, common assurance requirements, sensitive-use boundaries, or verification standards for AI-assisted client work. Approved-tool references do not establish such standards.","internal_tension":null,"value":null,"placement_confidence":"unplaced"}},"short_poles":["Team review","Common assurance"],"diagnostic":{"placed":2,"unplaced":3,"spread":0.05,"band":"tight"}},"why":{"poles":["Repeatable execution improves delivery","Verified substance protects trust"],"positions":{"ceo":{"stance":"Build trust by checking potentially inconsistent AI outputs with humans involved.","quote":"The output quality is it consistent or not? I think it's risky to assume it is consistent and one needs to work on it check it, human in the loop, That's how the trust will get built.","source":"intake","locator":{"intake_field":"AI friction","turn_ordinal":null,"line":17},"confidence":"clear","inference_note":null,"internal_tension":null,"value":0.85,"because":"Human checking builds trust in potentially inconsistent outputs.","placement_confidence":"provisional"},"coo":{"stance":"Standardized execution is the quality improvement she is most willing to back.","quote":"The one that I would rather bet on. Would be that it truly helps us with improving quality through standards.","source":"transcript","locator":{"qn":"Q3","turn_ordinal":8,"line":68},"confidence":"clear","inference_note":null,"internal_tension":null,"absence_note":null,"value":0.1,"because":"Consistent workflows improve quality through repeatable delivery standards.","placement_confidence":"provisional"},"cfo":{"stance":"Trust depends on reliable inputs and correct interpretation, in the finance use case.","quote":"I would trust an AI workflow to help me with the monthly margin and narrative and the compensation analysis. If I had got the dashboard to a position I was really comfortable with the inputs. And if I had trained the AI, on to interpret the outputs in the right way.","source":"transcript","locator":{"qn":"Q31","interviewer_question_label":"Q31","turn_ordinal":70,"line":569},"confidence":"inferred","inference_note":"Verified substance is directly important for internal finance narratives; client trust motivation is not directly discussed. Not placed: available evidence does not establish a comparable position on this axis.","internal_tension":{"quote":"I can definitely use compounds by market. That's or I can probably I can definitely use percentage information by market. That's not a problem. But it's the line below that. Just nervous about.","source":"transcript","locator":{"qn":"Q24","interviewer_question_label":"Q24","turn_ordinal":56,"line":457},"note":"Comfort with market aggregates coexists with uncertainty around individual compensation access. This is personal caution, not a verified policy prohibition."},"value":null,"placement_note":"Not placed: available evidence does not establish a comparable position on this axis.","because":"Reliable inputs and interpretation build trust in finance.","placement_confidence":"unplaced"},"cos":{"stance":"Trust requires true underlying research and insight; polishing downstream deliverables cannot repair unreliable foundations.","quote":"So, yeah, I think maybe right at the beginning, is so important to make sure that the genesis of the idea or the insight or the research or whatever it is that you're basing message and campaign from is true. Because at the end of the let's just say you're developing a press release right at the end, How is a client leader knowing to know that what you're writing about is true or not? They might just be checking it for grammar or whatever.","source":"transcript","locator":{"qn":"Q13","turn_ordinal":30},"confidence":"clear","inference_note":null,"internal_tension":null,"absence_note":null,"value":0.95,"because":"True research foundations matter before polished downstream delivery.","placement_confidence":"provisional"},"cpo":{"stance":null,"quote":null,"source":null,"locator":null,"confidence":"absent","inference_note":null,"absence_note":"Neither source explains a client-work quality standard through repeatable execution, verified substance, or protection of trust. General aspirations for better messages are insufficient.","internal_tension":null,"value":null,"because":"A rationale about client quality was not established.","placement_confidence":"unplaced"}},"short_poles":["Repeatable execution","Verified substance"],"diagnostic":{"placed":3,"unplaced":2,"spread":0.85,"band":"wide"}}},"scope_note":"Include sensitive-use boundaries and unreliable upstream research. Process standards and expert verification can coexist.","state":"false","classification_label":"Different safeguards","provisional":true,"caveat":"Workflow consistency and substantive verification can coexist. Finance evidence does not establish a client-work position.","minutes":25,"room_time":3,"subtitle":"How could common standards and expert checks work together?","suggested_conversation":"What checks must an AI-assisted deliverable pass before reaching a client?","room_questions":["How would we verify upstream research before building on it?","Which sensitive uses need additional review or an explicit boundary?"],"finding":"Process consistency and verified substance are distinct safeguards, not established rival quality strategies."},{"id":"transformation-ownership","discovery_id":"Q5","question":"What must ownership include before we make the next transformation commitment?","tracks":{"say":{"poles":["Commit plans within existing authority","Agree responsibilities across the matrix"],"positions":{"ceo":{"stance":"Move unclear AI ownership toward each market, with strategy and a work plan. The workforce ambition remains undefined; matrix responsibilities are not agreed here.","quote":"I think the ownership is not clear. There is an AI team and that AI team works with the chief operating officer. Market leaders are part of it, but they're not really doing enough. This ownership needs to change. This needs to move to each market wanting to make AI about 15 to 20% of their workforce. And having a clear strategy and work plan around it.","source":"transcript","locator":{"qn":"Q22","turn_ordinal":46,"line":378},"confidence":"clear","inference_note":null,"internal_tension":{"quote":"I don't know, honestly. It will have to be thought through.","source":"transcript","locator":{"qn":"Q23","turn_ordinal":48,"line":394},"note":"When asked for 90-day deliverables and work removal, no concrete commitment is supplied."},"value":0.2,"placement_confidence":"provisional"},"coo":{"stance":"Extend mandatory working methods through regional executive agreement and training. Regional adaptation also requires engagement with global teams.","quote":"Currently, it's the mandatory ways of working. On all the 126 accounts. And I could, together with the support of the rest of the ExCO, which I'm part of decide we make that mandatory for the rest of the clients.","source":"transcript","locator":{"qn":"Q16","turn_ordinal":34,"line":280},"confidence":"clear","inference_note":null,"internal_tension":{"quote":"And the rest, what I would call operation team, or I would like to call it transformation and performance Team are people that I work with based on influence.","source":"intake","locator":{"qn":null,"turn_ordinal":null,"intake_field":"Role","line":14},"note":"The broader transformation team operates through influence, limiting direct command."},"absence_note":null,"value":0.5,"placement_confidence":"provisional"},"cfo":{"stance":"Combine CFO sponsorship with global appetite, IT permission, delivery roles, and a rollout plan.","quote":"This would need global appetite to have something like thsi built and bring up the questions it will bring up, IT to bless the access, time and energy to define what we want and build it out (it's not immediately obvious what the best output would be), sponsor to make sure this moved along, a team to help design/build/test, change management and a roll out plan to pilot and then checks and balances after we pilot to make sure it's right.","source":"transcript","locator":{"qn":"Q12","interviewer_question_label":"Q12","turn_ordinal":26,"line":219},"confidence":"clear","inference_note":null,"internal_tension":{"quote":"I think the exact sponsor of this needs to be one of the CFOs. So it could be me. Or yeah, it could be me.","source":"transcript","locator":{"qn":"Q14","interviewer_question_label":null,"turn_ordinal":36,"line":295},"note":"Offers local sponsorship while seeking the wider mandate and delivery support."},"value":0.85,"placement_confidence":"provisional"},"cos":{"stance":"Clarify offering responsibilities and connect market leaders, specialist leads, and executive sponsorship while building an operational plan.","quote":"I think having clear roles and responsibilities around what that creator offering does and what it does not.","source":"transcript","locator":{"qn":"Q5","turn_ordinal":12},"confidence":"inferred","inference_note":"Explicit role clarity and cross-market sponsorship concern creator growth. Applying them as prerequisites for the next AI commitment is an inference; no formal global-regional authority agreement is stated.","internal_tension":null,"absence_note":null,"value":0.7,"placement_confidence":"provisional"},"cpo":{"stance":"Agree expectations and KPIs across global and regional leadership, explicitly identifying responsibilities before shared accountability can work.","quote":"Specifically around who does what. Because right now, the the while there's disagreement, nobody is you know, everybody's talking around each other, and there's no real shared truth around what needs to be done","source":"transcript","locator":{"qn":"Q19","turn_ordinal":40},"confidence":"clear","inference_note":"The immediately preceding sentence identifies agreed expectations and KPIs between global and regional leadership; its personal name is omitted from the quotation.","absence_note":null,"internal_tension":{"quote":"In one of the recent KBR discussion that I have with the CEO, I have basically articulated that part of our role is to create the environment together and partner with the leaders.","source":"transcript","locator":{"qn":"Q5","turn_ordinal":12},"note":"The leader is already articulating a local HR contribution while seeking matrix agreement; alignment does not mean indefinite inactivity."},"value":0.95,"placement_confidence":"provisional"}},"short_poles":["Existing authority","Matrix agreement"],"diagnostic":{"placed":5,"unplaced":0,"spread":0.75,"band":"wide"}},"why":{"poles":["Local initiative turns ambition into action","Compatible authority makes accountability workable"],"positions":{"ceo":{"stance":"Leaders should own problems and devise solutions despite constraints. This suggests initiative, without establishing sufficient authority for AI transformation.","quote":"They're never owning the problem. They're never saying this is the problem. This is the solution. How we are going to go about it?","source":"transcript","locator":{"qn":"Q8","turn_ordinal":18,"line":152},"confidence":"inferred","inference_note":"A general leadership expectation, not an explicit account of AI decision rights.","internal_tension":null,"value":0.2,"because":"Leaders should own problems and develop practical solutions.","placement_confidence":"provisional"},"coo":{"stance":"Accountability needs local commercial knowledge within global transformation decisions. Otherwise proposed staffing assumptions can fail in practice.","quote":"What turns out now, that probably the AI team is using AI to make  commercial assumptions that are not truly working everywhere because they didn't ask the people with the knowledge of commercial example.","source":"intake","locator":{"qn":null,"turn_ordinal":null,"intake_field":"AI friction","line":17},"confidence":"inferred","inference_note":"The omitted expertise and unrealistic assumptions are explicit. Requiring compatible decision authority before commitments is inferred; no formal accountability precondition is stated.","internal_tension":null,"absence_note":null,"value":0.7,"because":"Local commercial expertise makes global transformation assumptions workable.","placement_confidence":"provisional"},"cfo":{"stance":"A stronger mandate and concrete support are needed to make regional initiative executable.","quote":"We could do with a stronger mandate and some support and to and some understanding of what it would take to make it happen and then some support, whether that's time, whether it's resource, cost, focus, something. More,","source":"transcript","locator":{"qn":null,"interviewer_question_label":"Q5","turn_ordinal":12,"line":92},"confidence":"clear","inference_note":null,"internal_tension":{"quote":"If we didn't set our own direction, there wouldn't necessarily be one. But we want to adopt it because we know that we need team efficiency, and we want our teams to modern in the way that they're working and using AI as much as possible.","source":"transcript","locator":{"qn":null,"interviewer_question_label":"Q5","turn_ordinal":12,"line":92},"note":"Regional initiative already supplies direction; matrix agreement is not a reason to wait indefinitely."},"value":0.85,"because":"A stronger mandate and resources make regional initiative executable.","placement_confidence":"provisional"},"cos":{"stance":"Centralized builds can disconnect people from workflows; meaningful engagement across the matrix supports adoption.","quote":"But if and I think because it's so centralized, people feel disconnected from the builds that are happening and the workflows that are happening and being built for by one team. So I worry that that is getting away from us, and we're not engaging people enough.","source":"intake","locator":{"qn":null,"line":16,"turn_ordinal":null,"intake_field":"AI situation"},"confidence":"inferred","inference_note":"The engagement concern is explicit. Its relationship to compatible authority and accountability is inferred; decision rights are not defined.","internal_tension":null,"absence_note":null,"value":0.7,"because":"Engagement across teams prevents disconnection from centralized builds.","placement_confidence":"provisional"},"cpo":{"stance":"Accountability needs compatible authority and boundaries: HR can enable adoption, while leaders and employees must prioritize action within a global initiative.","quote":"And knowing that this is also a global driven initiative, how do we run ahead, how do we not overstep into other team's boundaries? I think that is also a political and minor we're trying to avoid.","source":"transcript","locator":{"qn":"Q5","turn_ordinal":12},"confidence":"clear","inference_note":null,"absence_note":null,"internal_tension":{"quote":"It has to be the leaders who are then taking the accountability to want to do it and to focus and prioritize their actions on it.","source":"transcript","locator":{"qn":"Q5","turn_ordinal":12},"note":"Clear matrix boundaries coexist with an expectation that leaders actively prioritize adoption."},"value":0.95,"because":"Clear boundaries make shared accountability possible across teams.","placement_confidence":"provisional"}},"short_poles":["Local initiative","Workable authority"],"diagnostic":{"placed":5,"unplaced":0,"spread":0.75,"band":"wide"}}},"scope_note":"Do not imply anyone endorses waiting indefinitely. Local action and a global-regional agreement may proceed together.","state":"contested","classification_label":"Ownership unresolved","provisional":true,"caveat":"Market ownership and matrix agreement can proceed together. No sequencing conflict has been established.","minutes":25,"room_time":3,"subtitle":"What authority would make ownership executable?","suggested_conversation":"For the next transformation commitment, who would own delivery, resources, and approvals?","room_questions":["Which decisions could markets make now?","Which global-regional responsibilities must we resolve before promising an outcome?"],"finding":"Ownership requires market action and workable authority. Conflicting sequencing preferences remain unproven."}],"outliers":[{"id":"phantom-ai-savings","short":"Phantom AI savings","type":"landmine","text":"Could modeled AI capacity savings fail to improve our actual financial results?","raised_by":1,"raised_note":"One direct account; reported experience, not an audited savings assessment.","impact":"high","impact_rationale":"Could invalidate the financial assumptions behind transformation and recovery investment.","cost":"Could we commit staffing or investment against benefits that never reach the P&L?","next":"Who could spend the next ten minutes defining evidence for time saved, capacity redeployed, and financial benefit?","raised":[{"leader":"coo","said":"I think in the end, what happens is the between what the team trying to prove and document, in terms of saving FTEs and capacities, and then the reality that this doesn't land in the actual in a P&L. It doesn't show.","source":"intake","locator":{"qn":null,"turn_ordinal":null,"intake_field":"AI friction","line":17}}]},{"id":"globally-blocked-bonuses","short":"Globally blocked bonuses","type":"landmine","text":"Could local recovery succeed while global performance prevents local rewards?","raised_by":1,"raised_note":"One direct account; the current rules and exceptions need confirmation.","impact":"high","impact_rationale":"Could weaken the credibility of recovery incentives across markets.","cost":"Could repeated local success without reward undermine confidence and retention?","next":"Who could spend the next ten minutes clarifying what reward we can credibly promise for local success?","raised":[{"leader":"ceo","said":"Right now, it's the other way, which is that even if the markets meet their numbers and global doesn't, then there is no money. To be shared. This needs to be turned upside down.","source":"transcript","locator":{"qn":"Q21","turn_ordinal":44,"line":362}}]},{"id":"premium-integrated-mandates","short":"Premium integrated mandates","type":"moonshot","text":"Could fewer, larger integrated mandates fund stronger talent and premium fees?","raised_by":1,"raised_note":"One explicit portfolio proposal; adjacent ambitions are not counted as independent endorsement.","impact":"high","impact_rationale":"Would change portfolio selection, talent investment, and pricing across the business.","cost":"Could we select one client, combine capabilities, and test a premium fee proposition?","next":"Who could spend the next ten minutes identifying an existing client for a 90-day test?","raised":[{"leader":"ceo","said":"That would start with us stopping to do small clients. And that would start with us stopping to do small tasks for small clients and going for every piece of business. It will require higher quality work, bigger clients, bigger mandates, more integrated work, more from less clients,","source":"transcript","locator":{"qn":"Q19","turn_ordinal":40,"line":330}}]}],"session_plan":{"opening":10,"questions":125,"landmines":15,"moonshot":10,"break":10,"commitments":10,"total":180},"method":{"independent_discovery":"Fresh Astra pass completed before synthesis; same themes, fewer defensible disagreement rows.","extraction":"Five separate fresh leader contexts; transcript and intake only.","placement":"Relative editorial emphasis; no unsupported midpoint for missing evidence.","skipped":["Model benchmark","Production harness","Formal JSON Schema","My Guide","Paper test"]}}</script>
+<script>
+(function () {
+  var DATA = JSON.parse(document.getElementById('map-data').textContent);
+
+  /* ---------- helpers ---------- */
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  var leaders = DATA.leaders, order = leaders.map(function (l) { return l.id; });
+  var L = {}; leaders.forEach(function (l, i) { L[l.id] = { i: l.initial, name: l.label, c: 'var(--c-' + (i + 1) + ')' }; });
+  var stateById = {}; DATA.states.forEach(function (s) { stateById[s.id] = s; });
+  var qById = {}; DATA.questions.forEach(function (q) { qById[q.id] = q; });
+  var TL = { say: 'We say', why: 'Because' };
+  var TIME = ['Little', 'Some', 'Most'];
+  var CONF = ['One voice', 'Several of us', 'All of us'];
+  var IMPACT = { low: 1, medium: 2, high: 3 };
+  var SHAPE = { contested: 'Here the marks scatter: contested.', false: 'Here the marks stack vertically: same words, different reasons.', vocab: 'Here the marks line up horizontally: different words, same view.', aligned: 'Here the marks cluster: aligned.' };
+  function pct(v) { return (v * 100).toFixed(1) + '%'; }
+  function dot(id) { return '<span class="dot" style="--c:' + L[id].c + '">' + esc(L[id].i) + '</span>'; }
+  var SHP = { contested: [[6, 6], [18, 8], [7, 17], [17, 18]], false: [[12, 4.5], [12, 9.5], [12, 14.5], [12, 19.5]], vocab: [[4.5, 12], [9.5, 12], [14.5, 12], [19.5, 12]], aligned: [[9.5, 9.5], [14.5, 9.5], [9.5, 14.5], [14.5, 14.5]] };
+  function shape(st, cls) {
+    return '<svg class="shp ' + (cls || '') + '" viewBox="0 0 24 24" aria-hidden="true"><rect x="0.5" y="0.5" width="23" height="23" rx="5" fill="var(--sb)" stroke="var(--sc)" stroke-opacity=".35"/>' +
+      SHP[st].map(function (p) { return '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="2.4" fill="var(--sc)"/>'; }).join('') + '</svg>';
+  }
+  function chip(st, big) { return '<span class="sn' + (big ? ' big' : '') + '" data-st="' + st + '">' + esc(stateById[st].name) + '</span>'; }
+  function bars(n) { var h = '<span class="bars">'; for (var b = 1; b <= 3; b++) h += '<i class="' + (b <= n ? 'on' : '') + '"></i>'; return h + '</span>'; }
+  function conf(o) { return o.raised_by >= leaders.length ? 3 : o.raised_by > 1 ? 2 : 1; }
+  function confText(o) { var c = conf(o); return c === 1 ? 'One of us raised it.' : c === 2 ? o.raised_by + ' of ' + leaders.length + ' raised it, independently.' : 'All ' + leaders.length + ' of us raised it.'; }
+  function impactText(o) { return o.impact === 'high' ? 'High' : o.impact === 'medium' ? 'Medium' : 'Low'; }
+  var params = new URLSearchParams(location.search);
+  var demo = document.getElementById('p-demo');
+  var legendHtml = '<span class="lab">Leaders</span>' + leaders.map(function (l) { return '<span class="chip" data-l="' + esc(l.id) + '">' + dot(l.id) + esc(l.label) + '</span>'; }).join('');
+
+  function placed(p) { return p && typeof p.value === 'number' && Number.isFinite(p.value); }
+  function placedIds(t) { return order.filter(function(k) { return placed(t.positions[k]); }); }
+  function unplacedLine(q) { var ids=order.filter(function(k) { return !placed(q.tracks.say.positions[k]) || !placed(q.tracks.why.positions[k]); }); return ids.length ? '<div class="cap">Incomplete evidence: ' + ids.map(function(k) { return dot(k) + ' ' + esc(L[k].name); }).join(' · ') + '. Unplaced on the relevant axis.</div>' : ''; }
+  function provenance(p) { if(!p.quote) return '<div class="cap">Position not established in the available evidence.</div>'; var loc=p.locator || {}; return '<div class="cap">' + esc(p.confidence || '') + ' · ' + esc(p.source || '') + ' · ' + esc(loc.qn || loc.intake_field || loc.field || 'qn not recorded') + (loc.turn_ordinal || loc.overall_turn_ordinal ? ' · turn ' + esc(loc.turn_ordinal || loc.overall_turn_ordinal) : '') + (p.inference_note ? '. ' + esc(p.inference_note) : '') + '</div>'; }
+
+  /* ---------- tracks ---------- */
+  function lane(track, key) {
+    var ids = placedIds(track);
+    var v = ids.map(function (k) { return track.positions[k].value; });
+    var lo = v.length ? Math.min.apply(null, v) : 0, hi = v.length ? Math.max.apply(null, v) : 0;
+    var w = hi - lo, wide = w > 0.5 ? 'wide' : w > 0.25 ? 'medium' : 'tight';
+    var al = TL[key] + ': ' + (track.short_poles || track.poles)[0] + ' to ' + (track.short_poles || track.poles)[1] + ', ' + wide + ' band. ' + ids.map(function (k) {
+      var x = track.positions[k].value; return L[k].name + ' ' + (x < 0.34 ? 'near ' + (track.short_poles || track.poles)[0] : x > 0.66 ? 'near ' + (track.short_poles || track.poles)[1] : 'in the middle');
+    }).join(', ') + '.';
+    var h = '<div class="track"><span class="tl">' + TL[key] + '</span><div class="lane" role="img" aria-label="' + esc(al) + '"><div class="bar"></div>';
+    if (ids.length > 1) h += '<div class="band" style="left:' + pct(lo) + ';width:' + pct(hi - lo) + '"></div>';
+    ids.forEach(function (k) {
+      var p = track.positions[k];
+      h += '<span class="mk" data-l="' + esc(k) + '" data-x="' + p.value + '" style="--c:' + L[k].c + ';left:' + pct(p.value) + '">' + esc(L[k].i) + '</span>';
+    });
+    h += '<span class="pole l">' + esc((track.short_poles || track.poles)[0]) + '</span><span class="pole r">' + esc((track.short_poles || track.poles)[1]) + '</span></div></div>';
+    return h;
+  }
+  function lanes(q) { return lane(q.tracks.say, 'say') + lane(q.tracks.why, 'why'); }
+
+  /* ---------- lanes: marks that would touch collapse into one pill, letters in order ---------- */
+  var SMALL = { d: 20, pd: 16, gap: 6, pad: 3, ig: 3 }, BIG = { d: 34, pd: 24, gap: 8, pad: 4, ig: 4 };
+  function layoutLane(lane, c) {
+    var w = lane.clientWidth; if (!w) return;
+    Array.prototype.slice.call(lane.querySelectorAll('.pill')).forEach(function (p) { while (p.firstChild) lane.appendChild(p.firstChild); p.parentNode.removeChild(p); });
+    var mks = Array.prototype.slice.call(lane.querySelectorAll('.mk'));
+    mks.forEach(function (m) { m.classList.remove('in'); m.style.left = ''; });
+    mks.sort(function (a, b) { return parseFloat(a.getAttribute('data-x')) - parseFloat(b.getAttribute('data-x')); });
+    var cl = mks.map(function (m) { return { items: [m] }; });
+    function width(g) { var n = g.items.length; return n === 1 ? c.d : n * c.pd + (n - 1) * c.ig + c.pad * 2; }
+    function place() {
+      cl.forEach(function (g) {
+        var x = g.items.reduce(function (s, m) { return s + parseFloat(m.getAttribute('data-x')) * w; }, 0) / g.items.length;
+        var half = width(g) / 2;
+        g.x = Math.max(half, Math.min(w - half, x));
+      });
+    }
+    place();
+    for (var guard = 0; guard < 20; guard++) {
+      var merged = false;
+      for (var i = 0; i < cl.length - 1; i++) {
+        var a = cl[i], b = cl[i + 1];
+        if ((b.x - width(b) / 2) - (a.x + width(a) / 2) < c.gap) { a.items = a.items.concat(b.items); cl.splice(i + 1, 1); merged = true; break; }
+      }
+      if (!merged) break;
+      place();
+    }
+    // the band follows the clusters, so a pill clamped at an edge is still inside it
+    var band = lane.querySelector('.band');
+    if (band && cl.length) {
+      var bl = cl[0].x - width(cl[0]) / 2 - 1, br = cl[cl.length - 1].x + width(cl[cl.length - 1]) / 2 + 1;
+      band.style.left = bl.toFixed(1) + 'px'; band.style.width = (br - bl).toFixed(1) + 'px'; band.style.marginLeft = '0'; band.style.paddingRight = '0';
+    }
+    cl.forEach(function (g) {
+      if (g.items.length === 1) { g.items[0].style.left = g.x.toFixed(1) + 'px'; return; }
+      var p = document.createElement('span'); p.className = 'pill';
+      p.style.left = (g.x - width(g) / 2).toFixed(1) + 'px';
+      var names = g.items.map(function (m) { return L[m.getAttribute('data-l')].name; });
+      p.setAttribute('aria-label', names.join(', ') + ' together');
+      g.items.forEach(function (m) { m.classList.add('in'); p.appendChild(m); });
+      lane.insertBefore(p, lane.querySelector('.pole'));
+    });
+  }
+  function layoutIn(root) {
+    root.querySelectorAll('.lane').forEach(function (l) { layoutLane(l, l.closest('.big') ? BIG : SMALL); });
+  }
+  function layoutVisible() {
+    document.querySelectorAll('.panel:not([hidden]) .lane').forEach(function (l) { layoutLane(l, l.closest('.big') ? BIG : SMALL); });
+  }
+
+  /* ---------- 2x2: say left-to-right, why bottom-to-top; the two tracks ride the edges as ticks ---------- */
+  function xy(q) {
+    var S = 380, pad = 52, R = 13, span = S - pad * 2, f0 = pad - 8, f1 = S - pad + 8;
+    var pts = order.filter(function(k) { return placed(q.tracks.say.positions[k]) && placed(q.tracks.why.positions[k]); }).map(function (k) {
+      return { k: k, x: pad + q.tracks.say.positions[k].value * span, y: S - pad - q.tracks.why.positions[k].value * span };
+    });
+    for (var it = 0; it < 24; it++) {
+      for (var i = 0; i < pts.length; i++) for (var j = i + 1; j < pts.length; j++) {
+        var dx = pts[j].x - pts[i].x, dy = pts[j].y - pts[i].y, d = Math.sqrt(dx * dx + dy * dy), min = R * 2 + 3;
+        if (d < min) {
+          if (d < 0.01) { dx = 1; dy = 0; d = 1; }
+          var push = (min - d) / 2;
+          pts[i].x -= dx / d * push; pts[i].y -= dy / d * push; pts[j].x += dx / d * push; pts[j].y += dy / d * push;
+        }
+      }
+    }
+    pts.forEach(function (p) { p.x = Math.max(pad, Math.min(S - pad, p.x)); p.y = Math.max(pad, Math.min(S - pad, p.y)); });
+    var say = q.tracks.say, why = q.tracks.why;
+    function range(t) { var v = placedIds(t).map(function (k) { return t.positions[k].value; }); return v.length ? [Math.min.apply(null, v), Math.max.apply(null, v)] : [0, 0]; }
+    var rs = range(say), rw = range(why);
+    var h = '<svg viewBox="0 0 ' + S + ' ' + S + '" role="img" aria-label="' + esc(q.question) + ' as a 2x2. Left to right, we say: ' + esc((say.short_poles || say.poles)[0]) + ' to ' + esc((say.short_poles || say.poles)[1]) + '. Bottom to top, because: ' + esc((why.short_poles || why.poles)[0]) + ' to ' + esc((why.short_poles || why.poles)[1]) + '.">';
+    h += '<rect class="frame" x="' + f0 + '" y="' + f0 + '" width="' + (f1 - f0) + '" height="' + (f1 - f0) + '" rx="6"/>';
+    h += '<line class="grid" x1="' + S / 2 + '" y1="' + f0 + '" x2="' + S / 2 + '" y2="' + f1 + '"/>';
+    h += '<line class="grid" x1="' + f0 + '" y1="' + S / 2 + '" x2="' + f1 + '" y2="' + S / 2 + '"/>';
+    if (placedIds(say).length > 1) h += '<rect class="bd" x="' + (pad + rs[0] * span - 4).toFixed(1) + '" y="' + (f1 + 4) + '" width="' + ((rs[1] - rs[0]) * span + 8).toFixed(1) + '" height="8" rx="4"/>';
+    placedIds(say).forEach(function (k) { var x = (pad + say.positions[k].value * span).toFixed(1); h += '<line class="tk" x1="' + x + '" y1="' + (f1 + 3) + '" x2="' + x + '" y2="' + (f1 + 13) + '" stroke="' + L[k].c + '"/>'; });
+    if (placedIds(why).length > 1) h += '<rect class="bd" x="' + (f0 - 12) + '" y="' + (S - pad - rw[1] * span - 4).toFixed(1) + '" width="8" height="' + ((rw[1] - rw[0]) * span + 8).toFixed(1) + '" rx="4"/>';
+    placedIds(why).forEach(function (k) { var y = (S - pad - why.positions[k].value * span).toFixed(1); h += '<line class="tk" x1="' + (f0 - 13) + '" y1="' + y + '" x2="' + (f0 - 3) + '" y2="' + y + '" stroke="' + L[k].c + '"/>'; });
+    h += '<text class="ax" x="' + f0 + '" y="' + (S - 19) + '">' + esc((say.short_poles || say.poles)[0]) + '</text>';
+    h += '<text class="ax" x="' + f1 + '" y="' + (S - 19) + '" text-anchor="end">' + esc((say.short_poles || say.poles)[1]) + '</text>';
+    h += '<text class="axn" x="' + S / 2 + '" y="' + (S - 3) + '" text-anchor="middle">We say</text>';
+    h += '<text class="ax" transform="rotate(-90)" x="' + (-f1) + '" y="26">' + esc((why.short_poles || why.poles)[0]) + '</text>';
+    h += '<text class="ax" transform="rotate(-90)" x="' + (-f0) + '" y="26" text-anchor="end">' + esc((why.short_poles || why.poles)[1]) + '</text>';
+    h += '<text class="axn" transform="rotate(-90)" x="' + (-S / 2) + '" y="11" text-anchor="middle">Because</text>';
+    pts.forEach(function (p) {
+      h += '<g data-l="' + esc(p.k) + '"><circle class="pt" cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="' + R + '" fill="' + L[p.k].c + '"><title>' + esc(L[p.k].name) + '</title></circle>';
+      h += '<text class="pl" x="' + p.x.toFixed(1) + '" y="' + p.y.toFixed(1) + '">' + esc(L[p.k].i) + '</text></g>';
+    });
+    return h + '</svg>';
+  }
+
+  /* ---------- the question card: the opened row for the facilitator, the slide for participants ---------- */
+  function time(q) { return '<span class="time">Room time <b>' + TIME[q.room_time - 1] + '</b>' + bars(q.room_time) + '</span>'; }
+  function canvasInner(q, fac) {
+    var h = '<div class="eyebrow"><span class="st" data-st="' + q.state + '">' + esc(stateById[q.state].name) + '</span><span data-st="' + q.state + '">' + shape(q.state, 'md') + '</span>' + time(q);
+    if (fac && q.minutes) h += '<span class="mins">about ' + q.minutes + ' min</span>';
+    h += '</div>';
+    h += '<h3>' + esc(q.question) + '</h3><div class="sub">' + esc(q.subtitle) + '</div>';
+    h += '<div class="big">' + lanes(q) + '</div>';
+    h += '<div class="cgrid">';
+    h += '<section class="xy"><h4>Both axes at once<span class="hn">the two lines ride the edges</span></h4><div>' + xy(q) + '</div>';
+    h += '<div class="cap">' + SHAPE[q.state] + '</div>' + unplacedLine(q);
+    if (fac && q.finding) h += '<div class="k2" style="margin-top:22px">Our read</div><p class="finding">' + esc(q.finding) + '</p>' + (q.caveat ? '<p class="finding">' + esc(q.caveat) + '</p>' : '');
+    h += '</section>';
+    var byWhy = order.slice().sort(function (a, b) { return (placed(q.tracks.why.positions[a]) ? q.tracks.why.positions[a].value : 2) - (placed(q.tracks.why.positions[b]) ? q.tracks.why.positions[b].value : 2); });
+    h += '<section class="why"><h4>Why each leader lands there<span class="hn">left to right on the Because line</span></h4>';
+    byWhy.forEach(function (k) {
+      var w = q.tracks.why.positions[k], s = q.tracks.say.positions[k];
+      h += '<div class="wl" data-l="' + esc(k) + '">' + dot(k) + '<div><div class="who">' + esc(L[k].name) + '</div>';
+      h += '<div class="bc">' + (w.because ? esc(w.because) : '<span class="nb">Reason not yet written</span>') + '</div>';
+      if (fac) {
+        h += '<div class="ev"><span class="k">Says</span><q>' + esc(s.quote) + '</q>' + provenance(s) + '</div>';
+        h += '<div class="ev"><span class="k">Why, in their words</span><q>' + esc(w.quote) + '</q>' + provenance(w) + '</div>';
+      }
+      h += '</div></div>';
+    });
+    h += '</section>';
+    h += '<section class="room"><h4>For the room</h4>';
+    h += '<div class="rg"><div><div class="k2">Open with</div><p class="opening">' + esc(q.suggested_conversation) + '</p></div>';
+    if (q.room_questions && q.room_questions.length) {
+      h += '<div><div class="k2">Then ask</div><ul>' + q.room_questions.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul></div>';
+    }
+    return h + '</div></section></div>';
+  }
+  function row(q) {
+    var h = '<div class="row" id="q-' + esc(q.id) + '">';
+    h += '<div class="head"><div class="q">' + esc(q.question) + '<small>' + esc(q.subtitle) + '</small></div>' + time(q) + '</div>';
+    h += '<div class="tracks">' + lanes(q) + '</div>';
+    h += '<details class="down"><summary><span class="so">Open this question</span><span class="sc">Close<b>' + esc(q.question) + '</b></span></summary>';
+    h += '<div class="canvas">' + canvasInner(q, true) + '<a class="upq" href="#q-' + esc(q.id) + '">Back to the top of this question</a></div></details>';
+    return h + '</div>';
+  }
+
+  /* ---------- landmines and moonshots ---------- */
+  function meter(o) {
+    return '<div class="meter ' + (o.type === 'moonshot' ? 'moon' : 'mine') + '"><span>' + bars(conf(o)) + ' <b>' + CONF[conf(o) - 1] + '</b></span><span>' + bars(IMPACT[o.impact] || 1) + ' <b>' + impactText(o) + '</b> impact</span></div>';
+  }
+  function card(o) {
+    var cls = (o.type === 'moonshot' ? 'moon' : 'mine ' + (IMPACT[o.impact] === 3 ? 'high' : IMPACT[o.impact] === 2 ? 'medium' : 'low'));
+    var label = o.type === 'moonshot' ? 'Moonshot' : 'Landmine';
+    var h = '<div class="card ' + cls + '"><span class="k">' + label + '</span><div class="t">' + esc(o.text) + '</div>' + meter(o);
+    if (o.cost) h += '<div class="nx"><span class="k">' + (o.type === 'moonshot' ? 'What it would take' : 'What it would cost') + '</span>' + esc(o.cost) + '</div>';
+    if (o.next) h += '<div class="nx"><span class="k">The next ten minutes</span>' + esc(o.next) + '</div>';
+    if(o.raised && o.raised.length) h += '<div class="nx"><span class="k">Evidence</span>' + o.raised.map(function(p) { return '<p>' + dot(p.leader) + ' <q>' + esc(p.said) + '</q></p>'; }).join('') + '</div>';
+    return h + '</div>';
+  }
+  function byImpact(a, b) { return (IMPACT[b.impact] || 0) - (IMPACT[a.impact] || 0); }
+
+  /* ---------- facilitator page ---------- */
+  document.getElementById('d-ex').textContent = DATA.company + ' · discussion draft';
+  document.getElementById('d-headline').textContent = DATA.headline;
+  document.getElementById('d-lede').textContent = DATA.lede || '';
+  function ctxHtml() {
+    return '<div><span class="k">Context</span>' + esc(DATA.context.name) + '</div>' +
+      '<div><span class="k">Team</span>' + esc(DATA.context.team) + '</div>' +
+      '<div><span class="k">Facilitator</span>' + esc(DATA.context.facilitator) + '</div>';
+  }
+  document.getElementById('d-ctx').innerHTML = ctxHtml();
+  document.getElementById('d-legend').innerHTML = legendHtml + '<span class="hint">Open any row for the reasons, the questions, and the 2x2.</span>';
+  (function () {
+    var total = DATA.questions.reduce(function (n, q) { return n + (q.minutes || 0); }, 0);
+    var ctx = DATA.context, left = ctx.left_off || [];
+    var h = '<span class="k">Session plan</span><div class="pg">';
+    h += '<div><b>' + total + ' min</b> of ' + (ctx.session_minutes || '?') + ' across ' + DATA.questions.length + ' questions. Minutes are a plan, not a score; the room time bars are the ranking.</div>';
+    h += '<div><b>Order</b> ' + DATA.groups.map(function (g) { return g.name.toLowerCase(); }).join(', ') + '. Aligned rows get five minutes, not none.</div>';
+    if (left.length) h += '<div><b>Considered and left off</b> ' + left.map(esc).join('; ') + '. Real, and not bearing on ' + esc(ctx.name) + '.</div>';
+    document.getElementById('d-plan').innerHTML = h + '</div>';
+  })();
+  document.getElementById('d-foot').textContent = DATA.note || '';
+  document.getElementById('site-note').textContent = DATA.note || '';
+
+  var out = '';
+  DATA.groups.forEach(function (g) {
+    out += '<div class="sec"><div class="sech"><div class="secn">' + esc(g.name) + '</div><p>' + esc(g.description) + '</p></div>';
+    if (g.states) {
+      g.states.forEach(function (sid) {
+        var qs = DATA.questions.filter(function (q) { return q.state === sid; });
+        if (!qs.length) return;
+        var st = stateById[sid];
+        out += '<div class="stateh">' + chip(sid) + '<span data-st="' + sid + '">' + shape(sid, 'md') + '</span><span class="sd">' + esc(st.description) + '</span>' + (st.run ? '<span class="run">' + esc(st.run) + '</span>' : '') + '</div>';
+        qs.forEach(function (q) { out += row(q); });
+      });
+    } else if (g.outliers) {
+      var os = DATA.outliers.filter(function (o) { return o.type === g.outliers; }).sort(byImpact);
+      out += '<div class="cards">' + os.map(card).join('') + '</div>';
+    }
+    out += '</div>';
+  });
+  document.getElementById('rows').innerHTML = out;
+
+  document.querySelectorAll('.down').forEach(function (d) {
+    var byUser = false;
+    d.querySelector('summary').addEventListener('click', function () { byUser = true; });
+    d.addEventListener('toggle', function () {
+      if (d.open) layoutIn(d);
+      if (!byUser) return;
+      byUser = false;
+      var r = d.closest('.row');
+      r.scrollIntoView({ block: 'start' });
+      try { history.replaceState(null, '', d.open ? '#' + r.id : '#facilitator'); } catch (e) {}
+    });
+  });
+
+  /* ---------- participant deck ---------- */
+  var slides = [];
+  function slideQ(q) { return { id: 's-q-' + q.id, title: q.question, how: 'how-lines', html: canvasInner(q, false) }; }
+  function slideSection(g) {
+    var h = '<div class="sect"><span class="kick">Section</span><h3>' + esc(g.name) + '</h3><p class="lede">' + esc(g.description) + '</p><div class="qgrid">';
+    if (g.states) {
+      g.states.forEach(function (sid) {
+        DATA.questions.filter(function (q) { return q.state === sid; }).forEach(function (q) {
+          h += '<div class="qc" data-st="' + sid + '"><div class="qh">' + chip(sid) + shape(sid) + '</div><div class="q">' + esc(q.question) + '<small>' + esc(q.subtitle) + '</small></div>' + time(q) + '</div>';
+        });
+      });
+    } else {
+      DATA.outliers.filter(function (o) { return o.type === g.outliers; }).sort(byImpact).forEach(function (o) {
+        h += '<div class="qc ' + (o.type === 'moonshot' ? 'moon' : 'mine') + '"><span class="kick">' + (o.type === 'moonshot' ? 'Moonshot' : 'Landmine') + '</span><div class="t">' + esc(o.text) + '</div>' + meter(o) + '</div>';
+      });
+    }
+    return { id: 's-' + g.id, title: g.name, how: g.states ? 'how-states' : 'how-outliers', html: h + '</div></div>' };
+  }
+  function slideOutlier(o, n, total) {
+    var moon = o.type === 'moonshot', label = moon ? 'Moonshot' : 'Landmine';
+    var h = '<div class="oslide ' + (moon ? 'moon' : 'mine') + '"><span class="kick">' + label + ' ' + n + ' of ' + total + '</span>';
+    h += '<div class="t">' + esc(o.text) + '</div>';
+    h += '<div class="beat"><div class="bh"><span class="k">How sure we are</span><span class="meter"><span>' + bars(conf(o)) + ' <b>' + CONF[conf(o) - 1] + '</b></span></span></div><p>' + esc(confText(o)) + (o.raised_note ? ' ' + esc(o.raised_note) : '') + '</p></div>';
+    h += '<div class="beat"><div class="bh"><span class="k">' + (moon ? 'What it would take' : 'What it would cost') + '</span><span class="meter"><span>' + bars(IMPACT[o.impact] || 1) + ' <b>' + impactText(o) + '</b> impact</span></span></div><p>' + esc(o.cost || '') + '</p></div>';
+    h += '<div class="beat"><div class="bh"><span class="k">The next ten minutes</span></div><p class="opening">' + esc(o.next || '') + '</p></div>';
+    return { id: 's-o-' + o.id, title: label + ': ' + (o.short || n + ' of ' + total), how: 'how-outliers', html: h + '</div>' };
+  }
+  function slideSummary() {
+    var h = '<div class="hero"><div class="eyebrow"><span>TheMirror.ai · Alignment Map</span><span class="ex">' + esc(DATA.company) + ' · discussion draft</span></div>';
+    h += '<h1>' + esc(DATA.headline) + '</h1><div class="ctx">' + ctxHtml() + '</div></div>';
+    h += '<div class="legend">' + legendHtml + '</div><div class="ov">';
+    DATA.groups.forEach(function (g) {
+      h += '<div class="ovg"><div class="secn">' + esc(g.name) + '</div><p>' + esc(g.description) + '</p><div class="rows">';
+      if (g.states) {
+        g.states.forEach(function (sid) {
+          DATA.questions.filter(function (q) { return q.state === sid; }).forEach(function (q) {
+            h += '<div class="ovr" data-st="' + sid + '">' + chip(sid) + '<div class="q">' + esc(q.question) + '<small>' + esc(q.subtitle) + '</small></div>' + shape(sid, 'lg') + time(q) + '</div>';
+          });
+        });
+      } else {
+        DATA.outliers.filter(function (o) { return o.type === g.outliers; }).sort(byImpact).forEach(function (o) {
+          h += '<div class="ovr ' + (o.type === 'moonshot' ? 'moon' : 'mine') + '"><span class="kick">' + (o.type === 'moonshot' ? 'Moonshot' : 'Landmine') + '</span><div class="t">' + esc(o.text) + '</div>' + meter(o) + '</div>';
+        });
+      }
+      h += '</div></div>';
+    });
+    return { id: 's-summary', title: 'Overview', how: 'how-states', html: h + '</div>' };
+  }
+  slides.push(slideSummary());
+  DATA.groups.forEach(function (g) {
+    slides.push(slideSection(g));
+    if (g.states) {
+      g.states.forEach(function (sid) { DATA.questions.filter(function (q) { return q.state === sid; }).forEach(function (q) { slides.push(slideQ(q)); }); });
+    } else {
+      var os = DATA.outliers.filter(function (o) { return o.type === g.outliers; }).sort(byImpact);
+      os.forEach(function (o, i) { slides.push(slideOutlier(o, i + 1, os.length)); });
+    }
+  });
+  var slideIndex = {};
+  document.getElementById('slides').innerHTML = slides.map(function (s, i) {
+    slideIndex[s.id] = i;
+    var foot = '<div class="sfoot"><a class="how" href="#' + s.how + '">How to read this</a></div>';
+    return '<section class="slide canvas" id="' + s.id + '" hidden>' + s.html + foot + '</section>';
+  }).join('');
+  (function () {
+    var m = '<div class="g">Start</div><a href="#s-summary" data-s="s-summary"><span class="n">1</span>Overview</a>';
+    DATA.groups.forEach(function (g) {
+      m += '<div class="g ' + (g.outliers === 'landmine' ? 'mine' : g.outliers === 'moonshot' ? 'moon' : '') + '">' + esc(g.name) + '</div>';
+      slides.forEach(function (s, i) {
+        if (s.id === 's-' + g.id) m += '<a href="#' + s.id + '" data-s="' + s.id + '"><span class="n">' + (i + 1) + '</span>' + esc(g.name) + ' (section)</a>';
+      });
+      if (g.states) {
+        g.states.forEach(function (sid) { DATA.questions.filter(function (q) { return q.state === sid; }).forEach(function (q) { var i = slideIndex['s-q-' + q.id]; m += '<a href="#s-q-' + esc(q.id) + '" data-s="s-q-' + esc(q.id) + '"><span class="n">' + (i + 1) + '</span>' + esc(q.question) + '</a>'; }); });
+      } else {
+        DATA.outliers.filter(function (o) { return o.type === g.outliers; }).sort(byImpact).forEach(function (o) { var i = slideIndex['s-o-' + o.id]; m += '<a href="#s-o-' + esc(o.id) + '" data-s="s-o-' + esc(o.id) + '"><span class="n">' + (i + 1) + '</span>' + esc(o.short || o.text) + '</a>'; });
+      }
+    });
+    document.getElementById('dk-menu').innerHTML = m;
+  })();
+  var toc = document.getElementById('dk-toc');
+  document.addEventListener('click', function (e) { if (toc.open && !toc.contains(e.target)) toc.open = false; });
+  var current = 0;
+  function showSlide(i) {
+    current = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach(function (s, j) { document.getElementById(s.id).hidden = j !== current; });
+    document.getElementById('dk-count').textContent = (current + 1) + ' / ' + slides.length;
+    document.getElementById('dk-prev').disabled = current === 0;
+    document.getElementById('dk-next').disabled = current === slides.length - 1;
+    document.getElementById('dk-title').innerHTML = '<a class="co" href="#s-summary">' + esc(DATA.company) + '</a><span class="sep"> · </span>' + esc(slides[current].title);
+    toc.open = false;
+    document.querySelectorAll('#dk-menu a').forEach(function (a) { a.className = a.getAttribute('data-s') === slides[current].id ? 'on' : ''; });
+    layoutIn(document.getElementById(slides[current].id));
+    window.scrollTo(0, 0);
+  }
+  document.getElementById('dk-prev').addEventListener('click', function () { if (current > 0) go(slides[current - 1].id); });
+  document.getElementById('dk-next').addEventListener('click', function () { if (current < slides.length - 1) go(slides[current + 1].id); });
+  document.addEventListener('keydown', function (e) {
+    if (demo.hidden || demo.getAttribute('data-view') !== 'participant') return;
+    var tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === 'j') { if (current < slides.length - 1) { e.preventDefault(); go(slides[current + 1].id); } }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'k') { if (current > 0) { e.preventDefault(); go(slides[current - 1].id); } }
+    else if (e.key === 'Home') { e.preventDefault(); go('s-summary'); }
+    else if (e.key === 'Escape' && toc.open) { toc.open = false; }
+  });
+
+  /* ---------- How To Use: live examples from the map ---------- */
+  var exq = qById['do-we-stop-doing-custom-builds'] || DATA.questions[0];
+  document.getElementById('how-line-ex').innerHTML = '<span class="kick">' + esc(exq.question) + '</span><div class="tracks" style="margin-top:8px">' + lanes(exq) + '</div><div class="cap">' + esc(stateById[exq.state].name) + ': tight on top, wide underneath. Everyone said the same word for five different reasons.</div>';
+  document.getElementById('how-xy-ex').innerHTML = xy(exq) + '<div class="cap">The same question as a 2x2: ' + SHAPE[exq.state].replace('Here the marks', 'the marks') + '</div>';
+  document.getElementById('how-legend').innerHTML = legendHtml.replace('<span class="lab">Leaders</span>', '');
+
+  /* ---------- My Guide ---------- */
+  var guides = DATA.guides || {};
+  var gRoles = document.getElementById('g-roles');
+  gRoles.innerHTML = leaders.map(function (l) { return '<button type="button" data-role="' + esc(l.id) + '" aria-pressed="false">' + dot(l.id) + esc(l.label) + '</button>'; }).join('');
+  function atEnd(q, k) {
+    function ends(t) { var v = order.map(function (id) { return t.positions[id].value; }); var me = t.positions[k].value; return me === Math.min.apply(null, v) || me === Math.max.apply(null, v); }
+    return q.state !== 'aligned' && (ends(q.tracks.say) || ends(q.tracks.why));
+  }
+  function renderGuide(role) {
+    gRoles.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-role') === role ? 'true' : 'false'); });
+    var body = document.getElementById('g-body');
+    if (!role || !L[role]) { body.innerHTML = '<p>Pick a role to see that leader’s notes. Guides have not been prepared for this draft.</p>'; return; }
+    var g = guides[role];
+    if (!g) { body.innerHTML = '<div class="gq empty"><span class="kick">' + esc(L[role].name) + '</span><p style="margin:8px 0 0">Not generated in this draft. In a real engagement every leader gets one, produced at the end of their own Mirror interview.</p></div>'; return; }
+    var ordered = [];
+    DATA.groups.forEach(function (grp) { if (grp.states) grp.states.forEach(function (sid) { DATA.questions.filter(function (q) { return q.state === sid; }).forEach(function (q) { ordered.push(q); }); }); });
+    var ends = ordered.filter(function (q) { return atEnd(q, role); });
+    var mine = DATA.outliers.filter(function (o) { return (o.raised || []).some(function (r) { return r.leader === role; }); });
+    var h = '<div class="callout"><p><strong>' + esc(L[role].name) + '.</strong> ' + esc(g.intro) + '</p></div>';
+    h += '<div class="glance"><div><span class="k">Where you hold one end of a line</span><div class="ends">' + (ends.length ? ends.map(function (q) { return '<span>' + esc(q.question) + '</span>'; }).join('') : '<span>Nowhere. You sit inside the band on every question.</span>') + '</div>';
+    h += '<span class="k" style="margin-top:14px">What you raised</span><div class="ends">' + (mine.length ? mine.map(function (o) { return '<span>' + (o.type === 'moonshot' ? 'Moonshot: ' : 'Landmine: ') + esc(o.short || o.text) + '</span>'; }).join('') : '<span>Nothing outside the seven questions.</span>') + '</div></div>';
+    h += '<div><span class="k">At a glance</span><ul>' + (g.glance || []).map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul></div></div>';
+    if (g.before && g.before.length) {
+      h += '<h2 class="gsec">Before the session</h2><div class="before">' + g.before.map(function (b) { return '<div><b>' + esc(b.title) + '</b>' + esc(b.text) + '</div>'; }).join('') + '</div>';
+    }
+    h += '<h2 class="gsec">The seven questions, in the order the room will take them</h2>';
+    ordered.forEach(function (q) {
+      var sid = q.state, s = q.tracks.say.positions[role], w = q.tracks.why.positions[role], end = atEnd(q, role);
+      h += '<div class="gq"><div class="gh"><span>' + chip(sid) + (end ? '<span class="kick" style="margin-left:10px">You hold one end</span>' : '') + '</span>' + time(q) + '</div><h3>' + esc(q.question) + '</h3><div class="sub">' + esc(q.subtitle) + '</div>';
+      h += '<div class="cols"><div>';
+      h += '<div class="said"><span class="k">You said</span><div><q>' + esc(s.quote) + '</q></div></div>';
+      h += '<div class="said"><span class="k">Because</span><div><q>' + esc(w.quote) + '</q><div class="bc">In plain words: ' + esc(w.because || '') + '</div></div></div>';
+      if (g.watch && g.watch[q.id]) h += '<div class="watch"><span class="k">Listen for</span>' + esc(g.watch[q.id]) + '</div>';
+      h += '</div><div>';
+      if (g.prep && g.prep[q.id]) h += '<div class="prep"><span class="k">Be ready</span>' + esc(g.prep[q.id]) + '</div>';
+      h += '<div class="expect"><span class="k">' + (end ? 'Expect to be asked' : 'The room will open with') + '</span><p class="opening">' + esc(q.suggested_conversation) + '</p>';
+      if (end && q.room_questions && q.room_questions.length) h += '<ul class="qs">' + q.room_questions.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>';
+      h += '</div></div></div></div>';
+    });
+    h += '<h2 class="gsec">Landmines and moonshots you raised</h2>';
+    if (!mine.length) h += '<p>You did not raise a landmine or a moonshot in your interview.</p>';
+    mine.forEach(function (o) {
+      var r = o.raised.filter(function (x) { return x.leader === role; })[0];
+      h += '<div class="gq ' + (o.type === 'moonshot' ? 'moon' : 'mine') + '"><span class="kick">' + (o.type === 'moonshot' ? 'Moonshot' : 'Landmine') + '</span><h3>' + esc(o.text) + '</h3>';
+      h += '<div class="said"><span class="k">You said</span><div><q>' + esc(r.said) + '</q></div></div>';
+      if (o.next) h += '<div class="expect"><span class="k">Expect to be asked</span><p class="opening">' + esc(o.next) + '</p></div>';
+      h += '</div>';
+    });
+    if (g.closing) h += '<div class="callout"><p>' + esc(g.closing) + '</p></div>';
+    body.innerHTML = h;
+  }
+  gRoles.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-role]'); if (!b) return;
+    go('guide-' + b.getAttribute('data-role'));
+  });
+
+  /* ---------- views ---------- */
+  function setView(v) {
+    demo.setAttribute('data-view', v);
+    document.getElementById('v-fac').setAttribute('aria-pressed', v === 'facilitator' ? 'true' : 'false');
+    document.getElementById('v-par').setAttribute('aria-pressed', v === 'participant' ? 'true' : 'false');
+  }
+  var lastSlide = 's-summary', lastDemo = 's-summary', lastRole = '';
+  document.getElementById('v-fac').addEventListener('click', function () { go('facilitator'); });
+  document.getElementById('v-par').addEventListener('click', function () { go(lastSlide); });
+
+  /* ---------- person lens: ?role=<leader id> mutes everyone else's marks ---------- */
+  var role = params.get('role');
+  if (role && L[role]) {
+    demo.classList.add('lens');
+    demo.querySelectorAll('[data-l="' + role + '"]').forEach(function (el) { el.classList.add('me'); });
+    var p2 = new URLSearchParams(params); p2.delete('role'); var qs2 = p2.toString();
+    document.getElementById('d-lens').innerHTML = '<div class="lensbar">Showing <b>' + esc(L[role].name) + '</b> across every row. Everyone else is dimmed.<a href="' + (qs2 ? '?' + qs2 : location.pathname) + '#facilitator">Show everyone</a></div>';
+  }
+
+  /* ---------- open every row when printing ---------- */
+  var wasOpen = [];
+  window.addEventListener('beforeprint', function () {
+    wasOpen = [];
+    document.querySelectorAll('.down').forEach(function (d) { wasOpen.push(d.open); d.open = true; layoutIn(d); });
+    if (demo.getAttribute('data-view') === 'participant') slides.forEach(function (s) { var el = document.getElementById(s.id); el.hidden = false; layoutIn(el); });
+  });
+  window.addEventListener('afterprint', function () {
+    document.querySelectorAll('.down').forEach(function (d, i) { d.open = !!wasOpen[i]; });
+    showSlide(current);
+  });
+
+  /* ---------- routing: the hash is the whole state ----------
+     #s-<slide>            participant deck, one slide: s-summary, s-<group id>, s-q-<question id>, s-o-<outlier id>
+     #facilitator          facilitator page; #q-<question id> opens that row
+     #how, #how-<section>  How To Use, optionally scrolled to a section
+     #guide, #guide-<role> My Guide, optionally with a role chosen                                          */
+  var tabs = document.querySelectorAll('.tab'), panels = document.querySelectorAll('.panel');
+  function showTab(id) {
+    tabs.forEach(function (t) { t.setAttribute('aria-selected', t.id === id ? 'true' : 'false'); });
+    panels.forEach(function (p) { p.hidden = p.getAttribute('aria-labelledby') !== id; });
+  }
+  function go(h) { if (location.hash === '#' + h) route(); else location.hash = h; }
+  function route() {
+    var h = location.hash.replace('#', '');
+    if (!h) h = (params.get('view') === 'facilitator' || params.has('role')) ? 'facilitator' : params.get('view') === 'participant' ? 's-summary' : 'how';
+    if (h === 'how' || h.indexOf('how-') === 0) {
+      showTab('t-how'); layoutVisible();
+      var el = h !== 'how' && document.getElementById(h);
+      if (el) el.scrollIntoView({ block: 'start' }); else window.scrollTo(0, 0);
+      document.getElementById('how-back').setAttribute('href', '#' + lastDemo);
+    } else if (h === 'guide' || h.indexOf('guide-') === 0) {
+      showTab('t-guide');
+      if (h !== 'guide') lastRole = h.slice(6);
+      renderGuide(lastRole);
+      if (h === 'guide') window.scrollTo(0, 0);
+    } else if (h === 'facilitator' || h.indexOf('q-') === 0) {
+      showTab('t-demo'); setView('facilitator'); lastDemo = h;
+      layoutVisible();
+      var r = h !== 'facilitator' && document.getElementById(h);
+      if (r) { var d = r.querySelector('.down'); if (d && !d.open) { d.open = true; layoutIn(d); } r.scrollIntoView({ block: 'start' }); }
+      else window.scrollTo(0, 0);
+    } else {
+      if (slideIndex[h] === undefined) h = 's-summary';
+      showTab('t-demo'); setView('participant'); lastSlide = h; lastDemo = h;
+      showSlide(slideIndex[h]);
+    }
+  }
+  tabs.forEach(function (t) { t.addEventListener('click', function () {
+    go(t.id === 't-demo' ? lastDemo : t.id === 't-guide' ? (lastRole ? 'guide-' + lastRole : 'guide') : 'how');
+  }); });
+  window.addEventListener('hashchange', route);
+  window.addEventListener('resize', layoutVisible);
+  route();
+})();
+</script>
+
+</body>
+</html>
