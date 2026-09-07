@@ -459,9 +459,18 @@
     .lane .band { background: rgba(0, 0, 0, .16); }
     .mk, .dot, .pill { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
+
+  .review-notice { position: sticky; top: 0; z-index: 1000; margin: 0; padding: 20px max(20px, calc((100% - 1100px) / 2)); background: #fff3cd; color: #201900; border-bottom: 3px solid #705600; font-family: system-ui, sans-serif; }
+  .review-notice h2 { margin: 0 0 8px; color: inherit; font-size: 22px; line-height: 1.3; font-weight: 700; }
+  .review-notice p { margin: 0; color: inherit; font-size: 16px; line-height: 1.5; }
 </style>
 </head>
 <body>
+
+<aside class="review-notice" aria-labelledby="review-notice-title">
+  <h2 id="review-notice-title">Under review — do not use for meeting decisions.</h2>
+  <p>This agent-authored draft is being revalidated. Its interpretations are unvalidated; a replacement will follow.</p>
+</aside>
 
 <div class="page">
   <div class="top">
