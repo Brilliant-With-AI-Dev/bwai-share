@@ -1,0 +1,1136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edelman APAC · Six additional connections · Alignment Map</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --paper: #FCFCFD; --panel: #FFFFFF; --well: #EEF0F4; --edge: #DCE3EE; --ink: #0A1628; --ink-2: #59627A; --muted: #667088;
+    --rule: #DCE3EE; --rule-soft: #EEF2F8; --track: #DCE3EE; --ring: var(--panel);
+    --navy: #111A3A; --navy-2: #202B55; --accent: #2F61D5; --accent-soft: #EAF0FF; --band: rgba(32, 43, 85, .13);
+    --shadow: 0 20px 60px rgba(29, 41, 74, .11), 0 1px 2px rgba(29, 41, 74, .06);
+    --c-1: #2F61D5; --c-2: #DA5B4E; --c-3: #0E8F93; --c-4: #AD7414; --c-5: #7559BD;
+    --st-contested: #9F1239; --st-contested-bg: #FBE4EB; --st-false: #7C4A03; --st-false-bg: #FBEBCF;
+    --st-vocab: #0F6E62; --st-vocab-bg: #D7F1EA; --st-aligned: #15803D; --st-aligned-bg: #DDF3E3;
+    --mine: #A61E3C; --mine-bg: #FBE4EB; --moon: #4F46E5; --moon-bg: #E8E7FB;
+  }
+  [data-st="contested"] { --sc: var(--st-contested); --sb: var(--st-contested-bg); }
+  [data-st="false"] { --sc: var(--st-false); --sb: var(--st-false-bg); }
+  [data-st="vocab"] { --sc: var(--st-vocab); --sb: var(--st-vocab-bg); }
+  [data-st="aligned"] { --sc: var(--st-aligned); --sb: var(--st-aligned-bg); }
+  .mine { --oc: var(--mine); --ob: var(--mine-bg); }
+  .moon { --oc: var(--moon); --ob: var(--moon-bg); }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif; font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .page { max-width: 960px; margin: 0 auto; padding: 22px 20px 60px; }
+  .k, .tl, .eyebrow, .sn, .kick { font-family: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace; }
+  a { color: inherit; }
+
+  /* top bar: wordmark and tabs */
+  .top { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--rule); margin-bottom: 24px; }
+  .wordmark { font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: 20px; letter-spacing: -.01em; color: var(--navy); text-decoration: none; padding-bottom: 10px; white-space: nowrap; }
+  .wordmark span { color: var(--accent); }
+  .tabs { display: flex; gap: 4px; }
+  .tab { appearance: none; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; padding: 10px 12px; font: inherit; font-weight: 500; color: var(--muted); cursor: pointer; white-space: nowrap; }
+  .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+  .tab:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+  .panel[hidden] { display: none; }
+  .site { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; }
+  .site .wordmark { font-size: 15px; padding: 0; }
+
+  .eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
+  .eyebrow .ex { color: var(--ink-2); }
+  h1 { font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: clamp(26px, 4.4vw, 40px); line-height: 1.12; letter-spacing: -.01em; text-wrap: balance; margin: 12px 0 10px; max-width: 22ch; }
+  h2 { font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: 22px; line-height: 1.2; margin: 40px 0 10px; letter-spacing: -.005em; text-wrap: balance; scroll-margin-top: 16px; }
+  h2:first-of-type { margin-top: 24px; }
+  p { margin: 0 0 14px; max-width: 66ch; }
+  .lede { color: var(--ink-2); max-width: 62ch; margin-bottom: 26px; font-size: 16px; }
+
+  /* prose tabs: How To Use and My Guide */
+  .prose p { color: var(--ink-2); }
+  .prose p strong { color: var(--ink); font-weight: 600; }
+  .prose code, .prose kbd { font-family: "IBM Plex Mono", monospace; font-size: 13px; background: var(--well); padding: 1px 6px; border-radius: 4px; color: var(--ink); }
+  .prose .hero { margin-bottom: 8px; }
+  .prose ul.plain { margin: 0 0 14px; padding-left: 18px; color: var(--ink-2); max-width: 66ch; }
+  .prose ul.plain li { margin-bottom: 6px; }
+  .callout { background: var(--accent-soft); color: var(--navy-2); border-radius: 12px; padding: 16px 20px; margin: 14px 0 20px; max-width: 70ch; }
+  .callout p { color: var(--navy-2); margin-bottom: 8px; } .callout p:last-child { margin-bottom: 0; }
+  .ex-card { background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; padding: 18px 20px 14px; margin: 14px 0 18px; --ring: var(--panel); }
+  .ex-card .tracks { max-width: 620px; }
+  .ex-card .xy { max-width: 380px; margin: 0 auto; }
+  .ex-card .cap { font-size: 13px; color: var(--muted); margin-top: 10px; }
+  .hsec { display: grid; grid-template-columns: minmax(0, 11fr) minmax(0, 9fr); gap: 12px 36px; align-items: start; margin-top: 36px; scroll-margin-top: 16px; }
+  .hsec.wide { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .hsec .txt h2 + h2, .hsec .txt p + h2 { margin-top: 26px; }
+  .hsec.full { display: block; }
+  .hsec h2 { margin-top: 0; }
+  .hsec .txt p, .hsec .txt ul.plain, .hsec.full > p { max-width: none; }
+  .hsec .fig { min-width: 0; }
+  .hsec .fig .ex-card { margin: 0; }
+  .fact { background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; padding: 16px 18px; font-size: 14px; color: var(--ink-2); }
+  .fact .k { margin-bottom: 6px; }
+  .fact ul.plain { margin: 0 0 12px; }
+  .fact .m { display: flex; align-items: center; gap: 10px; padding: 4px 0; }
+  .fact .m b { font-weight: 600; color: var(--ink); }
+  .fact kbd { margin-right: 2px; }
+  .meters .k.oc { color: var(--oc); }
+  .states { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 14px 0 20px; }
+  .state { background: var(--panel); border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; }
+  .state { border-top: 3px solid var(--sc, var(--accent)); }
+  .state .nh { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+  .state .s { font-weight: 600; margin-bottom: 4px; }
+  .state p { font-size: 13.5px; margin: 0; color: var(--ink-2); }
+  .mini { display: flex; gap: 6px; margin: 8px 0 2px; }
+  .mini i { display: block; height: 3px; flex: 1; border-radius: 2px; background: var(--track); position: relative; }
+  .mini i::before { content: ""; position: absolute; top: -2px; height: 7px; width: var(--w); left: var(--l); background: var(--sc, var(--ink-2)); opacity: .55; border-radius: 4px; }
+  .meters { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0 18px; }
+  .meters > div { background: var(--panel); border: 1px solid var(--rule); border-radius: 12px; padding: 12px 16px; font-size: 13.5px; color: var(--ink-2); }
+  .meters .k { margin-bottom: 8px; }
+  .meters .m { display: flex; align-items: center; gap: 10px; padding: 3px 0; }
+  .meters .m b { font-weight: 500; color: var(--ink); }
+  .go { display: inline-block; margin-top: 22px; padding: 10px 16px; border: 0; border-radius: 8px; color: #fff; text-decoration: none; font-weight: 600; background: var(--navy); font: inherit; cursor: pointer; }
+  .back { display: inline-block; margin-bottom: 14px; font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .back:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* hero: a navy card on the light page */
+  .hero { background: linear-gradient(135deg, #111A3A 0%, #1B2A5E 100%); color: #fff; border-radius: 16px; padding: 34px 36px 30px; margin: 0 0 22px; box-shadow: var(--shadow); }
+  .hero .eyebrow { color: #7FD6D3; }
+  .hero .eyebrow .ex { color: #C5CDE3; }
+  .hero h1 { color: #fff; max-width: 24ch; }
+  .hero .lede { color: #C5CDE3; margin-bottom: 22px; max-width: 84ch; }
+  .ctx { display: grid; grid-template-columns: repeat(3, auto); gap: 8px 36px; padding: 16px 0 0; border-top: 1px solid rgba(255, 255, 255, .14); justify-content: start; }
+  .ctx div { font-size: 13.5px; color: #E6EAF5; }
+  .ctx .k { color: #7FD6D3; }
+  .k { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: block; }
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--rule); margin-bottom: 4px; }
+  .legend .lab { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
+  .chip { display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; color: var(--ink-2); }
+  .dot { width: 18px; height: 18px; border-radius: 50%; display: inline-grid; place-items: center; font-family: "IBM Plex Mono", monospace; font-size: 10px; font-weight: 500; color: #fff; background: var(--c); box-shadow: 0 0 0 2px var(--ring); flex: none; }
+  .legend .hint { margin-left: auto; font-size: 12.5px; color: var(--muted); }
+
+  /* views: participant deck (default) and facilitator page */
+  .viewbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 0 0 14px; margin-bottom: 14px; border-bottom: 1px solid var(--rule); }
+  .viewbar .k { display: inline; }
+  .view { display: inline-flex; border: 1px solid var(--edge); border-radius: 8px; overflow: hidden; background: var(--panel); }
+  .view button { appearance: none; border: 0; background: var(--panel); color: var(--muted); font: inherit; font-size: 12.5px; font-weight: 500; padding: 6px 12px; cursor: pointer; min-height: 32px; }
+  .view button[aria-pressed="true"] { background: var(--navy); color: #fff; }
+  .view button:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+  .viewbar .vh { font-size: 12.5px; color: var(--muted); }
+  #p-demo[data-view="participant"] .fac { display: none !important; }
+  #p-demo:not([data-view="participant"]) .par { display: none !important; }
+
+  /* session plan, facilitator only */
+  .plan { display: grid; grid-template-columns: 140px 1fr; gap: 6px 22px; padding: 18px 22px; margin: 14px 0 6px; font-size: 13.5px; color: var(--ink-2); background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; }
+  .plan .k { padding-top: 3px; color: var(--accent); }
+  .plan .pg { display: flex; flex-direction: column; gap: 8px; max-width: 70ch; }
+  .plan .pg div { border-left: 3px solid var(--accent); padding-left: 12px; }
+  .plan b { color: var(--ink); font-weight: 600; }
+
+  /* person lens */
+  .lensbar { font-size: 13.5px; color: var(--navy-2); padding: 10px 14px; margin-top: 10px; border-radius: 8px; background: var(--accent-soft); }
+  .lensbar b { color: var(--ink); }
+  .lensbar a { color: var(--ink); margin-left: 8px; }
+  .lens .mk:not(.me), .lens .xy g:not(.me), .lens .chip:not(.me) { opacity: .22; }
+  .lens .wl:not(.me) { opacity: .45; }
+
+  /* groups and states */
+  .sec { margin-top: 34px; }
+  .sech { display: grid; grid-template-columns: 200px 1fr; gap: 6px 22px; align-items: baseline; padding-bottom: 10px; border-bottom: 2px solid var(--navy); }
+  .secn { font-family: "Fraunces", Georgia, serif; font-size: 22px; font-weight: 500; line-height: 1.2; }
+  .sech p { margin: 0; font-size: 13.5px; color: var(--ink-2); }
+  .stateh { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; padding: 22px 0 4px; }
+  .sn { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--sc, var(--accent)); font-weight: 600; background: var(--sb, var(--accent-soft)); padding: 4px 9px; border-radius: 6px; justify-self: start; display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
+  .sn.big { font-size: 12px; padding: 5px 11px; }
+  .stateh .sd { font-size: 12.5px; color: var(--muted); }
+  .stateh .run { font-size: 12.5px; color: var(--ink-2); }
+  .stateh .run::before { content: "Run it: "; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+
+  /* row, compact */
+  .row { display: grid; grid-template-columns: 200px 1fr; gap: 6px 22px; padding: 20px 0; border-bottom: 1px solid var(--rule-soft); --ring: var(--paper); scroll-margin-top: 12px; }
+  .head { display: flex; flex-direction: column; gap: 8px; }
+  .q { font-weight: 600; font-size: 16.5px; line-height: 1.3; }
+  .q small { display: block; font-weight: 400; font-size: 12.5px; color: var(--muted); margin-top: 3px; }
+  .time { font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+  .time b { font-weight: 600; color: var(--ink-2); }
+  .bars { display: inline-flex; gap: 2px; margin-left: 6px; vertical-align: middle; }
+  .bars i { width: 8px; height: 8px; border-radius: 1px; background: var(--track); }
+  .bars i.on { background: var(--ink-2); }
+
+  .tracks { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .track { display: grid; grid-template-columns: 78px 1fr; gap: 12px; align-items: center; }
+  .tl { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); text-align: right; white-space: nowrap; font-weight: 500; }
+  .lane { position: relative; height: 48px; margin: 0 12px; }
+  .lane .bar { position: absolute; left: 0; right: 0; top: 14px; height: 2px; background: var(--track); border-radius: 1px; }
+  .lane .band { position: absolute; top: 6px; height: 18px; min-width: 18px; margin-left: -9px; padding-right: 18px; box-sizing: content-box; border-radius: 9px; background: var(--band); }
+  .lane .pole { position: absolute; top: 30px; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--ink-2); white-space: nowrap; letter-spacing: .02em; }
+  .lane .pole.l { left: -12px; } .lane .pole.r { right: -12px; }
+  .mk { position: absolute; top: 5px; width: 20px; height: 20px; margin-left: -10px; border-radius: 50%; background: var(--c); color: #fff; display: grid; place-items: center; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; font-weight: 500; box-shadow: 0 0 0 2px var(--ring); }
+  /* marks that would touch collapse into one pill, letters in order */
+  .pill { position: absolute; top: 4px; height: 22px; display: flex; align-items: center; gap: 3px; padding: 0 3px; border-radius: 11px; background: var(--panel); box-shadow: 0 0 0 2px var(--ring), inset 0 0 0 1px var(--edge); }
+  .mk.in { position: static; width: 16px; height: 16px; margin: 0; font-size: 9px; box-shadow: none; }
+
+  /* click-down */
+  .down { grid-column: 1 / -1; margin-top: 4px; }
+  @media screen {
+    .row:has(.down[open]) .head, .row:has(.down[open]) .tracks { display: none; }
+    .row:has(.down[open]) .down { margin-top: 0; }
+  }
+  .down summary { cursor: pointer; font-size: 12px; color: var(--navy-2); font-family: "IBM Plex Mono", monospace; letter-spacing: .06em; text-transform: uppercase; list-style: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px 0 12px; border: 1px solid var(--edge); border-radius: 8px; background: var(--panel); }
+  .down[open] summary { position: sticky; top: 0; z-index: 5; display: flex; width: 100%; border-radius: 0; border-width: 0 0 1px; background: var(--paper); margin-bottom: 12px; }
+  .down summary .sc { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+  .down summary .sc b { font-family: "IBM Plex Sans", system-ui, sans-serif; font-weight: 500; font-size: 13.5px; letter-spacing: 0; text-transform: none; color: var(--ink); margin-left: 6px; }
+  .down summary:hover { border-color: var(--accent); color: var(--accent); }
+  .down summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .down summary::-webkit-details-marker { display: none; }
+  .down summary::before { content: ""; width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg) translate(-1px, -1px); transition: transform .12s; }
+  .down[open] summary::before { transform: rotate(-135deg) translate(-1px, -1px); }
+  .down summary .sc { display: none; } .down[open] summary .so { display: none; } .down[open] summary .sc { display: inline; }
+
+  /* the opened row and the deck slide share one card */
+  .canvas { padding: 26px 26px 18px; background: var(--panel); border: 1px solid var(--edge); border-radius: 16px; box-shadow: var(--shadow); --ring: var(--panel); }
+  .canvas .eyebrow { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; margin-bottom: 10px; }
+  .canvas .eyebrow .st { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--sc, var(--accent)); font-weight: 600; background: var(--sb, var(--accent-soft)); padding: 4px 9px; border-radius: 6px; display: inline-flex; align-items: center; gap: 7px; }
+  .shp.md { width: 24px; height: 24px; vertical-align: middle; }
+  .canvas .eyebrow > span[data-st] { display: inline-flex; margin-left: -6px; }
+  .canvas .eyebrow .time { font-size: 12.5px; }
+  .canvas .eyebrow .mins { font-size: 12.5px; color: var(--muted); }
+  .canvas h3 { font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: 26px; line-height: 1.15; margin: 0 0 2px; letter-spacing: -.01em; text-wrap: balance; }
+  .canvas .sub { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+  .canvas h4 { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin: 0 0 10px; }
+
+  .big { display: flex; flex-direction: column; gap: 22px; margin-bottom: 26px; }
+  .big .track { grid-template-columns: 1fr; gap: 6px; }
+  .big .tl { text-align: left; font-size: 12px; color: var(--ink-2); }
+  .big .lane { height: 84px; margin: 0 16px; }
+  .big .lane .bar { top: 24px; height: 3px; }
+  .big .lane .band { top: 10px; height: 32px; min-width: 32px; margin-left: -16px; padding-right: 32px; border-radius: 16px; }
+  .big .lane .pole { top: 58px; font-size: 12.5px; color: var(--ink-2); }
+  .big .lane .pole.l { left: -16px; } .big .lane .pole.r { right: -16px; }
+  .big .mk { top: 9px; width: 34px; height: 34px; margin-left: -17px; font-size: 15px; box-shadow: 0 0 0 3px var(--ring); }
+  .big .pill { top: 8px; height: 36px; border-radius: 18px; padding: 0 4px; gap: 4px; box-shadow: 0 0 0 3px var(--ring), inset 0 0 0 1px var(--edge); }
+  .big .mk.in { position: static; margin: 0; width: 24px; height: 24px; font-size: 12px; box-shadow: none; }
+
+  .cgrid { display: grid; grid-template-columns: minmax(280px, 380px) minmax(0, 1fr); gap: 26px 36px; }
+  .cgrid .xy { grid-column: 1; }
+  .cgrid .why { grid-column: 2; }
+  .cgrid .room { grid-column: 1 / -1; padding-top: 22px; border-top: 1px solid var(--rule-soft); }
+  @media (min-width: 641px) { .big { display: none; } }
+  .finding { font-size: 15px; line-height: 1.45; color: var(--navy-2); max-width: none; margin: 0 0 18px; padding: 12px 16px; border-radius: 8px; background: var(--accent-soft); }
+  .canvas h4 .hn { font-family: "IBM Plex Sans", system-ui, sans-serif; font-size: 12.5px; letter-spacing: 0; text-transform: none; font-weight: 400; margin-left: 8px; }
+  .k2 { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  .room .k2 + ul { margin-bottom: 0; }
+  .room .rg { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px 40px; align-items: start; }
+  .room .rg .opening { max-width: none; }
+  .room .rg li { max-width: none; }
+  .slide .wl { padding: 12px 0; align-items: center; }
+  .slide .wl .bc { font-size: 16px; }
+  .cgrid { align-items: stretch; }
+  .why { display: flex; flex-direction: column; }
+  .why .wl { flex: 1; }
+  .why h4 { flex: none; }
+  .wl { align-items: center; }
+  .wl { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; padding: 9px 0; border-top: 1px solid var(--rule-soft); }
+  .wl:first-of-type { border-top: 0; padding-top: 0; }
+  .wl .dot { width: 24px; height: 24px; font-size: 12px; margin-top: 1px; }
+  .wl .who { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-family: "IBM Plex Mono", monospace; margin-bottom: 1px; }
+  .wl .bc { font-size: 15px; font-weight: 500; line-height: 1.4; color: var(--ink); max-width: 64ch; }
+  .wl .bc .nb { color: var(--muted); font-weight: 400; font-style: italic; }
+  .wl .ev { font-size: 13px; color: var(--muted); line-height: 1.45; margin-top: 3px; max-width: 70ch; }
+  .wl .ev .k { display: inline; margin-right: 4px; }
+  q { quotes: "\201C" "\201D"; font-style: italic; }
+
+  .opening { font-family: "Fraunces", Georgia, serif; font-size: 19px; line-height: 1.3; color: var(--ink); margin: 0; letter-spacing: -.005em; max-width: 46ch; }
+  .room ul, .qs { margin: 0; padding: 0; list-style: none; }
+  .room li, .qs li { padding: 8px 0 8px 18px; border-top: 1px solid var(--rule-soft); color: var(--ink-2); font-size: 14.5px; position: relative; max-width: 64ch; }
+  .room li::before, .qs li::before { content: "?"; position: absolute; left: 0; top: 8px; font-family: "IBM Plex Mono", monospace; color: var(--muted); }
+
+  .xy svg { width: 100%; height: auto; display: block; }
+  .xy .cap { font-size: 13.5px; color: var(--ink-2); max-width: 44ch; margin-top: 8px; }
+  .xy .cap strong { color: var(--ink); font-weight: 600; }
+  .xy .ax { font-family: "IBM Plex Sans", system-ui, sans-serif; font-size: 12.5px; fill: var(--ink-2); }
+  .xy .axn { font-family: "IBM Plex Mono", monospace; font-size: 11px; fill: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+  .xy .tk { stroke-width: 3; stroke-linecap: round; }
+  .xy .bd { fill: var(--band); }
+  .xy .grid { stroke: var(--rule); stroke-width: 1; }
+  .xy .frame { fill: var(--well); stroke: var(--rule); }
+  .upq { display: inline-block; margin-top: 22px; font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .upq:hover { color: var(--accent); border-color: var(--accent); }
+  .xy .pt { stroke: var(--ring); stroke-width: 2.5; }
+  .xy .pl { font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 500; fill: #fff; text-anchor: middle; dominant-baseline: central; }
+
+  /* landmines and moonshots */
+  .cards { display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch; padding-top: 18px; }
+  .card { background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; }
+  .card .k { margin-bottom: 2px; }
+  .card .t { color: var(--ink); }
+  .meter { display: flex; flex-wrap: wrap; gap: 4px 22px; font-size: 12.5px; color: var(--muted); }
+  .meter span { white-space: nowrap; }
+  .meter b { font-weight: 600; color: var(--ink-2); }
+  .card .meter { margin-top: 2px; }
+  .card .nx { font-size: 13.5px; color: var(--ink-2); margin-top: auto; padding-top: 6px; border-top: 1px solid var(--rule-soft); }
+  .card .nx .k { display: inline; margin-right: 6px; }
+  .card.mine, .card.moon { border-left: 4px solid var(--oc); }
+  .card .k { color: var(--oc, var(--muted)); font-weight: 600; }
+  .card { flex: 1 1 100%; padding: 22px 26px; }
+  .card .t { font-family: "Fraunces", Georgia, serif; line-height: 1.25; letter-spacing: -.01em; text-wrap: balance; font-size: 21px; }
+  .card.high { box-shadow: var(--shadow); }
+  .card.high .t { font-size: clamp(22px, 3vw, 28px); }
+  .card.low .t { font-size: 19px; }
+
+  .foot { margin-top: 34px; font-size: 13px; color: var(--muted); max-width: 70ch; }
+
+  /* ---------- participant deck ---------- */
+  .deckbar { position: sticky; top: 0; z-index: 6; display: flex; align-items: center; gap: 12px; padding: 8px 0 10px; margin-bottom: 14px; background: var(--paper); border-bottom: 1px solid var(--rule); }
+  .deckbar .dt { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+  .deckbar .dt a { color: var(--ink-2); text-decoration: none; }
+  .deckbar .dn { display: inline-flex; align-items: center; gap: 4px; }
+  .deckbar .dn button { appearance: none; border: 1px solid var(--edge); background: var(--panel); color: var(--ink); font: inherit; width: 40px; height: 36px; border-radius: 8px; cursor: pointer; display: grid; place-items: center; }
+  .deckbar .dn button:disabled { opacity: .35; cursor: default; }
+  .deckbar .dn button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .deckbar .dc { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--ink-2); min-width: 54px; text-align: center; }
+  .toc { position: relative; }
+  .toc summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border: 1px solid var(--edge); border-radius: 8px; background: var(--panel); font-size: 13px; font-weight: 500; color: var(--ink); white-space: nowrap; }
+  .toc summary::-webkit-details-marker { display: none; }
+  .toc summary::after { content: ""; width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg) translate(-1px, -1px); }
+  .toc[open] summary { border-color: var(--navy); }
+  .toc summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .toc .menu { position: absolute; right: 0; top: 42px; z-index: 20; width: min(440px, calc(100vw - 32px)); max-height: calc(100vh - 90px); overflow: auto; background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; box-shadow: var(--shadow); padding: 8px; }
+  .toc .menu .g { padding: 8px 10px 2px; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .toc .menu a { display: flex; align-items: baseline; gap: 10px; padding: 6px 10px; border-radius: 8px; text-decoration: none; font-size: 14px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .toc .menu a:hover { background: var(--accent-soft); color: var(--navy-2); }
+  .toc .menu a.on { background: var(--navy); color: #fff; }
+  .toc .menu a .n { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted); min-width: 18px; text-align: right; flex: none; }
+  .toc .menu a.on .n { color: #C5CDE3; }
+  .slide { scroll-margin-top: 70px; }
+  .slide[hidden] { display: none; }
+  .sfoot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 20px; margin-top: 26px; padding-top: 14px; border-top: 1px solid var(--rule-soft); font-size: 13px; }
+
+  .sfoot a { text-decoration: none; }
+  .sfoot .how { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); border-bottom: 1px solid var(--rule); }
+  .sfoot .how:hover { color: var(--accent); border-color: var(--accent); }
+  .sfoot .nx { color: var(--navy-2); font-weight: 500; }
+  .sfoot .nx:hover { color: var(--accent); }
+  /* summary slide */
+  .slide .hero { border-radius: 16px 16px 0 0; margin: -26px -26px 22px; box-shadow: none; }
+  .slide .legend { padding-top: 0; }
+  .ov { margin-top: 8px; }
+  .ovg { margin-top: 22px; }
+  .ovg .secn { font-size: 19px; margin-bottom: 2px; }
+  .ovg > p { margin: 0 0 10px; font-size: 13.5px; color: var(--ink-2); max-width: none; }
+  .ovg .rows { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ovg .rows > .ovr { flex: 1 1 280px; min-width: 0; }
+  .ovr { display: grid; grid-template-columns: 1fr auto; gap: 2px 14px; align-items: center; padding: 10px 14px; background: var(--well); border-radius: 10px; }
+  .ovr .sn { font-size: 10px; padding: 2px 7px; grid-column: 1 / -1; margin-bottom: 2px; }
+  .ovr .q { font-size: 15px; font-weight: 600; line-height: 1.25; }
+  .ovr .q small { font-size: 12px; margin-top: 1px; }
+  .ovr { border-left: 3px solid var(--sc, var(--oc, transparent)); grid-template-rows: auto auto auto; }
+  .ovr .sn { grid-column: 1; grid-row: 1; white-space: normal; font-size: 11px; padding: 4px 9px; }
+  .ovr .q { grid-column: 1; grid-row: 2; }
+  .ovr .shp.lg { width: 44px; height: 44px; grid-row: 1 / span 2; grid-column: 2; align-self: start; }
+  .ovr .time { grid-column: 1 / -1; grid-row: 3; }
+  .ovr .kick, .ovr .t { grid-column: 1 / -1; }
+
+  .ovr .t { font-size: 14px; color: var(--ink-2); line-height: 1.4; }
+  .ovr .meter { grid-column: 1 / -1; }
+  .kick { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .kick.oc, .mine > .kick, .moon > .kick { color: var(--oc); font-weight: 600; }
+  .mine .bars i.on, .moon .bars i.on { background: var(--oc); }
+  .mine .meter b, .moon .meter b { color: var(--oc); }
+  .qc.mine, .qc.moon { border-left: 3px solid var(--oc); }
+  .toc .menu .g.mine, .toc .menu .g.moon { color: var(--oc); }
+  /* section slide */
+  .sect h3 { font-size: clamp(30px, 5vw, 44px); margin: 6px 0 10px; }
+  .sect .lede { margin-bottom: 26px; }
+  .sect .lede { max-width: none; font-size: 17px; }
+  .sect .qgrid { display: flex; flex-wrap: wrap; gap: 12px; }
+  .sect .qgrid > .qc { flex: 1 1 280px; min-width: 0; }
+  .sect .qc[data-st] { border-left: 3px solid var(--sc); }
+  .sect .qc .qh { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .sect .qc .qh .shp { width: 40px; height: 40px; flex: none; }
+  .sect .qc .qh .sn { min-width: 0; white-space: normal; }
+  .sect .qc { background: var(--well); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+  .sect .qc .q { font-size: 17px; }
+  .sect .qc .q small { font-size: 12.5px; }
+  .sect .qc .sn { align-self: flex-start; }
+  .sect .qc .t { font-size: 15px; color: var(--ink); line-height: 1.4; }
+  .sect .qc .time, .sect .qc .meter { margin-top: auto; padding-top: 4px; }
+  /* outlier slide */
+  .oslide .t { font-family: "Fraunces", Georgia, serif; font-size: clamp(22px, 3.4vw, 30px); line-height: 1.25; letter-spacing: -.01em; max-width: 44ch; text-wrap: balance; margin: 6px 0 26px; }
+  .oslide .beat { display: grid; grid-template-columns: 200px 1fr; gap: 6px 22px; padding: 16px 0; border-top: 1px solid var(--rule-soft); align-items: start; }
+  .oslide .beat .bh { display: flex; flex-direction: column; gap: 6px; }
+  .oslide .beat .bh .k { color: var(--accent); }
+  .oslide .beat .meter { font-size: 14px; }
+  .oslide .beat p { margin: 0; color: var(--ink-2); font-size: 15px; }
+  .oslide .beat .opening { font-size: 20px; }
+  .oslide .beat .bh .k { color: var(--oc); }
+  .oslide .t { border-left: 4px solid var(--oc); padding-left: 18px; }
+  .oslide .beat .opening { border-left: 0; }
+  .oslide .beat:last-child { padding-bottom: 2px; }
+
+  /* ---------- My Guide ---------- */
+  .roles { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 22px; }
+  .roles button { appearance: none; border: 1px solid var(--edge); background: var(--panel); color: var(--ink-2); font: inherit; font-size: 13.5px; font-weight: 500; padding: 8px 14px 8px 10px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; }
+  .roles button[aria-pressed="true"] { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .roles button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .gq { background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; padding: 18px 22px; margin: 0 0 14px; }
+  .gq .kick { margin-bottom: 4px; }
+  .gq.mine .kick, .gq.moon .kick { color: var(--oc); font-weight: 600; }
+  .gq.mine, .gq.moon { border-left: 4px solid var(--oc); }
+  .gq h3 { font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: 20px; line-height: 1.2; margin: 0 0 2px; }
+  .gq .sub { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+  .gq .said { display: grid; grid-template-columns: 78px 1fr; gap: 6px 14px; align-items: baseline; margin-bottom: 8px; }
+  .gq .said .k { padding-top: 3px; }
+  .gq .said div { color: var(--ink); font-size: 15px; }
+  .gq .said .bc { color: var(--ink-2); font-size: 14px; }
+  .gq .prep { margin: 0 0 10px; padding: 12px 16px; border-radius: 8px; background: var(--accent-soft); color: var(--navy-2); font-size: 14px; }
+  .gq .prep .k { color: var(--accent); display: inline; margin-right: 6px; }
+  .gq .expect .k { margin-bottom: 4px; }
+  .gq .expect .opening { font-size: 17px; margin-bottom: 4px; max-width: none; }
+  .gq .expect .qs li { font-size: 14px; max-width: none; }
+  .gq.empty { color: var(--muted); font-size: 14px; }
+  .gq .gh { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; }
+  .gq .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 32px; margin-top: 12px; align-items: start; }
+  .gq .cols > div { min-width: 0; }
+  .gq .watch { font-size: 14px; color: var(--ink-2); padding: 0 2px; }
+  .gq .watch .k { display: inline; margin-right: 6px; }
+  .glance { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 28px; background: var(--navy); color: #fff; border-radius: 12px; padding: 20px 24px; margin: 0 0 14px; }
+  .glance .k { color: #7FD6D3; margin-bottom: 6px; }
+  .glance ul { margin: 0; padding-left: 18px; font-size: 14.5px; color: #E6EAF5; }
+  .glance li { margin-bottom: 4px; }
+  .glance .ends { display: flex; flex-wrap: wrap; gap: 6px; }
+  .glance .ends span { font-size: 13px; padding: 4px 10px; border-radius: 999px; background: rgba(255, 255, 255, .12); color: #fff; }
+  .before { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 0 0 22px; }
+  .before > div { background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; padding: 14px 18px; font-size: 14.5px; color: var(--ink-2); }
+  .before b { display: block; color: var(--ink); font-weight: 600; margin-bottom: 4px; }
+  .prose .gsec { margin: 26px 0 10px; }
+
+  @media (max-width: 640px) {
+    .page { padding: 14px 16px 50px; }
+    .top { align-items: stretch; flex-direction: column; gap: 0; }
+    .wordmark { padding: 4px 0 6px; }
+    .tabs { overflow-x: auto; }
+    .tab { padding: 8px 10px; font-size: 14px; }
+    .row, .sech, .stateh, .srow, .oslide .beat { grid-template-columns: 1fr; gap: 8px; }
+    .track { grid-template-columns: 62px 1fr; gap: 8px; }
+    .tl { text-align: right; font-size: 10.5px; }
+    .lane { margin: 0 10px; }
+    .legend .hint { margin-left: 0; width: 100%; }
+    .states, .meters, .hsec, .hsec.wide { grid-template-columns: 1fr; }
+    .hsec { margin-top: 28px; }
+    .ctx { grid-template-columns: 1fr 1fr; }
+    .hero { padding: 24px 20px 20px; border-radius: 12px; }
+    .canvas { padding: 18px 16px 16px; }
+    .slide .hero { margin: -18px -16px 18px; border-radius: 16px 16px 0 0; }
+    .canvas h3 { font-size: 22px; }
+    .big .lane { margin: 0 12px; }
+    .big .track { grid-template-columns: 1fr; }
+    .big .tl { text-align: left; }
+    .cgrid { grid-template-columns: 1fr; gap: 22px; padding-top: 20px; border-top: 1px solid var(--rule-soft); }
+    .cgrid .xy, .cgrid .why, .cgrid .room { grid-column: 1; }
+    .cgrid .xy { order: 3; padding-top: 22px; border-top: 1px solid var(--rule-soft); }
+    .cgrid .room { padding-top: 0; border-top: 0; }
+    .xy svg { max-width: 360px; }
+    .card.low { flex-basis: 100%; }
+    .gq .said { grid-template-columns: 1fr; gap: 2px; }
+    .gq .said .k { padding-top: 0; }
+    .gq .cols, .glance, .before, .room .rg { grid-template-columns: 1fr; }
+    .ovg .rows > .ovr, .sect .qgrid > .qc { flex-basis: 100%; }
+    .deckbar .dt { display: none; }
+    .deckbar { justify-content: space-between; }
+    .toc { position: static; }
+    .deckbar .dt .co, .deckbar .dt .sep, .viewbar .vh { display: none; }
+    .toc .menu { position: fixed; left: 12px; right: 12px; top: 58px; width: auto; max-height: calc(100vh - 80px); }
+    .ovr .gl { width: 72px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .down summary::before { transition: none; } }
+  @media print {
+    body { background: #fff; color: #000; }
+    .hero { background: #fff; color: #000; box-shadow: none; padding: 0; }
+    .hero h1, .hero .lede, .hero .eyebrow, .ctx div, .ctx .k { color: #000; }
+    .tabs, .go, .down summary, .upq, .viewbar, .deckbar, .sfoot, .back { display: none !important; }
+    .slide[hidden] { display: block; }
+    .slide { margin-bottom: 18px; break-inside: avoid; }
+    .canvas { border-color: #bbb; background: #fff; break-inside: avoid; box-shadow: none; }
+    .row, .card, .gq { break-inside: avoid; }
+    .lane .band { background: rgba(0, 0, 0, .16); }
+    .mk, .dot, .pill { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
+  [data-st="unassessed"] { --sc:var(--muted); --sb:#eef1f7; }
+  .unassessed-shape { color:var(--muted); font-size:22px; }
+  .discussion-note { margin-top:24px; padding-top:18px; border-top:1px solid var(--rule); font-size:15px; line-height:1.55; }
+  .discussion-note p { font-size:15px; margin:10px 0; }
+  .discussion-note summary { font-weight:500; cursor:pointer; }
+  .note-columns { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:14px; }
+  .note-columns ul { padding-left:20px; }
+  .note-columns li { margin-bottom:8px; }
+  @media(max-width:640px) { .note-columns { grid-template-columns:1fr; gap:8px; } }
+  </style>
+</head>
+<body>
+
+<div class="page">
+  <div class="top">
+    <a class="wordmark" href="#how">TheMirror<span>.ai</span></a>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" id="t-how" aria-selected="true" aria-controls="p-how">How To Use</button>
+      <button class="tab" role="tab" id="t-demo" aria-selected="false" aria-controls="p-demo">Draft</button>
+      <button class="tab" role="tab" id="t-guide" aria-selected="false" aria-controls="p-guide">My Guide</button>
+    </div>
+  </div>
+
+  <!-- ============ HOW TO USE ============ -->
+  <section class="panel prose" id="p-how" role="tabpanel" aria-labelledby="t-how">
+    <a class="back" href="#s-summary" id="how-back">Back to the deck</a>
+    <div class="hero">
+      <div class="eyebrow"><span>TheMirror.ai · Alignment Map</span><span class="ex">How to use</span></div>
+      <h1>How to read an Alignment Map</h1>
+      <p class="lede">The approved Alignment Map format, applied to six additional discussion proposals. These connections remain unreviewed; leader positions have not been assessed.</p>
+    </div>
+
+    <section class="hsec" id="how-northline">
+      <div class="txt"><h2>Six additional connections to test</h2><p>What could undermine our AI gains, and what could make them worth more?</p><p>Two questions, two landmines, and two moonshots for discussion with Nish. Each includes a plain explanation, rationale, benefits, tradeoffs, and a practical test.</p></div>
+      <div class="fig"><div class="fact"><span class="k">Discussion draft</span><p>Codex-authored and unreviewed. The source facts come from interviews; these connections go beyond direct statements.</p><span class="k">Not assessed</span><p>Empty tracks and plots carry no team position. No agreement, disagreement, or endorsement count is claimed.</p></div></div>
+    </section>
+
+    <section class="hsec" id="how-conventions">
+      <div class="txt"><h2>Conventions</h2>
+        <ul class="plain">
+          <li><strong>Leaders are letters.</strong> Each leader is a role, never a name, shown as one letter in one color.</li>
+          <li><strong>The map says "we."</strong> Every question is one the team is answering together. Nothing on it is addressed to any one person.</li>
+          <li><strong>Questions, not conclusions.</strong> The map hands the room questions. What to decide, and in what order, belongs to the people in the room.</li>
+          <li><strong>Nothing hides behind a hover or a tap.</strong> Everything you can learn from a slide is printed on it.</li>
+        </ul></div>
+      <div class="fig"><div class="fact"><span class="k">The key</span><div class="legend" id="how-legend" style="border:0;padding:8px 0 0"></div></div></div>
+    </section>
+
+    <section class="hsec wide" id="how-lines">
+      <div class="txt"><h2>How to read a line</h2>
+        <p>Every question gets two lines. The top line, <strong>We say</strong>, is what each leader said the answer is. The bottom line, <strong>Because</strong>, is why they said it. The words at either end are the poles: the two ends of the answer, chosen so the spread means something. A leader's letter sits where their answer landed between them. The shaded band runs from the leftmost mark to the rightmost: the wider the band, the further apart we are.</p>
+        <p>When two or more marks would touch, they collapse into one pill with the letters in order. A pill is not a tie; it means those leaders landed within a hair of each other on that line.</p>
+        <p>Read the two lines together. Tight on top over wide underneath means we agree on the words and not the reasons. Wide on top over tight underneath means we are using different words for the same view.</p>
+        <h2 id="how-2x2">And the 2x2</h2>
+        <p>On a wide screen, each question slide shows the same marks as a 2x2. <strong>We say</strong> runs left to right, with the same poles as the top line. <strong>Because</strong> runs bottom to top, with the poles of the bottom line. The two lines ride the edges as a spread band and a tick per leader, so you can read either rendering off the other.</p>
+        <p>The four states turn into shapes: a scatter, a vertical stack, a horizontal line, a cluster. The small tile beside every state chip is that shape.</p></div>
+      <div class="fig"><div class="ex-card" id="how-line-ex"></div><div class="ex-card" style="margin-top:14px"><div class="xy" id="how-xy-ex"></div></div></div>
+    </section>
+
+    <section class="hsec full" id="how-states">
+      <h2>The four states</h2>
+      <p>Each question is in one of four states, read off the two lines. Each state has a color and a shape, and both follow the question everywhere it appears. The state is a judgment made in synthesis, not a score.</p>
+      <div class="states">
+        <div class="state" data-st="aligned"><div class="nh"><span class="sn">Aligned</span><svg class="shp md" viewBox="0 0 24 24" aria-hidden="true"><rect x="0.5" y="0.5" width="23" height="23" rx="5" fill="var(--sb)" stroke="var(--sc)" stroke-opacity=".35"/><circle cx="9.5" cy="9.5" r="2.4" fill="var(--sc)"/><circle cx="14.5" cy="9.5" r="2.4" fill="var(--sc)"/><circle cx="9.5" cy="14.5" r="2.4" fill="var(--sc)"/><circle cx="14.5" cy="14.5" r="2.4" fill="var(--sc)"/></svg></div><div class="s">Tight on both lines</div>
+          <div class="mini"><i style="--l:80%;--w:15%"></i></div><div class="mini"><i style="--l:80%;--w:15%"></i></div>
+          <p>An asset, not a row to skip. Worth a few minutes on why it holds and what would break it.</p></div>
+        <div class="state" data-st="vocab"><div class="nh"><span class="sn">Different words, same view</span><svg class="shp md" viewBox="0 0 24 24" aria-hidden="true"><rect x="0.5" y="0.5" width="23" height="23" rx="5" fill="var(--sb)" stroke="var(--sc)" stroke-opacity=".35"/><circle cx="4.5" cy="12" r="2.4" fill="var(--sc)"/><circle cx="9.5" cy="12" r="2.4" fill="var(--sc)"/><circle cx="14.5" cy="12" r="2.4" fill="var(--sc)"/><circle cx="19.5" cy="12" r="2.4" fill="var(--sc)"/></svg></div><div class="s">Wide on top, tight underneath</div>
+          <div class="mini"><i style="--l:5%;--w:90%"></i></div><div class="mini"><i style="--l:70%;--w:20%"></i></div>
+          <p>A vocabulary problem wearing a strategy problem's clothes. Agree on one word and move on.</p></div>
+        <div class="state" data-st="false"><div class="nh"><span class="sn">Same words, different reasons</span><svg class="shp md" viewBox="0 0 24 24" aria-hidden="true"><rect x="0.5" y="0.5" width="23" height="23" rx="5" fill="var(--sb)" stroke="var(--sc)" stroke-opacity=".35"/><circle cx="12" cy="4.5" r="2.4" fill="var(--sc)"/><circle cx="12" cy="9.5" r="2.4" fill="var(--sc)"/><circle cx="12" cy="14.5" r="2.4" fill="var(--sc)"/><circle cx="12" cy="19.5" r="2.4" fill="var(--sc)"/></svg></div><div class="s">Tight on top, wide underneath</div>
+          <div class="mini"><i style="--l:80%;--w:15%"></i></div><div class="mini"><i style="--l:5%;--w:90%"></i></div>
+          <p>Looks settled, isn't. It holds until the first hard case. Stress-test it before reality does.</p></div>
+        <div class="state" data-st="contested"><div class="nh"><span class="sn">Contested</span><svg class="shp md" viewBox="0 0 24 24" aria-hidden="true"><rect x="0.5" y="0.5" width="23" height="23" rx="5" fill="var(--sb)" stroke="var(--sc)" stroke-opacity=".35"/><circle cx="6" cy="6" r="2.4" fill="var(--sc)"/><circle cx="18" cy="8" r="2.4" fill="var(--sc)"/><circle cx="7" cy="17" r="2.4" fill="var(--sc)"/><circle cx="17" cy="18" r="2.4" fill="var(--sc)"/></svg></div><div class="s">Wide on both lines</div>
+          <div class="mini"><i style="--l:5%;--w:90%"></i></div><div class="mini"><i style="--l:5%;--w:90%"></i></div>
+          <p>Real, defensible disagreement. Name it so the team stops relitigating it by accident.</p></div>
+      </div>
+      <p>The map is read in one order: where we match, then where we don't, then landmines, then moonshots. Start with what we share, spend the time on what we don't, name what could blow up, end on what could be.</p>
+    </section>
+
+    <section class="hsec" id="how-time">
+      <div class="txt"><h2>Room time</h2>
+        <p>Each question carries a three-step indicator, drawn as one, two, or three filled squares. It is set by how far apart the marks are and how much the question bears on what the team is about to decide. It is coarse on purpose. A number for the disagreement invites an argument about the number. The facilitator turns it into minutes; the room only needs the ranking.</p></div>
+      <div class="fig"><div class="fact"><span class="k">Room time</span>
+        <div class="m"><span class="bars"><i class="on"></i><i></i><i></i></span><b>Little.</b> Five or ten minutes. Confirm it and move on.</div>
+        <div class="m"><span class="bars"><i class="on"></i><i class="on"></i><i></i></span><b>Some.</b> A real conversation, bounded.</div>
+        <div class="m"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i></span><b>Most.</b> Where the session's time goes.</div></div></div>
+    </section>
+
+    <section class="hsec full" id="how-outliers">
+      <h2>Landmines and moonshots: confidence and impact</h2>
+      <p>Some of what comes up in the interviews is not an alignment question. A <strong>landmine</strong> is something that could go wrong that nobody owns; it wears crimson. A <strong>moonshot</strong> is an idea one person raised that nobody else mentioned; it wears indigo. Each carries two three-step indicators drawn the same way as room time.</p>
+      <div class="meters">
+        <div class="mine"><span class="k oc">Confidence · how sure we are</span>
+          <div class="m"><span class="bars"><i class="on"></i><i></i><i></i></span><b>One voice</b> raised it</div>
+          <div class="m"><span class="bars"><i class="on"></i><i class="on"></i><i></i></span><b>Several of us</b> raised it, independently</div>
+          <div class="m"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i></span><b>All of us</b> raised it</div></div>
+        <div class="moon"><span class="k oc">Impact · what it would cost</span>
+          <div class="m"><span class="bars"><i class="on"></i><i></i><i></i></span><b>Low.</b> An owner and ten minutes.</div>
+          <div class="m"><span class="bars"><i class="on"></i><i class="on"></i><i></i></span><b>Medium.</b> A quarter's plan, or a good person.</div>
+          <div class="m"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i></span><b>High.</b> The year, or the company.</div></div>
+      </div>
+      <p>For interview findings, confidence comes from independent mentions. Authored connections here carry no endorsement count. Impact is a judgment made in synthesis. Each slide says what it is, how sure we are, what it would cost, and who should own the next ten minutes. For a moonshot, cost reads as what it would take.</p>
+    </section>
+
+    <section class="hsec" id="how-views">
+      <div class="txt"><h2>Views</h2>
+        <p><strong>Participants</strong> see a deck: an overview, a slide for each section, one slide per question, and one per landmine and moonshot. Every question slide shows the state, the question, the shape, each leader's reason in plain words beside their letter, and the questions for the room. No verbatim quotes.</p>
+        <p><strong>The facilitator</strong> sees the same map as one scrolling page, with the quotes under each reason, a one-line read of each row, a minutes estimate, and a session plan. Switch with the toggle at the top of the Demo tab.</p>
+        <p><strong>My Guide</strong> is one leader's own crib notes for the session: what they said, why, and the questions to expect where they hold one end of a line. It contains nothing about anyone else. In a real engagement it is generated at the end of that leader's Mirror interview and sent only to them.</p></div>
+      <div class="fig"><div class="fact"><span class="k">Moving around</span>
+        <div class="m"><kbd>←</kbd><kbd>→</kbd> previous and next slide</div>
+        <div class="m"><kbd>Home</kbd> back to the overview</div>
+        <div class="m"><b>Contents</b> in the deck bar jumps to any slide</div>
+        <span class="k" style="margin-top:12px">Addresses</span>
+        <div class="m"><code>#s-q-what-are-we</code> one question</div>
+        <div class="m"><code>#s-landmines</code> a section</div>
+        <div class="m"><code>#facilitator</code> the facilitator page</div>
+        <div class="m"><code>?role=ceo#facilitator</code> dims everyone else's marks</div></div></div>
+    </section>
+
+    <a class="go" href="#s-summary">Open the discussion deck</a>
+  </section>
+
+  <!-- ============ DEMO ============ -->
+  <section class="panel" id="p-demo" role="tabpanel" aria-labelledby="t-demo" data-view="participant" hidden>
+    <div class="viewbar"><span class="k">View</span><div class="view" role="group" aria-label="View">
+      <button type="button" id="v-par" aria-pressed="true">Participants</button><button type="button" id="v-fac" aria-pressed="false">Facilitator</button>
+    </div><span class="vh par">The deck the room sees: the shape, each leader's reason, the questions. No quotes.</span><span class="vh fac">Everything: reasons, quotes, our read, minutes.</span></div>
+
+    <div class="par" id="deck">
+      <div class="deckbar"><span class="dt" id="dk-title"></span><details class="toc" id="dk-toc"><summary>Contents</summary><div class="menu" id="dk-menu"></div></details><span class="dn"><button type="button" id="dk-prev" aria-label="Previous slide">&#8592;</button><span class="dc" id="dk-count"></span><button type="button" id="dk-next" aria-label="Next slide">&#8594;</button></span></div>
+      <div id="slides"></div>
+    </div>
+
+    <div class="fac" id="fac-page">
+      <div class="hero">
+        <div class="eyebrow"><span>TheMirror.ai · Alignment Map</span><span class="ex" id="d-ex"></span></div>
+        <h1 id="d-headline"></h1>
+        <p class="lede" id="d-lede"></p>
+        <div class="ctx" id="d-ctx"></div>
+      </div>
+      <div class="plan" id="d-plan"></div>
+      <div class="legend" id="d-legend"></div>
+      <div id="d-lens"></div>
+      <div id="rows"></div>
+      <div class="foot" id="d-foot"></div>
+    </div>
+  </section>
+
+  <!-- ============ MY GUIDE ============ -->
+  <section class="panel prose" id="p-guide" role="tabpanel" aria-labelledby="t-guide" hidden>
+    <div class="hero">
+      <div class="eyebrow"><span>TheMirror.ai · Alignment Map</span><span class="ex">My Guide · sample</span></div>
+      <h1>One leader's notes for the room</h1>
+      <p class="lede">What you said, why you said it, and the questions to expect where you hold one end of a line. Nothing here is about anyone else. In a real engagement this is generated at the end of your Mirror interview and sent only to you.</p>
+    </div>
+    <div class="roles" id="g-roles" role="group" aria-label="Choose a role"></div>
+    <div id="g-body"></div>
+  </section>
+
+  <footer class="site"><span class="wordmark">TheMirror<span>.ai</span></span><span>Alignment Map</span><span id="site-note"></span></footer>
+</div>
+
+<script id="map-data" type="application/json">{"company": "Edelman APAC", "headline": "What could undermine our AI gains—and what could make them worth more?", "lede": "Six additional questions, landmines, and moonshots for discussion with Nish.", "context": {"name": "How do we accelerate profitable recovery over the next 90 days—and where can AI help?", "team": "Five leadership roles · additional discussion proposals", "facilitator": "Nish", "session_minutes": 180, "left_off": ["The main map remains a separate draft"]}, "leaders": [{"id": "ceo", "label": "CEO, APAC", "initial": "C"}, {"id": "coo", "label": "COO APAC", "initial": "O"}, {"id": "cfo", "label": "CFO EMEA & APAC", "initial": "F"}, {"id": "cos", "label": "Chief of Staff, APAC; Interim Co-CEO Australia", "initial": "S"}, {"id": "cpo", "label": "APAC CPO", "initial": "P"}], "states": [{"id": "contested", "name": "Contested", "description": "Wide on both lines. Real disagreement, defensible on each side. Name it so the team stops relitigating it by accident.", "run": "Name it. Hear each reason once, then agree how it gets decided."}, {"id": "false", "name": "Same words, different reasons", "description": "Tight on top, wide underneath. Looks settled; isn’t. Stress-test it before reality does.", "run": "Put the first hard case on the table before reality does."}, {"id": "vocab", "name": "Different words, same view", "description": "Wide on top, tight underneath. A vocabulary problem dressed as a strategy problem. Agree on one word and move on.", "run": "Ten minutes. Get one word agreed, then move on."}, {"id": "aligned", "name": "Aligned", "description": "Tight on both lines. An asset to protect, not a row to skip.", "run": "Five minutes. Ask what would make it slip and who is watching."}, {"id": "unassessed", "name": "Not assessed", "description": "No team alignment assessment on these proposed choices."}], "groups": [{"id": "matches", "name": "Where we match", "description": "No matches assessed for these additional proposals.", "states": ["aligned", "vocab"]}, {"id": "gaps", "name": "Where we don’t", "description": "Which additional choices deserve discussion? Team positions are not yet assessed.", "states": ["false", "contested", "unassessed"]}, {"id": "landmines", "name": "Landmines", "description": "Author-proposed connections to test, with no participant endorsement count.", "outliers": "landmine"}, {"id": "moonshots", "name": "Moonshots", "description": "Author-proposed connections to test, with no participant endorsement count.", "outliers": "moonshot"}], "questions": [{"id": "i1", "question": "Could AI efficiency reduce the adopting market’s revenue credit?", "subtitle": "Less time on shared accounts could reduce revenue credited to the efficient market.", "state": "unassessed", "classification_label": "Not assessed", "caveat": "Proposed poles; leader positions and alignment remain unassessed.", "room_time": 2, "minutes": 10, "tracks": {"say": {"poles": ["Keep allocation", "Test new credit"], "short_poles": ["Keep allocation", "Test new credit"], "positions": {"ceo": {"value": null, "quote": "", "confidence": "not_assessed", "inference_note": "This proposed choice has not been assessed for this leader."}, "coo": {"value": null, "quote": "", "confidence": "not_assessed", "inference_note": "This proposed choice has not been assessed for this leader."}, "cfo": {"value": null, "quote": "", "confidence": "not_assessed", "inference_note": "This proposed choice has not been assessed for this leader."}, "cos": {"value": null, "quote": "", "confidence": "not_assessed", "inference_note": "This proposed choice has not been assessed for this leader."}, "cpo": {"value": null, "quote": "", "confidence": "not_assessed", "inference_note": "This proposed choice has not been assessed for this leader."}}, "full_poles": ["Keep allocation unchanged while measuring the effect", "Test contribution-based internal credit on a bounded pilot"]}, "why": {"poles": ["Consistency", "Local incentives"], "short_poles": ["Reporting consistency", "Reward useful changes"], "positions": {"ceo": {"value": null, "quote": "", "confidence": "not_assessed", "inference_note": "This proposed choice has not been assessed for this leader."}, "coo": {"value": null, "quote": "", "confidence": "not_assessed", "inference_note": "This proposed choice has not been assessed for this leader."}, "cfo": {"value": null, "quote": "", "confidence": "not_assessed", "inference_note": "This proposed choice has not been assessed for this leader."}, "cos": {"value": null, "quote": "", "confidence": "not_assessed", "inference_note": "This proposed choice has not been assessed for this leader."}, "cpo": {"value": null, "quote": "", "confidence": "not_assessed", "inference_note": "This proposed choice has not been assessed for this leader."}}, "full_poles": ["Comparable allocation supports consistent reporting", "Local rewards should support beneficial behavior"]}}, "finding": "Holding other factors constant, one market’s AI time savings could reduce its allocated revenue. This effect has not been demonstrated on an actual account.", "suggested_conversation": "Who can model one shared account with fewer delivery hours, unchanged fees, and actual costs?", "room_questions": ["What evidence would change our view?", "Which choice would we support, and why?"], "discussion": {"id": "i1", "kind": "question", "title": "Could AI efficiency reduce the adopting market’s revenue credit?", "short": "Efficiency could hurt the market adopting it", "glance": "Less time on shared accounts could reduce revenue credited to the efficient market.", "priority": "Test first", "explanation": "The company could benefit from faster delivery while the adopting market looks financially worse. Its recorded hours fall, potentially reducing its share of an unchanged client fee.", "facts": "The CFO describes internal revenue allocation using relative hours and charge-out rates. The CEO wants less grunt work and leaner delivery.", "inference": "Holding other factors constant, one market’s AI time savings could reduce its allocated revenue. This effect has not been demonstrated on an actual account.", "rationale": "If local targets penalize a beneficial change, market leaders have a reason to resist it.", "proposal": "Model one shared account before changing the allocation rule or setting AI savings targets.", "pros": ["Reveals whether the adopting market shares the benefit.", "Distinguishes a company-wide gain from its local reporting effects."], "cons": ["Lower local costs may offset lower revenue credit; the apparent penalty may disappear.", "Changing allocation would require agreement beyond the adopting market."], "what": ["Keep allocation unchanged while measuring the effect", "Test contribution-based internal credit on a bounded pilot"], "why": ["Comparable allocation supports consistent reporting", "Local rewards should support beneficial behavior"], "test": "Who can model one shared account with fewer delivery hours, unchanged fees, and actual costs?", "disconfirm": "If margin improves locally despite the credit change, this concern becomes less pressing.", "sources": ["CFO transcript: printed Q3; qn metadata missing; overall turn 8.", "CEO transcript Q10–Q12."], "link": "Connects to the main draft’s savings issue; this adds the internal allocation mechanism."}}, {"id": "i2", "question": "Will faster delivery improve margins, or simply expand unpaid work?", "subtitle": "Without scope discipline, clients could absorb every hour AI saves.", "state": "unassessed", "classification_label": "Not assessed", "caveat": "Proposed poles; leader positions and alignment remain unassessed.", "room_time": 2, "minutes": 10, "tracks": {"say": {"poles": ["More client service", "Protect paid scope"], "short_poles": ["More client service", "Protect paid scope"], "positions": {"ceo": {"value": null, "quote": "", "confidence": "not_assessed", "inference_note": "This proposed choice has not been assessed for this leader."}, "coo": {"value": null, "quote": "", "confidence": "not_assessed", "inference_note": "This proposed choice has not been assessed for this leader."}, "cfo": {"value": null, "quote": "", "confidence": "not_assessed", "inference_note": "This proposed choice has not been assessed for this leader."}, "cos": {"value": null, "quote": "", "confidence": "not_assessed", "inference_note": "This proposed choice has not been assessed for this leader."}, "cpo": {"value": null, "quote": "", "confidence": "not_assessed", "inference_note": "This proposed choice has not been assessed for this leader."}}, "full_poles": ["Use released hours for additional service at the current fee", "Hold agreed scope; redeploy capacity or price extra work"]}, "why": {"poles": ["Relationships", "Margins"], "short_poles": ["Client relationships", "Delivery economics"], "positions": {"ceo": {"value": null, "quote": "", "confidence": "not_assessed", "inference_note": "This proposed choice has not been assessed for this leader."}, "coo": {"value": null, "quote": "", "confidence": "not_assessed", "inference_note": "This proposed choice has not been assessed for this leader."}, "cfo": {"value": null, "quote": "", "confidence": "not_assessed", "inference_note": "This proposed choice has not been assessed for this leader."}, "cos": {"value": null, "quote": "", "confidence": "not_assessed", "inference_note": "This proposed choice has not been assessed for this leader."}, "cpo": {"value": null, "quote": "", "confidence": "not_assessed", "inference_note": "This proposed choice has not been assessed for this leader."}}, "full_poles": ["Additional service can strengthen client relationships", "Explicit boundaries protect delivery economics"]}}, "finding": "AI could accelerate a pattern of unpriced extra service rather than improve its economics.", "suggested_conversation": "Which account can track hours, scope changes, fees, and client response through one pilot?", "room_questions": ["What evidence would change our view?", "Which choice would we support, and why?"], "discussion": {"id": "i2", "kind": "question", "title": "Will faster delivery improve margins, or simply expand unpaid work?", "short": "Faster delivery could invite more unpaid work", "glance": "Without scope discipline, clients could absorb every hour AI saves.", "priority": "Test first", "explanation": "Saving production time creates capacity. If teams fill it with extra work at the same fee, workloads can recover immediately. The expected margin benefit may never appear.", "facts": "The CEO describes endless, unplanned client requests. The COO links margin leakage to unclear scope. The CFO favors adjusting scope before discounting.", "inference": "AI could accelerate a pattern of unpriced extra service rather than improve its economics.", "rationale": "Faster execution only helps recovery if the released capacity has a deliberate destination.", "proposal": "Pair one AI workflow pilot with agreed deliverables and an explicit change process.", "pros": ["Makes time savings and commercial effects visible together.", "Allows deliberate generosity instead of accidental overservicing."], "cons": ["Additional service might earn retention or expansion worth more than immediate margin.", "Rigid scope handling can damage relationships or miss useful growth opportunities."], "what": ["Use released hours for additional service at the current fee", "Hold agreed scope; redeploy capacity or price extra work"], "why": ["Additional service can strengthen client relationships", "Explicit boundaries protect delivery economics"], "test": "Which account can track hours, scope changes, fees, and client response through one pilot?", "disconfirm": "If extra service produces valuable renewals or paid expansion, the reinvestment may be justified.", "sources": ["CEO transcript Q15–Q17.", "COO transcript Q8–Q9 and Q20.", "CFO transcript: printed Q4; qn metadata missing; overall turn 10."], "link": "Extends the main draft’s client-scope question to the destination of AI savings."}}], "outliers": [{"id": "i3", "short": "Automating routine work could remove junior learning", "type": "landmine", "text": "What replaces the learning inside the work we automate?", "raised_by": 0, "raised": [], "author_proposed": true, "raised_note": "The underlying facts came from interviews; this connection is authored analysis.", "impact": "medium", "cost": "A faster delivery model could weaken the capability needed to sustain premium client work.", "next": "For one junior workflow, what skill did it teach, and what will replace that practice?", "discussion": {"id": "i3", "kind": "landmine", "title": "What replaces the learning inside the work we automate?", "short": "Automating routine work could remove junior learning", "glance": "Routine assignments can teach judgment; their replacement needs a learning design.", "priority": "Protect during rollout", "explanation": "Drafting, research, and revision can build junior staff’s understanding of clients and evidence. Automating those tasks could remove practice as well as drudgery.", "facts": "The CEO wants account executives doing more thinking and less grunt work. He also wants stronger client leadership and a better talent bench.", "inference": "Some of that routine work may develop the judgment future client leaders need. Nobody in the cited material established a current loss of learning.", "rationale": "A faster delivery model could weaken the capability needed to sustain premium client work.", "proposal": "Replace a removed learning task with supervised review, client exposure, or deliberate practice.", "pros": ["Preserves skill development while removing low-value repetition.", "Lets managers distinguish useful practice from busywork."], "cons": ["Coaching requires senior time during a capacity squeeze.", "AI may accelerate learning; preserving old tasks indiscriminately could slow improvement."], "what": ["Automate routine tasks and teach through separate exercises", "Retain selected tasks as supervised practice"], "why": ["Released time can create richer learning opportunities", "Judgment grows through direct responsibility and feedback"], "test": "For one junior workflow, what skill did it teach, and what will replace that practice?", "disconfirm": "If supported AI use improves independent judgment, preserve that gain rather than the old task.", "sources": ["CEO transcript Q1, Q4, Q12, and Q18."], "link": "Adds a longer-term capability risk to the main draft’s quality and capacity decisions."}}, {"id": "i4", "short": "Resistance could be a reasonable response", "type": "landmine", "text": "Will people benefit from adopting AI, or only face higher demands?", "raised_by": 0, "raised": [], "author_proposed": true, "raised_note": "The underlying facts came from interviews; this connection is authored analysis.", "impact": "medium", "cost": "Training and encouragement may have limited effect if the employee’s expected outcome stays unattractive.", "next": "What changes for the pilot team if it succeeds, and what can leadership credibly commit?", "discussion": {"id": "i4", "kind": "landmine", "title": "Will people benefit from adopting AI, or only face higher demands?", "short": "Resistance could be a reasonable response", "glance": "Extra work, staffing cuts, and unchanged rewards can make adoption unattractive.", "priority": "Test first", "explanation": "A capable employee could save time, receive more work, and see fewer colleagues available. If their workload or rewards never improve, enthusiasm may fall for understandable reasons.", "facts": "The CPO describes fears of doing more with fewer people. The CEO describes understaffing and global bonus conditions that can block local rewards.", "inference": "Employees may expect an unfavorable exchange from adoption. That expectation, rather than poor attitude, could contribute to reluctance.", "rationale": "Training and encouragement may have limited effect if the employee’s expected outcome stays unattractive.", "proposal": "Define the workload, learning time, support, and possible benefits before expanding a pilot.", "pros": ["Makes the employee’s experience part of the rollout decision.", "Creates a way to distinguish capability gaps from concerns about fairness."], "cons": ["Clearer terms cannot guarantee higher pay or remove legitimate cost constraints.", "Some reluctance may still reflect skill, tool quality, or workflow problems."], "what": ["Increase output expectations as teams become more efficient", "Agree workload and benefit terms before scaling adoption"], "why": ["Efficiency must contribute to recovery commitments", "A fair exchange sustains participation and trust"], "test": "What changes for the pilot team if it succeeds, and what can leadership credibly commit?", "disconfirm": "If employees experience real benefits and still struggle, investigate other barriers.", "sources": ["CPO transcript Q5.", "CEO intake: AI friction.", "CEO transcript Q21."], "link": "Connects the main draft’s capacity and bonus concerns through the employee’s experience."}}, {"id": "i5", "short": "Sell a stronger, verifiable trust promise", "type": "moonshot", "text": "Could clients buy a service built around verifiable claims?", "raised_by": 0, "raised": [], "author_proposed": true, "raised_note": "The underlying facts came from interviews; this connection is authored analysis.", "impact": "medium", "cost": "Test one offer with one client and one deliverable where verification has clear value.", "next": "Which client would pay for which additional evidence, review, and accountability?", "discussion": {"id": "i5", "kind": "moonshot", "title": "Could clients buy a service built around verifiable claims?", "short": "Sell a stronger, verifiable trust promise", "glance": "Evidence trails and expert review might support a distinct premium offer.", "priority": "Explore a bounded offer", "explanation": "The offer would make important claims traceable to evidence, with accountable expert review. A client would buy a defined assurance process and usable records alongside communications work.", "facts": "The Chief of Staff emphasizes checking the original research behind campaigns. The COO wants quality through standards. The CEO wants premium talent and fees.", "inference": "Combining those capabilities could create a clearer commercial promise. The interviews do not establish customer demand or willingness to pay for it.", "rationale": "When clients struggle to judge content reliability, visible assurance could become a buying reason.", "proposal": "Test one offer with one client and one deliverable where verification has clear value.", "pros": ["Turns an internal quality process into a specific client benefit.", "Can make senior expertise and review costs more visible."], "cons": ["Clients may consider verification part of the quality they already purchased.", "Expert review costs money; an unclear promise could create unrealistic expectations."], "what": ["Strengthen assurance inside existing services", "Test a separately priced, defined verification offer"], "why": ["Dependable quality protects existing client relationships", "A distinct assurance promise may earn premium fees"], "test": "Which client would pay for which additional evidence, review, and accountability?", "disconfirm": "If clients value it but will not pay more, use it to strengthen existing services.", "sources": ["Chief of Staff transcript Q13–Q14 and Q19–Q21.", "COO transcript Q3.", "CEO transcript Q18–Q19."], "link": "Extends the main draft’s premium-mandate opportunity with a specific possible buying proposition."}}, {"id": "i6", "short": "Give employees a visible share of the gains", "type": "moonshot", "text": "Could sharing verified gains make transformation easier to sustain?", "raised_by": 0, "raised": [], "author_proposed": true, "raised_note": "The underlying facts came from interviews; this connection is authored analysis.", "impact": "medium", "cost": "Design a small sharing rule only after a pilot demonstrates a gain the business can use.", "next": "What gain is real, who can authorize its use, and which benefit is sustainable?", "discussion": {"id": "i6", "kind": "moonshot", "title": "Could sharing verified gains make transformation easier to sustain?", "short": "Give employees a visible share of the gains", "glance": "Protected learning, better roles, or rewards could make adoption worth the effort.", "priority": "Explore after measuring gains", "explanation": "Set aside an agreed portion of realized gains for employee benefits and capability building. That might mean protected learning, better roles, or rewards, depending on the gain and authority available.", "facts": "The CEO wants better talent, higher pay, and stronger incentives. The CPO describes time pressure and concerns about doing more with less.", "inference": "Sharing a visible benefit could support participation and help build the skills recovery needs. No existing savings pool or approved reward mechanism is established.", "rationale": "People may help create and sustain improvements when they can see a credible benefit.", "proposal": "Design a small sharing rule only after a pilot demonstrates a gain the business can use.", "pros": ["Connects employee participation with capability and recovery outcomes.", "Makes the destination of gains explicit before expectations diverge."], "cons": ["Staff benefits reduce the portion immediately available for margin improvement.", "Released time is not necessarily cash; attribution and fair eligibility can be difficult."], "what": ["Put verified gains into near-term margin", "Allocate a defined share to employee benefit and development"], "why": ["Financial headroom supports the recovery plan", "Shared benefits encourage sustained participation and capability"], "test": "What gain is real, who can authorize its use, and which benefit is sustainable?", "disconfirm": "If gains do not materialize or cannot fund the benefit, revise the promise before scaling.", "sources": ["CEO transcript Q18 and Q21.", "CPO transcript Q5.", "CFO transcript Q26."], "link": "A possible response to the adoption concern in this draft; it adds a concrete reinvestment choice."}}], "guides": {}, "note": "Codex-authored discussion draft; unreviewed. These six connections are proposed analysis, not participant statements. Team positions and endorsement counts are unassessed. Source references support underlying facts only.", "evidence_warning": "Discussion proposals: alignment is not assessed. Empty tracks show proposed choices, not agreement or disagreement."}</script>
+<script>
+(function () {
+  var DATA = JSON.parse(document.getElementById('map-data').textContent);
+
+  /* ---------- helpers ---------- */
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  var leaders = DATA.leaders, order = leaders.map(function (l) { return l.id; });
+  var L = {}; leaders.forEach(function (l, i) { L[l.id] = { i: l.initial, name: l.label, c: 'var(--c-' + (i + 1) + ')' }; });
+  var stateById = {}; DATA.states.forEach(function (s) { stateById[s.id] = s; });
+  var qById = {}; DATA.questions.forEach(function (q) { qById[q.id] = q; });
+  var TL = { say: 'We say', why: 'Because' };
+  var TIME = ['Little', 'Some', 'Most'];
+  var CONF = ['One voice', 'Several of us', 'All of us']; CONF[-1]='Authored · unassessed';
+  var IMPACT = { low: 1, medium: 2, high: 3 };
+  var SHAPE = { unassessed:'Proposed axes only. No team alignment has been assessed.', contested: 'Here the marks scatter: contested.', false: 'Here the marks stack vertically: same words, different reasons.', vocab: 'Here the marks line up horizontally: different words, same view.', aligned: 'Here the marks cluster: aligned.' };
+  function pct(v) { return (v * 100).toFixed(1) + '%'; }
+  function dot(id) { return '<span class="dot" style="--c:' + L[id].c + '">' + esc(L[id].i) + '</span>'; }
+  var SHP = { contested: [[6, 6], [18, 8], [7, 17], [17, 18]], false: [[12, 4.5], [12, 9.5], [12, 14.5], [12, 19.5]], vocab: [[4.5, 12], [9.5, 12], [14.5, 12], [19.5, 12]], aligned: [[9.5, 9.5], [14.5, 9.5], [9.5, 14.5], [14.5, 14.5]] };
+  function shape(st, cls) {
+    if(st==='unassessed') return '<span class="unassessed-shape" aria-label="Alignment unassessed">—</span>';
+    return '<svg class="shp ' + (cls || '') + '" viewBox="0 0 24 24" aria-hidden="true"><rect x="0.5" y="0.5" width="23" height="23" rx="5" fill="var(--sb)" stroke="var(--sc)" stroke-opacity=".35"/>' +
+      SHP[st].map(function (p) { return '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="2.4" fill="var(--sc)"/>'; }).join('') + '</svg>';
+  }
+  function chip(st, big) { return '<span class="sn' + (big ? ' big' : '') + '" data-st="' + st + '">' + esc(stateById[st].name) + '</span>'; }
+  function bars(n) { if(n===0) return ''; var h = '<span class="bars">'; for (var b = 1; b <= 3; b++) h += '<i class="' + (b <= n ? 'on' : '') + '"></i>'; return h + '</span>'; }
+  function conf(o) { if(o.author_proposed) return 0; return o.raised_by >= leaders.length ? 3 : o.raised_by > 1 ? 2 : 1; }
+  function confText(o) { if(o.author_proposed) return 'Authored connection; participant endorsement is unassessed.'; var c = conf(o); return c === 1 ? 'One of us raised it.' : c === 2 ? o.raised_by + ' of ' + leaders.length + ' raised it, independently.' : 'All ' + leaders.length + ' of us raised it.'; }
+  function impactText(o) { return o.impact === 'high' ? 'High' : o.impact === 'medium' ? 'Medium' : 'Low'; }
+  var params = new URLSearchParams(location.search);
+  var demo = document.getElementById('p-demo');
+  var legendHtml = '<span class="lab">Leaders</span>' + leaders.map(function (l) { return '<span class="chip" data-l="' + esc(l.id) + '">' + dot(l.id) + esc(l.label) + '</span>'; }).join('');
+
+  /* ---------- tracks ---------- */
+  function lane(track, key) {
+    var ids=order.filter(function(k){return Number.isFinite(track.positions[k].value);});
+    var v = ids.map(function (k) { return track.positions[k].value; });
+    var lo = Math.min.apply(null, v), hi = Math.max.apply(null, v);
+    var w = hi - lo, wide = w > 0.5 ? 'wide' : w > 0.25 ? 'medium' : 'tight';
+    var al = !ids.length ? 'Proposed choices; no positions assessed.' : TL[key] + ': ' + track.poles[0] + ' to ' + track.poles[1] + ', ' + wide + ' band. ' + order.map(function (k) {
+      var x = track.positions[k].value; return L[k].name + ' ' + (x < 0.34 ? 'near ' + track.poles[0] : x > 0.66 ? 'near ' + track.poles[1] : 'in the middle');
+    }).join(', ') + '.';
+    var h = '<div class="track"><span class="tl">' + TL[key] + '</span><div class="lane" role="img" aria-label="' + esc(al) + '"><div class="bar"></div>';
+    if(ids.length>1) h += '<div class="band" style="left:' + pct(lo) + ';width:' + pct(hi - lo) + '"></div>';
+    ids.forEach(function (k) {
+      var p = track.positions[k];
+      h += '<span class="mk" data-l="' + esc(k) + '" data-x="' + p.value + '" style="--c:' + L[k].c + ';left:' + pct(p.value) + '">' + esc(L[k].i) + '</span>';
+    });
+    h += '<span class="pole l">' + esc(track.poles[0]) + '</span><span class="pole r">' + esc(track.poles[1]) + '</span></div></div>';
+    return h;
+  }
+  function lanes(q) { return lane(q.tracks.say, 'say') + lane(q.tracks.why, 'why'); }
+
+  /* ---------- lanes: marks that would touch collapse into one pill, letters in order ---------- */
+  var SMALL = { d: 20, pd: 16, gap: 6, pad: 3, ig: 3 }, BIG = { d: 34, pd: 24, gap: 8, pad: 4, ig: 4 };
+  function layoutLane(lane, c) {
+    var w = lane.clientWidth; if (!w) return;
+    Array.prototype.slice.call(lane.querySelectorAll('.pill')).forEach(function (p) { while (p.firstChild) lane.appendChild(p.firstChild); p.parentNode.removeChild(p); });
+    var mks = Array.prototype.slice.call(lane.querySelectorAll('.mk'));
+    mks.forEach(function (m) { m.classList.remove('in'); m.style.left = ''; });
+    mks.sort(function (a, b) { return parseFloat(a.getAttribute('data-x')) - parseFloat(b.getAttribute('data-x')); });
+    var cl = mks.map(function (m) { return { items: [m] }; });
+    function width(g) { var n = g.items.length; return n === 1 ? c.d : n * c.pd + (n - 1) * c.ig + c.pad * 2; }
+    function place() {
+      cl.forEach(function (g) {
+        var x = g.items.reduce(function (s, m) { return s + parseFloat(m.getAttribute('data-x')) * w; }, 0) / g.items.length;
+        var half = width(g) / 2;
+        g.x = Math.max(half, Math.min(w - half, x));
+      });
+    }
+    place();
+    for (var guard = 0; guard < 20; guard++) {
+      var merged = false;
+      for (var i = 0; i < cl.length - 1; i++) {
+        var a = cl[i], b = cl[i + 1];
+        if ((b.x - width(b) / 2) - (a.x + width(a) / 2) < c.gap) { a.items = a.items.concat(b.items); cl.splice(i + 1, 1); merged = true; break; }
+      }
+      if (!merged) break;
+      place();
+    }
+    // the band follows the clusters, so a pill clamped at an edge is still inside it
+    var band = lane.querySelector('.band');
+    if (band && cl.length) {
+      var bl = cl[0].x - width(cl[0]) / 2 - 1, br = cl[cl.length - 1].x + width(cl[cl.length - 1]) / 2 + 1;
+      band.style.left = bl.toFixed(1) + 'px'; band.style.width = (br - bl).toFixed(1) + 'px'; band.style.marginLeft = '0'; band.style.paddingRight = '0';
+    }
+    cl.forEach(function (g) {
+      if (g.items.length === 1) { g.items[0].style.left = g.x.toFixed(1) + 'px'; return; }
+      var p = document.createElement('span'); p.className = 'pill';
+      p.style.left = (g.x - width(g) / 2).toFixed(1) + 'px';
+      var names = g.items.map(function (m) { return L[m.getAttribute('data-l')].name; });
+      p.setAttribute('aria-label', names.join(', ') + ' together');
+      g.items.forEach(function (m) { m.classList.add('in'); p.appendChild(m); });
+      lane.insertBefore(p, lane.querySelector('.pole'));
+    });
+  }
+  function layoutIn(root) {
+    root.querySelectorAll('.lane').forEach(function (l) { layoutLane(l, l.closest('.big') ? BIG : SMALL); });
+  }
+  function layoutVisible() {
+    document.querySelectorAll('.panel:not([hidden]) .lane').forEach(function (l) { layoutLane(l, l.closest('.big') ? BIG : SMALL); });
+  }
+
+  /* ---------- 2x2: say left-to-right, why bottom-to-top; the two tracks ride the edges as ticks ---------- */
+  function xy(q) {
+    var S = 380, pad = 52, R = 13, span = S - pad * 2, f0 = pad - 8, f1 = S - pad + 8;
+    var pts = order.filter(function(k){return Number.isFinite(q.tracks.say.positions[k].value)&&Number.isFinite(q.tracks.why.positions[k].value);}).map(function (k) {
+      return { k: k, x: pad + q.tracks.say.positions[k].value * span, y: S - pad - q.tracks.why.positions[k].value * span };
+    });
+    for (var it = 0; it < 24; it++) {
+      for (var i = 0; i < pts.length; i++) for (var j = i + 1; j < pts.length; j++) {
+        var dx = pts[j].x - pts[i].x, dy = pts[j].y - pts[i].y, d = Math.sqrt(dx * dx + dy * dy), min = R * 2 + 3;
+        if (d < min) {
+          if (d < 0.01) { dx = 1; dy = 0; d = 1; }
+          var push = (min - d) / 2;
+          pts[i].x -= dx / d * push; pts[i].y -= dy / d * push; pts[j].x += dx / d * push; pts[j].y += dy / d * push;
+        }
+      }
+    }
+    pts.forEach(function (p) { p.x = Math.max(pad, Math.min(S - pad, p.x)); p.y = Math.max(pad, Math.min(S - pad, p.y)); });
+    var say = q.tracks.say, why = q.tracks.why;
+    function range(t) { var v = order.filter(function(k){return Number.isFinite(t.positions[k].value);}).map(function (k) { return t.positions[k].value; }); return v.length>1 ? [Math.min.apply(null, v), Math.max.apply(null, v)] : null; }
+    var rs = range(say), rw = range(why);
+    var h = '<svg viewBox="0 0 ' + S + ' ' + S + '" role="img" aria-label="' + esc(q.question) + ' as a 2x2. Left to right, we say: ' + esc(say.poles[0]) + ' to ' + esc(say.poles[1]) + '. Bottom to top, because: ' + esc(why.poles[0]) + ' to ' + esc(why.poles[1]) + '.">';
+    h += '<rect class="frame" x="' + f0 + '" y="' + f0 + '" width="' + (f1 - f0) + '" height="' + (f1 - f0) + '" rx="6"/>';
+    h += '<line class="grid" x1="' + S / 2 + '" y1="' + f0 + '" x2="' + S / 2 + '" y2="' + f1 + '"/>';
+    h += '<line class="grid" x1="' + f0 + '" y1="' + S / 2 + '" x2="' + f1 + '" y2="' + S / 2 + '"/>';
+    if(rs) h += '<rect class="bd" x="' + (pad + rs[0] * span - 4).toFixed(1) + '" y="' + (f1 + 4) + '" width="' + ((rs[1] - rs[0]) * span + 8).toFixed(1) + '" height="8" rx="4"/>';
+    order.filter(function(k){return Number.isFinite(say.positions[k].value);}).forEach(function (k) { var x = (pad + say.positions[k].value * span).toFixed(1); h += '<line class="tk" x1="' + x + '" y1="' + (f1 + 3) + '" x2="' + x + '" y2="' + (f1 + 13) + '" stroke="' + L[k].c + '"/>'; });
+    if(rw) h += '<rect class="bd" x="' + (f0 - 12) + '" y="' + (S - pad - rw[1] * span - 4).toFixed(1) + '" width="8" height="' + ((rw[1] - rw[0]) * span + 8).toFixed(1) + '" rx="4"/>';
+    order.filter(function(k){return Number.isFinite(why.positions[k].value);}).forEach(function (k) { var y = (S - pad - why.positions[k].value * span).toFixed(1); h += '<line class="tk" x1="' + (f0 - 13) + '" y1="' + y + '" x2="' + (f0 - 3) + '" y2="' + y + '" stroke="' + L[k].c + '"/>'; });
+    h += '<text class="ax" x="' + f0 + '" y="' + (S - 19) + '">' + esc(say.poles[0]) + '</text>';
+    h += '<text class="ax" x="' + f1 + '" y="' + (S - 19) + '" text-anchor="end">' + esc(say.poles[1]) + '</text>';
+    h += '<text class="axn" x="' + S / 2 + '" y="' + (S - 3) + '" text-anchor="middle">We say</text>';
+    h += '<text class="ax" transform="rotate(-90)" x="' + (-f1) + '" y="26">' + esc(why.poles[0]) + '</text>';
+    h += '<text class="ax" transform="rotate(-90)" x="' + (-f0) + '" y="26" text-anchor="end">' + esc(why.poles[1]) + '</text>';
+    h += '<text class="axn" transform="rotate(-90)" x="' + (-S / 2) + '" y="11" text-anchor="middle">Because</text>';
+    pts.forEach(function (p) {
+      h += '<g data-l="' + esc(p.k) + '"><circle class="pt" cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="' + R + '" fill="' + L[p.k].c + '"><title>' + esc(L[p.k].name) + '</title></circle>';
+      h += '<text class="pl" x="' + p.x.toFixed(1) + '" y="' + p.y.toFixed(1) + '">' + esc(L[p.k].i) + '</text></g>';
+    });
+    return h + '</svg>';
+  }
+
+  /* ---------- the question card: the opened row for the facilitator, the slide for participants ---------- */
+
+  function discussion(item, fac) {
+    if(!item) return '';
+    var h='<section class="discussion-note"><span class="k">Discussion note · authored analysis</span><p><b>What:</b> '+esc(item.explanation)+'</p><p><b>Why:</b> '+esc(item.rationale)+'</p><details><summary>Options, pros, cons, and rationale</summary><p><b>Possible response:</b> '+esc(item.proposal)+'</p><div class="note-columns"><div><b>Pros</b><ul>'+item.pros.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul></div><div><b>Cons</b><ul>'+item.cons.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul></div></div>';
+    h+='<p><b>What could we choose?</b> '+item.what.map(esc).join(' ↔ ')+'</p><p><b>Why might either appeal?</b> '+item.why.map(esc).join(' ↔ ')+'</p><p><b>What would weaken this idea?</b> '+esc(item.disconfirm)+'</p>';
+    if(fac) h+='<p><b>Source facts:</b> '+esc(item.facts)+'</p><p><b>Our connection:</b> '+esc(item.inference)+'</p><p><b>References:</b> '+item.sources.map(esc).join(' ')+'</p>';
+    return h+'</details></section>';
+  }
+  function time(q) { return '<span class="time">Room time <b>' + TIME[q.room_time - 1] + '</b>' + bars(q.room_time) + '</span>'; }
+  function canvasInner(q, fac) {
+    var h = '<div class="eyebrow"><span class="st" data-st="' + q.state + '">' + esc(stateById[q.state].name) + '</span><span data-st="' + q.state + '">' + shape(q.state, 'md') + '</span>' + time(q);
+    if (fac && q.minutes) h += '<span class="mins">about ' + q.minutes + ' min</span>';
+    h += '</div>';
+    h += '<h3>' + esc(q.question) + '</h3><div class="sub">' + esc(q.subtitle) + '</div>';
+    h += '<div class="big">' + lanes(q) + '</div>';
+    h += '<div class="cgrid">';
+    h += '<section class="xy"><h4>Both axes at once<span class="hn">the two lines ride the edges</span></h4><div>' + xy(q) + '</div>';
+    h += '<div class="cap">' + SHAPE[q.state] + '</div>';
+    if (fac && q.finding) h += '<div class="k2" style="margin-top:22px">Our read</div><p class="finding">' + esc(q.finding) + '</p>';
+    h += '</section>';
+    var byWhy = order.slice().sort(function (a, b) { return q.tracks.why.positions[a].value - q.tracks.why.positions[b].value; });
+    h += '<section class="why"><h4>Leader positions<span class="hn">not assessed for these proposed choices</span></h4>';
+    byWhy.forEach(function (k) {
+      var w = q.tracks.why.positions[k], s = q.tracks.say.positions[k];
+      h += '<div class="wl" data-l="' + esc(k) + '">' + dot(k) + '<div><div class="who">' + esc(L[k].name) + '</div>';
+      h += '<div class="bc">' + (w.because ? esc(w.because) : '<span class="nb">Position not assessed</span>') + '</div>';
+      if (fac && (s.quote || w.quote)) {
+        h += '<div class="ev"><span class="k">Says</span><q>' + esc(s.quote) + '</q></div>';
+        h += '<div class="ev"><span class="k">Why, in their words</span><q>' + esc(w.quote) + '</q></div>';
+      }
+      h += '</div></div>';
+    });
+    h += '</section>';
+    h += '<section class="room"><h4>For the room</h4>';
+    h += '<div class="rg"><div><div class="k2">Open with</div><p class="opening">' + esc(q.suggested_conversation) + '</p></div>';
+    if (q.room_questions && q.room_questions.length) {
+      h += '<div><div class="k2">Then ask</div><ul>' + q.room_questions.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul></div>';
+    }
+    return h + '</div></section></div>' + discussion(q.discussion,fac);
+  }
+  function row(q) {
+    var h = '<div class="row" id="q-' + esc(q.id) + '">';
+    h += '<div class="head"><div class="q">' + esc(q.question) + '<small>' + esc(q.subtitle) + '</small></div>' + time(q) + '</div>';
+    h += '<div class="tracks">' + lanes(q) + '</div>';
+    h += '<details class="down"><summary><span class="so">Open this question</span><span class="sc">Close<b>' + esc(q.question) + '</b></span></summary>';
+    h += '<div class="canvas">' + canvasInner(q, true) + '<a class="upq" href="#q-' + esc(q.id) + '">Back to the top of this question</a></div></details>';
+    return h + '</div>';
+  }
+
+  /* ---------- landmines and moonshots ---------- */
+  function meter(o) {
+    return '<div class="meter ' + (o.type === 'moonshot' ? 'moon' : 'mine') + '"><span>' + bars(conf(o)) + ' <b>' + CONF[conf(o) - 1] + '</b></span><span>' + bars(IMPACT[o.impact] || 1) + ' <b>' + impactText(o) + '</b> impact</span></div>';
+  }
+  function card(o) {
+    var cls = (o.type === 'moonshot' ? 'moon' : 'mine ' + (IMPACT[o.impact] === 3 ? 'high' : IMPACT[o.impact] === 2 ? 'medium' : 'low'));
+    var label = o.type === 'moonshot' ? 'Moonshot' : 'Landmine';
+    var h = '<div class="card ' + cls + '"><span class="k">' + label + '</span><div class="t">' + esc(o.text) + '</div>' + meter(o);
+    if (o.cost) h += '<div class="nx"><span class="k">' + (o.type === 'moonshot' ? 'What it would take' : 'What it would cost') + '</span>' + esc(o.cost) + '</div>';
+    h += discussion(o.discussion,true);
+    if (o.next) h += '<div class="nx"><span class="k">The next ten minutes</span>' + esc(o.next) + '</div>';
+    return h + '</div>';
+  }
+  function byImpact(a, b) { return (IMPACT[b.impact] || 0) - (IMPACT[a.impact] || 0); }
+
+  /* ---------- facilitator page ---------- */
+  document.getElementById('d-ex').textContent = DATA.company + ' · discussion draft';
+  document.getElementById('d-headline').textContent = DATA.headline;
+  document.getElementById('d-lede').textContent = DATA.lede || '';
+  function ctxHtml() {
+    return '<div><span class="k">Context</span>' + esc(DATA.context.name) + '</div>' +
+      '<div><span class="k">Team</span>' + esc(DATA.context.team) + '</div>' +
+      '<div><span class="k">Facilitator</span>' + esc(DATA.context.facilitator) + '</div>';
+  }
+  document.getElementById('d-ctx').innerHTML = ctxHtml();
+  document.getElementById('d-legend').innerHTML = legendHtml + '<span class="hint">Open any row for the reasons, the questions, and the 2x2.</span>';
+  (function () {
+    var total = DATA.questions.reduce(function (n, q) { return n + (q.minutes || 0); }, 0);
+    var ctx = DATA.context, left = ctx.left_off || [];
+    var h = '<span class="k">Session plan</span><div class="pg">';
+    h += '<div><b>' + total + ' min</b> of ' + (ctx.session_minutes || '?') + ' across ' + DATA.questions.length + ' questions. Minutes are a plan, not a score; the room time bars are the ranking.</div>';
+    h += '<div><b>Order</b> ' + DATA.groups.map(function (g) { return g.name.toLowerCase(); }).join(', ') + '. These additional proposals have no assessed alignment.</div>';
+    if (left.length) h += '<div><b>Considered and left off</b> ' + left.map(esc).join('; ') + '. Real, and not bearing on ' + esc(ctx.name) + '.</div>';
+    document.getElementById('d-plan').innerHTML = h + '</div>';
+  })();
+  document.getElementById('d-foot').textContent = DATA.note || '';
+  document.getElementById('site-note').textContent = DATA.note;
+
+  var out = '';
+  DATA.groups.forEach(function (g) {
+    out += '<div class="sec"><div class="sech"><div class="secn">' + esc(g.name) + '</div><p>' + esc(g.description) + '</p></div>';
+    if (g.states) {
+      g.states.forEach(function (sid) {
+        var qs = DATA.questions.filter(function (q) { return q.state === sid; });
+        if (!qs.length) return;
+        var st = stateById[sid];
+        out += '<div class="stateh">' + chip(sid) + '<span data-st="' + sid + '">' + shape(sid, 'md') + '</span><span class="sd">' + esc(st.description) + '</span>' + (st.run ? '<span class="run">' + esc(st.run) + '</span>' : '') + '</div>';
+        qs.forEach(function (q) { out += row(q); });
+      });
+    } else if (g.outliers) {
+      var os = DATA.outliers.filter(function (o) { return o.type === g.outliers; }).sort(byImpact);
+      out += '<div class="cards">' + os.map(card).join('') + '</div>';
+    }
+    out += '</div>';
+  });
+  document.getElementById('rows').innerHTML = out;
+
+  document.querySelectorAll('.down').forEach(function (d) {
+    var byUser = false;
+    d.querySelector('summary').addEventListener('click', function () { byUser = true; });
+    d.addEventListener('toggle', function () {
+      if (d.open) layoutIn(d);
+      if (!byUser) return;
+      byUser = false;
+      var r = d.closest('.row');
+      r.scrollIntoView({ block: 'start' });
+      try { history.replaceState(null, '', d.open ? '#' + r.id : '#facilitator'); } catch (e) {}
+    });
+  });
+
+  /* ---------- participant deck ---------- */
+  var slides = [];
+  function slideQ(q) { return { id: 's-q-' + q.id, title: q.question, how: 'how-lines', html: canvasInner(q, false) }; }
+  function slideSection(g) {
+    var h = '<div class="sect"><span class="kick">Section</span><h3>' + esc(g.name) + '</h3><p class="lede">' + esc(g.description) + '</p><div class="qgrid">';
+    if (g.states) {
+      g.states.forEach(function (sid) {
+        DATA.questions.filter(function (q) { return q.state === sid; }).forEach(function (q) {
+          h += '<div class="qc" data-st="' + sid + '"><div class="qh">' + chip(sid) + shape(sid) + '</div><div class="q">' + esc(q.question) + '<small>' + esc(q.subtitle) + '</small></div>' + time(q) + '</div>';
+        });
+      });
+    } else {
+      DATA.outliers.filter(function (o) { return o.type === g.outliers; }).sort(byImpact).forEach(function (o) {
+        h += '<div class="qc ' + (o.type === 'moonshot' ? 'moon' : 'mine') + '"><span class="kick">' + (o.type === 'moonshot' ? 'Moonshot' : 'Landmine') + '</span><div class="t">' + esc(o.text) + '</div>' + meter(o) + '</div>';
+      });
+    }
+    return { id: 's-' + g.id, title: g.name, how: g.states ? 'how-states' : 'how-outliers', html: h + '</div></div>' };
+  }
+  function slideOutlier(o, n, total) {
+    var moon = o.type === 'moonshot', label = moon ? 'Moonshot' : 'Landmine';
+    var h = '<div class="oslide ' + (moon ? 'moon' : 'mine') + '"><span class="kick">' + label + ' ' + n + ' of ' + total + '</span>';
+    h += '<div class="t">' + esc(o.text) + '</div>';
+    h += '<div class="beat"><div class="bh"><span class="k">How sure we are</span><span class="meter"><span>' + bars(conf(o)) + ' <b>' + CONF[conf(o) - 1] + '</b></span></span></div><p>' + esc(confText(o)) + (o.raised_note ? ' ' + esc(o.raised_note) : '') + '</p></div>';
+    h += '<div class="beat"><div class="bh"><span class="k">' + (moon ? 'What it would take' : 'What it would cost') + '</span><span class="meter"><span>' + bars(IMPACT[o.impact] || 1) + ' <b>' + impactText(o) + '</b> impact</span></span></div><p>' + esc(o.cost || '') + '</p></div>';
+    h += '<div class="beat"><div class="bh"><span class="k">The next ten minutes</span></div><p class="opening">' + esc(o.next || '') + '</p></div>';
+    return { id: 's-o-' + o.id, title: label + ': ' + (o.short || n + ' of ' + total), how: 'how-outliers', html: h + discussion(o.discussion,false) + '</div>' };
+  }
+  function slideSummary() {
+    var h = '<div class="hero"><div class="eyebrow"><span>TheMirror.ai · Alignment Map</span><span class="ex">' + esc(DATA.company) + ' · discussion draft</span></div>';
+    h += '<h1>' + esc(DATA.headline) + '</h1><div class="ctx">' + ctxHtml() + '</div></div>';
+    h += '<div class="legend">' + legendHtml + '</div><div class="ov">';
+    DATA.groups.forEach(function (g) {
+      h += '<div class="ovg"><div class="secn">' + esc(g.name) + '</div><p>' + esc(g.description) + '</p><div class="rows">';
+      if (g.states) {
+        g.states.forEach(function (sid) {
+          DATA.questions.filter(function (q) { return q.state === sid; }).forEach(function (q) {
+            h += '<div class="ovr" data-st="' + sid + '">' + chip(sid) + '<div class="q">' + esc(q.question) + '<small>' + esc(q.subtitle) + '</small></div>' + shape(sid, 'lg') + time(q) + '</div>';
+          });
+        });
+      } else {
+        DATA.outliers.filter(function (o) { return o.type === g.outliers; }).sort(byImpact).forEach(function (o) {
+          h += '<div class="ovr ' + (o.type === 'moonshot' ? 'moon' : 'mine') + '"><span class="kick">' + (o.type === 'moonshot' ? 'Moonshot' : 'Landmine') + '</span><div class="t">' + esc(o.text) + '</div>' + meter(o) + '</div>';
+        });
+      }
+      h += '</div></div>';
+    });
+    return { id: 's-summary', title: 'Overview', how: 'how-states', html: h + '</div>' };
+  }
+  slides.push(slideSummary());
+  DATA.groups.forEach(function (g) {
+    slides.push(slideSection(g));
+    if (g.states) {
+      g.states.forEach(function (sid) { DATA.questions.filter(function (q) { return q.state === sid; }).forEach(function (q) { slides.push(slideQ(q)); }); });
+    } else {
+      var os = DATA.outliers.filter(function (o) { return o.type === g.outliers; }).sort(byImpact);
+      os.forEach(function (o, i) { slides.push(slideOutlier(o, i + 1, os.length)); });
+    }
+  });
+  var slideIndex = {};
+  document.getElementById('slides').innerHTML = slides.map(function (s, i) {
+    slideIndex[s.id] = i;
+    var foot = '<div class="sfoot"><a class="how" href="#' + s.how + '">How to read this</a></div>';
+    return '<section class="slide canvas" id="' + s.id + '" hidden>' + s.html + foot + '</section>';
+  }).join('');
+  (function () {
+    var m = '<div class="g">Start</div><a href="#s-summary" data-s="s-summary"><span class="n">1</span>Overview</a>';
+    DATA.groups.forEach(function (g) {
+      m += '<div class="g ' + (g.outliers === 'landmine' ? 'mine' : g.outliers === 'moonshot' ? 'moon' : '') + '">' + esc(g.name) + '</div>';
+      slides.forEach(function (s, i) {
+        if (s.id === 's-' + g.id) m += '<a href="#' + s.id + '" data-s="' + s.id + '"><span class="n">' + (i + 1) + '</span>' + esc(g.name) + ' (section)</a>';
+      });
+      if (g.states) {
+        g.states.forEach(function (sid) { DATA.questions.filter(function (q) { return q.state === sid; }).forEach(function (q) { var i = slideIndex['s-q-' + q.id]; m += '<a href="#s-q-' + esc(q.id) + '" data-s="s-q-' + esc(q.id) + '"><span class="n">' + (i + 1) + '</span>' + esc(q.question) + '</a>'; }); });
+      } else {
+        DATA.outliers.filter(function (o) { return o.type === g.outliers; }).sort(byImpact).forEach(function (o) { var i = slideIndex['s-o-' + o.id]; m += '<a href="#s-o-' + esc(o.id) + '" data-s="s-o-' + esc(o.id) + '"><span class="n">' + (i + 1) + '</span>' + esc(o.short || o.text) + '</a>'; });
+      }
+    });
+    document.getElementById('dk-menu').innerHTML = m;
+  })();
+  var toc = document.getElementById('dk-toc');
+  document.addEventListener('click', function (e) { if (toc.open && !toc.contains(e.target)) toc.open = false; });
+  var current = 0;
+  function showSlide(i) {
+    current = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach(function (s, j) { document.getElementById(s.id).hidden = j !== current; });
+    document.getElementById('dk-count').textContent = (current + 1) + ' / ' + slides.length;
+    document.getElementById('dk-prev').disabled = current === 0;
+    document.getElementById('dk-next').disabled = current === slides.length - 1;
+    document.getElementById('dk-title').innerHTML = '<a class="co" href="#s-summary">' + esc(DATA.company) + '</a><span class="sep"> · </span>' + esc(slides[current].title);
+    toc.open = false;
+    document.querySelectorAll('#dk-menu a').forEach(function (a) { a.className = a.getAttribute('data-s') === slides[current].id ? 'on' : ''; });
+    layoutIn(document.getElementById(slides[current].id));
+    window.scrollTo(0, 0);
+  }
+  document.getElementById('dk-prev').addEventListener('click', function () { if (current > 0) go(slides[current - 1].id); });
+  document.getElementById('dk-next').addEventListener('click', function () { if (current < slides.length - 1) go(slides[current + 1].id); });
+  document.addEventListener('keydown', function (e) {
+    if (demo.hidden || demo.getAttribute('data-view') !== 'participant') return;
+    var tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === 'j') { if (current < slides.length - 1) { e.preventDefault(); go(slides[current + 1].id); } }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'k') { if (current > 0) { e.preventDefault(); go(slides[current - 1].id); } }
+    else if (e.key === 'Home') { e.preventDefault(); go('s-summary'); }
+    else if (e.key === 'Escape' && toc.open) { toc.open = false; }
+  });
+
+  /* ---------- How To Use: live examples from the map ---------- */
+  var exq = qById['do-we-stop-doing-custom-builds'] || DATA.questions[0];
+  document.getElementById('how-line-ex').innerHTML = '<span class="kick">' + esc(exq.question) + '</span><div class="tracks" style="margin-top:8px">' + lanes(exq) + '</div><div class="cap">' + esc(stateById[exq.state].name) + ': tight on top, wide underneath. Everyone said the same word for five different reasons.</div>';
+  document.getElementById('how-xy-ex').innerHTML = xy(exq) + '<div class="cap">The same question as a 2x2: ' + SHAPE[exq.state].replace('Here the marks', 'the marks') + '</div>';
+  document.getElementById('how-legend').innerHTML = legendHtml.replace('<span class="lab">Leaders</span>', '');
+
+  /* ---------- My Guide ---------- */
+  var guides = DATA.guides || {};
+  var gRoles = document.getElementById('g-roles');
+  gRoles.innerHTML = leaders.map(function (l) { return '<button type="button" data-role="' + esc(l.id) + '" aria-pressed="false">' + dot(l.id) + esc(l.label) + '</button>'; }).join('');
+  function atEnd(q, k) {
+    function ends(t) { var v = order.map(function (id) { return t.positions[id].value; }); var me = t.positions[k].value; return me === Math.min.apply(null, v) || me === Math.max.apply(null, v); }
+    return q.state !== 'aligned' && (ends(q.tracks.say) || ends(q.tracks.why));
+  }
+  function renderGuide(role) {
+    gRoles.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-role') === role ? 'true' : 'false'); });
+    var body = document.getElementById('g-body');
+    if (!role || !L[role]) { body.innerHTML = '<p>Pick a role to see that leader’s notes. In this sample, two are filled in.</p>'; return; }
+    var g = guides[role];
+    if (!g) { body.innerHTML = '<div class="gq empty"><span class="kick">' + esc(L[role].name) + '</span><p style="margin:8px 0 0">Not generated in this sample. In a real engagement every leader gets one, produced at the end of their own Mirror interview.</p></div>'; return; }
+    var ordered = [];
+    DATA.groups.forEach(function (grp) { if (grp.states) grp.states.forEach(function (sid) { DATA.questions.filter(function (q) { return q.state === sid; }).forEach(function (q) { ordered.push(q); }); }); });
+    var ends = ordered.filter(function (q) { return atEnd(q, role); });
+    var mine = DATA.outliers.filter(function (o) { return (o.raised || []).some(function (r) { return r.leader === role; }); });
+    var h = '<div class="callout"><p><strong>' + esc(L[role].name) + '.</strong> ' + esc(g.intro) + '</p></div>';
+    h += '<div class="glance"><div><span class="k">Where you hold one end of a line</span><div class="ends">' + (ends.length ? ends.map(function (q) { return '<span>' + esc(q.question) + '</span>'; }).join('') : '<span>Nowhere. You sit inside the band on every question.</span>') + '</div>';
+    h += '<span class="k" style="margin-top:14px">What you raised</span><div class="ends">' + (mine.length ? mine.map(function (o) { return '<span>' + (o.type === 'moonshot' ? 'Moonshot: ' : 'Landmine: ') + esc(o.short || o.text) + '</span>'; }).join('') : '<span>Nothing outside the seven questions.</span>') + '</div></div>';
+    h += '<div><span class="k">At a glance</span><ul>' + (g.glance || []).map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul></div></div>';
+    if (g.before && g.before.length) {
+      h += '<h2 class="gsec">Before the session</h2><div class="before">' + g.before.map(function (b) { return '<div><b>' + esc(b.title) + '</b>' + esc(b.text) + '</div>'; }).join('') + '</div>';
+    }
+    h += '<h2 class="gsec">The seven questions, in the order the room will take them</h2>';
+    ordered.forEach(function (q) {
+      var sid = q.state, s = q.tracks.say.positions[role], w = q.tracks.why.positions[role], end = atEnd(q, role);
+      h += '<div class="gq"><div class="gh"><span>' + chip(sid) + (end ? '<span class="kick" style="margin-left:10px">You hold one end</span>' : '') + '</span>' + time(q) + '</div><h3>' + esc(q.question) + '</h3><div class="sub">' + esc(q.subtitle) + '</div>';
+      h += '<div class="cols"><div>';
+      h += '<div class="said"><span class="k">You said</span><div><q>' + esc(s.quote) + '</q></div></div>';
+      h += '<div class="said"><span class="k">Because</span><div><q>' + esc(w.quote) + '</q><div class="bc">In plain words: ' + esc(w.because || '') + '</div></div></div>';
+      if (g.watch && g.watch[q.id]) h += '<div class="watch"><span class="k">Listen for</span>' + esc(g.watch[q.id]) + '</div>';
+      h += '</div><div>';
+      if (g.prep && g.prep[q.id]) h += '<div class="prep"><span class="k">Be ready</span>' + esc(g.prep[q.id]) + '</div>';
+      h += '<div class="expect"><span class="k">' + (end ? 'Expect to be asked' : 'The room will open with') + '</span><p class="opening">' + esc(q.suggested_conversation) + '</p>';
+      if (end && q.room_questions && q.room_questions.length) h += '<ul class="qs">' + q.room_questions.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>';
+      h += '</div></div></div></div>';
+    });
+    h += '<h2 class="gsec">Landmines and moonshots you raised</h2>';
+    if (!mine.length) h += '<p>You did not raise a landmine or a moonshot in your interview.</p>';
+    mine.forEach(function (o) {
+      var r = o.raised.filter(function (x) { return x.leader === role; })[0];
+      h += '<div class="gq ' + (o.type === 'moonshot' ? 'moon' : 'mine') + '"><span class="kick">' + (o.type === 'moonshot' ? 'Moonshot' : 'Landmine') + '</span><h3>' + esc(o.text) + '</h3>';
+      h += '<div class="said"><span class="k">You said</span><div><q>' + esc(r.said) + '</q></div></div>';
+      h += discussion(o.discussion,true);
+    if (o.next) h += '<div class="expect"><span class="k">Expect to be asked</span><p class="opening">' + esc(o.next) + '</p></div>';
+      h += '</div>';
+    });
+    if (g.closing) h += '<div class="callout"><p>' + esc(g.closing) + '</p></div>';
+    body.innerHTML = h;
+  }
+  gRoles.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-role]'); if (!b) return;
+    go('guide-' + b.getAttribute('data-role'));
+  });
+
+  /* ---------- views ---------- */
+  function setView(v) {
+    demo.setAttribute('data-view', v);
+    document.getElementById('v-fac').setAttribute('aria-pressed', v === 'facilitator' ? 'true' : 'false');
+    document.getElementById('v-par').setAttribute('aria-pressed', v === 'participant' ? 'true' : 'false');
+  }
+  var lastSlide = 's-summary', lastDemo = 's-summary', lastRole = '';
+  document.getElementById('v-fac').addEventListener('click', function () { go('facilitator'); });
+  document.getElementById('v-par').addEventListener('click', function () { go(lastSlide); });
+
+  /* ---------- person lens: ?role=<leader id> mutes everyone else's marks ---------- */
+  var role = params.get('role');
+  if (role && L[role]) {
+    demo.classList.add('lens');
+    demo.querySelectorAll('[data-l="' + role + '"]').forEach(function (el) { el.classList.add('me'); });
+    var p2 = new URLSearchParams(params); p2.delete('role'); var qs2 = p2.toString();
+    document.getElementById('d-lens').innerHTML = '<div class="lensbar">Showing <b>' + esc(L[role].name) + '</b> across every row. Everyone else is dimmed.<a href="' + (qs2 ? '?' + qs2 : location.pathname) + '#facilitator">Show everyone</a></div>';
+  }
+
+  /* ---------- open every row when printing ---------- */
+  var wasOpen = [];
+  window.addEventListener('beforeprint', function () {
+    wasOpen = [];
+    document.querySelectorAll('.down').forEach(function (d) { wasOpen.push(d.open); d.open = true; layoutIn(d); });
+    if (demo.getAttribute('data-view') === 'participant') slides.forEach(function (s) { var el = document.getElementById(s.id); el.hidden = false; layoutIn(el); });
+  });
+  window.addEventListener('afterprint', function () {
+    document.querySelectorAll('.down').forEach(function (d, i) { d.open = !!wasOpen[i]; });
+    showSlide(current);
+  });
+
+  /* ---------- routing: the hash is the whole state ----------
+     #s-<slide>            participant deck, one slide: s-summary, s-<group id>, s-q-<question id>, s-o-<outlier id>
+     #facilitator          facilitator page; #q-<question id> opens that row
+     #how, #how-<section>  How To Use, optionally scrolled to a section
+     #guide, #guide-<role> My Guide, optionally with a role chosen                                          */
+  var tabs = document.querySelectorAll('.tab'), panels = document.querySelectorAll('.panel');
+  function showTab(id) {
+    tabs.forEach(function (t) { t.setAttribute('aria-selected', t.id === id ? 'true' : 'false'); });
+    panels.forEach(function (p) { p.hidden = p.getAttribute('aria-labelledby') !== id; });
+  }
+  function go(h) { if (location.hash === '#' + h) route(); else location.hash = h; }
+  function route() {
+    var h = location.hash.replace('#', '');
+    if (!h) h = (params.get('view') === 'facilitator' || params.has('role')) ? 'facilitator' : params.get('view') === 'participant' ? 's-summary' : 'how';
+    if (h === 'how' || h.indexOf('how-') === 0) {
+      showTab('t-how'); layoutVisible();
+      var el = h !== 'how' && document.getElementById(h);
+      if (el) el.scrollIntoView({ block: 'start' }); else window.scrollTo(0, 0);
+      document.getElementById('how-back').setAttribute('href', '#' + lastDemo);
+    } else if (h === 'guide' || h.indexOf('guide-') === 0) {
+      showTab('t-guide');
+      if (h !== 'guide') lastRole = h.slice(6);
+      renderGuide(lastRole);
+      if (h === 'guide') window.scrollTo(0, 0);
+    } else if (h === 'facilitator' || h.indexOf('q-') === 0) {
+      showTab('t-demo'); setView('facilitator'); lastDemo = h;
+      layoutVisible();
+      var r = h !== 'facilitator' && document.getElementById(h);
+      if (r) { var d = r.querySelector('.down'); if (d && !d.open) { d.open = true; layoutIn(d); } r.scrollIntoView({ block: 'start' }); }
+      else window.scrollTo(0, 0);
+    } else {
+      if (slideIndex[h] === undefined) h = 's-summary';
+      showTab('t-demo'); setView('participant'); lastSlide = h; lastDemo = h;
+      showSlide(slideIndex[h]);
+    }
+  }
+  tabs.forEach(function (t) { t.addEventListener('click', function () {
+    go(t.id === 't-demo' ? lastDemo : t.id === 't-guide' ? (lastRole ? 'guide-' + lastRole : 'guide') : 'how');
+  }); });
+  window.addEventListener('hashchange', route);
+  window.addEventListener('resize', layoutVisible);
+  route();
+})();
+</script>
+
+</body>
+</html>
