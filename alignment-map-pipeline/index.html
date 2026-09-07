@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Building an Alignment Map</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --paper:#FCFCFD; --panel:#FFFFFF; --well:#EEF0F4; --edge:#DCE3EE;
+    --ink:#0A1628; --ink-2:#59627A; --muted:#667088;
+    --rule:#DCE3EE; --rule-soft:#EEF2F8; --track:#DCE3EE;
+    --navy:#111A3A; --navy-2:#202B55; --accent:#2F61D5; --accent-soft:#EAF0FF;
+    --shadow:0 20px 60px rgba(29,41,74,.11), 0 1px 2px rgba(29,41,74,.06);
+    --shadow-sm:0 2px 10px rgba(29,41,74,.07);
+    --c-1:#2F61D5; --c-2:#DA5B4E; --c-3:#0E8F93; --c-4:#AD7414; --c-5:#7559BD;
+    --st-contested:#9F1239; --st-contested-bg:#FBE4EB;
+    --st-false:#7C4A03; --st-false-bg:#FBEBCF;
+    --st-vocab:#0F6E62; --st-vocab-bg:#D7F1EA;
+    --st-aligned:#15803D; --st-aligned-bg:#DDF3E3;
+    --mine:#A61E3C; --mine-bg:#FBE4EB;
+  }
+  *,*::before,*::after { box-sizing:border-box; }
+  :where(.grid,.flex) > * { min-width:0; }
+  :where(p,h1,h2,h3,h4,li,td,th) { overflow-wrap:anywhere; }
+  :where(img,svg) { max-width:100%; height:auto; }
+
+  body { margin:0; background:var(--paper); color:var(--ink);
+    font-family:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif; font-size:16px; line-height:1.62;
+    -webkit-font-smoothing:antialiased; }
+  .page { max-width:840px; margin:0 auto; padding:22px 20px 80px; }
+  .k { font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.09em;
+       text-transform:uppercase; color:var(--muted); display:block; }
+  a { color:var(--accent); }
+
+  h1 { font-family:"Fraunces",Georgia,serif; font-weight:500; font-size:clamp(29px,5vw,44px);
+       line-height:1.08; letter-spacing:-.014em; margin:12px 0 14px; max-width:19ch; text-wrap:balance; }
+  h2 { font-family:"Fraunces",Georgia,serif; font-weight:500; font-size:28px; line-height:1.16;
+       margin:0 0 10px; letter-spacing:-.008em; text-wrap:balance; }
+  h3 { font-family:"Fraunces",Georgia,serif; font-weight:500; font-size:20px; margin:0 0 8px; }
+  p { margin:0 0 16px; max-width:64ch; color:var(--ink-2); }
+  p.big { font-size:17.5px; color:var(--ink-2); }
+  p strong, li strong { color:var(--ink); font-weight:600; }
+  ul { margin:0 0 16px; padding-left:20px; color:var(--ink-2); max-width:64ch; }
+  li { margin-bottom:8px; }
+  code { font-family:"IBM Plex Mono",monospace; font-size:13.5px; background:var(--well);
+         padding:1px 5px; border-radius:4px; color:var(--ink); }
+
+  .top { display:flex; align-items:flex-end; justify-content:space-between; gap:16px;
+         border-bottom:1px solid var(--rule); margin-bottom:26px; padding-bottom:10px; flex-wrap:wrap; }
+  .wordmark { font-family:"Fraunces",Georgia,serif; font-weight:500; font-size:20px;
+              color:var(--navy); text-decoration:none; }
+  .wordmark span { color:var(--accent); }
+  .topmeta { font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.05em;
+             text-transform:uppercase; color:var(--muted); }
+
+  .hero { background:linear-gradient(135deg,#111A3A 0%,#1B2A5E 100%); color:#fff;
+          border-radius:16px; padding:36px 36px 30px; margin:0 0 18px; box-shadow:var(--shadow); }
+  .hero .k { color:#7FD6D3; margin-bottom:4px; }
+  .hero h1 { color:#fff; }
+  .hero p { color:#C5CDE3; max-width:60ch; font-size:17.5px; margin-bottom:0; }
+
+  .guard { background:var(--mine-bg); border:1px solid rgba(166,30,60,.24);
+           border-left:4px solid var(--mine); border-radius:12px; padding:16px 20px; margin:0 0 40px; }
+  .guard .k { color:var(--mine); margin-bottom:5px; }
+  .guard p { margin:0 0 9px; color:#6B1027; font-size:14.5px; max-width:64ch; }
+  .guard p:last-child { margin-bottom:0; }
+
+  section { margin:0 0 58px; scroll-margin-top:14px; }
+  .sechead { border-top:1px solid var(--rule); padding-top:20px; margin-bottom:22px; }
+  .sechead .k { margin-bottom:9px; }
+
+  .card { background:var(--panel); border:1px solid var(--edge); border-radius:12px;
+          padding:20px 22px; box-shadow:var(--shadow-sm); }
+  .card p:last-child, .card ul:last-child { margin-bottom:0; }
+  .grid { display:grid; gap:14px; }
+  .g2 { grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); }
+  .g4 { grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); }
+
+  .stat { background:var(--panel); border:1px solid var(--edge); border-radius:12px; padding:16px 18px; }
+  .stat .n { font-family:"Fraunces",Georgia,serif; font-size:31px; font-weight:500; line-height:1;
+             color:var(--navy); letter-spacing:-.02em; }
+  .stat .lab { font-size:13px; color:var(--muted); margin-top:8px; }
+  .stat .sub { font-size:12.5px; color:var(--ink-2); margin-top:4px; }
+
+  figure { margin:0 0 10px; background:var(--panel); border:1px solid var(--edge);
+           border-radius:14px; padding:24px 20px 16px; box-shadow:var(--shadow-sm); }
+  figure svg { display:block; width:100%; height:auto; }
+  figcaption { font-size:14px; color:var(--muted); margin-top:14px; padding-top:12px;
+               border-top:1px solid var(--rule-soft); max-width:70ch; }
+  figcaption b { color:var(--ink-2); font-weight:600; }
+
+  /* plain step list */
+  .steps { list-style:none; padding:0; margin:22px 0 0; }
+  .steps li { position:relative; padding:0 0 0 60px; margin-bottom:20px; max-width:64ch; }
+  .steps li .sn { position:absolute; left:0; top:1px; width:44px; text-align:right;
+    font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--accent);
+    letter-spacing:.04em; }
+  .steps li.gate .sn { color:var(--navy); }
+  .steps li h4 { font-size:16.5px; font-weight:600; margin:0 0 4px; color:var(--ink);
+                 font-family:"Fraunces",Georgia,serif; font-weight:500; }
+  .steps li p { font-size:14.5px; margin:0; }
+  .steps li.gate { background:var(--accent-soft); border-radius:10px; padding:14px 18px 14px 60px;
+                   margin-left:-14px; }
+  .steps li.gate .sn { left:14px; top:15px; }
+  .steps li.gate h4, .steps li.gate p { color:var(--navy-2); }
+  .steps li.var h4::after { content:"the one we test"; margin-left:9px; font-family:"IBM Plex Mono",monospace;
+    font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--st-contested);
+    background:var(--st-contested-bg); padding:2px 7px; border-radius:5px; vertical-align:2px; }
+
+  .tw { overflow-x:auto; border:1px solid var(--edge); border-radius:12px; background:var(--panel);
+        box-shadow:var(--shadow-sm); }
+  table { border-collapse:collapse; width:100%; font-size:14px; min-width:460px; }
+  th,td { text-align:left; padding:10px 15px; border-bottom:1px solid var(--rule-soft);
+          vertical-align:top; color:var(--ink-2); }
+  th { font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.07em;
+       text-transform:uppercase; color:var(--muted); font-weight:500; background:var(--well);
+       border-bottom:1px solid var(--edge); white-space:nowrap; }
+  tbody tr:last-child td { border-bottom:0; }
+  td.num, th.num { text-align:right; font-family:"IBM Plex Mono",monospace; white-space:nowrap; }
+  tr.total td { background:var(--well); color:var(--ink); font-weight:600; }
+  .dim { color:var(--muted); }
+
+  .arm { background:var(--panel); border:1px solid var(--edge); border-radius:12px;
+         padding:17px 19px; box-shadow:var(--shadow-sm); border-top:3px solid var(--c); }
+  .arm .nm { font-weight:600; font-size:15.5px; margin-bottom:3px; color:var(--ink); }
+  .arm .gid { font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--muted);
+              margin-bottom:12px; overflow-wrap:anywhere; }
+  .arm .cost { font-family:"Fraunces",Georgia,serif; font-size:27px; color:var(--navy);
+               font-weight:500; letter-spacing:-.02em; }
+  .arm .costlab { font-size:12px; color:var(--muted); margin-top:3px; }
+
+  .pull { background:var(--accent-soft); border-radius:14px; padding:24px 26px; margin:0 0 16px; }
+  .pull h3 { color:var(--navy-2); }
+  .pull p { color:var(--navy-2); font-size:16.5px; }
+  .pull p:last-child { margin-bottom:0; }
+
+  details { background:var(--panel); border:1px solid var(--edge); border-radius:12px;
+            margin-bottom:12px; box-shadow:var(--shadow-sm); }
+  details > summary { cursor:pointer; padding:15px 19px; font-weight:600; font-size:15px;
+                      list-style:none; display:flex; align-items:baseline; gap:10px; color:var(--ink); }
+  details > summary::-webkit-details-marker { display:none; }
+  details > summary::after { content:"+"; margin-left:auto; color:var(--muted);
+                             font-family:"IBM Plex Mono",monospace; font-size:17px; }
+  details[open] > summary::after { content:"–"; }
+  details .inner { padding:4px 19px 18px; border-top:1px solid var(--rule-soft); }
+  details .inner p:last-child, details .inner ul:last-child { margin-bottom:0; }
+
+  .ask { background:var(--panel); border:1px solid var(--edge); border-radius:14px;
+         padding:22px 24px; box-shadow:var(--shadow-sm); }
+  .ask > p { font-size:14.5px; margin-bottom:16px; }
+  .opts { display:grid; gap:9px; margin-bottom:16px; }
+  .opt { display:flex; gap:12px; align-items:flex-start; border:1px solid var(--edge);
+         border-radius:9px; padding:12px 14px; cursor:pointer; background:var(--paper); }
+  .opt:hover { border-color:var(--accent); }
+  .opt input { margin:4px 0 0; accent-color:var(--accent); flex:none; }
+  .opt .t { font-weight:600; font-size:14.5px; color:var(--ink); }
+  .opt .d { font-size:13.5px; color:var(--muted); margin-top:3px; }
+  .fields { display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+            margin-bottom:16px; }
+  .fields .k { margin-bottom:6px; }
+  input[type=text],input[type=number] { width:100%; font:inherit; font-size:14.5px;
+    padding:10px 12px; border:1px solid var(--edge); border-radius:8px; background:var(--paper);
+    color:var(--ink); }
+  input:focus-visible,.opt:focus-within { outline:2px solid var(--accent); outline-offset:1px; }
+  .btn { appearance:none; border:0; border-radius:8px; background:var(--navy); color:#fff;
+         font:inherit; font-weight:600; font-size:14.5px; padding:11px 20px; cursor:pointer; }
+  .btn:hover { background:var(--navy-2); }
+  .note { font-size:13px; color:var(--muted); margin:10px 0 0; max-width:64ch; }
+  .batch { display:grid; gap:8px; margin-bottom:16px; }
+  .batch label { display:flex; gap:12px; align-items:flex-start; border:1px solid var(--edge);
+                 border-radius:9px; padding:12px 14px; cursor:pointer; background:var(--paper);
+                 font-size:14px; color:var(--ink-2); }
+  .batch label:hover { border-color:var(--accent); }
+  .batch input { margin:4px 0 0; accent-color:var(--accent); flex:none; }
+
+  footer.site { margin-top:54px; padding-top:20px; border-top:1px solid var(--rule);
+                font-size:13px; color:var(--muted); display:flex; flex-wrap:wrap;
+                gap:6px 20px; align-items:baseline; }
+  @media (max-width:600px){ .hero{padding:28px 22px 24px;} .page{padding:18px 15px 60px;} body{font-size:15.5px;} }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="top">
+    <a class="wordmark" href="#">The<span>Mirror</span>.ai</a>
+    <div class="topmeta">Method note &middot; 2026-09-07</div>
+  </div>
+
+  <div class="hero">
+    <span class="k">Method note · design only</span>
+    <h1>How we turn a set of Mirrors into an Alignment Map</h1>
+    <p>Nine steps, three points where a human decides something, and a small test of four
+       models to see whether the cheap ones are good enough.</p>
+  </div>
+
+  <div class="guard" style="background:var(--accent-soft);border-color:rgba(47,97,213,.24);border-left-color:var(--accent);">
+    <span class="k" style="color:var(--accent);">What this is</span>
+    <p style="color:var(--navy-2);">A design write-up of the pipeline that turns a set of 1:1 AI
+       Mirror interviews into an Alignment Map. It describes the method only. <strong>No client
+       material appears on this page</strong> — no names, no company, no quotes, no counts from
+       any real engagement. Figures are illustrative and the numbers in the diagrams are made up.</p>
+    <p style="color:var(--navy-2);margin-bottom:0;">Nothing here has been run yet. Every claim
+       about what a step produces is a design claim, not a result.</p>
+  </div>
+
+  <!-- ─── 1. WHAT WE HAVE ─── -->
+  <section id="have">
+    <div class="sechead">
+      <span class="k">01</span>
+      <h2>What it works from</h2>
+    </div>
+    <p class="big">One leadership team. For each person: the interview transcript, the intake
+       form they filled in beforehand, and — usually — the Mirror letter and action plan that came
+       out of their session.</p>
+
+    <div class="grid g4" style="margin-bottom:20px;">
+      <div class="stat"><div class="n">~35</div><div class="lab">pages per person</div><div class="sub">transcript and intake</div></div>
+      <div class="stat"><div class="n">~50</div><div class="lab">interview turns each</div><div class="sub">a real conversation, not a survey</div></div>
+      <div class="stat"><div class="n">5–12</div><div class="lab">people, typically</div><div class="sub">one senior team</div></div>
+      <div class="stat"><div class="n">$0.70</div><div class="lab">per person, to build</div><div class="sub">the whole pipeline</div></div>
+    </div>
+
+    <div class="card" style="border-left:4px solid var(--st-false);margin-top:8px;">
+      <h3>The map is built from transcripts, not from the Mirror letters</h3>
+      <p>This looks like a preference and isn't. Exports arrive in batches, and a letter or action
+         plan that is missing from one export tells you nothing: the step may never have run, the
+         export may predate the output, or the export tool may have skipped it — it is documented
+         as doing that in some cases. You cannot tell which from the files.</p>
+      <p>So the design treats letters and plans as <strong>nice to have, never
+         load-bearing</strong>. Anyone with a transcript is a full participant, on every question,
+         with their own personal guide. Nothing about how someone is treated changes based on
+         which files happened to be in the folder that day.</p>
+      <p><strong>Otherwise you would get a different map from the same interviews depending on
+         when someone last hit export</strong> — which is not a property any diagnostic should
+         have.</p>
+    </div>
+  </section>
+
+  <!-- ─── 2. HOW IT WORKS ─── -->
+  <section id="how">
+    <div class="sechead">
+      <span class="k">02</span>
+      <h2>How it works</h2>
+    </div>
+    <p class="big">Read everything and propose the questions. A human picks them. Then read each
+       person separately against those questions, put everyone on the same scale, and write it
+       up.</p>
+
+    <figure>
+      <svg viewBox="0 0 700 560" role="img" aria-labelledby="f1t f1d">
+        <title id="f1t">The nine steps</title>
+        <desc id="f1d">A vertical flow: find the questions, you choose, read each person separately and find the landmines, place everyone and merge the landmines, write it up, check it, you confirm, personal guides, then release.</desc>
+        <defs>
+          <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0 0 L10 5 L0 10 z" fill="var(--edge)"/></marker>
+          <style>
+            .b { fill:var(--panel); stroke:var(--edge); stroke-width:1.5; }
+            .bv { fill:var(--panel); stroke:var(--st-contested); stroke-width:2; }
+            .g { fill:var(--accent-soft); stroke:var(--accent); stroke-width:1.5; }
+            .gr { fill:var(--mine-bg); stroke:var(--mine); stroke-width:1.5; }
+            .t1 { font-family:"IBM Plex Sans",sans-serif; font-size:14.5px; font-weight:600; fill:var(--ink); }
+            .t2 { font-family:"IBM Plex Sans",sans-serif; font-size:11.5px; fill:var(--muted); }
+            .gt { font-family:"IBM Plex Sans",sans-serif; font-size:14.5px; font-weight:600; fill:var(--navy-2); }
+            .gs { font-family:"IBM Plex Sans",sans-serif; font-size:11.5px; fill:var(--navy-2); opacity:.86; }
+            .fl { stroke:var(--edge); stroke-width:1.5; fill:none; }
+            .bk { stroke:var(--st-contested); stroke-width:1.2; fill:none; stroke-dasharray:4 3; opacity:.55; }
+            .bkt { font-family:"IBM Plex Mono",monospace; font-size:9.5px; fill:var(--st-contested); letter-spacing:.05em; }
+          </style>
+        </defs>
+
+        <g><title>Find the questions this team is actually split on</title>
+          <rect class="b" x="150" y="8" width="400" height="50" rx="9"/>
+          <text class="t1" x="172" y="31">Find the questions</text>
+          <text class="t2" x="172" y="47">reads every interview, proposes what the team is split on</text>
+        </g>
+        <path class="fl" d="M350 58 L350 76" marker-end="url(#a1)"/>
+
+        <g><title>You choose the questions and the session context</title>
+          <rect class="g" x="60" y="80" width="580" height="48" rx="9"/>
+          <text class="gt" x="82" y="103">You choose</text>
+          <text class="gs" x="82" y="119">which questions make the map, what the session is for, who's facilitating</text>
+        </g>
+        <path class="fl" d="M350 128 L350 146" marker-end="url(#a1)"/>
+
+        <path class="bk" d="M44 154 L34 154 L34 214 L44 214"/>
+        <text class="bkt" x="18" y="184" transform="rotate(-90 18 184)" text-anchor="middle">ONE PERSON AT A TIME</text>
+
+        <g><title>Read each person alone against the chosen questions</title>
+          <rect class="bv" x="82" y="156" width="250" height="56" rx="9" opacity=".3" transform="translate(7,7)"/>
+          <rect class="bv" x="82" y="156" width="250" height="56" rx="9" opacity=".6" transform="translate(3.5,3.5)"/>
+          <rect class="bv" x="82" y="156" width="250" height="56" rx="9"/>
+          <text class="t1" x="100" y="180">Read each person</text>
+          <text class="t2" x="100" y="196">alone, against the chosen</text>
+          <text class="t2" x="100" y="208">questions. No numbers yet.</text>
+        </g>
+        <g><title>Find the landmines and moonshots</title>
+          <rect class="b" x="368" y="156" width="250" height="56" rx="9" opacity=".3" transform="translate(7,7)"/>
+          <rect class="b" x="368" y="156" width="250" height="56" rx="9" opacity=".6" transform="translate(3.5,3.5)"/>
+          <rect class="b" x="368" y="156" width="250" height="56" rx="9"/>
+          <text class="t1" x="386" y="180">Find the landmines</text>
+          <text class="t2" x="386" y="196">and the moonshots — what</text>
+          <text class="t2" x="386" y="208">isn't a question at all</text>
+        </g>
+        <path class="fl" d="M207 219 L207 236" marker-end="url(#a1)"/>
+        <path class="fl" d="M493 219 L493 236" marker-end="url(#a1)"/>
+
+        <g><title>Put everyone on the same scale</title>
+          <rect class="b" x="82" y="240" width="250" height="50" rx="9"/>
+          <text class="t1" x="100" y="263">Place everyone</text>
+          <text class="t2" x="100" y="279">now on one shared scale</text>
+        </g>
+        <g><title>Merge duplicate landmines and weigh them</title>
+          <rect class="b" x="368" y="240" width="250" height="50" rx="9"/>
+          <text class="t1" x="386" y="263">Merge the landmines</text>
+          <text class="t2" x="386" y="279">who raised what, how big</text>
+        </g>
+        <path class="fl" d="M207 290 L207 304 L350 304 L350 320" marker-end="url(#a1)"/>
+        <path class="fl" d="M493 290 L493 304 L350 304"/>
+
+        <g><title>Write it up</title>
+          <rect class="b" x="150" y="324" width="400" height="50" rx="9"/>
+          <text class="t1" x="172" y="347">Write it up</text>
+          <text class="t2" x="172" y="363">every sentence anyone reads, plus how long each row deserves</text>
+        </g>
+        <path class="fl" d="M350 374 L350 392" marker-end="url(#a1)"/>
+
+        <g><title>Check it before you see it</title>
+          <rect class="b" x="150" y="396" width="400" height="50" rx="9"/>
+          <text class="t1" x="172" y="419">Check it</text>
+          <text class="t2" x="172" y="435">every quote traced back to the transcript it came from</text>
+        </g>
+        <path class="fl" d="M350 446 L350 464" marker-end="url(#a1)"/>
+
+        <g><title>You confirm the judgement calls</title>
+          <rect class="g" x="60" y="468" width="580" height="48" rx="9"/>
+          <text class="gt" x="82" y="491">You confirm</text>
+          <text class="gs" x="82" y="507">the close calls, the time per row, how serious each landmine is</text>
+        </g>
+        <path class="fl" d="M350 516 L350 530" marker-end="url(#a1)"/>
+
+        <g><title>Personal guides, then release</title>
+          <rect class="b" x="150" y="534" width="400" height="26" rx="9"/>
+          <text class="t2" x="172" y="551" style="fill:var(--ink-2);font-size:12.5px;">Personal guides for each leader → build the page → you release it</text>
+        </g>
+      </svg>
+      <figcaption>The two stacked steps run once per person. <b>The crimson one is the only step
+        the model test varies</b> — everything else runs on the same model in every version, so a
+        difference in quality has one explanation.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ─── 3. THE ONE IDEA ─── -->
+  <section id="idea">
+    <div class="sechead">
+      <span class="k">03</span>
+      <h2>The one idea worth arguing about</h2>
+    </div>
+    <p class="big">The step that reads someone's interview is not allowed to put a number on
+       anything. It writes down what they think and quotes them saying it. That is all.</p>
+    <p>The numbers come later, in a separate step that sees everyone at once. This sounds like a
+       technicality and is not. A position scored in isolation is not on the same scale as anyone
+       else's, so a set of them cannot be compared — and comparing them is the entire artifact.</p>
+
+    <figure>
+      <svg viewBox="0 0 700 300" role="img" aria-labelledby="f2t f2d">
+        <title id="f2t">Reading alone, then placing together</title>
+        <desc id="f2d">Left: five separated cards holding words and a quote but no score. Right: one shared scale with five marks, and the state read off the two bands.</desc>
+        <defs><style>
+          .lb2 { font-family:"IBM Plex Mono",monospace; font-size:10.5px; fill:var(--muted); letter-spacing:.06em; }
+          .hd2 { font-family:"IBM Plex Sans",sans-serif; font-size:13.5px; font-weight:600; fill:var(--ink); }
+          .cd2 { fill:var(--panel); stroke:var(--edge); stroke-width:1.2; }
+          .sb { fill:var(--track); }
+          .wl { stroke:var(--st-contested); stroke-width:1.2; stroke-dasharray:3 3; opacity:.45; }
+          .ax2 { stroke:var(--track); stroke-width:3; stroke-linecap:round; }
+          .bd2 { fill:rgba(32,43,85,.13); }
+          .pl2 { font-family:"IBM Plex Sans",sans-serif; font-size:11.5px; fill:var(--ink-2); }
+          .in2 { font-family:"IBM Plex Mono",monospace; font-size:9.5px; fill:#fff; font-weight:500; }
+          .qm { font-family:"IBM Plex Mono",monospace; font-size:21px; fill:var(--st-contested); opacity:.45; }
+        </style></defs>
+
+        <text class="lb2" x="14" y="18">STEP 3 — READ EACH PERSON</text>
+        <text class="hd2" x="14" y="38">Their words and a quote. No score.</text>
+        <g>
+          <title>Each person is read alone; no read can see another</title>
+          <g transform="translate(14,54)"><rect class="cd2" x="0" y="0" width="280" height="38" rx="7"/>
+            <circle cx="18" cy="19" r="8" fill="var(--c-1)"/><text class="in2" x="18" y="22.5" text-anchor="middle">C</text>
+            <rect class="sb" x="34" y="12" width="196" height="4" rx="2"/><rect class="sb" x="34" y="22" width="140" height="4" rx="2" opacity=".6"/>
+            <text class="qm" x="258" y="26" text-anchor="middle">?</text></g>
+          <g transform="translate(14,98)"><rect class="cd2" x="0" y="0" width="280" height="38" rx="7"/>
+            <circle cx="18" cy="19" r="8" fill="var(--c-2)"/><text class="in2" x="18" y="22.5" text-anchor="middle">O</text>
+            <rect class="sb" x="34" y="12" width="172" height="4" rx="2"/><rect class="sb" x="34" y="22" width="120" height="4" rx="2" opacity=".6"/>
+            <text class="qm" x="258" y="26" text-anchor="middle">?</text></g>
+          <g transform="translate(14,142)"><rect class="cd2" x="0" y="0" width="280" height="38" rx="7"/>
+            <circle cx="18" cy="19" r="8" fill="var(--c-3)"/><text class="in2" x="18" y="22.5" text-anchor="middle">F</text>
+            <rect class="sb" x="34" y="12" width="208" height="4" rx="2"/><rect class="sb" x="34" y="22" width="96" height="4" rx="2" opacity=".6"/>
+            <text class="qm" x="258" y="26" text-anchor="middle">?</text></g>
+          <g transform="translate(14,186)"><rect class="cd2" x="0" y="0" width="280" height="38" rx="7"/>
+            <circle cx="18" cy="19" r="8" fill="var(--c-4)"/><text class="in2" x="18" y="22.5" text-anchor="middle">S</text>
+            <rect class="sb" x="34" y="12" width="150" height="4" rx="2"/><rect class="sb" x="34" y="22" width="176" height="4" rx="2" opacity=".6"/>
+            <text class="qm" x="258" y="26" text-anchor="middle">?</text></g>
+          <g transform="translate(14,230)"><rect class="cd2" x="0" y="0" width="280" height="38" rx="7"/>
+            <circle cx="18" cy="19" r="8" fill="var(--c-5)"/><text class="in2" x="18" y="22.5" text-anchor="middle">T</text>
+            <rect class="sb" x="34" y="12" width="190" height="4" rx="2"/><rect class="sb" x="34" y="22" width="134" height="4" rx="2" opacity=".6"/>
+            <text class="qm" x="258" y="26" text-anchor="middle">?</text></g>
+          <path class="wl" d="M14 96 L294 96 M14 140 L294 140 M14 184 L294 184 M14 228 L294 228"/>
+        </g>
+        <text class="lb2" x="14" y="286" style="fill:var(--st-contested);">NOBODY SEES ANYONE ELSE'S</text>
+
+        <path d="M310 160 L346 160" stroke="var(--edge)" stroke-width="2" fill="none" marker-end="url(#a2)"/>
+        <defs><marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--edge)"/></marker></defs>
+
+        <text class="lb2" x="366" y="18">STEP 5 — PLACE THEM</text>
+        <text class="hd2" x="366" y="38">All together. One scale. Then a shape.</text>
+        <g><title>What we say: everyone on one shared scale</title>
+          <text class="lb2" x="366" y="74">WHAT WE SAY</text>
+          <text class="pl2" x="366" y="98">It pays today</text><text class="pl2" x="686" y="98" text-anchor="end">It scales</text>
+          <rect class="bd2" x="382" y="108" width="230" height="16" rx="8"/>
+          <line class="ax2" x1="366" y1="116" x2="686" y2="116"/>
+          <circle cx="390" cy="116" r="9" fill="var(--c-1)" stroke="var(--panel)" stroke-width="2"/><text class="in2" x="390" y="119.5" text-anchor="middle">C</text>
+          <circle cx="432" cy="116" r="9" fill="var(--c-2)" stroke="var(--panel)" stroke-width="2"/><text class="in2" x="432" y="119.5" text-anchor="middle">O</text>
+          <circle cx="504" cy="116" r="9" fill="var(--c-3)" stroke="var(--panel)" stroke-width="2"/><text class="in2" x="504" y="119.5" text-anchor="middle">F</text>
+          <circle cx="548" cy="116" r="9" fill="var(--c-4)" stroke="var(--panel)" stroke-width="2"/><text class="in2" x="548" y="119.5" text-anchor="middle">S</text>
+          <circle cx="604" cy="116" r="9" fill="var(--c-5)" stroke="var(--panel)" stroke-width="2"/><text class="in2" x="604" y="119.5" text-anchor="middle">T</text>
+        </g>
+        <g><title>Because: the reasons underneath, placed independently</title>
+          <text class="lb2" x="366" y="168">BECAUSE</text>
+          <text class="pl2" x="366" y="192">Keeps people paid</text><text class="pl2" x="686" y="192" text-anchor="end">Compounds</text>
+          <rect class="bd2" x="378" y="202" width="66" height="16" rx="8"/>
+          <line class="ax2" x1="366" y1="210" x2="686" y2="210"/>
+          <circle cx="386" cy="210" r="9" fill="var(--c-1)" stroke="var(--panel)" stroke-width="2"/><text class="in2" x="386" y="213.5" text-anchor="middle">C</text>
+          <circle cx="404" cy="210" r="9" fill="var(--c-3)" stroke="var(--panel)" stroke-width="2"/><text class="in2" x="404" y="213.5" text-anchor="middle">F</text>
+          <circle cx="420" cy="210" r="9" fill="var(--c-2)" stroke="var(--panel)" stroke-width="2"/><text class="in2" x="420" y="213.5" text-anchor="middle">O</text>
+          <circle cx="436" cy="210" r="9" fill="var(--c-5)" stroke="var(--panel)" stroke-width="2"/><text class="in2" x="436" y="213.5" text-anchor="middle">T</text>
+          <circle cx="452" cy="210" r="9" fill="var(--c-4)" stroke="var(--panel)" stroke-width="2"/><text class="in2" x="452" y="213.5" text-anchor="middle">S</text>
+        </g>
+        <g><title>Spread apart on top, together underneath: different words, same view</title>
+          <rect x="366" y="242" width="320" height="42" rx="8" fill="var(--st-vocab-bg)"/>
+          <text class="hd2" x="382" y="261" style="fill:var(--st-vocab);font-size:12.5px;">Different words, same view</text>
+          <text class="pl2" x="382" y="276" style="font-size:11px;fill:var(--st-vocab);">spread apart on top · together underneath</text>
+        </g>
+      </svg>
+      <figcaption>The shape at the bottom right is the whole point of the map, and you can only
+        see it once everyone is on the same scale. <b>Reading them apart is what makes
+        &ldquo;we agree but for opposite reasons&rdquo; visible</b> instead of looking like
+        agreement.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ─── 4. WHERE YOU COME IN ─── -->
+  <section id="gates">
+    <div class="sechead">
+      <span class="k">04</span>
+      <h2>Where you come in</h2>
+    </div>
+    <p class="big">Three times. Everything else runs on its own.</p>
+    <p>&ldquo;You&rdquo; below is whoever is running the engagement — usually the facilitator.</p>
+    <ol class="steps">
+      <li class="gate"><span class="sn">FIRST</span>
+        <h4>You pick the questions</h4>
+        <p>You get a list of candidate questions with the evidence behind each, and three to five
+           candidate answers to &ldquo;what is this session actually for.&rdquo; You cut, edit,
+           add, and set the two ends of each question. You also supply who is facilitating and how
+           long the session is — neither is anywhere in the interviews.
+           <strong>This is the expensive one to get wrong</strong>, because everything after it is
+           built on the list you approve.</p></li>
+      <li class="gate"><span class="sn">SECOND</span>
+        <h4>You confirm the close calls</h4>
+        <p>Some rows are obviously contested and some are obviously aligned. The ones in between
+           are a judgement, so we flag them rather than quietly deciding. You also set how long
+           each row deserves in the room, and how serious each landmine is.</p></li>
+      <li class="gate"><span class="sn">THIRD</span>
+        <h4>You release it</h4>
+        <p>Nothing leaves the machine it was built on until one question is settled with the
+           client: whether the map can carry the real company name. <strong>Role labels do not
+           anonymise a map for people inside the company</strong> — on most senior teams, a role
+           is one person.</p></li>
+    </ol>
+  </section>
+
+  <!-- ─── 5. THE MODEL TEST ─── -->
+  <section id="test">
+    <div class="sechead">
+      <span class="k">05</span>
+      <h2>The model test</h2>
+    </div>
+    <p class="big">The question is simple: on the step that actually reads people's words, do the
+       cheap models do as well as the expensive ones?</p>
+    <p>So that one step runs four times, once per model, holding everything else identical —
+       same people, same questions, same instructions, same everything downstream. All four were
+       confirmed available on the Vercel AI Gateway on the date above.</p>
+
+    <div class="grid g4" style="margin:20px 0 16px;">
+      <div class="arm" style="--c:var(--c-1)">
+        <div class="nm">Fable 5.1</div><div class="gid">anthropic/claude-fable-5.1</div>
+        <div class="cost">$1.35</div><div class="costlab">expensive</div></div>
+      <div class="arm" style="--c:var(--c-2)">
+        <div class="nm">GPT-6 Astra</div><div class="gid">openai/gpt-6-astra</div>
+        <div class="cost">$1.35</div><div class="costlab">expensive</div></div>
+      <div class="arm" style="--c:var(--c-3)">
+        <div class="nm">Gemini 3.8 Flash</div><div class="gid">google/gemini-3.8-flash</div>
+        <div class="cost">$0.10</div><div class="costlab">13× cheaper</div></div>
+      <div class="arm" style="--c:var(--c-4)">
+        <div class="nm">GLM 5.3 Flash</div><div class="gid">zai/glm-5.3-flash</div>
+        <div class="cost">$0.02</div><div class="costlab">65× cheaper</div></div>
+    </div>
+    <p class="note" style="margin-bottom:22px;">Prices are per arm for a five-person team, from
+      the gateway's own rates. Re-check them before running — the list moves.</p>
+
+    <div class="pull">
+      <h3>The measurement that matters</h3>
+      <p>Most of it is mechanical and needs no judgement at all: <strong>does every quote actually
+         appear in the transcript it claims to come from.</strong> A model that invents quotes is
+         disqualified whatever else it does well.</p>
+      <p style="margin-bottom:0;">Then the interesting one. Take one person on one question and
+         see where all four models put them. <strong>If they all agree, that position is solid
+         regardless of which model we pay for. If they scatter, that's a problem with the design,
+         not the models</strong> — and no amount of money fixes it.</p>
+    </div>
+
+    <details>
+      <summary>The rest of the scoring, and the honest caveats</summary>
+      <div class="inner">
+        <ul>
+          <li><strong>Full sample, no shortcuts.</strong> Every person, every question, in every
+            version. Twenty runs total.</li>
+          <li><strong>Each model runs one person twice.</strong> Otherwise we can't tell
+            &ldquo;this model is worse&rdquo; from &ldquo;this model is inconsistent.&rdquo;</li>
+          <li><strong>A model grades the judgement calls</strong> — whether the stated reason
+            actually follows from the quote. It's a different model from all four contestants, and
+            it sees the answers unlabelled and shuffled.</li>
+          <li><strong>The caveat:</strong> the grader is made by the same company as one of the
+            four. So a fifth model re-grades a sample and we report whether they agreed. If they
+            don't, we report that half as unreliable rather than averaging it away.</li>
+          <li><strong>No hybrids.</strong> Mixing models inside one step would confound the only
+            thing this test isolates.</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <!-- ─── 6. COST ─── -->
+  <section id="cost">
+    <div class="sechead">
+      <span class="k">06</span>
+      <h2>What it costs</h2>
+    </div>
+    <p class="big">Not much, and not the thing to optimise.</p>
+
+    <div class="tw" style="margin-bottom:18px;">
+      <table>
+        <thead><tr><th>What</th><th class="num">Expected</th><th class="num">Worst case</th></tr></thead>
+        <tbody>
+          <tr><td>Building one map, five people</td><td class="num">$3.40</td><td class="num">$12</td></tr>
+          <tr><td>The four-model test</td><td class="num">$5.50</td><td class="num">$18</td></tr>
+          <tr><td>Just the first step, to see the questions</td><td class="num">$0.40</td><td class="num">$1.20</td></tr>
+          <tr><td>Building one map, twelve people</td><td class="num">$8</td><td class="num">$28</td></tr>
+          <tr class="total"><td>Roughly, per person added</td><td class="num">$0.70</td><td class="num">$2</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>The real cost is your time at the two decision points</h3>
+      <p>At twelve people it is about $8 to build and $13 to test. That is noise. Which is why
+         the design spends its effort making the two human reviews fast rather than making the
+         model calls cheap — every close call arrives with the reasoning attached, and everything
+         needing a ruling is collected in one place instead of scattered through the map.</p>
+    </div>
+  </section>
+
+  <!-- ─── 7. WHAT I'M NOT SURE ABOUT ─── -->
+  <section id="unsure">
+    <div class="sechead">
+      <span class="k">07</span>
+      <h2>What this design is unsure about</h2>
+    </div>
+
+    <div class="pull" style="background:var(--st-false-bg);">
+      <h3 style="color:var(--st-false);">The big one: run the first step on the whole team</h3>
+      <p style="color:#5A3602;">Finding the questions reads whoever has been exported so far. If a
+         meaningful part of the team is still missing, the questions it finds may not be the ones
+         the whole team is split on. That is the one thing that cannot be fixed later — a row can
+         be added afterwards, but the framing every other step inherits is already set.</p>
+      <p style="color:#5A3602;margin-bottom:0;"><strong>Everything after that first step is cheap
+         and repeatable. That step is not.</strong> So unless the people still missing are few and
+         peripheral, wait for the complete export before running it.</p>
+    </div>
+
+    <details>
+      <summary>Nine smaller ones</summary>
+      <div class="inner">
+        <ul>
+          <li><strong>Role labels do not anonymise a map internally.</strong> The second most
+            consequential item, and it is a conversation with the client rather than anything the
+            design can change.</li>
+          <li><strong>The line between &ldquo;close call&rdquo; and &ldquo;clear&rdquo; is set by
+            hand.</strong> A starting point to argue with, not a finding. Worth recalibrating
+            after the first real map.</li>
+          <li><strong>Whether the plain-English reasons should be written earlier.</strong> They
+            need to be distinguishable from each other, which is easier to judge when you can see
+            them side by side. Right now they're written after.</li>
+          <li><strong>Whether spotting self-contradictions belongs in the same step as reading.</strong>
+            It's cheaper there and uses the same material, but it means the model test also tests
+            that.</li>
+          <li><strong>Whether the placing step should be allowed to re-read transcripts.</strong>
+            Currently forbidden, so a vivid speaker can't pull their own mark. The cost is that it
+            can't double-check a quote it doubts.</li>
+          <li><strong>We can't prove two people raised something independently</strong> — the
+            export has no timestamps. &ldquo;Separate interviews&rdquo; is the strongest claim
+            available, and the map's confidence wording slightly overstates it.</li>
+          <li><strong>The cost estimates assume how long the outputs will be.</strong> Everything
+            else is measured. If they run long, the expensive models move most.</li>
+          <li><strong>The grader shares a company with one contestant.</strong> Mitigated three
+            ways, not eliminated.</li>
+          <li><strong>None of this has been run.</strong> Every claim about what a step will
+            produce is a prediction. First real move after the questions are picked: run one
+            person through one model and read the output before committing to the rest.</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <!-- ─── 8. WHAT IT NEEDS ─── -->
+  <section id="needs">
+    <div class="sechead">
+      <span class="k">08</span>
+      <h2>What it needs from the team running it</h2>
+    </div>
+    <p class="big">Three things, none of which are in the interviews.</p>
+    <ul>
+      <li><strong>Who is facilitating</strong>, and <strong>how long the session is</strong>. The
+        map allocates time per question against the session length, so without it there is no
+        plan — only a diagnosis.</li>
+      <li><strong>How much of the team has actually been exported.</strong> The first step should
+        read the whole team, for the reason in section 07.</li>
+      <li><strong>Whether the map carries the real company name.</strong> Role labels do not
+        anonymise it for an internal audience. This is a client conversation, and it gates
+        release.</li>
+    </ul>
+  </section>
+
+  <footer class="site">
+    <a class="wordmark" href="#">The<span>Mirror</span>.ai</a>
+    <span>Alignment Map — how it gets built</span>
+    <span>Agent-authored and not reviewed by a human. Treat as a draft.</span>
+    <span>Method only. No client material on this page.</span>
+  </footer>
+
+</div>
+</body>
+</html>
