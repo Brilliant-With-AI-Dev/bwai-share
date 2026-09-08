@@ -57,3 +57,7 @@ receive separate versioned URLs and matching downloads. Never overwrite content
 without Matt explicitly requesting replacement of that named version. Generic
 “go” or “publish” does not authorize replacement. Status metadata can be updated
 when Matt reclassifies versions. Root links to the engagement sub-index only.
+
+Matt also authorized an in-place update to the current combined RC removing its
+How to Use top navigation tab. Retain its existing URL; do not create a new version
+for that removal. Other versions retain their existing navigation.
