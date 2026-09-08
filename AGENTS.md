@@ -44,14 +44,14 @@ adding a directory containing `index.html` and linking it from the root
 
 ### Edelman version status and preservation — Matt, 2026-09-08
 
-The latest copy revision at `edelman-apac-alignment-map-copy-revision-20260908/`
-is the **Current candidate** and must appear first on `edelman-apac/`.
-The morning version at `edelman-apac-alignment-map/` and editorial version at
-`edelman-apac-alignment-map-candidate/` are **Earlier candidates**.
-Other previews and supplements are **Earlier drafts**. No version is currently
-labeled canonical or approved. Preserve all existing URLs and document contents.
-Only status labels and ordering change when reclassifying versions.
-New content revisions get separate versioned URLs and matching HTML downloads.
-Never overwrite existing content without Matt explicitly requesting replacement
-of that named version. Generic “go” or “publish” does not authorize replacement.
-All Edelman links belong under the engagement sub-index; root links there only.
+The combined layout at `edelman-apac-alignment-map-combined-rc-20260908/` is the **Current RC**,
+first and visible on the `edelman-apac/` index. Every previous candidate and draft
+belongs inside the index’s default-closed Previous candidates and drafts box.
+All versions show last-updated dates/times in America/Chicago, based on document
+revision history rather than administrative status-label changes.
+
+Preserve every existing URL and document’s substantive contents. New revisions
+receive separate versioned URLs and matching downloads. Never overwrite content
+without Matt explicitly requesting replacement of that named version. Generic
+“go” or “publish” does not authorize replacement. Status metadata can be updated
+when Matt reclassifies versions. Root links to the engagement sub-index only.
