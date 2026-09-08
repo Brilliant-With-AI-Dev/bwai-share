@@ -41,3 +41,16 @@ disclosure and any content or design review checkpoints Matt requests.
 See `README.md` for the artifact structure. Adding an artifact normally means
 adding a directory containing `index.html` and linking it from the root
 `index.html`; commit and push directly to `main`.
+
+### Edelman version routing — Matt, 2026-09-08
+
+The canonical Edelman map at `edelman-apac-alignment-map/` is the version Matt
+shared on 8 September 2026 at 9:18 AM Central, restored from commit `f6bb974`.
+Only version-identification labels were added. Do not replace its content or
+presentation with later revisions unless Matt explicitly promotes a replacement.
+The editorial overview and vibrant-symbol revision belongs at
+`edelman-apac-alignment-map-candidate/`, clearly labeled Candidate / Not canonical.
+Keep both matching HTML downloads. Put all Edelman document links under the
+`edelman-apac/` sub-index; the root index links only to that engagement index.
+Earlier format and connections drafts are labeled Archive / Superseded.
+Preserve existing direct URLs when reorganizing navigation.
