@@ -1,0 +1,86 @@
+{
+  "latest": 8,
+  "timezone": "America/Chicago",
+  "candidates": [
+    {
+      "version": 1,
+      "title": "Initial continuous-interview prototype",
+      "description": "First preserved September 8 candidate.",
+      "url": "/gotu/mirror-demo-v1/",
+      "updatedAt": "2026-09-08T15:01:45-05:00",
+      "timestampBasis": "preserved source modification time",
+      "sha256": "91d4222af415fffca74e70c327347f4c47ef571179c3bab10e7eccf5a59aae52",
+      "routed": false
+    },
+    {
+      "version": 2,
+      "title": "Consolidated review",
+      "description": "Inline editing and two optional review suggestions.",
+      "url": "/gotu/mirror-demo-v2/",
+      "updatedAt": "2026-09-08T15:52:51-05:00",
+      "timestampBasis": "preserved source modification time",
+      "sha256": "4fd342cac2afb0d7753f80537170c0546f1299418df6c13c5bc371292ad51a01",
+      "routed": false
+    },
+    {
+      "version": 3,
+      "title": "First published September 8 demo",
+      "description": "Opening About screen, prominent reset, and scripted-turn controls.",
+      "url": "/gotu/mirror-demo-v3/",
+      "updatedAt": "2026-09-08T16:08:07-05:00",
+      "timestampBasis": "publication commit",
+      "sha256": "49601bf369def158e0c5a3d018185533cdfa67b206f43c933cc1008edd48c650",
+      "routed": false
+    },
+    {
+      "version": 4,
+      "title": "Demo guidance and quieter labels",
+      "description": "Expanded value proposition, review questions, and compact mock-data labels.",
+      "url": "/gotu/mirror-demo-v4/",
+      "updatedAt": "2026-09-08T16:29:41-05:00",
+      "timestampBasis": "preserved source modification time",
+      "sha256": "8a760550a16286de8fb3aea705b347932c9f0479f10dd08d82866587372d5667",
+      "routed": false
+    },
+    {
+      "version": 5,
+      "title": "First-time welcome and personal follow-up",
+      "description": "Countdown, welcome, mock introduction, and post-submission examples.",
+      "url": "/gotu/mirror-demo-v5/",
+      "updatedAt": "2026-09-08T17:08:08-05:00",
+      "timestampBasis": "preserved source modification time",
+      "sha256": "89a9167f8ded093675b67cea6a51445b51e1ade6072e3117737490c4ce65fc66",
+      "routed": true
+    },
+    {
+      "version": 6,
+      "title": "Document review and two outcomes",
+      "description": "Editing drawers, a proposed interview guide, and the outcome overview.",
+      "url": "/gotu/mirror-demo-v6/about-demo",
+      "updatedAt": "2026-09-08T18:08:48-05:00",
+      "timestampBasis": "preserved source modification time",
+      "sha256": "cec448c8f2c7f10f0ff3b9fee6db40010512c46b7f63dbff77b2783554bc76df",
+      "routed": true
+    },
+    {
+      "version": 7,
+      "title": "Speaking-first welcome",
+      "description": "Stronger microphone guidance before the participant-chat simplification.",
+      "url": "/gotu/mirror-demo-v7/about-demo",
+      "updatedAt": "2026-09-08T18:14:47-05:00",
+      "timestampBasis": "preserved source modification time",
+      "sha256": "bb8bce7818628ef2937e45c757e6e578549169802299e957b04a431a69988ede",
+      "routed": true
+    },
+    {
+      "version": 8,
+      "title": "GoTu Quarterly Planning Mirror",
+      "description": "Conversational drafting, exact approval, and a clean personal follow-up chat.",
+      "url": "/gotu/mirror-demo-v8/about-demo",
+      "updatedAt": "2026-09-08T18:25:05-05:00",
+      "timestampBasis": "preserved source modification time",
+      "sha256": "a5889482289286781aa0fc3ce363f75e3e056de30115e51931ecaf53fa858f81",
+      "routed": true
+    }
+  ]
+}
