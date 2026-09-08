@@ -4,19 +4,19 @@
   "rewrites": [
     {
       "source": "/gotu/mirror-demo-v5/:path*",
-      "destination": "/gotu/mirror-demo-v5/index.html"
+      "destination": "/gotu/mirror-demo-v5/index"
     },
     {
       "source": "/gotu/mirror-demo-v6/:path*",
-      "destination": "/gotu/mirror-demo-v6/index.html"
+      "destination": "/gotu/mirror-demo-v6/index"
     },
     {
       "source": "/gotu/mirror-demo-v7/:path*",
-      "destination": "/gotu/mirror-demo-v7/index.html"
+      "destination": "/gotu/mirror-demo-v7/index"
     },
     {
       "source": "/gotu/mirror-demo-v8/:path*",
-      "destination": "/gotu/mirror-demo-v8/index.html"
+      "destination": "/gotu/mirror-demo-v8/index"
     }
   ]
 }
