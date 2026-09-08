@@ -54,3 +54,13 @@ Keep both matching HTML downloads. Put all Edelman document links under the
 `edelman-apac/` sub-index; the root index links only to that engagement index.
 Earlier format and connections drafts are labeled Archive / Superseded.
 Preserve existing direct URLs when reorganizing navigation.
+
+### Canonical morning copy revision — Matt, 2026-09-08
+
+Matt approved the scoped morning copy revision and authorized completing the plan.
+The canonical map now contains six statement headlines, clarified labels, revised
+Connections to Test framing, and compact topic/statement/question overview headers.
+The original morning snapshot is retained at
+`edelman-apac-alignment-map/morning-0918.html`. This supersedes the earlier
+"version-identification labels only" baseline. The editorial candidate remains
+separate and unchanged. Canonical downloads must match the current canonical HTML.
