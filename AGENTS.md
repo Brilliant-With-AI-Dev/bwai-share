@@ -47,8 +47,10 @@ adding a directory containing `index.html` and linking it from the root
 The combined layout at `edelman-apac-alignment-map-combined-rc-20260908/` is the **Current RC**,
 first and visible on the `edelman-apac/` index. Every previous candidate and draft
 belongs inside the index’s default-closed Previous candidates and drafts box.
-All versions show last-updated dates/times in America/Chicago, based on document
-revision history rather than administrative status-label changes.
+The index shows each version’s last-updated date/time in America/Chicago, based
+on document revision history rather than administrative status-label changes.
+Matt requested removing version/status headers from all documents. Keep status
+and timestamps on the index only; do not reintroduce document version banners.
 
 Preserve every existing URL and document’s substantive contents. New revisions
 receive separate versioned URLs and matching downloads. Never overwrite content
