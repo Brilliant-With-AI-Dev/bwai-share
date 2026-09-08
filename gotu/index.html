@@ -1,0 +1,117 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GoTu — Demos &amp; planning materials</title><link rel="icon" href="/icon.svg" type="image/svg+xml"><style>
+      :root {
+        --bg: #f6f8fb;
+        --surface: #ffffff;
+        --ink: #0f1a2e;
+        --ink-2: #3a4861;
+        --ink-3: #6b7790;
+        --line: #d6dde8;
+        --accent: #e40014;
+        --accent-soft: #fdecee;
+        --shadow:
+          0 1px 2px rgba(15, 26, 46, 0.04), 0 4px 12px rgba(15, 26, 46, 0.06);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 80px 32px 64px;
+      }
+      header {
+        margin-bottom: 48px;
+      }
+      h1 {
+        font-size: 28px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        margin: 0 0 8px;
+        color: var(--ink);
+      }
+      header p {
+        margin: 0;
+        color: var(--ink-3);
+        font-size: 15px;
+      }
+      h2 {
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-3);
+        margin: 0 0 16px;
+      }
+      ul.artifacts {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      ul.artifacts li {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        transition:
+          border-color 0.15s ease,
+          transform 0.15s ease;
+      }
+      ul.artifacts li:hover {
+        border-color: var(--accent);
+        transform: translateY(-1px);
+      }
+      ul.artifacts a {
+        display: block;
+        padding: 18px 22px;
+        text-decoration: none;
+        color: inherit;
+      }
+      ul.artifacts .title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--accent);
+        margin: 0 0 4px;
+      }
+      ul.artifacts .meta {
+        font-size: 13px;
+        color: var(--ink-3);
+        margin: 0;
+      }
+      footer {
+        margin-top: 56px;
+        padding-top: 24px;
+        border-top: 1px solid var(--line);
+        font-size: 12px;
+        color: var(--ink-3);
+      }
+      footer a {
+        color: var(--ink-2);
+      }
+    
+.wrap{max-width:850px;padding-top:40px}header{margin-bottom:28px}.back{display:inline-block;margin-bottom:24px;color:var(--ink-2);font-size:13px}section+section{margin-top:30px}.version-card{padding:22px;background:white;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow)}.version-card.canonical{border-left:4px solid #2458b8}.version-card.candidate{border-left:4px solid #be8009}.status{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#2458b8}.candidate .status{color:#8a5900}.version-card h3{font-size:21px;margin:8px 0}.version-card p{font-size:14px;color:var(--ink-2);margin:0 0 16px}.actions{display:flex;gap:18px;flex-wrap:wrap;align-items:center}.actions a{font-size:14px;color:#234ba0}.actions .primary{background:#182642;color:white;text-decoration:none;padding:8px 14px;border-radius:5px}.archive-list{list-style:none;margin:0;padding:0}.archive-list li{padding:14px 0;border-bottom:1px solid var(--line)}.archive-list a{color:#234ba0;font-size:15px}.archive-list p{margin:4px 0 0;color:var(--ink-3);font-size:13px}footer{margin-top:32px}</style></head><body><main class="wrap"><a class="back" href="/">← All shared artifacts</a><header><h1>GoTu</h1><p>Quarterly Planning Mirror demos and planning materials.</p></header>
+<section aria-labelledby="current-title"><div class="version-card canonical"><span class="status">Current prototype · For review</span><h3 id="current-title">Quarterly Planning Mirror — continuous interview</h3><p>8 September 2026. Start with the basics, explore one continuous interview, then review and approve the exact planning handoff. Includes inline revisions, an approved copy, and Tev’s spreadsheet preview.</p><p>Agent-authored reenactment using historical source answers and invented elaborations. All interactions are simulated. No live AI, recording, or delivery.</p><div class="actions"><a class="primary" href="/gotu/mirror-demo/">Open current demo</a></div></div></section>
+<section aria-labelledby="earlier-title"><h2 id="earlier-title">Earlier demos &amp; planning materials</h2><ul class="archive-list">
+<li><a href="/gotu-quarterly-mirror-demo/">Earlier interactive Mirror walkthrough</a><p>3 September 2026 · Earlier mockup of private reflection, tailored prompts, and reviewed submission. Preserved for comparison.</p></li>
+<li><a href="/gotu-planning-mirror-flow/">Planning Mirror stages</a><p>31 July 2026 · Planning-cycle flow, stage outputs, and trust principles.</p></li>
+<li><a href="/gotu-p0-walkthrough/">Mirror experience — end-to-end preview</a><p>23 June 2026 · Earlier screen-by-screen walkthrough of the pre-workshop experience.</p></li>
+</ul></section>
+<section aria-labelledby="related-title"><h2 id="related-title">Related product context</h2><ul class="archive-list"><li><a href="/ai-mirror-initiative-platform-walkthrough/">AI Mirror leadership-team platform decision</a><p>21 July 2026 · Platform hypothesis and a proposed experiment grounded in GoTu evidence.</p></li><li><a href="/mirror-product-synthesis/">Mirror — cross-meeting product synthesis</a><p>17 June 2026 · Product decisions and planning leading toward the July GoTu workshop.</p></li></ul></section>
+<footer>Agent-authored index and prototype revision; not yet finally reviewed by Matt. Earlier artifacts retain their original URLs and disclosures.</footer></main></body></html>
