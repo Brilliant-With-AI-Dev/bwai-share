@@ -42,25 +42,16 @@ See `README.md` for the artifact structure. Adding an artifact normally means
 adding a directory containing `index.html` and linking it from the root
 `index.html`; commit and push directly to `main`.
 
-### Edelman version routing — Matt, 2026-09-08
+### Edelman version status and preservation — Matt, 2026-09-08
 
-The canonical Edelman map at `edelman-apac-alignment-map/` is the version Matt
-shared on 8 September 2026 at 9:18 AM Central, restored from commit `f6bb974`.
-Only version-identification labels were added. Do not replace its content or
-presentation with later revisions unless Matt explicitly promotes a replacement.
-The editorial overview and vibrant-symbol revision belongs at
-`edelman-apac-alignment-map-candidate/`, clearly labeled Candidate / Not canonical.
-Keep both matching HTML downloads. Put all Edelman document links under the
-`edelman-apac/` sub-index; the root index links only to that engagement index.
-Earlier format and connections drafts are labeled Archive / Superseded.
-Preserve existing direct URLs when reorganizing navigation.
-
-### No overwriting Edelman versions — Matt, 2026-09-08
-
-Restore and preserve the original 9:18 AM canonical at `edelman-apac-alignment-map/`.
-The copy revision is separately published at
-`edelman-apac-alignment-map-copy-revision-20260908/`, labeled Not canonical.
-The editorial candidate remains at its existing URL. New revisions receive
-separate versioned URLs and matching downloads; do not overwrite existing
-versions unless Matt explicitly requests replacement of that named version.
-A generic "go" or "publish" does not authorize replacing the canonical version.
+The latest copy revision at `edelman-apac-alignment-map-copy-revision-20260908/`
+is the **Current candidate** and must appear first on `edelman-apac/`.
+The morning version at `edelman-apac-alignment-map/` and editorial version at
+`edelman-apac-alignment-map-candidate/` are **Earlier candidates**.
+Other previews and supplements are **Earlier drafts**. No version is currently
+labeled canonical or approved. Preserve all existing URLs and document contents.
+Only status labels and ordering change when reclassifying versions.
+New content revisions get separate versioned URLs and matching HTML downloads.
+Never overwrite existing content without Matt explicitly requesting replacement
+of that named version. Generic “go” or “publish” does not authorize replacement.
+All Edelman links belong under the engagement sub-index; root links there only.
