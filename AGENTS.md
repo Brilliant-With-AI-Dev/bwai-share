@@ -61,3 +61,13 @@ when Matt reclassifies versions. Root links to the engagement sub-index only.
 Matt also authorized an in-place update to the current combined RC removing its
 How to Use top navigation tab. Retain its existing URL; do not create a new version
 for that removal. Other versions retain their existing navigation.
+
+### Current RC cleanup — Matt, 2026-09-08
+
+Matt authorized replacing the current combined RC in place: remove the entire
+How to Use page and every link to it; place Blind Spots and Moonshots evidence
+on their cards; remove Matt/Nish review and retrieval-status copy; and remove
+the last page’s Next arrow. Keep capacity under Divergent Perspectives with
+“Similar POV, Divergent Approaches.” Clarify its explanatory copy without moving
+the topic, changing its category, or inventing opposition between leaders.
+Keep the matching HTML download identical. Earlier versions remain preserved.
