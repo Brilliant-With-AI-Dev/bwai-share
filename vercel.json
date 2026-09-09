@@ -4,20 +4,28 @@
   "trailingSlash": true,
   "redirects": [
     { "source": "/edelman-apac", "destination": "/edelman-content-unavailable/", "permanent": false },
+    { "source": "/edelman-apac/", "destination": "/edelman-content-unavailable/", "permanent": false },
     { "source": "/edelman-apac/:path*", "destination": "/edelman-content-unavailable/", "permanent": false },
     { "source": "/edelman-apac-alignment-map", "destination": "/edelman-content-unavailable/", "permanent": false },
+    { "source": "/edelman-apac-alignment-map/", "destination": "/edelman-content-unavailable/", "permanent": false },
     { "source": "/edelman-apac-alignment-map/:path*", "destination": "/edelman-content-unavailable/", "permanent": false },
     { "source": "/edelman-apac-alignment-map-candidate", "destination": "/edelman-content-unavailable/", "permanent": false },
+    { "source": "/edelman-apac-alignment-map-candidate/", "destination": "/edelman-content-unavailable/", "permanent": false },
     { "source": "/edelman-apac-alignment-map-candidate/:path*", "destination": "/edelman-content-unavailable/", "permanent": false },
     { "source": "/edelman-apac-alignment-map-combined-rc-20260908", "destination": "/edelman-content-unavailable/", "permanent": false },
+    { "source": "/edelman-apac-alignment-map-combined-rc-20260908/", "destination": "/edelman-content-unavailable/", "permanent": false },
     { "source": "/edelman-apac-alignment-map-combined-rc-20260908/:path*", "destination": "/edelman-content-unavailable/", "permanent": false },
     { "source": "/edelman-apac-alignment-map-copy-revision-20260908", "destination": "/edelman-content-unavailable/", "permanent": false },
+    { "source": "/edelman-apac-alignment-map-copy-revision-20260908/", "destination": "/edelman-content-unavailable/", "permanent": false },
     { "source": "/edelman-apac-alignment-map-copy-revision-20260908/:path*", "destination": "/edelman-content-unavailable/", "permanent": false },
     { "source": "/edelman-apac-alignment-map-quote-free-20260909", "destination": "/edelman-content-unavailable/", "permanent": false },
+    { "source": "/edelman-apac-alignment-map-quote-free-20260909/", "destination": "/edelman-content-unavailable/", "permanent": false },
     { "source": "/edelman-apac-alignment-map-quote-free-20260909/:path*", "destination": "/edelman-content-unavailable/", "permanent": false },
     { "source": "/edelman-apac-format-preview", "destination": "/edelman-content-unavailable/", "permanent": false },
+    { "source": "/edelman-apac-format-preview/", "destination": "/edelman-content-unavailable/", "permanent": false },
     { "source": "/edelman-apac-format-preview/:path*", "destination": "/edelman-content-unavailable/", "permanent": false },
     { "source": "/edelman-apac-six-connections", "destination": "/edelman-content-unavailable/", "permanent": false },
+    { "source": "/edelman-apac-six-connections/", "destination": "/edelman-content-unavailable/", "permanent": false },
     { "source": "/edelman-apac-six-connections/:path*", "destination": "/edelman-content-unavailable/", "permanent": false }
   ]
 }
