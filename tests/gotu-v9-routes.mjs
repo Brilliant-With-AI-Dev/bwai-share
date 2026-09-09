@@ -17,13 +17,14 @@ async function findRouteFiles(directory) {
 }
 
 const files = await findRouteFiles(demoRoot);
-assert.deepEqual(files, [join(demoRoot, 'index.html')], 'expected one v9 HTML shell');
+assert.equal(files.length, 18, 'expected all 18 v9 route entry points');
 
-const html = await readFile(join(demoRoot, 'index.html'), 'utf8');
+const documents = await Promise.all(files.map(file => readFile(file, 'utf8')));
+assert.equal(new Set(documents).size, 1, 'route entry points must remain identical');
+const html = documents[0];
 const css = await readFile(join(demoRoot, 'styles.css'), 'utf8');
 const model = await readFile(join(demoRoot, 'model.js'), 'utf8');
 const app = await readFile(join(demoRoot, 'app.js'), 'utf8');
-const config = JSON.parse(await readFile(join(root, 'vercel.json'), 'utf8'));
 
 for (const asset of ['styles.css', 'model.js', 'app.js']) {
   assert.match(html, new RegExp(`/gotu/mirror-demo-v9/${asset}`), `missing ${asset} reference`);
@@ -42,13 +43,10 @@ for (const asset of assets) {
   if (asset.endsWith('.ttf')) assert.equal(bytes.subarray(0, 4).toString('hex'), '00010000');
 }
 
-assert.ok((await stat(join(demoRoot, 'index.html'))).size < 5_000, 'HTML shell regressed above 5 KB');
+for (const file of files) {
+  assert.ok((await stat(file)).size < 5_000, 'HTML entry point regressed above 5 KB');
+}
 assert.ok((await stat(join(demoRoot, 'styles.css'))).size < 100_000, 'CSS bundle regressed above 100 KB');
 assert.ok((await stat(join(demoRoot, 'app.js'))).size < 100_000, 'app bundle regressed above 100 KB');
 
-assert.deepEqual(config.rewrites?.find(rule => rule.source === '/gotu/mirror-demo-v9/:path*'), {
-  source: '/gotu/mirror-demo-v9/:path*',
-  destination: '/gotu/mirror-demo-v9/index'
-}, 'missing v9 SPA rewrite');
-
-console.log('Validated one cached v9 shell, external assets, and SPA routing.');
+console.log('Validated 18 small route entries sharing cached v9 assets.');

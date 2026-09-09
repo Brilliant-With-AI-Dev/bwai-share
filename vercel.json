@@ -1,11 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
-  "trailingSlash": true,
-  "rewrites": [
-    {
-      "source": "/gotu/mirror-demo-v9/:path*",
-      "destination": "/gotu/mirror-demo-v9/index"
-    }
-  ]
+  "trailingSlash": true
 }
