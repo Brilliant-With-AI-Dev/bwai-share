@@ -48,7 +48,7 @@ assert.ok((await stat(join(demoRoot, 'app.js'))).size < 100_000, 'app bundle reg
 
 assert.deepEqual(config.rewrites?.find(rule => rule.source === '/gotu/mirror-demo-v9/:path*'), {
   source: '/gotu/mirror-demo-v9/:path*',
-  destination: '/gotu/mirror-demo-v9/'
+  destination: '/gotu/mirror-demo-v9/index'
 }, 'missing v9 SPA rewrite');
 
 console.log('Validated one cached v9 shell, external assets, and SPA routing.');

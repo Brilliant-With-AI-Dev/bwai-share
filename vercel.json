@@ -5,7 +5,7 @@
   "rewrites": [
     {
       "source": "/gotu/mirror-demo-v9/:path*",
-      "destination": "/gotu/mirror-demo-v9/"
+      "destination": "/gotu/mirror-demo-v9/index"
     }
   ]
 }
