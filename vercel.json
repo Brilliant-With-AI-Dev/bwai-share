@@ -8,6 +8,7 @@
     { "source": "/edelman-apac/:path*", "destination": "/edelman-content-unavailable/", "permanent": false },
     { "source": "/edelman-apac-alignment-map", "destination": "/edelman-content-unavailable/", "permanent": false },
     { "source": "/edelman-apac-alignment-map/", "destination": "/edelman-content-unavailable/", "permanent": false },
+    { "source": "/edelman-apac-alignment-map/morning-0918/", "destination": "/edelman-content-unavailable/", "permanent": false },
     { "source": "/edelman-apac-alignment-map/:path*", "destination": "/edelman-content-unavailable/", "permanent": false },
     { "source": "/edelman-apac-alignment-map-candidate", "destination": "/edelman-content-unavailable/", "permanent": false },
     { "source": "/edelman-apac-alignment-map-candidate/", "destination": "/edelman-content-unavailable/", "permanent": false },
