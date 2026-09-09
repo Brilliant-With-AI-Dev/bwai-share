@@ -358,7 +358,7 @@ const approvalCount=()=>state.answers.filter(Model.isApproved).length;
 const selected=()=>state.answers.find(a=>a.id===focusId);
 const status=a=>`<span class="pill ${Model.isApproved(a)?'green':''}">${Model.isApproved(a)?'Approved':'Needs approval'} · version ${a.version}</span>`;
 function dispatch(action){state=Model.reduce(state,action);render();}
-const BASE='/mirror-demo';
+const BASE='/gotu/mirror-demo-v9';
 const SLUGS={back:'looking-back',Executive:'executive',GTM:'gtm',forward:'looking-forward'};
 let routeSection=null,countdown=5,countdownTimer=null,micTimer=null,videoTimer=null,videoTick=0,videoPlaying=false,modalStep='',selectedOutput=null,historyRender=false,chatTurns=[];
 const routePath=()=>view==='interview'?BASE+'/interview/'+(routeSection||SLUGS[state.chapters[state.chapter]?.id]||'looking-back'):BASE+({about:'/about-demo',outcomes:'/outcomes',tev:'/for-tev',group:'/group-brief',guide:'/interview-guide',initializing:'/initializing',start:'/start',voice:'/voice-guide',welcome:'/form',review:'/review',chat:'/chat',complete:'/copy',sheet:'/sheet'}[view]||'');
