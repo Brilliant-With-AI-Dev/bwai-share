@@ -38,9 +38,33 @@ disclosure and any content or design review checkpoints Matt requests.
 
 ## Artifacts
 
-See `README.md` for the artifact structure. Adding an artifact normally means
-adding a directory containing `index.html` and linking it from the root
-`index.html`; commit and push directly to `main`.
+See `README.md` for the artifact structure. Standalone artifacts may link directly
+from the root index. Projects likely to have multiple iterations (for example,
+Edelman or GoTu Quarterly Planning) must have their own project index, linked
+from the main index. Link project versions through that project index.
+
+### Project indexes and promotion — Matt, 2026-09-10
+
+- At the top of each project index, show the most current promoted (approved)
+  version and at most one new promotion candidate. Label their statuses clearly
+  and separately: **Approved** and **Candidate — not approved**.
+- If no version is approved, say so explicitly. Publication, recency, or an agent
+  review does not confer approval. Promote only with explicit human approval.
+- Put older versions and supporting work in a default-closed, toggled dropdown.
+  Preserve their URLs and label each item’s status. A superseded candidate is
+  still unapproved; never imply that age makes it approved.
+- Always distinguish approved work from candidates in project links and status
+  copy. Keep project-specific presentation rules, including Edelman’s index-only
+  version labels, unless Matt explicitly changes them.
+- Client/prospect-facing artifacts must be free of internal notes, working titles,
+  presenter instructions, review debates, source-retrieval commentary, and other
+  internal process material before publication as a candidate or promotion as
+  approved. Remove this material from the published files and routes; hiding
+  links or collapsing it is insufficient. Keep internal supporting work outside
+  the public deployment. Retain concise audience-relevant limitations and clear
+  fictional/simulated labels.
+- Limit each publication to the authorized project and files. Commit and push
+  completed work directly to `main`.
 
 ### Edelman version status and preservation — Matt, 2026-09-08
 
