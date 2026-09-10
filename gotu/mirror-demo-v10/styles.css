@@ -245,3 +245,5 @@ main:focus{outline:none}
 .prelude-begin .demo-explainer{margin-top:40px}
 @media(max-width:700px){.prelude-controls{flex-wrap:wrap}.prelude-controls button{flex:1 1 auto}.prelude-question-list>ul{font-size:21px}.prelude-question-list ul ul{font-size:18px}}
 @media(min-width:1101px){.shell.ftue:has(.prelude-flow){max-width:1280px;min-height:calc(100svh - 136px)}.shell.ftue:has(.prelude-flow) main{padding:24px 32px}.prelude-flow{max-width:1216px}.prelude-flow h1{font-size:48px;margin:4px 0 12px}.prelude-flow>.lead{max-width:none;margin-bottom:12px}.prelude-flow .functional-overview{grid-template-columns:repeat(4,minmax(0,1fr)) minmax(0,1.45fr);margin:20px 0}.prelude-flow .functional-overview li,.prelude-flow .functional-overview li+li{padding:16px 22px;min-height:0}.prelude-flow .functional-overview p{font-size:14px;line-height:1.5}.prelude-flow .stage-marker{margin-bottom:12px}.prelude-flow .prelude-controls{margin-top:20px}}
+
+.flow-demo-notes h2{font-family:var(--font-body);font-size:22px;font-weight:600;letter-spacing:normal;margin:0 0 16px}.flow-demo-notes ul{padding-left:22px;margin:0 0 20px}.flow-demo-notes li+li{margin-top:10px}
