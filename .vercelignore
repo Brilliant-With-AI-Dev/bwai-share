@@ -1,0 +1,2 @@
+# Copy-review tooling and catalogs are repository-only; review packages live outside this repository.
+tools/gotu-copy/
