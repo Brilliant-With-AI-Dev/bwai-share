@@ -3,7 +3,7 @@
 Export → edit/comment → discuss → preview → finalize → import.
 
 This is an explicit agent-assisted workflow. There is no two-way synchronization.
-The maintained catalog preserves the 164 reconciled v10 review blocks, stable IDs,
+The maintained catalog preserves the 167 reconciled v10 review blocks, stable IDs,
 page order, source-owner references, and exact source fingerprints.
 
 Python 3.10+ runs the scripts; Node.js syntax-checks proposed JavaScript patches.
