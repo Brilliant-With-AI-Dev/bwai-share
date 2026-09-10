@@ -232,3 +232,16 @@ main:focus{outline:none}
 .framing-controls button{font-size:16px;padding:12px 22px}
 .framing-return{margin:0 0 20px;padding-left:0}
 @media(max-width:700px){.shell.ftue:has(.meeting-framing) main{padding-top:32px;padding-bottom:32px}.meeting-framing>.eyebrow{margin-bottom:20px}.meeting-framing h1{font-size:44px}.framing-scope,.framing-aim p{font-size:21px}.framing-aim{padding-left:18px;margin:28px 0}.framing-controls{margin-top:28px}}
+
+/* Four-step presentation prelude. */
+.prelude-controls{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:28px}
+.prelude-controls button{font-size:16px;padding:12px 20px}
+.prelude-questions h1{font-size:clamp(36px,4.3vw,56px);margin-bottom:24px}
+.prelude-question-list>ul{margin:0;padding-left:26px;font-size:23px;line-height:1.45}
+.prelude-question-list>ul>li+li{margin-top:16px}
+.prelude-question-list ul ul{font-size:19px;line-height:1.45;margin-top:10px;padding-left:24px;color:var(--color-text-secondary)}
+.prelude-question-list ul ul li+li{margin-top:6px}
+.prelude-begin .prelude-controls{margin-top:40px}
+.prelude-begin .demo-explainer{margin-top:40px}
+@media(max-width:700px){.prelude-controls{flex-wrap:wrap}.prelude-controls button{flex:1 1 auto}.prelude-question-list>ul{font-size:21px}.prelude-question-list ul ul{font-size:18px}}
+@media(min-width:1101px){.shell.ftue:has(.prelude-flow){max-width:1280px;min-height:calc(100svh - 136px)}.shell.ftue:has(.prelude-flow) main{padding:24px 32px}.prelude-flow{max-width:1216px}.prelude-flow h1{font-size:48px;margin:4px 0 12px}.prelude-flow>.lead{max-width:none;margin-bottom:12px}.prelude-flow .functional-overview{grid-template-columns:repeat(4,minmax(0,1fr)) minmax(0,1.45fr);margin:20px 0}.prelude-flow .functional-overview li,.prelude-flow .functional-overview li+li{padding:16px 22px;min-height:0}.prelude-flow .functional-overview p{font-size:14px;line-height:1.5}.prelude-flow .stage-marker{margin-bottom:12px}.prelude-flow .prelude-controls{margin-top:20px}}
