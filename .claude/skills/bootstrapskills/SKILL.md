@@ -15,6 +15,7 @@ Wire this repository so Claude Code, Cursor, and cloud/Cowork-compatible session
 
 - `compound-engineering@compound-engineering-plugin`
 - `compound-knowledge@compound-knowledge-plugin`
+- `compound-writing@compound-writing`
 - `mattpocock-skills@claude-plugins-official`
 
 **Personal skills** (copied into `.claude/skills`, `.cursor/skills`, `.agents/skills`):
@@ -24,6 +25,11 @@ Wire this repository so Claude Code, Cursor, and cloud/Cowork-compatible session
 **Compound Knowledge skills** (Cursor/agents copies; Claude usually loads via plugin):
 
 - kw-brainstorm, kw-compound, kw-confidence, kw-plan, kw-review, kw-work
+
+**Compound Writing cw-*** (Cursor/agents copies; Claude usually loads via plugin):
+
+- Front door: `cw-scribe`. Compound step: `cw-save`. Full toolbox: all `skills/cw-*`.
+- Also copy plugin `references/` and `defaults/` next to `skills/` in `.cursor`, `.agents`, and `.claude` so relative paths in `cw-save` and `cw-setup-project` resolve. Do not impose a `VOICE.md`/`STYLE.md` writing-home on a repo that already has writing context.
 
 **Matt Pocock skills** (flattened from the official plugin cache):
 
@@ -45,7 +51,7 @@ Run from the **repository root**.
 ```bash
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 cd "$REPO_ROOT"
-mkdir -p .claude/skills .cursor/skills .agents/skills
+mkdir -p .claude/skills .claude/references .claude/defaults .cursor/skills .cursor/references .cursor/defaults .agents/skills .agents/references .agents/defaults
 ```
 
 If Claude plugins are missing locally, install/enable them (user scope):
@@ -53,8 +59,10 @@ If Claude plugins are missing locally, install/enable them (user scope):
 ```bash
 claude plugin marketplace add EveryInc/compound-engineering-plugin 2>/dev/null || true
 claude plugin marketplace add EveryInc/compound-knowledge-plugin 2>/dev/null || true
+claude plugin marketplace add EveryInc/compound-writing 2>/dev/null || true
 claude plugin install compound-engineering@compound-engineering-plugin -s user || true
 claude plugin install compound-knowledge@compound-knowledge-plugin -s user || true
+claude plugin install compound-writing@compound-writing -s user || true
 claude plugin install mattpocock-skills@claude-plugins-official -s user || true
 ```
 
@@ -73,9 +81,13 @@ data["extraKnownMarketplaces"]["compound-engineering-plugin"] = {
 data["extraKnownMarketplaces"]["compound-knowledge-plugin"] = {
   "source": {"source": "github", "repo": "EveryInc/compound-knowledge-plugin"}
 }
+data["extraKnownMarketplaces"]["compound-writing"] = {
+  "source": {"source": "github", "repo": "EveryInc/compound-writing"}
+}
 data.setdefault("enabledPlugins", {})
 data["enabledPlugins"]["compound-engineering@compound-engineering-plugin"] = True
 data["enabledPlugins"]["compound-knowledge@compound-knowledge-plugin"] = True
+data["enabledPlugins"]["compound-writing@compound-writing"] = True
 data["enabledPlugins"]["mattpocock-skills@claude-plugins-official"] = True
 os.makedirs(".claude", exist_ok=True)
 json.dump(data, open(path, "w"), indent=2)
@@ -100,6 +112,13 @@ Canonical sources (prefer first existing path):
 
 - `$HOME/.claude/plugins/cache/compound-knowledge-plugin/compound-knowledge/*/skills/<name>/`
 
+**Compound Writing cw-***
+
+- `$HOME/.claude/plugins/marketplaces/compound-writing/skills/<name>/`
+- `$HOME/.claude/plugins/cache/compound-writing/compound-writing/*/skills/<name>/`
+
+Also copy the plugin `references/` and `defaults/` trees to `.cursor`, `.agents`, `.claude`, and the matching `$HOME` trees (needed because `cw-save` reads `../../references` and `cw-setup-project` resolves `defaults/project-template` from the plugin root).
+
 Copy with `rsync -a --delete` into:
 
 - `.claude/skills/<name>/` (personal + matt; kw optional here)
@@ -121,14 +140,15 @@ Print:
 | personal skills present | count |
 | mattpocock skills present | count |
 | kw skills present | count |
+| cw skills present | count |
 | ready to commit | list paths |
 
 Then tell the user the **cloud commit** they need:
 
 ```bash
-git add .claude/settings.json .claude/skills .cursor/skills .agents/skills
+git add .claude/settings.json .claude/skills .claude/references .claude/defaults .cursor/skills .cursor/references .cursor/defaults .agents/skills .agents/references .agents/defaults
 git status --short
-git commit -m "Bootstrap agent skills and Compound/Matt Pocock plugins for cloud"
+git commit -m "Bootstrap agent skills and Compound Engineering/Knowledge/Writing plugins for cloud"
 git push
 ```
 
