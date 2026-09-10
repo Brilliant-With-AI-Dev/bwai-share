@@ -219,18 +219,16 @@ main:focus{outline:none}
 @media print{dialog{display:none!important}@page{size:letter;margin:16mm}body{background:var(--color-surface-floating);font-size:11pt;line-height:1.5}#app,.skip{display:none!important}.print-only{display:block!important}h1{font-size:25pt}h2{font-size:19pt;margin-top:24px}h3{font-size:12pt}p{orphans:3;widows:3}.print-field{margin:16px 0;break-inside:avoid}.print-field p{white-space:pre-wrap}.print-section{margin-top:24px}.print-section>h2{break-after:avoid}.print-field h3{margin-bottom:4px}.print-meta{font-size:10pt;color:var(--color-text-secondary)}}
 
 /* Opening framing within About this Demo. */
-.meeting-framing{max-width:1080px;margin:0 auto;padding:8px 0 0}
-.framing-topline{display:flex;align-items:center;justify-content:space-between;gap:16px}
-.framing-topline .eyebrow{margin:0}
-.meeting-framing h1{font-size:clamp(38px,4.7vw,64px);max-width:19ch;margin:24px 0 18px;line-height:1.08}
-.meeting-framing>.lead{max-width:58ch;font-size:21px}
-.framing-points{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;margin:34px 0 28px}
-.framing-points.three{grid-template-columns:repeat(3,minmax(0,1fr))}
-.framing-points article{border-top:1px solid var(--color-border-strong);padding-top:16px}
-.framing-number{font-size:12px;font-weight:600;color:var(--color-feedback-success)}
-.framing-points h2{font-family:var(--font-body);font-size:21px;font-weight:600;letter-spacing:normal;margin:8px 0 10px}
-.framing-points p{font-size:17px;line-height:1.6;margin:0;max-width:46ch}
-.framing-note{font-size:14px;line-height:1.6;max-width:90ch;padding:16px 20px;border-left:3px solid var(--color-action-primary);background:var(--accent-pop-emerald-faint)}
-.framing-controls{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-top:28px}
+.shell.ftue:has(.meeting-framing){min-height:calc(100svh - 136px)}
+.shell.ftue:has(.meeting-framing) main{padding-top:40px;padding-bottom:36px}
+.meeting-framing{max-width:1080px;margin:0 auto}
+.meeting-framing>.eyebrow{margin:0 0 22px;color:var(--color-feedback-success)}
+.meeting-framing h1{font-size:clamp(44px,5.5vw,72px);line-height:1.08;margin:0 0 24px;max-width:22ch}
+.framing-scope{font-size:24px;line-height:1.5;max-width:55ch;margin:0;color:var(--color-text-secondary)}
+.framing-aim{border-left:3px solid var(--color-action-primary);padding:4px 0 4px 24px;margin:36px 0}
+.framing-aim h2{font-family:var(--font-body);font-size:15px;font-weight:600;letter-spacing:normal;line-height:1.4;margin:0 0 10px}
+.framing-aim p{font-size:24px;line-height:1.5;max-width:49ch;margin:0}
+.framing-controls{display:flex;justify-content:flex-start;margin-top:32px}
+.framing-controls button{font-size:16px;padding:12px 22px}
 .framing-return{margin:0 0 20px;padding-left:0}
-@media(max-width:700px){.framing-points,.framing-points.three{grid-template-columns:1fr;gap:22px;margin:28px 0}.meeting-framing>.lead{font-size:19px}.framing-points p{font-size:16px}.meeting-framing h1{margin-top:20px}.framing-controls{align-items:stretch;flex-wrap:wrap}.framing-controls button{flex:1 1 auto}.framing-note{padding:14px 16px}}
+@media(max-width:700px){.shell.ftue:has(.meeting-framing) main{padding-top:32px;padding-bottom:32px}.meeting-framing>.eyebrow{margin-bottom:20px}.meeting-framing h1{font-size:44px}.framing-scope,.framing-aim p{font-size:21px}.framing-aim{padding-left:18px;margin:28px 0}.framing-controls{margin-top:28px}}
