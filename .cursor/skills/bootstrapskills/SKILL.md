@@ -121,7 +121,7 @@ Also copy the plugin `references/` and `defaults/` trees to `.cursor`, `.agents`
 
 Copy with `rsync -a --delete` into:
 
-- `.claude/skills/<name>/` (personal + matt; kw optional here)
+- `.claude/skills/<name>/` (personal + matt + ce-* + kw-* + cw-* — required for Claude Code cloud / Cowork-with-repo)
 - `.cursor/skills/<name>/` (all)
 - `.agents/skills/<name>/` (all)
 
