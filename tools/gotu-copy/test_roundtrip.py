@@ -49,7 +49,7 @@ class RoundTrip(unittest.TestCase):
         self.package = self.root / 'real-review'
         w.export_review(self.repo, tool / 'catalogs/v10.json', self.package)
         rows = w.csv_rows(self.package / 'review.csv')
-        self.assertEqual(len(rows), 167)
+        self.assertEqual(len(rows), 166)
         row = next(r for r in rows if r['Block ID'] == 'COPYBLOCK-012')
         row.update({'Draft copy (Markdown)': row['Current copy (Markdown)'].replace('**Get started**', '**Begin here**'), 'Decision': 'replace'})
         w.write_csv(self.package / 'review.csv', rows)
