@@ -2,11 +2,13 @@
   "format": "gotu-copy-review/1",
   "source": {
     "candidate": "gotu/mirror-demo-v10",
-    "commit": "5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+    "commit": "c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
     "url": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo/",
     "files": {
+      "about-demo/flow/index.html": "3ef6dd511e9c6c06128cf777ac87b8a760023fa8de71a4194275c96eaf4ecf77",
       "about-demo/index.html": "3ef6dd511e9c6c06128cf777ac87b8a760023fa8de71a4194275c96eaf4ecf77",
-      "app.js": "94c912f8d63517bd3a6b16bf36e1cefeb7dc5dd29aa3c47c621a7dbbb2138cef",
+      "about-demo/questions/index.html": "3ef6dd511e9c6c06128cf777ac87b8a760023fa8de71a4194275c96eaf4ecf77",
+      "app.js": "4e34a4f44ad0218a877f2267ed9ce2009fc7f8c4edca2190ed0fe4bc5bfdcaab",
       "assets/newsreader-400.ttf": "b8f5e0a8bdd6a12c722ca5635d9da87e77ccbb2d0172112e34e00c4e55f2cd5a",
       "assets/newsreader-500.ttf": "68c4493c7c6c9aaff48defeeb6408e7ce705efc4c33363de4d9d6f5e07775064",
       "assets/outfit-400.ttf": "6a8c9be856a6b9e09c66615634904616152c9de5e44db343a3ced240479c586a",
@@ -46,7 +48,7 @@
       "page": "00 · Shared header and navigation",
       "section": "Header",
       "copy": "GoTu · Leadership Offsites · 2026 Q3 PreWork Mirror\n\nSkip to content\n\n**Mirror**\nBRILLIANTWITH.AI\n\nGoTu · Leadership Offsites · 2026 Q3 PreWork Mirror\nInteractive demo\n**Reset demo**\nDemo walkthrough",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | index.html (shared shell); app.js:26 (render) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | index.html (shared shell); app.js:27 (render) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "index.html"
@@ -63,7 +65,7 @@
       "page": "00 · Shared header and navigation",
       "section": "Navigation",
       "copy": "**01 About this Demo**\n**02 Participant Welcome**\n**03 The Basics**\n**04 Mirror Interview**\n**05 Review & Submit**\n**06 Post-Submit Flow**\n\nSpeak freely. You decide what gets shared.\n\nReview your answers, make changes, and approve the exact words the planning team receives.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | index.html (shared shell); app.js:26 (render) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | index.html (shared shell); app.js:27 (render) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "index.html"
@@ -80,7 +82,7 @@
       "page": "00 · Shared header and navigation",
       "section": "Footer",
       "copy": "DEMO ONLY · Simulated chat · No live AI · No mic access",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | index.html (shared shell); app.js:26 (render) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | index.html (shared shell); app.js:27 (render) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "index.html"
@@ -97,7 +99,7 @@
       "page": "00 · Shared header and navigation",
       "section": "Progress states",
       "copy": "Demo subject: Cary Gahm\nBased on his 2026 Q2 submission.\n\n15 answers · ready for review\n\n15 answers · approved\n\nDemo submission ready. Nothing sent.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | index.html (shared shell); app.js:26 (render) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | index.html (shared shell); app.js:27 (render) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "index.html"
@@ -114,7 +116,7 @@
       "page": "00 · Shared header and navigation",
       "section": "Restart confirmations",
       "copy": "Start the walkthrough again? This clears your demo edits and approvals.\n\nReset the demo? This clears your demo edits and approvals.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | index.html (shared shell); app.js:26 (render) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | index.html (shared shell); app.js:27 (render) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "index.html"
@@ -131,7 +133,7 @@
       "page": "00 · Shared header and navigation",
       "section": "Accessibility labels",
       "copy": "Reset the demo and clear your edits and approvals\n\nDemo navigation",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | index.html (shared shell); app.js:26 (render) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | index.html (shared shell); app.js:27 (render) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "index.html"
@@ -145,10 +147,10 @@
     {
       "id": "V10-FRAMING-01",
       "order": 7,
-      "page": "01 · About the demo",
+      "page": "01a · Opening",
       "section": "Opening framing",
       "copy": "Today’s walkthrough\n\n# GoTu’s PreWork Mirror\n\nA scripted, abbreviated example of the proposed experience.\n\n## Today’s aim\nReview the proposed flow for this cycle—and identify what needs to change.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | app.js:52 (MEETING_FRAMING); app.js:58 (meetingFraming) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | app.js:53 (MEETING_FRAMING); app.js:59 (meetingFraming) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -163,10 +165,10 @@
     {
       "id": "COPYBLOCK-010",
       "order": 8,
-      "page": "01 · About the demo",
+      "page": "01a · Opening",
       "section": "Opening · Example provenance",
       "copy": "Based on Cary’s Q2 Executive and GTM input, with imagined follow-ups. This is not a new submission or approval from Cary. The email is fictional.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | app.js:52 (MEETING_FRAMING); app.js:58 (meetingFraming) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | app.js:53 (MEETING_FRAMING); app.js:59 (meetingFraming) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -183,8 +185,8 @@
       "order": 9,
       "page": "01 · About the demo",
       "section": "Opening navigation",
-      "copy": "View the flow →\n← Opening\nQuestions to consider →\n← The flow\nNext →\n← Questions to consider",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | app.js:58 (meetingFraming); app.js:63 (aboutFlow); app.js:64 (questionsSlide); app.js:65 (beginDemoSlide) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "copy": "View the flow →\n← Opening\nQuestions to consider →\n← The flow",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | app.js:59 (meetingFraming); app.js:64 (aboutFlow); app.js:65 (questionsSlide) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -197,20 +199,16 @@
         {
           "file": "app.js",
           "symbol": "questionsSlide"
-        },
-        {
-          "file": "app.js",
-          "symbol": "beginDemoSlide"
         }
       ]
     },
     {
       "id": "COPYBLOCK-005",
       "order": 10,
-      "page": "01 · About the demo",
+      "page": "01b · Demo flow",
       "section": "Opening",
       "copy": "GoTu · 2026 Q3 PreWork Mirror demo\n\n# How GoTu’s PreWork Mirror will flow",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | app.js:63 (aboutFlow) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo/flow/ | app.js:64 (aboutFlow) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -221,10 +219,10 @@
     {
       "id": "COPYBLOCK-006",
       "order": 11,
-      "page": "01 · About the demo",
+      "page": "01b · Demo flow",
       "section": "Stage 1",
       "copy": "1 · Stage 1\n\n**Welcome participants**\n\nIntroduce the Mirror and explain how participants control what stays private and what gets shared.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | app.js:63 (aboutFlow) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo/flow/ | app.js:64 (aboutFlow) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -235,10 +233,10 @@
     {
       "id": "V9-STAGE-2",
       "order": 12,
-      "page": "01 · About the demo",
+      "page": "01b · Demo flow",
       "section": "Stage 2",
       "copy": "2 · Stage 2\n\n**Confirm the basics**\n\nConfirm who’s taking part and which team offsites they’ll attend.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | app.js:63 (aboutFlow) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo/flow/ | app.js:64 (aboutFlow) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -249,10 +247,10 @@
     {
       "id": "V9-STAGE-3",
       "order": 13,
-      "page": "01 · About the demo",
+      "page": "01b · Demo flow",
       "section": "Stage 3",
       "copy": "3 · Stage 3\n\n**Have the conversation**\n\nExplore the existing planning questions, with follow-ups that invite detail and nuance.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | app.js:63 (aboutFlow) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo/flow/ | app.js:64 (aboutFlow) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -263,10 +261,10 @@
     {
       "id": "V9-STAGE-4",
       "order": 14,
-      "page": "01 · About the demo",
+      "page": "01b · Demo flow",
       "section": "Stage 4",
       "copy": "4 · Stage 4\n\n**Review and approve**\n\nReview all the answers, make changes, and approve exactly what the planning team receives.\n\n5 · Stage 5\n\n**Use the results**\n\nThe proposed flow gives planners approved submissions and synthesized insights. Participants get their approved copy and a space to keep thinking.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | app.js:63 (aboutFlow) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo/flow/ | app.js:64 (aboutFlow) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -277,10 +275,10 @@
     {
       "id": "COPYBLOCK-009",
       "order": 15,
-      "page": "01 · About the demo",
+      "page": "01b · Demo flow",
       "section": "Flow · Demo behavior",
       "copy": "## In this demo\n\n**Try editing an answer.** After approval, your changes appear in this demo’s approved copy and spreadsheet preview. You can print the approved copy or download the CSV. Nothing is submitted.\n\n**Examples stay fixed.** The conversation, historical group themes, and example takeaways do not change. Resetting or reloading clears progress.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | app.js:63 (aboutFlow) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo/flow/ | app.js:64 (aboutFlow) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -291,10 +289,10 @@
     {
       "id": "COPYBLOCK-008",
       "order": 16,
-      "page": "01 · About the demo",
+      "page": "01c · Questions to consider",
       "section": "Slide 3 · Questions to consider",
       "copy": "During the walkthrough\n\n# Questions to consider\n\n- Is the experience \"fuller, faster, and funner\" than last cycle’s form?\n- What background context would help?\n  - What are the tradeoffs of including someone’s previous submission, when available?\n  - What are the tradeoffs of including EOS or other shared context?\n- Does anything feel off-target or missing?\n- What should we consider for the next cycle?",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | app.js:64 (questionsSlide) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo/questions/ | app.js:65 (questionsSlide) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -305,24 +303,24 @@
     {
       "id": "COPYBLOCK-007",
       "order": 17,
-      "page": "01 · About the demo",
-      "section": "Slide 4 · Begin demo",
-      "copy": "GoTu · PreWork Mirror\n\n# Begin demo\n\n**Begin demo →**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | app.js:65 (beginDemoSlide) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "page": "01c · Questions to consider",
+      "section": "Slide 3 · Launch demo",
+      "copy": "**Begin demo →**",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo/questions/ | app.js:65 (questionsSlide) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
-          "symbol": "beginDemoSlide"
+          "symbol": "questionsSlide"
         }
       ]
     },
     {
       "id": "COPYBLOCK-152",
       "order": 18,
-      "page": "01 · About the demo",
+      "page": "01b · Demo flow",
       "section": "Accessibility labels",
       "copy": "Stages of the PreWork Mirror",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo | app.js:63 (aboutFlow) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/about-demo/flow/ | app.js:64 (aboutFlow) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -336,7 +334,7 @@
       "page": "02 · Initializing",
       "section": "Countdown",
       "copy": "GoTu · 2026 Q3 PreWork Mirror\n\n# Starting the Mirror\n\nYou’re about to experience the participant welcome.\n\n5\n\nThe welcome opens automatically.\n\n**← Back to About this Demo**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/initializing | app.js:39 (initializing) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/initializing | app.js:40 (initializing) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -350,7 +348,7 @@
       "page": "03 · Participant welcome",
       "section": "Opening and start",
       "copy": "**PARTICIPANT EXPERIENCE** > WELCOME\n\nYour GoTu PreWork Mirror\n\n# Let’s talk about the quarter.\nAll of it.\n\nThe wins. The friction. The things you’re still figuring out.\n\nTake a moment to reflect on what happened and what matters next.\n\n**Get started**\n\nFirst, a quick mic check, a few tips, and a welcome video.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/start | app.js:40 (startScreen) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/start | app.js:41 (startScreen) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -364,7 +362,7 @@
       "page": "03 · Participant welcome",
       "section": "Personal value",
       "copy": "After submitting, keep exploring a takeaway or a question you want to bring into the room.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/start | app.js:40 (startScreen) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/start | app.js:41 (startScreen) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -378,7 +376,7 @@
       "page": "04 · Mic check",
       "section": "Start mic check",
       "copy": "**×**\nBefore we begin\n\n## Check your microphone\n\nFind a quiet place where you can speak freely. Headphones may help.\n\n1. Start the check.\n2. Read the short phrase aloud.\n3. Continue to the conversation tips.\n\nThis demo simulates the check. It won’t access your microphone or record you.\n\n**Start simulated mic check**\n**Skip mic check**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/start | app.js:43 (openMic); app.js:44 (runMic) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/start | app.js:44 (openMic); app.js:45 (runMic) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -396,7 +394,7 @@
       "page": "04 · Mic check",
       "section": "Mic check running",
       "copy": "Simulated mic check\n\n## Try thinking out loud\n\nRead this at your own pace:\n\n> I can take my time, think out loud, and choose what I share.\n\nShowing a simulated mic check…\n\n**Continue →**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/start | app.js:43 (openMic); app.js:44 (runMic) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/start | app.js:44 (openMic); app.js:45 (runMic) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -414,7 +412,7 @@
       "page": "04 · Mic check",
       "section": "Mic check complete",
       "copy": "Demo check complete. No audio was captured.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/start | app.js:43 (openMic); app.js:44 (runMic) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/start | app.js:44 (openMic); app.js:45 (runMic) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -432,7 +430,7 @@
       "page": "04 · Mic check",
       "section": "Accessibility labels",
       "copy": "Close mic check",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/start | app.js:43 (openMic); app.js:44 (runMic) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/start | app.js:44 (openMic); app.js:45 (runMic) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -450,7 +448,7 @@
       "page": "05 · Voice guidance",
       "section": "Opening",
       "copy": "**PARTICIPANT EXPERIENCE** > VOICE GUIDE\n\n❙ ❚ ❙ ❚ ❙\nWrite out loud\n\n## Tell the story of your quarter. Out loud.\n\nThe Mirror is designed for speaking. Thinking aloud can bring out details, connections, and thoughts you didn’t know were there.\n\n### A few tips before you begin\n\n**1. You decide what gets shared.**\n\nSpeak freely. At the end, review all your answers and change anything you want. **Your full transcript stays private. Only the words you approve go to the planning team.**\n\n**2. Say more. Don’t edit yourself. Ramble!**\n\nPause, start again, or change your mind. The Mirror can help you follow a thought. You can make your answers clear during review.\n\nWe call this “blatherstorming.”\n\n**3. Give yourself time.**\n\nChoose a time when you can reflect without rushing or frequent interruptions.\n\nQuestions or concerns? Contact tev@joingotu.com.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/voice-guide | app.js:41 (voiceGuide) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/voice-guide | app.js:42 (voiceGuide) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -464,7 +462,7 @@
       "page": "05 · Voice guidance",
       "section": "Speaking and control",
       "copy": "Next: a short welcome video.\n\n**Continue to video →**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/voice-guide | app.js:41 (voiceGuide) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/voice-guide | app.js:42 (voiceGuide) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -478,7 +476,7 @@
       "page": "06 · Mock introduction",
       "section": "Introduction frame",
       "copy": "**×**\nPLACEHOLDER VIDEO & CAPTIONS\n\nA welcome from your planning facilitator\n\n## Your voice matters in planning.\n\nSILENT STILL SEQUENCE\n\nMake room for the detail behind your answers.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/start | app.js:46 (openVideo); app.js:45 (INTRO_COPY); app.js:48 (updateVideo) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/start | app.js:47 (openVideo); app.js:46 (INTRO_COPY); app.js:49 (updateVideo) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -500,7 +498,7 @@
       "page": "06 · Mock introduction",
       "section": "Caption sequence",
       "copy": "Make room for the detail behind your answers.\n\nTalk about what’s working, what’s difficult, and what you want to change.\n\nYou’ll review everything and choose exactly what goes into planning.\n\nKeep something useful for yourself: your takeaways and questions for the room.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/start | app.js:46 (openVideo); app.js:45 (INTRO_COPY); app.js:48 (updateVideo) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/start | app.js:47 (openVideo); app.js:46 (INTRO_COPY); app.js:49 (updateVideo) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -522,7 +520,7 @@
       "page": "06 · Mock introduction",
       "section": "Player and continue",
       "copy": "**▶ Play welcome video**\n0:00 / 0:12\n\nPlaceholder captions; no recorded speech.\n\n**Skip video**\n**Continue to The Basics →**\n**Ⅱ Pause**\n0:03 / 0:12\n0:06 / 0:12\n0:09 / 0:12\n**↻ Replay welcome video**\n0:12 / 0:12",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/start | app.js:46 (openVideo); app.js:45 (INTRO_COPY); app.js:48 (updateVideo) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/start | app.js:47 (openVideo); app.js:46 (INTRO_COPY); app.js:49 (updateVideo) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -544,7 +542,7 @@
       "page": "06 · Mock introduction",
       "section": "Accessibility labels",
       "copy": "Close welcome video\n\nPlanning facilitator in a still image\n\nWelcome video playback",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/start | app.js:46 (openVideo); app.js:45 (INTRO_COPY); app.js:48 (updateVideo) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/start | app.js:47 (openVideo); app.js:46 (INTRO_COPY); app.js:49 (updateVideo) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -566,7 +564,7 @@
       "page": "07 · The Basics",
       "section": "Opening",
       "copy": "GoTu · 2026 Q3 PreWork Mirror\n\nThe Basics\n\n# Let’s start with the basics.\n\nConfirm your details and the team offsites you’ll attend.\n\n## About you",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/form | app.js:67 (welcome); app.js:21 (guardedView) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/form | app.js:67 (welcome); app.js:22 (guardedView) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -584,7 +582,7 @@
       "page": "07 · The Basics",
       "section": "Name, email, and team selection",
       "copy": "**Full name**\n\nCary Gahm\n\n**Email address (demo)**\n\ncary@example.com\n\n**Which team offsites will you attend?**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/form | app.js:67 (welcome); app.js:21 (guardedView) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/form | app.js:67 (welcome); app.js:22 (guardedView) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -602,7 +600,7 @@
       "page": "07 · The Basics",
       "section": "Team options",
       "copy": "The Q2 form includes all nine teams. This demo uses Executive and GTM.\n\n**Executive**\n\n**Sales**\n\n**Marketing**\n\n**Operations**\n\n**People Ops**\n\n**GTM**\n\n**Finance**\n\n**Product**\n\n**Engineering**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/form | app.js:67 (welcome); app.js:21 (guardedView) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/form | app.js:67 (welcome); app.js:22 (guardedView) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -620,7 +618,7 @@
       "page": "07 · The Basics",
       "section": "Begin interview",
       "copy": "Next, we’ll talk about last quarter, each team you selected, and what matters next.\n\n**Start the Mirror**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/form | app.js:67 (welcome); app.js:21 (guardedView) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/form | app.js:67 (welcome); app.js:22 (guardedView) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -638,7 +636,7 @@
       "page": "07 · The Basics",
       "section": "Validation",
       "copy": "Select at least one team.\n\nEnter a name.\n\nPlease fill out this field.\n\nPlease include an '@' in the email address. 'invalid' is missing an '@'.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/form | app.js:67 (welcome); app.js:21 (guardedView) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/form | app.js:67 (welcome); app.js:22 (guardedView) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -656,7 +654,7 @@
       "page": "07 · The Basics",
       "section": "Reload recovery",
       "copy": "Reloading clears this demo’s progress. Confirm your details in The Basics to begin again.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/form | app.js:67 (welcome); app.js:21 (guardedView) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/form | app.js:67 (welcome); app.js:22 (guardedView) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -674,7 +672,7 @@
       "page": "07 · The Basics",
       "section": "Team control labels",
       "copy": "Team offsites\n\nIncluded in the Q2 form; unavailable in this demo",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/form | app.js:67 (welcome); app.js:21 (guardedView) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/form | app.js:67 (welcome); app.js:22 (guardedView) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -692,7 +690,7 @@
       "page": "08 · Interview controls",
       "section": "Opening",
       "copy": "# Looking back\n\nSection 1 of 4\n\nWe’ll talk it through first. You’ll review all your answers at the end.\n\nDemo: choose “Show next turn” to play the next question and sample response. Continue until the next-section button appears.\n\nLooking back\nExecutive\nGTM\nLooking forward",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | app.js:70 (interview); app.js:69 (mockLabel); app.js:80 (transcriptHtml) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | app.js:70 (interview); app.js:69 (mockLabel); app.js:80 (transcriptHtml) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -714,7 +712,7 @@
       "page": "08 · Interview controls",
       "section": "Progress controls",
       "copy": "MIRROR\n\n**Show next turn →**\nSimulated conversation\n\n**Demo shortcuts**\n\nSkip ahead by filling the remaining answers with scripted examples.\n\n**Fill the rest of this section**\n**Fill remaining answers and go to review →**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | app.js:70 (interview); app.js:69 (mockLabel); app.js:80 (transcriptHtml) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | app.js:70 (interview); app.js:69 (mockLabel); app.js:80 (transcriptHtml) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -736,7 +734,7 @@
       "page": "08 · Interview controls",
       "section": "Question and transcript states",
       "copy": "DEMO RESPONSE\n\nMIRROR · ONE FINAL QUESTION\n\nMIRROR · LAST FOLLOW-UP\n\nMIRROR · BEFORE WE MOVE ON\n\nMIRROR · SECTION CLOSE\n\nThank you. Let’s keep going.\n\n**Continue to Executive →**\nSection 2 of 4\n✓ Looking back\n**Continue to GTM →**\nSection 3 of 4\n✓ Executive\n**Continue to Looking forward →**\nSection 4 of 4\n✓ GTM\nThank you. Let’s review your answers.\n\n**Review all my answers →**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | app.js:70 (interview); app.js:69 (mockLabel); app.js:80 (transcriptHtml) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | app.js:70 (interview); app.js:69 (mockLabel); app.js:80 (transcriptHtml) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -758,7 +756,7 @@
       "page": "08 · Interview controls",
       "section": "Finished interview",
       "copy": "Conversation complete\n\n# Your answers are ready to review.\n\nRead them through and change anything you want before approving what gets shared.\n\n**Review my answers →**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | app.js:70 (interview); app.js:69 (mockLabel); app.js:80 (transcriptHtml) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | app.js:70 (interview); app.js:69 (mockLabel); app.js:80 (transcriptHtml) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -780,7 +778,7 @@
       "page": "08 · Interview controls",
       "section": "Earlier section",
       "copy": "Earlier in your conversation\n\nYou’re viewing an earlier section. Your progress is saved for this demo session.\n\n**Continue where I left off →**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | app.js:70 (interview); app.js:69 (mockLabel); app.js:80 (transcriptHtml) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | app.js:70 (interview); app.js:69 (mockLabel); app.js:80 (transcriptHtml) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -802,7 +800,7 @@
       "page": "08 · Interview controls",
       "section": "Mock-data tooltips",
       "copy": "Scripted example based on Cary’s Q2 submission, with imagined follow-ups. This is not a new statement or approval from Cary.\n\nFilled by a demo shortcut. Based on Cary’s Q2 submission, with imagined follow-ups; not a new statement or approval from Cary.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | app.js:70 (interview); app.js:69 (mockLabel); app.js:80 (transcriptHtml) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | app.js:70 (interview); app.js:69 (mockLabel); app.js:80 (transcriptHtml) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -824,7 +822,7 @@
       "page": "08 · Interview controls",
       "section": "Accessibility labels",
       "copy": "Interview sections\n\nInterview transcript\n\nCurrent Mirror question\n\nDemo response. Based on Cary’s Q2 submission, with imagined follow-ups; not a new statement or approval from Cary.\n\nDemo response filled by a shortcut. Based on Cary’s Q2 submission, with imagined follow-ups; not a new statement or approval from Cary.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | app.js:70 (interview); app.js:69 (mockLabel); app.js:80 (transcriptHtml) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | app.js:70 (interview); app.js:69 (mockLabel); app.js:80 (transcriptHtml) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -846,7 +844,7 @@
       "page": "09 · Interview — Looking back",
       "section": "Turn 1",
       "copy": "**MIRROR**\n\nBefore we talk about work, what’s one win outside work that meant a lot to you over the last 90 days?\n\n**DEMO RESPONSE**\n\nWorking remotely in Sedona with my family. That had been a dream for almost ten years. It was slow and rejuvenating, and helped me focus on what matters deeply.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | model.js:6 (CHAPTERS) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | model.js:6 (CHAPTERS) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "model.js",
@@ -860,7 +858,7 @@
       "page": "09 · Interview — Looking back",
       "section": "Turn 2",
       "copy": "**MIRROR**\n\nAnd at work—what’s the win you’re most proud of from those 90 days?\n\n**DEMO RESPONSE**\n\nGetting aligned with the GTM team around the sales reorganization. That felt like real progress.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | model.js:6 (CHAPTERS) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | model.js:6 (CHAPTERS) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "model.js",
@@ -874,7 +872,7 @@
       "page": "09 · Interview — Looking back",
       "section": "Turn 3",
       "copy": "**MIRROR**\n\nThinking about the whole quarter, what number would you give it from 1 to 10—where 1 is rough and 10 is exceptional?\n\n**DEMO RESPONSE**\n\nSix on that scale. Though my overall feeling was closer to six and a half.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | model.js:6 (CHAPTERS) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | model.js:6 (CHAPTERS) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "model.js",
@@ -888,7 +886,7 @@
       "page": "09 · Interview — Looking back",
       "section": "Turn 4",
       "copy": "**MIRROR**\n\nWhat’s the biggest reason for that number?\n\n**DEMO RESPONSE**\n\nI almost have two completely different ratings.\n\nThe misalignment around AI building—governance, rules, a charter—made me hate coming to work many days. I haven’t felt that in six years. That part was a three.\n\nBut then there’s Henry Schein, M&A exploration, GTM planning, new AI projects, our product roadmap and its process. Engineering feels ready to fly. The lawyer we hired, our model and budget, the new board member, Enterprise, Marketing’s job-board intercept and talent graph, Operations, CS, and our launch processes with Sarah. AI Mirror, State of the Unicorn, development programs, alignment with Shauna, the handbook and survey. Even the shirt budget. There is a ridiculous amount to be excited about. That side was a ten.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | model.js:6 (CHAPTERS) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | model.js:6 (CHAPTERS) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "model.js",
@@ -902,7 +900,7 @@
       "page": "09 · Interview — Looking back",
       "section": "Turn 5 · follow-up",
       "copy": "**MIRROR**\n\nWhat would someone miss if they saw only the combined rating?\n\n**DEMO RESPONSE**\n\nThey’d think it was an average quarter. It wasn’t average. I don’t want the good things lost because of this problem. But the excitement can’t become an excuse for ignoring how miserable the misalignment has felt.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | model.js:6 (CHAPTERS) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | model.js:6 (CHAPTERS) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "model.js",
@@ -916,7 +914,7 @@
       "page": "09 · Interview — Looking back",
       "section": "Turn 6 · section close",
       "copy": "**MIRROR**\n\nBefore we move on, what else from the quarter should your planning team understand?\n\n**DEMO RESPONSE**\n\nDon’t turn this into “some opportunities for better alignment.” I’m excited and frustrated. Both are true.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | model.js:6 (CHAPTERS) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-back | model.js:6 (CHAPTERS) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "model.js",
@@ -930,7 +928,7 @@
       "page": "10 · Interview — Executive",
       "section": "Turn 1",
       "copy": "**MIRROR**\n\nLet’s talk about Executive. Of the six EOS areas—Vision, People, Data, Issues, Process, and Traction—which most needs attention this quarter?\n\n**DEMO RESPONSE**\n\nVision",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/executive | model.js:6 (CHAPTERS) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/executive | model.js:6 (CHAPTERS) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "model.js",
@@ -944,7 +942,7 @@
       "page": "10 · Interview — Executive",
       "section": "Turn 2",
       "copy": "**MIRROR**\n\nWhat’s one example that brings that to mind?\n\n**DEMO RESPONSE**\n\nWe need to agree on our vision for new product development and prioritization. Ai product development / governance. Headcount. and where we are going over the next 2-3 years.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/executive | model.js:6 (CHAPTERS) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/executive | model.js:6 (CHAPTERS) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "model.js",
@@ -958,7 +956,7 @@
       "page": "10 · Interview — Executive",
       "section": "Turn 3",
       "copy": "**MIRROR**\n\nWhat does this team need to talk about that keeps getting left unsaid?\n\n**DEMO RESPONSE**\n\nWe need to grow revenue, but we'll ultimately be valued on EBITDA. That means having an honest conversation about efficiency, headcount, and operating lean while still driving growth. \n\nThis calls for a \"how can we\" mindset. We can't have a scarcity mindset.\n\nSecond, our goal is to reach $100M, and I believe we need additional product(s) to get there. \n\nFinally, I think we're too quick to dismiss our competition and other companies as idiots. It feels like arrogance and it concerns me, because it causes us to write off potential real risks before we've genuinely considered them.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/executive | model.js:6 (CHAPTERS) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/executive | model.js:6 (CHAPTERS) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "model.js",
@@ -972,7 +970,7 @@
       "page": "10 · Interview — Executive",
       "section": "Turn 4",
       "copy": "**MIRROR**\n\nIf you had to name one thing holding Executive back right now, what would it be?\n\n**DEMO RESPONSE**\n\nWe need agreement on a clear ai / building philosophy.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/executive | model.js:6 (CHAPTERS) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/executive | model.js:6 (CHAPTERS) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "model.js",
@@ -986,7 +984,7 @@
       "page": "10 · Interview — Executive",
       "section": "Turn 5 · section close",
       "copy": "**MIRROR**\n\nBefore we move on, what else should the Executive team understand?\n\n**DEMO RESPONSE**\n\nThe growth and efficiency points belong together. We need a “how can we” mindset.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/executive | model.js:6 (CHAPTERS) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/executive | model.js:6 (CHAPTERS) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "model.js",
@@ -1000,7 +998,7 @@
       "page": "11 · Interview — GTM",
       "section": "Turn 1",
       "copy": "**MIRROR**\n\nNow think about GTM on its own. Which EOS area needs the most attention—Vision, People, Data, Issues, Process, or Traction?\n\n**DEMO RESPONSE**\n\nData.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/gtm | model.js:6 (CHAPTERS) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/gtm | model.js:6 (CHAPTERS) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "model.js",
@@ -1014,7 +1012,7 @@
       "page": "11 · Interview — GTM",
       "section": "Turn 2",
       "copy": "**MIRROR**\n\nWhat’s one example you’ve seen?\n\n**DEMO RESPONSE**\n\nI feel like we have a lot of directionally correct data. But much of it feels like correlation, not exact causation. Maybe I’m wishing for something we can’t completely have. It still leaves me wanting more.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/gtm | model.js:6 (CHAPTERS) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/gtm | model.js:6 (CHAPTERS) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "model.js",
@@ -1028,7 +1026,7 @@
       "page": "11 · Interview — GTM",
       "section": "Turn 3",
       "copy": "**MIRROR**\n\nWhat does GTM need to talk about that keeps getting left unsaid?\n\n**DEMO RESPONSE**\n\nOur company has huge growth goals 100M, but will be valued on EBIDTA.  Which means we MUST focus on hyper efficient growth. This team will be measured on LTV/CAC, Revenue Growth, and Margin.\n\nWe must have a HOW CAN WE, mentality...kill any scarcity thinking, get aligned with Each Person in the room - Kill politicking and GO!",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/gtm | model.js:6 (CHAPTERS) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/gtm | model.js:6 (CHAPTERS) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "model.js",
@@ -1042,7 +1040,7 @@
       "page": "11 · Interview — GTM",
       "section": "Turn 4",
       "copy": "**MIRROR**\n\nAnd if you had to name one thing holding GTM back right now, what would it be?\n\n**DEMO RESPONSE**\n\nI want us really on the same page. Same team—this team first. We’re going to have to make some strategic bets without perfect, clean data, and then go.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/gtm | model.js:6 (CHAPTERS) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/gtm | model.js:6 (CHAPTERS) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "model.js",
@@ -1056,7 +1054,7 @@
       "page": "11 · Interview — GTM",
       "section": "Turn 5 · follow-up",
       "copy": "**MIRROR**\n\nYou want better evidence, and you’re ready to make bets. What should the team understand about that distinction?\n\n**DEMO RESPONSE**\n\nI want to understand what’s actually driving results so we can make better decisions about where effort and money go. That doesn’t mean waiting for perfect data. I want us aligned on the bets we’re making and clear about what we know.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/gtm | model.js:6 (CHAPTERS) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/gtm | model.js:6 (CHAPTERS) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "model.js",
@@ -1070,7 +1068,7 @@
       "page": "11 · Interview — GTM",
       "section": "Turn 6 · section close",
       "copy": "**MIRROR**\n\nBefore we move on, what else should the GTM team understand?\n\n**DEMO RESPONSE**\n\nI’m not saying the data is useless or that I’m unwilling to move. Keep the uncertainty without making it sound like hesitation.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/gtm | model.js:6 (CHAPTERS) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/gtm | model.js:6 (CHAPTERS) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "model.js",
@@ -1084,7 +1082,7 @@
       "page": "12 · Interview — Looking forward",
       "section": "Turn 1",
       "copy": "**MIRROR**\n\nYou’ve described progress alongside unresolved alignment. If this quarter were wildly successful, what would be true in 90 days?\n\n**DEMO RESPONSE**\n\n1. We have an ai / new product development charter we have all agreed on, so we are no longer stuck in politics, but free to move forward and build with confidence & peace of mind.\n\n2. We have completed our Sales / G2M reorg, allowing us to Focus on DSO's, Henry Schein, and our highest value ICP, while reducing our expense profile significantly.\n\n3. Henry Schein Partnership is Smashing (3500 shifts worked from Schein offices)\n\n4. We have built a lean organization across all departments - so we can focus on efficiency.\n\n5. We have seen MAJOR increases in work rate (6%+) as a result of Hygienist Rates Increases, product releases. Our new releases are showing up direction on the P&L.\n\n6. Engineering is smashing through the product roadmap and delivery time expectations (they are flying and creating a not enough product ideas problem). \n\n7. We have integrated Deb idea and Perm product and its generating 10-30K of Rev per Month\n\n8. Dental Match is generating 10-30K of Rev per Month\n\n9. We run project Tombstone in Phoenix, Boston, and Midwest.\n\n10. We decide how to run our L10s with such a large group (ie...is this a Connect, Scorecard, Heavy Updates, Identify Issues (then identify who needs to be a part of the D & S) if its 75% of the room we do it in L10 if not, we address it as a to do to IDS with smaller team, and then they report back the IDS outcomes at the next sessions)",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-forward | model.js:6 (CHAPTERS) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-forward | model.js:6 (CHAPTERS) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "model.js",
@@ -1098,7 +1096,7 @@
       "page": "12 · Interview — Looking forward",
       "section": "Turn 2",
       "copy": "**MIRROR**\n\nTo make that future happen, what’s the one Rock you’d put first?\n\n**DEMO RESPONSE**\n\nWe have built a lean organization across all departments - so we can focus on efficiency.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-forward | model.js:6 (CHAPTERS) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-forward | model.js:6 (CHAPTERS) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "model.js",
@@ -1112,7 +1110,7 @@
       "page": "12 · Interview — Looking forward",
       "section": "Turn 3",
       "copy": "**MIRROR**\n\nBefore we finish, what else should go on the Issues List? It’s fine if there’s nothing else.\n\n**DEMO RESPONSE**\n\nWe have a heavy meeting culture. I cannot put deep work time on my calendar without it getting booked over. Is there a solve to this?",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-forward | model.js:6 (CHAPTERS) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-forward | model.js:6 (CHAPTERS) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "model.js",
@@ -1126,7 +1124,7 @@
       "page": "12 · Interview — Looking forward",
       "section": "Turn 4 · section close",
       "copy": "**MIRROR**\n\nBefore we finish, what else would you like your planning team to understand?\n\n**DEMO RESPONSE**\n\nNothing else. Let me see the answers together now.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-forward | model.js:6 (CHAPTERS) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview/looking-forward | model.js:6 (CHAPTERS) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "model.js",
@@ -1140,7 +1138,7 @@
       "page": "13 · Review & Submit",
       "section": "Opening",
       "copy": "**PARTICIPANT EXPERIENCE** > REVIEW & SUBMIT\n\nYour planning answers\n\n# Make sure this says what you mean.\n\nRead through your answers. Open any answer to edit it or consider a suggestion.\n\n**Only the words you approve, plus your name, email, and selected teams, go to the planning team. Your full transcript and review discussions stay private.**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1162,7 +1160,7 @@
       "page": "13 · Review & Submit",
       "section": "Evaluation questions",
       "copy": "DEMO REVIEW · Participant control\n\n## Questions to consider\n\n- Is it clear what stays private and what gets shared?\n- Can participants review and change exactly what the planning team receives?\n- Does review provide enough control without feeling like extra work?",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1184,7 +1182,7 @@
       "page": "13 · Review & Submit",
       "section": "Document header",
       "copy": "**15 answers**\n· 2 suggestions to consider\n**Go to final approval ↓**\n**Cary Gahm**\nExecutive · GTM\ncary@example.com · Ready for your review\n**Looking back**\n**Executive**\n**GTM**\n**Looking forward**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1206,7 +1204,7 @@
       "page": "13 · Review & Submit",
       "section": "Looking back · Personal Best",
       "copy": "### Personal Best\n\nWorking Remote in Sedona w/ my family has been a dream of mine for almost 10 years. It was Slow and rejuvenating and helped me really focus on what matters deeply.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1228,7 +1226,7 @@
       "page": "13 · Review & Submit",
       "section": "Looking back · Professional Best",
       "copy": "### Professional Best\n\nAlignment with G2M team around sale reorg play.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1250,7 +1248,7 @@
       "page": "13 · Review & Submit",
       "section": "Looking back · Quarter Rating",
       "copy": "### Quarter Rating\n\n6\n\n1 — Rough · 10 — Exceptional",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1272,7 +1270,7 @@
       "page": "13 · Review & Submit",
       "section": "Looking back · Rating Reason",
       "copy": "### Rating Reason\n\nThis wasn’t an average quarter. It had two very different sides.\n\nMisalignment around AI building, governance, rules, and a charter made me hate coming to work many days. I haven’t felt that way in six years. That part felt like a three.\n\nAt the same time, there is a tremendous amount to be excited about: Henry Schein, M&A exploration, GTM planning, new AI projects, our product roadmap and process, Engineering’s readiness to move faster, our lawyer, model and budget, board member, Enterprise, Marketing, Operations, CS, launch processes, AI Mirror, State of the Unicorn, development programs, alignment with Shauna, the handbook, the survey, and even the shirt budget. That side felt like a ten.\n\nMy combined assessment was six and a half. That number shouldn’t hide either the progress or the seriousness of the misalignment. We need agreement on how we build with AI so we can move forward with confidence.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1294,7 +1292,7 @@
       "page": "13 · Review & Submit",
       "section": "Executive · EOS Component",
       "copy": "### EOS Component\n\nVision",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1316,7 +1314,7 @@
       "page": "13 · Review & Submit",
       "section": "Executive · EOS Example",
       "copy": "### EOS Example\n\nWe need to agree on our vision for new product development and prioritization. Ai product development / governance. Headcount. and where we are going over the next 2-3 years.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1338,7 +1336,7 @@
       "page": "13 · Review & Submit",
       "section": "Executive · Avoided Conversation",
       "copy": "### Avoided Conversation\n\nWe need to grow revenue, but we'll ultimately be valued on EBITDA. That means having an honest conversation about efficiency, headcount, and operating lean while still driving growth. \n\nThis calls for a \"how can we\" mindset. We can't have a scarcity mindset.\n\nSecond, our goal is to reach $100M, and I believe we need additional product(s) to get there. \n\nFinally, I think we're too quick to dismiss our competition and other companies as idiots. It feels like arrogance and it concerns me, because it causes us to write off potential real risks before we've genuinely considered them.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1360,7 +1358,7 @@
       "page": "13 · Review & Submit",
       "section": "Executive · Biggest Issue",
       "copy": "### Biggest Issue\n\nWe need agreement on a clear ai / building philosophy.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1382,7 +1380,7 @@
       "page": "13 · Review & Submit",
       "section": "GTM · EOS Component",
       "copy": "### EOS Component\n\nData",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1404,7 +1402,7 @@
       "page": "13 · Review & Submit",
       "section": "GTM · EOS Example",
       "copy": "### EOS Example\n\nWe have a lot of directionally correct data, but much of it feels like correlation rather than clear causation. Maybe more certainty isn’t always possible, but it leaves me wanting more.\n\nI want to understand what is driving results so we can make better decisions about where we put effort and money. That doesn’t mean waiting for perfect data. We need to agree on our strategic bets, be clear about what the data tells us, and move.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1426,7 +1424,7 @@
       "page": "13 · Review & Submit",
       "section": "GTM · Avoided Conversation",
       "copy": "### Avoided Conversation\n\nOur company has huge growth goals 100M, but will be valued on EBIDTA.  Which means we MUST focus on hyper efficient growth. This team will be measured on LTV/CAC, Revenue Growth, and Margin.\n\nWe must have a HOW CAN WE, mentality...kill any scarcity thinking, get aligned with Each Person in the room - Kill politicking and GO!",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1448,7 +1446,7 @@
       "page": "13 · Review & Submit",
       "section": "GTM · Biggest Issue",
       "copy": "### Biggest Issue\n\nI want to make sure we are all really on the same page. Same Team (this team first), and we are going to have to make some \"Strategic Bets\" without perfect clean data...and then GO.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1470,7 +1468,7 @@
       "page": "13 · Review & Submit",
       "section": "Looking forward · Success Vision (90 days)",
       "copy": "### Success Vision (90 days)\n\n1. We have an ai / new product development charter we have all agreed on, so we are no longer stuck in politics, but free to move forward and build with confidence & peace of mind.\n\n2. We have completed our Sales / G2M reorg, allowing us to Focus on DSO's, Henry Schein, and our highest value ICP, while reducing our expense profile significantly.\n\n3. Henry Schein Partnership is Smashing (3500 shifts worked from Schein offices)\n\n4. We have built a lean organization across all departments - so we can focus on efficiency.\n\n5. We have seen MAJOR increases in work rate (6%+) as a result of Hygienist Rates Increases, product releases. Our new releases are showing up direction on the P&L.\n\n6. Engineering is smashing through the product roadmap and delivery time expectations (they are flying and creating a not enough product ideas problem). \n\n7. We have integrated Deb idea and Perm product and its generating 10-30K of Rev per Month\n\n8. Dental Match is generating 10-30K of Rev per Month\n\n9. We run project Tombstone in Phoenix, Boston, and Midwest.\n\n10. We decide how to run our L10s with such a large group (ie...is this a Connect, Scorecard, Heavy Updates, Identify Issues (then identify who needs to be a part of the D & S) if its 75% of the room we do it in L10 if not, we address it as a to do to IDS with smaller team, and then they report back the IDS outcomes at the next sessions)",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1492,7 +1490,7 @@
       "page": "13 · Review & Submit",
       "section": "Looking forward · Top Rock",
       "copy": "### Top Rock\n\nWe have built a lean organization across all departments - so we can focus on efficiency.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1514,7 +1512,7 @@
       "page": "13 · Review & Submit",
       "section": "Looking forward · Issues List",
       "copy": "### Issues List\n\nWe have a heavy meeting culture. I cannot put deep work time on my calendar without it getting booked over. Is there a solve to this?",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1536,7 +1534,7 @@
       "page": "13 · Review & Submit",
       "section": "Review labels",
       "copy": "## Looking back · Shared across teams\n\n**Edit**\n**✧ Review your rating**\n\n## Executive · This team\n\n## GTM · This team\n\n**✧ Review this wording**\n\n## Looking forward · Shared across teams",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1558,7 +1556,7 @@
       "page": "13 · Review & Submit",
       "section": "Final approval",
       "copy": "Final approval\n\n## Ready to share these answers?\n\nApprove the exact words shown here. You’ll receive a copy too.\n\n**I’ve reviewed these answers. They say what I want to share.**\n**Approve my submission →**\n\nDemo only: nothing is sent. If you change an answer afterward, you’ll need to approve again.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1580,7 +1578,7 @@
       "page": "13 · Review & Submit",
       "section": "Approved and single-team states",
       "copy": "cary@example.com · Approved copy\nApproved\n**11 answers**\n· 1 suggestion to consider\nExecutive\nGTM",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1602,7 +1600,7 @@
       "page": "13 · Review & Submit",
       "section": "Accessibility labels",
       "copy": "Review sections\n\nEdit Personal Best — Looking back\n\nEdit Professional Best — Looking back\n\nEdit Quarter Rating — Looking back\n\nEdit Rating Reason — Looking back\n\nEdit EOS Component — Executive\n\nEdit EOS Example — Executive\n\nEdit Avoided Conversation — Executive\n\nEdit Biggest Issue — Executive\n\nEdit EOS Component — GTM\n\nEdit EOS Example — GTM\n\nEdit Avoided Conversation — GTM\n\nEdit Biggest Issue — GTM\n\nEdit Success Vision (90 days) — Looking forward\n\nEdit Top Rock — Looking forward\n\nEdit Issues List — Looking forward",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:113 (review); app.js:118 (answerCard); model.js:2 (FIXTURES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1624,7 +1622,7 @@
       "page": "14 · Review drawer",
       "section": "Controls",
       "copy": "**×**\n**Answer to review**\n\nOptional suggestion\n\n**Use this as a starting point**\n**Compare wording**\n\n**Keep my wording**\n**Conversation & original draft**\n\nPrivate context · not included in your submission\n\n**Edit my answer**\n**Talk it through**\n**Your answer**\n\nSaving updates your answer. It doesn’t approve or submit it.\n\n**Save changes**\n**Cancel edit**\n\nDemo: scripted clarification\n\n**Show clarification**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1650,7 +1648,7 @@
       "page": "14 · Review drawer",
       "section": "Looking back · Personal Best prompt",
       "copy": "### Personal Best\n\nWhat was your personal best from the last 90 days?",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1676,7 +1674,7 @@
       "page": "14 · Review drawer",
       "section": "Looking back · Professional Best prompt",
       "copy": "### Professional Best\n\nWhat was your professional best from the last 90 days?",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1702,7 +1700,7 @@
       "page": "14 · Review drawer",
       "section": "Looking back · Quarter Rating prompt",
       "copy": "### Quarter Rating\n\nRate last quarter on a scale of 1–10",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1728,7 +1726,7 @@
       "page": "14 · Review drawer",
       "section": "Looking back · Rating Reason prompt",
       "copy": "### Rating Reason\n\nWhat’s the biggest reason for that rating?",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1754,7 +1752,7 @@
       "page": "14 · Review drawer",
       "section": "Executive · EOS Component prompt",
       "copy": "### EOS Component\n\nWhich EOS area most needs attention for this team?",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1780,7 +1778,7 @@
       "page": "14 · Review drawer",
       "section": "Executive · EOS Example prompt",
       "copy": "### EOS Example\n\nWhat’s one example that shows why?",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1806,7 +1804,7 @@
       "page": "14 · Review drawer",
       "section": "Executive · Avoided Conversation prompt",
       "copy": "### Avoided Conversation\n\nWhat conversation does this team need to have that it may be avoiding?",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1832,7 +1830,7 @@
       "page": "14 · Review drawer",
       "section": "Executive · Biggest Issue prompt",
       "copy": "### Biggest Issue\n\nWhat’s the single biggest issue limiting this team right now?",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1858,7 +1856,7 @@
       "page": "14 · Review drawer",
       "section": "GTM · EOS Component prompt",
       "copy": "### EOS Component\n\nWhich EOS area most needs attention for this team?",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1884,7 +1882,7 @@
       "page": "14 · Review drawer",
       "section": "GTM · EOS Example prompt",
       "copy": "### EOS Example\n\nWhat’s one example that shows why?",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1910,7 +1908,7 @@
       "page": "14 · Review drawer",
       "section": "GTM · Avoided Conversation prompt",
       "copy": "### Avoided Conversation\n\nWhat conversation does this team need to have that it may be avoiding?",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1936,7 +1934,7 @@
       "page": "14 · Review drawer",
       "section": "GTM · Biggest Issue prompt",
       "copy": "### Biggest Issue\n\nWhat’s the single biggest issue limiting this team right now?",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1962,7 +1960,7 @@
       "page": "14 · Review drawer",
       "section": "Looking forward · Success Vision (90 days) prompt",
       "copy": "### Success Vision (90 days)\n\nIf this quarter were wildly successful, what would be true 90 days from now?",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -1988,7 +1986,7 @@
       "page": "14 · Review drawer",
       "section": "Looking forward · Top Rock prompt",
       "copy": "### Top Rock\n\nWhat is the most important Rock we should complete to make that happen?",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2014,7 +2012,7 @@
       "page": "14 · Review drawer",
       "section": "Looking forward · Issues List prompt",
       "copy": "### Issues List\n\nList anything else you’d like on the Issues List.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2040,7 +2038,7 @@
       "page": "14 · Review drawer",
       "section": "Rating suggestion",
       "copy": "### Review your rating\n\nYou selected 6, and your explanation says six and a half. Would you like to clarify the difference?",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2066,7 +2064,7 @@
       "page": "14 · Review drawer",
       "section": "Suggested rating explanation",
       "copy": "This wasn’t an average quarter. It had two very different sides.\n\nMisalignment around AI building, governance, rules, and a charter made me hate coming to work many days. I haven’t felt that way in six years. That part felt like a three.\n\nAt the same time, there is a tremendous amount to be excited about: Henry Schein, M&A exploration, GTM planning, new AI projects, our product roadmap and process, Engineering’s readiness to move faster, our lawyer, model and budget, board member, Enterprise, Marketing, Operations, CS, launch processes, AI Mirror, State of the Unicorn, development programs, alignment with Shauna, the handbook, the survey, and even the shirt budget. That side felt like a ten.\n\nI selected 6 on the whole-number scale; my overall feeling was six and a half. That number shouldn’t hide either the progress or the seriousness of the misalignment. We need agreement on how we build with AI so we can move forward with confidence.\n\nKeeps both the whole-number rating and your more nuanced assessment.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2092,7 +2090,7 @@
       "page": "14 · Review drawer",
       "section": "Rating clarification",
       "copy": "How do you want to explain the difference between 6 and six and a half?\n\nKeep 6 on the whole-number scale. Explain that my overall feeling was six and a half. Don’t lose either the excitement or the frustration.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2118,7 +2116,7 @@
       "page": "14 · Review drawer",
       "section": "Wording suggestion",
       "copy": "### Review this wording\n\n“Kill politicking” makes your frustration clear. Would you like to spell out what you want the team to do? You can keep your original wording.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2144,7 +2142,7 @@
       "page": "14 · Review drawer",
       "section": "Suggested GTM wording",
       "copy": "Our company has huge growth goals 100M, but will be valued on EBIDTA.  Which means we MUST focus on hyper efficient growth. This team will be measured on LTV/CAC, Revenue Growth, and Margin.\n\nWe need a HOW CAN WE mentality, not scarcity thinking. Internal politicking gets in the way. Put this team first, align on our strategic bets, and GO.\n\nKeeps the concern about internal politics and the urgency. Makes the requested change explicit.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2170,7 +2168,7 @@
       "page": "14 · Review drawer",
       "section": "GTM clarification",
       "copy": "What do you most want people to understand about “politicking”?\n\nKeep the concern about internal politics. I don’t mean “communicate better.” I want us to put this team first, agree on the bets, and go.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2196,7 +2194,7 @@
       "page": "14 · Review drawer",
       "section": "Data clarification",
       "copy": "What should come through more clearly in this answer?\n\nI’m ready to move. I want to understand what is driving the results, and keep the uncertainty without making it sound like hesitation.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2222,7 +2220,7 @@
       "page": "14 · Review drawer",
       "section": "Revised data answer",
       "copy": "We have a lot of directionally correct data, but much of it feels like correlation rather than clear causation. I want a better understanding of what is driving results. Maybe we can’t always know exactly, and I don’t want that uncertainty erased.\n\nI’m ready to move. We need to agree on our strategic bets without waiting for perfect data.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2248,7 +2246,7 @@
       "page": "14 · Review drawer",
       "section": "General clarification",
       "copy": "What would you like to change or make clearer?\n\nI want to keep the meaning and edit the wording myself.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2274,7 +2272,7 @@
       "page": "14 · Review drawer",
       "section": "EOS choices",
       "copy": "- Vision\n- People\n- Data\n- Issues\n- Process\n- Traction",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2300,7 +2298,7 @@
       "page": "14 · Review drawer",
       "section": "Validation and save messages",
       "copy": "Enter an answer. Ratings must be whole numbers from 1 to 10.\n\nYou’re editing this answer. You’ll need to approve again afterward.\n\nNo wording changed. Final approval is still needed.\n\nEnter an answer. Ratings must be whole numbers from 1 to 10.\n\nEdited\n\nChanges saved. Approve your full submission when you’re ready.\n\nKept as written\n\nYour wording is unchanged. Review and approve the full submission at the end.\n\nAll answers approved. Demo only: nothing sent.\n\nSave or cancel your current edit first.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2326,7 +2324,7 @@
       "page": "14 · Review drawer",
       "section": "Discard confirmations",
       "copy": "Discard your unsaved changes?\n\nDiscard your unsaved changes and view a scripted clarification?",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2352,7 +2350,7 @@
       "page": "14 · Review drawer",
       "section": "Accessibility labels",
       "copy": "Close answer panel",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/review | app.js:84 (drawPanel); model.js:42 (REVIEW_NOTES); app.js:121 (discussionFor); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2378,7 +2376,7 @@
       "page": "15 · Post-Submit Flow",
       "section": "Opening",
       "copy": "DEMO OVERVIEW · After submission\n\n# One reflection.\nTwo useful outcomes.\n\nThe participant has reviewed and approved 15 answers. Explore what each side can use next.\n\nThis overview is for demo review. Nothing has been sent.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/outcomes | app.js:92 (outcomes) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/outcomes | app.js:92 (outcomes) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2392,7 +2390,7 @@
       "page": "15 · Post-Submit Flow",
       "section": "Planning team outcome",
       "copy": "01 · For the planning team\n\n## Prepare the conversations that matter\n\nRead the approved answers, then explore an example of how group input can inform offsite discussion.\n\n- Approved words in the familiar sixteen-column spreadsheet.\n- Historical group themes, differing views, and questions for the room.\n- A guide connecting the conversation to the existing planning questions.\n\n**Explore the planning handoff →**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/outcomes | app.js:92 (outcomes) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/outcomes | app.js:92 (outcomes) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2406,7 +2404,7 @@
       "page": "15 · Post-Submit Flow",
       "section": "Participant outcome",
       "copy": "02 · For the participant\n\n## Bring something useful into the room\n\nKeep your approved answers and turn the reflection into preparation that matters to you.\n\n- Pull out what you want to explain or ask.\n- Put a tension into words without losing either side.\n- Find a question worth bringing to the offsite.\n\n**Explore the participant experience →**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/outcomes | app.js:92 (outcomes) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/outcomes | app.js:92 (outcomes) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2420,7 +2418,7 @@
       "page": "15 · Post-Submit Flow",
       "section": "Revisit review",
       "copy": "Try changing an approved answer. The demo will ask for fresh approval before creating a new submission.\n\n**Return to review**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/outcomes | app.js:92 (outcomes) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/outcomes | app.js:92 (outcomes) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2434,7 +2432,7 @@
       "page": "16 · Planning handoff",
       "section": "Opening",
       "copy": "**← Post-Submit Flow**\nDemo navigation\n\nPLANNING TEAM · After submission\n\n# What deserves time in the offsite?\n\nStart with what this participant approved. Then explore a historical example of group themes and questions. Consider what needs discussion, where views differ, and what you want to understand better.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/for-tev | app.js:93 (forTev) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/for-tev | app.js:93 (forTev) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2448,7 +2446,7 @@
       "page": "16 · Planning handoff",
       "section": "Evaluation questions",
       "copy": "DEMO REVIEW · Planning team\n\n## Questions to consider\n\n- What would these outputs help you notice before the offsite?\n- Which topics would you want to understand better or bring into the room?\n- What is missing compared with how you prepare today?\n- Would talking with the approved submissions help? What would you ask?",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/for-tev | app.js:93 (forTev) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/for-tev | app.js:93 (forTev) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2462,7 +2460,7 @@
       "page": "16 · Planning handoff",
       "section": "Group briefing link",
       "copy": "## Group themes & questions\n\nLook for recurring concerns, differing views, and questions that could open a useful discussion. This historical example does not analyze edits made in this demo.\n\n**Explore group themes →**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/for-tev | app.js:93 (forTev) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/for-tev | app.js:93 (forTev) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2476,7 +2474,7 @@
       "page": "16 · Planning handoff",
       "section": "Spreadsheet link",
       "copy": "## Approved answers in a spreadsheet\n\nRead the participant’s approved words in each team’s context. Filter by team or download all approved values in the familiar format.\n\n**Review approved answers →**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/for-tev | app.js:93 (forTev) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/for-tev | app.js:93 (forTev) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2490,7 +2488,7 @@
       "page": "16 · Planning handoff",
       "section": "Interview guide link",
       "copy": "## From form to conversation\n\nCheck how the interview covers the familiar planning questions, with room for useful follow-ups.\n\n**Read the interview guide →**\n\nThe group briefing uses anonymized historical examples. It stays fixed when you edit this participant’s answers.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/for-tev | app.js:93 (forTev) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/for-tev | app.js:93 (forTev) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2504,7 +2502,7 @@
       "page": "17 · Group briefing",
       "section": "Opening and scope",
       "copy": "**← Post-Submit Flow**\nDemo navigation\n\nPLANNING TEAM · Historical group example\n\n# Themes to explore together\n\nUse these example questions to consider what the room should discuss. Notice shared concerns and differences; a theme can matter without everyone agreeing.\n\n**39**\ncontributors, anonymized\n**54**\nparticipant–team pairs\n**9**\nteams represented\n\n**Historical example · Not a finding about this cycle**\n\nThe example covers 55 historical submission rows. Names and individual wording are omitted here. It does not update when you edit the demo.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/group-brief | app.js:99 (groupBrief); app.js:94 (GROUP_THEMES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/group-brief | app.js:99 (groupBrief); app.js:94 (GROUP_THEMES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2522,7 +2520,7 @@
       "page": "17 · Group briefing",
       "section": "AI building decisions",
       "copy": "Group theme · 01\n\n## Clear decisions about building with AI\n\nWhat the submissions suggest: Across the group, related concerns appeared as requests for clearer permitted scope, risk checks, decision authority, and a reusable approval path. The inputs support a shared need for clarity, but not agreement on one control model.\n\nAsk in the room\n“Walk one plausible AI proposal through the rules. Where could competent teams still reach different answers?”\n\nKeep in mind: Do not reduce the input to “pro-AI” versus “anti-AI.” The group raised distinct operating questions.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/group-brief | app.js:99 (groupBrief); app.js:94 (GROUP_THEMES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/group-brief | app.js:99 (groupBrief); app.js:94 (GROUP_THEMES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2540,7 +2538,7 @@
       "page": "17 · Group briefing",
       "section": "Decision rights",
       "copy": "Group theme · 02\n\n## Who decides when views differ?\n\nWhat the submissions suggest: The group described circular issue discussions, defensive debate, unclear decision ownership, and uncertainty about whether the right issues reach the room. Other team input reported openness and cohesion, so the pattern is not a company-wide culture verdict.\n\n“For one contested decision, who must agree, who must be heard, and who can commit us?”\n\nKeep in mind: Separate the decision process from any interpersonal repair the specific issue may require.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/group-brief | app.js:99 (groupBrief); app.js:94 (GROUP_THEMES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/group-brief | app.js:99 (groupBrief); app.js:94 (GROUP_THEMES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2558,7 +2556,7 @@
       "page": "17 · Group briefing",
       "section": "Cross-team choices",
       "copy": "Group theme · 03\n\n## Choices that affect other teams\n\nWhat the submissions suggest: Across teams, people named parallel growth, product, efficiency, and campaign ambitions that can draw on the same capacity. The input identifies possible collisions and dependencies; it does not prove which initiative should win.\n\n“If we protect this outcome, what will we do less of—and have the affected teams agreed?”\n\nKeep in mind: Leave with an explicit tradeoff and a confirmed cross-team handoff, not another list of aspirations.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/group-brief | app.js:99 (groupBrief); app.js:94 (GROUP_THEMES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/group-brief | app.js:99 (groupBrief); app.js:94 (GROUP_THEMES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2576,7 +2574,7 @@
       "page": "17 · Group briefing",
       "section": "Navigation",
       "copy": "**← Planning handoff**\n**View participant spreadsheet**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/group-brief | app.js:99 (groupBrief); app.js:94 (GROUP_THEMES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/group-brief | app.js:99 (groupBrief); app.js:94 (GROUP_THEMES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2594,7 +2592,7 @@
       "page": "17 · Group briefing",
       "section": "Accessibility labels",
       "copy": "Historical example: contributors and teams",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/group-brief | app.js:99 (groupBrief); app.js:94 (GROUP_THEMES) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/group-brief | app.js:99 (groupBrief); app.js:94 (GROUP_THEMES) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2612,7 +2610,7 @@
       "page": "18 · Spreadsheet preview",
       "section": "Opening",
       "copy": "**← Post-Submit Flow**\nDemo navigation\n\nPLANNING TEAM · Spreadsheet preview\n\n# Start with what they chose to share.\n\nRead the approved answers before deciding what needs follow-up or time in the offsite. Filter by team to see that team’s context; download the CSV to keep the approved values.\n\n**Demo preview · Nothing sent**\n\nThis spreadsheet includes approved answers, name, email, and selected teams. It excludes the conversation, rejected wording, and review notes.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/sheet | app.js:130 (sheet); model.js:3 (HEADERS); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/sheet | app.js:130 (sheet); model.js:3 (HEADERS); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2634,7 +2632,7 @@
       "page": "18 · Spreadsheet preview",
       "section": "Filter and download",
       "copy": "**Team**\n- All teams\n- Executive\n- GTM\n**Download CSV · all teams**\n**View CSV text**\n2 of 2 rows · 16 columns · scroll horizontally →",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/sheet | app.js:130 (sheet); model.js:3 (HEADERS); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/sheet | app.js:130 (sheet); model.js:3 (HEADERS); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2656,7 +2654,7 @@
       "page": "18 · Spreadsheet preview",
       "section": "Spreadsheet columns",
       "copy": "- A · Submitted At\n- B · Full Name\n- C · Email\n- D · Teams\n- E · Personal Best\n- F · Professional Best\n- G · Quarter Rating\n- H · Rating Reason\n- I · Team\n- J · EOS Component\n- K · EOS Example\n- L · Avoided Conversation\n- M · Biggest Issue\n- N · Success Vision (90 days)\n- O · Top Rock\n- P · Issues List",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/sheet | app.js:130 (sheet); model.js:3 (HEADERS); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/sheet | app.js:130 (sheet); model.js:3 (HEADERS); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2678,7 +2676,7 @@
       "page": "18 · Spreadsheet preview",
       "section": "Facilitator preparation",
       "copy": "Facilitator preparation\n\n## What might the group need to discuss?\n\nExplore historical examples of shared concerns and differing views, with questions you could bring into the room.\n\n**Explore historical group themes →**\n**← Planning handoff**\n**Change an answer and review approval again**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/sheet | app.js:130 (sheet); model.js:3 (HEADERS); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/sheet | app.js:130 (sheet); model.js:3 (HEADERS); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2700,7 +2698,7 @@
       "page": "18 · Spreadsheet preview",
       "section": "Filtered and CSV states",
       "copy": "1 of 2 rows · 16 columns · scroll horizontally →\n**CSV download contents**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/sheet | app.js:130 (sheet); model.js:3 (HEADERS); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/sheet | app.js:130 (sheet); model.js:3 (HEADERS); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2722,7 +2720,7 @@
       "page": "18 · Spreadsheet preview",
       "section": "Download feedback",
       "copy": "CSV downloaded. Nothing was sent to the planning team.\n\ngotu-approved-demo.csv",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/sheet | app.js:130 (sheet); model.js:3 (HEADERS); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/sheet | app.js:130 (sheet); model.js:3 (HEADERS); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2744,7 +2742,7 @@
       "page": "18 · Spreadsheet preview",
       "section": "Accessibility labels",
       "copy": "Approved spreadsheet",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/sheet | app.js:130 (sheet); model.js:3 (HEADERS); model.js:47 (Model) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/sheet | app.js:130 (sheet); model.js:3 (HEADERS); model.js:47 (Model) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2766,7 +2764,7 @@
       "page": "19 · Interview guide",
       "section": "Opening",
       "copy": "**← Post-Submit Flow**\nDemo navigation\n\nPLANNING TEAM · Proposed interview guide\n\n# The same questions.\nRoom for a conversation.\n\nUse this guide to cover the existing planning questions while giving people room to tell the story.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2784,7 +2782,7 @@
       "page": "19 · Interview guide",
       "section": "Interviewer guidance",
       "copy": "## How the conversation would work\n\nConfirm the participant’s basics. Talk about last quarter, each selected team, and what matters next. Build on what they’ve already said.\n\nAsk one question at a time. Use follow-ups to clarify meaning or invite more detail. Near each section’s end, leave room for one final follow-up, then ask what else the team should understand.\n\nReview the answers at the end. Participants can change the wording and approve exactly what gets shared. Preserve uncertainty and disagreement.\n\nThe prompts below are examples, not a required script. They describe the proposed approach for this cycle; the demo conversation is scripted.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2802,7 +2800,7 @@
       "page": "19 · Interview guide",
       "section": "Personal best from the last 90 days",
       "copy": "Looking back · 01\n\n## Personal best from the last 90 days\n\nExample question\n\n“What’s one win outside work that meant a lot to you in the last 90 days?”\n\nPossible follow-up: If the significance is unclear: “What made that matter to you?”\n\nWhat the approved answer should include\n\nOne personal best; retain the 90-day window.\n\nSpreadsheet: Personal Best",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2820,7 +2818,7 @@
       "page": "19 · Interview guide",
       "section": "Professional best from the last 90 days",
       "copy": "Looking back · 02\n\n## Professional best from the last 90 days\n\nExample question\n\n“At work, what’s the win you’re most proud of from those 90 days?”\n\nPossible follow-up: If only an initiative is named: “What changed because of that?”\n\nWhat the approved answer should include\n\nOne work win; separate from personal best.\n\nSpreadsheet: Professional Best",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2838,7 +2836,7 @@
       "page": "19 · Interview guide",
       "section": "Rate last quarter 1–10; biggest reason",
       "copy": "Looking back · 03\n\n## Rate last quarter 1–10; biggest reason\n\nExample question\n\n“What number would you give the quarter—1 is rough, 10 exceptional? What’s the biggest reason?”\n\nPossible follow-up: If the explanation complicates the number: “What would someone miss if they saw only the rating?”\n\nWhat the approved answer should include\n\nExplicit whole number, 1–10. Preserve nuance in the separate reason; confirm discrepancies at review.\n\nSpreadsheet: Quarter Rating; Rating Reason",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2856,7 +2854,7 @@
       "page": "19 · Interview guide",
       "section": "EOS area needing improvement; one example",
       "copy": "Each selected team · 04\n\n## EOS area needing improvement; one example\n\nExample question\n\n“Thinking just about this team, which EOS area needs attention? What happened that brings it to mind?”\n\nPossible follow-up: Offer all six labels: Vision, People, Data, Issues, Process, Traction. Clarify the intended area if needed.\n\nWhat the approved answer should include\n\nOne selected EOS label and a distinct concrete example, per team.\n\nSpreadsheet: EOS Component; EOS Example",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2874,7 +2872,7 @@
       "page": "19 · Interview guide",
       "section": "Conversation the team may be avoiding",
       "copy": "Each selected team · 05\n\n## Conversation the team may be avoiding\n\nExample question\n\n“What does this team need to talk about that keeps getting left unsaid?”\n\nPossible follow-up: If the issue is named without the conversation: “What would you want the team to say out loud?”\n\nWhat the approved answer should include\n\nPreserve the concern and intended discussion; do not soften disagreement automatically.\n\nSpreadsheet: Avoided Conversation",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2892,7 +2890,7 @@
       "page": "19 · Interview guide",
       "section": "Single biggest issue limiting the team",
       "copy": "Each selected team · 06\n\n## Single biggest issue limiting the team\n\nExample question\n\n“If you could name one thing holding this team back, what would it be?”\n\nPossible follow-up: If several compete: “Which is the biggest constraint right now?”\n\nWhat the approved answer should include\n\nOne priority issue, distinct for each team.\n\nSpreadsheet: Biggest Issue",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2910,7 +2908,7 @@
       "page": "19 · Interview guide",
       "section": "What would be true after a wildly successful quarter?",
       "copy": "Looking forward · 07\n\n## What would be true after a wildly successful quarter?\n\nExample question\n\n“Picture us 90 days from now, with a quarter that went really well. What’s different?”\n\nPossible follow-up: If abstract: “What would you notice that tells you we got there?”\n\nWhat the approved answer should include\n\nPerson-level success vision, shared across team rows.\n\nSpreadsheet: Success Vision (90 days)",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2928,7 +2926,7 @@
       "page": "19 · Interview guide",
       "section": "Most important Rock to make that happen",
       "copy": "Looking forward · 08\n\n## Most important Rock to make that happen\n\nExample question\n\n“To make that future happen, what’s the one Rock you’d put first?”\n\nPossible follow-up: If only a theme: “What would completing that look like?”\n\nWhat the approved answer should include\n\nOne proposed Rock. Do not invent an owner, deadline, or commitment.\n\nSpreadsheet: Top Rock",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2946,7 +2944,7 @@
       "page": "19 · Interview guide",
       "section": "Anything else for the Issues List",
       "copy": "Looking forward · 09\n\n## Anything else for the Issues List\n\nExample question\n\n“Before we finish, what else should go on the Issues List? Nothing else is a valid answer.”\n\nPossible follow-up: Clarify only if an item’s meaning is unclear.\n\nWhat the approved answer should include\n\nPerson-level list, or an explicit none; shared across team rows.\n\nSpreadsheet: Issues List",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2964,7 +2962,7 @@
       "page": "19 · Interview guide",
       "section": "Handoff columns and source",
       "copy": "## The same sixteen columns\n\nSubmitted At records when the approved copy was created. Full Name, Email, and Teams come from The Basics. Team identifies each row. Four assessment fields vary by team; seven participant-level answers repeat across their team rows.\n\nSubmitted At · Full Name · Email · Teams · Personal Best · Professional Best · Quarter Rating · Rating Reason · Team · EOS Component · EOS Example · Avoided Conversation · Biggest Issue · Success Vision (90 days) · Top Rock · Issues List\n\nBased on GoTu’s Q2 prework form. Quarter labels change for this cycle; the 90-day windows stay the same.\n\n**Back to the planning handoff**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/interview-guide | app.js:111 (interviewGuide); app.js:100 (GUIDE) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -2982,7 +2980,7 @@
       "page": "20 · Participant follow-up",
       "section": "Evaluation questions",
       "copy": "**← Post-Submit Flow**\nDemo navigation\n\nDEMO REVIEW · Participant follow-up\n\n## Questions to consider\n\n- Which of these takeaways would you actually use before the offsite?\n- What would help you understand your reflection or say what matters more clearly?\n- Should the conversation remain available after submission? For how long?",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/chat | app.js:51 (afterChat); app.js:50 (OUTPUTS); app.js:131 (packageHtml) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/chat | app.js:52 (afterChat); app.js:51 (OUTPUTS); app.js:131 (packageHtml) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -3004,7 +3002,7 @@
       "page": "20 · Participant follow-up",
       "section": "Welcome and receipt",
       "copy": "**PARTICIPANT EXPERIENCE** > AFTER SUBMISSION\n\n# Your Mirror\n\nMake the reflection useful to you\n\n✓ Submission approved · Demo only: nothing sent\n\nMIRROR\n\nYou’ve chosen what to share. What would help you walk into the offsite feeling prepared?\n\nPull out what matters most, put a tension into words, or find a question you want the room to explore.\n\nYour approved answers stay as you left them. This follow-up stays separate from your submission.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/chat | app.js:51 (afterChat); app.js:50 (OUTPUTS); app.js:131 (packageHtml) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/chat | app.js:52 (afterChat); app.js:51 (OUTPUTS); app.js:131 (packageHtml) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -3026,7 +3024,7 @@
       "page": "20 · Participant follow-up",
       "section": "Suggested prompts",
       "copy": "Choose a starting point\n\n**Help me prepare for the offsite**\n**Help me untangle a tension**\n**Find my question for the room**\n**Show my approved answers**\n\nThe first three options show fixed examples from the demo conversation. “Show my approved answers” displays the exact copy you approved.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/chat | app.js:51 (afterChat); app.js:50 (OUTPUTS); app.js:131 (packageHtml) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/chat | app.js:52 (afterChat); app.js:51 (OUTPUTS); app.js:131 (packageHtml) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -3048,7 +3046,7 @@
       "page": "20 · Participant follow-up",
       "section": "Planning prep brief",
       "copy": "DEMO RESPONSE\n\nHelp me prepare for the offsite\n\n## What I want to bring into the room\n\nUse these notes to decide what you want to explain, ask, or carry forward.\n\nFixed example from the demo conversation; answer edits do not regenerate it.\n\n### What I want to preserve\n\nThis quarter held real momentum and serious frustration. A single rating should not flatten either side.\n\n### What I want us to resolve\n\nA shared approach to AI building, governance, and prioritization—so we can move forward with confidence.\n\n### A distinction worth making\n\nWanting better evidence is compatible with acting now. We can agree on strategic bets while remaining honest about uncertainty.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/chat | app.js:51 (afterChat); app.js:50 (OUTPUTS); app.js:131 (packageHtml) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/chat | app.js:52 (afterChat); app.js:51 (OUTPUTS); app.js:131 (packageHtml) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -3070,7 +3068,7 @@
       "page": "20 · Participant follow-up",
       "section": "Planning prep questions",
       "copy": "### Questions to bring into the room\n\n- What agreement would remove the most friction around building with AI?\n- Which bets can we commit to now, and what evidence would change our minds?\n- How will we protect deep-work time while addressing the issues that need us together?\n\n### Leave room for a different view\n\nWhere do my teammates see the situation differently? What might I be missing?\n\nChoose a question that fits what you want to understand. These examples do not change your submitted answers or create new commitments.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/chat | app.js:51 (afterChat); app.js:50 (OUTPUTS); app.js:131 (packageHtml) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/chat | app.js:52 (afterChat); app.js:51 (OUTPUTS); app.js:131 (packageHtml) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -3092,7 +3090,7 @@
       "page": "20 · Participant follow-up",
       "section": "Explore a tension",
       "copy": "Help me untangle a tension\n\n## Better evidence, without standing still\n\nThe demo conversation holds two things at once: wanting clearer evidence and being ready to act. What would count as enough evidence for the next bet?\n\nFixed example from the demo conversation. It does not interpret your current edits.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/chat | app.js:51 (afterChat); app.js:50 (OUTPUTS); app.js:131 (packageHtml) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/chat | app.js:52 (afterChat); app.js:51 (OUTPUTS); app.js:131 (packageHtml) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -3114,7 +3112,7 @@
       "page": "20 · Participant follow-up",
       "section": "Question for the room",
       "copy": "Find my question for the room\n\n## A question worth bringing to the offsite\n\n“What shared agreement would let us move forward with confidence, even while some uncertainty remains?”\n\nRead it aloud. Does it invite the conversation you want? Use it if it fits.\n\nFixed example from the demo conversation; answer edits do not regenerate it.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/chat | app.js:51 (afterChat); app.js:50 (OUTPUTS); app.js:131 (packageHtml) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/chat | app.js:52 (afterChat); app.js:51 (OUTPUTS); app.js:131 (packageHtml) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -3136,7 +3134,7 @@
       "page": "20 · Participant follow-up",
       "section": "Approved answers header",
       "copy": "Show my approved answers\n\n## GoTu · 2026 Q3 PreWork Mirror · Approved answers\n\nDEMO ONLY · Nothing sent\nCary Gahm · cary@example.com\nTeams: Executive; GTM\nApproved copy created: 2026-09-10T17:54:16.086Z",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/chat | app.js:51 (afterChat); app.js:50 (OUTPUTS); app.js:131 (packageHtml) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/chat | app.js:52 (afterChat); app.js:51 (OUTPUTS); app.js:131 (packageHtml) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -3158,7 +3156,7 @@
       "page": "20 · Participant follow-up",
       "section": "Approved answers controls",
       "copy": "**Print this copy**\n**Review or change my answers**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/chat | app.js:51 (afterChat); app.js:50 (OUTPUTS); app.js:131 (packageHtml) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/chat | app.js:52 (afterChat); app.js:51 (OUTPUTS); app.js:131 (packageHtml) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -3180,7 +3178,7 @@
       "page": "20 · Participant follow-up",
       "section": "Accessibility labels",
       "copy": "Personal follow-up conversation",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/chat | app.js:51 (afterChat); app.js:50 (OUTPUTS); app.js:131 (packageHtml) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/chat | app.js:52 (afterChat); app.js:51 (OUTPUTS); app.js:131 (packageHtml) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -3202,7 +3200,7 @@
       "page": "21 · Approved copy",
       "section": "Opening and receipt",
       "copy": "**← Post-Submit Flow**\nDemo navigation\n✓\n\nYour approved answers\n\n# Keep the words you chose to share.\n\nRead or print your exact approved copy before the offsite. If you want to change an answer, return to review and approve again.\n\n**Demo only · Nothing sent**\nCary Gahm · Executive + GTM\n15 approved answers · 2 spreadsheet rows",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/copy | app.js:129 (complete); app.js:131 (packageHtml) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/copy | app.js:129 (complete); app.js:131 (packageHtml) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -3220,7 +3218,7 @@
       "page": "21 · Approved copy",
       "section": "Copy actions",
       "copy": "**Print my approved copy**\n**Preview approved copy**\n**Back to my Mirror**\n**My approved answers**\n\n## GoTu · 2026 Q3 PreWork Mirror · Approved answers\n\nDEMO ONLY · Nothing sent\nCary Gahm · cary@example.com\nTeams: Executive; GTM\nApproved copy created: 2026-09-10T17:54:16.086Z",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/copy | app.js:129 (complete); app.js:131 (packageHtml) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/copy | app.js:129 (complete); app.js:131 (packageHtml) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -3238,7 +3236,7 @@
       "page": "21 · Approved copy",
       "section": "Return to review",
       "copy": "Need to change something? Editing an answer clears the current approval. Review and approve again to create an updated copy.\n\n**Return to review**",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/copy | app.js:129 (complete); app.js:131 (packageHtml) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/copy | app.js:129 (complete); app.js:131 (packageHtml) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -3256,7 +3254,7 @@
       "page": "22 · Print output",
       "section": "Print heading",
       "copy": "# GoTu · 2026 Q3 PreWork Mirror · Approved answers\n\nDEMO ONLY · Nothing sent\nCary Gahm · cary@example.com\nTeams: Executive; GTM\nApproved copy created: 2026-09-10T17:54:16.086Z",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/copy | app.js:131 (packageHtml); app.js:132 (updatePrint) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/copy | app.js:131 (packageHtml); app.js:132 (updatePrint) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
@@ -3274,7 +3272,7 @@
       "page": "22 · Print output",
       "section": "No approved package",
       "copy": "# No approved copy yet\n\nReview and approve your answers before printing. Your conversation and unapproved answers won’t be included.",
-      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/copy | app.js:131 (packageHtml); app.js:132 (updatePrint) | commit 5b991f1f612c760865b6bec7cff0ce7de7fda97a",
+      "provenance": "https://bwai-share.vercel.app/gotu/mirror-demo-v10/copy | app.js:131 (packageHtml); app.js:132 (updatePrint) | commit c5fce9705a8bf4f6e9110fee9a6faf3b09dcd3e8",
       "source_refs": [
         {
           "file": "app.js",
