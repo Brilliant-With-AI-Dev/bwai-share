@@ -17,12 +17,22 @@
         "source": "github",
         "repo": "EveryInc/compound-writing"
       }
+    },
+    "adrian-head": {
+      "source": {
+        "source": "github",
+        "repo": "adrian-head/agent-skills"
+      }
     }
   },
   "enabledPlugins": {
     "compound-knowledge@compound-knowledge-plugin": true,
     "compound-engineering@compound-engineering-plugin": true,
     "mattpocock-skills@claude-plugins-official": true,
-    "compound-writing@compound-writing": true
+    "compound-writing@compound-writing": true,
+    "adrian-skills@adrian-head": true,
+    "compound-engineering@adrian-head": true,
+    "compound-knowledge@adrian-head": true,
+    "compound-writing@adrian-head": true
   }
 }
