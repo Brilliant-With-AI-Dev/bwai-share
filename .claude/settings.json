@@ -11,11 +11,18 @@
         "source": "github",
         "repo": "EveryInc/compound-engineering-plugin"
       }
+    },
+    "compound-writing": {
+      "source": {
+        "source": "github",
+        "repo": "EveryInc/compound-writing"
+      }
     }
   },
   "enabledPlugins": {
     "compound-knowledge@compound-knowledge-plugin": true,
     "compound-engineering@compound-engineering-plugin": true,
-    "mattpocock-skills@claude-plugins-official": true
+    "mattpocock-skills@claude-plugins-official": true,
+    "compound-writing@compound-writing": true
   }
 }
