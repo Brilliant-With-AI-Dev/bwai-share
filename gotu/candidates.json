@@ -1,5 +1,5 @@
 {
-  "latest": 8,
+  "latest": 10,
   "timezone": "America/Chicago",
   "candidates": [
     {
@@ -10,7 +10,8 @@
       "updatedAt": "2026-09-08T15:01:45-05:00",
       "timestampBasis": "preserved source modification time",
       "sha256": "91d4222af415fffca74e70c327347f4c47ef571179c3bab10e7eccf5a59aae52",
-      "routed": false
+      "routed": false,
+      "status": "superseded_candidate_unapproved"
     },
     {
       "version": 2,
@@ -20,7 +21,8 @@
       "updatedAt": "2026-09-08T15:52:51-05:00",
       "timestampBasis": "preserved source modification time",
       "sha256": "4fd342cac2afb0d7753f80537170c0546f1299418df6c13c5bc371292ad51a01",
-      "routed": false
+      "routed": false,
+      "status": "superseded_candidate_unapproved"
     },
     {
       "version": 3,
@@ -30,7 +32,8 @@
       "updatedAt": "2026-09-08T16:08:07-05:00",
       "timestampBasis": "publication commit",
       "sha256": "49601bf369def158e0c5a3d018185533cdfa67b206f43c933cc1008edd48c650",
-      "routed": false
+      "routed": false,
+      "status": "superseded_candidate_unapproved"
     },
     {
       "version": 4,
@@ -40,7 +43,8 @@
       "updatedAt": "2026-09-08T16:29:41-05:00",
       "timestampBasis": "preserved source modification time",
       "sha256": "8a760550a16286de8fb3aea705b347932c9f0479f10dd08d82866587372d5667",
-      "routed": false
+      "routed": false,
+      "status": "superseded_candidate_unapproved"
     },
     {
       "version": 5,
@@ -50,7 +54,8 @@
       "updatedAt": "2026-09-08T17:08:08-05:00",
       "timestampBasis": "preserved source modification time",
       "sha256": "89a9167f8ded093675b67cea6a51445b51e1ade6072e3117737490c4ce65fc66",
-      "routed": true
+      "routed": true,
+      "status": "superseded_candidate_unapproved"
     },
     {
       "version": 6,
@@ -60,7 +65,8 @@
       "updatedAt": "2026-09-08T18:08:48-05:00",
       "timestampBasis": "preserved source modification time",
       "sha256": "cec448c8f2c7f10f0ff3b9fee6db40010512c46b7f63dbff77b2783554bc76df",
-      "routed": true
+      "routed": true,
+      "status": "superseded_candidate_unapproved"
     },
     {
       "version": 7,
@@ -70,7 +76,8 @@
       "updatedAt": "2026-09-08T18:14:47-05:00",
       "timestampBasis": "preserved source modification time",
       "sha256": "bb8bce7818628ef2937e45c757e6e578549169802299e957b04a431a69988ede",
-      "routed": true
+      "routed": true,
+      "status": "superseded_candidate_unapproved"
     },
     {
       "version": 8,
@@ -80,7 +87,31 @@
       "updatedAt": "2026-09-08T18:25:05-05:00",
       "timestampBasis": "preserved source modification time",
       "sha256": "a5889482289286781aa0fc3ce363f75e3e056de30115e51931ecaf53fa858f81",
-      "routed": true
+      "routed": true,
+      "status": "superseded_candidate_unapproved"
+    },
+    {
+      "version": 9,
+      "title": "GoTu PreWork Mirror demo",
+      "description": "Preserved starting candidate for the copy revision.",
+      "url": "/gotu/mirror-demo-v9/about-demo/",
+      "updatedAt": "2026-09-09T18:02:57-05:00",
+      "timestampBasis": "publication commit 8b30ae98806741e866dc283e11ebdbc65a3141b9",
+      "sha256": "0135d8045d0216e414dfafc4542bf497556cca9307a08b6f41f539766d7a987a",
+      "routed": true,
+      "status": "superseded_candidate_unapproved"
+    },
+    {
+      "version": 10,
+      "title": "GoTu 2026 Q3 PreWork Mirror",
+      "description": "Revised copy and clearer participant and planner preparation guidance.",
+      "url": "/gotu/mirror-demo-v10/about-demo/",
+      "updatedAt": "2026-09-10T14:50:28-05:00",
+      "timestampBasis": "candidate source revision",
+      "sha256": "3ef6dd511e9c6c06128cf777ac87b8a760023fa8de71a4194275c96eaf4ecf77",
+      "routed": true,
+      "status": "candidate_unapproved"
     }
-  ]
+  ],
+  "approved": null
 }
