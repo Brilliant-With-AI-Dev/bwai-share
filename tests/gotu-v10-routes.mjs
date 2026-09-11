@@ -17,7 +17,7 @@ async function findRouteFiles(directory) {
 }
 
 const files = await findRouteFiles(demoRoot);
-assert.equal(files.length, 18, 'expected all 18 v10 route entry points');
+assert.equal(files.length, 20, 'expected all 20 v10 route entry points');
 
 const documents = await Promise.all(files.map(file => readFile(file, 'utf8')));
 assert.equal(new Set(documents).size, 1, 'route entry points must remain identical');
@@ -49,17 +49,17 @@ for (const file of files) {
 assert.ok((await stat(join(demoRoot, 'styles.css'))).size < 100_000, 'CSS bundle regressed above 100 KB');
 assert.ok((await stat(join(demoRoot, 'app.js'))).size < 100_000, 'app bundle regressed above 100 KB');
 
-console.log('Validated 18 small route entries sharing cached v10 assets.');
+console.log('Validated 20 small route entries sharing cached v10 assets.');
 
 const index = await readFile(join(root, 'gotu', 'index.html'), 'utf8');
-assert.match(index, /Candidate — not approved · v10/);
-assert.match(index, /No version is currently approved/);
+assert.match(index, /Approved · v11/);
+assert.doesNotMatch(index, /No version is currently approved/);
 assert.match(index, /href="\/gotu\/mirror-demo-v10\/about-demo\/"/);
 const archive = index.split('<details class="previous-versions">')[1];
 assert.ok(archive && !index.includes('<details class="previous-versions" open'));
-for (let v = 1; v <= 9; v++) assert.ok(archive.includes(`/gotu/mirror-demo-v${v}/`), `missing preserved v${v}`);
+for (let v = 1; v <= 10; v++) assert.ok(archive.includes(`/gotu/mirror-demo-v${v}/`), `missing preserved v${v}`);
 const manifest = JSON.parse(await readFile(join(root, 'gotu', 'candidates.json'), 'utf8'));
-assert.equal(manifest.latest, 10);
-assert.equal(manifest.approved, null);
-assert.equal(manifest.candidates.length, 10);
+assert.equal(manifest.latest, 11);
+assert.equal(manifest.approved, 11);
+assert.equal(manifest.candidates.length, 11);
 console.log('Verified candidate status, current index link, and all preserved versions.');

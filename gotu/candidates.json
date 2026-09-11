@@ -1,5 +1,5 @@
 {
-  "latest": 10,
+  "latest": 11,
   "timezone": "America/Chicago",
   "candidates": [
     {
@@ -110,8 +110,19 @@
       "timestampBasis": "candidate source revision",
       "sha256": "3ef6dd511e9c6c06128cf777ac87b8a760023fa8de71a4194275c96eaf4ecf77",
       "routed": true,
-      "status": "candidate_unapproved"
+      "status": "superseded_candidate_unapproved"
+    },
+    {
+      "version": 11,
+      "title": "GoTu 2026 Q3 PreWork Mirror",
+      "description": "Clearer review and sharing controls, simpler answer revision, and focused walkthrough questions.",
+      "url": "/gotu/mirror-demo-v11/about-demo/",
+      "updatedAt": "2026-09-11T10:20:22-05:00",
+      "timestampBasis": "approved source revision",
+      "sha256": "908c8927ce742e10c0d3650c612500b7d327b11bb2d29453fc6168650bbfdc9a",
+      "routed": true,
+      "status": "approved"
     }
   ],
-  "approved": null
+  "approved": 11
 }
