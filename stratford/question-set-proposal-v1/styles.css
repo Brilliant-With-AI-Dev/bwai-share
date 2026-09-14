@@ -74,3 +74,18 @@ details.adds .add .qn{font-size:13px;font-weight:600;color:var(--green-ink);marg
 .mq ul.subs li:last-child{margin:0}
 .mq ul.subs li:before{content:"↳";color:var(--green);flex:none}
 details.adds .add .shapes{margin:0}
+.mq .qtitle{font:400 24px/1.2 Newsreader,Georgia,serif;margin:2px 0 10px}
+.mq .qt{font-size:19px}
+.mq .qn{margin-bottom:2px}
+.note-sm{font-size:14px;color:var(--muted);margin:12px 0 0;padding-top:10px;border-top:1px solid var(--line)}
+details .purpose{margin:10px 0 0}
+details ul{margin-top:12px}
+.step{margin:22px 0 0}
+.step h3{display:flex;align-items:flex-start;gap:12px;margin:0 0 6px;font:600 19px/1.35 Outfit,system-ui,sans-serif;letter-spacing:0;text-transform:none;color:var(--ink)}
+.stepnum{flex:none;width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;font-size:14px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;margin-top:1px}
+.step p{margin:0 0 8px 40px;max-width:60ch;font-size:16px}
+.step .note{margin:10px 0 0 40px;background:var(--amber-bg);color:var(--amber-ink);border-radius:8px;padding:12px 14px;font-size:15px;max-width:58ch}
+.step .mq.example{margin:12px 0 0 40px;border-left-color:var(--muted)}
+.step .mq.example .qt{font-size:18px}
+.privacy{margin:24px 0 0 40px;font-size:15px;color:var(--muted);max-width:60ch}
+@media(max-width:480px){.step p,.step .note,.step .mq.example,.privacy{margin-left:0}}
