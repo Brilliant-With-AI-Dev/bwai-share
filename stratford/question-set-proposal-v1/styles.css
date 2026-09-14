@@ -1,0 +1,26 @@
+@font-face{font-family:Outfit;src:url('../mirror-candidate-v1/assets/outfit-400.ttf')}
+@font-face{font-family:Outfit;src:url('../mirror-candidate-v1/assets/outfit-600.ttf');font-weight:600}
+@font-face{font-family:Newsreader;src:url('../mirror-candidate-v1/assets/newsreader-400.ttf')}
+:root{color-scheme:light;--ink:#142c27;--muted:#53655f;--line:#dce4df;--green:#196b52;--paper:#fafbf9;--amber:#b78927}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Outfit,system-ui,sans-serif;font-size:17px;line-height:1.6}
+main{max-width:820px;margin:auto;padding:44px 28px 64px}
+a{color:var(--green)}
+.back{font-size:14px;text-decoration:none}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin:0 0 10px;color:var(--muted)}
+.status{display:inline-block;border-radius:4px;padding:4px 10px;background:#fff1d1;color:#79510b;font-size:13px;font-weight:600}
+header{margin:36px 0 30px}
+h1{font:400 clamp(38px,6vw,56px)/1.07 Newsreader,Georgia,serif;margin:12px 0 18px;max-width:20ch}
+.lede{max-width:62ch;margin:0;color:var(--muted)}
+h2{font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--muted);margin:44px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.q{background:#fff;border:1px solid var(--line);border-radius:6px;padding:20px 22px;margin:0 0 14px}
+.q.new{border-top:3px solid var(--amber)}
+.num{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+.ask{font:400 21px/1.4 Newsreader,Georgia,serif;margin:8px 0 0;max-width:60ch}
+.subask{margin:10px 0 0;padding-left:14px;border-left:2px solid var(--line);max-width:58ch}
+.why{font-size:15px;color:var(--muted);margin:14px 0 0;max-width:62ch}
+.why b{color:var(--ink)}
+footer{margin-top:48px;border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:13px}
+footer p{margin:0 0 6px;max-width:68ch}
+:focus-visible{outline:3px solid var(--amber);outline-offset:4px}
+@media(max-width:480px){main{padding:28px 18px 40px}.q{padding:18px}}
