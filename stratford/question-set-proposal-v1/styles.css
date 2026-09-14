@@ -28,3 +28,18 @@ footer p{margin:0 0 6px;max-width:68ch}
 .why-intro p{margin:0 0 12px;max-width:62ch}
 .why-intro p:last-child{margin:0}
 .why-intro .byline{font-size:14px;color:var(--muted)}
+.howto{border:1px solid var(--line);border-radius:6px;padding:18px 22px;margin:26px 0 0;background:#fff}
+.howto ul{margin:8px 0 0;padding-left:20px}
+.howto li{margin-bottom:6px;font-size:15px;color:var(--muted);max-width:64ch}
+.howto li b{color:var(--ink)}
+.subs{list-style:none;margin:14px 0 0;padding:0}
+.subs li{margin:0 0 10px;padding-left:16px;border-left:2px solid var(--line);max-width:60ch}
+.subs li:last-child{margin-bottom:0}
+.fires{display:inline-block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;border-radius:3px;padding:2px 7px;margin-right:8px;vertical-align:1px}
+.fires-always{background:#e4efe9;color:var(--green)}
+.fires-thin{background:#eef0ee;color:var(--muted)}
+.choices{list-style:none;margin:10px 0 0;padding:0 0 0 2px}
+.choices li{margin:0 0 5px;padding-left:14px;position:relative;font-size:16px;border:0;max-width:58ch}
+.choices li:before{content:"•";position:absolute;left:0;color:var(--muted)}
+.flag{font-size:14px;color:#79510b;background:#fff1d1;border-radius:4px;padding:10px 14px;margin:12px 0 0;max-width:62ch}
+.tally{font-size:14px;color:var(--muted);margin:30px 0 0;padding-top:16px;border-top:1px solid var(--line)}
