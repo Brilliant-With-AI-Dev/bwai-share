@@ -39,3 +39,32 @@ footer{margin-top:40px;border-top:1px solid var(--line);padding-top:16px;font-si
 footer p{margin:0 0 6px;max-width:70ch}
 :focus-visible{outline:3px solid var(--green);outline-offset:3px}
 @media(max-width:480px){ol.qs li{padding-left:50px}ol.qs li:before{left:12px}}
+.how{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:0 0 8px}
+.how ol{margin:10px 0 0;padding-left:22px}
+.how li{margin:0 0 10px;max-width:62ch}
+.how li:last-child{margin:0}
+.how p{margin:0;max-width:62ch}
+.sec{margin:34px 0 0}
+.sec-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.sec-head h3{margin:0;font:400 24px/1.2 Newsreader,Georgia,serif;letter-spacing:0;text-transform:none;color:var(--ink)}
+.tag{font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:var(--amber);background:var(--amber-bg);border-radius:4px;padding:2px 7px}
+.mq{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--green);border-radius:12px;padding:20px 22px;margin:0 0 12px}
+.mq .qn{font-size:13px;font-weight:600;color:var(--green-ink);margin:0 0 6px}
+.mq .qt{font:400 21px/1.38 Newsreader,Georgia,serif;margin:0}
+.mq .purpose{margin:12px 0 0;font-size:15px;color:var(--muted)}
+.mq .purpose b{color:var(--ink);font-weight:600}
+details{margin:12px 0 0}
+details summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--green-ink);list-style:none;display:inline-flex;align-items:center;gap:6px}
+details summary::-webkit-details-marker{display:none}
+details summary:before{content:"▸";font-size:12px;transition:transform .15s}
+details[open] summary:before{transform:rotate(90deg)}
+details ul{margin:10px 0 0;padding:0;list-style:none}
+details ul li{display:flex;gap:10px;margin:0 0 8px;font-size:15px;color:var(--ink)}
+details ul li:before{content:"↳";color:var(--green);flex:none}
+details.adds{background:var(--green-bg);border-radius:12px;padding:14px 18px;margin:6px 0 0}
+details.adds summary{color:var(--green-ink)}
+details.adds .add{margin:14px 0 0;padding:14px 16px;background:#fff;border-radius:8px}
+details.adds .add .qt{font:400 19px/1.4 Newsreader,Georgia,serif;margin:0}
+details.adds .add .for{margin:8px 0 0;font-size:14px;color:var(--muted)}
+.deck-link{margin:0 0 22px}
+.deck-link a{color:var(--green-ink);font-weight:600}
