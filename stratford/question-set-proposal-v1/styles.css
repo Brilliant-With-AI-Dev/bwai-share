@@ -56,3 +56,14 @@ footer p{margin:0 0 6px;max-width:68ch}
 .summary li:last-child{margin-bottom:0}
 .key{font-size:14px;color:var(--muted);margin:16px 0 0;padding-top:14px;border-top:1px solid var(--line)}
 .q.flat{padding:18px 22px}
+.at-a-glance{list-style:none;margin:14px 0 0;padding:0;columns:2;column-gap:28px}
+.at-a-glance li{font-size:14px;color:var(--muted);margin:0 0 6px;break-inside:avoid;max-width:38ch}
+.at-a-glance li b{color:var(--ink);font-weight:600}
+.ask-block{background:#fff;border:1px solid var(--line);border-top:4px solid var(--green);border-radius:6px;padding:24px 26px;margin:40px 0 0}
+.ask-block h2{margin:0 0 10px;font:400 26px/1.15 Newsreader,Georgia,serif;text-transform:none;letter-spacing:0;color:var(--ink);border:0;padding:0}
+.ask-block ol{margin:0;padding-left:20px}
+.ask-block li{margin-bottom:10px;max-width:62ch}
+.ask-block li:last-child{margin-bottom:0}
+.source-line{font-size:15px;color:var(--muted);margin:18px 0 0}
+@media(max-width:560px){.at-a-glance{columns:1}}
+@media(max-width:480px){.adds li,.subs li{font-size:17px}.fires{display:block;margin:0 0 6px}}
