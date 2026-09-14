@@ -24,3 +24,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:18px;color:v
 footer p{margin:0 0 6px;max-width:68ch}
 :focus-visible{outline:3px solid var(--amber);outline-offset:4px}
 @media(max-width:480px){main{padding:28px 18px 40px}.q{padding:18px}}
+.why-intro{background:#fff;border:1px solid var(--line);border-left:4px solid var(--green);border-radius:6px;padding:22px 24px;margin:0 0 10px}
+.why-intro p{margin:0 0 12px;max-width:62ch}
+.why-intro p:last-child{margin:0}
+.why-intro .byline{font-size:14px;color:var(--muted)}
