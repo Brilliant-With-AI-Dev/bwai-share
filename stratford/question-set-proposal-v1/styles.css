@@ -68,3 +68,4 @@ details.adds .add .qt{font:400 19px/1.4 Newsreader,Georgia,serif;margin:0}
 details.adds .add .for{margin:8px 0 0;font-size:14px;color:var(--muted)}
 .deck-link{margin:0 0 22px}
 .deck-link a{color:var(--green-ink);font-weight:600}
+details.adds .add .qn{font-size:13px;font-weight:600;color:var(--green-ink);margin:0 0 6px}
