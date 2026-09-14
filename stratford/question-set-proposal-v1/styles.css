@@ -69,3 +69,8 @@ details.adds .add .for{margin:8px 0 0;font-size:14px;color:var(--muted)}
 .deck-link{margin:0 0 22px}
 .deck-link a{color:var(--green-ink);font-weight:600}
 details.adds .add .qn{font-size:13px;font-weight:600;color:var(--green-ink);margin:0 0 6px}
+.mq ul.subs{list-style:none;margin:14px 0 0;padding:0}
+.mq ul.subs li{display:flex;gap:10px;margin:0 0 8px;font-size:16px;color:var(--ink)}
+.mq ul.subs li:last-child{margin:0}
+.mq ul.subs li:before{content:"↳";color:var(--green);flex:none}
+details.adds .add .shapes{margin:0}
