@@ -10,8 +10,8 @@ published at https://bwai-share.vercel.app/.
   that they are agent-authored and unreviewed, unless posted by an identified bot.
 - GitHub organization: `Brilliant-With-AI-Dev`. Repository:
   https://github.com/Brilliant-With-AI-Dev/bwai-share.
-- Vercel scope: `alignmktgs-projects`. Project: `bwai-share`.
-  Link with `vercel link --project bwai-share --scope alignmktgs-projects`.
+- Vercel scope: `team-brilliant-with-ai`. Project: `bwai-share`.
+  Link with `vercel link --project bwai-share --scope team-brilliant-with-ai`.
 
 ## Change workflow
 
