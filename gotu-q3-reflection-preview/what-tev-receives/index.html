@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GoTu Q3 Reflection · What Tev receives</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="../assets/app.css">
+<style>
+  /* The app's stylesheet paints <html> cream; on a page this long the body box
+     stops short of it, so the page ground is set here rather than inherited. */
+  html { background: var(--off-white); height: auto; }
+  body { background: var(--off-white); color: var(--navy); font-family: var(--font-body); margin: 0; min-height: 100vh; height: auto; }
+  a { color: inherit; }
+  .brand { display: flex; align-items: center; height: 56px; padding: 0 24px; background: var(--off-white); border-bottom: 1px solid var(--navy-10); }
+  .brand a { font-family: var(--font-display); font-size: var(--text-md); font-weight: 500; letter-spacing: -0.01em; color: var(--navy); text-decoration: none; }
+  .brand .dot { color: var(--accent); }
+  .preview-strip a { text-decoration: none; }
+
+  .shell { max-width: 1120px; margin: 0 auto; padding: 0 24px 96px; }
+  .run-head { padding: 48px 0 24px; max-width: 46rem; }
+  .eyebrow { font-size: var(--text-xs); font-weight: 600; letter-spacing: var(--tracking-ultra); text-transform: uppercase; color: var(--navy-50); margin: 0 0 12px; }
+  h1 { font-family: var(--font-display); font-size: var(--text-4xl); font-weight: 500; letter-spacing: var(--tracking-tight); line-height: 1.15; margin: 0 0 12px; }
+  .lede { font-size: var(--text-lg); line-height: 1.65; color: var(--navy-70); margin: 0; }
+
+  .jump { position: sticky; top: 0; z-index: 6; display: flex; flex-wrap: wrap; gap: 4px 20px; align-items: center; padding: 12px 0; margin-bottom: 8px; background: var(--off-white); border-bottom: 1px solid var(--navy-10); font-size: var(--text-sm); }
+  .jump a { color: var(--navy-70); text-decoration: none; }
+  .jump a:hover { color: var(--navy); text-decoration: underline; text-underline-offset: 4px; }
+
+  section.band { padding: 48px 0 8px; scroll-margin-top: 64px; }
+  h2 { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 500; letter-spacing: var(--tracking-tight); margin: 0 0 8px; }
+  .sub { font-size: var(--text-md); line-height: 1.65; color: var(--navy-70); margin: 0 0 24px; max-width: 46rem; }
+
+  .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 20px; }
+  .card { border: 1px solid var(--navy-10); border-radius: var(--radius-lg); background: var(--color-surface-floating); padding: 20px; }
+  .card h3 { font-family: var(--font-body); font-size: var(--text-md); font-weight: 600; margin: 0 0 8px; }
+  .card p { font-size: var(--text-sm); line-height: 1.6; color: var(--navy-70); margin: 0; }
+  .promise { border-left: 2px solid var(--accent); padding: 8px 0 8px 16px; font-size: var(--text-md); line-height: 1.6; color: var(--navy-70); margin: 0; max-width: 46rem; }
+
+  .with-legend { display: grid; grid-template-columns: minmax(0, 1fr) 256px; gap: 24px; align-items: start; }
+  .legend { border: 1px solid var(--navy-10); border-radius: var(--radius-lg); padding: 16px; background: var(--accent-bg); position: sticky; top: 72px; }
+  .legend h4 { font-family: var(--font-body); font-size: var(--text-xs); font-weight: 600; letter-spacing: var(--tracking-ultra); text-transform: uppercase; color: var(--navy-50); margin: 0 0 12px; }
+  .legend ol { list-style: none; margin: 0; padding: 0; }
+  .legend li { display: flex; gap: 8px; font-size: var(--text-sm); line-height: 1.55; color: var(--navy-70); margin-bottom: 10px; }
+  .legend li:last-child { margin-bottom: 0; }
+  .cue { color: var(--accent); font-weight: 600; font-size: 15px; }
+
+  .scroller { overflow-x: auto; border: 1px solid var(--navy-10); border-radius: var(--radius-lg); background: var(--color-surface-floating); max-width: 100%; }
+  table { border-collapse: separate; border-spacing: 0; font-size: 13px; line-height: 1.5; table-layout: fixed; }
+  th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--navy-10); }
+  td { overflow-wrap: break-word; }
+  th { font-weight: 600; font-size: var(--text-2xs); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--navy-50); background: var(--color-surface-recessed); }
+  tbody tr:last-child td { border-bottom: 0; }
+  .quiet { color: var(--navy-50); font-style: italic; }
+
+  .wide table { width: 8200px; }
+  .wide th, .wide td { width: 300px; }
+  .wide th.s0, .wide td.s0 { width: 150px; }
+  .wide th.s1, .wide td.s1 { width: 140px; }
+  .wide th.s2, .wide td.s2 { width: 110px; }
+  .tall table { width: 1606px; }
+  .tall th.t-person, .tall td.t-person { width: 130px; }
+  .tall th.t-email, .tall td.t-email { width: 190px; }
+  .tall th.t-team, .tall td.t-team { width: 110px; }
+  .tall th.t-part, .tall td.t-part { width: 130px; }
+  .tall th.t-topic, .tall td.t-topic { width: 170px; }
+  .tall th.t-question, .tall td.t-question { width: 300px; }
+  .tall th.t-answer, .tall td.t-answer { width: 360px; }
+  .tall th.t-characters, .tall td.t-characters { width: 96px; }
+  .tall th.t-flags, .tall td.t-flags { width: 120px; }
+  .wide td.extra { background: var(--accent-bg); }
+  .tall td.t-characters, .tall th.t-characters { text-align: right; }
+  .tall td.question { color: var(--navy-50); }
+  .private-row td { color: var(--navy-50); font-style: italic; background: var(--color-surface-recessed); }
+
+  .controls { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: flex-end; margin-bottom: 12px; }
+  .control { display: flex; flex-direction: column; gap: 4px; }
+  .control label { font-size: var(--text-2xs); font-weight: 600; letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--navy-50); }
+  select, .toggle { font-family: var(--font-body); font-size: var(--text-sm); color: var(--navy); background: var(--color-surface-floating); border: 1px solid var(--navy-30); border-radius: var(--radius-md); padding: 7px 10px; }
+  .toggle { cursor: pointer; }
+  .toggle[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--color-text-on-accent); }
+  .toggle[aria-pressed="true"] .cue { color: var(--color-text-on-accent); }
+  .count { font-size: var(--text-sm); color: var(--navy-50); margin: 0 0 12px; }
+
+  .downloads { margin: 16px 0 0; font-size: var(--text-sm); }
+  .downloads a { color: var(--accent); font-weight: 600; text-underline-offset: 4px; }
+
+  .doc { max-width: 42rem; border: 1px solid var(--navy-10); border-radius: var(--radius-lg); background: var(--color-surface-floating); padding: 28px 28px 8px; }
+  .part { margin-bottom: 28px; }
+  .part h3 { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 500; margin: 0 0 12px; }
+  .q { font-size: var(--text-sm); line-height: 1.55; color: var(--navy-50); white-space: pre-line; margin: 20px 0 8px; }
+  .q-label { font-weight: 600; }
+  .a { font-size: var(--text-md); line-height: 1.7; margin: 0; }
+  .a.private { color: var(--navy-50); font-style: italic; }
+
+  .guarantees { list-style: none; padding: 0; margin: 0; max-width: 46rem; }
+  .guarantees li { border-top: 1px solid var(--navy-10); padding: 16px 0; font-size: var(--text-md); line-height: 1.65; color: var(--navy-70); }
+  footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--navy-10); font-size: var(--text-xs); color: var(--navy-50); }
+
+  @media (min-width: 768px) {
+    .wide th.sticky, .wide td.sticky { position: sticky; z-index: 1; background: var(--color-surface-floating); }
+    .wide th.sticky { z-index: 2; background: var(--color-surface-recessed); }
+    .wide .s0 { left: 0px; }
+    .wide .s1 { left: 150px; }
+    .wide .s2 { left: 290px; }
+    .wide .s2 { box-shadow: 1px 0 0 var(--navy-10); }
+  }
+  @media (max-width: 900px) {
+    .with-legend { grid-template-columns: minmax(0, 1fr); }
+    .legend { position: static; }
+    .cards { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .shell { padding: 0 16px 64px; }
+    .run-head { padding: 32px 0 16px; }
+    h1 { font-size: var(--text-3xl); }
+    section.band { padding: 32px 0 8px; }
+    .doc { padding: 20px 20px 4px; }
+  }
+</style>
+</head>
+<body>
+<header class="brand"><a href="../../">BrilliantWith<span class="dot">.ai</span></a></header>
+<nav aria-label="Preview screens" class="border-border-subtle bg-surface-recessed text-text-secondary flex flex-wrap items-center gap-x-4 gap-y-1 border-b px-4 py-2 text-xs preview-strip"><span class="text-text-tertiary font-semibold tracking-wide uppercase">Preview</span><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline" href="../start/">Start</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline" href="../teams/">Teams</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline" href="../interview-start/">First question</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline" href="../interview/">Mid-conversation</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline" href="../preparing/">Laying out the answers</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline" href="../review-pending/">Review (check running)</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline" href="../review/">Review</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline" href="../review-findings/">Review (with a finding)</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline" href="../chat/">Chat (suggestions)</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline" href="../chat-replied/">Chat (after a reply)</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline text-text-primary font-semibold" href="./" aria-current="page">What Tev receives</a></nav>
+<div class="shell">
+
+  <div class="run-head">
+    <p class="eyebrow">Mirror experience · GoTu Q3 Reflection</p>
+    <h1>What Tev receives</h1>
+    <p class="lede">After a person approves, three things arrive. Everything in them is their own words.</p>
+  </div>
+
+  <nav class="jump" aria-label="On this page">
+    <a href="#overview">Overview</a>
+    <a href="#wide-sheet">Wide sheet</a>
+    <a href="#tall-sheet">Tall sheet</a>
+    <a href="#transcript">Transcript</a>
+    <a href="#guarantees">Guarantees</a>
+  </nav>
+
+  <section class="band" id="overview">
+    <h2>Overview</h2>
+    <p class="sub">Three things, built from the same approved words. Each one is below, filled in with one person’s Q3 reflection.</p>
+    <div class="cards">
+      <div class="card"><h3>Wide sheet</h3><p>One row per person and team, so a single line reads as a whole person walking into one planning session.</p></div>
+      <div class="card"><h3>Tall sheet</h3><p>One row per thing they said, the question beside it, so you can read everyone on one topic at a time.</p></div>
+      <div class="card"><h3>Transcript</h3><p>The conversation in order, so any row in either sheet can be traced back to where it came from.</p></div>
+    </div>
+    <p class="promise">Nothing arrives until the person approves; anything they keep private never leaves the conversation.</p>
+  </section>
+
+  <section class="band" id="wide-sheet">
+    <h2>Wide sheet</h2>
+    <p class="sub">29 columns: the 28 the reflection asks for, plus “Also said”. This person is in two planning sessions, so they have two rows. Scroll the table sideways; the date, the name and the team stay put.</p>
+    <div class="with-legend">
+      <div>
+        <div class="scroller wide">
+          <table>
+            <thead><tr><th scope="col" class="sticky s0">Submitted At</th><th scope="col" class="sticky s1">Full Name</th><th scope="col" class="">Email</th><th scope="col" class="">Teams</th><th scope="col" class="">Top of mind</th><th scope="col" class="">Personal Best</th><th scope="col" class="">Professional Best</th><th scope="col" class="">Quarter Rating</th><th scope="col" class="">Rating Reason</th><th scope="col" class="sticky s2">Team <span class="cue" aria-hidden="true">①</span></th><th scope="col" class="">EOS Component</th><th scope="col" class="">EOS Example</th><th scope="col" class="">Avoided Conversation <span class="cue" aria-hidden="true">④</span></th><th scope="col" class="">Biggest Issue</th><th scope="col" class="">Success Vision (90 days)</th><th scope="col" class="">Rock 1</th><th scope="col" class="">Rock 1 — Why it matters</th><th scope="col" class="">Rock 1 — What done looks like</th><th scope="col" class="">Rock 1 — Who's involved</th><th scope="col" class="">Rock 2</th><th scope="col" class="">Rock 2 — Why it matters</th><th scope="col" class="">Rock 2 — What done looks like</th><th scope="col" class="">Rock 2 — Who's involved</th><th scope="col" class="">Rock 3</th><th scope="col" class="">Rock 3 — Why it matters</th><th scope="col" class="">Rock 3 — What done looks like</th><th scope="col" class="">Rock 3 — Who's involved</th><th scope="col" class="">Issues List <span class="cue" aria-hidden="true">②</span></th><th scope="col" class="extra">Also said <span class="cue" aria-hidden="true">③</span></th></tr></thead>
+            <tbody><tr><td class="sticky s0">2026-09-14T09:30:00.000Z</td><td class="sticky s1">Dana Whitlock</td><td class="">dana.whitlock@example.com</td><td class="">Executive, GTM</td><td class="">I mean, honestly? What’s top of mind is that we spent the whole quarter arguing about how we build with AI and never landed it. We shipped fine, the numbers held, but every Monday was the same conversation again and I walked into most weeks already tired of it.</td><td class="">The college tour with my daughter. I’d been putting it off two years. Four days, no laptop, and I didn’t open the fill-rate channel once, which for me is the whole achievement.</td><td class="">One rate card for the Gulf Coast markets. Sales and ops had been stuck on it for three quarters and we got it done in about six weeks, and nobody got rolled to do it. The offices stopped hearing two different prices from us, which was embarrassing.</td><td class="">Seven. Maybe six and a half, honestly.</td><td class="">It was two quarters in one. Delivery side, we were good — fill rate held through the summer dip, the rate card landed, engineering shipped the worker app rewrite about when they said. That’s an eight. The other side is I sat in rooms all quarter talking about the same AI decision and we walked out of every one of them without making it, and that made me dread Mondays in a way I haven’t in six years. That’s a four. So the number is both of those, and I don’t want it to bury either one. If you read a seven and think we’re fine, you’ve missed the part that costs us next quarter, which is that nobody knows who decides.</td><td class="sticky s2">Executive</td><td class="">Vision, easily.</td><td class="">The AI thing. Four conversations about what we build ourselves and what we buy, and every one ends with everybody nodding and nobody owning it. Then two weeks later somebody’s spun up a pilot anyway and we’re arguing about the same thing. It’s not a people problem, it’s that we never wrote it down, so everyone fills the gap with their own version.</td><td class=""><span class="quiet">(kept private — never sent)</span></td><td class="">Nobody can say who actually decides on AI. Six of us think we’re deciding it together, which means it doesn’t get decided. It’s been a month, maybe five weeks, since anybody moved on it.</td><td class="">The one I care about most is one fill-rate number and nobody walking in with a second one. That’s the whole first thing. Past that — a charter for how we build with AI, one page, boring, all six of us signed it, so when somebody spins up a pilot we point at the page instead of relitigating. The Gulf Coast group’s run a full quarter on the new rate card and we know whether it worked, actually know. GTM is down to one motion, so the single-office funnel is either fixed or it’s off. Engineering’s far enough through the worker app backlog that they’re asking us what’s next instead of us apologizing for the queue. And the thing I’d have stopped is the Monday leadership meeting where we update each other for ninety minutes and identify nothing. Half as long and twice as uncomfortable, I’d take that on its own.</td><td class="">First one is the number. One fill-rate number, one owner, read at the top of every L10, and nobody brings a spreadsheet to sit next to it.</td><td class="">Because every argument we had last quarter started with two numbers. If we can’t agree what fill rate was, we can’t agree what moved it, and then we decide by whoever’s most certain that morning. That’s a bad way to run a marketplace.</td><td class="">One dashboard, one written definition, one owner with their name on it. We’ve read it in the L10 every week of the quarter and nobody’s turned up with their own version. And when July’s question comes round again we answer it in the room.</td><td class="">Ops owns it, data builds it, and me — I’m the one who has to stop accepting a second number.</td><td class="">Yeah. Collapse GTM to one motion. One play, written down, that every rep runs from lead to first filled shift.</td><td class="">Two motions is where our handoffs die. Every seam is somewhere a new office waits a week on something, and offices don’t complain, they just stop posting shifts. It’s also the cheapest efficiency we’ve got — we don’t need more people, we need one path.</td><td class="">The play’s on one page, every rep has run it end to end at least twice, and we can watch a lead go from marketing to a filled shift without anyone forwarding an email. And we’ve decided about the single-office funnel out loud, either way.</td><td class="">Sales and marketing together, ops for the last mile, and me to make the call on the funnel.</td><td class=""></td><td class=""></td><td class=""></td><td class=""></td><td class="">Oh — and the headcount conversation. Had it, not scheduled it. … Three or four. Who owns the AI decision. The single-office motion and whether we keep it. The headcount conversation before budget season. And if there’s room, how we run L10s now the room is twenty people.</td><td class="extra">Not the poster on the wall version — I mean we genuinely do not agree on where we’re going with product and with AI over the next two or three years. … No. Two is it. Anything past two and I’m lying to myself about what we’ll actually finish.</td></tr><tr><td class="sticky s0">2026-09-14T09:30:00.000Z</td><td class="sticky s1">Dana Whitlock</td><td class="">dana.whitlock@example.com</td><td class="">Executive, GTM</td><td class="">I mean, honestly? What’s top of mind is that we spent the whole quarter arguing about how we build with AI and never landed it. We shipped fine, the numbers held, but every Monday was the same conversation again and I walked into most weeks already tired of it.</td><td class="">The college tour with my daughter. I’d been putting it off two years. Four days, no laptop, and I didn’t open the fill-rate channel once, which for me is the whole achievement.</td><td class="">One rate card for the Gulf Coast markets. Sales and ops had been stuck on it for three quarters and we got it done in about six weeks, and nobody got rolled to do it. The offices stopped hearing two different prices from us, which was embarrassing.</td><td class="">Seven. Maybe six and a half, honestly.</td><td class="">It was two quarters in one. Delivery side, we were good — fill rate held through the summer dip, the rate card landed, engineering shipped the worker app rewrite about when they said. That’s an eight. The other side is I sat in rooms all quarter talking about the same AI decision and we walked out of every one of them without making it, and that made me dread Mondays in a way I haven’t in six years. That’s a four. So the number is both of those, and I don’t want it to bury either one. If you read a seven and think we’re fine, you’ve missed the part that costs us next quarter, which is that nobody knows who decides.</td><td class="sticky s2">GTM</td><td class="">Data for this one.</td><td class="">July. Fill rate moved and I still can’t tell you why. Marketing says the rate increase, sales says the outbound push, and both of them have a chart that says so. The data’s directionally right, I’m not saying it’s wrong, it’s that we can’t get from the chart to the cause, so we pick whichever story matches what we already wanted to do.</td><td class="">Whether we still run two motions. Self-serve for single offices, a real sales motion for the groups. The honest version is the single-office side isn’t paying for itself anymore, everybody knows it, and nobody wants to be the one who says kill it because it’s somebody’s whole team. I’d rather have that in the room than in a spreadsheet three months from now.</td><td class="">Handoffs. Marketing hands a lead to sales and it sits, sales hands an office to ops and the first shift doesn’t get filled, and every one of those is somewhere we lose an account without ever hearing about it.</td><td class="">The one I care about most is one fill-rate number and nobody walking in with a second one. That’s the whole first thing. Past that — a charter for how we build with AI, one page, boring, all six of us signed it, so when somebody spins up a pilot we point at the page instead of relitigating. The Gulf Coast group’s run a full quarter on the new rate card and we know whether it worked, actually know. GTM is down to one motion, so the single-office funnel is either fixed or it’s off. Engineering’s far enough through the worker app backlog that they’re asking us what’s next instead of us apologizing for the queue. And the thing I’d have stopped is the Monday leadership meeting where we update each other for ninety minutes and identify nothing. Half as long and twice as uncomfortable, I’d take that on its own.</td><td class="">First one is the number. One fill-rate number, one owner, read at the top of every L10, and nobody brings a spreadsheet to sit next to it.</td><td class="">Because every argument we had last quarter started with two numbers. If we can’t agree what fill rate was, we can’t agree what moved it, and then we decide by whoever’s most certain that morning. That’s a bad way to run a marketplace.</td><td class="">One dashboard, one written definition, one owner with their name on it. We’ve read it in the L10 every week of the quarter and nobody’s turned up with their own version. And when July’s question comes round again we answer it in the room.</td><td class="">Ops owns it, data builds it, and me — I’m the one who has to stop accepting a second number.</td><td class="">Yeah. Collapse GTM to one motion. One play, written down, that every rep runs from lead to first filled shift.</td><td class="">Two motions is where our handoffs die. Every seam is somewhere a new office waits a week on something, and offices don’t complain, they just stop posting shifts. It’s also the cheapest efficiency we’ve got — we don’t need more people, we need one path.</td><td class="">The play’s on one page, every rep has run it end to end at least twice, and we can watch a lead go from marketing to a filled shift without anyone forwarding an email. And we’ve decided about the single-office funnel out loud, either way.</td><td class="">Sales and marketing together, ops for the last mile, and me to make the call on the funnel.</td><td class=""></td><td class=""></td><td class=""></td><td class=""></td><td class="">Oh — and the headcount conversation. Had it, not scheduled it. … Three or four. Who owns the AI decision. The single-office motion and whether we keep it. The headcount conversation before budget season. And if there’s room, how we run L10s now the room is twenty people.</td><td class="extra">And not that we don’t have any — we have too much of it and I still can’t tell you what’s causing what. … No. Two is it. Anything past two and I’m lying to myself about what we’ll actually finish.</td></tr></tbody>
+          </table>
+        </div>
+        <p class="downloads"><a href="wide.csv" download>Download CSV</a> · wide.csv</p>
+      </div>
+      <aside class="legend"><h4>What to look at</h4><ol><li><span class="cue" aria-hidden="true">①</span><span>One row per person and team. Everything about the person repeats on both rows; the team answers change.</span></li><li><span class="cue" aria-hidden="true">②</span><span>A cell is one or more excerpts of what they said, never a rewrite. Two or more are joined with “ … ”.</span></li><li><span class="cue" aria-hidden="true">③</span><span>“Also said” catches what they said that fit no column, so nothing is quietly dropped.</span></li><li><span class="cue" aria-hidden="true">④</span><span>This person kept one answer private. The cell is simply empty — it never left the conversation.</span></li></ol></aside>
+    </div>
+  </section>
+
+  <section class="band" id="tall-sheet">
+    <h2>Tall sheet</h2>
+    <p class="sub">One row per thing they said. The filters below are live — change them and the table changes with them.</p>
+    <div class="with-legend">
+      <div>
+        <div class="controls">
+          <div class="control"><label for="f-team">Team</label><select id="f-team"><option value="">All teams</option><option value="Executive">Executive</option><option value="GTM">GTM</option></select></div>
+          <div class="control"><label for="f-part">Part</label><select id="f-part"><option value="">All Parts</option><option value="Looking back">Looking back</option><option value="Executive">Executive</option><option value="GTM">GTM</option><option value="Looking forward">Looking forward</option><option value="Your rocks">Your rocks</option></select></div>
+          <div class="control"><label for="f-topic">Topic <span class="cue" aria-hidden="true">③</span></label><select id="f-topic"><option value="">All topics</option><option value="Also said">Also said</option><option value="Avoided Conversation">Avoided Conversation</option><option value="Biggest Issue">Biggest Issue</option><option value="EOS Component">EOS Component</option><option value="EOS Example">EOS Example</option><option value="Issues List">Issues List</option><option value="Personal Best">Personal Best</option><option value="Professional Best">Professional Best</option><option value="Quarter Rating">Quarter Rating</option><option value="Rating Reason">Rating Reason</option><option value="Rock 1">Rock 1</option><option value="Rock 1 — What done looks like">Rock 1 — What done looks like</option><option value="Rock 1 — Who's involved">Rock 1 — Who's involved</option><option value="Rock 1 — Why it matters">Rock 1 — Why it matters</option><option value="Rock 2">Rock 2</option><option value="Rock 2 — What done looks like">Rock 2 — What done looks like</option><option value="Rock 2 — Who's involved">Rock 2 — Who's involved</option><option value="Rock 2 — Why it matters">Rock 2 — Why it matters</option><option value="Success Vision (90 days)">Success Vision (90 days)</option><option value="Top of mind">Top of mind</option></select></div>
+          <button type="button" class="toggle" id="f-sort" aria-pressed="false">Sort by length <span class="cue" aria-hidden="true">④</span></button>
+        </div>
+        <p class="count"><span class="cue" aria-hidden="true">①</span> <span id="row-count">Showing 26 of 26 rows.</span></p>
+        <div class="scroller tall">
+          <table>
+            <thead><tr><th scope="col" class="t-person">Person</th><th scope="col" class="t-email">Email</th><th scope="col" class="t-team">Team</th><th scope="col" class="t-part">Part</th><th scope="col" class="t-topic">Topic</th><th scope="col" class="t-question">Question <span class="cue" aria-hidden="true">②</span></th><th scope="col" class="t-answer">Answer</th><th scope="col" class="t-characters">Characters <span class="cue" aria-hidden="true">④</span></th><th scope="col" class="t-flags">Flags <span class="cue" aria-hidden="true">⑤</span></th></tr></thead>
+            <tbody id="tall-body"><tr data-team="" data-part="Looking back" data-topic="Top of mind" data-chars="261"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team"><span class="quiet">—</span></td><td class="t-part">Looking back</td><td class="t-topic">Top of mind</td><td class="t-question question">Let’s start with a big, easy question: as we head into the Q3 reflection, what’s most top of mind for you — or just on your mind, right now? Just click the mic and speak your truth. (And, remember: every word is private unless you decide to send it along.)</td><td class="t-answer">I mean, honestly? What’s top of mind is that we spent the whole quarter arguing about how we build with AI and never landed it. We shipped fine, the numbers held, but every Monday was the same conversation again and I walked into most weeks already tired of it.</td><td class="t-characters">261</td><td class="t-flags"></td></tr><tr data-team="" data-part="Looking back" data-topic="Personal Best" data-chars="176"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team"><span class="quiet">—</span></td><td class="t-part">Looking back</td><td class="t-topic">Personal Best</td><td class="t-question question">You said you walked in already tired of it. Before we go near that — what was your number one personal best of the last ninety days, outside of work?</td><td class="t-answer">The college tour with my daughter. I’d been putting it off two years. Four days, no laptop, and I didn’t open the fill-rate channel once, which for me is the whole achievement.</td><td class="t-characters">176</td><td class="t-flags">people</td></tr><tr data-team="" data-part="Looking back" data-topic="Professional Best" data-chars="248"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team"><span class="quiet">—</span></td><td class="t-part">Looking back</td><td class="t-topic">Professional Best</td><td class="t-question question">Four days without the fill-rate channel. And the work one — what are you most proud of from the last ninety days?</td><td class="t-answer">One rate card for the Gulf Coast markets. Sales and ops had been stuck on it for three quarters and we got it done in about six weeks, and nobody got rolled to do it. The offices stopped hearing two different prices from us, which was embarrassing.</td><td class="t-characters">248</td><td class="t-flags"></td></tr><tr data-team="" data-part="Looking back" data-topic="Quarter Rating" data-chars="38"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team"><span class="quiet">—</span></td><td class="t-part">Looking back</td><td class="t-topic">Quarter Rating</td><td class="t-question question">Rate card in six weeks. On a scale of one to ten, where one is rough and ten is exceptional, how would you rate the quarter?</td><td class="t-answer">Seven. Maybe six and a half, honestly.</td><td class="t-characters">38</td><td class="t-flags"></td></tr><tr data-team="" data-part="Looking back" data-topic="Rating Reason" data-chars="622"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team"><span class="quiet">—</span></td><td class="t-part">Looking back</td><td class="t-topic">Rating Reason</td><td class="t-question question">Seven, maybe six and a half. What’s the single biggest reason behind that number — the biggest one, not the list?</td><td class="t-answer">It was two quarters in one. Delivery side, we were good — fill rate held through the summer dip, the rate card landed, engineering shipped the worker app rewrite about when they said. That’s an eight. The other side is I sat in rooms all quarter talking about the same AI decision and we walked out of every one of them without making it, and that made me dread Mondays in a way I haven’t in six years. That’s a four. So the number is both of those, and I don’t want it to bury either one. If you read a seven and think we’re fine, you’ve missed the part that costs us next quarter, which is that nobody knows who decides.</td><td class="t-characters">622</td><td class="t-flags"></td></tr><tr data-team="Executive" data-part="Executive" data-topic="EOS Component" data-chars="15"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team">Executive</td><td class="t-part">Executive</td><td class="t-topic">EOS Component</td><td class="t-question question">Of the six EOS components — Vision, People, Data, Issues, Process, Traction — which one does the Executive team most need to improve this quarter, and what’s one example that shows why?
+
+- Is it where you’re going, or who is in which seat?
+- Is it the numbers you steer by, or how issues get raised and solved?
+- Is it whether the process is written down and followed, or whether rocks and the meeting pulse actually get done?
+
+One of these, a combination, none of them — or something else entirely.</td><td class="t-answer">Vision, easily.</td><td class="t-characters">15</td><td class="t-flags"></td></tr><tr data-team="Executive" data-part="Executive" data-topic="Also said" data-chars="149"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team">Executive</td><td class="t-part">Executive</td><td class="t-topic">Also said</td><td class="t-question question">Of the six EOS components — Vision, People, Data, Issues, Process, Traction — which one does the Executive team most need to improve this quarter, and what’s one example that shows why?
+
+- Is it where you’re going, or who is in which seat?
+- Is it the numbers you steer by, or how issues get raised and solved?
+- Is it whether the process is written down and followed, or whether rocks and the meeting pulse actually get done?
+
+One of these, a combination, none of them — or something else entirely.</td><td class="t-answer">Not the poster on the wall version — I mean we genuinely do not agree on where we’re going with product and with AI over the next two or three years.</td><td class="t-characters">149</td><td class="t-flags"></td></tr><tr data-team="Executive" data-part="Executive" data-topic="EOS Example" data-chars="349"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team">Executive</td><td class="t-part">Executive</td><td class="t-topic">EOS Example</td><td class="t-question question">You said you don’t agree on where you’re going. What’s one thing that happened that shows it?</td><td class="t-answer">The AI thing. Four conversations about what we build ourselves and what we buy, and every one ends with everybody nodding and nobody owning it. Then two weeks later somebody’s spun up a pilot anyway and we’re arguing about the same thing. It’s not a people problem, it’s that we never wrote it down, so everyone fills the gap with their own version.</td><td class="t-characters">349</td><td class="t-flags"></td></tr><tr data-team="Executive" data-part="Executive" data-topic="Biggest Issue" data-chars="186"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team">Executive</td><td class="t-part">Executive</td><td class="t-topic">Biggest Issue</td><td class="t-question question">And the single biggest issue limiting the Executive team right now?</td><td class="t-answer">Nobody can say who actually decides on AI. Six of us think we’re deciding it together, which means it doesn’t get decided. It’s been a month, maybe five weeks, since anybody moved on it.</td><td class="t-characters">186</td><td class="t-flags"></td></tr><tr data-team="GTM" data-part="GTM" data-topic="EOS Component" data-chars="18"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team">GTM</td><td class="t-part">GTM</td><td class="t-topic">EOS Component</td><td class="t-question question">Of the six EOS components — Vision, People, Data, Issues, Process, Traction — which one does the GTM team most need to improve this quarter, and what’s one example that shows why?
+
+- Is it where you’re going, or who is in which seat?
+- Is it the numbers you steer by, or how issues get raised and solved?
+- Is it whether the process is written down and followed, or whether rocks and the meeting pulse actually get done?
+
+One of these, a combination, none of them — or something else entirely.</td><td class="t-answer">Data for this one.</td><td class="t-characters">18</td><td class="t-flags"></td></tr><tr data-team="GTM" data-part="GTM" data-topic="Also said" data-chars="103"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team">GTM</td><td class="t-part">GTM</td><td class="t-topic">Also said</td><td class="t-question question">Of the six EOS components — Vision, People, Data, Issues, Process, Traction — which one does the GTM team most need to improve this quarter, and what’s one example that shows why?
+
+- Is it where you’re going, or who is in which seat?
+- Is it the numbers you steer by, or how issues get raised and solved?
+- Is it whether the process is written down and followed, or whether rocks and the meeting pulse actually get done?
+
+One of these, a combination, none of them — or something else entirely.</td><td class="t-answer">And not that we don’t have any — we have too much of it and I still can’t tell you what’s causing what.</td><td class="t-characters">103</td><td class="t-flags"></td></tr><tr data-team="GTM" data-part="GTM" data-topic="EOS Example" data-chars="337"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team">GTM</td><td class="t-part">GTM</td><td class="t-topic">EOS Example</td><td class="t-question question">What’s the example that made you say that?</td><td class="t-answer">July. Fill rate moved and I still can’t tell you why. Marketing says the rate increase, sales says the outbound push, and both of them have a chart that says so. The data’s directionally right, I’m not saying it’s wrong, it’s that we can’t get from the chart to the cause, so we pick whichever story matches what we already wanted to do.</td><td class="t-characters">337</td><td class="t-flags"></td></tr><tr data-team="GTM" data-part="GTM" data-topic="Avoided Conversation" data-chars="360"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team">GTM</td><td class="t-part">GTM</td><td class="t-topic">Avoided Conversation</td><td class="t-question question">What’s the conversation GTM needs to have and is avoiding?</td><td class="t-answer">Whether we still run two motions. Self-serve for single offices, a real sales motion for the groups. The honest version is the single-office side isn’t paying for itself anymore, everybody knows it, and nobody wants to be the one who says kill it because it’s somebody’s whole team. I’d rather have that in the room than in a spreadsheet three months from now.</td><td class="t-characters">360</td><td class="t-flags"></td></tr><tr data-team="GTM" data-part="GTM" data-topic="Biggest Issue" data-chars="209"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team">GTM</td><td class="t-part">GTM</td><td class="t-topic">Biggest Issue</td><td class="t-question question">And the biggest issue limiting GTM right now?</td><td class="t-answer">Handoffs. Marketing hands a lead to sales and it sits, sales hands an office to ops and the first shift doesn’t get filled, and every one of those is somewhere we lose an account without ever hearing about it.</td><td class="t-characters">209</td><td class="t-flags"></td></tr><tr data-team="" data-part="Looking forward" data-topic="Success Vision (90 days)" data-chars="815"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team"><span class="quiet">—</span></td><td class="t-part">Looking forward</td><td class="t-topic">Success Vision (90 days)</td><td class="t-question question">If this coming quarter were wildly successful, what would be true 90 days from now?
+
+- What would customers, or the numbers, show?
+- What would feel different inside the team?
+- What would you have stopped doing?
+
+One of these, a combination, none of them — or something else entirely.</td><td class="t-answer">The one I care about most is one fill-rate number and nobody walking in with a second one. That’s the whole first thing. Past that — a charter for how we build with AI, one page, boring, all six of us signed it, so when somebody spins up a pilot we point at the page instead of relitigating. The Gulf Coast group’s run a full quarter on the new rate card and we know whether it worked, actually know. GTM is down to one motion, so the single-office funnel is either fixed or it’s off. Engineering’s far enough through the worker app backlog that they’re asking us what’s next instead of us apologizing for the queue. And the thing I’d have stopped is the Monday leadership meeting where we update each other for ninety minutes and identify nothing. Half as long and twice as uncomfortable, I’d take that on its own.</td><td class="t-characters">815</td><td class="t-flags">long answer</td></tr><tr data-team="" data-part="Looking forward" data-topic="Issues List" data-chars="62"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team"><span class="quiet">—</span></td><td class="t-part">Looking forward</td><td class="t-topic">Issues List</td><td class="t-question question">If this coming quarter were wildly successful, what would be true 90 days from now?
+
+- What would customers, or the numbers, show?
+- What would feel different inside the team?
+- What would you have stopped doing?
+
+One of these, a combination, none of them — or something else entirely.</td><td class="t-answer">Oh — and the headcount conversation. Had it, not scheduled it.</td><td class="t-characters">62</td><td class="t-flags">long answer</td></tr><tr data-team="" data-part="Looking forward" data-topic="Issues List" data-chars="206"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team"><span class="quiet">—</span></td><td class="t-part">Looking forward</td><td class="t-topic">Issues List</td><td class="t-question question">Anything else you want raised on the issues list at the offsite — your list, in your order?</td><td class="t-answer">Three or four. Who owns the AI decision. The single-office motion and whether we keep it. The headcount conversation before budget season. And if there’s room, how we run L10s now the room is twenty people.</td><td class="t-characters">206</td><td class="t-flags"></td></tr><tr data-team="" data-part="Your rocks" data-topic="Rock 1" data-chars="138"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team"><span class="quiet">—</span></td><td class="t-part">Your rocks</td><td class="t-topic">Rock 1</td><td class="t-question question">To make that future happen, what’s the rock you’d put first this quarter?
+
+- Is it the one thing you’d be most frustrated to reach the end of Q4 without?
+- Is it the conversation or the issue you just named, finally taken on properly?
+- Is it the thing that unblocks everything else?
+
+One of these, a combination, none of them — or something else entirely.
+
+Two or three rocks at most, and only the ones you’d actually stand behind in the room. Start with the first; we’ll take them one at a time.</td><td class="t-answer">First one is the number. One fill-rate number, one owner, read at the top of every L10, and nobody brings a spreadsheet to sit next to it.</td><td class="t-characters">138</td><td class="t-flags"></td></tr><tr data-team="" data-part="Your rocks" data-topic="Rock 1 — Why it matters" data-chars="234"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team"><span class="quiet">—</span></td><td class="t-part">Your rocks</td><td class="t-topic">Rock 1 — Why it matters</td><td class="t-question question">What makes that the one you’d put first, right now?</td><td class="t-answer">Because every argument we had last quarter started with two numbers. If we can’t agree what fill rate was, we can’t agree what moved it, and then we decide by whoever’s most certain that morning. That’s a bad way to run a marketplace.</td><td class="t-characters">234</td><td class="t-flags"></td></tr><tr data-team="" data-part="Your rocks" data-topic="Rock 1 — What done looks like" data-chars="238"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team"><span class="quiet">—</span></td><td class="t-part">Your rocks</td><td class="t-topic">Rock 1 — What done looks like</td><td class="t-question question">What would be true at the end of the quarter for you to call that one done?</td><td class="t-answer">One dashboard, one written definition, one owner with their name on it. We’ve read it in the L10 every week of the quarter and nobody’s turned up with their own version. And when July’s question comes round again we answer it in the room.</td><td class="t-characters">238</td><td class="t-flags"></td></tr><tr data-team="" data-part="Your rocks" data-topic="Rock 1 — Who's involved" data-chars="92"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team"><span class="quiet">—</span></td><td class="t-part">Your rocks</td><td class="t-topic">Rock 1 — Who's involved</td><td class="t-question question">Who would need to be involved?</td><td class="t-answer">Ops owns it, data builds it, and me — I’m the one who has to stop accepting a second number.</td><td class="t-characters">92</td><td class="t-flags">people</td></tr><tr data-team="" data-part="Your rocks" data-topic="Rock 2" data-chars="110"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team"><span class="quiet">—</span></td><td class="t-part">Your rocks</td><td class="t-topic">Rock 2</td><td class="t-question question">Is there a second rock?</td><td class="t-answer">Yeah. Collapse GTM to one motion. One play, written down, that every rep runs from lead to first filled shift.</td><td class="t-characters">110</td><td class="t-flags"></td></tr><tr data-team="" data-part="Your rocks" data-topic="Rock 2 — Why it matters" data-chars="252"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team"><span class="quiet">—</span></td><td class="t-part">Your rocks</td><td class="t-topic">Rock 2 — Why it matters</td><td class="t-question question">What makes that one matter this quarter?</td><td class="t-answer">Two motions is where our handoffs die. Every seam is somewhere a new office waits a week on something, and offices don’t complain, they just stop posting shifts. It’s also the cheapest efficiency we’ve got — we don’t need more people, we need one path.</td><td class="t-characters">252</td><td class="t-flags"></td></tr><tr data-team="" data-part="Your rocks" data-topic="Rock 2 — What done looks like" data-chars="238"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team"><span class="quiet">—</span></td><td class="t-part">Your rocks</td><td class="t-topic">Rock 2 — What done looks like</td><td class="t-question question">What does done look like on that one?</td><td class="t-answer">The play’s on one page, every rep has run it end to end at least twice, and we can watch a lead go from marketing to a filled shift without anyone forwarding an email. And we’ve decided about the single-office funnel out loud, either way.</td><td class="t-characters">238</td><td class="t-flags"></td></tr><tr data-team="" data-part="Your rocks" data-topic="Rock 2 — Who's involved" data-chars="91"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team"><span class="quiet">—</span></td><td class="t-part">Your rocks</td><td class="t-topic">Rock 2 — Who's involved</td><td class="t-question question">Who’s involved?</td><td class="t-answer">Sales and marketing together, ops for the last mile, and me to make the call on the funnel.</td><td class="t-characters">91</td><td class="t-flags"></td></tr><tr data-team="" data-part="Your rocks" data-topic="Also said" data-chars="90"><td class="t-person">Dana Whitlock</td><td class="t-email">dana.whitlock@example.com</td><td class="t-team"><span class="quiet">—</span></td><td class="t-part">Your rocks</td><td class="t-topic">Also said</td><td class="t-question question">Is there a third?</td><td class="t-answer">No. Two is it. Anything past two and I’m lying to myself about what we’ll actually finish.</td><td class="t-characters">90</td><td class="t-flags"></td></tr><tr class="private-row" data-team="Executive" data-part="Executive" data-topic="Avoided Conversation" data-chars="0"><td colspan="9">One more answer was given in the Executive Part and kept private. It has no row here.</td></tr></tbody>
+          </table>
+        </div>
+        <p class="downloads"><a href="tall.csv" download>Download CSV</a> · tall.csv</p>
+      </div>
+      <aside class="legend"><h4>What to look at</h4><ol><li><span class="cue" aria-hidden="true">①</span><span>One row per thing they said. An answer that belongs under two topics gets a row under each.</span></li><li><span class="cue" aria-hidden="true">②</span><span>The exact question sits beside every answer, so nothing needs guessing.</span></li><li><span class="cue" aria-hidden="true">③</span><span>Filter Topic to read everyone on one question.</span></li><li><span class="cue" aria-hidden="true">④</span><span>Sort by Characters to surface unusually long answers.</span></li><li><span class="cue" aria-hidden="true">⑤</span><span>Flags come from the tagging that happens after approval — a starting point, not a verdict.</span></li></ol></aside>
+    </div>
+  </section>
+
+  <section class="band" id="transcript">
+    <h2>Transcript</h2>
+    <p class="sub">The conversation as it happened, in five Parts. This is what a row in the tall sheet points back to.</p>
+    <div class="doc"><section class="part"><h3>Looking back</h3><p class="q"><span class="q-label">Q:</span> Let’s start with a big, easy question: as we head into the Q3 reflection, what’s most top of mind for you — or just on your mind, right now? Just click the mic and speak your truth. (And, remember: every word is private unless you decide to send it along.)</p><p class="a">I mean, honestly? What’s top of mind is that we spent the whole quarter arguing about how we build with AI and never landed it. We shipped fine, the numbers held, but every Monday was the same conversation again and I walked into most weeks already tired of it.</p><p class="q"><span class="q-label">Q:</span> You said you walked in already tired of it. Before we go near that — what was your number one personal best of the last ninety days, outside of work?</p><p class="a">The college tour with my daughter. I’d been putting it off two years. Four days, no laptop, and I didn’t open the fill-rate channel once, which for me is the whole achievement.</p><p class="q"><span class="q-label">Q:</span> Four days without the fill-rate channel. And the work one — what are you most proud of from the last ninety days?</p><p class="a">One rate card for the Gulf Coast markets. Sales and ops had been stuck on it for three quarters and we got it done in about six weeks, and nobody got rolled to do it. The offices stopped hearing two different prices from us, which was embarrassing.</p><p class="q"><span class="q-label">Q:</span> Rate card in six weeks. On a scale of one to ten, where one is rough and ten is exceptional, how would you rate the quarter?</p><p class="a">Seven. Maybe six and a half, honestly.</p><p class="q"><span class="q-label">Q:</span> Seven, maybe six and a half. What’s the single biggest reason behind that number — the biggest one, not the list?</p><p class="a">It was two quarters in one. Delivery side, we were good — fill rate held through the summer dip, the rate card landed, engineering shipped the worker app rewrite about when they said. That’s an eight. The other side is I sat in rooms all quarter talking about the same AI decision and we walked out of every one of them without making it, and that made me dread Mondays in a way I haven’t in six years. That’s a four. So the number is both of those, and I don’t want it to bury either one. If you read a seven and think we’re fine, you’ve missed the part that costs us next quarter, which is that nobody knows who decides.</p></section><section class="part"><h3>Executive</h3><p class="q"><span class="q-label">Q:</span> Of the six EOS components — Vision, People, Data, Issues, Process, Traction — which one does the Executive team most need to improve this quarter, and what’s one example that shows why?
+
+- Is it where you’re going, or who is in which seat?
+- Is it the numbers you steer by, or how issues get raised and solved?
+- Is it whether the process is written down and followed, or whether rocks and the meeting pulse actually get done?
+
+One of these, a combination, none of them — or something else entirely.</p><p class="a">Vision, easily. Not the poster on the wall version — I mean we genuinely do not agree on where we’re going with product and with AI over the next two or three years.</p><p class="q"><span class="q-label">Q:</span> You said you don’t agree on where you’re going. What’s one thing that happened that shows it?</p><p class="a">The AI thing. Four conversations about what we build ourselves and what we buy, and every one ends with everybody nodding and nobody owning it. Then two weeks later somebody’s spun up a pilot anyway and we’re arguing about the same thing. It’s not a people problem, it’s that we never wrote it down, so everyone fills the gap with their own version.</p><p class="q"><span class="q-label">Q:</span> What’s the conversation the Executive team needs to have and isn’t having?</p><p class="a private">(kept private)</p><p class="q"><span class="q-label">Q:</span> And the single biggest issue limiting the Executive team right now?</p><p class="a">Nobody can say who actually decides on AI. Six of us think we’re deciding it together, which means it doesn’t get decided. It’s been a month, maybe five weeks, since anybody moved on it.</p></section><section class="part"><h3>GTM</h3><p class="q"><span class="q-label">Q:</span> Of the six EOS components — Vision, People, Data, Issues, Process, Traction — which one does the GTM team most need to improve this quarter, and what’s one example that shows why?
+
+- Is it where you’re going, or who is in which seat?
+- Is it the numbers you steer by, or how issues get raised and solved?
+- Is it whether the process is written down and followed, or whether rocks and the meeting pulse actually get done?
+
+One of these, a combination, none of them — or something else entirely.</p><p class="a">Data for this one. And not that we don’t have any — we have too much of it and I still can’t tell you what’s causing what.</p><p class="q"><span class="q-label">Q:</span> What’s the example that made you say that?</p><p class="a">July. Fill rate moved and I still can’t tell you why. Marketing says the rate increase, sales says the outbound push, and both of them have a chart that says so. The data’s directionally right, I’m not saying it’s wrong, it’s that we can’t get from the chart to the cause, so we pick whichever story matches what we already wanted to do.</p><p class="q"><span class="q-label">Q:</span> What’s the conversation GTM needs to have and is avoiding?</p><p class="a">Whether we still run two motions. Self-serve for single offices, a real sales motion for the groups. The honest version is the single-office side isn’t paying for itself anymore, everybody knows it, and nobody wants to be the one who says kill it because it’s somebody’s whole team. I’d rather have that in the room than in a spreadsheet three months from now.</p><p class="q"><span class="q-label">Q:</span> And the biggest issue limiting GTM right now?</p><p class="a">Handoffs. Marketing hands a lead to sales and it sits, sales hands an office to ops and the first shift doesn’t get filled, and every one of those is somewhere we lose an account without ever hearing about it.</p></section><section class="part"><h3>Looking forward</h3><p class="q"><span class="q-label">Q:</span> If this coming quarter were wildly successful, what would be true 90 days from now?
+
+- What would customers, or the numbers, show?
+- What would feel different inside the team?
+- What would you have stopped doing?
+
+One of these, a combination, none of them — or something else entirely.</p><p class="a">The one I care about most is one fill-rate number and nobody walking in with a second one. That’s the whole first thing. Past that — a charter for how we build with AI, one page, boring, all six of us signed it, so when somebody spins up a pilot we point at the page instead of relitigating. The Gulf Coast group’s run a full quarter on the new rate card and we know whether it worked, actually know. GTM is down to one motion, so the single-office funnel is either fixed or it’s off. Engineering’s far enough through the worker app backlog that they’re asking us what’s next instead of us apologizing for the queue. And the thing I’d have stopped is the Monday leadership meeting where we update each other for ninety minutes and identify nothing. Half as long and twice as uncomfortable, I’d take that on its own. Oh — and the headcount conversation. Had it, not scheduled it.</p><p class="q"><span class="q-label">Q:</span> Anything else you want raised on the issues list at the offsite — your list, in your order?</p><p class="a">Three or four. Who owns the AI decision. The single-office motion and whether we keep it. The headcount conversation before budget season. And if there’s room, how we run L10s now the room is twenty people.</p></section><section class="part"><h3>Your rocks</h3><p class="q"><span class="q-label">Q:</span> To make that future happen, what’s the rock you’d put first this quarter?
+
+- Is it the one thing you’d be most frustrated to reach the end of Q4 without?
+- Is it the conversation or the issue you just named, finally taken on properly?
+- Is it the thing that unblocks everything else?
+
+One of these, a combination, none of them — or something else entirely.
+
+Two or three rocks at most, and only the ones you’d actually stand behind in the room. Start with the first; we’ll take them one at a time.</p><p class="a">First one is the number. One fill-rate number, one owner, read at the top of every L10, and nobody brings a spreadsheet to sit next to it.</p><p class="q"><span class="q-label">Q:</span> What makes that the one you’d put first, right now?</p><p class="a">Because every argument we had last quarter started with two numbers. If we can’t agree what fill rate was, we can’t agree what moved it, and then we decide by whoever’s most certain that morning. That’s a bad way to run a marketplace.</p><p class="q"><span class="q-label">Q:</span> What would be true at the end of the quarter for you to call that one done?</p><p class="a">One dashboard, one written definition, one owner with their name on it. We’ve read it in the L10 every week of the quarter and nobody’s turned up with their own version. And when July’s question comes round again we answer it in the room.</p><p class="q"><span class="q-label">Q:</span> Who would need to be involved?</p><p class="a">Ops owns it, data builds it, and me — I’m the one who has to stop accepting a second number.</p><p class="q"><span class="q-label">Q:</span> Is there a second rock?</p><p class="a">Yeah. Collapse GTM to one motion. One play, written down, that every rep runs from lead to first filled shift.</p><p class="q"><span class="q-label">Q:</span> What makes that one matter this quarter?</p><p class="a">Two motions is where our handoffs die. Every seam is somewhere a new office waits a week on something, and offices don’t complain, they just stop posting shifts. It’s also the cheapest efficiency we’ve got — we don’t need more people, we need one path.</p><p class="q"><span class="q-label">Q:</span> What does done look like on that one?</p><p class="a">The play’s on one page, every rep has run it end to end at least twice, and we can watch a lead go from marketing to a filled shift without anyone forwarding an email. And we’ve decided about the single-office funnel out loud, either way.</p><p class="q"><span class="q-label">Q:</span> Who’s involved?</p><p class="a">Sales and marketing together, ops for the last mile, and me to make the call on the funnel.</p><p class="q"><span class="q-label">Q:</span> Is there a third?</p><p class="a">No. Two is it. Anything past two and I’m lying to myself about what we’ll actually finish.</p></section></div>
+  </section>
+
+  <section class="band" id="guarantees">
+    <h2>Guarantees</h2>
+    <ul class="guarantees">
+      <li>Every cell is made only of literal substrings of approved answers. It is checked by machine; anything that fails the check is dropped, never rewritten.</li>
+      <li>Questions never appear inside answer cells. The question has a column of its own.</li>
+      <li>Answers kept private are excluded everywhere — both sheets and the transcript.</li>
+      <li>The CSV is rebuilt from the same approved words each time, so the sheets and the transcript never disagree.</li>
+    </ul>
+    <footer>Built from a fictional participant’s preview data. Agent-authored.</footer>
+  </section>
+
+</div>
+<script>
+(function () {
+  var body = document.getElementById("tall-body");
+  var rows = Array.prototype.slice.call(body.querySelectorAll("tr"));
+  var order = rows.slice();
+  var team = document.getElementById("f-team");
+  var part = document.getElementById("f-part");
+  var topic = document.getElementById("f-topic");
+  var sort = document.getElementById("f-sort");
+  var count = document.getElementById("row-count");
+  var total = rows.length;
+
+  function apply() {
+    var shown = 0;
+    rows.forEach(function (row) {
+      var ok =
+        (!team.value || row.getAttribute("data-team") === team.value) &&
+        (!part.value || row.getAttribute("data-part") === part.value) &&
+        (!topic.value || row.getAttribute("data-topic") === topic.value);
+      row.hidden = !ok;
+      if (ok) shown++;
+    });
+    var next =
+      sort.getAttribute("aria-pressed") === "true"
+        ? order.slice().sort(function (a, b) {
+            return (
+              Number(b.getAttribute("data-chars")) -
+              Number(a.getAttribute("data-chars"))
+            );
+          })
+        : order;
+    next.forEach(function (row) {
+      body.appendChild(row);
+    });
+    count.textContent = "Showing " + shown + " of " + total + " rows.";
+  }
+
+  [team, part, topic].forEach(function (el) {
+    el.addEventListener("change", apply);
+  });
+  sort.addEventListener("click", function () {
+    sort.setAttribute(
+      "aria-pressed",
+      sort.getAttribute("aria-pressed") === "true" ? "false" : "true",
+    );
+    apply();
+  });
+})();
+</script>
+</body>
+</html>

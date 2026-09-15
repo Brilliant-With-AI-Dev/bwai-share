@@ -1,0 +1,71 @@
+Person,Email,Team,Part,Topic,Question,Answer,Characters,Flags
+Dana Whitlock,dana.whitlock@example.com,,Looking back,Top of mind,"Let’s start with a big, easy question: as we head into the Q3 reflection, what’s most top of mind for you — or just on your mind, right now? Just click the mic and speak your truth. (And, remember: every word is private unless you decide to send it along.)","I mean, honestly? What’s top of mind is that we spent the whole quarter arguing about how we build with AI and never landed it. We shipped fine, the numbers held, but every Monday was the same conversation again and I walked into most weeks already tired of it.",261,
+Dana Whitlock,dana.whitlock@example.com,,Looking back,Personal Best,"You said you walked in already tired of it. Before we go near that — what was your number one personal best of the last ninety days, outside of work?","The college tour with my daughter. I’d been putting it off two years. Four days, no laptop, and I didn’t open the fill-rate channel once, which for me is the whole achievement.",176,people
+Dana Whitlock,dana.whitlock@example.com,,Looking back,Professional Best,Four days without the fill-rate channel. And the work one — what are you most proud of from the last ninety days?,"One rate card for the Gulf Coast markets. Sales and ops had been stuck on it for three quarters and we got it done in about six weeks, and nobody got rolled to do it. The offices stopped hearing two different prices from us, which was embarrassing.",248,
+Dana Whitlock,dana.whitlock@example.com,,Looking back,Quarter Rating,"Rate card in six weeks. On a scale of one to ten, where one is rough and ten is exceptional, how would you rate the quarter?","Seven. Maybe six and a half, honestly.",38,
+Dana Whitlock,dana.whitlock@example.com,,Looking back,Rating Reason,"Seven, maybe six and a half. What’s the single biggest reason behind that number — the biggest one, not the list?","It was two quarters in one. Delivery side, we were good — fill rate held through the summer dip, the rate card landed, engineering shipped the worker app rewrite about when they said. That’s an eight. The other side is I sat in rooms all quarter talking about the same AI decision and we walked out of every one of them without making it, and that made me dread Mondays in a way I haven’t in six years. That’s a four. So the number is both of those, and I don’t want it to bury either one. If you read a seven and think we’re fine, you’ve missed the part that costs us next quarter, which is that nobody knows who decides.",622,
+Dana Whitlock,dana.whitlock@example.com,Executive,Executive,EOS Component,"Of the six EOS components — Vision, People, Data, Issues, Process, Traction — which one does the Executive team most need to improve this quarter, and what’s one example that shows why?
+
+- Is it where you’re going, or who is in which seat?
+- Is it the numbers you steer by, or how issues get raised and solved?
+- Is it whether the process is written down and followed, or whether rocks and the meeting pulse actually get done?
+
+One of these, a combination, none of them — or something else entirely.","Vision, easily.",15,
+Dana Whitlock,dana.whitlock@example.com,Executive,Executive,Also said,"Of the six EOS components — Vision, People, Data, Issues, Process, Traction — which one does the Executive team most need to improve this quarter, and what’s one example that shows why?
+
+- Is it where you’re going, or who is in which seat?
+- Is it the numbers you steer by, or how issues get raised and solved?
+- Is it whether the process is written down and followed, or whether rocks and the meeting pulse actually get done?
+
+One of these, a combination, none of them — or something else entirely.",Not the poster on the wall version — I mean we genuinely do not agree on where we’re going with product and with AI over the next two or three years.,149,
+Dana Whitlock,dana.whitlock@example.com,Executive,Executive,EOS Example,You said you don’t agree on where you’re going. What’s one thing that happened that shows it?,"The AI thing. Four conversations about what we build ourselves and what we buy, and every one ends with everybody nodding and nobody owning it. Then two weeks later somebody’s spun up a pilot anyway and we’re arguing about the same thing. It’s not a people problem, it’s that we never wrote it down, so everyone fills the gap with their own version.",349,
+Dana Whitlock,dana.whitlock@example.com,Executive,Executive,Biggest Issue,And the single biggest issue limiting the Executive team right now?,"Nobody can say who actually decides on AI. Six of us think we’re deciding it together, which means it doesn’t get decided. It’s been a month, maybe five weeks, since anybody moved on it.",186,
+Dana Whitlock,dana.whitlock@example.com,GTM,GTM,EOS Component,"Of the six EOS components — Vision, People, Data, Issues, Process, Traction — which one does the GTM team most need to improve this quarter, and what’s one example that shows why?
+
+- Is it where you’re going, or who is in which seat?
+- Is it the numbers you steer by, or how issues get raised and solved?
+- Is it whether the process is written down and followed, or whether rocks and the meeting pulse actually get done?
+
+One of these, a combination, none of them — or something else entirely.",Data for this one.,18,
+Dana Whitlock,dana.whitlock@example.com,GTM,GTM,Also said,"Of the six EOS components — Vision, People, Data, Issues, Process, Traction — which one does the GTM team most need to improve this quarter, and what’s one example that shows why?
+
+- Is it where you’re going, or who is in which seat?
+- Is it the numbers you steer by, or how issues get raised and solved?
+- Is it whether the process is written down and followed, or whether rocks and the meeting pulse actually get done?
+
+One of these, a combination, none of them — or something else entirely.",And not that we don’t have any — we have too much of it and I still can’t tell you what’s causing what.,103,
+Dana Whitlock,dana.whitlock@example.com,GTM,GTM,EOS Example,What’s the example that made you say that?,"July. Fill rate moved and I still can’t tell you why. Marketing says the rate increase, sales says the outbound push, and both of them have a chart that says so. The data’s directionally right, I’m not saying it’s wrong, it’s that we can’t get from the chart to the cause, so we pick whichever story matches what we already wanted to do.",337,
+Dana Whitlock,dana.whitlock@example.com,GTM,GTM,Avoided Conversation,What’s the conversation GTM needs to have and is avoiding?,"Whether we still run two motions. Self-serve for single offices, a real sales motion for the groups. The honest version is the single-office side isn’t paying for itself anymore, everybody knows it, and nobody wants to be the one who says kill it because it’s somebody’s whole team. I’d rather have that in the room than in a spreadsheet three months from now.",360,
+Dana Whitlock,dana.whitlock@example.com,GTM,GTM,Biggest Issue,And the biggest issue limiting GTM right now?,"Handoffs. Marketing hands a lead to sales and it sits, sales hands an office to ops and the first shift doesn’t get filled, and every one of those is somewhere we lose an account without ever hearing about it.",209,
+Dana Whitlock,dana.whitlock@example.com,,Looking forward,Success Vision (90 days),"If this coming quarter were wildly successful, what would be true 90 days from now?
+
+- What would customers, or the numbers, show?
+- What would feel different inside the team?
+- What would you have stopped doing?
+
+One of these, a combination, none of them — or something else entirely.","The one I care about most is one fill-rate number and nobody walking in with a second one. That’s the whole first thing. Past that — a charter for how we build with AI, one page, boring, all six of us signed it, so when somebody spins up a pilot we point at the page instead of relitigating. The Gulf Coast group’s run a full quarter on the new rate card and we know whether it worked, actually know. GTM is down to one motion, so the single-office funnel is either fixed or it’s off. Engineering’s far enough through the worker app backlog that they’re asking us what’s next instead of us apologizing for the queue. And the thing I’d have stopped is the Monday leadership meeting where we update each other for ninety minutes and identify nothing. Half as long and twice as uncomfortable, I’d take that on its own.",815,long answer
+Dana Whitlock,dana.whitlock@example.com,,Looking forward,Issues List,"If this coming quarter were wildly successful, what would be true 90 days from now?
+
+- What would customers, or the numbers, show?
+- What would feel different inside the team?
+- What would you have stopped doing?
+
+One of these, a combination, none of them — or something else entirely.","Oh — and the headcount conversation. Had it, not scheduled it.",62,long answer
+Dana Whitlock,dana.whitlock@example.com,,Looking forward,Issues List,"Anything else you want raised on the issues list at the offsite — your list, in your order?","Three or four. Who owns the AI decision. The single-office motion and whether we keep it. The headcount conversation before budget season. And if there’s room, how we run L10s now the room is twenty people.",206,
+Dana Whitlock,dana.whitlock@example.com,,Your rocks,Rock 1,"To make that future happen, what’s the rock you’d put first this quarter?
+
+- Is it the one thing you’d be most frustrated to reach the end of Q4 without?
+- Is it the conversation or the issue you just named, finally taken on properly?
+- Is it the thing that unblocks everything else?
+
+One of these, a combination, none of them — or something else entirely.
+
+Two or three rocks at most, and only the ones you’d actually stand behind in the room. Start with the first; we’ll take them one at a time.","First one is the number. One fill-rate number, one owner, read at the top of every L10, and nobody brings a spreadsheet to sit next to it.",138,
+Dana Whitlock,dana.whitlock@example.com,,Your rocks,Rock 1 — Why it matters,"What makes that the one you’d put first, right now?","Because every argument we had last quarter started with two numbers. If we can’t agree what fill rate was, we can’t agree what moved it, and then we decide by whoever’s most certain that morning. That’s a bad way to run a marketplace.",234,
+Dana Whitlock,dana.whitlock@example.com,,Your rocks,Rock 1 — What done looks like,What would be true at the end of the quarter for you to call that one done?,"One dashboard, one written definition, one owner with their name on it. We’ve read it in the L10 every week of the quarter and nobody’s turned up with their own version. And when July’s question comes round again we answer it in the room.",238,
+Dana Whitlock,dana.whitlock@example.com,,Your rocks,Rock 1 — Who's involved,Who would need to be involved?,"Ops owns it, data builds it, and me — I’m the one who has to stop accepting a second number.",92,people
+Dana Whitlock,dana.whitlock@example.com,,Your rocks,Rock 2,Is there a second rock?,"Yeah. Collapse GTM to one motion. One play, written down, that every rep runs from lead to first filled shift.",110,
+Dana Whitlock,dana.whitlock@example.com,,Your rocks,Rock 2 — Why it matters,What makes that one matter this quarter?,"Two motions is where our handoffs die. Every seam is somewhere a new office waits a week on something, and offices don’t complain, they just stop posting shifts. It’s also the cheapest efficiency we’ve got — we don’t need more people, we need one path.",252,
+Dana Whitlock,dana.whitlock@example.com,,Your rocks,Rock 2 — What done looks like,What does done look like on that one?,"The play’s on one page, every rep has run it end to end at least twice, and we can watch a lead go from marketing to a filled shift without anyone forwarding an email. And we’ve decided about the single-office funnel out loud, either way.",238,
+Dana Whitlock,dana.whitlock@example.com,,Your rocks,Rock 2 — Who's involved,Who’s involved?,"Sales and marketing together, ops for the last mile, and me to make the call on the funnel.",91,
+Dana Whitlock,dana.whitlock@example.com,,Your rocks,Also said,Is there a third?,No. Two is it. Anything past two and I’m lying to myself about what we’ll actually finish.,90,
