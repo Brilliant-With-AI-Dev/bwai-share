@@ -129,8 +129,18 @@
       "permanent": false
     },
     {
-      "source": "/gotu-q3-reflection-preview/:path*",
-      "destination": "https://gotu-qpm-demo.vercel.app/v12/:path*",
+      "source": "/gotu-q3-reflection-preview",
+      "destination": "https://gotu-qpm-demo.vercel.app/v12/",
+      "permanent": false
+    },
+    {
+      "source": "/gotu-q3-reflection-preview/",
+      "destination": "https://gotu-qpm-demo.vercel.app/v12/",
+      "permanent": false
+    },
+    {
+      "source": "/gotu-q3-reflection-preview/:path(.*)",
+      "destination": "https://gotu-qpm-demo.vercel.app/v12/:path",
       "permanent": false
     }
   ]
