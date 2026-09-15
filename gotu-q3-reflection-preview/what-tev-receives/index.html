@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="newsreader_b315fe6b-module__g9YGPW__variable outfit_3948df8b-module__OAxD8G__variable" style="--app-header-height: 56px;">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,10 +12,11 @@
   html { background: var(--off-white); height: auto; }
   body { background: var(--off-white); color: var(--navy); font-family: var(--font-body); margin: 0; min-height: 100vh; height: auto; }
   a { color: inherit; }
-  .brand { display: flex; align-items: center; height: 56px; padding: 0 24px; background: var(--off-white); border-bottom: 1px solid var(--navy-10); }
-  .brand a { font-family: var(--font-display); font-size: var(--text-md); font-weight: 500; letter-spacing: -0.01em; color: var(--navy); text-decoration: none; }
-  .brand .dot { color: var(--accent); }
-  .preview-strip a { text-decoration: none; }
+  /* The strip is captured with a fixed 34px height, which is right on an app
+     screen whose items fit one line. This page is long enough that the strip
+     wraps on a phone, so it is allowed to grow rather than spill over the
+     content beneath it. Nothing else about it is changed. */
+  nav[aria-label="Preview screens"] { height: auto !important; min-height: 34px; }
 
   .shell { max-width: 1272px; margin: 0 auto; padding: 0 24px 96px; }
   .run-head { padding: 48px 0 24px; max-width: 46rem; }
@@ -23,11 +24,15 @@
   h1 { font-family: var(--font-display); font-size: var(--text-4xl); font-weight: 500; letter-spacing: var(--tracking-tight); line-height: 1.15; margin: 0 0 12px; }
   .lede { font-size: var(--text-lg); line-height: 1.65; color: var(--navy-70); margin: 0; }
 
-  .jump { position: sticky; top: 0; z-index: 6; display: flex; flex-wrap: wrap; gap: 4px 20px; align-items: center; padding: 12px 0; margin-bottom: 8px; background: var(--off-white); border-bottom: 1px solid var(--navy-10); font-size: var(--text-sm); }
+  /* The app header pins at the top of the window (z-index 10); the section nav
+     pins directly beneath it, and the preview strip scrolls away between them
+     exactly as it does on every other page. The header is 72px tall until the
+     app's own sm breakpoint, 56px after it. */
+  .jump { position: sticky; top: 72px; z-index: 6; display: flex; flex-wrap: wrap; gap: 4px 20px; align-items: center; padding: 12px 0; margin-bottom: 8px; background: var(--off-white); border-bottom: 1px solid var(--navy-10); font-size: var(--text-sm); }
   .jump a { color: var(--navy-70); text-decoration: none; }
   .jump a:hover { color: var(--navy); text-decoration: underline; text-underline-offset: 4px; }
 
-  section.band { padding: 48px 0 8px; scroll-margin-top: 64px; }
+  section.band { padding: 48px 0 8px; scroll-margin-top: 148px; }
   h2 { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 500; letter-spacing: var(--tracking-tight); margin: 0 0 8px; }
   .sub { font-size: var(--text-md); line-height: 1.65; color: var(--navy-70); margin: 0 0 24px; max-width: 46rem; }
 
@@ -133,6 +138,10 @@
   .guarantees li { border-top: 1px solid var(--navy-10); padding: 16px 0; font-size: var(--text-md); line-height: 1.65; color: var(--navy-70); }
   footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--navy-10); font-size: var(--text-xs); color: var(--navy-50); }
 
+  @media (min-width: 640px) {
+    .jump { top: 56px; }
+    section.band { scroll-margin-top: 124px; }
+  }
   @media (min-width: 768px) {
     .wide th.sticky, .wide td.sticky { position: sticky; z-index: 1; background: var(--color-surface-floating); }
     .wide th.sticky { z-index: 2; background: var(--color-surface-recessed); }
@@ -153,13 +162,15 @@
   }
 </style>
 </head>
-<body>
-<header class="brand"><a href="../../">BrilliantWith<span class="dot">.ai</span></a></header>
-<nav aria-label="Preview screens" class="border-border-subtle bg-surface-recessed text-text-secondary flex flex-wrap items-center gap-x-4 gap-y-1 border-b px-4 py-2 text-xs preview-strip"><span class="text-text-tertiary font-semibold tracking-wide uppercase">Preview</span><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline" href="../start/">Start</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline" href="../teams/">Teams</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline" href="../interview-start/">First question</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline" href="../interview/">Mid-conversation</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline" href="../preparing/">Laying out the answers</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline" href="../review-pending/">Review (check running)</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline" href="../review/">Review</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline" href="../review-findings/">Review (with a finding)</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline" href="../chat/">Chat (suggestions)</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline" href="../chat-replied/">Chat (after a reply)</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline text-text-primary font-semibold" href="./" aria-current="page">What Tev receives</a></nav>
+<body style="background:var(--off-white)">
+<header class="hidden sm:grid" style="position: sticky; top: 0px; z-index: 10; grid-template-columns: 1fr auto 1fr; align-items: center; height: 56px; padding: 0px 24px; background: var(--off-white); border-bottom: 1px solid var(--navy-10);"><a href="../" style="font-family: var(--font-display); font-size: var(--text-md); font-weight: 500; letter-spacing: -0.01em; color: var(--navy); text-decoration: none; justify-self: start;">BrilliantWith<span style="color: var(--accent);">.ai</span></a><div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: var(--tracking-ultra); text-transform: uppercase; color: var(--navy-50); justify-self: center;">Mirror Experience · GoTu Q3 Reflection</div><div class="user-float user-float--inline" style="position: static; top: auto; right: auto; justify-self: end; grid-column: 3;"><button class="user-float-trigger" aria-label="Settings menu" title="fischermatthewj+e2e-testing@gmail.com"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg></button></div></header><header class="flex sm:hidden" style="position: sticky; top: 0px; z-index: 10; align-items: center; justify-content: space-between; height: 72px; padding: 0px 24px; background: var(--off-white); border-bottom: 1px solid var(--navy-10);"><div style="display: flex; flex-direction: column; gap: 2px; align-items: flex-start;"><span style="font-family: var(--font-display); font-size: 15px; font-weight: 500; color: var(--navy); letter-spacing: -0.01em;">Mirror Experience · GoTu Q3 Reflection</span><a href="../" style="font-family: var(--font-display); font-size: 11px; font-weight: 500; color: var(--navy-50); letter-spacing: -0.01em; text-decoration: none;">BrilliantWith<span style="color: var(--accent);">.ai</span></a></div><div class="user-float user-float--inline" style="position: static; top: auto; right: auto; flex-shrink: 0;"><button class="user-float-trigger" aria-label="Settings menu" title="fischermatthewj+e2e-testing@gmail.com"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg></button></div></header>
+<div style="--stratford-preview-nav: 34px;">
+<nav aria-label="Preview screens" class="border-border-subtle bg-surface-recessed text-text-secondary flex flex-wrap items-center gap-x-4 gap-y-1 border-b px-4 py-2 text-xs" style="height: 34px;"><span class="text-text-tertiary font-semibold tracking-wide uppercase">Preview</span><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline " href="../start/">Start</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline " href="../teams/">Teams</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline " href="../interview-start/">First question</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline " href="../interview/">Mid-conversation</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline " href="../preparing/">Laying out the answers</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline " href="../review-pending/">Review (check running)</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline " href="../review/">Review</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline " href="../review-findings/">Review (with a finding)</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline " href="../chat/">Chat (suggestions)</a><a class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline " href="../chat-replied/">Chat (after a reply)</a><a aria-current="page" class="hover:text-text-primary rounded-sm underline-offset-4 hover:underline text-text-primary font-semibold" href="./">What Tev receives</a></nav>
 <div class="shell">
 
   <div class="run-head">
-    <p class="eyebrow">Mirror experience · GoTu Q3 Reflection</p>
+    <!-- The eyebrow this page used to print itself is now in the app header
+         above, in the app's own words, so it is not repeated here. -->
     <h1>What Tev receives</h1>
     <p class="lede">After a person approves, three things arrive. Everything in them is their own words.</p>
   </div>
@@ -304,6 +315,7 @@ Two or three rocks at most, and only the ones you’d actually stand behind in t
   </section>
 
 </div>
+</div>
 <script>
 (function () {
   // A folded cell only needs its control if the text actually overruns the
@@ -340,7 +352,15 @@ Two or three rocks at most, and only the ones you’d actually stand behind in t
   var topic = document.getElementById("f-topic");
   var sort = document.getElementById("f-sort");
   var count = document.getElementById("row-count");
-  var total = rows.length;
+  // The note standing in for the answer that was kept private filters and
+  // sorts with the rest, but it is not a row of the sheet, so it is not
+  // counted as one.
+  var isNote = function (row) {
+    return row.className.indexOf("private-row") !== -1;
+  };
+  var total = rows.filter(function (row) {
+    return !isNote(row);
+  }).length;
 
   function apply() {
     var shown = 0;
@@ -350,7 +370,7 @@ Two or three rocks at most, and only the ones you’d actually stand behind in t
         (!part.value || row.getAttribute("data-part") === part.value) &&
         (!topic.value || row.getAttribute("data-topic") === topic.value);
       row.hidden = !ok;
-      if (ok) shown++;
+      if (ok && !isNote(row)) shown++;
     });
     var next =
       sort.getAttribute("aria-pressed") === "true"
